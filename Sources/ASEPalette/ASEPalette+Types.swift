@@ -36,6 +36,8 @@ public extension ASE {
 		case invalidEndOfFile
 		case invalidString
 		case unknownBlockType
+		case groupAlreadyOpen
+		case groupNotOpen
 		case unknownColorMode(String)
 		case unknownColorType(Int)
 		case unsupportedCGColorType

@@ -44,57 +44,75 @@ internal extension ASE.Palette {
 	}
 
 	mutating func _load(inputStream: InputStream) throws {
-		// Assumption here is that `inputStream` is already open
+		// NOTE: Assumption here is that `inputStream` is already open
+		// If the input stream isn't open, the reading will hang.
 
+		// Remove any existing colors/groups
 		global.colors = []
 		groups = []
 
+		// Load and validate the header
 		let header = try readData(inputStream, size: 4)
 		if header != Common.HEADER_DATA {
 			ase_log.log(.error, "Invalid .ase header")
 			throw ASE.CommonError.invalidASEHeader
 		}
 
+		// Read version (currently not being used for anything)
 		self.version0 = try readInteger(inputStream)
 		self.version1 = try readInteger(inputStream)
 
+		// Read the number of blocks contained within the ase file
 		let numberOfBlocks: UInt32 = try readInteger(inputStream)
 
+		// The currently active group. If nil, colors are added to the global group
+		var currentGroup: ASE.Group?
+
+		// Read in all the blocks
 		for _ in 0 ..< numberOfBlocks {
+			// The type of block
 			let type: UInt16 = try readInteger(inputStream)
 
-			// currently not checking the block lengths
+			// currently not validating the block lengths
 			let _: UInt32 = try readInteger(inputStream)
 
 			switch type {
 			case Common.GROUP_START:
-				try self.readStartGroupBlock(inputStream)
+				guard currentGroup == nil else {
+					ase_log.log(.error, "Attempting to open group with a group already open")
+					throw ASE.CommonError.groupAlreadyOpen
+				}
+				currentGroup = try self.readStartGroupBlock(inputStream)
 			case Common.GROUP_END:
-				try self.readEndGroupBlock(inputStream)
+				guard let c = currentGroup else {
+					ase_log.log(.error, "Attempting to close group without an open group")
+					throw ASE.CommonError.groupNotOpen
+				}
+				try self.readEndGroupBlock(inputStream, currentGroup: c)
+				currentGroup = nil
 			case Common.BLOCK_COLOR:
-				try self.readColor(inputStream)
+				// Pass group in by reference so we can add to it
+				try self.readColor(inputStream, currentGroup: &currentGroup)
 			default:
+				ase_log.log(.error, "Unknown ase block type")
 				throw ASE.CommonError.unknownBlockType
 			}
 		}
 	}
 
-	private mutating func readStartGroupBlock(_ inputStream: InputStream) throws {
+	private mutating func readStartGroupBlock(_ inputStream: InputStream) throws -> ASE.Group {
 		// Read in the name
 		let stringLen: UInt16 = try readInteger(inputStream)
 		let name = try readZeroTerminatedUTF16String(inputStream)
 		assert(stringLen == name.count + 1)
-		_currentGroup = ASE.Group(name: name)
+		return ASE.Group(name: name)
 	}
 
-	private mutating func readEndGroupBlock(_ inputStream: InputStream) throws {
-		if let c = _currentGroup {
-			self.groups.append(c)
-		}
-		_currentGroup = nil
+	private mutating func readEndGroupBlock(_ inputStream: InputStream, currentGroup: ASE.Group) throws {
+		self.groups.append(currentGroup)
 	}
 
-	private mutating func readColor(_ inputStream: InputStream) throws {
+	private mutating func readColor(_ inputStream: InputStream, currentGroup: inout ASE.Group?) throws {
 		// Read in the name
 		let stringLen: UInt16 = try readInteger(inputStream)
 		let name = try readZeroTerminatedUTF16String(inputStream)
@@ -132,8 +150,8 @@ internal extension ASE.Palette {
 		}
 
 		let color = try ASE.Color(name: name, model: colorModel, colorComponents: colors, colorType: colorType)
-		if let _ = _currentGroup {
-			_currentGroup?.colors.append(color)
+		if let _ = currentGroup {
+			currentGroup?.colors.append(color)
 		}
 		else {
 			global.colors.append(color)

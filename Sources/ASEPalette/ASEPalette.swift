@@ -33,11 +33,11 @@ import OSLog
 let ase_log = OSLogger(subsystem: Bundle.main.bundleIdentifier!, category: "ASEPalette")
 
 /// Common namespace for all ASEPalette types
-public class ASE { }
+public class ASE {}
 
 /// An object representing an ASE (Adobe Swatch Exchange) palette
-extension ASE {
-	public struct Palette: Equatable {
+public extension ASE {
+	struct Palette: Equatable {
 		public var version0: UInt16 = 1
 		public var version1: UInt16 = 0
 
@@ -56,17 +56,12 @@ extension ASE {
 
 		/// Create an ASEPalette from the specified raw data
 		public init(data: Data) throws {
-			try self._load(data: data)
+			try _load(data: data)
 		}
 
 		/// Returns an ASE data representation for the object
 		public func data() throws -> Data {
 			return try _data()
 		}
-
-		// private
-
-		// The current color group that we are loading into
-		internal var _currentGroup: Group?
 	}
 }
