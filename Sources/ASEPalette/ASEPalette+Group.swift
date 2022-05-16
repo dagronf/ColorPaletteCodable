@@ -33,6 +33,11 @@ public extension ASE {
 		/// The group's name
 		public let name: String
 		/// The colors assigned to the group
-		public internal(set) var colors: [Color] = []
+		public internal(set) var colors: [Color]
+		/// Create a group with the specified name and colors
+		public init(name: String = "", colors: [Color] = []) {
+			self.name = name
+			self.colors = colors
+		}
 	}
 }
