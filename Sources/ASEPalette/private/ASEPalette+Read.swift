@@ -27,12 +27,6 @@
 
 import Foundation
 
-internal let GROUP_START: UInt16 = 0xC001
-internal let GROUP_END: UInt16 = 0xC002
-internal let BLOCK_COLOR: UInt16 = 0x0001
-
-internal let HEADER_DATA = Data([65, 83, 69, 70])
-
 internal extension ASE.Palette {
 	mutating func _load(inputStream: InputStream) throws {
 		global.colors = []
@@ -41,7 +35,7 @@ internal extension ASE.Palette {
 		inputStream.open()
 		
 		let header = try readData(inputStream, size: 4)
-		if header != HEADER_DATA {
+		if header != Common.HEADER_DATA {
 			ase_log.log(.error, "Invalid Header Info")
 			throw ASE.CommonError.invalidASEHeader
 		}
@@ -58,11 +52,11 @@ internal extension ASE.Palette {
 			let _: UInt32 = try readInteger(inputStream)
 			
 			switch type {
-			case GROUP_START:
+			case Common.GROUP_START:
 				try self.readStartGroupBlock(inputStream)
-			case GROUP_END:
+			case Common.GROUP_END:
 				try self.readEndGroupBlock(inputStream)
-			case BLOCK_COLOR:
+			case Common.BLOCK_COLOR:
 				try self.readColor(inputStream)
 			default:
 				throw ASE.CommonError.unknownBlockType
@@ -96,11 +90,11 @@ internal extension ASE.Palette {
 			let _: UInt32 = try readInteger(inputStream)
 			
 			switch type {
-			case GROUP_START:
+			case Common.GROUP_START:
 				try self.readStartGroupBlock(inputStream)
-			case GROUP_END:
+			case Common.GROUP_END:
 				try self.readEndGroupBlock(inputStream)
-			case BLOCK_COLOR:
+			case Common.BLOCK_COLOR:
 				try self.readColor(inputStream)
 			default:
 				throw ASE.CommonError.unknownBlockType
@@ -208,7 +202,8 @@ func readZeroTerminatedUTF16String(_ inputStream: InputStream) throws -> String 
 	var data = Data()
 	while stillReading {
 		let ch: Data = try readData(inputStream, size: 2)
-		if ch[0] == 0, ch[1] == 0 {
+		if ch == Common.DataTwoZeros {
+			// found the end of the string
 			stillReading = false
 		}
 		else {

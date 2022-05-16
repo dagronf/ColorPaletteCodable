@@ -64,6 +64,8 @@ final class ASEPaletteTests: XCTestCase {
 
 			// Write to a data stream and check that the bytes match the input
 			let data = try palette.data()
+
+			// Check that the generated data matches the original data exactly
 			XCTAssertEqual(origData, data)
 
 			// Re-create the ase structure from the written data ...
@@ -159,7 +161,12 @@ final class ASEPaletteTests: XCTestCase {
 		let c2 = palette.groups[0].colors[1]
 
 		let cg1 = try XCTUnwrap(c1.cgColor)
+		XCTAssertEqual(CGColorSpace.genericRGBLinear, cg1.colorSpace?.name)
+		XCTAssertEqual(cg1.components, [1, 1, 1, 1])
+		
 		let cg2 = try XCTUnwrap(c2.cgColor)
+		XCTAssertEqual(CGColorSpace.genericRGBLinear, cg2.colorSpace?.name)
+		XCTAssertEqual(cg2.components, [0, 0, 0, 1])
 	}
 
 	func testDoco1() throws {

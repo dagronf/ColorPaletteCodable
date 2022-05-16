@@ -35,7 +35,7 @@ extension ASE.Palette {
 		var outputData = Data(capacity: 1024)
 
 		// Write header
-		outputData.append(HEADER_DATA)
+		outputData.append(Common.HEADER_DATA)
 
 		outputData.append(try writeUInt16(self.version0))
 		outputData.append(try writeUInt16(self.version1))
@@ -56,7 +56,7 @@ extension ASE.Palette {
 			// Write the groups
 			for group in groups {
 				// group header
-				blocksData.append(try writeUInt16(GROUP_START))
+				blocksData.append(try writeUInt16(Common.GROUP_START))
 
 				var groupData = Data(capacity: 1024)
 				do {
@@ -66,7 +66,7 @@ extension ASE.Palette {
 					// Length of the name + zero terminator
 					groupData.append(try writeUInt16(groupNameLen))
 					groupData.append(groupName)
-					groupData.append(Data([0, 0]))
+					groupData.append(Common.DataTwoZeros)
 				}
 
 				// Write the group data length (the number of bytes between this block tag and the next
@@ -79,7 +79,7 @@ extension ASE.Palette {
 				}
 
 				// group footer
-				blocksData.append(try writeUInt16(GROUP_END))
+				blocksData.append(try writeUInt16(Common.GROUP_END))
 				blocksData.append(try writeUInt32(0))
 			}
 		}
@@ -94,7 +94,7 @@ internal extension ASE.Palette {
 		var outputData = Data(capacity: 1024)
 
 		// Write the color block header
-		outputData.append(try writeUInt16(BLOCK_COLOR))
+		outputData.append(try writeUInt16(Common.BLOCK_COLOR))
 
 		// Generate the color data
 		var colorData = Data(capacity: 1024)
@@ -105,7 +105,7 @@ internal extension ASE.Palette {
 			// Length of the name + zero terminator
 			colorData.append(try writeUInt16(colorNameLen))
 			colorData.append(colorName)
-			colorData.append(Data([0, 0]))
+			colorData.append(Common.DataTwoZeros)
 
 			/// Write the model
 			colorData.append(try writeASCII(color.model.rawValue))
