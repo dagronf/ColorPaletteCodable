@@ -28,67 +28,44 @@
 import Foundation
 
 internal extension ASE.Palette {
-	mutating func _load(inputStream: InputStream) throws {
-		global.colors = []
-		groups = []
-		
-		inputStream.open()
-		
-		let header = try readData(inputStream, size: 4)
-		if header != Common.HEADER_DATA {
-			ase_log.log(.error, "Invalid Header Info")
-			throw ASE.CommonError.invalidASEHeader
-		}
-		
-		self.version0 = try readInteger(inputStream)
-		self.version1 = try readInteger(inputStream)
-		
-		let numberOfBlocks: UInt32 = try readInteger(inputStream)
-		
-		for _ in 0 ..< numberOfBlocks {
-			let type: UInt16 = try readInteger(inputStream)
-			
-			// currently not checking the block lengths
-			let _: UInt32 = try readInteger(inputStream)
-			
-			switch type {
-			case Common.GROUP_START:
-				try self.readStartGroupBlock(inputStream)
-			case Common.GROUP_END:
-				try self.readEndGroupBlock(inputStream)
-			case Common.BLOCK_COLOR:
-				try self.readColor(inputStream)
-			default:
-				throw ASE.CommonError.unknownBlockType
-			}
-		}
-	}
-	
 	mutating func _load(fileURL: URL) throws {
 		guard let inputStream = InputStream(fileAtPath: fileURL.path) else {
 			ase_log.log(.error, "Unable to load .ase file")
 			throw ASE.CommonError.unableToLoadFile
 		}
-		
 		inputStream.open()
-		
+		try self._load(inputStream: inputStream)
+	}
+
+	mutating func _load(data: Data) throws {
+		let inputStream = InputStream(data: data)
+		inputStream.open()
+		try self._load(inputStream: inputStream)
+	}
+
+	mutating func _load(inputStream: InputStream) throws {
+		// Assumption here is that `inputStream` is already open
+
+		global.colors = []
+		groups = []
+
 		let header = try readData(inputStream, size: 4)
-		if header != Data([65, 83, 69, 70]) {
+		if header != Common.HEADER_DATA {
 			ase_log.log(.error, "Invalid .ase header")
 			throw ASE.CommonError.invalidASEHeader
 		}
-		
+
 		self.version0 = try readInteger(inputStream)
 		self.version1 = try readInteger(inputStream)
-		
+
 		let numberOfBlocks: UInt32 = try readInteger(inputStream)
-		
+
 		for _ in 0 ..< numberOfBlocks {
 			let type: UInt16 = try readInteger(inputStream)
-			
+
 			// currently not checking the block lengths
 			let _: UInt32 = try readInteger(inputStream)
-			
+
 			switch type {
 			case Common.GROUP_START:
 				try self.readStartGroupBlock(inputStream)
@@ -101,7 +78,7 @@ internal extension ASE.Palette {
 			}
 		}
 	}
-	
+
 	private mutating func readStartGroupBlock(_ inputStream: InputStream) throws {
 		// Read in the name
 		let stringLen: UInt16 = try readInteger(inputStream)
@@ -109,14 +86,14 @@ internal extension ASE.Palette {
 		assert(stringLen == name.count + 1)
 		_currentGroup = ASE.Group(name: name)
 	}
-	
+
 	private mutating func readEndGroupBlock(_ inputStream: InputStream) throws {
 		if let c = _currentGroup {
 			self.groups.append(c)
 		}
 		_currentGroup = nil
 	}
-	
+
 	private mutating func readColor(_ inputStream: InputStream) throws {
 		// Read in the name
 		let stringLen: UInt16 = try readInteger(inputStream)
@@ -125,15 +102,15 @@ internal extension ASE.Palette {
 			ase_log.log(.error, "Invalid color name")
 			throw ASE.CommonError.invalidString
 		}
-		
+
 		let mode = try readAsciiString(inputStream, length: 4)
 		guard let colorModel = ASE.ColorModel(rawValue: mode) else {
 			ase_log.log(.error, "Invalid .ase color model %@", mode)
 			throw ASE.CommonError.unknownColorMode(mode)
 		}
-		
+
 		var colors: [Float32] = []
-		
+
 		switch colorModel {
 		case .CMYK:
 			colors.append(try readFloat32(inputStream))
@@ -147,13 +124,13 @@ internal extension ASE.Palette {
 		case .Gray:
 			colors.append(try readFloat32(inputStream))
 		}
-		
+
 		let colorTypeValue: UInt16 = try readInteger(inputStream)
 		guard let colorType = ASE.ColorType(rawValue: Int(colorTypeValue)) else {
 			ase_log.log(.error, "Invalid color type %@", colorTypeValue)
 			throw ASE.CommonError.unknownColorType(Int(colorTypeValue))
 		}
-		
+
 		let color = try ASE.Color(name: name, model: colorModel, colorComponents: colors, colorType: colorType)
 		if let _ = _currentGroup {
 			_currentGroup?.colors.append(color)
@@ -161,8 +138,6 @@ internal extension ASE.Palette {
 		else {
 			global.colors.append(color)
 		}
-		
-		//		Swift.print(color)
 	}
 }
 
@@ -181,10 +156,10 @@ func readInteger<ValueType: FixedWidthInteger>(_ inputStream: InputStream) throw
 		ase_log.log(.error, "Found end of file")
 		throw ASE.CommonError.invalidEndOfFile
 	}
-	
+
 	let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: MemoryLayout<ValueType>.size)
 	inputStream.read(buffer, maxLength: MemoryLayout<ValueType>.size)
-	
+
 	return buffer.withMemoryRebound(to: ValueType.self, capacity: 1) { result in
 		let value = result.pointee.bigEndian
 		return value
@@ -197,7 +172,7 @@ func readZeroTerminatedUTF16String(_ inputStream: InputStream) throws -> String 
 		ase_log.log(.error, "Found end of file")
 		throw ASE.CommonError.invalidEndOfFile
 	}
-	
+
 	var stillReading = true
 	var data = Data()
 	while stillReading {
@@ -219,7 +194,7 @@ func readAsciiString(_ inputStream: InputStream, length: Int) throws -> String {
 		ase_log.log(.error, "Found end of file")
 		throw ASE.CommonError.invalidEndOfFile
 	}
-	
+
 	let strData = try readData(inputStream, size: length)
 	if strData.count != length {
 		fatalError()

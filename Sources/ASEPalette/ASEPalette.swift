@@ -51,17 +51,12 @@ extension ASE {
 
 		/// Create an ASEPalette from the specified file url
 		public init(fileURL: URL) throws {
-			guard let inputStream = InputStream(fileAtPath: fileURL.path) else {
-				ase_log.log(.error, "Unable to load .ase file")
-				throw ASE.CommonError.unableToLoadFile
-			}
-			try self._load(inputStream: inputStream)
+			try _load(fileURL: fileURL)
 		}
 
 		/// Create an ASEPalette from the specified raw data
 		public init(data: Data) throws {
-			let inputStream = InputStream(data: data)
-			try self._load(inputStream: inputStream)
+			try self._load(data: data)
 		}
 
 		/// Returns an ASE data representation for the object
