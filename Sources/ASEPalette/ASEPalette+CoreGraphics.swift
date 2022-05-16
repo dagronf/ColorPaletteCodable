@@ -63,7 +63,8 @@ public extension ASE.Color {
 				model = .Gray
 			}
 		}
-		else if model == nil {
+
+		if model == nil {
 			// If we can't figure out the model, fall back to Core Graphics to attempt to convert the color to RGB
 			guard let conv = cgColor.converted(to: CGColorSpace(name: CGColorSpace.genericRGBLinear)!, intent: .defaultIntent, options: nil) else {
 				throw ASE.CommonError.unsupportedCGColorType
@@ -76,7 +77,8 @@ public extension ASE.Color {
 			throw ASE.CommonError.unsupportedCGColorType
 		}
 
-		self.colorComponents = comp.map { Float32($0) }
+		// The last component in CG components is the alpha, so we need to drop it (as .ase doesn't use alpha)
+		self.colorComponents = comp.dropLast().map { Float32($0) }
 		self.model = model
 	}
 
