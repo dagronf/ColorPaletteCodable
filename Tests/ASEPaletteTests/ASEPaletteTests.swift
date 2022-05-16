@@ -202,7 +202,10 @@ final class ASEPaletteTests: XCTestCase {
 		XCTAssertEqual("rgb", p2.groups[0].name)
 		
 		XCTAssertEqual(p2.groups[0].colors[0].colorComponents, [Float32(1.0), Float32(0.0), Float32(0.0)])
+		XCTAssertEqual(p2.groups[0].colors[0].name, "red")
 		XCTAssertEqual(p2.groups[0].colors[1].colorComponents, [Float32(0.0), Float32(1.0), Float32(0.0)])
+		XCTAssertEqual(p2.groups[0].colors[1].name, "green")
 		XCTAssertEqual(p2.groups[0].colors[2].colorComponents, [Float32(0.0), Float32(0.0), Float32(1.0)])
+		XCTAssertEqual(p2.groups[0].colors[2].name, "blue")
 	}
 }
