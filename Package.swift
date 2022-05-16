@@ -1,15 +1,25 @@
-// swift-tools-version: 5.6
+// swift-tools-version: 5.4
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
-    name: "ASEPaletteParser",
+    name: "ASEPalette",
+	 platforms: [
+		 .macOS(.v10_13),
+		 .iOS(.v13),
+		 .tvOS(.v13),
+	 ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "ASEPaletteParser",
-            targets: ["ASEPaletteParser"]),
+            name: "ASEPalette",
+				type: .static,
+            targets: ["ASEPalette"]),
+		  .library(
+			  name: "ASEPaletteDynamic",
+			  type: .static,
+			  targets: ["ASEPalette"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -19,10 +29,15 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-            name: "ASEPaletteParser",
-            dependencies: []),
+            name: "ASEPalette",
+            dependencies: []
+		  ),
         .testTarget(
-            name: "ASEPaletteParserTests",
-            dependencies: ["ASEPaletteParser"]),
+            name: "ASEPaletteTests",
+            dependencies: ["ASEPalette"],
+				resources: [
+					.process("resources")
+				]
+		  ),
     ]
 )
