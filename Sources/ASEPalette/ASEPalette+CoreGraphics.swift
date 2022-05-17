@@ -35,14 +35,10 @@ import Foundation
 public extension ASE.Color {
 	/// Create a Color object from a CGColor
 	/// - Parameters:
-	///   - cgColor: The cgColor to add to the palette
+	///   - cgColor: The cgColor to add to the palette. Note any alpha value is lost (as .ase files don't support transparency)
 	///   - name: The color's name (optional)
 	///   - colorType: The type of color (global, normal, spot) (optional)
-	init(
-		cgColor: CGColor,
-		name: String = "",
-		colorType: ASE.ColorType = .normal
-	) throws {
+	init(cgColor: CGColor, name: String = "", colorType: ASE.ColorType = .normal) throws {
 		self.name = name
 		self.colorType = colorType
 
@@ -98,6 +94,18 @@ public extension ASE.Color {
 			return CGColor(colorSpace: CGColorSpace(name: CGColorSpace.linearGray)!, components: components)?.copy(alpha: 1)
 		}
 	}
+
+	/// Return a hex RGB string (eg. "#523b50")
+	///
+	/// If the underlying colorspace is not RGB, attempts to convert to `genericRGBLinear`
+	/// before performing the conversion
+	var hexRGB: String? { return self.cgColor?.hexRGB }
+
+	/// Return a hex RGBA string (eg. "#523b50FF")
+	var hexRGBA: String? {
+		guard let s = self.cgColor?.hexRGB else { return nil }
+		return s + "FF"
+ 	}
 }
 
 #endif

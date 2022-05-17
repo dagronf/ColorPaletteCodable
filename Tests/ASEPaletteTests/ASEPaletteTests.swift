@@ -54,6 +54,7 @@ final class ASEPaletteTests: XCTestCase {
 			"palette_complex",
 			"palette_pantones",
 			"palette_simple",
+			"1629367375_iColorpalette",
 		] {
 			let controlASE = try XCTUnwrap(Bundle.module.url(forResource: name, withExtension: "ase"))
 			let origData = try Data(contentsOf: controlASE)
@@ -114,6 +115,8 @@ final class ASEPaletteTests: XCTestCase {
 	}
 	
 	func testFloatRoundTrip() throws {
+
+		// Round-trip Float32
 		do {
 			let data = try writeFloat32(1)
 			let i = InputStream(data: data)
@@ -122,29 +125,31 @@ final class ASEPaletteTests: XCTestCase {
 			let floatVal = try readFloat32(i)
 			XCTAssertEqual(floatVal, 1)
 		}
-		
+
+		// Round-trip UInt16
 		do {
-			var data = try writeUInt16(0)
-			data.append(try writeUInt16(108))
+			var data = try writeUInt16BigEndian(0)
+			data.append(try writeUInt16BigEndian(108))
 			
 			let i = InputStream(data: data)
 			i.open()
 			
-			let readValue1: UInt16 = try readInteger(i)
-			let readValue2: UInt16 = try readInteger(i)
+			let readValue1: UInt16 = try readIntegerBigEndian(i)
+			let readValue2: UInt16 = try readIntegerBigEndian(i)
 			XCTAssertEqual(0, readValue1)
 			XCTAssertEqual(108, readValue2)
 		}
-		
+
+		// Round-trip UInt32
 		do {
-			var data = try writeUInt32(4)
-			data.append(try writeUInt32(55))
+			var data = try writeUInt32BigEndian(4)
+			data.append(try writeUInt32BigEndian(55))
 			
 			let i = InputStream(data: data)
 			i.open()
 			
-			let readValue1: UInt32 = try readInteger(i)
-			let readValue2: UInt32 = try readInteger(i)
+			let readValue1: UInt32 = try readIntegerBigEndian(i)
+			let readValue2: UInt32 = try readIntegerBigEndian(i)
 			XCTAssertEqual(4, readValue1)
 			XCTAssertEqual(55, readValue2)
 		}
@@ -229,5 +234,75 @@ final class ASEPaletteTests: XCTestCase {
 		XCTAssertEqual(p2.groups[0].colors[1].name, "green")
 		XCTAssertEqual(p2.groups[0].colors[2].colorComponents, [Float32(0.0), Float32(0.0), Float32(1.0)])
 		XCTAssertEqual(p2.groups[0].colors[2].name, "blue")
+	}
+
+	func testColorLoading() throws {
+
+		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "1629367375_iColorpalette", withExtension: "ase"))
+		let palette = try ASE.Palette(fileURL: controlASE)
+
+		do {
+			// Validate round-trip. Write to a data stream and check that the bytes match the input file content
+			let origData = try Data(contentsOf: controlASE)
+			let data = try palette.data()
+
+			// Check that the generated data matches the original data exactly
+			XCTAssertEqual(origData, data)
+		}
+
+		XCTAssertEqual(0, palette.global.colors.count)
+		XCTAssertEqual(1, palette.groups.count)
+
+		XCTAssertEqual("Array_iColorpalette", palette.groups[0].name)
+		XCTAssertEqual(5, palette.groups[0].colors.count)
+
+		do {
+			// Validate hex generation against the hex values obtained from https://carl.camera/sandbox/aseconvert/
+			XCTAssertEqual("#523b50", palette.groups[0].colors[0].hexRGB)
+			XCTAssertEqual("#b0ac89", palette.groups[0].colors[1].hexRGB)
+			XCTAssertEqual("#815d72", palette.groups[0].colors[2].hexRGB)
+			XCTAssertEqual("#a9b650", palette.groups[0].colors[3].hexRGB)
+			XCTAssertEqual("#ebede9", palette.groups[0].colors[4].hexRGB)
+		}
+	}
+
+	func testColorInit() throws {
+		do {
+			let c1 = try ASE.Color(name: "c1", rgbHexString: "1122FE")
+			XCTAssertEqual(c1.model, .RGB)
+			XCTAssertEqual(c1.colorComponents.count, 3)
+			XCTAssertEqual(c1.colorComponents[0], 0.06666, accuracy: 0.00001)
+			XCTAssertEqual(c1.colorComponents[1], 0.13333, accuracy: 0.00001)
+			XCTAssertEqual(c1.colorComponents[2], 0.99607, accuracy: 0.00001)
+		}
+
+		do {
+			let c1 = try ASE.Color(name: "c1", rgbaHexString: "#54efaa11")
+			XCTAssertEqual(c1.model, .RGB)
+			XCTAssertEqual(c1.colorComponents.count, 3)	// alpha is stripped
+			XCTAssertEqual(c1.colorComponents[0], 0.32941, accuracy: 0.00001)
+			XCTAssertEqual(c1.colorComponents[1], 0.93725, accuracy: 0.00001)
+			XCTAssertEqual(c1.colorComponents[2], 0.66666, accuracy: 0.00001)
+		}
+
+		do {
+			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbHexString: "#5e34"))
+			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbHexString: "5e34"))
+
+			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbHexString: "1122F"))
+			XCTAssertNoThrow(try ASE.Color(name: "c1", rgbHexString: "#1122FE"))
+			XCTAssertNoThrow(try ASE.Color(name: "c1", rgbHexString: "1122FE"))
+			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbHexString: "#1SS122F"))
+		}
+
+		do {
+			XCTAssertNoThrow(try ASE.Color(name: "c1", rgbaHexString: "#1122FE23"))
+			XCTAssertNoThrow(try ASE.Color(name: "c1", rgbaHexString: "1122FE32"))
+
+			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbHexString: "1122F"))
+			XCTAssertNoThrow(try ASE.Color(name: "c1", rgbaHexString: "#1122FEaa"))
+			XCTAssertNoThrow(try ASE.Color(name: "c1", rgbaHexString: "1122FEaa"))
+			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbaHexString: "#1SS122Faa"))
+		}
 	}
 }

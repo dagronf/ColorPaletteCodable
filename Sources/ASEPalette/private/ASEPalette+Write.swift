@@ -37,8 +37,8 @@ extension ASE.Palette {
 		// Write header
 		outputData.append(Common.HEADER_DATA)
 
-		outputData.append(try writeUInt16(self.version0))
-		outputData.append(try writeUInt16(self.version1))
+		outputData.append(try writeUInt16BigEndian(self.version0))
+		outputData.append(try writeUInt16BigEndian(self.version1))
 
 		var blocksData = Data(capacity: 1024)
 		do {
@@ -46,7 +46,7 @@ extension ASE.Palette {
 			self.groups.forEach { totalBlocks += $0.colors.count }
 
 			// The total number of blocks (group start/group end/color)
-			blocksData.append(try writeUInt32(UInt32(totalBlocks)))
+			blocksData.append(try writeUInt32BigEndian(UInt32(totalBlocks)))
 
 			// Write the 'global' colors
 			for color in global.colors {
@@ -56,7 +56,7 @@ extension ASE.Palette {
 			// Write the groups
 			for group in groups {
 				// group header
-				blocksData.append(try writeUInt16(Common.GROUP_START))
+				blocksData.append(try writeUInt16BigEndian(Common.GROUP_START))
 
 				var groupData = Data(capacity: 1024)
 				do {
@@ -64,13 +64,13 @@ extension ASE.Palette {
 					let groupName = group.name.data(using: .utf16BigEndian)!
 					let groupNameLen = UInt16(group.name.count + 1)
 					// Length of the name + zero terminator
-					groupData.append(try writeUInt16(groupNameLen))
+					groupData.append(try writeUInt16BigEndian(groupNameLen))
 					groupData.append(groupName)
 					groupData.append(Common.DataTwoZeros)
 				}
 
 				// Write the group data length (the number of bytes between this block tag and the next
-				blocksData.append(try writeUInt32(UInt32(groupData.count)))
+				blocksData.append(try writeUInt32BigEndian(UInt32(groupData.count)))
 				// And the group data
 				blocksData.append(groupData)
 
@@ -79,8 +79,8 @@ extension ASE.Palette {
 				}
 
 				// group footer
-				blocksData.append(try writeUInt16(Common.GROUP_END))
-				blocksData.append(try writeUInt32(0))
+				blocksData.append(try writeUInt16BigEndian(Common.GROUP_END))
+				blocksData.append(try writeUInt32BigEndian(0))
 			}
 		}
 
@@ -94,7 +94,7 @@ internal extension ASE.Palette {
 		var outputData = Data(capacity: 1024)
 
 		// Write the color block header
-		outputData.append(try writeUInt16(Common.BLOCK_COLOR))
+		outputData.append(try writeUInt16BigEndian(Common.BLOCK_COLOR))
 
 		// Generate the color data
 		var colorData = Data(capacity: 1024)
@@ -103,7 +103,7 @@ internal extension ASE.Palette {
 			let colorName = color.name.data(using: .utf16BigEndian)!
 			let colorNameLen = UInt16(color.name.count + 1)
 			// Length of the name + zero terminator
-			colorData.append(try writeUInt16(colorNameLen))
+			colorData.append(try writeUInt16BigEndian(colorNameLen))
 			colorData.append(colorName)
 			colorData.append(Common.DataTwoZeros)
 
@@ -126,11 +126,11 @@ internal extension ASE.Palette {
 
 			// Write the color type
 			let colorType = UInt16(color.colorType.rawValue)
-			colorData.append(try writeUInt16(colorType))
+			colorData.append(try writeUInt16BigEndian(colorType))
 		}
 
 		// Write the block length
-		outputData.append(try writeUInt32(UInt32(colorData.count)))
+		outputData.append(try writeUInt32BigEndian(UInt32(colorData.count)))
 		// Write the color block data
 		outputData.append(colorData)
 
@@ -138,18 +138,22 @@ internal extension ASE.Palette {
 	}
 }
 
-internal func writeUInt16(_ value: UInt16) throws -> Data {
+// Write a big-endian uint16 to data
+internal func writeUInt16BigEndian(_ value: UInt16) throws -> Data {
 	return withUnsafeBytes(of: value.bigEndian) { Data($0) }
 }
 
-internal func writeUInt32(_ value: UInt32) throws -> Data {
+// Write a big-endian uint32 to data
+internal func writeUInt32BigEndian(_ value: UInt32) throws -> Data {
 	return withUnsafeBytes(of: value.bigEndian) { Data($0) }
 }
 
+// Write ascii characters (byte chars) to data
 internal func writeASCII(_ string: String) throws -> Data {
 	return string.data(using: .ascii)!
 }
 
+// Write a float32 value to data using the IEEE 754 specification
 internal func writeFloat32(_ value: Float32) throws -> Data {
-	return try writeUInt32(value.bitPattern)
+	return try writeUInt32BigEndian(value.bitPattern)
 }

@@ -55,6 +55,24 @@ public extension ASE {
 			self.colorComponents = colorComponents
 			self.colorType = colorType
 		}
+
+		/// Create a color object from a rgb hex string (eg. "#12E5B4")
+		public init(name: String = "", rgbHexString: String) throws {
+			guard let color = CGColor.fromRGBHexString(rgbHexString) else {
+				throw ASE.CommonError.invalidRGBHexString(rgbHexString)
+			}
+			try self.init(cgColor: color, name: name)
+		}
+
+		/// Create a color object from a rgb hex string (eg. "#12E5B412")
+		///
+		/// Strips the alpha component
+		public init(name: String = "", rgbaHexString: String) throws {
+			guard let color = CGColor.fromRGBAHexString(rgbaHexString) else {
+				throw ASE.CommonError.invalidRGBHexString(rgbaHexString)
+			}
+			try self.init(cgColor: color, name: name)
+		}
 		
 		public var description: String {
 			"Color '\(self.name)' [(\(self.model):\(self.colorType):\(self.colorComponents)]"

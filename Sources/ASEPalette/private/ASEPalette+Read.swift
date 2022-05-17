@@ -59,11 +59,11 @@ internal extension ASE.Palette {
 		}
 
 		// Read version (currently not being used for anything)
-		self.version0 = try readInteger(inputStream)
-		self.version1 = try readInteger(inputStream)
+		self.version0 = try readIntegerBigEndian(inputStream)
+		self.version1 = try readIntegerBigEndian(inputStream)
 
 		// Read the number of blocks contained within the ase file
-		let numberOfBlocks: UInt32 = try readInteger(inputStream)
+		let numberOfBlocks: UInt32 = try readIntegerBigEndian(inputStream)
 
 		// The currently active group. If nil, colors are added to the global group
 		var currentGroup: ASE.Group?
@@ -71,10 +71,10 @@ internal extension ASE.Palette {
 		// Read in all the blocks
 		for _ in 0 ..< numberOfBlocks {
 			// The type of block
-			let type: UInt16 = try readInteger(inputStream)
+			let type: UInt16 = try readIntegerBigEndian(inputStream)
 
 			// currently not validating the block lengths
-			let _: UInt32 = try readInteger(inputStream)
+			let _: UInt32 = try readIntegerBigEndian(inputStream)
 
 			switch type {
 			case Common.GROUP_START:
@@ -102,7 +102,7 @@ internal extension ASE.Palette {
 
 	private mutating func readStartGroupBlock(_ inputStream: InputStream) throws -> ASE.Group {
 		// Read in the name
-		let stringLen: UInt16 = try readInteger(inputStream)
+		let stringLen: UInt16 = try readIntegerBigEndian(inputStream)
 		let name = try readZeroTerminatedUTF16String(inputStream)
 		assert(stringLen == name.count + 1)
 		return ASE.Group(name: name)
@@ -114,7 +114,7 @@ internal extension ASE.Palette {
 
 	private mutating func readColor(_ inputStream: InputStream, currentGroup: inout ASE.Group?) throws {
 		// Read in the name
-		let stringLen: UInt16 = try readInteger(inputStream)
+		let stringLen: UInt16 = try readIntegerBigEndian(inputStream)
 		let name = try readZeroTerminatedUTF16String(inputStream)
 		guard stringLen == name.count + 1 else {
 			ase_log.log(.error, "Invalid color name")
@@ -143,7 +143,7 @@ internal extension ASE.Palette {
 			colors.append(try readFloat32(inputStream))
 		}
 
-		let colorTypeValue: UInt16 = try readInteger(inputStream)
+		let colorTypeValue: UInt16 = try readIntegerBigEndian(inputStream)
 		guard let colorType = ASE.ColorType(rawValue: Int(colorTypeValue)) else {
 			ase_log.log(.error, "Invalid color type %@", colorTypeValue)
 			throw ASE.CommonError.unknownColorType(Int(colorTypeValue))
@@ -159,32 +159,52 @@ internal extension ASE.Palette {
 	}
 }
 
-func readData(_ inputStream: InputStream, size: Int) throws -> Data {
-	let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: size)
-	var read = 0
-	while read != size {
-		let newread = inputStream.read(buffer, maxLength: size - read)
-		read += newread
-	}
-	return Data(bytes: buffer, count: read)
-}
+// MARK: - Read utilities
 
-func readInteger<ValueType: FixedWidthInteger>(_ inputStream: InputStream) throws -> ValueType {
-	guard inputStream.hasBytesAvailable else {
+// Read raw UInt8 bytes from the input stream
+private func readData(_ inputStream: InputStream, size: Int) throws -> Data {
+	if inputStream.hasBytesAvailable == false {
 		ase_log.log(.error, "Found end of file")
 		throw ASE.CommonError.invalidEndOfFile
 	}
 
-	let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: MemoryLayout<ValueType>.size)
-	inputStream.read(buffer, maxLength: MemoryLayout<ValueType>.size)
+	// Create a temporary buffer in which to store read bytes
+	let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: size)
+	defer { buffer.deallocate() }
 
-	return buffer.withMemoryRebound(to: ValueType.self, capacity: 1) { result in
-		let value = result.pointee.bigEndian
-		return value
+	var result = Data()
+
+	// Loop until we've read all the required data
+	var read = 0
+	while read != size {
+		let readCount = inputStream.read(buffer, maxLength: size - read)
+		if readCount == 0 && !inputStream.hasBytesAvailable {
+			// If we haven't read anything and there's no more data to read,
+			// then we're at the end of file
+			throw ASE.CommonError.invalidEndOfFile
+		}
+
+		if readCount > 0 {
+			// Add the read data to the result
+			result += Data(bytes: buffer, count: readCount)
+
+			// Move the read header forward
+			read += readCount
+		}
 	}
+	return result
 }
 
-// 0-terminated string of length (uint16) double-byte characters
+// Read a big-endian integer value from the input stream
+func readIntegerBigEndian<ValueType: FixedWidthInteger>(_ inputStream: InputStream) throws -> ValueType {
+	let rawData = try readData(inputStream, size: MemoryLayout<ValueType>.size)
+	guard let result = rawData.parseBigEndian(type: ValueType.self) else {
+		throw ASE.CommonError.invalidIntegerValue
+	}
+	return result
+}
+
+// Read a 0-terminated string of uint16 double-byte characters
 func readZeroTerminatedUTF16String(_ inputStream: InputStream) throws -> String {
 	guard inputStream.hasBytesAvailable else {
 		ase_log.log(.error, "Found end of file")
@@ -206,7 +226,7 @@ func readZeroTerminatedUTF16String(_ inputStream: InputStream) throws -> String 
 	return String(data: data, encoding: .utf16BigEndian) ?? ""
 }
 
-// Fixed length of ascii characters
+// Fixed length of ascii (single byte) characters
 func readAsciiString(_ inputStream: InputStream, length: Int) throws -> String {
 	guard inputStream.hasBytesAvailable else {
 		ase_log.log(.error, "Found end of file")
@@ -220,11 +240,8 @@ func readAsciiString(_ inputStream: InputStream, length: Int) throws -> String {
 	return String(data: strData, encoding: .ascii) ?? ""
 }
 
+// Read in a float32 value (IEEE 754 specification)
 func readFloat32(_ inputStream: InputStream) throws -> Float32 {
-	guard inputStream.hasBytesAvailable else {
-		ase_log.log(.error, "Found end of file")
-		throw ASE.CommonError.invalidEndOfFile
-	}
-	let data = try readData(inputStream, size: 4)
-	return Float32(bitPattern: UInt32(bigEndian: data.withUnsafeBytes { $0.load(as: UInt32.self) }))
+	let rawValue: UInt32 = try readIntegerBigEndian(inputStream)
+	return Float32(bitPattern: rawValue)
 }

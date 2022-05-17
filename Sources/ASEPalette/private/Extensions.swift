@@ -1,5 +1,5 @@
 //
-//  ASEPalette+Types.swift
+//  Extensions.swift
 //
 //  Created by Darren Ford on 16/5/2022.
 //  Copyright © 2022 Darren Ford. All rights reserved.
@@ -27,37 +27,25 @@
 
 import Foundation
 
-public extension ASE {
-	/// ASE Palette errors
-	enum CommonError: Error {
-		case unableToLoadFile
-		case invalidASEHeader
-		case invalidColorComponentCountForModelType
-		case invalidEndOfFile
-		case invalidString
-		case invalidIntegerValue
-		case unknownBlockType
-		case groupAlreadyOpen
-		case groupNotOpen
-		case unknownColorMode(String)
-		case unknownColorType(Int)
-		case unsupportedCGColorType
-		case invalidRGBHexString(String)
-		case invalidRGBAHexString(String)
-	}
+internal extension Data {
 	
-	/// A color model representation
-	enum ColorModel: String {
-		case CMYK
-		case RGB = "RGB "
-		case LAB = "LAB "
-		case Gray
+	// Parse a big-endian value from a block of data
+	func parseBigEndian<T: FixedWidthInteger>(type: T.Type) -> T? {
+		let typeSize = MemoryLayout<T>.size
+		guard self.count >= typeSize else { return nil }
+		return self.prefix(typeSize).reduce(0) { $0 << 8 | T($1) }
 	}
 
-	/// The type of the color (normal, spot, global)
-	enum ColorType: Int {
-		case global = 0
-		case spot = 1
-		case normal = 2
+	// Parse a little-endian value from a block of data
+	func parseLittleEndian<T: FixedWidthInteger>(type: T.Type) -> T? {
+		let typeSize = MemoryLayout<T>.size
+		guard self.count >= typeSize else { return nil }
+		return self.prefix(typeSize).reversed().reduce(0) { $0 << 8 | T($1) }
+	}
+}
+
+extension ExpressibleByIntegerLiteral where Self: Comparable {
+	func clamped(to range: ClosedRange<Self>) -> Self {
+		return min(range.upperBound, max(range.lowerBound, self))
 	}
 }
