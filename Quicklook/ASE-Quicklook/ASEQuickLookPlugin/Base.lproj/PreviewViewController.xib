@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="PreviewViewController" customModule="ASEQuickLookPlugin" customModuleProvider="target">
+            <connections>
+                <outlet property="collectionView" destination="Hp3-pv-ZO0" id="plT-0b-2fT"/>
+                <outlet property="view" destination="c22-O7-iKe" id="NRM-P4-wb6"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe" userLabel="Preview View">
+            <rect key="frame" x="0.0" y="0.0" width="358" height="202"/>
+            <subviews>
+                <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3iw-HW-nnn">
+                    <rect key="frame" x="0.0" y="0.0" width="358" height="202"/>
+                    <clipView key="contentView" id="0fr-Jc-CmA">
+                        <rect key="frame" x="1" y="1" width="356" height="200"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView id="Hp3-pv-ZO0">
+                                <rect key="frame" x="0.0" y="0.0" width="356" height="158"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="TDj-GV-ExG">
+                                    <size key="itemSize" width="50" height="50"/>
+                                </collectionViewFlowLayout>
+                                <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="-2" id="60I-iC-eA7"/>
+                                    <outlet property="delegate" destination="-2" id="IkA-XB-xg6"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                    </clipView>
+                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="mVe-nr-zfB">
+                        <rect key="frame" x="1" y="144" width="233" height="15"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                    <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Meb-5d-Nwv">
+                        <rect key="frame" x="234" y="1" width="15" height="143"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                </scrollView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="3iw-HW-nnn" secondAttribute="bottom" id="Ad8-d0-tZ1"/>
+                <constraint firstAttribute="trailing" secondItem="3iw-HW-nnn" secondAttribute="trailing" id="EXe-L6-lmZ"/>
+                <constraint firstItem="3iw-HW-nnn" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="rrb-GY-e0N"/>
+                <constraint firstItem="3iw-HW-nnn" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="xXz-z3-5RG"/>
+            </constraints>
+            <point key="canvasLocation" x="78" y="119"/>
+        </customView>
+    </objects>
+</document>
