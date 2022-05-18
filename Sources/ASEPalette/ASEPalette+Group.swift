@@ -28,10 +28,9 @@
 import Foundation
 
 public extension ASE {
-	/// A color group
+	/// A grouping of colors
 	struct Group: Equatable {
-		/// The group's name
-		public let name: String
+		public var name: String
 		/// The colors assigned to the group
 		public internal(set) var colors: [Color]
 		/// Create a group with the specified name and colors

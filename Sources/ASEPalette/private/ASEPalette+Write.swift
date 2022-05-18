@@ -42,14 +42,14 @@ extension ASE.Palette {
 
 		var blocksData = Data(capacity: 1024)
 		do {
-			var totalBlocks = self.global.colors.count + (self.groups.count * 2) // group-start + group-end
+			var totalBlocks = self.colors.count + (self.groups.count * 2) // group-start + group-end
 			self.groups.forEach { totalBlocks += $0.colors.count }
 
 			// The total number of blocks (group start/group end/color)
 			blocksData.append(try writeUInt32BigEndian(UInt32(totalBlocks)))
 
 			// Write the 'global' colors
-			for color in global.colors {
+			for color in self.colors {
 				blocksData.append(try self.writeColorData(color))
 			}
 
@@ -60,7 +60,7 @@ extension ASE.Palette {
 
 				var groupData = Data(capacity: 1024)
 				do {
-					// Write the name
+					// Write the group name
 					let groupName = group.name.data(using: .utf16BigEndian)!
 					let groupNameLen = UInt16(group.name.count + 1)
 					// Length of the name + zero terminator

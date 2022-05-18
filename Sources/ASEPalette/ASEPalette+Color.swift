@@ -38,12 +38,12 @@ public extension ASE {
 		public let colorComponents: [Float32]
 		/// The type of color (global, spot, normal)
 		public let colorType: ColorType
-		
+
 		/// Create a color object
 		public init(name: String, model: ColorModel, colorComponents: [Float32], colorType: ColorType = .normal) throws {
 			self.name = name
 			self.model = model
-			
+
 			// Quick sanity check on the color model and components
 			switch model {
 			case .CMYK: if colorComponents.count != 4 { throw ASE.CommonError.invalidColorComponentCountForModelType }
@@ -51,31 +51,74 @@ public extension ASE {
 			case .LAB: if colorComponents.count != 3 { throw ASE.CommonError.invalidColorComponentCountForModelType }
 			case .Gray: if colorComponents.count != 1 { throw ASE.CommonError.invalidColorComponentCountForModelType }
 			}
-			
+
 			self.colorComponents = colorComponents
 			self.colorType = colorType
 		}
 
-		/// Create a color object from a rgb hex string (eg. "#12E5B4")
-		public init(name: String = "", rgbHexString: String) throws {
-			guard let color = CGColor.fromRGBHexString(rgbHexString) else {
-				throw ASE.CommonError.invalidRGBHexString(rgbHexString)
-			}
-			try self.init(cgColor: color, name: name)
-		}
-
-		/// Create a color object from a rgb hex string (eg. "#12E5B412")
-		///
-		/// Strips the alpha component
-		public init(name: String = "", rgbaHexString: String) throws {
-			guard let color = CGColor.fromRGBAHexString(rgbaHexString) else {
-				throw ASE.CommonError.invalidRGBHexString(rgbaHexString)
-			}
-			try self.init(cgColor: color, name: name)
-		}
-		
 		public var description: String {
 			"Color '\(self.name)' [(\(self.model):\(self.colorType):\(self.colorComponents)]"
 		}
+	}
+}
+
+// MARK: Hex color initializers
+
+public extension ASE.Color {
+	/// Create a color object from a rgb hex string (eg. "12E5B4" or "#12E5B4")
+	init(name: String = "", rgbHexString: String, colorType: ASE.ColorType = .normal) throws {
+		guard let color = Self.fromRGBHexString(rgbHexString) else {
+			throw ASE.CommonError.invalidRGBHexString(rgbHexString)
+		}
+		try self.init(name: name, model: .RGB, colorComponents: [color.r, color.g, color.b], colorType: colorType)
+	}
+
+	/// Create a color object from a rgb hex string (eg. "12E5B412" or "#12E5B412")
+	///
+	/// Strips the alpha component
+	init(name: String = "", rgbaHexString: String, colorType: ASE.ColorType = .normal) throws {
+		guard let color = Self.fromRGBAHexString(rgbaHexString) else {
+			throw ASE.CommonError.invalidRGBHexString(rgbaHexString)
+		}
+		try self.init(name: name, model: .RGB, colorComponents: [color.r, color.g, color.b], colorType: colorType)
+	}
+}
+
+// MARK: Hex color converters
+
+private extension ASE.Color {
+	static func fromRGBHexString(_ rgbaHexString: String) -> (r: Float32, g: Float32, b: Float32)? {
+		// Validate the string length ('XXXXXX' or '#XXXXXX')
+		guard rgbaHexString.count == 6 || (rgbaHexString.count == 7 && rgbaHexString.first == "#") else { return nil }
+
+		// Create scanner
+		let scanner = Scanner(string: rgbaHexString)
+		scanner.charactersToBeSkipped = CharacterSet(charactersIn: "#")
+		var hexNumber: UInt64 = 0
+		if scanner.scanHexInt64(&hexNumber) {
+			let r = Float32((hexNumber & 0x00FF_0000) >> 16) / 255
+			let g = Float32((hexNumber & 0x0000_FF00) >> 8) / 255
+			let b = Float32(hexNumber & 0x0000_00FF) / 255
+			return (r, g, b)
+		}
+		return nil
+	}
+
+	static func fromRGBAHexString(_ rgbaHexString: String) -> (r: Float32, g: Float32, b: Float32, a: Float32)? {
+		// Validate the string length ('XXXXXXXX' or '#XXXXXXXX')
+		guard rgbaHexString.count == 8 || (rgbaHexString.count == 9 && rgbaHexString.first == "#") else { return nil }
+
+		// Create scanner
+		let scanner = Scanner(string: rgbaHexString)
+		scanner.charactersToBeSkipped = CharacterSet(charactersIn: "#")
+		var hexNumber: UInt64 = 0
+		if scanner.scanHexInt64(&hexNumber) {
+			let r = Float32((hexNumber & 0xFF00_0000) >> 24) / 255
+			let g = Float32((hexNumber & 0x00FF_0000) >> 16) / 255
+			let b = Float32((hexNumber & 0x0000_FF00) >> 8) / 255
+			let a = Float32(hexNumber & 0x0000_00FF) / 255
+			return (r, g, b, a)
+		}
+		return nil
 	}
 }

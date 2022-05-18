@@ -78,49 +78,4 @@ extension CGColor {
 	}
 }
 
-extension CGColor {
-	/// Create a CGColor from a hex RGB string representation (eg. "#45AA75" or "45aa75")
-	///
-	/// Note: Does not validate the input string.
-	static func fromRGBHexString(_ rgbHexString: String) -> CGColor? {
-		// Validate the string length
-		guard rgbHexString.count == 6 || rgbHexString.count == 7 else { return nil }
-		
-		// Create scanner
-		let scanner = Scanner(string: rgbHexString)
-		scanner.charactersToBeSkipped = CharacterSet(charactersIn: "#")
-		var hexNumber: UInt64 = 0
-		if scanner.scanHexInt64(&hexNumber) {
-			let cs = CGColorSpace(name: CGColorSpace.genericRGBLinear)!
-			let r = CGFloat((hexNumber & 0x00FF_0000) >> 16) / 255
-			let g = CGFloat((hexNumber & 0x0000_FF00) >> 8) / 255
-			let b = CGFloat(hexNumber & 0x0000_00FF) / 255
-			return CGColor(colorSpace: cs, components: [r, g, b, 1])
-		}
-		return nil
-	}
-	
-	/// Create a CGColor from a hex RGBA string representation (eg. "#45AA756C" or "45aa7510")
-	///
-	/// Note: Does not validate the input string.
-	static func fromRGBAHexString(_ rgbaHexString: String) -> CGColor? {
-		// Validate the string length
-		guard rgbaHexString.count == 8 || rgbaHexString.count == 9 else { return nil }
-		
-		// Create scanner
-		let scanner = Scanner(string: rgbaHexString)
-		scanner.charactersToBeSkipped = CharacterSet(charactersIn: "#")
-		var hexNumber: UInt64 = 0
-		if scanner.scanHexInt64(&hexNumber) {
-			let cs = CGColorSpace(name: CGColorSpace.genericRGBLinear)!
-			let r = CGFloat((hexNumber & 0xFF00_0000) >> 24) / 255
-			let g = CGFloat((hexNumber & 0x00FF_0000) >> 16) / 255
-			let b = CGFloat((hexNumber & 0x0000_FF00) >> 8) / 255
-			let a = CGFloat(hexNumber & 0x0000_00FF) / 255
-			return CGColor(colorSpace: cs, components: [r, g, b, a])
-		}
-		return nil
-	}
-}
-
 #endif

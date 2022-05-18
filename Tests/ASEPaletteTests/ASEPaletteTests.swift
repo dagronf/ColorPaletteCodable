@@ -2,8 +2,38 @@
 import XCTest
 
 final class ASEPaletteTests: XCTestCase {
-	// http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase
-	
+	func testWriteReadRoundTripSampleFiles() throws {
+		for name in [
+			"wisteric-17",
+			"Ultra-Mattes Reverse",
+			"control",
+			"Big-Red-Barn",
+			"24 colour palettes",  // has multiple groups
+			"palette_complex",
+			"palette_pantones",
+			"palette_simple",
+			"1629367375_iColorpalette",
+		] {
+			let controlASE = try XCTUnwrap(Bundle.module.url(forResource: name, withExtension: "ase"))
+			let origData = try Data(contentsOf: controlASE)
+
+			// Attempt to load the ase file
+			let palette = try ASE.Palette(fileURL: controlASE)
+
+			// Write to a data stream and check that the bytes match the input
+			let data = try palette.data()
+
+			// Check that the generated data matches the original data exactly
+			XCTAssertEqual(origData, data)
+
+			// Re-create the ase structure from the written data ...
+			let p2 = try ASE.Palette(data: data)
+
+			// ... and check equality
+			XCTAssertEqual(palette, p2)
+		}
+	}
+
 	func testBegin() throws {
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
 		let palette = try ASE.Palette(fileURL: controlASE)
@@ -11,7 +41,7 @@ final class ASEPaletteTests: XCTestCase {
 		XCTAssertEqual(1, palette.version0)
 		XCTAssertEqual(0, palette.version1)
 		
-		XCTAssertEqual(0, palette.global.colors.count)
+		XCTAssertEqual(0, palette.colors.count)
 		XCTAssertEqual(1, palette.groups.count)
 		XCTAssertEqual(2, palette.groups[0].colors.count)
 	}
@@ -20,7 +50,7 @@ final class ASEPaletteTests: XCTestCase {
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "Ultra-Mattes Reverse", withExtension: "ase"))
 		let palette = try ASE.Palette(fileURL: controlASE)
 		// Swift.print(palette)
-		XCTAssertEqual(0, palette.global.colors.count)
+		XCTAssertEqual(0, palette.colors.count)
 		XCTAssertEqual(1, palette.groups.count)
 		XCTAssertEqual("Ultra-Mattes Reverse", palette.groups[0].name)
 	}
@@ -30,50 +60,18 @@ final class ASEPaletteTests: XCTestCase {
 		let palette = try ASE.Palette(fileURL: controlASE)
 		// Swift.print(palette)
 		XCTAssertEqual(0, palette.groups.count)
-		XCTAssertEqual(17, palette.global.colors.count)
+		XCTAssertEqual(17, palette.colors.count)
 	}
 	
 	func testMulti() throws {
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "24 colour palettes", withExtension: "ase"))
 		let palette = try ASE.Palette(fileURL: controlASE)
 		// Swift.print(palette)
-		XCTAssertEqual(0, palette.global.colors.count)
+		XCTAssertEqual(0, palette.colors.count)
 		XCTAssertEqual(24, palette.groups.count)
 		XCTAssertEqual("PB 3dmaneu chinese umbrellas", palette.groups[0].name)
 		XCTAssertEqual(5, palette.groups[0].colors.count)
 		XCTAssertEqual("R=55 G=141 B=190", palette.groups[0].colors[0].name)
-	}
-	
-	func testWriteReadRoundTripSampleFiles() throws {
-		for name in [
-			"wisteric-17",
-			"Ultra-Mattes Reverse",
-			"control",
-			"Big-Red-Barn",
-			"24 colour palettes",
-			"palette_complex",
-			"palette_pantones",
-			"palette_simple",
-			"1629367375_iColorpalette",
-		] {
-			let controlASE = try XCTUnwrap(Bundle.module.url(forResource: name, withExtension: "ase"))
-			let origData = try Data(contentsOf: controlASE)
-			
-			// Attempt to load the ase file
-			let palette = try ASE.Palette(fileURL: controlASE)
-			
-			// Write to a data stream and check that the bytes match the input
-			let data = try palette.data()
-			
-			// Check that the generated data matches the original data exactly
-			XCTAssertEqual(origData, data)
-			
-			// Re-create the ase structure from the written data ...
-			let p2 = try ASE.Palette(data: data)
-			
-			// ... and check equality
-			XCTAssertEqual(palette, p2)
-		}
 	}
 	
 	func testWriteRead() throws {
@@ -81,7 +79,7 @@ final class ASEPaletteTests: XCTestCase {
 			let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
 			let palette = try ASE.Palette(fileURL: controlASE)
 			
-			XCTAssertEqual(0, palette.global.colors.count)
+			XCTAssertEqual(0, palette.colors.count)
 			XCTAssertEqual(1, palette.groups.count)
 			XCTAssertEqual(2, palette.groups[0].colors.count)
 			
@@ -89,7 +87,7 @@ final class ASEPaletteTests: XCTestCase {
 			try data.write(to: URL(fileURLWithPath: "/tmp/output.ase"))
 			
 			let p2 = try ASE.Palette(data: data)
-			XCTAssertEqual(palette.global.colors.count, p2.global.colors.count)
+			XCTAssertEqual(palette.colors.count, p2.colors.count)
 			XCTAssertEqual(palette.groups.count, p2.groups.count)
 			XCTAssertEqual(palette.groups[0].colors.count, p2.groups[0].colors.count)
 		}
@@ -99,7 +97,7 @@ final class ASEPaletteTests: XCTestCase {
 			let origData = try Data(contentsOf: controlASE)
 			let palette = try ASE.Palette(fileURL: controlASE)
 			
-			XCTAssertEqual(0, palette.global.colors.count)
+			XCTAssertEqual(0, palette.colors.count)
 			XCTAssertEqual(24, palette.groups.count)
 			XCTAssertEqual(5, palette.groups[0].colors.count)
 			
@@ -108,7 +106,7 @@ final class ASEPaletteTests: XCTestCase {
 			// try data.write(to: URL(fileURLWithPath: "/tmp/output2.ase"))
 			
 			let p2 = try ASE.Palette(data: data)
-			XCTAssertEqual(palette.global.colors.count, p2.global.colors.count)
+			XCTAssertEqual(palette.colors.count, p2.colors.count)
 			XCTAssertEqual(palette.groups.count, p2.groups.count)
 			XCTAssertEqual(palette.groups[0].colors.count, p2.groups[0].colors.count)
 		}
@@ -177,19 +175,19 @@ final class ASEPaletteTests: XCTestCase {
 			let cc1 = try ASE.Color(cgColor: cmyk, name: "cmyk", colorType: .global)
 
 			var p = ASE.Palette()
-			p.global.colors.append(cc1)
+			p.colors.append(cc1)
 
 			let d1 = try p.data()
 			XCTAssertLessThan(0, d1.count)
 
 			let p1 = try ASE.Palette(data: d1)
-			XCTAssertEqual(1, p1.global.colors.count)
-			XCTAssertEqual(.CMYK, p1.global.colors[0].model)
-			XCTAssertEqual(4, p1.global.colors[0].colorComponents.count)
-			XCTAssertEqual(1, p1.global.colors[0].colorComponents[0])
-			XCTAssertEqual(1, p1.global.colors[0].colorComponents[1])
-			XCTAssertEqual(0.5, p1.global.colors[0].colorComponents[2])
-			XCTAssertEqual(0.2, p1.global.colors[0].colorComponents[3])
+			XCTAssertEqual(1, p1.colors.count)
+			XCTAssertEqual(.CMYK, p1.colors[0].model)
+			XCTAssertEqual(4, p1.colors[0].colorComponents.count)
+			XCTAssertEqual(1, p1.colors[0].colorComponents[0])
+			XCTAssertEqual(1, p1.colors[0].colorComponents[1])
+			XCTAssertEqual(0.5, p1.colors[0].colorComponents[2])
+			XCTAssertEqual(0.2, p1.colors[0].colorComponents[3])
 		}
 	}
 	
@@ -198,17 +196,17 @@ final class ASEPaletteTests: XCTestCase {
 		let c1 = try ASE.Color(name: "red", model: ASE.ColorModel.RGB, colorComponents: [1, 0, 0])
 		let c2 = try ASE.Color(name: "green", model: ASE.ColorModel.RGB, colorComponents: [0, 1, 0])
 		let c3 = try ASE.Color(name: "blue", model: ASE.ColorModel.RGB, colorComponents: [0, 0, 1])
-		palette.global.colors.append(contentsOf: [c1, c2, c3])
+		palette.colors.append(contentsOf: [c1, c2, c3])
 		
 		let rawData = try palette.data()
 		XCTAssertFalse(rawData.isEmpty)
 		
 		let p2 = try ASE.Palette(data: rawData)
-		XCTAssertEqual(3, p2.global.colors.count)
+		XCTAssertEqual(3, p2.colors.count)
 		
-		XCTAssertEqual(p2.global.colors[0].colorComponents, [Float32(1.0), Float32(0.0), Float32(0.0)])
-		XCTAssertEqual(p2.global.colors[1].colorComponents, [Float32(0.0), Float32(1.0), Float32(0.0)])
-		XCTAssertEqual(p2.global.colors[2].colorComponents, [Float32(0.0), Float32(0.0), Float32(1.0)])
+		XCTAssertEqual(p2.colors[0].colorComponents, [Float32(1.0), Float32(0.0), Float32(0.0)])
+		XCTAssertEqual(p2.colors[1].colorComponents, [Float32(0.0), Float32(1.0), Float32(0.0)])
+		XCTAssertEqual(p2.colors[2].colorComponents, [Float32(0.0), Float32(0.0), Float32(1.0)])
 	}
 	
 	func testDoco2() throws {
@@ -224,7 +222,9 @@ final class ASEPaletteTests: XCTestCase {
 		XCTAssertFalse(rawData.isEmpty)
 		
 		let p2 = try ASE.Palette(data: rawData)
-		XCTAssertTrue(p2.global.colors.isEmpty)
+
+		XCTAssertTrue(p2.colors.isEmpty)
+
 		XCTAssertEqual(1, p2.groups.count)
 		XCTAssertEqual("rgb", p2.groups[0].name)
 		
@@ -250,7 +250,7 @@ final class ASEPaletteTests: XCTestCase {
 			XCTAssertEqual(origData, data)
 		}
 
-		XCTAssertEqual(0, palette.global.colors.count)
+		XCTAssertEqual(0, palette.colors.count)
 		XCTAssertEqual(1, palette.groups.count)
 
 		XCTAssertEqual("Array_iColorpalette", palette.groups[0].name)
@@ -284,25 +284,29 @@ final class ASEPaletteTests: XCTestCase {
 			XCTAssertEqual(c1.colorComponents[1], 0.93725, accuracy: 0.00001)
 			XCTAssertEqual(c1.colorComponents[2], 0.66666, accuracy: 0.00001)
 		}
+	}
 
+	func testColorInitHexInvalid() throws {
 		do {
 			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbHexString: "#5e34"))
 			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbHexString: "5e34"))
-
 			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbHexString: "1122F"))
+			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbHexString: "1122FEE"))
+			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbHexString: "#1SS122F"))
+
 			XCTAssertNoThrow(try ASE.Color(name: "c1", rgbHexString: "#1122FE"))
 			XCTAssertNoThrow(try ASE.Color(name: "c1", rgbHexString: "1122FE"))
-			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbHexString: "#1SS122F"))
 		}
 
 		do {
+			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbHexString: "1122F"))
+			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbaHexString: "#1SS122Faa"))
+			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbaHexString: "E1122FE23"))
+
 			XCTAssertNoThrow(try ASE.Color(name: "c1", rgbaHexString: "#1122FE23"))
 			XCTAssertNoThrow(try ASE.Color(name: "c1", rgbaHexString: "1122FE32"))
-
-			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbHexString: "1122F"))
 			XCTAssertNoThrow(try ASE.Color(name: "c1", rgbaHexString: "#1122FEaa"))
 			XCTAssertNoThrow(try ASE.Color(name: "c1", rgbaHexString: "1122FEaa"))
-			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbaHexString: "#1SS122Faa"))
 		}
 	}
 }

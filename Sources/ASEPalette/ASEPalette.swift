@@ -41,9 +41,10 @@ public extension ASE {
 		public var version0: UInt16 = 1
 		public var version1: UInt16 = 0
 
-		/// Colors that are not assigned to a group
-		public var global = Group(name: "_global")
-		/// The groups of colors
+		/// Colors that are not assigned to a group ('global' colors)
+		public var colors: [Color] = []
+
+		/// Named groups of colors
 		public var groups = [Group]()
 
 		/// Create an empty palette

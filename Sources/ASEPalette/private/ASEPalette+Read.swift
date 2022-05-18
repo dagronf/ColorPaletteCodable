@@ -48,8 +48,8 @@ internal extension ASE.Palette {
 		// If the input stream isn't open, the reading will hang.
 
 		// Remove any existing colors/groups
-		global.colors = []
-		groups = []
+		self.colors = []
+		self.groups = []
 
 		// Load and validate the header
 		let header = try readData(inputStream, size: 4)
@@ -154,7 +154,7 @@ internal extension ASE.Palette {
 			currentGroup?.colors.append(color)
 		}
 		else {
-			global.colors.append(color)
+			self.colors.append(color)
 		}
 	}
 }
