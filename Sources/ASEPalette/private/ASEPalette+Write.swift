@@ -28,9 +28,9 @@
 import Foundation
 
 extension ASE.Palette {
-	/// Return a Data representation of the ASEPalette in .ase format
-	///
-	/// http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase
+	// Return a Data representation of the ASEPalette in .ase format
+	//
+	// Implementation based on the breakdown from [here](http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase)
 	func _data() throws -> Data {
 		var outputData = Data(capacity: 1024)
 

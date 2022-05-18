@@ -25,9 +25,15 @@
 //  SOFTWARE.
 //
 
-// Non-public common definitions
+// Common definitions
 
 import Foundation
+
+/// Common namespace for all ASEPalette types
+public class ASE {}
+
+// Logger
+let ase_log = OSLogger(subsystem: Bundle.main.bundleIdentifier!, category: "ASEPalette")
 
 internal class Common {
 	// Two 'zero' bytes in succession

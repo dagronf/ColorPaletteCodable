@@ -31,7 +31,7 @@ I used the breakdown of the format defined [here](http://www.selapa.net/swatches
 |:--------------|:---------------|
 |`ASE.Palette`  | The full representation of the ASE palette file |
 |`ASE.Group`    | An optionally named collection of colors |
-|`ASE.Color`    | An optionally named color in the palette |
+|`ASE.Color`    | An optionally named color |
 
 ## Tasks
 
@@ -58,7 +58,7 @@ do {
    let c1 = try ASE.Color(name: "red", model: ASE.ColorModel.RGB, colorComponents: [1, 0, 0])
    let c2 = try ASE.Color(name: "green", model: ASE.ColorModel.RGB, colorComponents: [0, 1, 0])
    let c3 = try ASE.Color(name: "blue", model: ASE.ColorModel.RGB, colorComponents: [0, 0, 1])
-   palette.global.colors.append(contentsOf: [c1, c2, c3])
+   palette.colors.append(contentsOf: [c1, c2, c3])
 
    // Get the .ase format data
    let rawData = try palette.data()

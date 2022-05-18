@@ -28,15 +28,10 @@
 import Foundation
 import OSLog
 
-// http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase
-
-let ase_log = OSLogger(subsystem: Bundle.main.bundleIdentifier!, category: "ASEPalette")
-
-/// Common namespace for all ASEPalette types
-public class ASE {}
-
-/// An object representing an ASE (Adobe Swatch Exchange) palette
 public extension ASE {
+	/// An object representing an ASE (Adobe Swatch Exchange) palette
+	///
+	/// Implementation based on the breakdown from [here](http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase)
 	struct Palette: Equatable {
 		public var version0: UInt16 = 1
 		public var version1: UInt16 = 0

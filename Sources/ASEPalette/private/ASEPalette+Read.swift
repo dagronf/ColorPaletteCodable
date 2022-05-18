@@ -28,6 +28,9 @@
 import Foundation
 
 internal extension ASE.Palette {
+	/// Load a palette from a .ase palette file
+	///
+	/// Implementation based on the breakdown from [here](http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase)
 	mutating func _load(fileURL: URL) throws {
 		guard let inputStream = InputStream(fileAtPath: fileURL.path) else {
 			ase_log.log(.error, "Unable to load .ase file")
@@ -37,12 +40,18 @@ internal extension ASE.Palette {
 		try self._load(inputStream: inputStream)
 	}
 
+	/// Load from data
+	///
+	/// Implementation based on the breakdown from [here](http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase)
 	mutating func _load(data: Data) throws {
 		let inputStream = InputStream(data: data)
 		inputStream.open()
 		try self._load(inputStream: inputStream)
 	}
 
+	/// Load from an InputStream
+	///
+	/// Implementation based on the breakdown from [here](http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase)
 	mutating func _load(inputStream: InputStream) throws {
 		// NOTE: Assumption here is that `inputStream` is already open
 		// If the input stream isn't open, the reading will hang.
