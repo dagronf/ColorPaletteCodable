@@ -58,7 +58,7 @@ extension PreviewViewController: NSCollectionViewDelegate, NSCollectionViewDataS
 			if core == "" {
 				return "<unnamed>"
 			}
-			return core
+			return "􀐠  \(core)"
 		}()
 
 		view.groupNameTextField.stringValue = "\(name) (\(group.colors.count))"
@@ -67,16 +67,6 @@ extension PreviewViewController: NSCollectionViewDelegate, NSCollectionViewDataS
 	}
 
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> NSSize {
-		guard let p = self.currentPalette else { return .zero }
-		let groups = self.paletteGroups(for: p)
-		if groups[section].name == "_global" {
-			return .zero
-		}
 		return NSSize(width: 0, height: 28)
 	}
-
-//	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
-//		return NSSize(width: 26, height: 26)
-//	}
-
 }

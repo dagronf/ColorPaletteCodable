@@ -85,13 +85,4 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 		currentGroups.append(contentsOf: palette.groups)
 		self.collectionView.reloadData()
 	}
-
-	func paletteGroups(for palette: ASE.Palette) -> [ASE.Group] {
-		var groups: [ASE.Group] = []
-		if palette.colors.count > 0 {
-			groups.append(ASE.Group(name: "Global colors", colors: palette.colors))
-		}
-		groups.append(contentsOf: palette.groups)
-		return groups
-	}
 }
