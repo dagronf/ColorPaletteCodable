@@ -36,12 +36,11 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 //			withIdentifier: NSUserInterfaceItemIdentifier("ColorGroupHeaderView")
 //		)
 
-
-		let layout = CollectionViewLeftFlowLayout()
+		let layout = NSCollectionViewFlowLayout()
 		layout.scrollDirection = .vertical
 		layout.minimumInteritemSpacing = 1
 		layout.minimumLineSpacing = 1
-		layout.sectionInset = NSEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+		layout.sectionInset = NSEdgeInsets(top: 0, left: 2, bottom: 4, right: 0)
 		layout.itemSize = NSSize(width: 26, height: 26)
 		collectionView.collectionViewLayout = layout
 	}
