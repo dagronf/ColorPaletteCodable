@@ -49,6 +49,8 @@ extension PreviewViewController: NSCollectionViewDelegate, NSCollectionViewDataS
 			fatalError()
 		}
 
+		
+
 		let group = self.currentGroups[indexPath.section]
 
 		let name: String = {
