@@ -15,6 +15,7 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 	@IBOutlet weak var collectionView: NSCollectionView!
 
 	var currentPalette: ASE.Palette?
+	var currentGroups = [ASE.Group]()
 
 	override var nibName: NSNib.Name? {
 		return NSNib.Name("PreviewViewController")
@@ -75,7 +76,23 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 	}
 
 	func configure(for url: URL) throws {
-		self.currentPalette = try ASE.Palette.init(fileURL: url)
+		self.currentGroups = []
+		let palette = try ASE.Palette.init(fileURL: url)
+
+		self.currentPalette = palette
+		if palette.colors.count > 0 {
+			currentGroups.append(ASE.Group(name: "Global colors", colors: palette.colors))
+		}
+		currentGroups.append(contentsOf: palette.groups)
 		self.collectionView.reloadData()
+	}
+
+	func paletteGroups(for palette: ASE.Palette) -> [ASE.Group] {
+		var groups: [ASE.Group] = []
+		if palette.colors.count > 0 {
+			groups.append(ASE.Group(name: "Global colors", colors: palette.colors))
+		}
+		groups.append(contentsOf: palette.groups)
+		return groups
 	}
 }
