@@ -87,7 +87,7 @@ public extension ASE.Color {
 		case .CMYK:
 			return CGColor(colorSpace: CGColorSpace(name: CGColorSpace.genericCMYK)!, components: components)?.copy(alpha: 1)
 		case .RGB:
-			return CGColor(colorSpace: CGColorSpace(name: CGColorSpace.adobeRGB1998)!, components: components)?.copy(alpha: 1)
+			return CGColor(colorSpace: CGColorSpace(name: CGColorSpace.sRGB)!, components: components)?.copy(alpha: 1)
 		case .LAB:
 			return CGColor(colorSpace: CGColorSpace(name: CGColorSpace.genericLab)!, components: components)?.copy(alpha: 1)
 		case .Gray:

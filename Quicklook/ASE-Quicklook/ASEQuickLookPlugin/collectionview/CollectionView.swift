@@ -38,7 +38,7 @@ extension PreviewViewController: NSCollectionViewDelegate, NSCollectionViewDataS
 		}
 
 		swatch.colorWell.color = ns
-		swatch.colorWell.toolTip = color.name
+		swatch.colorWell.toolTip = "Name: \(color.name)\nMode: \(color.modelString)\nType: \(color.typeString)"
 
 		return swatch
 	}

@@ -59,6 +59,23 @@ public extension ASE {
 		public var description: String {
 			"Color '\(self.name)' [(\(self.model):\(self.colorType):\(self.colorComponents)]"
 		}
+
+		@inlinable public var modelString: String {
+			switch model {
+			case .CMYK: return "CMYK"
+			case .RGB: return "RGB"
+			case .LAB: return "LAB"
+			case .Gray: return "Gray"
+			}
+		}
+
+		@inlinable public var typeString: String {
+			switch colorType {
+			case .global: return "global"
+			case .spot: return "spot"
+			case .normal: return "normal"
+			}
+		}
 	}
 }
 
