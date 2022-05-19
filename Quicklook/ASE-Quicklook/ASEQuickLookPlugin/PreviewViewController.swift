@@ -34,11 +34,17 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 	override func loadView() {
 		super.loadView()
 		// Do any additional setup after loading the view.
+//
+//		let nib = NSNib(nibNamed: "ColorSwatchView", bundle: nil)
+//		collectionView.register(
+//			nib,
+//			forItemWithIdentifier: NSUserInterfaceItemIdentifier("ColorSwatchView")
+//		)
 
-		collectionView.register(
-			ColorSwatchView.self,
-			forItemWithIdentifier: NSUserInterfaceItemIdentifier("ColorSwatchView")
-		)
+//		collectionView.register(
+//			ColorSwatchView.self,
+//			forItemWithIdentifier: NSUserInterfaceItemIdentifier("ColorSwatchView")
+//		)
 
 //		collectionView.register(
 //			ColorGroupHeaderView.self,

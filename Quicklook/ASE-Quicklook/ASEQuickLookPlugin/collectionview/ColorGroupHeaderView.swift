@@ -17,23 +17,4 @@ class ColorGroupHeaderView: NSView {
 			self.separator.isHidden = !showSeparator
 		}
 	}
-
-	override init(frame frameRect: NSRect) {
-		super.init(frame: frameRect)
-		self.setup()
-	}
-
-	required init?(coder: NSCoder) {
-		super.init(coder: coder)
-		self.setup()
-	}
-
-	func setup() {
-		self.wantsLayer = true
-	}
-
-	override func layout() {
-		super.layout()
-		//self.layer!.backgroundColor = NSColor.tertiaryLabelColor.cgColor
-	}
 }

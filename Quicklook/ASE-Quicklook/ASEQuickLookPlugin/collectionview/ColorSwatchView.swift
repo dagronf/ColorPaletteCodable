@@ -19,12 +19,12 @@ class ColorSwatchView: NSCollectionViewItem {
 
 	override init(nibName nibNameOrNil: NSNib.Name?, bundle nibBundleOrNil: Bundle?) {
 		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-		self.view.wantsLayer = true
+		//self.view.wantsLayer = true
 	}
 
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
-		self.view.wantsLayer = true
+		//self.view.wantsLayer = true
 	}
 
 	override func viewDidLayout() {
