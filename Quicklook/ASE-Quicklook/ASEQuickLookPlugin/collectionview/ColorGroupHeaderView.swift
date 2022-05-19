@@ -10,6 +10,13 @@ import Cocoa
 class ColorGroupHeaderView: NSView {
 
 	@IBOutlet var groupNameTextField: NSTextField!
+	@IBOutlet var separator: NSBox!
+
+	var showSeparator: Bool = true {
+		didSet {
+			self.separator.isHidden = !showSeparator
+		}
+	}
 
 	override init(frame frameRect: NSRect) {
 		super.init(frame: frameRect)
@@ -27,6 +34,6 @@ class ColorGroupHeaderView: NSView {
 
 	override func layout() {
 		super.layout()
-		self.layer!.backgroundColor = NSColor.separatorColor.cgColor
+		//self.layer!.backgroundColor = NSColor.tertiaryLabelColor.cgColor
 	}
 }

@@ -1,36 +1,40 @@
 @testable import ASEPalette
 import XCTest
 
+let ase_resources = [
+	"wisteric-17",
+	"Ultra-Mattes Reverse",
+	"control",
+	"Big-Red-Barn",
+	"24 colour palettes",  // has multiple groups
+	"palette_complex",
+	"palette_pantones",
+	"palette_simple",
+	"1629367375_iColorpalette",
+	"sw-colors-name-ede-ase"
+]
+
 final class ASEPaletteTests: XCTestCase {
 	func testWriteReadRoundTripSampleFiles() throws {
-		for name in [
-			"wisteric-17",
-			"Ultra-Mattes Reverse",
-			"control",
-			"Big-Red-Barn",
-			"24 colour palettes",  // has multiple groups
-			"palette_complex",
-			"palette_pantones",
-			"palette_simple",
-			"1629367375_iColorpalette",
-		] {
+		// Loop through all the resource files
+		for name in ase_resources {
 			let controlASE = try XCTUnwrap(Bundle.module.url(forResource: name, withExtension: "ase"))
 			let origData = try Data(contentsOf: controlASE)
 
 			// Attempt to load the ase file
 			let palette = try ASE.Palette(fileURL: controlASE)
 
-			// Write to a data stream and check that the bytes match the input
+			// Write to a data stream
 			let data = try palette.data()
 
 			// Check that the generated data matches the original data exactly
 			XCTAssertEqual(origData, data)
 
 			// Re-create the ase structure from the written data ...
-			let p2 = try ASE.Palette(data: data)
+			let reconstitutedPalette = try ASE.Palette(data: data)
 
-			// ... and check equality
-			XCTAssertEqual(palette, p2)
+			// ... and check equality between the original file and our reconstituted one.
+			XCTAssertEqual(palette, reconstitutedPalette)
 		}
 	}
 

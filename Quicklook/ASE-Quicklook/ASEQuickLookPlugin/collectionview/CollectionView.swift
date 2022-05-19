@@ -21,7 +21,12 @@ extension PreviewViewController: NSCollectionViewDelegate, NSCollectionViewDataS
 	}
 
 	func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
-		guard let swatch = collectionView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier("ColorSwatchView"), for: indexPath) as? ColorSwatchView else {
+		guard
+			let swatch = collectionView.makeItem(
+				withIdentifier: NSUserInterfaceItemIdentifier("ColorSwatchView"),
+				for: indexPath
+			) as? ColorSwatchView
+		else {
 			assert(false)
 			return NSCollectionViewItem()
 		}
@@ -44,12 +49,13 @@ extension PreviewViewController: NSCollectionViewDelegate, NSCollectionViewDataS
 				ofKind: NSCollectionView.elementKindSectionHeader,
 				withIdentifier: NSUserInterfaceItemIdentifier("ColorGroupHeaderView"),
 				for: indexPath)
-				as? ColorGroupHeaderView
+			as? ColorGroupHeaderView
 		else {
 			fatalError()
 		}
 
-		
+		// Only show separator if not the first section
+		view.showSeparator = indexPath.section != 0
 
 		let group = self.currentGroups[indexPath.section]
 
@@ -58,7 +64,7 @@ extension PreviewViewController: NSCollectionViewDelegate, NSCollectionViewDataS
 			if core == "" {
 				return "<unnamed>"
 			}
-			return "􀐠  \(core)"
+			return "\(core)"
 		}()
 
 		view.groupNameTextField.stringValue = "\(name) (\(group.colors.count))"

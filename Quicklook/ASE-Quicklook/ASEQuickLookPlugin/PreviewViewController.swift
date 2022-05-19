@@ -40,7 +40,7 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 		layout.scrollDirection = .vertical
 		layout.minimumInteritemSpacing = 1
 		layout.minimumLineSpacing = 1
-		layout.sectionInset = NSEdgeInsets(top: 0, left: 2, bottom: 4, right: 0)
+		layout.sectionInset = NSEdgeInsets(top: 0, left: 25, bottom: 8, right: 8)
 		layout.itemSize = NSSize(width: 26, height: 26)
 		collectionView.collectionViewLayout = layout
 	}
