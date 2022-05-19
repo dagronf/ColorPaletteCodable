@@ -7,16 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		23A03DE328332A83003846A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03DE228332A83003846A4 /* AppDelegate.swift */; };
-		23A03DE528332A83003846A4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03DE428332A83003846A4 /* ViewController.swift */; };
-		23A03DE728332A85003846A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23A03DE628332A85003846A4 /* Assets.xcassets */; };
-		23A03DEA28332A85003846A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23A03DE828332A85003846A4 /* Main.storyboard */; };
 		23A03DF828332AA2003846A4 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A03DF728332AA2003846A4 /* Quartz.framework */; };
 		23A03DFB28332AA2003846A4 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03DFA28332AA2003846A4 /* PreviewViewController.swift */; };
 		23A03DFD28332AA2003846A4 /* PreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03DFC28332AA2003846A4 /* PreviewProvider.swift */; };
 		23A03E0028332AA2003846A4 /* PreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A03DFE28332AA2003846A4 /* PreviewViewController.xib */; };
-		23A03E0528332AA2003846A4 /* ASEQuickLookPlugin.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 23A03DF528332AA2003846A4 /* ASEQuickLookPlugin.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		23A03E0C28332ABE003846A4 /* ASEPalette in Frameworks */ = {isa = PBXBuildFile; productRef = 23A03E0B28332ABE003846A4 /* ASEPalette */; };
 		23A03E0E28332AEB003846A4 /* UTType+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E0D28332AEB003846A4 /* UTType+extensions.swift */; };
 		23A03E1128332E39003846A4 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E1028332E39003846A4 /* CollectionView.swift */; };
 		23A03E1428333013003846A4 /* ColorSwatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E1228333013003846A4 /* ColorSwatchView.swift */; };
@@ -24,10 +18,27 @@
 		23A03E172833341A003846A4 /* CollectionViewLeftFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E162833341A003846A4 /* CollectionViewLeftFlowLayout.swift */; };
 		23A03E1A28333585003846A4 /* ColorGroupHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E1828333585003846A4 /* ColorGroupHeaderView.swift */; };
 		23A03E1B28333585003846A4 /* ColorGroupHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A03E1928333585003846A4 /* ColorGroupHeaderView.xib */; };
+		23B20C122835D551005BD670 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B20C112835D551005BD670 /* AppDelegate.swift */; };
+		23B20C142835D551005BD670 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B20C132835D551005BD670 /* ViewController.swift */; };
+		23B20C162835D551005BD670 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B20C152835D551005BD670 /* Document.swift */; };
+		23B20C182835D552005BD670 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23B20C172835D552005BD670 /* Assets.xcassets */; };
+		23B20C1B2835D552005BD670 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23B20C192835D552005BD670 /* Main.storyboard */; };
+		23B20C212835D613005BD670 /* ASEQuickLookPlugin.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 23A03DF528332AA2003846A4 /* ASEQuickLookPlugin.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		23B20C5D2835D9D4005BD670 /* ASEPaletteDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 23B20C5C2835D9D4005BD670 /* ASEPaletteDynamic */; };
+		23E2EB6128362E7F00E223CA /* ColorGroupHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A03E1928333585003846A4 /* ColorGroupHeaderView.xib */; };
+		23E2EB6228362E7F00E223CA /* CollectionViewLeftFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E162833341A003846A4 /* CollectionViewLeftFlowLayout.swift */; };
+		23E2EB6328362E7F00E223CA /* ColorSwatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E1228333013003846A4 /* ColorSwatchView.swift */; };
+		23E2EB6428362E7F00E223CA /* ColorSwatchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A03E1328333013003846A4 /* ColorSwatchView.xib */; };
+		23E2EB6528362E7F00E223CA /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E1028332E39003846A4 /* CollectionView.swift */; };
+		23E2EB6628362E7F00E223CA /* ColorGroupHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E1828333585003846A4 /* ColorGroupHeaderView.swift */; };
+		23E2EB6A28362EAD00E223CA /* ASEPaletteDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 23E2EB6928362EAD00E223CA /* ASEPaletteDynamic */; };
+		23E2EB6B28362EAD00E223CA /* ASEPaletteDynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 23E2EB6928362EAD00E223CA /* ASEPaletteDynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		23E2EB6C28362EE400E223CA /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03DFA28332AA2003846A4 /* PreviewViewController.swift */; };
+		23E2EB6D28362EFD00E223CA /* PreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A03DFE28332AA2003846A4 /* PreviewViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		23A03E0328332AA2003846A4 /* PBXContainerItemProxy */ = {
+		23B20C222835D613005BD670 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 23A03DD728332A83003846A4 /* Project object */;
 			proxyType = 1;
@@ -37,26 +48,41 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		23A03E0928332AA2003846A4 /* Embed App Extensions */ = {
+		23B20C242835D613005BD670 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				23A03E0528332AA2003846A4 /* ASEQuickLookPlugin.appex in Embed App Extensions */,
+				23B20C212835D613005BD670 /* ASEQuickLookPlugin.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23B20C352835D6A2005BD670 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				23E2EB6B28362EAD00E223CA /* ASEPaletteDynamic in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23B20C3A2835D6B6005BD670 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		23A03DDF28332A83003846A4 /* ASE-Quicklook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ASE-Quicklook.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		23A03DE228332A83003846A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		23A03DE428332A83003846A4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		23A03DE628332A85003846A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		23A03DE928332A85003846A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		23A03DEB28332A85003846A4 /* ASE_Quicklook.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ASE_Quicklook.entitlements; sourceTree = "<group>"; };
 		23A03DF528332AA2003846A4 /* ASEQuickLookPlugin.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ASEQuickLookPlugin.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		23A03DF728332AA2003846A4 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		23A03DFA28332AA2003846A4 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
@@ -72,22 +98,32 @@
 		23A03E162833341A003846A4 /* CollectionViewLeftFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewLeftFlowLayout.swift; sourceTree = "<group>"; };
 		23A03E1828333585003846A4 /* ColorGroupHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGroupHeaderView.swift; sourceTree = "<group>"; };
 		23A03E1928333585003846A4 /* ColorGroupHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorGroupHeaderView.xib; sourceTree = "<group>"; };
+		23B20C0F2835D551005BD670 /* ASE Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ASE Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		23B20C112835D551005BD670 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		23B20C132835D551005BD670 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		23B20C152835D551005BD670 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		23B20C172835D552005BD670 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		23B20C1A2835D552005BD670 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		23B20C1C2835D552005BD670 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		23B20C1D2835D552005BD670 /* ASE_Viewer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ASE_Viewer.entitlements; sourceTree = "<group>"; };
+		23B20CCD2835E459005BD670 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		23A03DDC28332A83003846A4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		23A03DF228332AA2003846A4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23A03E0C28332ABE003846A4 /* ASEPalette in Frameworks */,
+				23B20C5D2835D9D4005BD670 /* ASEPaletteDynamic in Frameworks */,
 				23A03DF828332AA2003846A4 /* Quartz.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23B20C0C2835D551005BD670 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23E2EB6A28362EAD00E223CA /* ASEPaletteDynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,8 +134,8 @@
 			isa = PBXGroup;
 			children = (
 				23A03E0A28332AB6003846A4 /* ASEPalette */,
-				23A03DE128332A83003846A4 /* ASE-Quicklook */,
 				23A03DF928332AA2003846A4 /* ASEQuickLookPlugin */,
+				23B20C102835D551005BD670 /* ASE Viewer */,
 				23A03DF628332AA2003846A4 /* Frameworks */,
 				23A03DE028332A83003846A4 /* Products */,
 			);
@@ -108,27 +144,16 @@
 		23A03DE028332A83003846A4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				23A03DDF28332A83003846A4 /* ASE-Quicklook.app */,
 				23A03DF528332AA2003846A4 /* ASEQuickLookPlugin.appex */,
+				23B20C0F2835D551005BD670 /* ASE Viewer.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		23A03DE128332A83003846A4 /* ASE-Quicklook */ = {
-			isa = PBXGroup;
-			children = (
-				23A03DE228332A83003846A4 /* AppDelegate.swift */,
-				23A03DE428332A83003846A4 /* ViewController.swift */,
-				23A03DE628332A85003846A4 /* Assets.xcassets */,
-				23A03DE828332A85003846A4 /* Main.storyboard */,
-				23A03DEB28332A85003846A4 /* ASE_Quicklook.entitlements */,
-			);
-			path = "ASE-Quicklook";
 			sourceTree = "<group>";
 		};
 		23A03DF628332AA2003846A4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				23B20CCD2835E459005BD670 /* CoreGraphics.framework */,
 				23A03DF728332AA2003846A4 /* Quartz.framework */,
 			);
 			name = Frameworks;
@@ -161,28 +186,23 @@
 			path = collectionview;
 			sourceTree = "<group>";
 		};
+		23B20C102835D551005BD670 /* ASE Viewer */ = {
+			isa = PBXGroup;
+			children = (
+				23B20C112835D551005BD670 /* AppDelegate.swift */,
+				23B20C132835D551005BD670 /* ViewController.swift */,
+				23B20C152835D551005BD670 /* Document.swift */,
+				23B20C172835D552005BD670 /* Assets.xcassets */,
+				23B20C192835D552005BD670 /* Main.storyboard */,
+				23B20C1C2835D552005BD670 /* Info.plist */,
+				23B20C1D2835D552005BD670 /* ASE_Viewer.entitlements */,
+			);
+			path = "ASE Viewer";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		23A03DDE28332A83003846A4 /* ASE-Quicklook */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 23A03DEE28332A85003846A4 /* Build configuration list for PBXNativeTarget "ASE-Quicklook" */;
-			buildPhases = (
-				23A03DDB28332A83003846A4 /* Sources */,
-				23A03DDC28332A83003846A4 /* Frameworks */,
-				23A03DDD28332A83003846A4 /* Resources */,
-				23A03E0928332AA2003846A4 /* Embed App Extensions */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				23A03E0428332AA2003846A4 /* PBXTargetDependency */,
-			);
-			name = "ASE-Quicklook";
-			productName = "ASE-Quicklook";
-			productReference = 23A03DDF28332A83003846A4 /* ASE-Quicklook.app */;
-			productType = "com.apple.product-type.application";
-		};
 		23A03DF428332AA2003846A4 /* ASEQuickLookPlugin */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 23A03E0628332AA2003846A4 /* Build configuration list for PBXNativeTarget "ASEQuickLookPlugin" */;
@@ -190,6 +210,7 @@
 				23A03DF128332AA2003846A4 /* Sources */,
 				23A03DF228332AA2003846A4 /* Frameworks */,
 				23A03DF328332AA2003846A4 /* Resources */,
+				23B20C3A2835D6B6005BD670 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -197,11 +218,34 @@
 			);
 			name = ASEQuickLookPlugin;
 			packageProductDependencies = (
-				23A03E0B28332ABE003846A4 /* ASEPalette */,
+				23B20C5C2835D9D4005BD670 /* ASEPaletteDynamic */,
 			);
 			productName = ASEQuickLookPlugin;
 			productReference = 23A03DF528332AA2003846A4 /* ASEQuickLookPlugin.appex */;
 			productType = "com.apple.product-type.app-extension";
+		};
+		23B20C0E2835D551005BD670 /* ASE Viewer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 23B20C1E2835D552005BD670 /* Build configuration list for PBXNativeTarget "ASE Viewer" */;
+			buildPhases = (
+				23B20C0B2835D551005BD670 /* Sources */,
+				23B20C0C2835D551005BD670 /* Frameworks */,
+				23B20C0D2835D551005BD670 /* Resources */,
+				23B20C242835D613005BD670 /* Embed App Extensions */,
+				23B20C352835D6A2005BD670 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				23B20C232835D613005BD670 /* PBXTargetDependency */,
+			);
+			name = "ASE Viewer";
+			packageProductDependencies = (
+				23E2EB6928362EAD00E223CA /* ASEPaletteDynamic */,
+			);
+			productName = "ASE Viewer";
+			productReference = 23B20C0F2835D551005BD670 /* ASE Viewer.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -213,10 +257,10 @@
 				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1330;
 				TargetAttributes = {
-					23A03DDE28332A83003846A4 = {
+					23A03DF428332AA2003846A4 = {
 						CreatedOnToolsVersion = 13.3.1;
 					};
-					23A03DF428332AA2003846A4 = {
+					23B20C0E2835D551005BD670 = {
 						CreatedOnToolsVersion = 13.3.1;
 					};
 				};
@@ -236,22 +280,13 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				23A03DDE28332A83003846A4 /* ASE-Quicklook */,
 				23A03DF428332AA2003846A4 /* ASEQuickLookPlugin */,
+				23B20C0E2835D551005BD670 /* ASE Viewer */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		23A03DDD28332A83003846A4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				23A03DE728332A85003846A4 /* Assets.xcassets in Resources */,
-				23A03DEA28332A85003846A4 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		23A03DF328332AA2003846A4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -262,18 +297,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
-		23A03DDB28332A83003846A4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
+		23B20C0D2835D551005BD670 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23A03DE528332A83003846A4 /* ViewController.swift in Sources */,
-				23A03DE328332A83003846A4 /* AppDelegate.swift in Sources */,
+				23E2EB6428362E7F00E223CA /* ColorSwatchView.xib in Resources */,
+				23E2EB6D28362EFD00E223CA /* PreviewViewController.xib in Resources */,
+				23B20C182835D552005BD670 /* Assets.xcassets in Resources */,
+				23B20C1B2835D552005BD670 /* Main.storyboard in Resources */,
+				23E2EB6128362E7F00E223CA /* ColorGroupHeaderView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
 		23A03DF128332AA2003846A4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -288,31 +326,46 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		23B20C0B2835D551005BD670 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23E2EB6628362E7F00E223CA /* ColorGroupHeaderView.swift in Sources */,
+				23E2EB6528362E7F00E223CA /* CollectionView.swift in Sources */,
+				23B20C142835D551005BD670 /* ViewController.swift in Sources */,
+				23E2EB6228362E7F00E223CA /* CollectionViewLeftFlowLayout.swift in Sources */,
+				23E2EB6328362E7F00E223CA /* ColorSwatchView.swift in Sources */,
+				23B20C122835D551005BD670 /* AppDelegate.swift in Sources */,
+				23B20C162835D551005BD670 /* Document.swift in Sources */,
+				23E2EB6C28362EE400E223CA /* PreviewViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		23A03E0428332AA2003846A4 /* PBXTargetDependency */ = {
+		23B20C232835D613005BD670 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 23A03DF428332AA2003846A4 /* ASEQuickLookPlugin */;
-			targetProxy = 23A03E0328332AA2003846A4 /* PBXContainerItemProxy */;
+			targetProxy = 23B20C222835D613005BD670 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		23A03DE828332A85003846A4 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				23A03DE928332A85003846A4 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		23A03DFE28332AA2003846A4 /* PreviewViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				23A03DFF28332AA2003846A4 /* Base */,
 			);
 			name = PreviewViewController.xib;
+			sourceTree = "<group>";
+		};
+		23B20C192835D552005BD670 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				23B20C1A2835D552005BD670 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -431,62 +484,6 @@
 			};
 			name = Release;
 		};
-		23A03DEF28332A85003846A4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "ASE-Quicklook/ASE_Quicklook.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3L6RK3LGGW;
-				ENABLE_HARDENED_RUNTIME = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSMainStoryboardFile = Main;
-				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dagronf.ase-quicklook.ASE-Quicklook";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		23A03DF028332A85003846A4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "ASE-Quicklook/ASE_Quicklook.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3L6RK3LGGW;
-				ENABLE_HARDENED_RUNTIME = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSMainStoryboardFile = Main;
-				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dagronf.ase-quicklook.ASE-Quicklook";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 		23A03E0728332AA2003846A4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -506,7 +503,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dagronf.ase-quicklook.ASE-Quicklook.ASEQuickLookPlugin";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer.ASEQuickLookPlugin";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -533,9 +530,69 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dagronf.ase-quicklook.ASE-Quicklook.ASEQuickLookPlugin";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer.ASEQuickLookPlugin";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		23B20C1F2835D552005BD670 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "ASE Viewer/ASE_Viewer.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3L6RK3LGGW;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ASE Viewer/Info.plist";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		23B20C202835D552005BD670 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "ASE Viewer/ASE_Viewer.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3L6RK3LGGW;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ASE Viewer/Info.plist";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -553,15 +610,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		23A03DEE28332A85003846A4 /* Build configuration list for PBXNativeTarget "ASE-Quicklook" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				23A03DEF28332A85003846A4 /* Debug */,
-				23A03DF028332A85003846A4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		23A03E0628332AA2003846A4 /* Build configuration list for PBXNativeTarget "ASEQuickLookPlugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -571,12 +619,25 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		23B20C1E2835D552005BD670 /* Build configuration list for PBXNativeTarget "ASE Viewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23B20C1F2835D552005BD670 /* Debug */,
+				23B20C202835D552005BD670 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		23A03E0B28332ABE003846A4 /* ASEPalette */ = {
+		23B20C5C2835D9D4005BD670 /* ASEPaletteDynamic */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = ASEPalette;
+			productName = ASEPaletteDynamic;
+		};
+		23E2EB6928362EAD00E223CA /* ASEPaletteDynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ASEPaletteDynamic;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

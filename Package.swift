@@ -18,7 +18,7 @@ let package = Package(
             targets: ["ASEPalette"]),
 		  .library(
 			  name: "ASEPaletteDynamic",
-			  type: .static,
+			  type: .dynamic,
 			  targets: ["ASEPalette"]),
     ],
     dependencies: [

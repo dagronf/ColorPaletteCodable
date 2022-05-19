@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  ASE-Quicklook
+//  ASE Viewer
 //
-//  Created by Darren Ford on 17/5/2022.
+//  Created by Darren Ford on 19/5/2022.
 //
 
 import Cocoa
@@ -10,7 +10,6 @@ import Cocoa
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-	
 
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {

@@ -14,7 +14,17 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 
 	@IBOutlet weak var collectionView: NSCollectionView!
 
-	var currentPalette: ASE.Palette?
+	var currentPalette: ASE.Palette? {
+		didSet {
+			if let p = currentPalette {
+				if p.colors.count > 0 {
+					currentGroups.append(ASE.Group(name: "Global colors", colors: p.colors))
+				}
+				currentGroups.append(contentsOf: p.groups)
+			}
+			self.collectionView.reloadData()
+		}
+	}
 	var currentGroups = [ASE.Group]()
 
 	override var nibName: NSNib.Name? {
@@ -36,13 +46,13 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 //			withIdentifier: NSUserInterfaceItemIdentifier("ColorGroupHeaderView")
 //		)
 
-		let layout = NSCollectionViewFlowLayout()
-		layout.scrollDirection = .vertical
-		layout.minimumInteritemSpacing = 1
-		layout.minimumLineSpacing = 1
-		layout.sectionInset = NSEdgeInsets(top: 0, left: 25, bottom: 8, right: 8)
-		layout.itemSize = NSSize(width: 26, height: 26)
-		collectionView.collectionViewLayout = layout
+//		let layout = NSCollectionViewFlowLayout()
+//		layout.scrollDirection = .vertical
+//		layout.minimumInteritemSpacing = 1
+//		layout.minimumLineSpacing = 1
+//		layout.sectionInset = NSEdgeInsets(top: 0, left: 25, bottom: 8, right: 8)
+//		layout.itemSize = NSSize(width: 26, height: 26)
+//		collectionView.collectionViewLayout = layout
 	}
 
 	/*
@@ -77,12 +87,6 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 	func configure(for url: URL) throws {
 		self.currentGroups = []
 		let palette = try ASE.Palette.init(fileURL: url)
-
 		self.currentPalette = palette
-		if palette.colors.count > 0 {
-			currentGroups.append(ASE.Group(name: "Global colors", colors: palette.colors))
-		}
-		currentGroups.append(contentsOf: palette.groups)
-		self.collectionView.reloadData()
 	}
 }
