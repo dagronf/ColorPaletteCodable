@@ -14,20 +14,20 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe" userLabel="Preview View">
-            <rect key="frame" x="0.0" y="0.0" width="188" height="129"/>
+            <rect key="frame" x="0.0" y="0.0" width="188" height="150"/>
             <subviews>
                 <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3iw-HW-nnn">
-                    <rect key="frame" x="2" y="2" width="184" height="125"/>
+                    <rect key="frame" x="2" y="2" width="184" height="146"/>
                     <clipView key="contentView" id="0fr-Jc-CmA">
-                        <rect key="frame" x="0.0" y="0.0" width="184" height="125"/>
+                        <rect key="frame" x="0.0" y="0.0" width="184" height="146"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView id="Hp3-pv-ZO0">
-                                <rect key="frame" x="0.0" y="0.0" width="184" height="125"/>
+                                <rect key="frame" x="0.0" y="0.0" width="184" height="146"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" id="TDj-GV-ExG">
                                     <size key="itemSize" width="30" height="30"/>
-                                    <edgeInsets key="sectionInset" left="25" right="4" top="0.0" bottom="8"/>
+                                    <edgeInsets key="sectionInset" left="25" right="8" top="0.0" bottom="8"/>
                                 </collectionViewFlowLayout>
                                 <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <connections>
@@ -50,7 +50,9 @@
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="3iw-HW-nnn" secondAttribute="bottom" constant="2" id="Ad8-d0-tZ1"/>
                 <constraint firstAttribute="trailing" secondItem="3iw-HW-nnn" secondAttribute="trailing" constant="2" id="EXe-L6-lmZ"/>
+                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="150" id="XJs-dk-2ZH"/>
                 <constraint firstItem="3iw-HW-nnn" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="2" id="rrb-GY-e0N"/>
+                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="xML-AR-Lpd"/>
                 <constraint firstItem="3iw-HW-nnn" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="2" id="xXz-z3-5RG"/>
             </constraints>
             <point key="canvasLocation" x="-7" y="82.5"/>
