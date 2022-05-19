@@ -32,13 +32,13 @@ extension PreviewViewController: NSCollectionViewDelegate, NSCollectionViewDataS
 		}
 
 		let color = self.currentGroups[indexPath.section].colors[indexPath.item]
-		guard let cg = color.cgColor, let ns = NSColor(cgColor: cg) else {
+		guard let cg = color.cgColor else {
 			assert(false)
 			return NSCollectionViewItem()
 		}
 
-		swatch.colorWell.color = ns
-		swatch.colorWell.toolTip = "Name: \(color.name)\nMode: \(color.modelString)\nType: \(color.typeString)"
+		swatch.displayColor = cg
+		//swatch.toolTip = "Name: \(color.name)\nMode: \(color.modelString)\nType: \(color.typeString)"
 
 		return swatch
 	}

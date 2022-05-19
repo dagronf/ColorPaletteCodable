@@ -9,7 +9,30 @@ import Cocoa
 
 class ColorSwatchView: NSCollectionViewItem {
 	
-	@IBOutlet weak var colorWell: NSColorWell!
+	var displayColor: CGColor? {
+		didSet {
+			self.view.layer!.backgroundColor = displayColor
+			self.view.layer!.borderColor = NSColor.textColor.cgColor
+			self.view.layer!.borderWidth = 1
+		}
+	}
+
+	override init(nibName nibNameOrNil: NSNib.Name?, bundle nibBundleOrNil: Bundle?) {
+		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+		self.view.wantsLayer = true
+	}
+
+	required init?(coder: NSCoder) {
+		super.init(coder: coder)
+		self.view.wantsLayer = true
+	}
+
+	override func viewDidLayout() {
+		super.viewDidLayout()
+		self.view.effectiveAppearance.performAsCurrentDrawingAppearance {
+			self.view.layer!.borderColor = NSColor.textColor.cgColor
+		}
+	}
 
     override func viewDidLoad() {
         super.viewDidLoad()
