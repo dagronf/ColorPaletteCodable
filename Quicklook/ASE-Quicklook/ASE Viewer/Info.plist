@@ -13,13 +13,13 @@
 			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>dyn.ah62d4rv4ge80c65f</string>
+				<string>com.adobe.ase</string>
 			</array>
 			<key>NSDocumentClass</key>
 			<string>$(PRODUCT_MODULE_NAME).Document</string>
 		</dict>
 	</array>
-	<key>UTImportedTypeDeclarations</key>
+	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
 			<key>UTTypeConformsTo</key>
@@ -27,11 +27,11 @@
 				<string>public.data</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Example Text</string>
+			<string>Adobe Swatch Exchange file</string>
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
-			<string>dyn.ah62d4rv4ge80c65f</string>
+			<string>com.adobe.ase</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>

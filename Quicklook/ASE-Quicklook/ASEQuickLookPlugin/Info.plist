@@ -10,7 +10,7 @@
 			<false/>
 			<key>QLSupportedContentTypes</key>
 			<array>
-				<string>dyn.ah62d4rv4ge80c65f</string>
+				<string>com.adobe.ase</string>
 			</array>
 			<key>QLSupportsSearchableItems</key>
 			<false/>
