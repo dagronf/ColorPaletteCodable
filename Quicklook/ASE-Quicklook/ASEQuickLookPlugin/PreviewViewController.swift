@@ -48,6 +48,10 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 //			forSupplementaryViewOfKind: NSCollectionView.elementKindSectionHeader,
 //			withIdentifier: NSUserInterfaceItemIdentifier("ColorGroupHeaderView")
 //		)
+
+		// Setup dragging an individual color out of the view
+		self.collectionView.registerForDraggedTypes([.color])
+		self.collectionView.setDraggingSourceOperationMask(.copy, forLocal: false)
 	}
 
 	/*

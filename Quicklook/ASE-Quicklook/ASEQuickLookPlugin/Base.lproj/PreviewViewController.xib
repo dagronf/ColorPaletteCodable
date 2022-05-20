@@ -22,7 +22,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="184" height="146"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView id="Hp3-pv-ZO0">
+                            <collectionView selectable="YES" id="Hp3-pv-ZO0">
                                 <rect key="frame" x="0.0" y="0.0" width="184" height="146"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="2" minimumLineSpacing="2" id="TDj-GV-ExG" customClass="CollectionViewLeftFlowLayout" customModule="ASEQuickLookPlugin" customModuleProvider="target">

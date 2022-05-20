@@ -86,4 +86,25 @@ extension PreviewViewController: NSCollectionViewDelegate, NSCollectionViewDataS
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> NSSize {
 		return NSSize(width: 0, height: 28)
 	}
+
+
+	////
+
+	func collectionView(_ collectionView: NSCollectionView, canDragItemsAt indexPaths: Set<IndexPath>, with event: NSEvent) -> Bool {
+		return true
+	}
+
+	func collectionView(_ collectionView: NSCollectionView, pasteboardWriterForItemAt indexPath: IndexPath) -> NSPasteboardWriting? {
+		let color = self.currentGroups[indexPath.section].colors[indexPath.item]
+		if let c = color.cgColor, let n = NSColor(cgColor: c) {
+			return n
+		}
+		return nil
+	}
+
+	public func collectionView(_ collectionView: NSCollectionView, draggingSession session: NSDraggingSession, willBeginAt screenPoint: NSPoint, forItemsAt indexPaths: Set<IndexPath>) {
+
+	}
+
+
 }

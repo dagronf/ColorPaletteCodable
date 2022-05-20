@@ -12,7 +12,8 @@ let ase_resources = [
 	"palette_simple",
 	"1629367375_iColorpalette",
 	"sw-colors-name-ede-ase",
-	"zenit-241"
+	"zenit-241",
+	"color-cubes"
 ]
 
 final class ASEPaletteTests: XCTestCase {
@@ -21,6 +22,8 @@ final class ASEPaletteTests: XCTestCase {
 		for name in ase_resources {
 			let controlASE = try XCTUnwrap(Bundle.module.url(forResource: name, withExtension: "ase"))
 			let origData = try Data(contentsOf: controlASE)
+
+			Swift.print("Validating '\(name)...'")
 
 			// Attempt to load the ase file
 			let palette = try ASE.Palette(fileURL: controlASE)
