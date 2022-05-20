@@ -38,7 +38,7 @@ extension PreviewViewController: NSCollectionViewDelegate, NSCollectionViewDataS
 		}
 
 		swatch.displayColor = cg
-		//swatch.toolTip = "Name: \(color.name)\nMode: \(color.modelString)\nType: \(color.typeString)"
+		swatch.toolTip = "Name: \(color.name)\nMode: \(color.modelString)\nType: \(color.typeString)"
 
 		return swatch
 	}

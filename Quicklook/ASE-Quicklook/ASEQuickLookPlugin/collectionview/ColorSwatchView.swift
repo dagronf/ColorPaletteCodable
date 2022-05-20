@@ -8,7 +8,11 @@
 import Cocoa
 
 class ColorSwatchView: NSCollectionViewItem {
-	
+	var toolTip: String? {
+		didSet {
+			self.view.toolTip = toolTip
+		}
+	}
 	var displayColor: CGColor? {
 		didSet {
 			self.view.layer!.backgroundColor = displayColor
