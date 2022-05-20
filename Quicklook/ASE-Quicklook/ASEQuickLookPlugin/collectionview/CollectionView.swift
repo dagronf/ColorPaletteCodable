@@ -44,32 +44,43 @@ extension PreviewViewController: NSCollectionViewDelegate, NSCollectionViewDataS
 	}
 
 	func collectionView(_ collectionView: NSCollectionView, viewForSupplementaryElementOfKind kind: NSCollectionView.SupplementaryElementKind, at indexPath: IndexPath) -> NSView {
-		guard
-			let view = collectionView.makeSupplementaryView(
-				ofKind: NSCollectionView.elementKindSectionHeader,
-				withIdentifier: NSUserInterfaceItemIdentifier("ColorGroupHeaderView"),
-				for: indexPath)
-			as? ColorGroupHeaderView
-		else {
-			fatalError()
-		}
-
-		// Only show separator if not the first section
-		view.showSeparator = indexPath.section != 0
-
-		let group = self.currentGroups[indexPath.section]
-
-		let name: String = {
-			let core = group.name
-			if core == "" {
-				return "<unnamed>"
+		if kind == NSCollectionView.elementKindSectionHeader {
+			guard
+				let view = collectionView.makeSupplementaryView(
+					ofKind: NSCollectionView.elementKindSectionHeader,
+					withIdentifier: NSUserInterfaceItemIdentifier("ColorGroupHeaderView"),
+					for: indexPath)
+					as? ColorGroupHeaderView
+			else {
+				fatalError()
 			}
-			return "\(core)"
-		}()
 
-		view.groupNameTextField.stringValue = "\(name) (\(group.colors.count))"
+			let group = self.currentGroups[indexPath.section]
 
-		return view
+			let name: String = {
+				let core = group.name
+				if core == "" {
+					return "<unnamed>"
+				}
+				return "\(core)"
+			}()
+
+			view.groupNameTextField.stringValue = "\(name) (\(group.colors.count))"
+
+			return view
+		}
+		else {
+			guard
+				let view = collectionView.makeSupplementaryView(
+					ofKind: NSCollectionView.elementKindSectionFooter,
+					withIdentifier: NSUserInterfaceItemIdentifier("ColorGroupFooterView"),
+					for: indexPath)
+				as? ColorGroupFooterView
+			else {
+				fatalError()
+			}
+			return view
+		}
 	}
 
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> NSSize {

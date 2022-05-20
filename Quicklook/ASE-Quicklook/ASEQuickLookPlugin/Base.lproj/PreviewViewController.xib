@@ -27,6 +27,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="2" minimumLineSpacing="2" id="TDj-GV-ExG" customClass="CollectionViewLeftFlowLayout" customModule="ASEQuickLookPlugin" customModuleProvider="target">
                                     <size key="itemSize" width="26" height="26"/>
+                                    <size key="footerReferenceSize" width="0.0" height="2"/>
                                     <edgeInsets key="sectionInset" left="25" right="8" top="0.0" bottom="8"/>
                                 </collectionViewFlowLayout>
                                 <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>

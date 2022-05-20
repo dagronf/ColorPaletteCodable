@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		23855A1C2837207C00D39A49 /* ASEPalette in Frameworks */ = {isa = PBXBuildFile; productRef = 23855A1B2837207C00D39A49 /* ASEPalette */; };
 		23855A1E2837208A00D39A49 /* ASEPalette in Frameworks */ = {isa = PBXBuildFile; productRef = 23855A1D2837208A00D39A49 /* ASEPalette */; };
+		23855A252837308E00D39A49 /* ColorGroupFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23855A242837308E00D39A49 /* ColorGroupFooterView.swift */; };
+		23855A27283730A000D39A49 /* ColorGroupFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23855A26283730A000D39A49 /* ColorGroupFooterView.xib */; };
+		23855A28283730A000D39A49 /* ColorGroupFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23855A26283730A000D39A49 /* ColorGroupFooterView.xib */; };
+		23855A29283730A400D39A49 /* ColorGroupFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23855A242837308E00D39A49 /* ColorGroupFooterView.swift */; };
 		23A03DF828332AA2003846A4 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A03DF728332AA2003846A4 /* Quartz.framework */; };
 		23A03DFB28332AA2003846A4 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03DFA28332AA2003846A4 /* PreviewViewController.swift */; };
 		23A03DFD28332AA2003846A4 /* PreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03DFC28332AA2003846A4 /* PreviewProvider.swift */; };
@@ -81,6 +85,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		23855A242837308E00D39A49 /* ColorGroupFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGroupFooterView.swift; sourceTree = "<group>"; };
+		23855A26283730A000D39A49 /* ColorGroupFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorGroupFooterView.xib; sourceTree = "<group>"; };
 		23A03DF528332AA2003846A4 /* ASEQuickLookPlugin.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ASEQuickLookPlugin.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		23A03DF728332AA2003846A4 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		23A03DFA28332AA2003846A4 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
@@ -180,6 +186,8 @@
 				23A03E1328333013003846A4 /* ColorSwatchView.xib */,
 				23A03E1828333585003846A4 /* ColorGroupHeaderView.swift */,
 				23A03E1928333585003846A4 /* ColorGroupHeaderView.xib */,
+				23855A242837308E00D39A49 /* ColorGroupFooterView.swift */,
+				23855A26283730A000D39A49 /* ColorGroupFooterView.xib */,
 			);
 			path = collectionview;
 			sourceTree = "<group>";
@@ -292,6 +300,7 @@
 				23A03E1528333013003846A4 /* ColorSwatchView.xib in Resources */,
 				23A03E0028332AA2003846A4 /* PreviewViewController.xib in Resources */,
 				23A03E1B28333585003846A4 /* ColorGroupHeaderView.xib in Resources */,
+				23855A27283730A000D39A49 /* ColorGroupFooterView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,6 +311,7 @@
 				23E2EB6428362E7F00E223CA /* ColorSwatchView.xib in Resources */,
 				23E2EB6D28362EFD00E223CA /* PreviewViewController.xib in Resources */,
 				23B20C182835D552005BD670 /* Assets.xcassets in Resources */,
+				23855A28283730A000D39A49 /* ColorGroupFooterView.xib in Resources */,
 				23B20C1B2835D552005BD670 /* Main.storyboard in Resources */,
 				23E2EB6128362E7F00E223CA /* ColorGroupHeaderView.xib in Resources */,
 			);
@@ -317,6 +327,7 @@
 				23A03E1A28333585003846A4 /* ColorGroupHeaderView.swift in Sources */,
 				23A03E0E28332AEB003846A4 /* UTType+extensions.swift in Sources */,
 				23A03E172833341A003846A4 /* CollectionViewLeftFlowLayout.swift in Sources */,
+				23855A252837308E00D39A49 /* ColorGroupFooterView.swift in Sources */,
 				23A03DFB28332AA2003846A4 /* PreviewViewController.swift in Sources */,
 				23A03E1428333013003846A4 /* ColorSwatchView.swift in Sources */,
 				23A03E1128332E39003846A4 /* CollectionView.swift in Sources */,
@@ -332,6 +343,7 @@
 				23E2EB6528362E7F00E223CA /* CollectionView.swift in Sources */,
 				23B20C142835D551005BD670 /* ViewController.swift in Sources */,
 				23E2EB6228362E7F00E223CA /* CollectionViewLeftFlowLayout.swift in Sources */,
+				23855A29283730A400D39A49 /* ColorGroupFooterView.swift in Sources */,
 				23E2EB6328362E7F00E223CA /* ColorSwatchView.swift in Sources */,
 				23B20C122835D551005BD670 /* AppDelegate.swift in Sources */,
 				23B20C162835D551005BD670 /* Document.swift in Sources */,

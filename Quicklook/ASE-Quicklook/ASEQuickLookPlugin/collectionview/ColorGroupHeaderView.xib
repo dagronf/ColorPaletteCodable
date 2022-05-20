@@ -12,9 +12,6 @@
             <rect key="frame" x="0.0" y="0.0" width="497" height="27"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="vYJ-O3-3Wu">
-                    <rect key="frame" x="4" y="24" width="489" height="5"/>
-                </box>
                 <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aYm-8b-5kB">
                     <rect key="frame" x="4" y="4" width="489" height="19"/>
                     <subviews>
@@ -46,17 +43,13 @@
                 </stackView>
             </subviews>
             <constraints>
-                <constraint firstItem="vYJ-O3-3Wu" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="2VU-xa-Ipw"/>
-                <constraint firstAttribute="trailing" secondItem="vYJ-O3-3Wu" secondAttribute="trailing" constant="4" id="GnN-GS-6Zb"/>
                 <constraint firstAttribute="trailing" secondItem="aYm-8b-5kB" secondAttribute="trailing" constant="4" id="KMh-kj-yM1"/>
-                <constraint firstItem="vYJ-O3-3Wu" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="4" id="Vc3-aI-yfU"/>
                 <constraint firstItem="aYm-8b-5kB" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="4" id="mEr-PY-1t2"/>
                 <constraint firstAttribute="bottom" secondItem="aYm-8b-5kB" secondAttribute="bottom" constant="4" id="n6I-nB-INT"/>
                 <constraint firstItem="aYm-8b-5kB" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="4" id="otW-29-Dhx"/>
             </constraints>
             <connections>
                 <outlet property="groupNameTextField" destination="NAE-A7-zrN" id="LY0-4Q-2AH"/>
-                <outlet property="separator" destination="vYJ-O3-3Wu" id="IUy-z4-KlZ"/>
             </connections>
             <point key="canvasLocation" x="128" y="269.5"/>
         </customView>

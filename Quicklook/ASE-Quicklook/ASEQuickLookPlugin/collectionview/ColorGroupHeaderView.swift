@@ -8,13 +8,5 @@
 import Cocoa
 
 class ColorGroupHeaderView: NSView {
-
 	@IBOutlet var groupNameTextField: NSTextField!
-	@IBOutlet var separator: NSBox!
-
-	var showSeparator: Bool = true {
-		didSet {
-			self.separator.isHidden = !showSeparator
-		}
-	}
 }
