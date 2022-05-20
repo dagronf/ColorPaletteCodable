@@ -35,7 +35,7 @@ public class ASE {}
 // Logger
 let ase_log = OSLogger(subsystem: Bundle.main.bundleIdentifier!, category: "ASEPalette")
 
-internal class Common {
+internal struct Common {
 	// Two 'zero' bytes in succession
 	internal static let DataTwoZeros = Data([0, 0])
 

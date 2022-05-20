@@ -28,7 +28,7 @@
                         </textField>
                         <textField horizontalHuggingPriority="100" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NAE-A7-zrN">
                             <rect key="frame" x="19" y="2" width="472" height="16"/>
-                            <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="esS-nX-ce0">
+                            <textFieldCell key="cell" lineBreakMode="truncatingMiddle" truncatesLastVisibleLine="YES" enabled="NO" title="Label" id="esS-nX-ce0">
                                 <font key="font" textStyle="headline" name=".SFNS-Bold"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>

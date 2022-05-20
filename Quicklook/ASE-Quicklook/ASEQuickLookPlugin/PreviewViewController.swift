@@ -16,6 +16,7 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 
 	var currentPalette: ASE.Palette? {
 		didSet {
+			currentGroups = []
 			if let p = currentPalette {
 				if p.colors.count > 0 {
 					currentGroups.append(ASE.Group(name: "Global colors", colors: p.colors))
@@ -33,13 +34,9 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 
 	override func loadView() {
 		super.loadView()
-		// Do any additional setup after loading the view.
-//
-//		let nib = NSNib(nibNamed: "ColorSwatchView", bundle: nil)
-//		collectionView.register(
-//			nib,
-//			forItemWithIdentifier: NSUserInterfaceItemIdentifier("ColorSwatchView")
-//		)
+
+		// Keeping here for prosperity. NSCollectionView is SO twitchy, a slight change
+		// and everything goes to hades
 
 //		collectionView.register(
 //			ColorSwatchView.self,
@@ -51,14 +48,6 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 //			forSupplementaryViewOfKind: NSCollectionView.elementKindSectionHeader,
 //			withIdentifier: NSUserInterfaceItemIdentifier("ColorGroupHeaderView")
 //		)
-
-//		let layout = NSCollectionViewFlowLayout()
-//		layout.scrollDirection = .vertical
-//		layout.minimumInteritemSpacing = 1
-//		layout.minimumLineSpacing = 1
-//		layout.sectionInset = NSEdgeInsets(top: 0, left: 25, bottom: 8, right: 8)
-//		layout.itemSize = NSSize(width: 26, height: 26)
-//		collectionView.collectionViewLayout = layout
 	}
 
 	/*

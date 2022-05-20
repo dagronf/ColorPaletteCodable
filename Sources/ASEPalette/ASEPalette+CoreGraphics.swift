@@ -32,6 +32,20 @@
 import CoreGraphics
 import Foundation
 
+public extension ASE {
+	/// ColorSpace definitions for ASE model types
+	struct ColorSpace {
+		/// RGB colorspace
+		static let RGB  = CGColorSpace(name: CGColorSpace.sRGB)!
+		/// CMYK colorspace
+		static let CMYK = CGColorSpace(name: CGColorSpace.genericCMYK)!
+		/// LAB colorspace
+		static let LAB  = CGColorSpace(name: CGColorSpace.genericLab)!
+		/// Gray colorspace
+		static let Gray = CGColorSpace(name: CGColorSpace.linearGray)!
+	}
+}
+
 public extension ASE.Color {
 	/// Create a Color object from a CGColor
 	/// - Parameters:
@@ -46,23 +60,23 @@ public extension ASE.Color {
 		var convertedColor: CGColor = cgColor
 
 		if let cs = cgColor.colorSpace {
-			if cs.name == CGColorSpace.genericCMYK {
+			if cs.name == ASE.ColorSpace.CMYK.name {
 				model = .CMYK
 			}
-			else if cs.name == CGColorSpace.genericRGBLinear {
+			else if cs.name == ASE.ColorSpace.RGB.name {
 				model = .RGB
 			}
-			else if cs.name == CGColorSpace.genericLab {
+			else if cs.name == ASE.ColorSpace.LAB.name {
 				model = .LAB
 			}
-			else if cs.name == CGColorSpace.linearGray {
+			else if cs.name == ASE.ColorSpace.Gray.name {
 				model = .Gray
 			}
 		}
 
 		if model == nil {
 			// If we can't figure out the model, fall back to Core Graphics to attempt to convert the color to RGB
-			guard let conv = cgColor.converted(to: CGColorSpace(name: CGColorSpace.genericRGBLinear)!, intent: .defaultIntent, options: nil) else {
+			guard let conv = cgColor.converted(to: ASE.ColorSpace.RGB, intent: .defaultIntent, options: nil) else {
 				throw ASE.CommonError.unsupportedCGColorType
 			}
 			convertedColor = conv
@@ -85,13 +99,13 @@ public extension ASE.Color {
 		let components = colorComponents.map { CGFloat($0) }
 		switch model {
 		case .CMYK:
-			return CGColor(colorSpace: CGColorSpace(name: CGColorSpace.genericCMYK)!, components: components)?.copy(alpha: 1)
+			return CGColor(colorSpace: ASE.ColorSpace.CMYK, components: components)?.copy(alpha: 1)
 		case .RGB:
-			return CGColor(colorSpace: CGColorSpace(name: CGColorSpace.sRGB)!, components: components)?.copy(alpha: 1)
+			return CGColor(colorSpace: ASE.ColorSpace.RGB, components: components)?.copy(alpha: 1)
 		case .LAB:
-			return CGColor(colorSpace: CGColorSpace(name: CGColorSpace.genericLab)!, components: components)?.copy(alpha: 1)
+			return CGColor(colorSpace: ASE.ColorSpace.LAB, components: components)?.copy(alpha: 1)
 		case .Gray:
-			return CGColor(colorSpace: CGColorSpace(name: CGColorSpace.linearGray)!, components: components)?.copy(alpha: 1)
+			return CGColor(colorSpace: ASE.ColorSpace.Gray, components: components)?.copy(alpha: 1)
 		}
 	}
 

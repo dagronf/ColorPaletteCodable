@@ -11,7 +11,8 @@ let ase_resources = [
 	"palette_pantones",
 	"palette_simple",
 	"1629367375_iColorpalette",
-	"sw-colors-name-ede-ase"
+	"sw-colors-name-ede-ase",
+	"zenit-241"
 ]
 
 final class ASEPaletteTests: XCTestCase {
@@ -166,11 +167,11 @@ final class ASEPaletteTests: XCTestCase {
 			let c2 = palette.groups[0].colors[1]
 
 			let cg1 = try XCTUnwrap(c1.cgColor)
-			XCTAssertEqual(CGColorSpace.genericRGBLinear, cg1.colorSpace?.name)
+			XCTAssertEqual(CGColorSpace.sRGB, cg1.colorSpace?.name)
 			XCTAssertEqual(cg1.components, [1, 1, 1, 1])
 
 			let cg2 = try XCTUnwrap(c2.cgColor)
-			XCTAssertEqual(CGColorSpace.genericRGBLinear, cg2.colorSpace?.name)
+			XCTAssertEqual(CGColorSpace.sRGB, cg2.colorSpace?.name)
 			XCTAssertEqual(cg2.components, [0, 0, 0, 1])
 		}
 
