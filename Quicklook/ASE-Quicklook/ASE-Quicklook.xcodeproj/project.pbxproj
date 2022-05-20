@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		23855A1C2837207C00D39A49 /* ASEPalette in Frameworks */ = {isa = PBXBuildFile; productRef = 23855A1B2837207C00D39A49 /* ASEPalette */; };
+		23855A1E2837208A00D39A49 /* ASEPalette in Frameworks */ = {isa = PBXBuildFile; productRef = 23855A1D2837208A00D39A49 /* ASEPalette */; };
 		23A03DF828332AA2003846A4 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A03DF728332AA2003846A4 /* Quartz.framework */; };
 		23A03DFB28332AA2003846A4 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03DFA28332AA2003846A4 /* PreviewViewController.swift */; };
 		23A03DFD28332AA2003846A4 /* PreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03DFC28332AA2003846A4 /* PreviewProvider.swift */; };
@@ -24,15 +26,12 @@
 		23B20C182835D552005BD670 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23B20C172835D552005BD670 /* Assets.xcassets */; };
 		23B20C1B2835D552005BD670 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23B20C192835D552005BD670 /* Main.storyboard */; };
 		23B20C212835D613005BD670 /* ASEQuickLookPlugin.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 23A03DF528332AA2003846A4 /* ASEQuickLookPlugin.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		23B20C5D2835D9D4005BD670 /* ASEPaletteDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 23B20C5C2835D9D4005BD670 /* ASEPaletteDynamic */; };
 		23E2EB6128362E7F00E223CA /* ColorGroupHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A03E1928333585003846A4 /* ColorGroupHeaderView.xib */; };
 		23E2EB6228362E7F00E223CA /* CollectionViewLeftFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E162833341A003846A4 /* CollectionViewLeftFlowLayout.swift */; };
 		23E2EB6328362E7F00E223CA /* ColorSwatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E1228333013003846A4 /* ColorSwatchView.swift */; };
 		23E2EB6428362E7F00E223CA /* ColorSwatchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A03E1328333013003846A4 /* ColorSwatchView.xib */; };
 		23E2EB6528362E7F00E223CA /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E1028332E39003846A4 /* CollectionView.swift */; };
 		23E2EB6628362E7F00E223CA /* ColorGroupHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E1828333585003846A4 /* ColorGroupHeaderView.swift */; };
-		23E2EB6A28362EAD00E223CA /* ASEPaletteDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 23E2EB6928362EAD00E223CA /* ASEPaletteDynamic */; };
-		23E2EB6B28362EAD00E223CA /* ASEPaletteDynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 23E2EB6928362EAD00E223CA /* ASEPaletteDynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		23E2EB6C28362EE400E223CA /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03DFA28332AA2003846A4 /* PreviewViewController.swift */; };
 		23E2EB6D28362EFD00E223CA /* PreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A03DFE28332AA2003846A4 /* PreviewViewController.xib */; };
 /* End PBXBuildFile section */
@@ -65,7 +64,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				23E2EB6B28362EAD00E223CA /* ASEPaletteDynamic in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -114,7 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23B20C5D2835D9D4005BD670 /* ASEPaletteDynamic in Frameworks */,
+				23855A1E2837208A00D39A49 /* ASEPalette in Frameworks */,
 				23A03DF828332AA2003846A4 /* Quartz.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -123,7 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23E2EB6A28362EAD00E223CA /* ASEPaletteDynamic in Frameworks */,
+				23855A1C2837207C00D39A49 /* ASEPalette in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,7 +216,7 @@
 			);
 			name = ASEQuickLookPlugin;
 			packageProductDependencies = (
-				23B20C5C2835D9D4005BD670 /* ASEPaletteDynamic */,
+				23855A1D2837208A00D39A49 /* ASEPalette */,
 			);
 			productName = ASEQuickLookPlugin;
 			productReference = 23A03DF528332AA2003846A4 /* ASEQuickLookPlugin.appex */;
@@ -241,7 +239,7 @@
 			);
 			name = "ASE Viewer";
 			packageProductDependencies = (
-				23E2EB6928362EAD00E223CA /* ASEPaletteDynamic */,
+				23855A1B2837207C00D39A49 /* ASEPalette */,
 			);
 			productName = "ASE Viewer";
 			productReference = 23B20C0F2835D551005BD670 /* ASE Viewer.app */;
@@ -631,13 +629,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		23B20C5C2835D9D4005BD670 /* ASEPaletteDynamic */ = {
+		23855A1B2837207C00D39A49 /* ASEPalette */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = ASEPaletteDynamic;
+			productName = ASEPalette;
 		};
-		23E2EB6928362EAD00E223CA /* ASEPaletteDynamic */ = {
+		23855A1D2837208A00D39A49 /* ASEPalette */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = ASEPaletteDynamic;
+			productName = ASEPalette;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
