@@ -1,5 +1,5 @@
 //
-//  PreviewProvider.swift
+//  ASEPreviewProvider.swift
 //  ASEQuickLookPlugin
 //
 //  Created by Darren Ford on 17/5/2022.
@@ -8,7 +8,7 @@
 import Cocoa
 import Quartz
 
-class PreviewProvider: QLPreviewProvider, QLPreviewingController {
+class ASEPreviewProvider: QLPreviewProvider, QLPreviewingController {
     
 
     /*

@@ -13,7 +13,7 @@ class ViewController: NSViewController {
 	var asePaletteVC: PreviewViewController?
 	var palette: ASE.Palette? {
 		didSet {
-			asePaletteVC?.currentPalette = palette
+			asePaletteVC?.currentPalette.palette = palette
 		}
 	}
 

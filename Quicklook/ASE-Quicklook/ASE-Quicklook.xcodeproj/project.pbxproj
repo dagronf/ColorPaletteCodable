@@ -7,35 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		237EF04528398ABD000D6F42 /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237EF04428398ABD000D6F42 /* PaletteView.swift */; };
+		237EF04628398ABD000D6F42 /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237EF04428398ABD000D6F42 /* PaletteView.swift */; };
+		237EF04E28399BD9000D6F42 /* SwiftUIFlowLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 237EF04D28399BD9000D6F42 /* SwiftUIFlowLayout */; };
+		237EF05028399BE1000D6F42 /* SwiftUIFlowLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 237EF04F28399BE1000D6F42 /* SwiftUIFlowLayout */; };
 		23855A1C2837207C00D39A49 /* ASEPalette in Frameworks */ = {isa = PBXBuildFile; productRef = 23855A1B2837207C00D39A49 /* ASEPalette */; };
 		23855A1E2837208A00D39A49 /* ASEPalette in Frameworks */ = {isa = PBXBuildFile; productRef = 23855A1D2837208A00D39A49 /* ASEPalette */; };
-		23855A252837308E00D39A49 /* ColorGroupFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23855A242837308E00D39A49 /* ColorGroupFooterView.swift */; };
-		23855A27283730A000D39A49 /* ColorGroupFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23855A26283730A000D39A49 /* ColorGroupFooterView.xib */; };
-		23855A28283730A000D39A49 /* ColorGroupFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23855A26283730A000D39A49 /* ColorGroupFooterView.xib */; };
-		23855A29283730A400D39A49 /* ColorGroupFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23855A242837308E00D39A49 /* ColorGroupFooterView.swift */; };
 		23A03DF828332AA2003846A4 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A03DF728332AA2003846A4 /* Quartz.framework */; };
 		23A03DFB28332AA2003846A4 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03DFA28332AA2003846A4 /* PreviewViewController.swift */; };
-		23A03DFD28332AA2003846A4 /* PreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03DFC28332AA2003846A4 /* PreviewProvider.swift */; };
+		23A03DFD28332AA2003846A4 /* ASEPreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03DFC28332AA2003846A4 /* ASEPreviewProvider.swift */; };
 		23A03E0028332AA2003846A4 /* PreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A03DFE28332AA2003846A4 /* PreviewViewController.xib */; };
 		23A03E0E28332AEB003846A4 /* UTType+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E0D28332AEB003846A4 /* UTType+extensions.swift */; };
-		23A03E1128332E39003846A4 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E1028332E39003846A4 /* CollectionView.swift */; };
-		23A03E1428333013003846A4 /* ColorSwatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E1228333013003846A4 /* ColorSwatchView.swift */; };
-		23A03E1528333013003846A4 /* ColorSwatchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A03E1328333013003846A4 /* ColorSwatchView.xib */; };
-		23A03E172833341A003846A4 /* CollectionViewLeftFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E162833341A003846A4 /* CollectionViewLeftFlowLayout.swift */; };
-		23A03E1A28333585003846A4 /* ColorGroupHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E1828333585003846A4 /* ColorGroupHeaderView.swift */; };
-		23A03E1B28333585003846A4 /* ColorGroupHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A03E1928333585003846A4 /* ColorGroupHeaderView.xib */; };
 		23B20C122835D551005BD670 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B20C112835D551005BD670 /* AppDelegate.swift */; };
 		23B20C142835D551005BD670 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B20C132835D551005BD670 /* ViewController.swift */; };
 		23B20C162835D551005BD670 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B20C152835D551005BD670 /* Document.swift */; };
 		23B20C182835D552005BD670 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23B20C172835D552005BD670 /* Assets.xcassets */; };
 		23B20C1B2835D552005BD670 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23B20C192835D552005BD670 /* Main.storyboard */; };
 		23B20C212835D613005BD670 /* ASEQuickLookPlugin.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 23A03DF528332AA2003846A4 /* ASEQuickLookPlugin.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		23E2EB6128362E7F00E223CA /* ColorGroupHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A03E1928333585003846A4 /* ColorGroupHeaderView.xib */; };
-		23E2EB6228362E7F00E223CA /* CollectionViewLeftFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E162833341A003846A4 /* CollectionViewLeftFlowLayout.swift */; };
-		23E2EB6328362E7F00E223CA /* ColorSwatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E1228333013003846A4 /* ColorSwatchView.swift */; };
-		23E2EB6428362E7F00E223CA /* ColorSwatchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A03E1328333013003846A4 /* ColorSwatchView.xib */; };
-		23E2EB6528362E7F00E223CA /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E1028332E39003846A4 /* CollectionView.swift */; };
-		23E2EB6628362E7F00E223CA /* ColorGroupHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E1828333585003846A4 /* ColorGroupHeaderView.swift */; };
 		23E2EB6C28362EE400E223CA /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03DFA28332AA2003846A4 /* PreviewViewController.swift */; };
 		23E2EB6D28362EFD00E223CA /* PreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A03DFE28332AA2003846A4 /* PreviewViewController.xib */; };
 /* End PBXBuildFile section */
@@ -85,23 +73,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		23855A242837308E00D39A49 /* ColorGroupFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGroupFooterView.swift; sourceTree = "<group>"; };
-		23855A26283730A000D39A49 /* ColorGroupFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorGroupFooterView.xib; sourceTree = "<group>"; };
+		237EF04428398ABD000D6F42 /* PaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
 		23A03DF528332AA2003846A4 /* ASEQuickLookPlugin.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ASEQuickLookPlugin.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		23A03DF728332AA2003846A4 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		23A03DFA28332AA2003846A4 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
-		23A03DFC28332AA2003846A4 /* PreviewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewProvider.swift; sourceTree = "<group>"; };
+		23A03DFC28332AA2003846A4 /* ASEPreviewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASEPreviewProvider.swift; sourceTree = "<group>"; };
 		23A03DFF28332AA2003846A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreviewViewController.xib; sourceTree = "<group>"; };
 		23A03E0128332AA2003846A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23A03E0228332AA2003846A4 /* ASEQuickLookPlugin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ASEQuickLookPlugin.entitlements; sourceTree = "<group>"; };
 		23A03E0A28332AB6003846A4 /* ASEPalette */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ASEPalette; path = ../..; sourceTree = "<group>"; };
 		23A03E0D28332AEB003846A4 /* UTType+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UTType+extensions.swift"; sourceTree = "<group>"; };
-		23A03E1028332E39003846A4 /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
-		23A03E1228333013003846A4 /* ColorSwatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSwatchView.swift; sourceTree = "<group>"; };
-		23A03E1328333013003846A4 /* ColorSwatchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorSwatchView.xib; sourceTree = "<group>"; };
-		23A03E162833341A003846A4 /* CollectionViewLeftFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewLeftFlowLayout.swift; sourceTree = "<group>"; };
-		23A03E1828333585003846A4 /* ColorGroupHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGroupHeaderView.swift; sourceTree = "<group>"; };
-		23A03E1928333585003846A4 /* ColorGroupHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorGroupHeaderView.xib; sourceTree = "<group>"; };
 		23B20C0F2835D551005BD670 /* ASE Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ASE Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23B20C112835D551005BD670 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		23B20C132835D551005BD670 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -120,6 +101,7 @@
 			files = (
 				23855A1E2837208A00D39A49 /* ASEPalette in Frameworks */,
 				23A03DF828332AA2003846A4 /* Quartz.framework in Frameworks */,
+				237EF05028399BE1000D6F42 /* SwiftUIFlowLayout in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,6 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				237EF04E28399BD9000D6F42 /* SwiftUIFlowLayout in Frameworks */,
 				23855A1C2837207C00D39A49 /* ASEPalette in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -166,30 +149,15 @@
 		23A03DF928332AA2003846A4 /* ASEQuickLookPlugin */ = {
 			isa = PBXGroup;
 			children = (
-				23A03E0F28332DE5003846A4 /* collectionview */,
 				23A03DFA28332AA2003846A4 /* PreviewViewController.swift */,
 				23A03DFE28332AA2003846A4 /* PreviewViewController.xib */,
-				23A03DFC28332AA2003846A4 /* PreviewProvider.swift */,
+				23A03DFC28332AA2003846A4 /* ASEPreviewProvider.swift */,
 				23A03E0D28332AEB003846A4 /* UTType+extensions.swift */,
 				23A03E0128332AA2003846A4 /* Info.plist */,
 				23A03E0228332AA2003846A4 /* ASEQuickLookPlugin.entitlements */,
+				237EF04428398ABD000D6F42 /* PaletteView.swift */,
 			);
 			path = ASEQuickLookPlugin;
-			sourceTree = "<group>";
-		};
-		23A03E0F28332DE5003846A4 /* collectionview */ = {
-			isa = PBXGroup;
-			children = (
-				23A03E1028332E39003846A4 /* CollectionView.swift */,
-				23A03E162833341A003846A4 /* CollectionViewLeftFlowLayout.swift */,
-				23A03E1228333013003846A4 /* ColorSwatchView.swift */,
-				23A03E1328333013003846A4 /* ColorSwatchView.xib */,
-				23A03E1828333585003846A4 /* ColorGroupHeaderView.swift */,
-				23A03E1928333585003846A4 /* ColorGroupHeaderView.xib */,
-				23855A242837308E00D39A49 /* ColorGroupFooterView.swift */,
-				23855A26283730A000D39A49 /* ColorGroupFooterView.xib */,
-			);
-			path = collectionview;
 			sourceTree = "<group>";
 		};
 		23B20C102835D551005BD670 /* ASE Viewer */ = {
@@ -225,6 +193,7 @@
 			name = ASEQuickLookPlugin;
 			packageProductDependencies = (
 				23855A1D2837208A00D39A49 /* ASEPalette */,
+				237EF04F28399BE1000D6F42 /* SwiftUIFlowLayout */,
 			);
 			productName = ASEQuickLookPlugin;
 			productReference = 23A03DF528332AA2003846A4 /* ASEQuickLookPlugin.appex */;
@@ -248,6 +217,7 @@
 			name = "ASE Viewer";
 			packageProductDependencies = (
 				23855A1B2837207C00D39A49 /* ASEPalette */,
+				237EF04D28399BD9000D6F42 /* SwiftUIFlowLayout */,
 			);
 			productName = "ASE Viewer";
 			productReference = 23B20C0F2835D551005BD670 /* ASE Viewer.app */;
@@ -281,6 +251,7 @@
 			);
 			mainGroup = 23A03DD628332A83003846A4;
 			packageReferences = (
+				237EF04C28399BD9000D6F42 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */,
 			);
 			productRefGroup = 23A03DE028332A83003846A4 /* Products */;
 			projectDirPath = "";
@@ -297,10 +268,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23A03E1528333013003846A4 /* ColorSwatchView.xib in Resources */,
 				23A03E0028332AA2003846A4 /* PreviewViewController.xib in Resources */,
-				23A03E1B28333585003846A4 /* ColorGroupHeaderView.xib in Resources */,
-				23855A27283730A000D39A49 /* ColorGroupFooterView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,12 +276,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23E2EB6428362E7F00E223CA /* ColorSwatchView.xib in Resources */,
 				23E2EB6D28362EFD00E223CA /* PreviewViewController.xib in Resources */,
 				23B20C182835D552005BD670 /* Assets.xcassets in Resources */,
-				23855A28283730A000D39A49 /* ColorGroupFooterView.xib in Resources */,
 				23B20C1B2835D552005BD670 /* Main.storyboard in Resources */,
-				23E2EB6128362E7F00E223CA /* ColorGroupHeaderView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,14 +289,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23A03E1A28333585003846A4 /* ColorGroupHeaderView.swift in Sources */,
 				23A03E0E28332AEB003846A4 /* UTType+extensions.swift in Sources */,
-				23A03E172833341A003846A4 /* CollectionViewLeftFlowLayout.swift in Sources */,
-				23855A252837308E00D39A49 /* ColorGroupFooterView.swift in Sources */,
+				237EF04528398ABD000D6F42 /* PaletteView.swift in Sources */,
 				23A03DFB28332AA2003846A4 /* PreviewViewController.swift in Sources */,
-				23A03E1428333013003846A4 /* ColorSwatchView.swift in Sources */,
-				23A03E1128332E39003846A4 /* CollectionView.swift in Sources */,
-				23A03DFD28332AA2003846A4 /* PreviewProvider.swift in Sources */,
+				23A03DFD28332AA2003846A4 /* ASEPreviewProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,14 +300,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23E2EB6628362E7F00E223CA /* ColorGroupHeaderView.swift in Sources */,
-				23E2EB6528362E7F00E223CA /* CollectionView.swift in Sources */,
 				23B20C142835D551005BD670 /* ViewController.swift in Sources */,
-				23E2EB6228362E7F00E223CA /* CollectionViewLeftFlowLayout.swift in Sources */,
-				23855A29283730A400D39A49 /* ColorGroupFooterView.swift in Sources */,
-				23E2EB6328362E7F00E223CA /* ColorSwatchView.swift in Sources */,
 				23B20C122835D551005BD670 /* AppDelegate.swift in Sources */,
 				23B20C162835D551005BD670 /* Document.swift in Sources */,
+				237EF04628398ABD000D6F42 /* PaletteView.swift in Sources */,
 				23E2EB6C28362EE400E223CA /* PreviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -640,7 +597,28 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		237EF04C28399BD9000D6F42 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/globulus/swiftui-flow-layout";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		237EF04D28399BD9000D6F42 /* SwiftUIFlowLayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 237EF04C28399BD9000D6F42 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */;
+			productName = SwiftUIFlowLayout;
+		};
+		237EF04F28399BE1000D6F42 /* SwiftUIFlowLayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 237EF04C28399BD9000D6F42 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */;
+			productName = SwiftUIFlowLayout;
+		};
 		23855A1B2837207C00D39A49 /* ASEPalette */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ASEPalette;

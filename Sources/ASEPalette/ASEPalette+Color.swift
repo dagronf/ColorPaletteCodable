@@ -29,7 +29,8 @@ import Foundation
 
 public extension ASE {
 	/// A color in the palette
-	struct Color: Equatable, CustomStringConvertible {
+	struct Color: Equatable, CustomStringConvertible, Identifiable, Hashable {
+		public let id = UUID()
 		/// The color name
 		public let name: String
 		/// The colorspace model for the color

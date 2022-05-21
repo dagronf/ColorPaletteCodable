@@ -7,7 +7,6 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PreviewViewController" customModule="ASEQuickLookPlugin" customModuleProvider="target">
             <connections>
-                <outlet property="collectionView" destination="Hp3-pv-ZO0" id="plT-0b-2fT"/>
                 <outlet property="view" destination="c22-O7-iKe" id="NRM-P4-wb6"/>
             </connections>
         </customObject>
@@ -15,46 +14,9 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe" userLabel="Preview View">
             <rect key="frame" x="0.0" y="0.0" width="188" height="150"/>
-            <subviews>
-                <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3iw-HW-nnn">
-                    <rect key="frame" x="2" y="2" width="184" height="146"/>
-                    <clipView key="contentView" id="0fr-Jc-CmA">
-                        <rect key="frame" x="0.0" y="0.0" width="184" height="146"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <collectionView selectable="YES" id="Hp3-pv-ZO0">
-                                <rect key="frame" x="0.0" y="0.0" width="184" height="146"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="2" minimumLineSpacing="2" id="TDj-GV-ExG" customClass="CollectionViewLeftFlowLayout" customModule="ASEQuickLookPlugin" customModuleProvider="target">
-                                    <size key="itemSize" width="26" height="26"/>
-                                    <size key="footerReferenceSize" width="0.0" height="2"/>
-                                    <edgeInsets key="sectionInset" left="25" right="8" top="0.0" bottom="8"/>
-                                </collectionViewFlowLayout>
-                                <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="-2" id="60I-iC-eA7"/>
-                                    <outlet property="delegate" destination="-2" id="IkA-XB-xg6"/>
-                                </connections>
-                            </collectionView>
-                        </subviews>
-                    </clipView>
-                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="mVe-nr-zfB">
-                        <rect key="frame" x="-100" y="-100" width="233" height="15"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </scroller>
-                    <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="Meb-5d-Nwv">
-                        <rect key="frame" x="234" y="1" width="15" height="143"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </scroller>
-                </scrollView>
-            </subviews>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="3iw-HW-nnn" secondAttribute="bottom" constant="2" id="Ad8-d0-tZ1"/>
-                <constraint firstAttribute="trailing" secondItem="3iw-HW-nnn" secondAttribute="trailing" constant="2" id="EXe-L6-lmZ"/>
                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="150" id="XJs-dk-2ZH"/>
-                <constraint firstItem="3iw-HW-nnn" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="2" id="rrb-GY-e0N"/>
                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="xML-AR-Lpd"/>
-                <constraint firstItem="3iw-HW-nnn" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="2" id="xXz-z3-5RG"/>
             </constraints>
             <point key="canvasLocation" x="-7" y="82.5"/>
         </customView>

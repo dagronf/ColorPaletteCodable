@@ -7,6 +7,7 @@
 
 import Cocoa
 import Quartz
+import SwiftUI
 
 import ASEPalette
 
@@ -14,44 +15,27 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 
 	@IBOutlet weak var collectionView: NSCollectionView!
 
-	var currentPalette: ASE.Palette? {
-		didSet {
-			currentGroups = []
-			if let p = currentPalette {
-				if p.colors.count > 0 {
-					currentGroups.append(ASE.Group(name: "Global colors", colors: p.colors))
-				}
-				currentGroups.append(contentsOf: p.groups)
-			}
-			self.collectionView.reloadData()
-		}
-	}
-	var currentGroups = [ASE.Group]()
-
 	override var nibName: NSNib.Name? {
 		return NSNib.Name("PreviewViewController")
 	}
 
+	let currentPalette = PaletteModel(nil)
+	private lazy var hostedView: PaletteView = {
+		PaletteView(paletteModel: self.currentPalette)
+	}()
+
 	override func loadView() {
 		super.loadView()
+		let containerView = self.view
 
-		// Keeping here for prosperity. NSCollectionView is SO twitchy, a slight change
-		// and everything goes to hades
+		let nsView = NSHostingView(rootView: hostedView)
 
-//		collectionView.register(
-//			ColorSwatchView.self,
-//			forItemWithIdentifier: NSUserInterfaceItemIdentifier("ColorSwatchView")
-//		)
-
-//		collectionView.register(
-//			ColorGroupHeaderView.self,
-//			forSupplementaryViewOfKind: NSCollectionView.elementKindSectionHeader,
-//			withIdentifier: NSUserInterfaceItemIdentifier("ColorGroupHeaderView")
-//		)
-
-		// Setup dragging an individual color out of the view
-		self.collectionView.registerForDraggedTypes([.color])
-		self.collectionView.setDraggingSourceOperationMask(.copy, forLocal: false)
+		containerView.addSubview(nsView)
+		nsView.translatesAutoresizingMaskIntoConstraints = false
+		nsView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
+		nsView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
+		nsView.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+		nsView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
 	}
 
 	/*
@@ -84,8 +68,7 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 	}
 
 	func configure(for url: URL) throws {
-		self.currentGroups = []
 		let palette = try ASE.Palette.init(fileURL: url)
-		self.currentPalette = palette
+		self.currentPalette.palette = palette
 	}
 }
