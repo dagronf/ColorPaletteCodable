@@ -16,4 +16,7 @@ import UniformTypeIdentifiers
 extension UTType {
 	//static let ase = UTType("dyn.ah62d4rv4ge80c65f")!
 	static let ase = UTType("com.adobe.ase")!
+
+	/// NSColorList UTType
+	static let clr = UTType("com.apple.color-file")!
 }

@@ -11,6 +11,7 @@
 		237EF04628398ABD000D6F42 /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237EF04428398ABD000D6F42 /* PaletteView.swift */; };
 		237EF04E28399BD9000D6F42 /* SwiftUIFlowLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 237EF04D28399BD9000D6F42 /* SwiftUIFlowLayout */; };
 		237EF05028399BE1000D6F42 /* SwiftUIFlowLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 237EF04F28399BE1000D6F42 /* SwiftUIFlowLayout */; };
+		237EF0872839B324000D6F42 /* UTType+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E0D28332AEB003846A4 /* UTType+extensions.swift */; };
 		23855A1C2837207C00D39A49 /* ASEPalette in Frameworks */ = {isa = PBXBuildFile; productRef = 23855A1B2837207C00D39A49 /* ASEPalette */; };
 		23855A1E2837208A00D39A49 /* ASEPalette in Frameworks */ = {isa = PBXBuildFile; productRef = 23855A1D2837208A00D39A49 /* ASEPalette */; };
 		23A03DF828332AA2003846A4 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A03DF728332AA2003846A4 /* Quartz.framework */; };
@@ -300,6 +301,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				237EF0872839B324000D6F42 /* UTType+extensions.swift in Sources */,
 				23B20C142835D551005BD670 /* ViewController.swift in Sources */,
 				23B20C122835D551005BD670 /* AppDelegate.swift in Sources */,
 				23B20C162835D551005BD670 /* Document.swift in Sources */,

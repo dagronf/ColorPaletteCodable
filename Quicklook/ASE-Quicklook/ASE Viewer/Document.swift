@@ -7,6 +7,7 @@
 
 import Cocoa
 import ASEPalette
+import UniformTypeIdentifiers
 
 class Document: NSDocument {
 
@@ -38,13 +39,17 @@ class Document: NSDocument {
 //		throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
 //	}
 
-	override func read(from data: Data, ofType typeName: String) throws {
-		// Insert code here to read your document from the given data of the specified type, throwing an error in case of failure.
-		// Alternatively, you could remove this method and override read(from:ofType:) instead.
-		// If you do, you should also override isEntireFileLoaded to return false if the contents are lazily loaded.
-		self.currentPalette = try ASE.Palette(data: data)
-		//throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+	override func read(from url: URL, ofType typeName: String) throws {
+		if typeName == UTType.clr.identifier {
+			if let colorList = NSColorList(name: NSColorList.Name("Global colors"), fromFile: url.path) {
+				self.currentPalette = try ASE.Palette(colorList)
+			}
+		}
+		else if typeName == UTType.ase.identifier {
+			self.currentPalette = try ASE.Palette(fileURL: url)
+		}
+		else {
+			throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+		}
 	}
-
 }
-
