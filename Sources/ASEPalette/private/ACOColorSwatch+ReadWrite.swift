@@ -143,7 +143,9 @@ internal extension ASE.ACOColorSwatch {
 		}
 
 		// If we got here, then we have a v2 file
-		self.colors = v2Colors
+		if v2Colors.count > 0 {
+			self.colors = v2Colors
+		}
 	}
 }
 
