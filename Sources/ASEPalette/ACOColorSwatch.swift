@@ -1,7 +1,7 @@
 //
-//  ASEPalette.swift
+//  ACOColorSwatch.swift
 //
-//  Created by Darren Ford on 16/5/2022.
+//  Created by Darren Ford on 22/5/2022.
 //  Copyright © 2022 Darren Ford. All rights reserved.
 //
 //  MIT License
@@ -24,45 +24,39 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 //
-
 import Foundation
-import OSLog
 
 public extension ASE {
-	/// An object representing an ASE (Adobe Swatch Exchange) palette
+
+	/// An object representing an ACO (Adobe Photoshop Swatch)
 	///
-	/// Implementation based on the breakdown from [here](http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase)
-	struct Palette: Equatable {
-		public var version0: UInt16 = 1
-		public var version1: UInt16 = 0
+	/// Based on the discussion here: https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577411_pgfId-1070626
+	struct ACOColorSwatch: Equatable {
 
-		/// Colors that are not assigned to a group ('global' colors)
-		public var colors: [Color] = []
+		/// The colors assigned to the swatch
+		public var colors = [ASE.Color]()
 
-		/// Named groups of colors
-		public var groups = [Group]()
+		/// Create an empty ACO swatch file
+		public init() { }
 
-		/// Create an empty palette
-		public init() {}
+		/// Create from an array of ASE colors
+		public init(colors: [ASE.Color]) {
+			self.colors = colors
+		}
 
-		/// Create from the specified file url
+		/// Create using the contents of `fileURL`
 		public init(fileURL: URL) throws {
-			try _load(fileURL: fileURL)
+			try self._load(fileURL: fileURL)
 		}
 
-		/// Create from the specified raw data
+		/// Create using the contents of `data`
 		public init(data: Data) throws {
-			try _load(data: data)
+			try self._load(data: data)
 		}
 
-		/// Create from an Adobe Color Swatch
-		public init(swatch: ASE.ACOColorSwatch) {
-			self.colors = swatch.colors
-		}
-
-		/// Returns an ASE data representation
+		/// Returns an ACO data representation
 		public func data() throws -> Data {
-			return try _data()
+			try self._data()
 		}
 	}
 }

@@ -157,3 +157,20 @@ internal func writeASCII(_ string: String) throws -> Data {
 internal func writeFloat32(_ value: Float32) throws -> Data {
 	return try writeUInt32BigEndian(value.bitPattern)
 }
+
+func writePascalStyleUnicodeString(_ string: String) throws -> Data {
+	// https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#UnicodeStringDefine
+	// A 4-byte length field, representing the number of UTF-16 code units in the string (not bytes).
+	// The string of Unicode values, two bytes per character and a two byte null for the end of the string.
+
+	var outputData = Data(capacity: 1024)
+
+	let colorName = string.data(using: .utf16BigEndian)!
+
+	// +1 for the terminator
+	outputData.append(try writeUInt32BigEndian(UInt32(string.count + 1)))
+	outputData.append(colorName)
+	outputData.append(Common.DataTwoZeros)
+
+	return outputData
+}

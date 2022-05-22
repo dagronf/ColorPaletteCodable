@@ -45,7 +45,7 @@ struct GroupingView: View {
 				Text("􀐠")
 					.font(.title3)
 					.fontWeight(.semibold)
-				Text(name)
+				Text("\(name) (\(colors.count))")
 					.font(.title3)
 					.fontWeight(.semibold)
 			}

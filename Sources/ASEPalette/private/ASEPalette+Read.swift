@@ -171,7 +171,7 @@ internal extension ASE.Palette {
 // MARK: - Read utilities
 
 // Read raw UInt8 bytes from the input stream
-private func readData(_ inputStream: InputStream, size: Int) throws -> Data {
+internal func readData(_ inputStream: InputStream, size: Int) throws -> Data {
 	if inputStream.hasBytesAvailable == false {
 		ase_log.log(.error, "Found end of file")
 		throw ASE.CommonError.invalidEndOfFile
@@ -233,6 +233,24 @@ func readZeroTerminatedUTF16String(_ inputStream: InputStream) throws -> String 
 		}
 	}
 	return String(data: data, encoding: .utf16BigEndian) ?? ""
+}
+
+func readPascalStyleUnicodeString(_ inputStream: InputStream) throws -> String {
+	// https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#UnicodeStringDefine
+	// A 4-byte length field, representing the number of UTF-16 code units in the string (not bytes).
+	// The string of Unicode values, two bytes per character and a two byte null for the end of the string.
+	let length: UInt32 = try readIntegerBigEndian(inputStream)
+
+	var data = Data()
+	try (0 ..< length).forEach { index in
+		let ch: Data = try readData(inputStream, size: 2)
+
+		if index == length - 1 && ch != Common.DataTwoZeros {
+			throw ASE.CommonError.invalidUnicodeFormatString
+		}
+		data.append(ch)
+	}
+	return String(data: data.dropLast(), encoding: .utf16BigEndian) ?? ""
 }
 
 // Fixed length of ascii (single byte) characters

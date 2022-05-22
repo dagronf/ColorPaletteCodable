@@ -19,6 +19,7 @@ let ase_resources = [
 final class ASEPaletteTests: XCTestCase {
 	func testWriteReadRoundTripSampleFiles() throws {
 		// Loop through all the resource files
+		Swift.print("Round-tripping ASE files...'")
 		for name in ase_resources {
 			let controlASE = try XCTUnwrap(Bundle.module.url(forResource: name, withExtension: "ase"))
 			let origData = try Data(contentsOf: controlASE)

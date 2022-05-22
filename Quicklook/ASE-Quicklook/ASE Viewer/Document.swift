@@ -45,6 +45,11 @@ class Document: NSDocument {
 				self.currentPalette = try ASE.Palette(colorList)
 			}
 		}
+		if typeName == UTType.aco.identifier {
+			let palette = try ASE.ACOColorSwatch(fileURL: url)
+			self.currentPalette = ASE.Palette()
+			self.currentPalette!.colors = palette.colors
+		}
 		else if typeName == UTType.ase.identifier {
 			self.currentPalette = try ASE.Palette(fileURL: url)
 		}

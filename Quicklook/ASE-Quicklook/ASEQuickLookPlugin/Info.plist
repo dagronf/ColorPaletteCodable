@@ -11,6 +11,7 @@
 			<key>QLSupportedContentTypes</key>
 			<array>
 				<string>com.adobe.ase</string>
+				<string>com.adobe.aco</string>
 				<string>com.apple.color-file</string>
 			</array>
 			<key>QLSupportsSearchableItems</key>

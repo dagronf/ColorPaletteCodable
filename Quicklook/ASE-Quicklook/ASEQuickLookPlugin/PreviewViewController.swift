@@ -76,6 +76,13 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 				self.currentPalette.palette = try ASE.Palette(colorList)
 			}
 		}
+		else if url.pathExtension == "aco" {
+			let palette = try ASE.ACOColorSwatch(fileURL: url)
+			var p = ASE.Palette()
+			p.colors = palette.colors
+			self.currentPalette.palette = p
+		}
+
 		else {
 			let palette = try ASE.Palette.init(fileURL: url)
 			self.currentPalette.palette = palette

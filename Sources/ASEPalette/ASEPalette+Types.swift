@@ -44,6 +44,9 @@ public extension ASE {
 		case unsupportedCGColorType
 		case invalidRGBHexString(String)
 		case invalidRGBAHexString(String)
+		case unsupportedColorSpace
+		case invalidVersion
+		case invalidUnicodeFormatString
 	}
 	
 	/// A color model representation
