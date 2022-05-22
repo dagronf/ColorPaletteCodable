@@ -33,14 +33,14 @@ public extension ASE.Palette {
 	/// Load a palette from an NSColorList (macOS only)
 	init(_ colorList: NSColorList) throws {
 		let names = colorList.allKeys
-
+		
 		var colors: [ASE.Color] = []
 		try names.forEach { name in
 			if let color = colorList.color(withKey: name) {
 				colors.append(try ASE.Color(cgColor: color.cgColor, name: name))
 			}
 		}
-
+		
 		let name: String = {
 			if let c = colorList.name {
 				return c
@@ -49,15 +49,25 @@ public extension ASE.Palette {
 		}()
 		self.groups.append(ASE.Group(name: name, colors: colors))
 	}
+	
+	/// Returns a flattened nscolorlist from the palette
+	func flattenedColorList() -> NSColorList {
+		let result = NSColorList()
+		self.allGroups.enumerated().forEach { giter in
+			giter.1.colors.enumerated().forEach { citer in
+				if let ci = citer.1.nsColor {
+					result.setColor(ci, forKey: "\(giter.offset):\(giter.element.name):\(citer.offset):\(citer.element.name)")
+				}
+			}
+		}
+		return result
+	}
 }
 
 public extension ASE.Color {
 	/// Returns an NSColor representation of this color
 	var nsColor: NSColor? {
-		if let c = cgColor {
-			return NSColor(cgColor: c)
-		}
-		return nil
+		self.cgColor.unwrapping { NSColor(cgColor: $0) }
 	}
 }
 

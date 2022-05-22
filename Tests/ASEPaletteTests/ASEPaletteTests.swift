@@ -42,6 +42,17 @@ final class ASEPaletteTests: XCTestCase {
 		}
 	}
 
+	func testBasic() throws {
+		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
+		let origData = try Data(contentsOf: controlASE)
+		let palette = try ASE.Palette(fileURL: controlASE)
+		let data = try palette.data()
+		XCTAssertEqual(origData, data)
+		let reconstitutedPalette = try ASE.Palette(data: data)
+		XCTAssertEqual(palette, reconstitutedPalette)
+
+	}
+
 	func testBegin() throws {
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
 		let palette = try ASE.Palette(fileURL: controlASE)

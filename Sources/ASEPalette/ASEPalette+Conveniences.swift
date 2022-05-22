@@ -38,6 +38,19 @@ public extension ASE.Palette {
 			)
 		}
 	}
+
+	/// Returns all the groups for the palette. Global colors are represented in a group called 'global'
+	@inlinable var allGroups: [ASE.Group] {
+		return [ASE.Group(name: "global", colors: self.colors)] + self.groups
+	}
+
+	/// Returns all the colors in the palette as a flat array of colors
+	func flattenedColors() -> [ASE.Color] {
+		var results: [ASE.Color] = []
+		results.append(contentsOf: self.colors)
+		groups.forEach { results.append(contentsOf: $0.colors) }
+		return results
+	}
 }
 
 public extension ASE {

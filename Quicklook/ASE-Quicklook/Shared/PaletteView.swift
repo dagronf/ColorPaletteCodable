@@ -40,6 +40,7 @@ struct GroupingView: View {
 	let colors: [ASE.Color]
 	var body: some View {
 		VStack(alignment: .leading, spacing: 0) {
+
 			HStack(spacing: 4) {
 				Text("􀐠")
 					.font(.title3)
@@ -49,13 +50,14 @@ struct GroupingView: View {
 					.fontWeight(.semibold)
 			}
 			.padding(4)
+
 			FlowLayout(mode: .scrollable,
 						  items: colors,
 						  itemSpacing: 1) {
 				ColorView(color: $0)
 					.frame(width: 26, height: 26)
 			}
-						  .padding(EdgeInsets(top: 0, leading: 8, bottom: 4, trailing: 8))
+			.padding(EdgeInsets(top: 0, leading: 8, bottom: 4, trailing: 8))
 
 			Divider()
 				.padding(EdgeInsets(top: 4, leading: 8, bottom: -4, trailing: 8))
@@ -73,15 +75,31 @@ struct ColorView: View {
 			RoundedRectangle(cornerRadius: 4)
 				.stroke(Color(NSColor.disabledControlTextColor.cgColor), lineWidth: 1)
 		}
+		.help("Name: \(color.name)\nMode: \(color.modelString)\nType: \(color.typeString)")
 		.onDrag {
 			if let c = color.nsColor {
 				return NSItemProvider(item: c, typeIdentifier: UTType.nsColor.identifier)
 			}
 			return NSItemProvider()
 		} preview: {
-			ColorView(color: color)
-				.frame(width: 16, height: 16)
+			ColorTooltipView(color: color)
 		}
+	}
+}
+
+struct ColorTooltipView: View {
+	let color: ASE.Color
+	var body: some View {
+		HStack {
+			ColorView(color: color)
+				.frame(width: 20, height: 20)
+			VStack(alignment: .leading, spacing: 1) {
+				Text("Name: \(color.name)").font(.caption2)
+				Text("Mode: \(color.modelString)").font(.caption2)
+				Text("Type: \(color.typeString)").font(.caption2)
+			}
+		}
+		.padding(4)
 	}
 }
 
@@ -117,6 +135,14 @@ let _display: ASE.Palette = {
 
 private var model = PaletteModel(_display)
 
+struct ColorTooltipView_Previews: PreviewProvider {
+	static var previews: some View {
+		Group {
+			ColorTooltipView(color: try! ASE.Color(name: "red", model: .RGB, colorComponents: [1, 0, 0]))
+		}
+	}
+}
+
 struct ColorView_Previews: PreviewProvider {
 	static var previews: some View {
 		Group {
@@ -124,6 +150,8 @@ struct ColorView_Previews: PreviewProvider {
 				ColorView(color: try! ASE.RGB(1.0, 0, 1.0).color())
 					.frame(width: 26, height: 26)
 				ColorView(color: try! ASE.RGB(0.0, 1.0, 1.0).color())
+					.frame(width: 26, height: 26)
+				ColorView(color: try! ASE.RGB(1.0, 1.0, 0.0).color())
 					.frame(width: 26, height: 26)
 			}
 			.preferredColorScheme(.dark)
@@ -133,10 +161,12 @@ struct ColorView_Previews: PreviewProvider {
 					.frame(width: 26, height: 26)
 				ColorView(color: try! ASE.RGB(0.0, 1.0, 1.0).color())
 					.frame(width: 26, height: 26)
+				ColorView(color: try! ASE.RGB(1.0, 1.0, 0.0).color())
+					.frame(width: 26, height: 26)
 			}
 			.preferredColorScheme(.light)
 		}
-		.padding()
+		.padding(4)
 	}
 }
 

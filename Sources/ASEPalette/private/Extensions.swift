@@ -28,7 +28,6 @@
 import Foundation
 
 internal extension Data {
-	
 	// Parse a big-endian value from a block of data
 	func parseBigEndian<T: FixedWidthInteger>(type: T.Type) -> T? {
 		let typeSize = MemoryLayout<T>.size
@@ -47,5 +46,28 @@ internal extension Data {
 extension ExpressibleByIntegerLiteral where Self: Comparable {
 	func clamped(to range: ClosedRange<Self>) -> Self {
 		return min(range.upperBound, max(range.lowerBound, self))
+	}
+}
+
+extension String {
+	func ifEmptyDefault(_ isEmpty: String) -> String {
+		self.isEmpty ? isEmpty : self
+	}
+}
+
+@inlinable func unwrapping<T, R>(_ item: T?, _ block: (T) -> R?) -> R? {
+	guard let item = item else { return nil }
+	return block(item)
+}
+
+@inlinable func unwrapping<T, U, R>(_ item1: T?, _ item2: U?, _ block: (T, U) -> R?) -> R? {
+	guard let item1 = item1, let item2 = item2 else { return nil }
+	return block(item1, item2)
+}
+
+extension Optional {
+	@inlinable func unwrapping<R>(_ block: (Wrapped) -> R?) -> R? {
+		guard let u = self else { return nil }
+		return block(u)
 	}
 }

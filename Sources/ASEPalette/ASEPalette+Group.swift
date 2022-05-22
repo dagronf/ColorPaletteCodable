@@ -30,6 +30,7 @@ import Foundation
 public extension ASE {
 	/// A grouping of colors
 	struct Group: Equatable, Identifiable {
+		/// Unique identifier
 		public let id = UUID()
 
 		public var name: String
@@ -40,5 +41,13 @@ public extension ASE {
 			self.name = name
 			self.colors = colors
 		}
+	}
+}
+
+extension ASE.Group {
+	public static func == (lhs: ASE.Group, rhs: ASE.Group) -> Bool {
+		return
+			lhs.name == rhs.name &&
+			lhs.colors == rhs.colors
 	}
 }
