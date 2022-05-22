@@ -1,6 +1,6 @@
 //
 //  Document.swift
-//  ASE Viewer
+//  Palette Viewer
 //
 //  Created by Darren Ford on 19/5/2022.
 //

@@ -74,7 +74,7 @@ catch {
 
 This package also includes a Quicklook Plugin for .ase files. macOS 12 has changed the was quicklook plugins work, by creating an .appex extension (which is the quicklook plugin) embedded within an application.
 
-In the `Quicklook` subfolder you'll find an `xcodeproj` which you can use to build the application `ASE Viewer` which contains the QuickLook plugin.
+In the `Quicklook` subfolder you'll find an `xcodeproj` which you can use to build the application `Palette Viewer` which contains the QuickLook plugin.
 
 For the plugin to register, you need to run the application. After the first run the QuickLook plugin will be registered.
 
