@@ -78,6 +78,13 @@ In the `Quicklook` subfolder you'll find an `xcodeproj` which you can use to bui
 
 For the plugin to register, you need to run the application. After the first run the QuickLook plugin will be registered.
 
+Palette Viewer allows you to view the contents of
+
+* Adobe Swatch Exchange files (.ase)
+* Apple ColorList files (.clr)
+
+You can drag colors out of the preview window into applications that support dropping of `NSColor` instances.
+
 ## License
 
 MIT. Use it for anything you want, just attribute my work if you do. Let me know if you do use it somewhere, I'd love to hear about it!
