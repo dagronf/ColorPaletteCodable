@@ -50,4 +50,10 @@ final class ACOSwatchesTests: XCTestCase {
 		XCTAssertEqual("Red 500 - Primary", aco.colors[0].name)
 		XCTAssertEqual("ffffff", aco.colors[255].name)
 	}
+
+	func testLoadV1() throws {
+		let acoURL = try XCTUnwrap(Bundle.module.url(forResource: "Zeldman-v1", withExtension: "aco"))
+		let aco = try ASE.ACOColorSwatch(fileURL: acoURL)
+		XCTAssertEqual(6, aco.colors.count)
+	}
 }
