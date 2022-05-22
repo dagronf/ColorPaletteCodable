@@ -122,6 +122,7 @@
 				23A03E0A28332AB6003846A4 /* ASEPalette */,
 				23A03DF928332AA2003846A4 /* ASEQuickLookPlugin */,
 				23B20C102835D551005BD670 /* ASE Viewer */,
+				23FF72832839CA0500448D16 /* Shared */,
 				23A03DF628332AA2003846A4 /* Frameworks */,
 				23A03DE028332A83003846A4 /* Products */,
 			);
@@ -151,10 +152,8 @@
 				23A03DFA28332AA2003846A4 /* PreviewViewController.swift */,
 				23A03DFE28332AA2003846A4 /* PreviewViewController.xib */,
 				23A03DFC28332AA2003846A4 /* ASEPreviewProvider.swift */,
-				23A03E0D28332AEB003846A4 /* UTType+extensions.swift */,
 				23A03E0128332AA2003846A4 /* Info.plist */,
 				23A03E0228332AA2003846A4 /* ASEQuickLookPlugin.entitlements */,
-				237EF04428398ABD000D6F42 /* PaletteView.swift */,
 			);
 			path = ASEQuickLookPlugin;
 			sourceTree = "<group>";
@@ -171,6 +170,15 @@
 				23B20C1C2835D552005BD670 /* Info.plist */,
 			);
 			path = "ASE Viewer";
+			sourceTree = "<group>";
+		};
+		23FF72832839CA0500448D16 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				23A03E0D28332AEB003846A4 /* UTType+extensions.swift */,
+				237EF04428398ABD000D6F42 /* PaletteView.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
