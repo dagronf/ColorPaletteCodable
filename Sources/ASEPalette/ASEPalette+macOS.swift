@@ -51,4 +51,14 @@ public extension ASE.Palette {
 	}
 }
 
+public extension ASE.Color {
+	/// Returns an NSColor representation of this color
+	var nsColor: NSColor? {
+		if let c = cgColor {
+			return NSColor(cgColor: c)
+		}
+		return nil
+	}
+}
+
 #endif

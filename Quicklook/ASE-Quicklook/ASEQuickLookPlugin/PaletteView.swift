@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
-import ASEPalette
 import SwiftUIFlowLayout
+import UniformTypeIdentifiers
+
+import ASEPalette
 
 class PaletteModel: ObservableObject {
 	@Published var palette: ASE.Palette?
@@ -17,7 +19,6 @@ class PaletteModel: ObservableObject {
 }
 
 struct PaletteView: View {
-
 	@ObservedObject var paletteModel: PaletteModel
 
 	var body: some View {
@@ -38,11 +39,9 @@ struct GroupingView: View {
 	let name: String
 	let colors: [ASE.Color]
 	var body: some View {
-		VStack(alignment: .leading, spacing: 0)
-		{
+		VStack(alignment: .leading, spacing: 0) {
 			HStack(spacing: 4) {
 				Text("􀐠")
-					.foregroundColor(Color(NSColor.disabledControlTextColor.cgColor))
 					.font(.title3)
 					.fontWeight(.semibold)
 				Text(name)
@@ -52,47 +51,56 @@ struct GroupingView: View {
 			.padding(4)
 			FlowLayout(mode: .scrollable,
 						  items: colors,
-						  itemSpacing: 1)
-			{ item in
-				ZStack {
-					RoundedRectangle(cornerRadius: 4)
-						.fill(Color(cgColor: item.cgColor ?? .clear))
-						.shadow(color: .black.opacity(0.8), radius: 1, x: 0, y: 0.5)
-					RoundedRectangle(cornerRadius: 4)
-						.stroke(Color(NSColor.disabledControlTextColor.cgColor), lineWidth: 1)
-				}
-				.frame(width: 26, height: 26)
+						  itemSpacing: 1) {
+				ColorView(color: $0)
+					.frame(width: 26, height: 26)
 			}
-			.padding(EdgeInsets(top: 0, leading: 26, bottom: 4, trailing: 4))
+						  .padding(EdgeInsets(top: 0, leading: 8, bottom: 4, trailing: 8))
 
 			Divider()
-				.padding(EdgeInsets(top: 4, leading: 6, bottom: -4, trailing: 6))
+				.padding(EdgeInsets(top: 4, leading: 8, bottom: -4, trailing: 8))
 		}
 	}
 }
 
-extension View {
-	  public func addBorder<S>(_ content: S, width: CGFloat = 1, cornerRadius: CGFloat) -> some View where S : ShapeStyle {
-			let roundedRect = RoundedRectangle(cornerRadius: cornerRadius)
-			return clipShape(roundedRect)
-				  .overlay(roundedRect.strokeBorder(content, lineWidth: width))
-	  }
- }
+struct ColorView: View {
+	let color: ASE.Color
+	var body: some View {
+		ZStack {
+			RoundedRectangle(cornerRadius: 4)
+				.fill(Color(cgColor: color.cgColor ?? .clear))
+				.shadow(color: .black.opacity(0.8), radius: 1, x: 0, y: 0.5)
+			RoundedRectangle(cornerRadius: 4)
+				.stroke(Color(NSColor.disabledControlTextColor.cgColor), lineWidth: 1)
+		}
+		.onDrag {
+			if let c = color.nsColor {
+				return NSItemProvider(item: c, typeIdentifier: UTType.nsColor.identifier)
+			}
+			return NSItemProvider()
+		} preview: {
+			ColorView(color: color)
+				.frame(width: 16, height: 16)
+		}
+	}
+}
+
+// MARK: - Previews
 
 #if DEBUG
 
 let _display: ASE.Palette = {
-	return try! ASE.Palette(
+	try! ASE.Palette(
 		rgbColors: [
 			ASE.RGB(1.0, 0, 0),
 			ASE.RGB(0, 1.0, 0),
-			ASE.RGB(0, 0, 1.0)
+			ASE.RGB(0, 0, 1.0),
 		],
 		groups: [
 			ASE.RGBGroup(name: "one", [
 				ASE.RGB(0, 0, 1.0),
 				ASE.RGB(0, 1.0, 0),
-				ASE.RGB(1.0, 0, 0)
+				ASE.RGB(1.0, 0, 0),
 			]),
 			ASE.RGBGroup(name: "two is the second one", [
 				ASE.RGB(0.5, 0, 1),
@@ -102,12 +110,35 @@ let _display: ASE.Palette = {
 				ASE.RGB(153, 000, 000),
 				ASE.RGB(102, 085, 085),
 				ASE.RGB(221, 017, 017),
-			])
+			]),
 		]
 	)
 }()
 
 private var model = PaletteModel(_display)
+
+struct ColorView_Previews: PreviewProvider {
+	static var previews: some View {
+		Group {
+			HStack {
+				ColorView(color: try! ASE.RGB(1.0, 0, 1.0).color())
+					.frame(width: 26, height: 26)
+				ColorView(color: try! ASE.RGB(0.0, 1.0, 1.0).color())
+					.frame(width: 26, height: 26)
+			}
+			.preferredColorScheme(.dark)
+
+			HStack {
+				ColorView(color: try! ASE.RGB(1.0, 0, 1.0).color())
+					.frame(width: 26, height: 26)
+				ColorView(color: try! ASE.RGB(0.0, 1.0, 1.0).color())
+					.frame(width: 26, height: 26)
+			}
+			.preferredColorScheme(.light)
+		}
+		.padding()
+	}
+}
 
 struct PaletteView_Previews: PreviewProvider {
 	static var previews: some View {

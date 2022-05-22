@@ -30,7 +30,7 @@ class Document: NSDocument {
 
 		let vc = windowController.contentViewController as! ViewController
 		vc.representedObject = self
-		vc.palette = currentPalette
+		vc.currentPalette.palette = currentPalette
 	}
 
 //	override func data(ofType typeName: String) throws -> Data {

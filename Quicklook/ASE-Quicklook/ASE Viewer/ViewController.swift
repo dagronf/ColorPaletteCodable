@@ -8,35 +8,30 @@
 import Cocoa
 import ASEPalette
 
+import SwiftUI
+
 class ViewController: NSViewController {
 
-	var asePaletteVC: PreviewViewController?
-	var palette: ASE.Palette? {
-		didSet {
-			asePaletteVC?.currentPalette.palette = palette
-		}
-	}
+	let currentPalette = PaletteModel(nil)
 
-	override func viewDidLoad() {
-		super.viewDidLoad()
+	private lazy var hostedView: PaletteView = {
+		PaletteView(paletteModel: self.currentPalette)
+	}()
 
-		// Do any additional setup after loading the view.
-		let vc = PreviewViewController()
-		vc.loadView()
-		
-		let v = vc.view
+	override func loadView() {
+		super.loadView()
+		let containerView = self.view
 
-		view.addSubview(v)
+		let nsView = NSHostingView(rootView: hostedView)
 
-		view.addConstraint(NSLayoutConstraint(item: v, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: 0))
-		view.addConstraint(NSLayoutConstraint(item: v, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: 0))
-		view.addConstraint(NSLayoutConstraint(item: v, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1, constant: 0))
-		view.addConstraint(NSLayoutConstraint(item: v, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0))
+		containerView.addSubview(nsView)
+		nsView.translatesAutoresizingMaskIntoConstraints = false
+		nsView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
+		nsView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
+		nsView.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+		nsView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
 
-		asePaletteVC = vc
-
-		v.needsLayout = true
-		view.needsLayout = true
+		self.hostedView.paletteModel = currentPalette
 	}
 
 	override var representedObject: Any? {

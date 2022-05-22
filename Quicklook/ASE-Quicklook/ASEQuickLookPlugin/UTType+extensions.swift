@@ -19,4 +19,7 @@ extension UTType {
 
 	/// NSColorList UTType
 	static let clr = UTType("com.apple.color-file")!
+
+	/// NSColor UTType
+	static let nsColor = UTType("com.apple.cocoa.pasteboard.color")!
 }
