@@ -186,9 +186,9 @@ final class ASEPaletteTests: XCTestCase {
 		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
 
 		var palette = PAL.Palette()
-		let c1 = try PAL.Color(name: "red", model: PAL.ColorSpace.RGB, colorComponents: [1, 0, 0])
-		let c2 = try PAL.Color(name: "green", model: PAL.ColorSpace.RGB, colorComponents: [0, 1, 0])
-		let c3 = try PAL.Color(name: "blue", model: PAL.ColorSpace.RGB, colorComponents: [0, 0, 1])
+		let c1 = try PAL.Color(name: "red", model: .RGB, colorComponents: [1, 0, 0])
+		let c2 = try PAL.Color(name: "green", model: .RGB, colorComponents: [0, 1, 0])
+		let c3 = try PAL.Color(name: "blue", model: .RGB, colorComponents: [0, 0, 1])
 		palette.colors.append(contentsOf: [c1, c2, c3])
 		
 		let rawData = try paletteCoder.data(palette)
