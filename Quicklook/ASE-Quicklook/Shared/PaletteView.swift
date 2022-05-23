@@ -109,25 +109,25 @@ struct ColorTooltipView: View {
 
 let _display: PAL.Palette = {
 	try! PAL.Palette(
-		rgbColors: [
-			PAL.RGB(1.0, 0, 0),
-			PAL.RGB(0, 1.0, 0),
-			PAL.RGB(0, 0, 1.0),
+		rgbaColors: [
+			PAL.RGBA(1.0, 0, 0),
+			PAL.RGBA(0, 1.0, 0),
+			PAL.RGBA(0, 0, 1.0),
 		],
 		groups: [
-			PAL.RGBGroup(name: "one", [
-				PAL.RGB(0, 0, 1.0),
-				PAL.RGB(0, 1.0, 0),
-				PAL.RGB(1.0, 0, 0),
+			PAL.RGBAGroup(name: "one", [
+				PAL.RGBA(0, 0, 1.0),
+				PAL.RGBA(0, 1.0, 0),
+				PAL.RGBA(1.0, 0, 0),
 			]),
-			PAL.RGBGroup(name: "two is the second one", [
-				PAL.RGB(0.5, 0, 1),
-				PAL.RGB(0, 0.8, 0.3),
-				PAL.RGB(0.1, 0.3, 1.0),
-				PAL.RGB(000, 000, 000),
-				PAL.RGB(153, 000, 000),
-				PAL.RGB(102, 085, 085),
-				PAL.RGB(221, 017, 017),
+			PAL.RGBAGroup(name: "two is the second one", [
+				PAL.RGBA(0.5, 0, 1),
+				PAL.RGBA(0, 0.8, 0.3),
+				PAL.RGBA(0.1, 0.3, 1.0),
+				PAL.RGBA(000, 000, 000),
+				PAL.RGBA(153, 000, 000),
+				PAL.RGBA(102, 085, 085),
+				PAL.RGBA(221, 017, 017),
 			]),
 		]
 	)
@@ -147,21 +147,21 @@ struct ColorView_Previews: PreviewProvider {
 	static var previews: some View {
 		Group {
 			HStack {
-				ColorView(color: try! PAL.RGB(1.0, 0, 1.0).color())
+				ColorView(color: try! PAL.RGBA(1.0, 0, 1.0).color())
 					.frame(width: 26, height: 26)
-				ColorView(color: try! PAL.RGB(0.0, 1.0, 1.0).color())
+				ColorView(color: try! PAL.RGBA(0.0, 1.0, 1.0).color())
 					.frame(width: 26, height: 26)
-				ColorView(color: try! PAL.RGB(1.0, 1.0, 0.0).color())
+				ColorView(color: try! PAL.RGBA(1.0, 1.0, 0.0).color())
 					.frame(width: 26, height: 26)
 			}
 			.preferredColorScheme(.dark)
 
 			HStack {
-				ColorView(color: try! PAL.RGB(1.0, 0, 1.0).color())
+				ColorView(color: try! PAL.RGBA(1.0, 0, 1.0).color())
 					.frame(width: 26, height: 26)
-				ColorView(color: try! PAL.RGB(0.0, 1.0, 1.0).color())
+				ColorView(color: try! PAL.RGBA(0.0, 1.0, 1.0).color())
 					.frame(width: 26, height: 26)
-				ColorView(color: try! PAL.RGB(1.0, 1.0, 0.0).color())
+				ColorView(color: try! PAL.RGBA(1.0, 1.0, 0.0).color())
 					.frame(width: 26, height: 26)
 			}
 			.preferredColorScheme(.light)

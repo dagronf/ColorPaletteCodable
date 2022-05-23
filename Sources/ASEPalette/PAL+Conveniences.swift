@@ -28,17 +28,6 @@
 import Foundation
 
 public extension PAL.Palette {
-	/// Convenience constructor for creating a palette of RGB colors
-	init(rgbColors: [PAL.RGB], groups: [PAL.RGBGroup] = []) throws {
-		self.colors = try rgbColors.map { try $0.color() }
-		self.groups = try groups.map {
-			PAL.Group(
-				name: $0.name,
-				colors: try $0.colors.map { try $0.color() }
-			)
-		}
-	}
-
 	/// Returns all the groups for the palette. Global colors are represented in a group called 'global'
 	@inlinable var allGroups: [PAL.Group] {
 		return [PAL.Group(name: "global", colors: self.colors)] + self.groups
@@ -50,38 +39,5 @@ public extension PAL.Palette {
 		results.append(contentsOf: self.colors)
 		groups.forEach { results.append(contentsOf: $0.colors) }
 		return results
-	}
-}
-
-public extension PAL {
-	struct RGB {
-		public let name: String
-		public let r: Float32
-		public let g: Float32
-		public let b: Float32
-		public init(name: String = "", _ r: Float32, _ g: Float32, _ b: Float32) {
-			self.name = name
-			self.r = r
-			self.g = g
-			self.b = b
-		}
-		public init(name: String = "", _ r: Int, _ g: Int, _ b: Int) {
-			self.name = name
-			self.r = Float32(r) / 255.0
-			self.g = Float32(g) / 255.0
-			self.b = Float32(b) / 255.0
-		}
-		public func color() throws -> PAL.Color {
-			try PAL.Color(name: name, model: .RGB, colorComponents: [r, g, b])
-		}
-	}
-
-	struct RGBGroup {
-		public let name: String
-		public let colors: [PAL.RGB]
-		public init(name: String = "", _ colors: [PAL.RGB]) {
-			self.name = name
-			self.colors = colors
-		}
 	}
 }
