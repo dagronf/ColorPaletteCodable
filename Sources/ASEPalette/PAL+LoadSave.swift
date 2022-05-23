@@ -1,5 +1,5 @@
 //
-//  ASEPalette+LoadSave.swift
+//  PAL+LoadSave.swift
 //
 //  Copyright © 2022 Darren Ford. All rights reserved.
 //
@@ -26,23 +26,23 @@
 
 import Foundation
 
-private let AvailableCoders: [PaletteCoder] = [
-	ASE.Coder.ASE(),
-	ASE.Coder.ACO(),
-	ASE.Coder.CLR(),
-	ASE.Coder.RGB(),
-	ASE.Coder.RGBA(),
+private let AvailableCoders: [PAL_PaletteCoder] = [
+	PAL.Coder.ASE(),
+	PAL.Coder.ACO(),
+	PAL.Coder.CLR(),
+	PAL.Coder.RGB(),
+	PAL.Coder.RGBA(),
 ]
 
-public extension ASE.Palette {
+public extension PAL.Palette {
 	/// Returns a coder for the specified fileExtension
-	static func coder(for fileExtension: String) -> PaletteCoder? {
+	static func coder(for fileExtension: String) -> PAL_PaletteCoder? {
 		let lext = fileExtension.lowercased()
 		return AvailableCoders.first(where: { $0.fileExtension == lext })
 	}
 	
 	/// Returns a coder for the specified fileURL
-	static func coder(for fileURL: URL) -> PaletteCoder? {
+	static func coder(for fileURL: URL) -> PAL_PaletteCoder? {
 		let lext = fileURL.pathExtension.lowercased()
 		return AvailableCoders.first(where: { $0.fileExtension == lext })
 	}
@@ -52,10 +52,10 @@ public extension ASE.Palette {
 	///   - fileURL: The file to load
 	///   - forcedExtension: If set, overrides the coder used for loading to `forcedExtension` rather than the fileURL extension
 	/// - Returns: A palette
-	static func load(fileURL: URL, forcedExtension: String? = nil) throws -> ASE.Palette {
+	static func load(fileURL: URL, forcedExtension: String? = nil) throws -> PAL.Palette {
 		let extn = forcedExtension ?? fileURL.pathExtension
 		guard let coder = self.coder(for: extn) else {
-			throw ASE.CommonError.unsupportedCoderType
+			throw PAL.CommonError.unsupportedCoderType
 		}
 		return try coder.load(fileURL: fileURL)
 	}
@@ -65,9 +65,9 @@ public extension ASE.Palette {
 	///   - data: The data
 	///   - fileExtension: The expected file extension for the data
 	/// - Returns: A palette
-	static func load(data: Data, fileExtension: String) throws -> ASE.Palette {
+	static func load(data: Data, fileExtension: String) throws -> PAL.Palette {
 		guard let coder = self.coder(for: fileExtension) else {
-			throw ASE.CommonError.unsupportedCoderType
+			throw PAL.CommonError.unsupportedCoderType
 		}
 		return try coder.load(data: data)
 	}
@@ -77,9 +77,9 @@ public extension ASE.Palette {
 	///   - palette: The palette to encode
 	///   - fileExtension: The coder to use for the encoded data
 	/// - Returns: The encoded data
-	static func data(_ palette: ASE.Palette, fileExtension: String) throws -> Data {
+	static func data(_ palette: PAL.Palette, fileExtension: String) throws -> Data {
 		guard let coder = self.coder(for: fileExtension) else {
-			throw ASE.CommonError.unsupportedCoderType
+			throw PAL.CommonError.unsupportedCoderType
 		}
 		return try coder.data(for: palette)
 	}

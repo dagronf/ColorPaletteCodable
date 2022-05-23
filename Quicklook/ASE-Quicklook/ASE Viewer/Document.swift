@@ -11,16 +11,16 @@ import UniformTypeIdentifiers
 
 class Document: NSDocument {
 
-	var currentPalette: ASE.Palette?
+	var currentPalette: PAL.Palette?
 
 	override init() {
 	    super.init()
 		// Add your subclass-specific initialization here.
 	}
 
-	override class var autosavesInPlace: Bool {
-		return true
-	}
+//	override class var autosavesInPlace: Bool {
+//		return true
+//	}
 
 	override func makeWindowControllers() {
 		// Returns the Storyboard that contains your Document window.
@@ -41,10 +41,10 @@ class Document: NSDocument {
 
 	override func read(from url: URL, ofType typeName: String) throws {
 		if url.pathExtension == "txt" {
-			self.currentPalette = try ASE.Palette.load(fileURL: url, forcedExtension: "rgba")
+			self.currentPalette = try PAL.Palette.load(fileURL: url, forcedExtension: "rgba")
 		}
 		else {
-			self.currentPalette = try ASE.Palette.load(fileURL: url)
+			self.currentPalette = try PAL.Palette.load(fileURL: url)
 		}
 	}
 }

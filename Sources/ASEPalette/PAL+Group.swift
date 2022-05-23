@@ -1,5 +1,5 @@
 //
-//  ASEPalette+Types.swift
+//  PAL+Group.swift
 //
 //  Created by Darren Ford on 16/5/2022.
 //  Copyright © 2022 Darren Ford. All rights reserved.
@@ -27,43 +27,27 @@
 
 import Foundation
 
-public extension ASE {
-	/// ASE Palette errors
-	enum CommonError: Error {
-		case unsupportedPaletteType
-		case unableToLoadFile
-		case invalidFormat
-		case invalidASEHeader
-		case invalidColorComponentCountForModelType
-		case invalidEndOfFile
-		case invalidString
-		case invalidIntegerValue
-		case unknownBlockType
-		case groupAlreadyOpen
-		case groupNotOpen
-		case unknownColorMode(String)
-		case unknownColorType(Int)
-		case unsupportedCGColorType
-		case invalidRGBHexString(String)
-		case invalidRGBAHexString(String)
-		case unsupportedColorSpace
-		case invalidVersion
-		case invalidUnicodeFormatString
-		case unsupportedCoderType
-	}
-	
-	/// A color representation for a color
-	enum ColorSpace {
-		case CMYK
-		case RGB
-		case LAB
-		case Gray
-	}
+public extension PAL {
+	/// A grouping of colors
+	struct Group: Equatable, Identifiable {
+		/// Unique identifier
+		public let id = UUID()
 
-	/// The type of the color (normal, spot, global)
-	enum ColorType: Int {
-		case global = 0
-		case spot = 1
-		case normal = 2
+		public var name: String
+		/// The colors assigned to the group
+		public internal(set) var colors: [Color]
+		/// Create a group with the specified name and colors
+		public init(name: String = "", colors: [Color] = []) {
+			self.name = name
+			self.colors = colors
+		}
+	}
+}
+
+extension PAL.Group {
+	public static func == (lhs: PAL.Group, rhs: PAL.Group) -> Bool {
+		return
+			lhs.name == rhs.name &&
+			lhs.colors == rhs.colors
 	}
 }

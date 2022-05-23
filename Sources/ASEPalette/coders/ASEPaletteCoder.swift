@@ -35,8 +35,8 @@ private enum ASEColorModel: String {
 }
 
 /// An ASE file reader, based on [the format defined here](http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase)
-public extension ASE.Coder {
-	struct ASE: PaletteCoder {
+public extension PAL.Coder {
+	struct ASE: PAL_PaletteCoder {
 
 		public let fileExtension = "ase"
 
@@ -51,18 +51,18 @@ public extension ASE.Coder {
 	}
 }
 
-extension ASE.Coder.ASE {
-	public func read(_ inputStream: InputStream) throws -> ASE.Palette {
+extension PAL.Coder.ASE {
+	public func read(_ inputStream: InputStream) throws -> PAL.Palette {
 		// NOTE: Assumption here is that `inputStream` is already open
 		// If the input stream isn't open, the reading will hang.
 
-		var result = ASE.Palette()
+		var result = PAL.Palette()
 
 		// Load and validate the header
 		let header = try readData(inputStream, size: 4)
 		if header != Self.HEADER_DATA {
-			ase_log.log(.error, "Invalid .ase header")
-			throw ASE.CommonError.invalidASEHeader
+			plt_log.log(.error, "Invalid .ase header")
+			throw PAL.CommonError.invalidASEHeader
 		}
 
 		// Read version (currently not being used for anything)
@@ -70,14 +70,14 @@ extension ASE.Coder.ASE {
 		let version1: UInt16 = try readIntegerBigEndian(inputStream)
 		if version0 != 1 || version1 != 0 {
 			// Unknown version?
-			throw ASE.CommonError.invalidVersion
+			throw PAL.CommonError.invalidVersion
 		}
 
 		// Read the number of blocks contained within the ase file
 		let numberOfBlocks: UInt32 = try readIntegerBigEndian(inputStream)
 
 		// The currently active group. If nil, colors are added to the global group
-		var currentGroup: ASE.Group?
+		var currentGroup: PAL.Group?
 
 		// Read in all the blocks
 		for _ in 0 ..< numberOfBlocks {
@@ -90,14 +90,14 @@ extension ASE.Coder.ASE {
 			switch type {
 			case Self.GROUP_START:
 				guard currentGroup == nil else {
-					ase_log.log(.error, "Attempting to open group with a group already open")
-					throw ASE.CommonError.groupAlreadyOpen
+					plt_log.log(.error, "Attempting to open group with a group already open")
+					throw PAL.CommonError.groupAlreadyOpen
 				}
 				currentGroup = try self.readStartGroupBlock(inputStream)
 			case Self.GROUP_END:
 				guard let c = currentGroup else {
-					ase_log.log(.error, "Attempting to close group without an open group")
-					throw ASE.CommonError.groupNotOpen
+					plt_log.log(.error, "Attempting to close group without an open group")
+					throw PAL.CommonError.groupNotOpen
 				}
 				try self.readEndGroupBlock(inputStream, currentGroup: c, palette: &result)
 				currentGroup = nil
@@ -105,43 +105,43 @@ extension ASE.Coder.ASE {
 				// Pass group in by reference so we can add to it
 				try self.readColor(inputStream, currentGroup: &currentGroup, palette: &result)
 			default:
-				ase_log.log(.error, "Unknown ase block type")
-				throw ASE.CommonError.unknownBlockType
+				plt_log.log(.error, "Unknown ase block type")
+				throw PAL.CommonError.unknownBlockType
 			}
 		}
 		return result
 	}
 
-	private func readStartGroupBlock(_ inputStream: InputStream) throws -> ASE.Group {
+	private func readStartGroupBlock(_ inputStream: InputStream) throws -> PAL.Group {
 		// Read in the name
 		let stringLen: UInt16 = try readIntegerBigEndian(inputStream)
 		let name = try readZeroTerminatedUTF16String(inputStream)
 		assert(stringLen == name.count + 1)
-		return ASE.Group(name: name)
+		return PAL.Group(name: name)
 	}
 
-	private func readEndGroupBlock(_ inputStream: InputStream, currentGroup: ASE.Group, palette: inout ASE.Palette) throws {
+	private func readEndGroupBlock(_ inputStream: InputStream, currentGroup: PAL.Group, palette: inout PAL.Palette) throws {
 		palette.groups.append(currentGroup)
 	}
 
-	private func readColor(_ inputStream: InputStream, currentGroup: inout ASE.Group?, palette: inout ASE.Palette) throws {
+	private func readColor(_ inputStream: InputStream, currentGroup: inout PAL.Group?, palette: inout PAL.Palette) throws {
 		// Read in the name
 		let stringLen: UInt16 = try readIntegerBigEndian(inputStream)
 		let name = try readZeroTerminatedUTF16String(inputStream)
 		guard stringLen == name.count + 1 else {
-			ase_log.log(.error, "Invalid color name")
-			throw ASE.CommonError.invalidString
+			plt_log.log(.error, "Invalid color name")
+			throw PAL.CommonError.invalidString
 		}
 
 		let mode = try readAsciiString(inputStream, length: 4)
 		guard let colorModel = ASEColorModel(rawValue: mode) else {
-			ase_log.log(.error, "Invalid .ase color model %@", mode)
-			throw ASE.CommonError.unknownColorMode(mode)
+			plt_log.log(.error, "Invalid .ase color model %@", mode)
+			throw PAL.CommonError.unknownColorMode(mode)
 		}
 
 		var colors: [Float32] = []
 
-		let colorspace: ASE.ColorSpace
+		let colorspace: PAL.ColorSpace
 
 		switch colorModel {
 		case .CMYK:
@@ -167,12 +167,12 @@ extension ASE.Coder.ASE {
 		}
 
 		let colorTypeValue: UInt16 = try readIntegerBigEndian(inputStream)
-		guard let colorType = ASE.ColorType(rawValue: Int(colorTypeValue)) else {
-			ase_log.log(.error, "Invalid color type %@", colorTypeValue)
-			throw ASE.CommonError.unknownColorType(Int(colorTypeValue))
+		guard let colorType = PAL.ColorType(rawValue: Int(colorTypeValue)) else {
+			plt_log.log(.error, "Invalid color type %@", colorTypeValue)
+			throw PAL.CommonError.unknownColorType(Int(colorTypeValue))
 		}
 
-		let color = try ASE.Color(name: name, model: colorspace, colorComponents: colors, colorType: colorType)
+		let color = try PAL.Color(name: name, model: colorspace, colorComponents: colors, colorType: colorType)
 		if let _ = currentGroup {
 			currentGroup?.colors.append(color)
 		}
@@ -182,8 +182,8 @@ extension ASE.Coder.ASE {
 	}
 }
 
-extension ASE.Coder.ASE {
-	public func data(for palette: ASE.Palette) throws -> Data {
+extension PAL.Coder.ASE {
+	public func data(for palette: PAL.Palette) throws -> Data {
 		var outputData = Data(capacity: 1024)
 
 		// Write header
@@ -240,7 +240,7 @@ extension ASE.Coder.ASE {
 		return outputData
 	}
 
-	func writeColorData(_ color: ASE.Color) throws -> Data {
+	func writeColorData(_ color: PAL.Color) throws -> Data {
 		var outputData = Data(capacity: 1024)
 
 		// Write the color block header

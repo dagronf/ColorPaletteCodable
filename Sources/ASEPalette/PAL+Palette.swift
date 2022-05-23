@@ -1,5 +1,5 @@
 //
-//  ASEPalette+Group.swift
+//  ASEPalette.swift
 //
 //  Created by Darren Ford on 16/5/2022.
 //  Copyright © 2022 Darren Ford. All rights reserved.
@@ -26,28 +26,18 @@
 //
 
 import Foundation
+import OSLog
 
-public extension ASE {
-	/// A grouping of colors
-	struct Group: Equatable, Identifiable {
-		/// Unique identifier
-		public let id = UUID()
+public extension PAL {
+	/// A color palette
+	struct Palette: Equatable {
+		/// Colors that are not assigned to a group ('global' colors)
+		public var colors: [Color] = []
 
-		public var name: String
-		/// The colors assigned to the group
-		public internal(set) var colors: [Color]
-		/// Create a group with the specified name and colors
-		public init(name: String = "", colors: [Color] = []) {
-			self.name = name
-			self.colors = colors
-		}
-	}
-}
+		/// Groups of colors
+		public var groups = [Group]()
 
-extension ASE.Group {
-	public static func == (lhs: ASE.Group, rhs: ASE.Group) -> Bool {
-		return
-			lhs.name == rhs.name &&
-			lhs.colors == rhs.colors
+		/// Create an empty palette
+		public init() {}
 	}
 }

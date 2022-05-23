@@ -1,5 +1,5 @@
 //
-//  ASEPalette+Color.swift
+//  PAL+Color.swift
 //
 //  Created by Darren Ford on 16/5/2022.
 //  Copyright © 2022 Darren Ford. All rights reserved.
@@ -27,13 +27,13 @@
 
 import Foundation
 
-public extension ASE {
+public extension PAL {
 	/// A color in the palette
 	struct Color: Equatable, CustomStringConvertible {
 		/// The color name
 		public let name: String
 		/// The colorspace model for the color
-		public let model: ASE.ColorSpace
+		public let model: PAL.ColorSpace
 		/// The components of the color
 		public let colorComponents: [Float32]
 		/// The type of color (global, spot, normal)
@@ -43,16 +43,16 @@ public extension ASE {
 		public let alpha: Float32
 
 		/// Create a color object
-		public init(name: String, model: ASE.ColorSpace, colorComponents: [Float32], colorType: ColorType = .normal, alpha: Float32 = 1) throws {
+		public init(name: String, model: PAL.ColorSpace, colorComponents: [Float32], colorType: ColorType = .normal, alpha: Float32 = 1) throws {
 			self.name = name
 			self.model = model
 
 			// Quick sanity check on the color model and components
 			switch model {
-			case .CMYK: if colorComponents.count != 4 { throw ASE.CommonError.invalidColorComponentCountForModelType }
-			case .RGB: if colorComponents.count != 3 { throw ASE.CommonError.invalidColorComponentCountForModelType }
-			case .LAB: if colorComponents.count != 3 { throw ASE.CommonError.invalidColorComponentCountForModelType }
-			case .Gray: if colorComponents.count != 1 { throw ASE.CommonError.invalidColorComponentCountForModelType }
+			case .CMYK: if colorComponents.count != 4 { throw PAL.CommonError.invalidColorComponentCountForModelType }
+			case .RGB: if colorComponents.count != 3 { throw PAL.CommonError.invalidColorComponentCountForModelType }
+			case .LAB: if colorComponents.count != 3 { throw PAL.CommonError.invalidColorComponentCountForModelType }
+			case .Gray: if colorComponents.count != 1 { throw PAL.CommonError.invalidColorComponentCountForModelType }
 			}
 
 			self.colorComponents = colorComponents
@@ -85,19 +85,19 @@ public extension ASE {
 
 // MARK: Hex color initializers
 
-public extension ASE.Color {
+public extension PAL.Color {
 	/// Create a color object from a rgb hex string (eg. "12E5B4" or "#12E5B4")
-	init(name: String = "", rgbHexString: String, colorType: ASE.ColorType = .normal) throws {
+	init(name: String = "", rgbHexString: String, colorType: PAL.ColorType = .normal) throws {
 		guard let color = Self.fromRGBHexString(rgbHexString) else {
-			throw ASE.CommonError.invalidRGBHexString(rgbHexString)
+			throw PAL.CommonError.invalidRGBHexString(rgbHexString)
 		}
 		try self.init(name: name, model: .RGB, colorComponents: [color.r, color.g, color.b], colorType: colorType)
 	}
 
 	/// Create a color object from a rgb hex string (eg. "12E5B412" or "#12E5B412")
-	init(name: String = "", rgbaHexString: String, colorType: ASE.ColorType = .normal) throws {
+	init(name: String = "", rgbaHexString: String, colorType: PAL.ColorType = .normal) throws {
 		guard let color = Self.fromRGBAHexString(rgbaHexString) else {
-			throw ASE.CommonError.invalidRGBHexString(rgbaHexString)
+			throw PAL.CommonError.invalidRGBHexString(rgbaHexString)
 		}
 		try self.init(
 			name: name,
@@ -111,7 +111,7 @@ public extension ASE.Color {
 
 // MARK: Hex color converters
 
-private extension ASE.Color {
+private extension PAL.Color {
 	static func fromRGBHexString(_ rgbaHexString: String) -> (r: Float32, g: Float32, b: Float32)? {
 		// Validate the string length ('XXXXXX' or '#XXXXXX')
 		guard rgbaHexString.count == 6 || (rgbaHexString.count == 7 && rgbaHexString.first == "#") else { return nil }

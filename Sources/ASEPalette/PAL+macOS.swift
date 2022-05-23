@@ -1,5 +1,5 @@
 //
-//  ASEPalette+macOS.swift
+//  PAL+macOS.swift
 //
 //  Copyright © 2022 Darren Ford. All rights reserved.
 //
@@ -28,15 +28,15 @@
 
 import AppKit
 
-public extension ASE.Palette {
+public extension PAL.Palette {
 	/// Load a palette from an NSColorList (macOS only)
 	init(_ colorList: NSColorList) throws {
 		let names = colorList.allKeys
 		
-		var colors: [ASE.Color] = []
+		var colors: [PAL.Color] = []
 		try names.forEach { name in
 			if let color = colorList.color(withKey: name) {
-				colors.append(try ASE.Color(cgColor: color.cgColor, name: name))
+				colors.append(try PAL.Color(cgColor: color.cgColor, name: name))
 			}
 		}
 		self.colors = colors
@@ -74,7 +74,7 @@ public extension ASE.Palette {
 	}
 }
 
-public extension ASE.Color {
+public extension PAL.Color {
 	/// Returns an NSColor representation of this color
 	var nsColor: NSColor? {
 		self.cgColor.unwrapping { NSColor(cgColor: $0) }

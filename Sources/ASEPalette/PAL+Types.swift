@@ -1,6 +1,7 @@
 //
-//  ASEPalette+CoderProtocol.swift
+//  PAL+Types.swift
 //
+//  Created by Darren Ford on 16/5/2022.
 //  Copyright © 2022 Darren Ford. All rights reserved.
 //
 //  MIT License
@@ -26,41 +27,43 @@
 
 import Foundation
 
-public extension ASE {
-	class Coder { }
-}
-
-/// A Palette coder protocol
-public protocol PaletteCoder {
-	/// The extension for the file, or a unique name for identifying the coder type.
-	var fileExtension: String { get }
-
-	/// Read the palette from an input stream
-	func read(_ inputStream: InputStream) throws -> ASE.Palette
-
-	/// Write the palette to data
-	func data(for palette: ASE.Palette) throws -> Data
-}
-
-extension PaletteCoder {
-	/// Load from the contents of a fileURL
-	func load(fileURL: URL) throws -> ASE.Palette {
-		guard let inputStream = InputStream(fileAtPath: fileURL.path) else {
-			throw ASE.CommonError.unableToLoadFile
-		}
-		inputStream.open()
-		return try read(inputStream)
+public extension PAL {
+	/// ASE Palette errors
+	enum CommonError: Error {
+		case unsupportedPaletteType
+		case unableToLoadFile
+		case invalidFormat
+		case invalidASEHeader
+		case invalidColorComponentCountForModelType
+		case invalidEndOfFile
+		case invalidString
+		case invalidIntegerValue
+		case unknownBlockType
+		case groupAlreadyOpen
+		case groupNotOpen
+		case unknownColorMode(String)
+		case unknownColorType(Int)
+		case unsupportedCGColorType
+		case invalidRGBHexString(String)
+		case invalidRGBAHexString(String)
+		case unsupportedColorSpace
+		case invalidVersion
+		case invalidUnicodeFormatString
+		case unsupportedCoderType
+	}
+	
+	/// A color representation for a color
+	enum ColorSpace {
+		case CMYK
+		case RGB
+		case LAB
+		case Gray
 	}
 
-	/// Load from data
-	func load(data: Data) throws -> ASE.Palette {
-		let inputStream = InputStream(data: data)
-		inputStream.open()
-		return try read(inputStream)
-	}
-
-	/// Return the encoded palette
-	func data(_ palette: ASE.Palette) throws -> Data {
-		return try self.data(for: palette)
+	/// The type of the color (normal, spot, global)
+	enum ColorType: Int {
+		case global = 0
+		case spot = 1
+		case normal = 2
 	}
 }

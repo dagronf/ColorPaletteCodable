@@ -21,7 +21,7 @@ final class ASEPaletteTests: XCTestCase {
 		// Loop through all the resource files
 		Swift.print("Round-tripping ASE files...'")
 
-		let coder = try XCTUnwrap(ASE.Palette.coder(for: "ase"))
+		let coder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
 
 		for name in ase_resources {
 			let controlASE = try XCTUnwrap(Bundle.module.url(forResource: name, withExtension: "ase"))
@@ -47,7 +47,7 @@ final class ASEPaletteTests: XCTestCase {
 	}
 
 	func testBasic() throws {
-		let paletteCoder = try XCTUnwrap(ASE.Palette.coder(for: "ase"))
+		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
 		let origData = try Data(contentsOf: controlASE)
 		let palette = try paletteCoder.load(fileURL: controlASE)
@@ -58,7 +58,7 @@ final class ASEPaletteTests: XCTestCase {
 	}
 
 	func testSimpleLoad() throws {
-		let paletteCoder = try XCTUnwrap(ASE.Palette.coder(for: "ase"))
+		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
 
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
 		let palette = try paletteCoder.load(fileURL: controlASE)
@@ -69,7 +69,7 @@ final class ASEPaletteTests: XCTestCase {
 	}
 	
 	func testNextUltraMattes() throws {
-		let paletteCoder = try XCTUnwrap(ASE.Palette.coder(for: "ase"))
+		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
 
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "Ultra-Mattes Reverse", withExtension: "ase"))
 		let palette = try paletteCoder.load(fileURL: controlASE)
@@ -81,7 +81,7 @@ final class ASEPaletteTests: XCTestCase {
 	}
 	
 	func testNextWisteric() throws {
-		let paletteCoder = try XCTUnwrap(ASE.Palette.coder(for: "ase"))
+		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
 
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "wisteric-17", withExtension: "ase"))
 		let palette = try paletteCoder.load(fileURL: controlASE)
@@ -91,7 +91,7 @@ final class ASEPaletteTests: XCTestCase {
 	}
 	
 	func testMulti() throws {
-		let paletteCoder = try XCTUnwrap(ASE.Palette.coder(for: "ase"))
+		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
 
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "24 colour palettes", withExtension: "ase"))
 		let palette = try paletteCoder.load(fileURL: controlASE)
@@ -104,7 +104,7 @@ final class ASEPaletteTests: XCTestCase {
 	}
 	
 	func testWriteRead() throws {
-		let paletteCoder = try XCTUnwrap(ASE.Palette.coder(for: "ase"))
+		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
 
 		do {
 			let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
@@ -143,7 +143,7 @@ final class ASEPaletteTests: XCTestCase {
 	}
 		
 	func testCGColorThings() throws {
-		let paletteCoder = try XCTUnwrap(ASE.Palette.coder(for: "ase"))
+		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
 
 		do {
 			let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
@@ -163,9 +163,9 @@ final class ASEPaletteTests: XCTestCase {
 
 		do {
 			let cmyk = CGColor(genericCMYKCyan: 1, magenta: 1, yellow: 0.5, black: 0.2, alpha: 1)
-			let cc1 = try ASE.Color(cgColor: cmyk, name: "cmyk", colorType: .global)
+			let cc1 = try PAL.Color(cgColor: cmyk, name: "cmyk", colorType: .global)
 
-			var p = ASE.Palette()
+			var p = PAL.Palette()
 			p.colors.append(cc1)
 
 			let d1 = try paletteCoder.data(p)
@@ -183,12 +183,12 @@ final class ASEPaletteTests: XCTestCase {
 	}
 	
 	func testDoco1() throws {
-		let paletteCoder = try XCTUnwrap(ASE.Palette.coder(for: "ase"))
+		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
 
-		var palette = ASE.Palette()
-		let c1 = try ASE.Color(name: "red", model: ASE.ColorSpace.RGB, colorComponents: [1, 0, 0])
-		let c2 = try ASE.Color(name: "green", model: ASE.ColorSpace.RGB, colorComponents: [0, 1, 0])
-		let c3 = try ASE.Color(name: "blue", model: ASE.ColorSpace.RGB, colorComponents: [0, 0, 1])
+		var palette = PAL.Palette()
+		let c1 = try PAL.Color(name: "red", model: .RGB, colorComponents: [1, 0, 0])
+		let c2 = try PAL.Color(name: "green", model: .RGB, colorComponents: [0, 1, 0])
+		let c3 = try PAL.Color(name: "blue", model: .RGB, colorComponents: [0, 0, 1])
 		palette.colors.append(contentsOf: [c1, c2, c3])
 		
 		let rawData = try paletteCoder.data(palette)
@@ -203,14 +203,14 @@ final class ASEPaletteTests: XCTestCase {
 	}
 	
 	func testDoco2() throws {
-		let paletteCoder = ASE.Coder.ASE()
+		let paletteCoder = PAL.Coder.ASE()
 
-		var palette = ASE.Palette()
-		let c1 = try ASE.Color(name: "red", model: ASE.ColorSpace.RGB, colorComponents: [1, 0, 0])
-		let c2 = try ASE.Color(name: "green", model: ASE.ColorSpace.RGB, colorComponents: [0, 1, 0])
-		let c3 = try ASE.Color(name: "blue", model: ASE.ColorSpace.RGB, colorComponents: [0, 0, 1])
+		var palette = PAL.Palette()
+		let c1 = try PAL.Color(name: "red", model: PAL.ColorSpace.RGB, colorComponents: [1, 0, 0])
+		let c2 = try PAL.Color(name: "green", model: PAL.ColorSpace.RGB, colorComponents: [0, 1, 0])
+		let c3 = try PAL.Color(name: "blue", model: PAL.ColorSpace.RGB, colorComponents: [0, 0, 1])
 		
-		let grp = ASE.Group(name: "rgb", colors: [c1, c2, c3])
+		let grp = PAL.Group(name: "rgb", colors: [c1, c2, c3])
 		palette.groups.append(grp)
 		
 		let rawData = try paletteCoder.data(palette)
@@ -232,7 +232,7 @@ final class ASEPaletteTests: XCTestCase {
 	}
 
 	func testColorLoading() throws {
-		let paletteCoder = ASE.Coder.ASE()
+		let paletteCoder = PAL.Coder.ASE()
 		
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "1629367375_iColorpalette", withExtension: "ase"))
 		let palette = try paletteCoder.load(fileURL: controlASE)
@@ -264,7 +264,7 @@ final class ASEPaletteTests: XCTestCase {
 
 	func testColorInit() throws {
 		do {
-			let c1 = try ASE.Color(name: "c1", rgbHexString: "1122FE")
+			let c1 = try PAL.Color(name: "c1", rgbHexString: "1122FE")
 			XCTAssertEqual(c1.model, .RGB)
 			XCTAssertEqual(c1.colorComponents.count, 3)
 			XCTAssertEqual(c1.colorComponents[0], 0.06666, accuracy: 0.00001)
@@ -273,7 +273,7 @@ final class ASEPaletteTests: XCTestCase {
 		}
 
 		do {
-			let c1 = try ASE.Color(name: "c1", rgbaHexString: "#54efaa11")
+			let c1 = try PAL.Color(name: "c1", rgbaHexString: "#54efaa11")
 			XCTAssertEqual(c1.model, .RGB)
 			XCTAssertEqual(c1.colorComponents.count, 3)	// alpha is stripped
 			XCTAssertEqual(c1.colorComponents[0], 0.32941, accuracy: 0.00001)
@@ -284,25 +284,25 @@ final class ASEPaletteTests: XCTestCase {
 
 	func testColorInitHexInvalid() throws {
 		do {
-			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbHexString: "#5e34"))
-			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbHexString: "5e34"))
-			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbHexString: "1122F"))
-			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbHexString: "1122FEE"))
-			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbHexString: "#1SS122F"))
+			XCTAssertThrowsError(try PAL.Color(name: "c1", rgbHexString: "#5e34"))
+			XCTAssertThrowsError(try PAL.Color(name: "c1", rgbHexString: "5e34"))
+			XCTAssertThrowsError(try PAL.Color(name: "c1", rgbHexString: "1122F"))
+			XCTAssertThrowsError(try PAL.Color(name: "c1", rgbHexString: "1122FEE"))
+			XCTAssertThrowsError(try PAL.Color(name: "c1", rgbHexString: "#1SS122F"))
 
-			XCTAssertNoThrow(try ASE.Color(name: "c1", rgbHexString: "#1122FE"))
-			XCTAssertNoThrow(try ASE.Color(name: "c1", rgbHexString: "1122FE"))
+			XCTAssertNoThrow(try PAL.Color(name: "c1", rgbHexString: "#1122FE"))
+			XCTAssertNoThrow(try PAL.Color(name: "c1", rgbHexString: "1122FE"))
 		}
 
 		do {
-			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbHexString: "1122F"))
-			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbaHexString: "#1SS122Faa"))
-			XCTAssertThrowsError(try ASE.Color(name: "c1", rgbaHexString: "E1122FE23"))
+			XCTAssertThrowsError(try PAL.Color(name: "c1", rgbHexString: "1122F"))
+			XCTAssertThrowsError(try PAL.Color(name: "c1", rgbaHexString: "#1SS122Faa"))
+			XCTAssertThrowsError(try PAL.Color(name: "c1", rgbaHexString: "E1122FE23"))
 
-			XCTAssertNoThrow(try ASE.Color(name: "c1", rgbaHexString: "#1122FE23"))
-			XCTAssertNoThrow(try ASE.Color(name: "c1", rgbaHexString: "1122FE32"))
-			XCTAssertNoThrow(try ASE.Color(name: "c1", rgbaHexString: "#1122FEaa"))
-			XCTAssertNoThrow(try ASE.Color(name: "c1", rgbaHexString: "1122FEaa"))
+			XCTAssertNoThrow(try PAL.Color(name: "c1", rgbaHexString: "#1122FE23"))
+			XCTAssertNoThrow(try PAL.Color(name: "c1", rgbaHexString: "1122FE32"))
+			XCTAssertNoThrow(try PAL.Color(name: "c1", rgbaHexString: "#1122FEaa"))
+			XCTAssertNoThrow(try PAL.Color(name: "c1", rgbaHexString: "1122FEaa"))
 		}
 	}
 }

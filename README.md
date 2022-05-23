@@ -36,28 +36,32 @@ The `.aco` file format is defined [here](https://www.adobe.com/devnet-apps/photo
 * NSColorList (.clr) *(macOS only)* 
 * RGB(A) text files (.rgb)
 
-### Reading/writing ase files
+### 
 
 | Type          | Description   | 
 |:--------------|:---------------|
-|`ASE.Palette`  | The full representation of the ASE palette file |
-|`ASE.Group`    | An optionally named collection of colors |
-|`ASE.Color`    | An optionally named color |
+|`PAL.Palette`  | The full representation of a palette |
+|`PAL.Group`    | An optionally named collection of colors |
+|`PAL.Color`    | An optionally named color |
 
-### Reading/writing aco files
+### Coders
 
-| Type                 | Description   | 
-|:---------------------|:---------------|
-|`ASE.ACOColorSwatch`  | The full representation of an ACO file |
+| Type             | Description                         |
+|:-----------------|:------------------------------------|
+|`PAL.Coder.ASE`   | A `.ase` format coder               |
+|`PAL.Coder.ACO`   | A `.aco` format coder               |
+|`PAL.Coder.CLR`   | A `.clr` (NSColorList) format coder |
+|`PAL.Coder.RGB`   | A hex encoded rgb text file coder   |
+|`PAL.Coder.RGBA`  | A hex encoded rgba text file coder  |
 
 ## Tasks
 
-### Load an ASE file
+### Load a palette file
 
 ```swift
 do {
-   let aseFileURL = URL(fileURL: ...)
-   let palette = try ASE.Palette(fileURL: aseFileURL)
+   let myFileURL = URL(fileURL: ...)
+   let palette = try PAL.Palette.load(fileURL: myFileURL)
    
    // do something with 'palette'
 }
@@ -71,33 +75,38 @@ catch {
 ```swift
 do {
    // Build a palette
-   var palette = ASE.Palette()
-   let c1 = try ASE.Color(name: "red", model: ASE.ColorModel.RGB, colorComponents: [1, 0, 0])
-   let c2 = try ASE.Color(name: "green", model: ASE.ColorModel.RGB, colorComponents: [0, 1, 0])
-   let c3 = try ASE.Color(name: "blue", model: ASE.ColorModel.RGB, colorComponents: [0, 0, 1])
+   var palette = PAL.Palette()
+   let c1 = try PAL.Color(name: "red", model: .RGB, colorComponents: [1, 0, 0])
+   let c2 = try PAL.Color(name: "green", model: .RGB, colorComponents: [0, 1, 0])
+   let c3 = try PAL.Color(name: "blue", model: .RGB, colorComponents: [0, 0, 1])
    palette.colors.append(contentsOf: [c1, c2, c3])
 
+   // Create an ASE coder
+   let coder = PAL.Coder.ASE()
+
    // Get the .ase format data
-   let rawData = try palette.data()
+   let rawData = try coder.data(palette)
    
-   // Do something with 'rawData' like write to a file for example
+   // Do something with 'rawData' (like write to a file for example)
 }
 catch {
    // Do something with 'error'
 }
 ```
 
-### Read/Write an ACO file
+### Read an ACO file, write an ASE file
 
 ```swift
 do {
    let acoFileURL = URL(fileURL: ...)
-   let swatches = try ASE.ACOColorSwatch(fileURL: aseFileURL)
+   let coder = PAL.Coder.ACO()
+   var palette = try coder.load(fileURL: acoFileURL)
    
-   // do something with 'swatches'
+   // do something with 'palette'
    
-   // re-encode the swatch to an ACO format
-   let rawData = try swatches.data() 
+   // re-encode the palette to an ASE format
+   let encoder = PAL.Coder.ASE()
+   let rawData = try encoder.data(palette) 
 }
 catch {
    // Do something with 'error'
@@ -106,7 +115,7 @@ catch {
 
 ## QuickLook support (macOS 12+ only)
 
-This package also includes a Quicklook Plugin for .ase files. macOS 12 has changed the was quicklook plugins work, by creating an .appex extension (which is the quicklook plugin) embedded within an application.
+This package also includes a Quicklook Plugin for palette files. macOS 12 has changed the was quicklook plugins work, by creating an .appex extension (which is the quicklook plugin) embedded within an application.
 
 In the `Quicklook` subfolder you'll find an `xcodeproj` which you can use to build the application `Palette Viewer` which contains the QuickLook plugin.
 
@@ -117,6 +126,7 @@ Palette Viewer allows you to view the contents of
 * Adobe Swatch Exchange files (.ase)
 * Adobe Photoshop Color Swatch files (.aco)
 * Apple ColorList files (.clr)
+* RGB/RGBA hex encoded text files (.txt)
 
 You can drag colors out of the preview window into applications that support dropping of `NSColor` instances.
 

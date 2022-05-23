@@ -1,5 +1,5 @@
 //
-//  ASEPalette+Common.swift
+//  PAL+Common.swift
 //
 //  Copyright © 2022 Darren Ford. All rights reserved.
 //
@@ -29,10 +29,10 @@
 import Foundation
 
 /// Common namespace for all ASEPalette types
-public class ASE {}
+public class PAL {}
 
 // Logger
-let ase_log = OSLogger(subsystem: Bundle.main.bundleIdentifier!, category: "ASEPalette")
+let plt_log = OSLogger(subsystem: Bundle.main.bundleIdentifier!, category: "ASEPalette")
 
 internal struct Common {
 	// Two 'zero' bytes in succession

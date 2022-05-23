@@ -31,8 +31,8 @@ import Foundation
 // Read raw UInt8 bytes from the input stream
 internal func readData(_ inputStream: InputStream, size: Int) throws -> Data {
 	if inputStream.hasBytesAvailable == false {
-		ase_log.log(.error, "Found end of file")
-		throw ASE.CommonError.invalidEndOfFile
+		plt_log.log(.error, "Found end of file")
+		throw PAL.CommonError.invalidEndOfFile
 	}
 
 	// Create a temporary buffer in which to store read bytes
@@ -48,7 +48,7 @@ internal func readData(_ inputStream: InputStream, size: Int) throws -> Data {
 		if readCount == 0, !inputStream.hasBytesAvailable {
 			// If we haven't read anything and there's no more data to read,
 			// then we're at the end of file
-			throw ASE.CommonError.invalidEndOfFile
+			throw PAL.CommonError.invalidEndOfFile
 		}
 
 		if readCount > 0 {
@@ -66,7 +66,7 @@ internal func readData(_ inputStream: InputStream, size: Int) throws -> Data {
 internal func readIntegerBigEndian<ValueType: FixedWidthInteger>(_ inputStream: InputStream) throws -> ValueType {
 	let rawData = try readData(inputStream, size: MemoryLayout<ValueType>.size)
 	guard let result = rawData.parseBigEndian(type: ValueType.self) else {
-		throw ASE.CommonError.invalidIntegerValue
+		throw PAL.CommonError.invalidIntegerValue
 	}
 	return result
 }
@@ -74,8 +74,8 @@ internal func readIntegerBigEndian<ValueType: FixedWidthInteger>(_ inputStream: 
 // Read a 0-terminated string of uint16 double-byte characters
 internal func readZeroTerminatedUTF16String(_ inputStream: InputStream) throws -> String {
 	guard inputStream.hasBytesAvailable else {
-		ase_log.log(.error, "Found end of file")
-		throw ASE.CommonError.invalidEndOfFile
+		plt_log.log(.error, "Found end of file")
+		throw PAL.CommonError.invalidEndOfFile
 	}
 
 	var stillReading = true
@@ -104,7 +104,7 @@ internal func readPascalStyleUnicodeString(_ inputStream: InputStream) throws ->
 		let ch: Data = try readData(inputStream, size: 2)
 
 		if index == length - 1, ch != Common.DataTwoZeros {
-			throw ASE.CommonError.invalidUnicodeFormatString
+			throw PAL.CommonError.invalidUnicodeFormatString
 		}
 		data.append(ch)
 	}
@@ -114,8 +114,8 @@ internal func readPascalStyleUnicodeString(_ inputStream: InputStream) throws ->
 // Fixed length of ascii (single byte) characters
 internal func readAsciiString(_ inputStream: InputStream, length: Int) throws -> String {
 	guard inputStream.hasBytesAvailable else {
-		ase_log.log(.error, "Found end of file")
-		throw ASE.CommonError.invalidEndOfFile
+		plt_log.log(.error, "Found end of file")
+		throw PAL.CommonError.invalidEndOfFile
 	}
 
 	let strData = try readData(inputStream, size: length)
