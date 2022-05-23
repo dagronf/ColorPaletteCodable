@@ -29,7 +29,7 @@ import Foundation
 
 public extension PAL {
 	/// A color in the palette
-	struct Color: Equatable, CustomStringConvertible {
+	struct Color: Equatable, CustomStringConvertible, Codable {
 		/// The color name
 		public let name: String
 		/// The colorspace model for the color
@@ -43,7 +43,7 @@ public extension PAL {
 		public let alpha: Float32
 
 		/// Create a color object
-		public init(name: String, model: PAL.ColorSpace, colorComponents: [Float32], colorType: ColorType = .normal, alpha: Float32 = 1) throws {
+		public init(name: String, model: PAL.ColorSpace, colorComponents: [Float32], colorType: ColorType = .global, alpha: Float32 = 1) throws {
 			self.name = name
 			self.model = model
 
@@ -80,6 +80,34 @@ public extension PAL {
 			case .normal: return "normal"
 			}
 		}
+	}
+}
+
+public extension PAL.Color {
+	internal enum CodingKeys: String, CodingKey {
+		case name
+		case model
+		case colorComponents
+		case colorType
+		case alpha
+	}
+
+	init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		self.name = try container.decodeIfPresent(String.self, forKey: .name) ?? ""
+		self.model = try container.decode(PAL.ColorSpace.self, forKey: .model)
+		self.colorComponents = try container.decode([Float32].self, forKey: .colorComponents)
+		self.colorType = try container.decodeIfPresent(PAL.ColorType.self, forKey: .colorType) ?? .global
+		self.alpha = try container.decodeIfPresent(Float32.self, forKey: .alpha) ?? 1
+	}
+
+	func encode(to encoder: Encoder) throws {
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		if !name.isEmpty { try container.encode(name, forKey: .name) }
+		try container.encode(model, forKey: .model)
+		try container.encode(colorComponents, forKey: .colorComponents)
+		if colorType != .global { try container.encode(colorType, forKey: .colorType) }
+		if alpha != 1 { try container.encode(alpha, forKey: .alpha) }
 	}
 }
 

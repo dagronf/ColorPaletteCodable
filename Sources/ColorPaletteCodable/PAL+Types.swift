@@ -53,7 +53,7 @@ public extension PAL {
 	}
 	
 	/// A color representation for a color
-	enum ColorSpace {
+	enum ColorSpace: String, Codable {
 		case CMYK
 		case RGB
 		case LAB
@@ -61,7 +61,7 @@ public extension PAL {
 	}
 
 	/// The type of the color (normal, spot, global)
-	enum ColorType: Int {
+	enum ColorType: Int, Codable {
 		case global = 0
 		case spot = 1
 		case normal = 2

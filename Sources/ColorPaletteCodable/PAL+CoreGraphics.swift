@@ -52,7 +52,7 @@ public extension PAL.Color {
 	///   - cgColor: The cgColor to add to the palette.
 	///   - name: The color's name (optional)
 	///   - colorType: The type of color (global, normal, spot) (optional)
-	init(cgColor: CGColor, name: String = "", colorType: PAL.ColorType = .normal) throws {
+	init(cgColor: CGColor, name: String = "", colorType: PAL.ColorType = .global) throws {
 		self.name = name
 		self.colorType = colorType
 

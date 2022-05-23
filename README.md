@@ -49,6 +49,7 @@ The `.aco` file format is defined [here](https://www.adobe.com/devnet-apps/photo
 |`PAL.Coder.CLR`   | NSColorList (.clr) *(macOS only)*   |
 |`PAL.Coder.RGB`   | RGB text files (.rgb)               |
 |`PAL.Coder.RGBA`  | RGB(A) text files (.rgba)           |
+|`PAL.Coder.JSON`  | JSON encoded palette (.json)        |
 
 ## Tasks
 

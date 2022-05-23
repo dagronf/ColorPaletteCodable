@@ -29,7 +29,7 @@ import Foundation
 
 public extension PAL {
 	/// A color palette
-	struct Palette: Equatable {
+	struct Palette: Equatable, Codable {
 		/// Colors that are not assigned to a group ('global' colors)
 		public var colors: [Color] = []
 
@@ -42,6 +42,29 @@ public extension PAL {
 		/// Create a palette with collection of global colors
 		public init(colors: [PAL.Color]) {
 			self.colors = colors
+		}
+	}
+}
+
+public extension PAL.Palette {
+	internal enum CodingKeys: String, CodingKey {
+		case colors
+		case groups
+	}
+
+	init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		self.colors = try container.decodeIfPresent([PAL.Color].self, forKey: .colors) ?? []
+		self.groups = try container.decodeIfPresent([PAL.Group].self, forKey: .groups) ?? []
+	}
+
+	func encode(to encoder: Encoder) throws {
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		if !self.colors.isEmpty {
+			try container.encode(colors, forKey: .colors)
+		}
+		if !self.groups.isEmpty {
+			try container.encode(groups, forKey: .groups)
 		}
 	}
 }

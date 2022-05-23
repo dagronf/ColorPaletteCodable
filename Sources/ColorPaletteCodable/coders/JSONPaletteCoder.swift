@@ -1,7 +1,6 @@
 //
-//  PAL+Group.swift
+//  JSONPaletteCoder.swift
 //
-//  Created by Darren Ford on 16/5/2022.
 //  Copyright © 2022 Darren Ford. All rights reserved.
 //
 //  MIT License
@@ -27,44 +26,20 @@
 
 import Foundation
 
-public extension PAL {
-	/// A grouping of colors
-	struct Group: Equatable, Identifiable, Codable {
-		/// Unique identifier
-		public let id = UUID()
-		/// The group name
-		public var name: String
-		/// The colors assigned to the group
-		public internal(set) var colors: [Color]
-		/// Create a group with the specified name and colors
-		public init(name: String = "", colors: [Color] = []) {
-			self.name = name
-			self.colors = colors
-		}
+public extension PAL.Coder {
+	/// A JSON encoder/decoder
+	struct JSON: PAL_PaletteCoder {
+		public let fileExtension = "json"
 	}
 }
 
-extension PAL.Group {
-	enum CodingKeys: String, CodingKey {
-		case name
-		case colors
+public extension PAL.Coder.JSON {
+	func read(_ inputStream: InputStream) throws -> PAL.Palette {
+		let data = inputStream.readAllData()
+		return try JSONDecoder().decode(PAL.Palette.self, from: data)
 	}
 
-	public init(from decoder: Decoder) throws {
-		let container = try decoder.container(keyedBy: CodingKeys.self)
-		self.name = try container.decodeIfPresent(String.self, forKey: .name) ?? ""
-		self.colors = try container.decode([PAL.Color].self, forKey: .colors)
-	}
-
-	public func encode(to encoder: Encoder) throws {
-		var container = encoder.container(keyedBy: CodingKeys.self)
-		if !name.isEmpty { try container.encode(name, forKey: .name) }
-		try container.encode(colors, forKey: .colors)
-	}
-
-	public static func == (lhs: PAL.Group, rhs: PAL.Group) -> Bool {
-		return
-			lhs.name == rhs.name &&
-			lhs.colors == rhs.colors
+	func data(for palette: PAL.Palette) throws -> Data {
+		return try JSONEncoder().encode(palette)
 	}
 }

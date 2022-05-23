@@ -76,7 +76,7 @@ public extension PAL.Palette {
 
 public extension PAL.Color {
 	/// Create a color from an NSColor instance
-	init(color: NSColor, name: String = "", colorType: PAL.ColorType = .normal) throws {
+	init(color: NSColor, name: String = "", colorType: PAL.ColorType = .global) throws {
 		try self.init(cgColor: color.cgColor, name: name, colorType: colorType)
 	}
 
