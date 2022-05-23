@@ -75,9 +75,14 @@ public extension PAL.Palette {
 }
 
 public extension PAL.Color {
+	/// Create a color from an NSColor instance
+	init(color: NSColor, name: String = "", colorType: PAL.ColorType = .normal) throws {
+		try self.init(cgColor: color.cgColor, name: name, colorType: colorType)
+	}
+
 	/// Returns an NSColor representation of this color
 	var nsColor: NSColor? {
-		self.cgColor.unwrapping { NSColor(cgColor: $0) }
+		return self.cgColor.unwrapping { NSColor(cgColor: $0) }
 	}
 }
 

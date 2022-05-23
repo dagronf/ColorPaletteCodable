@@ -49,7 +49,7 @@ public extension PAL {
 public extension PAL.Color {
 	/// Create a Color object from a CGColor
 	/// - Parameters:
-	///   - cgColor: The cgColor to add to the palette. Note any alpha value is lost (as .ase files don't support transparency)
+	///   - cgColor: The cgColor to add to the palette.
 	///   - name: The color's name (optional)
 	///   - colorType: The type of color (global, normal, spot) (optional)
 	init(cgColor: CGColor, name: String = "", colorType: PAL.ColorType = .normal) throws {
