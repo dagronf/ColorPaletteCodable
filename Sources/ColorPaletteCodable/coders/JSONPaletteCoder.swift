@@ -34,7 +34,7 @@ public extension PAL.Coder {
 }
 
 public extension PAL.Coder.JSON {
-	func read(_ inputStream: InputStream) throws -> PAL.Palette {
+	func create(from inputStream: InputStream) throws -> PAL.Palette {
 		let data = inputStream.readAllData()
 		return try JSONDecoder().decode(PAL.Palette.self, from: data)
 	}

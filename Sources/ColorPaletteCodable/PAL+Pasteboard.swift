@@ -74,13 +74,13 @@ extension PAL.Palette {
 			let strVal = pasteboard.string(forType: NSPasteboard.PasteboardType(PAL.UTI)),
 			let data = strVal.data(using: .utf8)
 		{
-			if let palette = try? PAL.Coder.JSON().load(data: data) {
+			if let palette = try? PAL.Coder.JSON().create(from: data) {
 				return palette
 			}
 		}
 
 		if let colorListData = pasteboard.data(forType: NSColorListPasteboardType) {
-			if let palette = try? PAL.Coder.CLR().load(data: colorListData) {
+			if let palette = try? PAL.Coder.CLR().create(from: colorListData) {
 				return palette
 			}
 		}
@@ -103,7 +103,7 @@ extension PAL.Palette {
 		if
 			pasteboard.contains(pasteboardTypes: [PAL.UTI]),
 			let data = pasteboard.value(forPasteboardType: PAL.UTI) as? Data,
-			let palette = try? PAL.Coder.JSON().load(data: data)
+			let palette = try? PAL.Coder.JSON().create(from: data)
 		{
 			return palette
 		}

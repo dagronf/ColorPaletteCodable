@@ -46,7 +46,7 @@ public extension PAL.Coder {
 }
 
 public extension PAL.Coder.RGBA {
-	func read(_ inputStream: InputStream) throws -> PAL.Palette {
+	func create(from inputStream: InputStream) throws -> PAL.Palette {
 		let data = inputStream.readAllData()
 		guard let text = String(data: data, encoding: .utf8) else {
 			throw PAL.CommonError.unableToLoadFile

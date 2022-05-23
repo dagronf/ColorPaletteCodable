@@ -52,7 +52,7 @@ public extension PAL.Coder {
 }
 
 extension PAL.Coder.ASE {
-	public func read(_ inputStream: InputStream) throws -> PAL.Palette {
+	public func create(from inputStream: InputStream) throws -> PAL.Palette {
 		// NOTE: Assumption here is that `inputStream` is already open
 		// If the input stream isn't open, the reading will hang.
 

@@ -45,7 +45,7 @@ public extension PAL.Coder {
 }
 
 extension PAL.Coder.ACO {
-	public func read(_ inputStream: InputStream) throws -> PAL.Palette {
+	public func create(from inputStream: InputStream) throws -> PAL.Palette {
 		var result = PAL.Palette()
 		
 		var v1Colors = [PAL.Color]()

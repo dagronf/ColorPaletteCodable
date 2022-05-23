@@ -47,17 +47,17 @@ public extension PAL.Palette {
 		return AvailableCoders.first(where: { $0.fileExtension == lext })
 	}
 	
-	/// Load a palette from the contents of a fileURL
+	/// Create a palette from the contents of a fileURL
 	/// - Parameters:
 	///   - fileURL: The file to load
 	///   - forcedExtension: If set, overrides the coder used for loading to `forcedExtension` rather than the fileURL extension
 	/// - Returns: A palette
-	static func load(fileURL: URL, forcedExtension: String? = nil) throws -> PAL.Palette {
+	static func Create(from fileURL: URL, forcedExtension: String? = nil) throws -> PAL.Palette {
 		let extn = forcedExtension ?? fileURL.pathExtension
 		guard let coder = self.coder(for: extn) else {
 			throw PAL.CommonError.unsupportedCoderType
 		}
-		return try coder.load(fileURL: fileURL)
+		return try coder.create(from: fileURL)
 	}
 	
 	/// Load a palette from the contents of a fileURL
@@ -65,11 +65,11 @@ public extension PAL.Palette {
 	///   - data: The data
 	///   - fileExtension: The expected file extension for the data
 	/// - Returns: A palette
-	static func load(data: Data, fileExtension: String) throws -> PAL.Palette {
+	static func Create(from data: Data, fileExtension: String) throws -> PAL.Palette {
 		guard let coder = self.coder(for: fileExtension) else {
 			throw PAL.CommonError.unsupportedCoderType
 		}
-		return try coder.load(data: data)
+		return try coder.create(from: data)
 	}
 	
 	/// Encode the specified palette using the specified coder

@@ -38,7 +38,7 @@ public extension PAL.Coder {
 }
 
 extension PAL.Coder.CLR {
-	public func read(_ inputStream: InputStream) throws -> PAL.Palette {
+	public func create(from inputStream: InputStream) throws -> PAL.Palette {
 #if os(macOS)
 		let allData = inputStream.readAllData()
 		let cl = try withDataWrittenToTemporaryFile(allData, fileExtension: "clr") { fileURL in

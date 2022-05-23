@@ -13,7 +13,7 @@ class RGBPaletteTests: XCTestCase {
 
 	func testRGB() throws {
 		let rgbURL = try XCTUnwrap(Bundle.module.url(forResource: "basic1", withExtension: "txt"))
-		let palette = try PAL.Palette.load(fileURL: rgbURL, forcedExtension: "rgb")
+		let palette = try PAL.Palette.Create(from: rgbURL, forcedExtension: "rgb")
 		XCTAssertEqual(palette.colors.count, 7)
 
 		XCTAssertEqual(palette.colors[3].name, "Fish and chips")
@@ -27,7 +27,7 @@ class RGBPaletteTests: XCTestCase {
 		let origData = try Data(contentsOf: rgbaURL)
 
 		// Read in as RGBA
-		let palette = try PAL.Palette.load(fileURL: rgbaURL, forcedExtension: "rgba")
+		let palette = try PAL.Palette.Create(from: rgbaURL, forcedExtension: "rgba")
 		XCTAssertEqual(palette.colors.count, 7)
 
 		// Check some alpha values that they are correctly loaded
@@ -53,7 +53,7 @@ class RGBPaletteTests: XCTestCase {
 
 		// Decode from an RGBA file
 		let decoder = PAL.Coder.RGBA()
-		let palette = try decoder.load(fileURL: rgbaURL)
+		let palette = try decoder.create(from: rgbaURL)
 		XCTAssertEqual(palette.colors[0].alpha, 0.6666, accuracy: 0.0001)
 		XCTAssertEqual(palette.colors[1].alpha, 0.7333, accuracy: 0.0001)
 		XCTAssertEqual(palette.colors[2].alpha, 0.0705, accuracy: 0.0001)
@@ -65,7 +65,7 @@ class RGBPaletteTests: XCTestCase {
 		//let encText = String(data: data, encoding: .utf8)!
 
 		// Decode back... the alpha component should be 1
-		let palette2 = try decoder.load(data: data)
+		let palette2 = try decoder.create(from: data)
 		XCTAssertEqual(palette2.colors[0].alpha, 1, accuracy: 0.0001)
 		XCTAssertEqual(palette2.colors[1].alpha, 1, accuracy: 0.0001)
 		XCTAssertEqual(palette2.colors[2].alpha, 1, accuracy: 0.0001)
@@ -73,6 +73,6 @@ class RGBPaletteTests: XCTestCase {
 
 	func testAttemptLoadBadFormattedTxtFile() throws {
 		let rgbaURL = try XCTUnwrap(Bundle.module.url(forResource: "bad-coding", withExtension: "txt"))
-		XCTAssertThrowsError(try PAL.Coder.RGBA().load(fileURL: rgbaURL))
+		XCTAssertThrowsError(try PAL.Coder.RGBA().create(from: rgbaURL))
 	}
 }

@@ -30,7 +30,7 @@ final class ASEPaletteTests: XCTestCase {
 			Swift.print("Validating '\(name)...'")
 
 			// Attempt to load the ase file
-			let palette = try coder.load(fileURL: controlASE)
+			let palette = try coder.create(from: controlASE)
 
 			// Write to a data stream
 			let data = try coder.data(palette)
@@ -39,7 +39,7 @@ final class ASEPaletteTests: XCTestCase {
 			XCTAssertEqual(origData, data)
 
 			// Re-create the ase structure from the written data ...
-			let reconstitutedPalette = try coder.load(data: data)
+			let reconstitutedPalette = try coder.create(from: data)
 
 			// ... and check equality between the original file and our reconstituted one.
 			XCTAssertEqual(palette, reconstitutedPalette)
@@ -50,10 +50,10 @@ final class ASEPaletteTests: XCTestCase {
 		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
 		let origData = try Data(contentsOf: controlASE)
-		let palette = try paletteCoder.load(fileURL: controlASE)
+		let palette = try paletteCoder.create(from: controlASE)
 		let data = try paletteCoder.data(palette)
 		XCTAssertEqual(origData, data)
-		let reconstitutedPalette = try paletteCoder.load(data: data)
+		let reconstitutedPalette = try paletteCoder.create(from: data)
 		XCTAssertEqual(palette, reconstitutedPalette)
 	}
 
@@ -61,7 +61,7 @@ final class ASEPaletteTests: XCTestCase {
 		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
 
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
-		let palette = try paletteCoder.load(fileURL: controlASE)
+		let palette = try paletteCoder.create(from: controlASE)
 
 		XCTAssertEqual(0, palette.colors.count)
 		XCTAssertEqual(1, palette.groups.count)
@@ -72,7 +72,7 @@ final class ASEPaletteTests: XCTestCase {
 		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
 
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "Ultra-Mattes Reverse", withExtension: "ase"))
-		let palette = try paletteCoder.load(fileURL: controlASE)
+		let palette = try paletteCoder.create(from: controlASE)
 
 		// Swift.print(palette)
 		XCTAssertEqual(0, palette.colors.count)
@@ -84,7 +84,7 @@ final class ASEPaletteTests: XCTestCase {
 		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
 
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "wisteric-17", withExtension: "ase"))
-		let palette = try paletteCoder.load(fileURL: controlASE)
+		let palette = try paletteCoder.create(from: controlASE)
 		// Swift.print(palette)
 		XCTAssertEqual(0, palette.groups.count)
 		XCTAssertEqual(17, palette.colors.count)
@@ -94,7 +94,7 @@ final class ASEPaletteTests: XCTestCase {
 		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
 
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "24 colour palettes", withExtension: "ase"))
-		let palette = try paletteCoder.load(fileURL: controlASE)
+		let palette = try paletteCoder.create(from: controlASE)
 		// Swift.print(palette)
 		XCTAssertEqual(0, palette.colors.count)
 		XCTAssertEqual(24, palette.groups.count)
@@ -108,7 +108,7 @@ final class ASEPaletteTests: XCTestCase {
 
 		do {
 			let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
-			let palette = try paletteCoder.load(fileURL: controlASE)
+			let palette = try paletteCoder.create(from: controlASE)
 			
 			XCTAssertEqual(0, palette.colors.count)
 			XCTAssertEqual(1, palette.groups.count)
@@ -116,7 +116,7 @@ final class ASEPaletteTests: XCTestCase {
 			
 			let data = try paletteCoder.data(palette)
 			
-			let p2 = try paletteCoder.load(data: data)
+			let p2 = try paletteCoder.create(from: data)
 			XCTAssertEqual(palette.colors.count, p2.colors.count)
 			XCTAssertEqual(palette.groups.count, p2.groups.count)
 			XCTAssertEqual(palette.groups[0].colors.count, p2.groups[0].colors.count)
@@ -125,7 +125,7 @@ final class ASEPaletteTests: XCTestCase {
 		do {
 			let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "24 colour palettes", withExtension: "ase"))
 			let origData = try Data(contentsOf: controlASE)
-			let palette = try paletteCoder.load(fileURL: controlASE)
+			let palette = try paletteCoder.create(from: controlASE)
 			
 			XCTAssertEqual(0, palette.colors.count)
 			XCTAssertEqual(24, palette.groups.count)
@@ -135,7 +135,7 @@ final class ASEPaletteTests: XCTestCase {
 			XCTAssertEqual(origData, data)
 			// try data.write(to: URL(fileURLWithPath: "/tmp/output2.ase"))
 			
-			let p2 = try paletteCoder.load(data: data)
+			let p2 = try paletteCoder.create(from: data)
 			XCTAssertEqual(palette.colors.count, p2.colors.count)
 			XCTAssertEqual(palette.groups.count, p2.groups.count)
 			XCTAssertEqual(palette.groups[0].colors.count, p2.groups[0].colors.count)
@@ -147,7 +147,7 @@ final class ASEPaletteTests: XCTestCase {
 
 		do {
 			let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
-			let palette = try paletteCoder.load(fileURL: controlASE)
+			let palette = try paletteCoder.create(from: controlASE)
 
 			let c1 = palette.groups[0].colors[0]
 			let c2 = palette.groups[0].colors[1]
@@ -171,7 +171,7 @@ final class ASEPaletteTests: XCTestCase {
 			let d1 = try paletteCoder.data(p)
 			XCTAssertLessThan(0, d1.count)
 
-			let p1 = try paletteCoder.load(data: d1)
+			let p1 = try paletteCoder.create(from: d1)
 			XCTAssertEqual(1, p1.colors.count)
 			XCTAssertEqual(.CMYK, p1.colors[0].model)
 			XCTAssertEqual(4, p1.colors[0].colorComponents.count)
@@ -194,7 +194,7 @@ final class ASEPaletteTests: XCTestCase {
 		let rawData = try paletteCoder.data(palette)
 		XCTAssertFalse(rawData.isEmpty)
 		
-		let p2 = try paletteCoder.load(data: rawData)
+		let p2 = try paletteCoder.create(from: rawData)
 		XCTAssertEqual(3, p2.colors.count)
 		
 		XCTAssertEqual(p2.colors[0].colorComponents, [Float32(1.0), Float32(0.0), Float32(0.0)])
@@ -216,7 +216,7 @@ final class ASEPaletteTests: XCTestCase {
 		let rawData = try paletteCoder.data(palette)
 		XCTAssertFalse(rawData.isEmpty)
 		
-		let p2 = try paletteCoder.load(data: rawData)
+		let p2 = try paletteCoder.create(from: rawData)
 
 		XCTAssertTrue(p2.colors.isEmpty)
 
@@ -235,7 +235,7 @@ final class ASEPaletteTests: XCTestCase {
 		let paletteCoder = PAL.Coder.ASE()
 		
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "1629367375_iColorpalette", withExtension: "ase"))
-		let palette = try paletteCoder.load(fileURL: controlASE)
+		let palette = try paletteCoder.create(from: controlASE)
 
 		do {
 			// Validate round-trip. Write to a data stream and check that the bytes match the input file content

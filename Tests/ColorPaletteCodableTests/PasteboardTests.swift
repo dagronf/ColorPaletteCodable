@@ -17,7 +17,7 @@ final class PasteboardTests: XCTestCase {
 		let pasteboard = CreatePasteboard(named: "testing")
 
 		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
-		let palette = try PAL.Palette.load(fileURL: fileURL)
+		let palette = try PAL.Palette.Create(from: fileURL)
 
 		// Add the palette to the pasteboard
 		try palette.setOnPasteboard(pasteboard)
@@ -31,7 +31,7 @@ final class PasteboardTests: XCTestCase {
 		let pasteboard = CreatePasteboard(named: "testing")
 
 		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "Material Palette", withExtension: "aco"))
-		let palette = try PAL.Palette.load(fileURL: fileURL)
+		let palette = try PAL.Palette.Create(from: fileURL)
 
 		// Add the palette to the pasteboard
 		try palette.setOnPasteboard(pasteboard)

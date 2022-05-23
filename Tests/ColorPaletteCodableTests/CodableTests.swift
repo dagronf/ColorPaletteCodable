@@ -7,7 +7,7 @@ final class CodableTests: XCTestCase {
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
 		//let origData = try Data(contentsOf: controlASE)
 
-		let palette = try PAL.Palette.load(fileURL: controlASE)
+		let palette = try PAL.Palette.Create(from: controlASE)
 
 		let enc = try JSONEncoder().encode(palette)
 		//try enc.write(to: URL(fileURLWithPath: "/tmp/encoded.json"), options: .atomic)
@@ -22,7 +22,7 @@ final class CodableTests: XCTestCase {
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "Material Palette", withExtension: "aco"))
 		//let origData = try Data(contentsOf: controlASE)
 
-		let palette = try PAL.Palette.load(fileURL: controlASE)
+		let palette = try PAL.Palette.Create(from: controlASE)
 
 		let enc = try JSONEncoder().encode(palette)
 		//try enc.write(to: URL(fileURLWithPath: "/tmp/encoded.json"), options: .atomic)
