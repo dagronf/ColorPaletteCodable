@@ -57,9 +57,14 @@ final class CommonTests: XCTestCase {
 		let p2 = try ASE.Factory.shared.load(fileURL: acoFile)
 		XCTAssertEqual(p2.colors.count, 256)
 
-		// Kiad from a clr file
+		#if os(macOS)
+		// Load from a clr file
 		let p3 = try ASE.Factory.shared.load(fileURL: clrFile)
 		XCTAssertEqual(p3.colors.count, 12)
+		#else
+		// NSColorList not supported on ios/tvos. Check that we throw correctly
+		XCTAssertThrowsError(try ASE.Factory.shared.load(fileURL: clrFile))
+		#endif
 	}
 
 }

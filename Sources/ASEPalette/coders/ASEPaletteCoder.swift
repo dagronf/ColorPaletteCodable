@@ -26,6 +26,7 @@
 
 import Foundation
 
+/// An ASE file reader, based on [the format defined here](http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase)
 internal struct ASEPaletteCoder: PaletteCoder {
 	/// ASE color model representation
 	internal enum ColorModel: String {

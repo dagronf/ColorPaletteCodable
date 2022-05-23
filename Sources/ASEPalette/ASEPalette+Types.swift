@@ -48,9 +48,10 @@ public extension ASE {
 		case unsupportedColorSpace
 		case invalidVersion
 		case invalidUnicodeFormatString
+		case unsupportedCoderType
 	}
 	
-	/// A color model representation
+	/// A color representation for a color
 	enum ColorSpace {
 		case CMYK
 		case RGB

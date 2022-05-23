@@ -1,5 +1,5 @@
 //
-//  CLRPaletteCoder.swift
+//  ASEPalette+CoderProtocol.swift
 //
 //  Copyright © 2022 Darren Ford. All rights reserved.
 //
@@ -26,46 +26,38 @@
 
 import Foundation
 
-#if os(macOS)
-import AppKit
-#endif
+/// A Palette coder protocol
+public protocol PaletteCoder {
 
-/// An NSColorList palette coder/decoder
-internal struct CLRPaletteCoder: PaletteCoder {
-	let fileExtension = "clr"
+	/// The extension for the file, or a unique name for identifying the coder type.
+	var fileExtension: String { get }
+
+	/// Read the palette from an input stream
+	func read(_ inputStream: InputStream) throws -> ASE.Palette
+
+	/// Write the palette to data
+	func data(for palette: ASE.Palette) throws -> Data
 }
 
-internal extension CLRPaletteCoder {
-	func read(_ inputStream: InputStream) throws -> ASE.Palette {
-#if os(macOS)
-		let allData = inputStream.readAllData()
-		let cl = try withDataWrittenToTemporaryFile(allData, fileExtension: "clr") { fileURL in
-			return NSColorList(name: "", fromFile: fileURL.path)
+extension PaletteCoder {
+	/// Load from the contents of a fileURL
+	func load(fileURL: URL) throws -> ASE.Palette {
+		guard let inputStream = InputStream(fileAtPath: fileURL.path) else {
+			throw ASE.CommonError.unableToLoadFile
 		}
-		if let cl = cl {
-			return try ASE.Palette(cl)
-		}
-		throw ASE.CommonError.unableToLoadFile
-#else
-		throw ASE.CommonError.unsupportedCoderType
-#endif
+		inputStream.open()
+		return try read(inputStream)
 	}
-}
 
-internal extension CLRPaletteCoder {
-	func data(for palette: ASE.Palette) throws -> Data {
-#if os(macOS)
-		// We only store 'global' colors in the colorlist. If you need some other behaviour, build a new
-		// ASE.Palette containing a flat collection
-		let cl = palette.globalColorList()
+	/// Load from data
+	func load(data: Data) throws -> ASE.Palette {
+		let inputStream = InputStream(data: data)
+		inputStream.open()
+		return try read(inputStream)
+	}
 
-		let data = try withTemporaryFile("clr") { tempURL -> Data in
-			try cl.write(to: tempURL)
-			return try Data(contentsOf: tempURL)
-		}
-		return data
-#else
-		throw ASE.CommonError.unsupportedCoderType
-#endif
+	/// Return the pal
+	func data(_ palette: ASE.Palette) throws -> Data {
+		return try self.data(for: palette)
 	}
 }

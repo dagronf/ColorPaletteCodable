@@ -34,7 +34,7 @@ public extension ASE {
 		/// Colors that are not assigned to a group ('global' colors)
 		public var colors: [Color] = []
 
-		/// Named groups of colors
+		/// Groups of colors
 		public var groups = [Group]()
 
 		/// Create an empty palette

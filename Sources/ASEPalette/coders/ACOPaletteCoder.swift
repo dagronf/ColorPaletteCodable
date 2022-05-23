@@ -26,6 +26,9 @@
 
 import Foundation
 
+// An object representing an ACO (Adobe Photoshop Swatch)
+//
+// Based on the discussion here: https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577411_pgfId-1070626
 internal struct ACOPaletteCoder: PaletteCoder {
 	// ACO colorspace definitions
 	private enum Colorspace: UInt16 {
