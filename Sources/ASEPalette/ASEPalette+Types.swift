@@ -32,6 +32,7 @@ public extension ASE {
 	enum CommonError: Error {
 		case unsupportedPaletteType
 		case unableToLoadFile
+		case invalidFormat
 		case invalidASEHeader
 		case invalidColorComponentCountForModelType
 		case invalidEndOfFile

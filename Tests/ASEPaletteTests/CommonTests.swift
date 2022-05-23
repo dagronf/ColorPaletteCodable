@@ -67,4 +67,14 @@ final class CommonTests: XCTestCase {
 		#endif
 	}
 
+	func testRGB() throws {
+		let demo = "#fcfc80\n#fcf87c\n#fcf478\n#f8f074\n#f8ec70\n#f4ec6c\n#ecdc5c\n".data(using: .utf8)!
+
+		let palette = try ASE.Factory.shared.load(fileExtension: "rgb", data: demo)
+		XCTAssertEqual(palette.colors.count, 7)
+
+		let data = try ASE.Factory.shared.data(palette, "rgb")
+		XCTAssertEqual(demo, data)
+	}
+
 }

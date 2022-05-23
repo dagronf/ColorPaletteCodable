@@ -36,11 +36,13 @@ public extension ASE {
 			self.ase.fileExtension.lowercased(): self.ase,
 			self.aco.fileExtension.lowercased(): self.aco,
 			self.clr.fileExtension.lowercased(): self.clr,
+			self.rgb.fileExtension.lowercased(): self.rgb,
 		]
 
 		public let ase: PaletteCoder = ASEPaletteCoder()
 		public let aco: PaletteCoder = ACOPaletteCoder()
 		public let clr: PaletteCoder = CLRPaletteCoder()
+		public let rgb: PaletteCoder = RGBPaletteCoder()
 
 		/// Returns a coder for the given file extension type. If a coder cannot be found, returns nil
 		public func coder(for fileExtension: String) -> PaletteCoder? {

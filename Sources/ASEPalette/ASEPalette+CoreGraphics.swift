@@ -89,6 +89,7 @@ public extension ASE.Color {
 
 		// The last component in CG components is the alpha, so we need to drop it (as .ase doesn't use alpha)
 		self.colorComponents = comp.dropLast().map { Float32($0) }
+		self.alpha = Float32(cgColor.alpha)
 		self.model = model
 	}
 
@@ -99,13 +100,13 @@ public extension ASE.Color {
 		let components = colorComponents.map { CGFloat($0) }
 		switch model {
 		case .CMYK:
-			return CGColor(colorSpace: ASE.ColorSpaceCG.CMYK, components: components)?.copy(alpha: 1)
+			return CGColor(colorSpace: ASE.ColorSpaceCG.CMYK, components: components)?.copy(alpha: CGFloat(self.alpha))
 		case .RGB:
-			return CGColor(colorSpace: ASE.ColorSpaceCG.RGB, components: components)?.copy(alpha: 1)
+			return CGColor(colorSpace: ASE.ColorSpaceCG.RGB, components: components)?.copy(alpha: CGFloat(self.alpha))
 		case .LAB:
-			return CGColor(colorSpace: ASE.ColorSpaceCG.LAB, components: components)?.copy(alpha: 1)
+			return CGColor(colorSpace: ASE.ColorSpaceCG.LAB, components: components)?.copy(alpha: CGFloat(self.alpha))
 		case .Gray:
-			return CGColor(colorSpace: ASE.ColorSpaceCG.Gray, components: components)?.copy(alpha: 1)
+			return CGColor(colorSpace: ASE.ColorSpaceCG.Gray, components: components)?.copy(alpha: CGFloat(self.alpha))
 		}
 	}
 

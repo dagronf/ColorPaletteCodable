@@ -39,8 +39,11 @@ public extension ASE {
 		/// The type of color (global, spot, normal)
 		public let colorType: ColorType
 
+		/// The color's alpha component
+		public let alpha: Float32
+
 		/// Create a color object
-		public init(name: String, model: ASE.ColorSpace, colorComponents: [Float32], colorType: ColorType = .normal) throws {
+		public init(name: String, model: ASE.ColorSpace, colorComponents: [Float32], colorType: ColorType = .normal, alpha: Float32 = 1) throws {
 			self.name = name
 			self.model = model
 
@@ -54,10 +57,11 @@ public extension ASE {
 
 			self.colorComponents = colorComponents
 			self.colorType = colorType
+			self.alpha = alpha
 		}
 
 		public var description: String {
-			"Color '\(self.name)' [(\(self.model):\(self.colorType):\(self.colorComponents)]"
+			"Color '\(self.name)' [(\(self.model):\(self.colorType):\(self.colorComponents):\(self.alpha)]"
 		}
 
 		@inlinable public var modelString: String {
@@ -91,13 +95,17 @@ public extension ASE.Color {
 	}
 
 	/// Create a color object from a rgb hex string (eg. "12E5B412" or "#12E5B412")
-	///
-	/// Strips the alpha component
 	init(name: String = "", rgbaHexString: String, colorType: ASE.ColorType = .normal) throws {
 		guard let color = Self.fromRGBAHexString(rgbaHexString) else {
 			throw ASE.CommonError.invalidRGBHexString(rgbaHexString)
 		}
-		try self.init(name: name, model: .RGB, colorComponents: [color.r, color.g, color.b], colorType: colorType)
+		try self.init(
+			name: name,
+			model: .RGB,
+			colorComponents: [color.r, color.g, color.b],
+			colorType: colorType,
+			alpha: color.a
+		)
 	}
 }
 
