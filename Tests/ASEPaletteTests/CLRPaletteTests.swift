@@ -13,7 +13,7 @@ final class CLRPaletteTests: XCTestCase {
 		// Loop through all the resource files
 		Swift.print("Round-tripping CLR files...'")
 		
-		let coder = try XCTUnwrap(ASE.Factory.shared.coder(for: "clr"))
+		let coder = try XCTUnwrap(ASE.Palette.coder(for: "clr"))
 		
 		for name in clrResources {
 			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: name, withExtension: "clr"))
@@ -35,7 +35,7 @@ final class CLRPaletteTests: XCTestCase {
 	}
 	
 	func testRealBasic() throws {
-		let coder = ASE.Factory.shared.clr
+		let coder = ASE.Coder.CLR()
 		
 		var palette = ASE.Palette()
 		let c1 = try ASE.Color(name: "red", model: ASE.ColorSpace.RGB, colorComponents: [1, 0, 0])
@@ -54,8 +54,10 @@ final class CLRPaletteTests: XCTestCase {
 	}
 	
 	func testRealBasicNSColorListLoad() throws {
+		let coder = ASE.Coder.CLR()
+		
 		let clrURL = try XCTUnwrap(Bundle.module.url(forResource: "DarkMailTopBar", withExtension: "clr"))
-		let coder = ASE.Factory.shared.clr
+
 		let palette = try coder.load(fileURL: clrURL)
 		XCTAssertEqual(12, palette.colors.count)
 	}

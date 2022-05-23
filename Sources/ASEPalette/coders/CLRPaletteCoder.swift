@@ -31,12 +31,14 @@ import AppKit
 #endif
 
 /// An NSColorList palette coder/decoder.
-internal struct CLRPaletteCoder: PaletteCoder {
-	let fileExtension = "clr"
+public extension ASE.Coder {
+	struct CLR: PaletteCoder {
+		public let fileExtension = "clr"
+	}
 }
 
-internal extension CLRPaletteCoder {
-	func read(_ inputStream: InputStream) throws -> ASE.Palette {
+extension ASE.Coder.CLR {
+	public func read(_ inputStream: InputStream) throws -> ASE.Palette {
 #if os(macOS)
 		let allData = inputStream.readAllData()
 		let cl = try withDataWrittenToTemporaryFile(allData, fileExtension: "clr") { fileURL in
@@ -52,8 +54,8 @@ internal extension CLRPaletteCoder {
 	}
 }
 
-internal extension CLRPaletteCoder {
-	func data(for palette: ASE.Palette) throws -> Data {
+extension ASE.Coder.CLR {
+	public func data(for palette: ASE.Palette) throws -> Data {
 #if os(macOS)
 		// We only store 'global' colors in the colorlist. If you need some other behaviour, build a new
 		// ASE.Palette containing a flat collection

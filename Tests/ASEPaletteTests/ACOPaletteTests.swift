@@ -9,7 +9,7 @@ let aco_resources = [
 
 final class ACOSwatchesTests: XCTestCase {
 	func testWriteReadRoundTripSampleACOFiles() throws {
-		let paletteCoder = ASE.Factory.shared.aco
+		let paletteCoder = ASE.Coder.ACO()
 
 		Swift.print("Round-tripping ACO files...'")
 		// Loop through all the resource files
@@ -38,7 +38,7 @@ final class ACOSwatchesTests: XCTestCase {
 
 	func testACOBasic() throws {
 		let acoURL = try XCTUnwrap(Bundle.module.url(forResource: "davis-colors-concrete-pigments", withExtension: "aco"))
-		let paletteCoder = ASE.Factory.shared.aco
+		let paletteCoder = ASE.Coder.ACO()
 
 		let aco = try paletteCoder.load(fileURL: acoURL)
 		XCTAssertEqual(59, aco.colors.count)
@@ -46,7 +46,7 @@ final class ACOSwatchesTests: XCTestCase {
 
 	func testACOGoogleMaterial() throws {
 		let acoURL = try XCTUnwrap(Bundle.module.url(forResource: "Material Palette", withExtension: "aco"))
-		let paletteCoder = ASE.Factory.shared.aco
+		let paletteCoder = ASE.Coder.ACO()
 
 		let aco = try paletteCoder.load(fileURL: acoURL)
 		XCTAssertEqual(256, aco.colors.count)
@@ -57,7 +57,7 @@ final class ACOSwatchesTests: XCTestCase {
 
 	func testLoadV1() throws {
 		let acoURL = try XCTUnwrap(Bundle.module.url(forResource: "Zeldman-v1", withExtension: "aco"))
-		let paletteCoder = ASE.Factory.shared.aco
+		let paletteCoder = ASE.Coder.ACO()
 
 		let aco = try paletteCoder.load(fileURL: acoURL)
 		XCTAssertEqual(6, aco.colors.count)

@@ -44,26 +44,37 @@ final class CommonTests: XCTestCase {
 	}
 
 	func testAutoDetectFile() throws {
-
 		let aseFile = try XCTUnwrap(Bundle.module.url(forResource: "wisteric-17", withExtension: "ase"))
 		let acoFile = try XCTUnwrap(Bundle.module.url(forResource: "Material Palette", withExtension: "aco"))
 		let clrFile = try XCTUnwrap(Bundle.module.url(forResource: "DarkMailTopBar", withExtension: "clr"))
+		let txtFile = try XCTUnwrap(Bundle.module.url(forResource: "basic1", withExtension: "txt"))
 
 		// Load from an ase file
-		let p1 = try ASE.Factory.shared.load(fileURL: aseFile)
+		let p1 = try ASE.Palette.load(fileURL: aseFile)
 		XCTAssertEqual(p1.colors.count, 17)
 
 		// Load from an aco file
-		let p2 = try ASE.Factory.shared.load(fileURL: acoFile)
+		let p2 = try ASE.Palette.load(fileURL: acoFile)
 		XCTAssertEqual(p2.colors.count, 256)
 
 		#if os(macOS)
 		// Load from a clr file
-		let p3 = try ASE.Factory.shared.load(fileURL: clrFile)
+		let p3 = try ASE.Palette.load(fileURL: clrFile)
 		XCTAssertEqual(p3.colors.count, 12)
 		#else
 		// NSColorList not supported on ios/tvos. Check that we throw correctly
-		XCTAssertThrowsError(try ASE.Factory.shared.load(fileURL: clrFile))
+		XCTAssertThrowsError(try ASE.Palette.load(fileURL: clrFile))
 		#endif
+
+		// The RGB format uses .txt extension, so to load it we need to overload the extension
+		let p4 = try ASE.Palette.load(fileURL: txtFile, forcedExtension: "rgb")
+		XCTAssertEqual(p4.colors.count, 7)
+	}
+
+	func testUnknownFormat() throws {
+		let txtFile = try XCTUnwrap(Bundle.module.url(forResource: "basic1", withExtension: "txt"))
+
+		// Attempt to load from a file type we can't autodetect
+		XCTAssertThrowsError(try ASE.Palette.load(fileURL: txtFile))
 	}
 }

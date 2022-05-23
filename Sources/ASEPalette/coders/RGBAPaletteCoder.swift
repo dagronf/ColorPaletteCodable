@@ -38,9 +38,14 @@ import Foundation
 /// #f4ec6c67
 /// #ecdc5cb3
 /// ```
-internal struct RGBAPaletteCoder: PaletteCoder {
-	var fileExtension = "rgba"
-	func read(_ inputStream: InputStream) throws -> ASE.Palette {
+public extension ASE.Coder {
+	struct RGBA: PaletteCoder {
+		public let fileExtension = "rgba"
+	}
+}
+
+extension ASE.Coder.RGBA {
+	public func read(_ inputStream: InputStream) throws -> ASE.Palette {
 		let data = inputStream.readAllData()
 		guard let text = String(data: data, encoding: .utf8) else {
 			throw ASE.CommonError.unableToLoadFile
@@ -69,7 +74,7 @@ internal struct RGBAPaletteCoder: PaletteCoder {
 		return palette
 	}
 
-	func data(for palette: ASE.Palette) throws -> Data {
+	public func data(for palette: ASE.Palette) throws -> Data {
 		var result = ""
 		for color in palette.colors {
 			if !result.isEmpty { result += "\n" }

@@ -29,21 +29,23 @@ import Foundation
 // An object representing an ACO (Adobe Photoshop Swatch)
 //
 // Based on the discussion here: https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577411_pgfId-1070626
-internal struct ACOPaletteCoder: PaletteCoder {
-	// ACO colorspace definitions
-	private enum Colorspace: UInt16 {
-		case RGB = 0
-		case HSB = 1 // Lightness is a 16-bit value from 0...10000. Chrominance components are each 16-bit values from -12800...12700. Gray values are represented by chrominance components of 0. Pure white = 10000,0,0.
-		case CMYK = 2 // 0 = 100% ink. For example, pure cyan = 0,65535,65535,65535.
-		case LAB = 7 // Lightness is a 16-bit value from 0...10000. Chrominance components are each 16-bit values from -12800...12700. Gray values are represented by chrominance components of 0. Pure white = 10000,0,0.
-		case Grayscale = 8 // The first value in the color data is the gray value, from 0...10000.
+public extension ASE.Coder {
+	struct ACO: PaletteCoder {
+		// ACO colorspace definitions
+		private enum Colorspace: UInt16 {
+			case RGB = 0
+			case HSB = 1 // Lightness is a 16-bit value from 0...10000. Chrominance components are each 16-bit values from -12800...12700. Gray values are represented by chrominance components of 0. Pure white = 10000,0,0.
+			case CMYK = 2 // 0 = 100% ink. For example, pure cyan = 0,65535,65535,65535.
+			case LAB = 7 // Lightness is a 16-bit value from 0...10000. Chrominance components are each 16-bit values from -12800...12700. Gray values are represented by chrominance components of 0. Pure white = 10000,0,0.
+			case Grayscale = 8 // The first value in the color data is the gray value, from 0...10000.
+		}
+
+		public let fileExtension = "aco"
 	}
-	
-	let fileExtension = "aco"
 }
 
-internal extension ACOPaletteCoder {
-	func read(_ inputStream: InputStream) throws -> ASE.Palette {
+extension ASE.Coder.ACO {
+	public func read(_ inputStream: InputStream) throws -> ASE.Palette {
 		var result = ASE.Palette()
 		
 		var v1Colors = [ASE.Color]()
@@ -67,7 +69,7 @@ internal extension ACOPaletteCoder {
 			try (0 ..< numberOfColors).forEach { index in
 				
 				let colorSpace: UInt16 = try readIntegerBigEndian(inputStream)
-				guard let cs = ACOPaletteCoder.Colorspace(rawValue: colorSpace) else {
+				guard let cs = ASE.Coder.ACO.Colorspace(rawValue: colorSpace) else {
 					throw ASE.CommonError.unsupportedColorSpace
 				}
 				
@@ -129,8 +131,8 @@ internal extension ACOPaletteCoder {
 	}
 }
 
-internal extension ACOPaletteCoder {
-	func data(for palette: ASE.Palette) throws -> Data {
+extension ASE.Coder.ACO {
+	public func data(for palette: ASE.Palette) throws -> Data {
 		var outputData = Data(capacity: 1024)
 		
 		// Write out both v1 and v2 colors
@@ -145,7 +147,7 @@ internal extension ACOPaletteCoder {
 				var c2: UInt16 = 0
 				var c3: UInt16 = 0
 				
-				let acoModel: ACOPaletteCoder.Colorspace
+				let acoModel: ASE.Coder.ACO.Colorspace
 				switch color.model {
 				case .RGB:
 					acoModel = .RGB

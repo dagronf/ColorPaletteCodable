@@ -26,6 +26,10 @@
 
 import Foundation
 
+public extension ASE {
+	class Coder { }
+}
+
 /// A Palette coder protocol
 public protocol PaletteCoder {
 	/// The extension for the file, or a unique name for identifying the coder type.

@@ -26,30 +26,33 @@
 
 import Foundation
 
-/// An ASE file reader, based on [the format defined here](http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase)
-internal struct ASEPaletteCoder: PaletteCoder {
-	/// ASE color model representation
-	internal enum ColorModel: String {
-		case CMYK
-		case RGB = "RGB "
-		case LAB = "LAB "
-		case Gray
-	}
-
-	let fileExtension = "ase"
-
-	// ASE file header
-	static let HEADER_DATA = Data([65, 83, 69, 70])
-	// ASE group start tag
-	static let GROUP_START: UInt16 = 0xC001
-	// ASE group end tag
-	static let GROUP_END: UInt16 = 0xC002
-	// ASE color start tag
-	static let BLOCK_COLOR: UInt16 = 0x0001
+/// ASE color model representation
+private enum ASEColorModel: String {
+	case CMYK
+	case RGB = "RGB "
+	case LAB = "LAB "
+	case Gray
 }
 
-internal extension ASEPaletteCoder {
-	func read(_ inputStream: InputStream) throws -> ASE.Palette {
+/// An ASE file reader, based on [the format defined here](http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase)
+public extension ASE.Coder {
+	struct ASE: PaletteCoder {
+
+		public let fileExtension = "ase"
+
+		// ASE file header
+		static let HEADER_DATA = Data([65, 83, 69, 70])
+		// ASE group start tag
+		static let GROUP_START: UInt16 = 0xC001
+		// ASE group end tag
+		static let GROUP_END: UInt16 = 0xC002
+		// ASE color start tag
+		static let BLOCK_COLOR: UInt16 = 0x0001
+	}
+}
+
+extension ASE.Coder.ASE {
+	public func read(_ inputStream: InputStream) throws -> ASE.Palette {
 		// NOTE: Assumption here is that `inputStream` is already open
 		// If the input stream isn't open, the reading will hang.
 
@@ -131,7 +134,7 @@ internal extension ASEPaletteCoder {
 		}
 
 		let mode = try readAsciiString(inputStream, length: 4)
-		guard let colorModel = ColorModel(rawValue: mode) else {
+		guard let colorModel = ASEColorModel(rawValue: mode) else {
 			ase_log.log(.error, "Invalid .ase color model %@", mode)
 			throw ASE.CommonError.unknownColorMode(mode)
 		}
@@ -179,8 +182,8 @@ internal extension ASEPaletteCoder {
 	}
 }
 
-extension ASEPaletteCoder {
-	func data(for palette: ASE.Palette) throws -> Data {
+extension ASE.Coder.ASE {
+	public func data(for palette: ASE.Palette) throws -> Data {
 		var outputData = Data(capacity: 1024)
 
 		// Write header
@@ -255,16 +258,16 @@ extension ASEPaletteCoder {
 			colorData.append(Common.DataTwoZeros)
 
 			/// Write the model
-			let colorModel: ASEPaletteCoder.ColorModel = {
+			let colorModel: ASEColorModel = {
 				switch color.model {
 				case .RGB:
-					return ASEPaletteCoder.ColorModel.RGB
+					return ASEColorModel.RGB
 				case .CMYK:
-					return ASEPaletteCoder.ColorModel.CMYK
+					return ASEColorModel.CMYK
 				case .LAB:
-					return ASEPaletteCoder.ColorModel.LAB
+					return ASEColorModel.LAB
 				case .Gray:
-					return ASEPaletteCoder.ColorModel.Gray
+					return ASEColorModel.Gray
 				}
 			}()
 
