@@ -96,16 +96,15 @@ public extension PAL.Color {
 
 	/// Create a color object from a rgb hex string (eg. "12E5B412" or "#12E5B412")
 	init(name: String = "", rgbaHexString: String, colorType: PAL.ColorType = .normal) throws {
-		guard let color = Self.fromRGBAHexString(rgbaHexString) else {
+		if let color = Self.fromRGBAHexString(rgbaHexString) {
+			try self.init(name: name, model: .RGB, colorComponents: [color.r, color.g, color.b], colorType: colorType, alpha: color.a)
+		}
+		else if let color = Self.fromRGBHexString(rgbaHexString) {
+			try self.init(name: name, model: .RGB, colorComponents: [color.r, color.g, color.b], colorType: colorType)
+		}
+		else {
 			throw PAL.CommonError.invalidRGBHexString(rgbaHexString)
 		}
-		try self.init(
-			name: name,
-			model: .RGB,
-			colorComponents: [color.r, color.g, color.b],
-			colorType: colorType,
-			alpha: color.a
-		)
 	}
 }
 

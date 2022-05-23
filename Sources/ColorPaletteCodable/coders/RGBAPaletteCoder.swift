@@ -24,6 +24,7 @@
 //  SOFTWARE.
 //
 
+import DSFRegex
 import Foundation
 
 /// A simple RGBA plain text file importer
@@ -31,9 +32,9 @@ import Foundation
 /// Format of the form
 /// ```
 /// #fcfc80aa
-/// #fcf87cbb
+/// #fcf87cbb Duck color
 /// #fcf47812
-/// #f8f074c1
+/// #f8f074c1 Noodles!
 /// #f8ec7045
 /// #f4ec6c67
 /// #ecdc5cb3
@@ -44,14 +45,17 @@ public extension PAL.Coder {
 	}
 }
 
-extension PAL.Coder.RGBA {
-	public func read(_ inputStream: InputStream) throws -> PAL.Palette {
+public extension PAL.Coder.RGBA {
+	func read(_ inputStream: InputStream) throws -> PAL.Palette {
 		let data = inputStream.readAllData()
 		guard let text = String(data: data, encoding: .utf8) else {
 			throw PAL.CommonError.unableToLoadFile
 		}
 		let lines = text.split(separator: "\n")
 		var palette = PAL.Palette()
+
+		let regex = try DSFRegex("\\s*([a-f0-9]{3,8})\\s*(.*)\\s*", options: .caseInsensitive)
+
 		try lines.forEach { line in
 			let l = line.trimmingCharacters(in: CharacterSet.whitespaces)
 
@@ -60,21 +64,20 @@ extension PAL.Coder.RGBA {
 				return
 			}
 
-			do {
-				// Try with rgba, and if it throws try rgb
-				let color = try PAL.Color(rgbaHexString: l)
-				palette.colors.append(color)
-			}
-			catch {
-				// Fallback to trying RGB with alpha 1
-				let color = try PAL.Color(rgbHexString: l)
+			let searchResult = regex.matches(for: l)
+			// Loop over each of the matches found, and print them out
+			try searchResult.forEach { match in
+				let hex = l[match.captures[0]]
+				let name = l[match.captures[1]]
+
+				let color = try PAL.Color(name: String(name), rgbaHexString: String(hex))
 				palette.colors.append(color)
 			}
 		}
 		return palette
 	}
 
-	public func data(for palette: PAL.Palette) throws -> Data {
+	func data(for palette: PAL.Palette) throws -> Data {
 		var result = ""
 		for color in palette.colors {
 			if !result.isEmpty { result += "\n" }
@@ -82,6 +85,9 @@ extension PAL.Coder.RGBA {
 				throw PAL.CommonError.unsupportedColorSpace
 			}
 			result += h
+			if color.name.count > 0 {
+				result += " \(color.name)"
+			}
 		}
 		guard let d = result.data(using: .utf8) else {
 			throw PAL.CommonError.unsupportedColorSpace

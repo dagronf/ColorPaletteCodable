@@ -1,7 +1,7 @@
-#fcfc80
+#fcfc80 This is a bad thing
 #02f87c
 #228878
-#AA0122
+#AA0122 Fish and chips
 #6699EE
 #f4ec6c
 #ecdc5c
