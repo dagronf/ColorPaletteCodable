@@ -40,6 +40,11 @@ class Document: NSDocument {
 //	}
 
 	override func read(from url: URL, ofType typeName: String) throws {
-		self.currentPalette = try ASE.Factory.shared.load(fileURL: url)
+		if url.pathExtension == "txt" {
+			self.currentPalette = try ASE.Palette.load(fileURL: url, forcedExtension: "rgba")
+		}
+		else {
+			self.currentPalette = try ASE.Palette.load(fileURL: url)
+		}
 	}
 }

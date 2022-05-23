@@ -115,7 +115,6 @@ final class ASEPaletteTests: XCTestCase {
 			XCTAssertEqual(2, palette.groups[0].colors.count)
 			
 			let data = try paletteCoder.data(palette)
-			try data.write(to: URL(fileURLWithPath: "/tmp/output.ase"))
 			
 			let p2 = try paletteCoder.load(data: data)
 			XCTAssertEqual(palette.colors.count, p2.colors.count)

@@ -3,23 +3,21 @@ import XCTest
 
 class RGBPaletteTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+	override func setUpWithError() throws {
+		// Put setup code here. This method is called before the invocation of each test method in the class.
+	}
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+	override func tearDownWithError() throws {
+		// Put teardown code here. This method is called after the invocation of each test method in the class.
+	}
 
 	func testRGB() throws {
 		let rgbURL = try XCTUnwrap(Bundle.module.url(forResource: "basic1", withExtension: "txt"))
-		let origData = try Data(contentsOf: rgbURL)
-
 		let palette = try ASE.Palette.load(fileURL: rgbURL, forcedExtension: "rgb")
 		XCTAssertEqual(palette.colors.count, 7)
 
-		let data = try ASE.Palette.data(palette, fileExtension: "rgb")
-		XCTAssertEqual(origData, data)
+		let data = try ASE.Coder.RGB().data(for: palette)
+		try data.write(to: URL(fileURLWithPath: "/tmp/output.txt"))
 	}
 
 	func testRGBA() throws {

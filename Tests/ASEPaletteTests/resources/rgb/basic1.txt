@@ -1,7 +1,7 @@
 #fcfc80
-#fcf87c
-#fcf478
-#f8f074
-#f8ec70
+#02f87c
+#228878
+#AA0122
+#6699EE
 #f4ec6c
 #ecdc5c
