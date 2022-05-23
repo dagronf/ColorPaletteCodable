@@ -1,7 +1,6 @@
 //
 //  Extensions.swift
 //
-//  Created by Darren Ford on 16/5/2022.
 //  Copyright © 2022 Darren Ford. All rights reserved.
 //
 //  MIT License
@@ -69,5 +68,53 @@ extension Optional {
 	@inlinable func unwrapping<R>(_ block: (Wrapped) -> R?) -> R? {
 		guard let u = self else { return nil }
 		return block(u)
+	}
+}
+
+
+func withDataWrittenToTemporaryFile(_ data: Data, fileExtension: String? = nil, _ block: (URL) throws -> Void) throws {
+	// unique name
+	var tempFilename = ProcessInfo.processInfo.globallyUniqueString
+
+	// extension
+	if let fileExtension = fileExtension {
+		tempFilename += "." + fileExtension
+	}
+
+	// create the temporary file url
+	let tempURL = try FileManager.default.url(
+		for: .itemReplacementDirectory,
+		in: .userDomainMask,
+		appropriateFor: URL(fileURLWithPath: NSTemporaryDirectory()),
+		create: true
+	)
+	.appendingPathComponent(tempFilename)
+
+	try data.write(to: tempURL, options: .atomicWrite)
+	defer { try? FileManager.default.removeItem(at: tempURL) }
+
+	try block(tempURL)
+}
+
+
+extension InputStream {
+	/// A reallly hack way of getting all the data from an input stream
+	func readAllData() -> Data {
+		var allData = Data(capacity: 1024)
+		do {
+			let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 1024)
+			defer { buffer.deallocate() }
+			var readCount = -1
+			while readCount != 0 {
+				readCount = self.read(buffer, maxLength: 1024)
+				if readCount > 0 {
+					allData += Data(bytes: buffer, count: readCount)
+				}
+				if self.hasBytesAvailable == false {
+					readCount = 0
+				}
+			}
+		}
+		return allData
 	}
 }

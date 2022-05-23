@@ -1,7 +1,6 @@
 //
-//  ASEPalette.swift
+//  CLRPaletteCoder.swift
 //
-//  Created by Darren Ford on 16/5/2022.
 //  Copyright © 2022 Darren Ford. All rights reserved.
 //
 //  MIT License
@@ -25,19 +24,33 @@
 //  SOFTWARE.
 //
 
+#if os(macOS)
+
+import AppKit
 import Foundation
-import OSLog
 
-public extension ASE {
-	/// A color palette
-	struct Palette: Equatable {
-		/// Colors that are not assigned to a group ('global' colors)
-		public var colors: [Color] = []
+internal struct CLRPaletteCoder: PaletteCoder {
+	let fileExtension = "clr"
+}
 
-		/// Named groups of colors
-		public var groups = [Group]()
-
-		/// Create an empty palette
-		public init() {}
+internal extension CLRPaletteCoder {
+	func read(_ inputStream: InputStream) throws -> ASE.Palette {
+		let allData = inputStream.readAllData()
+		guard let cl = try NSKeyedUnarchiver.unarchivedObject(ofClass: NSColorList.self, from: allData) else {
+			throw ASE.CommonError.invalidVersion
+		}
+		return try ASE.Palette(cl)
 	}
 }
+
+internal extension CLRPaletteCoder {
+	func data(for palette: ASE.Palette) throws -> Data {
+		// We only store 'global' colors in the colorlist. If you need some other behaviour, build a new
+		// ASE.Palette containing a flat collection
+		let cl = palette.globalColorList()
+		let data = try NSKeyedArchiver.archivedData(withRootObject: cl, requiringSecureCoding: true)
+		return data
+	}
+}
+
+#endif

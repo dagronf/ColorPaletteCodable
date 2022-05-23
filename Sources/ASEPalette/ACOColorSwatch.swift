@@ -1,7 +1,6 @@
 //
 //  ACOColorSwatch.swift
 //
-//  Created by Darren Ford on 22/5/2022.
 //  Copyright © 2022 Darren Ford. All rights reserved.
 //
 //  MIT License
@@ -24,39 +23,40 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 //
+
 import Foundation
 
-public extension ASE {
-
-	/// An object representing an ACO (Adobe Photoshop Swatch)
-	///
-	/// Based on the discussion here: https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577411_pgfId-1070626
-	struct ACOColorSwatch: Equatable {
-
-		/// The colors assigned to the swatch
-		public var colors = [ASE.Color]()
-
-		/// Create an empty ACO swatch file
-		public init() { }
-
-		/// Create from an array of ASE colors
-		public init(colors: [ASE.Color]) {
-			self.colors = colors
-		}
-
-		/// Create using the contents of `fileURL`
-		public init(fileURL: URL) throws {
-			try self._load(fileURL: fileURL)
-		}
-
-		/// Create using the contents of `data`
-		public init(data: Data) throws {
-			try self._load(data: data)
-		}
-
-		/// Returns an ACO data representation
-		public func data() throws -> Data {
-			try self._data()
-		}
-	}
-}
+//public extension ASE {
+//
+//	/// An object representing an ACO (Adobe Photoshop Swatch)
+//	///
+//	/// Based on the discussion here: https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577411_pgfId-1070626
+//	struct ACOColorSwatch: Equatable {
+//
+//		/// The colors assigned to the swatch
+//		public var colors = [ASE.Color]()
+//
+//		/// Create an empty ACO swatch file
+//		public init() { }
+//
+//		/// Create from an array of ASE colors
+//		public init(colors: [ASE.Color]) {
+//			self.colors = colors
+//		}
+//
+//		/// Create using the contents of `fileURL`
+//		public init(fileURL: URL) throws {
+//			try self._load(fileURL: fileURL)
+//		}
+//
+//		/// Create using the contents of `data`
+//		public init(data: Data) throws {
+//			try self._load(data: data)
+//		}
+//
+//		/// Returns an ACO data representation
+//		public func data() throws -> Data {
+//			try self._data()
+//		}
+//	}
+//}

@@ -1,7 +1,6 @@
 //
 //  OSLogger.swift
 //
-//  Created by Darren Ford on 16/5/2022.
 //  Copyright © 2022 Darren Ford. All rights reserved.
 //
 //  MIT License

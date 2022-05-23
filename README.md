@@ -29,6 +29,13 @@ The `.aco` file format is defined [here](https://www.adobe.com/devnet-apps/photo
 
 ## API
 
+### Coders
+
+* Adobe Swatch Exchange (.ase)
+* Adobe Photoshop Color Swatch (.aco)
+* NSColorList (.clr) *(macOS only)* 
+
+
 ### Reading/writing ase files
 
 | Type          | Description   | 

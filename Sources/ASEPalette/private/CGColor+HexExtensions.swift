@@ -1,7 +1,6 @@
 //
 //  CGColor+HexExtensions.swift
 //
-//  Created by Darren Ford on 16/5/2022.
 //  Copyright © 2022 Darren Ford. All rights reserved.
 //
 //  MIT License
@@ -38,7 +37,7 @@ extension CGColor {
 	/// The color is converted to the `genericRGBLinear` colorspace
 	var hexRGB: String? {
 		guard
-			let converted = self.converted(to: ASE.ColorSpace.RGB, intent: .defaultIntent, options: nil),
+			let converted = self.converted(to: ASE.ColorSpaceCG.RGB, intent: .defaultIntent, options: nil),
 			let r = converted.components?[0],
 			let g = converted.components?[1],
 			let b = converted.components?[2]
@@ -58,7 +57,7 @@ extension CGColor {
 	/// The color is converted to the `genericRGBLinear` colorspace
 	var hexRGBA: String? {
 		guard
-			let converted = self.converted(to: ASE.ColorSpace.RGB, intent: .defaultIntent, options: nil),
+			let converted = self.converted(to: ASE.ColorSpaceCG.RGB, intent: .defaultIntent, options: nil),
 			let r = converted.components?[0],
 			let g = converted.components?[1],
 			let b = converted.components?[2],

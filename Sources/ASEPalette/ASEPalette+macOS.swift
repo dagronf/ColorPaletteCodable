@@ -1,7 +1,6 @@
 //
 //  ASEPalette+macOS.swift
 //
-//  Created by Darren Ford on 16/5/2022.
 //  Copyright © 2022 Darren Ford. All rights reserved.
 //
 //  MIT License
@@ -40,14 +39,7 @@ public extension ASE.Palette {
 				colors.append(try ASE.Color(cgColor: color.cgColor, name: name))
 			}
 		}
-		
-		let name: String = {
-			if let c = colorList.name {
-				return c
-			}
-			return "NSColorList"
-		}()
-		self.groups.append(ASE.Group(name: name, colors: colors))
+		self.colors = colors
 	}
 	
 	/// Returns a flattened nscolorlist from the palette
@@ -58,6 +50,24 @@ public extension ASE.Palette {
 				if let ci = citer.1.nsColor {
 					result.setColor(ci, forKey: "\(giter.offset):\(giter.element.name):\(citer.offset):\(citer.element.name)")
 				}
+			}
+		}
+		return result
+	}
+
+	/// Returns a a colorlist from just the 'global' colors
+	///
+	/// if a color isn't named, it automatically generates an name for the color before storing
+	func globalColorList() -> NSColorList {
+		let result = NSColorList()
+		self.colors.enumerated().forEach { iter in
+			if let ci = iter.1.nsColor {
+				let name: String = {
+					if iter.element.name.count > 0 { return iter.element.name }
+					else if let hex = ci.cgColor.hexRGB { return hex }
+					return UUID().uuidString
+				}()
+				result.setColor(ci, forKey: name)
 			}
 		}
 		return result

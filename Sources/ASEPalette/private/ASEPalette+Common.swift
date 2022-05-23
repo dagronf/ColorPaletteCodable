@@ -1,7 +1,6 @@
 //
 //  ASEPalette+Common.swift
 //
-//  Created by Darren Ford on 16/5/2022.
 //  Copyright © 2022 Darren Ford. All rights reserved.
 //
 //  MIT License
@@ -38,13 +37,4 @@ let ase_log = OSLogger(subsystem: Bundle.main.bundleIdentifier!, category: "ASEP
 internal struct Common {
 	// Two 'zero' bytes in succession
 	internal static let DataTwoZeros = Data([0, 0])
-
-	// ASE file header
-	internal static let HEADER_DATA = Data([65, 83, 69, 70])
-	// ASE group start tag
-	internal static let GROUP_START: UInt16 = 0xC001
-	// ASE group end tag
-	internal static let GROUP_END: UInt16 = 0xC002
-	// ASE color start tag
-	internal static let BLOCK_COLOR: UInt16 = 0x0001
 }

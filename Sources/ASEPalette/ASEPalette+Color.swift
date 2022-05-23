@@ -33,14 +33,14 @@ public extension ASE {
 		/// The color name
 		public let name: String
 		/// The colorspace model for the color
-		public let model: ColorModel
+		public let model: ASE.ColorSpace
 		/// The components of the color
 		public let colorComponents: [Float32]
 		/// The type of color (global, spot, normal)
 		public let colorType: ColorType
 
 		/// Create a color object
-		public init(name: String, model: ColorModel, colorComponents: [Float32], colorType: ColorType = .normal) throws {
+		public init(name: String, model: ASE.ColorSpace, colorComponents: [Float32], colorType: ColorType = .normal) throws {
 			self.name = name
 			self.model = model
 

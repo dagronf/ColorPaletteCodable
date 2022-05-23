@@ -30,6 +30,7 @@ import Foundation
 public extension ASE {
 	/// ASE Palette errors
 	enum CommonError: Error {
+		case unsupportedPaletteType
 		case unableToLoadFile
 		case invalidASEHeader
 		case invalidColorComponentCountForModelType
@@ -50,10 +51,10 @@ public extension ASE {
 	}
 	
 	/// A color model representation
-	enum ColorModel: String {
+	enum ColorSpace {
 		case CMYK
-		case RGB = "RGB "
-		case LAB = "LAB "
+		case RGB
+		case LAB
 		case Gray
 	}
 

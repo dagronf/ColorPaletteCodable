@@ -9,6 +9,8 @@ let aco_resources = [
 
 final class ACOSwatchesTests: XCTestCase {
 	func testWriteReadRoundTripSampleACOFiles() throws {
+		let paletteCoder = ASE.Factory.shared.aco
+
 		Swift.print("Round-tripping ACO files...'")
 		// Loop through all the resource files
 		for name in aco_resources {
@@ -18,16 +20,16 @@ final class ACOSwatchesTests: XCTestCase {
 			Swift.print("Validating '\(name)...'")
 
 			// Attempt to load the ase file
-			let swatches = try ASE.ACOColorSwatch(fileURL: controlACO)
+			let swatches = try paletteCoder.load(fileURL: controlACO)
 
 			// Write to a data stream
-			let data = try swatches.data()
+			let data = try paletteCoder.data(swatches)
 
 			// Check that the generated data matches the original data exactly
 			XCTAssertEqual(origData, data)
 
 			// Re-create the ase structure from the written data ...
-			let reconstitutedSwatches = try ASE.ACOColorSwatch(data: data)
+			let reconstitutedSwatches = try paletteCoder.load(data: data)
 
 			// ... and check equality between the original file and our reconstituted one.
 			XCTAssertEqual(swatches, reconstitutedSwatches)
@@ -36,15 +38,17 @@ final class ACOSwatchesTests: XCTestCase {
 
 	func testACOBasic() throws {
 		let acoURL = try XCTUnwrap(Bundle.module.url(forResource: "davis-colors-concrete-pigments", withExtension: "aco"))
+		let paletteCoder = ASE.Factory.shared.aco
 
-		let aco = try ASE.ACOColorSwatch(fileURL: acoURL)
+		let aco = try paletteCoder.load(fileURL: acoURL)
 		XCTAssertEqual(59, aco.colors.count)
 	}
 
 	func testACOGoogleMaterial() throws {
 		let acoURL = try XCTUnwrap(Bundle.module.url(forResource: "Material Palette", withExtension: "aco"))
+		let paletteCoder = ASE.Factory.shared.aco
 
-		let aco = try ASE.ACOColorSwatch(fileURL: acoURL)
+		let aco = try paletteCoder.load(fileURL: acoURL)
 		XCTAssertEqual(256, aco.colors.count)
 
 		XCTAssertEqual("Red 500 - Primary", aco.colors[0].name)
@@ -53,7 +57,9 @@ final class ACOSwatchesTests: XCTestCase {
 
 	func testLoadV1() throws {
 		let acoURL = try XCTUnwrap(Bundle.module.url(forResource: "Zeldman-v1", withExtension: "aco"))
-		let aco = try ASE.ACOColorSwatch(fileURL: acoURL)
+		let paletteCoder = ASE.Factory.shared.aco
+
+		let aco = try paletteCoder.load(fileURL: acoURL)
 		XCTAssertEqual(6, aco.colors.count)
 	}
 }
