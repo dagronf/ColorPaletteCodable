@@ -30,7 +30,7 @@ public extension ASE {
 	class Factory {
 		/// A shared instance of the factory
 		public static let shared = ASE.Factory()
-
+		
 		/// The supported coders
 		lazy var engines: [String: PaletteCoder] = [
 			self.ase.fileExtension.lowercased(): self.ase,
@@ -39,18 +39,23 @@ public extension ASE {
 			self.rgb.fileExtension.lowercased(): self.rgb,
 			self.rgba.fileExtension.lowercased(): self.rgba,
 		]
-
+		
 		public let ase: PaletteCoder = ASEPaletteCoder()
 		public let aco: PaletteCoder = ACOPaletteCoder()
 		public let clr: PaletteCoder = CLRPaletteCoder()
 		public let rgb: PaletteCoder = RGBPaletteCoder()
 		public let rgba: PaletteCoder = RGBAPaletteCoder()
-
+		
+		/// The list of available coders to use
+		public var availableCoders: [String] {
+			self.engines.map { $0.0 }
+		}
+		
 		/// Returns a coder for the given file extension type. If a coder cannot be found, returns nil
 		public func coder(for fileExtension: String) -> PaletteCoder? {
 			return self.engines[fileExtension.lowercased()]
 		}
-
+		
 		/// Load a palette from the contents of a fileURL
 		/// - Parameters:
 		///   - fileURL: The file to load
@@ -61,34 +66,34 @@ public extension ASE {
 			guard let inputStream = InputStream(fileAtPath: fileURL.path) else {
 				throw ASE.CommonError.unableToLoadFile
 			}
-			return try self.load(fileExtension: pathExtension, inputStream: inputStream)
+			return try self.load(inputStream: inputStream, fileExtension: pathExtension)
 		}
-
+		
 		/// Load a palette from data
 		///
 		/// This function uses the specified fileExtension to determine the coder type to use
-		public func load(fileExtension: String, data: Data) throws -> ASE.Palette {
+		public func load(data: Data, fileExtension: String) throws -> ASE.Palette {
 			let inputStream = InputStream(data: data)
-			return try self.load(fileExtension: fileExtension, inputStream: inputStream)
+			return try self.load(inputStream: inputStream, fileExtension: fileExtension)
 		}
-
+		
 		/// Load a palette from an inputstream.
 		///
 		/// This function uses the specified fileExtension to determine the coder type to use
-		public func load(fileExtension: String, inputStream: InputStream) throws -> ASE.Palette {
+		public func load(inputStream: InputStream, fileExtension: String) throws -> ASE.Palette {
 			guard let engine = self.engines[fileExtension.lowercased()] else {
 				throw ASE.CommonError.unsupportedPaletteType
 			}
 			inputStream.open()
 			return try engine.read(inputStream)
 		}
-
+		
 		/// Encode the specified palette using the specified coder
 		/// - Parameters:
 		///   - palette: The palette to encode
 		///   - fileExtension: The coder to use for the encoded data
 		/// - Returns: The encoded data
-		public func data(_ palette: ASE.Palette, _ fileExtension: String) throws -> Data {
+		public func data(_ palette: ASE.Palette, fileExtension: String) throws -> Data {
 			guard let engine = self.engines[fileExtension.lowercased()] else {
 				throw ASE.CommonError.unsupportedPaletteType
 			}

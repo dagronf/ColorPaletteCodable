@@ -30,7 +30,7 @@ import Foundation
 import AppKit
 #endif
 
-/// An NSColorList palette coder/decoder
+/// An NSColorList palette coder/decoder.
 internal struct CLRPaletteCoder: PaletteCoder {
 	let fileExtension = "clr"
 }

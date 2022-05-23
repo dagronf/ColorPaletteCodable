@@ -1,5 +1,5 @@
 //
-//  RGBPaletteCoder.swift
+//  RGBAPaletteCoder.swift
 //
 //  Copyright © 2022 Darren Ford. All rights reserved.
 //
@@ -23,21 +23,23 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 //
+
 import Foundation
 
-/// A simple RGB plain text file importer. Any 'A' component is ignored
+/// A simple RGBA plain text file importer
 ///
 /// Format of the form
 /// ```
-/// #fcfc80
-/// #fcfc80
-/// #fcf87c
-/// #fcf87c
-/// #fcf478
-/// #f8f478
+/// #fcfc80aa
+/// #fcf87cbb
+/// #fcf47812
+/// #f8f074c1
+/// #f8ec7045
+/// #f4ec6c67
+/// #ecdc5cb3
 /// ```
-internal struct RGBPaletteCoder: PaletteCoder {
-	var fileExtension = "rgb"
+internal struct RGBAPaletteCoder: PaletteCoder {
+	var fileExtension = "rgba"
 	func read(_ inputStream: InputStream) throws -> ASE.Palette {
 		let data = inputStream.readAllData()
 		guard let text = String(data: data, encoding: .utf8) else {
@@ -59,7 +61,7 @@ internal struct RGBPaletteCoder: PaletteCoder {
 				palette.colors.append(color)
 			}
 			catch {
-				// Try with rgb
+				// Fallback to trying RGB with alpha 1
 				let color = try ASE.Color(rgbHexString: l)
 				palette.colors.append(color)
 			}
@@ -71,7 +73,7 @@ internal struct RGBPaletteCoder: PaletteCoder {
 		var result = ""
 		for color in palette.colors {
 			if !result.isEmpty { result += "\n" }
-			guard let h = color.hexRGB else {
+			guard let h = color.hexRGBA else {
 				throw ASE.CommonError.unsupportedColorSpace
 			}
 			result += h
