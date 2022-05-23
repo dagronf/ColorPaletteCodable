@@ -77,4 +77,29 @@ final class CommonTests: XCTestCase {
 		// Attempt to load from a file type we can't autodetect
 		XCTAssertThrowsError(try PAL.Palette.load(fileURL: txtFile))
 	}
+
+	func testColors() throws {
+		let c1 = PAL.Color.rgb(1, 0, 0, 0.5)
+		let c2 = PAL.Color.cmyk(1, 1, 0, 0, 0.5)
+		let c3 = PAL.Color.gray(white: 0.5)
+
+		XCTAssertEqual(c1.model, .RGB)
+		XCTAssertEqual(c2.model, .CMYK)
+		XCTAssertEqual(c3.model, .Gray)
+
+		let palette = PAL.Palette(colors: [c1, c2, c3])
+
+		// This will trip off the alpha components here
+		let aseData = try PAL.Coder.ASE().data(for: palette)
+
+		// Reload from the ase data
+		let reloaded = try PAL.Coder.ASE().load(data: aseData)
+
+		XCTAssertEqual(1.0, reloaded.colors[0].alpha)
+		XCTAssertEqual(.RGB, reloaded.colors[0].model)
+		XCTAssertEqual(1.0, reloaded.colors[1].alpha)
+		XCTAssertEqual(.CMYK, reloaded.colors[1].model)
+		XCTAssertEqual(1.0, reloaded.colors[2].alpha)
+		XCTAssertEqual(.Gray, reloaded.colors[2].model)
+	}
 }

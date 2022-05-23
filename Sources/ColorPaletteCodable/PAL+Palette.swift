@@ -26,7 +26,6 @@
 //
 
 import Foundation
-import OSLog
 
 public extension PAL {
 	/// A color palette
@@ -39,5 +38,10 @@ public extension PAL {
 
 		/// Create an empty palette
 		public init() {}
+
+		/// Create a palette with collection of global colors
+		public init(colors: [PAL.Color]) {
+			self.colors = colors
+		}
 	}
 }

@@ -146,3 +146,43 @@ private extension PAL.Color {
 		return nil
 	}
 }
+
+public extension PAL.Color {
+	/// Create a color from RGB components
+	/// - Parameters:
+	///   - name: The name for the color
+	///   - r: The red component (0.0 ... 1.0)
+	///   - g: The green component (0.0 ... 1.0)
+	///   - b: The blue component (0.0 ... 1.0)
+	///   - a: The alpha component (0.0 ... 1.0)
+	/// - Returns: A color
+	static func rgb(name: String = "", _ r: Float32, _ g: Float32, _ b: Float32, _ a: Float32 = 1) -> PAL.Color {
+		// We know that the color has the correct components here
+		try! PAL.Color(name: name, model: .RGB, colorComponents: [r, g, b], alpha: a)
+	}
+
+	/// Create a color from CMYK components
+	/// - Parameters:
+	///   - name: The name for the color
+	///   - c: The cyan component (0.0 ... 1.0)
+	///   - m: The magenta component (0.0 ... 1.0)
+	///   - y: The yellow component (0.0 ... 1.0)
+	///   - k: The black component (0.0 ... 1.0)
+	///   - a: The alpha component (0.0 ... 1.0)
+	/// - Returns: A color
+	static func cmyk(name: String = "", _ c: Float32, _ m: Float32, _ y: Float32, _ k: Float32, _ a: Float32 = 1) -> PAL.Color {
+		// We know that the color has the correct components here
+		try! PAL.Color(name: name, model: .CMYK, colorComponents: [c, m, y, k], alpha: a)
+	}
+
+	/// Create a color from a gray component
+	/// - Parameters:
+	///   - name: The name for the color
+	///   - white: The blackness component (0.0 ... 1.0)
+	///   - alpha: The alpha component (0.0 ... 1.0)
+	/// - Returns: A color
+	static func gray(name: String = "", white: Float32, alpha: Float32 = 1) -> PAL.Color {
+		// We know that the color has the correct components here
+		try! PAL.Color(name: name, model: .Gray, colorComponents: [white], alpha: alpha)
+	}
+}
