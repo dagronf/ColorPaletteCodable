@@ -9,7 +9,7 @@ import Cocoa
 import Quartz
 import SwiftUI
 
-import ASEPalette
+import ColorPaletteCodable
 
 class PreviewViewController: NSViewController, QLPreviewingController {
 

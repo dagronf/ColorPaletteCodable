@@ -6,7 +6,7 @@
 //
 
 import Cocoa
-import ASEPalette
+import ColorPaletteCodable
 import UniformTypeIdentifiers
 
 class Document: NSDocument {

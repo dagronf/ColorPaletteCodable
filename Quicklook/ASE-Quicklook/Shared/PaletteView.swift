@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftUIFlowLayout
 import UniformTypeIdentifiers
 
-import ASEPalette
+import ColorPaletteCodable
 
 class PaletteModel: ObservableObject {
 	@Published var palette: PAL.Palette?

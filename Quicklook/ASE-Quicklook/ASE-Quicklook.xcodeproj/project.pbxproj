@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		236DC937283B71CD0097B4DE /* ColorPaletteCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 236DC936283B71CD0097B4DE /* ColorPaletteCodable */; };
+		236DC939283B71D60097B4DE /* ColorPaletteCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 236DC938283B71D60097B4DE /* ColorPaletteCodable */; };
 		237EF04528398ABD000D6F42 /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237EF04428398ABD000D6F42 /* PaletteView.swift */; };
 		237EF04628398ABD000D6F42 /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237EF04428398ABD000D6F42 /* PaletteView.swift */; };
 		237EF04E28399BD9000D6F42 /* SwiftUIFlowLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 237EF04D28399BD9000D6F42 /* SwiftUIFlowLayout */; };
 		237EF05028399BE1000D6F42 /* SwiftUIFlowLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 237EF04F28399BE1000D6F42 /* SwiftUIFlowLayout */; };
 		237EF0872839B324000D6F42 /* UTType+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E0D28332AEB003846A4 /* UTType+extensions.swift */; };
-		23855A1C2837207C00D39A49 /* ASEPalette in Frameworks */ = {isa = PBXBuildFile; productRef = 23855A1B2837207C00D39A49 /* ASEPalette */; };
-		23855A1E2837208A00D39A49 /* ASEPalette in Frameworks */ = {isa = PBXBuildFile; productRef = 23855A1D2837208A00D39A49 /* ASEPalette */; };
 		23A03DF828332AA2003846A4 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A03DF728332AA2003846A4 /* Quartz.framework */; };
 		23A03DFB28332AA2003846A4 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03DFA28332AA2003846A4 /* PreviewViewController.swift */; };
 		23A03DFD28332AA2003846A4 /* ASEPreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03DFC28332AA2003846A4 /* ASEPreviewProvider.swift */; };
@@ -72,6 +72,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		236DC935283B71BF0097B4DE /* ColorPaletteCodable */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ColorPaletteCodable; path = ../..; sourceTree = "<group>"; };
 		237EF04428398ABD000D6F42 /* PaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
 		237EF08B2839BCA5000D6F42 /* Palette_Viewer.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Palette_Viewer.entitlements; sourceTree = "<group>"; };
 		23A03DF528332AA2003846A4 /* ASEQuickLookPlugin.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ASEQuickLookPlugin.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,7 +82,6 @@
 		23A03DFF28332AA2003846A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreviewViewController.xib; sourceTree = "<group>"; };
 		23A03E0128332AA2003846A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23A03E0228332AA2003846A4 /* ASEQuickLookPlugin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ASEQuickLookPlugin.entitlements; sourceTree = "<group>"; };
-		23A03E0A28332AB6003846A4 /* ASEPalette */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ASEPalette; path = ../..; sourceTree = "<group>"; };
 		23A03E0D28332AEB003846A4 /* UTType+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UTType+extensions.swift"; sourceTree = "<group>"; };
 		23B20C0F2835D551005BD670 /* Palette Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Palette Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23B20C112835D551005BD670 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -98,7 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23855A1E2837208A00D39A49 /* ASEPalette in Frameworks */,
+				236DC937283B71CD0097B4DE /* ColorPaletteCodable in Frameworks */,
 				23A03DF828332AA2003846A4 /* Quartz.framework in Frameworks */,
 				237EF05028399BE1000D6F42 /* SwiftUIFlowLayout in Frameworks */,
 			);
@@ -109,7 +109,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				237EF04E28399BD9000D6F42 /* SwiftUIFlowLayout in Frameworks */,
-				23855A1C2837207C00D39A49 /* ASEPalette in Frameworks */,
+				236DC939283B71D60097B4DE /* ColorPaletteCodable in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,7 +119,7 @@
 		23A03DD628332A83003846A4 = {
 			isa = PBXGroup;
 			children = (
-				23A03E0A28332AB6003846A4 /* ASEPalette */,
+				236DC935283B71BF0097B4DE /* ColorPaletteCodable */,
 				23A03DF928332AA2003846A4 /* ASEQuickLookPlugin */,
 				23B20C102835D551005BD670 /* ASE Viewer */,
 				23FF72832839CA0500448D16 /* Shared */,
@@ -199,8 +199,8 @@
 			);
 			name = ASEQuickLookPlugin;
 			packageProductDependencies = (
-				23855A1D2837208A00D39A49 /* ASEPalette */,
 				237EF04F28399BE1000D6F42 /* SwiftUIFlowLayout */,
+				236DC936283B71CD0097B4DE /* ColorPaletteCodable */,
 			);
 			productName = ASEQuickLookPlugin;
 			productReference = 23A03DF528332AA2003846A4 /* ASEQuickLookPlugin.appex */;
@@ -223,8 +223,8 @@
 			);
 			name = "Palette Viewer";
 			packageProductDependencies = (
-				23855A1B2837207C00D39A49 /* ASEPalette */,
 				237EF04D28399BD9000D6F42 /* SwiftUIFlowLayout */,
+				236DC938283B71D60097B4DE /* ColorPaletteCodable */,
 			);
 			productName = "ASE Viewer";
 			productReference = 23B20C0F2835D551005BD670 /* Palette Viewer.app */;
@@ -615,6 +615,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		236DC936283B71CD0097B4DE /* ColorPaletteCodable */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ColorPaletteCodable;
+		};
+		236DC938283B71D60097B4DE /* ColorPaletteCodable */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ColorPaletteCodable;
+		};
 		237EF04D28399BD9000D6F42 /* SwiftUIFlowLayout */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 237EF04C28399BD9000D6F42 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */;
@@ -624,14 +632,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 237EF04C28399BD9000D6F42 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */;
 			productName = SwiftUIFlowLayout;
-		};
-		23855A1B2837207C00D39A49 /* ASEPalette */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ASEPalette;
-		};
-		23855A1D2837208A00D39A49 /* ASEPalette */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ASEPalette;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
