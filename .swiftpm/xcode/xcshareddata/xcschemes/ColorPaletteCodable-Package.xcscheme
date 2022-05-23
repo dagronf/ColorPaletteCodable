@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1330"
+   LastUpgradeVersion = "1340"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ASEPalette_ASEPaletteTests"
-               BuildableName = "ASEPalette_ASEPaletteTests"
-               BlueprintName = "ASEPalette_ASEPaletteTests"
+               BlueprintIdentifier = "ColorPaletteCodable_ColorPaletteCodableTests"
+               BuildableName = "ColorPaletteCodable_ColorPaletteCodableTests"
+               BlueprintName = "ColorPaletteCodable_ColorPaletteCodableTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,9 +28,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ASEPalette"
-               BuildableName = "ASEPalette"
-               BlueprintName = "ASEPalette"
+               BlueprintIdentifier = "ColorPaletteCodable"
+               BuildableName = "ColorPaletteCodable"
+               BlueprintName = "ColorPaletteCodable"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ColorPaletteCodableDynamic"
+               BuildableName = "ColorPaletteCodableDynamic"
+               BlueprintName = "ColorPaletteCodableDynamic"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,9 +56,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ASEPaletteTests"
-               BuildableName = "ASEPaletteTests"
-               BlueprintName = "ASEPaletteTests"
+               BlueprintIdentifier = "ColorPaletteCodableTests"
+               BuildableName = "ColorPaletteCodableTests"
+               BlueprintName = "ColorPaletteCodableTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -60,9 +74,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ASEPaletteTests"
-               BuildableName = "ASEPaletteTests"
-               BlueprintName = "ASEPaletteTests"
+               BlueprintIdentifier = "ColorPaletteCodableTests"
+               BuildableName = "ColorPaletteCodableTests"
+               BlueprintName = "ColorPaletteCodableTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
@@ -78,13 +92,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "LOGGING_VERBOSE"
-            value = ""
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -95,9 +102,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "ASEPalette_ASEPaletteTests"
-            BuildableName = "ASEPalette_ASEPaletteTests"
-            BlueprintName = "ASEPalette_ASEPaletteTests"
+            BlueprintIdentifier = "ColorPaletteCodable_ColorPaletteCodableTests"
+            BuildableName = "ColorPaletteCodable_ColorPaletteCodableTests"
+            BlueprintName = "ColorPaletteCodable_ColorPaletteCodableTests"
             ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>

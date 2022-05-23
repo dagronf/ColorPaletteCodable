@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1330"
+   LastUpgradeVersion = "1340"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ASEPaletteDynamic"
-               BuildableName = "ASEPaletteDynamic"
-               BlueprintName = "ASEPaletteDynamic"
+               BlueprintIdentifier = "ColorPaletteCodable"
+               BuildableName = "ColorPaletteCodable"
+               BlueprintName = "ColorPaletteCodable"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ASEPaletteTests"
-               BuildableName = "ASEPaletteTests"
-               BlueprintName = "ASEPaletteTests"
+               BlueprintIdentifier = "ColorPaletteCodableTests"
+               BuildableName = "ColorPaletteCodableTests"
+               BlueprintName = "ColorPaletteCodableTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
@@ -60,9 +60,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "ASEPaletteDynamic"
-            BuildableName = "ASEPaletteDynamic"
-            BlueprintName = "ASEPaletteDynamic"
+            BlueprintIdentifier = "ColorPaletteCodable"
+            BuildableName = "ColorPaletteCodable"
+            BlueprintName = "ColorPaletteCodable"
             ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>

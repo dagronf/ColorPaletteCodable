@@ -1,6 +1,11 @@
-# ASEPalette
+# ColorPaletteCodable
 
-An Adobe .ase/.aco (Adobe Swatch Exchange File/Adobe Photoshop Color Swatch) file reader/writer for Swift (macOS, iOS, tvOS, macCatalyst)
+A palette reader/editor/writer package, supporting the following formats
+
+* Adobe Swatch Exchange (.ase)
+* Adobe Photoshop Color Swatch (.aco)
+* NSColorList (.clr) *(macOS only)* 
+* RGB(A) text files (.rgb)
 
 <p align="center">
     <img src="https://img.shields.io/github/v/tag/dagronf/ASEPalette" />
@@ -29,30 +34,21 @@ The `.aco` file format is defined [here](https://www.adobe.com/devnet-apps/photo
 
 ## API
 
-### Coders
-
-* Adobe Swatch Exchange (.ase)
-* Adobe Photoshop Color Swatch (.aco)
-* NSColorList (.clr) *(macOS only)* 
-* RGB(A) text files (.rgb)
-
-### 
-
-| Type          | Description   | 
+| Type          | Description    | 
 |:--------------|:---------------|
-|`PAL.Palette`  | The full representation of a palette |
+|`PAL.Palette`  | The full representation of a palette     |
 |`PAL.Group`    | An optionally named collection of colors |
-|`PAL.Color`    | An optionally named color |
+|`PAL.Color`    | An optionally named color                |
 
 ### Coders
 
 | Type             | Description                         |
 |:-----------------|:------------------------------------|
-|`PAL.Coder.ASE`   | A `.ase` format coder               |
-|`PAL.Coder.ACO`   | A `.aco` format coder               |
-|`PAL.Coder.CLR`   | A `.clr` (NSColorList) format coder |
-|`PAL.Coder.RGB`   | A hex encoded rgb text file coder   |
-|`PAL.Coder.RGBA`  | A hex encoded rgba text file coder  |
+|`PAL.Coder.ASE`   | Adobe Swatch Exchange (.ase)        |
+|`PAL.Coder.ACO`   | Adobe Photoshop Color Swatch (.aco) |
+|`PAL.Coder.CLR`   | NSColorList (.clr) *(macOS only)*   |
+|`PAL.Coder.RGB`   | RGB text files (.rgb)               |
+|`PAL.Coder.RGBA`  | RGB(A) text files (.rgba)           |
 
 ## Tasks
 

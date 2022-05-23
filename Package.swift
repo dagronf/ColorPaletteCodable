@@ -4,40 +4,42 @@
 import PackageDescription
 
 let package = Package(
-    name: "ASEPalette",
-	 platforms: [
-		 .macOS(.v10_13),
-		 .iOS(.v13),
-		 .tvOS(.v13),
-	 ],
-    products: [
-        // Products define the executables and libraries a package produces, and make them visible to other packages.
-        .library(
-            name: "ASEPalette",
-				type: .static,
-            targets: ["ASEPalette"]),
-		  .library(
-			  name: "ASEPaletteDynamic",
-			  type: .dynamic,
-			  targets: ["ASEPalette"]),
-    ],
-    dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
-    ],
-    targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages this package depends on.
-        .target(
-            name: "ASEPalette",
-            dependencies: []
-		  ),
-        .testTarget(
-            name: "ASEPaletteTests",
-            dependencies: ["ASEPalette"],
-				resources: [
-					.process("resources")
-				]
-		  ),
-    ]
+	name: "ColorPaletteCodable",
+	platforms: [
+		.macOS(.v10_13),
+		.iOS(.v13),
+		.tvOS(.v13),
+	],
+	products: [
+		// Products define the executables and libraries a package produces, and make them visible to other packages.
+		.library(
+			name: "ColorPaletteCodable",
+			type: .static,
+			targets: ["ColorPaletteCodable"]
+		),
+		.library(
+			name: "ColorPaletteCodableDynamic",
+			type: .dynamic,
+			targets: ["ColorPaletteCodable"]
+		),
+	],
+	dependencies: [
+		// Dependencies declare other packages that this package depends on.
+		// .package(url: /* package url */, from: "1.0.0"),
+	],
+	targets: [
+		// Targets are the basic building blocks of a package. A target can define a module or a test suite.
+		// Targets can depend on other targets in this package, and on products in packages this package depends on.
+		.target(
+			name: "ColorPaletteCodable",
+			dependencies: []
+		),
+		.testTarget(
+			name: "ColorPaletteCodableTests",
+			dependencies: ["ColorPaletteCodable"],
+			resources: [
+				.process("resources"),
+			]
+		),
+	]
 )

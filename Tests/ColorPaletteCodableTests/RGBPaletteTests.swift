@@ -1,4 +1,4 @@
-@testable import ASEPalette
+@testable import ColorPaletteCodable
 import XCTest
 
 class RGBPaletteTests: XCTestCase {
