@@ -119,7 +119,7 @@ public extension ASE.Color {
 	/// Return a hex RGBA string (eg. "#523b50FF")
 	var hexRGBA: String? {
 		guard let s = self.cgColor?.hexRGB else { return nil }
-		return s + "FF"
+		return s + String(format: "%02x", Int(self.alpha * 255.0))
  	}
 }
 

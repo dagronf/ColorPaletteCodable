@@ -34,7 +34,7 @@ The `.aco` file format is defined [here](https://www.adobe.com/devnet-apps/photo
 * Adobe Swatch Exchange (.ase)
 * Adobe Photoshop Color Swatch (.aco)
 * NSColorList (.clr) *(macOS only)* 
-
+* RGB(A) text files (.rgb)
 
 ### Reading/writing ase files
 

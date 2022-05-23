@@ -28,7 +28,6 @@ import Foundation
 
 /// A Palette coder protocol
 public protocol PaletteCoder {
-
 	/// The extension for the file, or a unique name for identifying the coder type.
 	var fileExtension: String { get }
 
@@ -56,7 +55,7 @@ extension PaletteCoder {
 		return try read(inputStream)
 	}
 
-	/// Return the pal
+	/// Return the encoded palette
 	func data(_ palette: ASE.Palette) throws -> Data {
 		return try self.data(for: palette)
 	}
