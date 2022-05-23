@@ -27,6 +27,7 @@
 import Foundation
 
 public extension PAL {
+	/// Coder namespace
 	class Coder { }
 }
 

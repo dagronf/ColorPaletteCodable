@@ -18,9 +18,9 @@ class Document: NSDocument {
 		// Add your subclass-specific initialization here.
 	}
 
-	override class var autosavesInPlace: Bool {
-		return true
-	}
+//	override class var autosavesInPlace: Bool {
+//		return true
+//	}
 
 	override func makeWindowControllers() {
 		// Returns the Storyboard that contains your Document window.
