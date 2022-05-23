@@ -16,7 +16,7 @@ extension ASE.Palette {
 	}
 }
 
-protocol PaletteCoder {
+public protocol PaletteCoder {
 
 	var fileExtension: String { get }
 
@@ -49,11 +49,11 @@ extension PaletteCoder {
 }
 
 
-extension ASE {
+public extension ASE {
 
 	class Factory {
 
-		static let shared = ASE.Factory()
+		public static let shared = ASE.Factory()
 
 		var engines: [PaletteCoder] = [
 			ACOPaletteCoder(),
@@ -61,17 +61,17 @@ extension ASE {
 			CLRPaletteCoder()
 		]
 
-		let ase = ASEPaletteCoder()
-		let aco = ACOPaletteCoder()
-		let clr = CLRPaletteCoder()
+		public let ase: PaletteCoder = ASEPaletteCoder()
+		public let aco: PaletteCoder = ACOPaletteCoder()
+		public let clr: PaletteCoder = CLRPaletteCoder()
 
-		func coder(for fileExtension: String) -> PaletteCoder? {
+		public func coder(for fileExtension: String) -> PaletteCoder? {
 			let fileExt = fileExtension.lowercased()
 			return engines.first(where: { fileExt == $0.fileExtension } )
 		}
 
 		/// Load from the contents of a fileURL
-		func load(fileURL: URL) throws -> ASE.Palette {
+		public func load(fileURL: URL) throws -> ASE.Palette {
 			guard let inputStream = InputStream(fileAtPath: fileURL.path) else {
 				throw ASE.CommonError.unableToLoadFile
 			}
@@ -79,13 +79,13 @@ extension ASE {
 		}
 
 		/// Load from data
-		func load(fileExtension: String, data: Data) throws -> ASE.Palette {
+		public func load(fileExtension: String, data: Data) throws -> ASE.Palette {
 			let inputStream = InputStream(data: data)
 			return try load(fileExtension: fileExtension, inputStream: inputStream)
 		}
 
 		/// Load from an inputstream
-		func load(fileExtension: String, inputStream: InputStream) throws -> ASE.Palette {
+		public func load(fileExtension: String, inputStream: InputStream) throws -> ASE.Palette {
 			let fileExt = fileExtension.lowercased()
 			guard let engine = engines.first(where: { fileExt == $0.fileExtension } ) else {
 				throw ASE.CommonError.unsupportedPaletteType
@@ -94,7 +94,7 @@ extension ASE {
 			return try engine.read(inputStream)
 		}
 
-		func data(_ palette: ASE.Palette, _ fileExtension: String) throws -> Data {
+		public func data(_ palette: ASE.Palette, _ fileExtension: String) throws -> Data {
 			let fileExt = fileExtension.lowercased()
 			guard let engine = engines.first(where: { fileExt == $0.fileExtension } ) else {
 				throw ASE.CommonError.unsupportedPaletteType

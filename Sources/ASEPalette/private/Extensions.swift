@@ -71,8 +71,7 @@ extension Optional {
 	}
 }
 
-
-func withDataWrittenToTemporaryFile(_ data: Data, fileExtension: String? = nil, _ block: (URL) throws -> Void) throws {
+func withTemporaryFile<ReturnType>(_ fileExtension: String? = nil, _ block: (URL) throws -> ReturnType) throws -> ReturnType {
 	// unique name
 	var tempFilename = ProcessInfo.processInfo.globallyUniqueString
 
@@ -89,11 +88,15 @@ func withDataWrittenToTemporaryFile(_ data: Data, fileExtension: String? = nil, 
 		create: true
 	)
 	.appendingPathComponent(tempFilename)
+	return try block(tempURL)
+}
 
-	try data.write(to: tempURL, options: .atomicWrite)
-	defer { try? FileManager.default.removeItem(at: tempURL) }
-
-	try block(tempURL)
+func withDataWrittenToTemporaryFile<T>(_ data: Data, fileExtension: String? = nil, _ block: (URL) throws -> T?) throws -> T? {
+	return try withTemporaryFile(fileExtension, { tempURL in
+		try data.write(to: tempURL, options: .atomicWrite)
+		defer { try? FileManager.default.removeItem(at: tempURL) }
+		return try block(tempURL)
+	})
 }
 
 

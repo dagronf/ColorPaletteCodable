@@ -40,21 +40,6 @@ class Document: NSDocument {
 //	}
 
 	override func read(from url: URL, ofType typeName: String) throws {
-		if typeName == UTType.clr.identifier {
-			if let colorList = NSColorList(name: NSColorList.Name("Global colors"), fromFile: url.path) {
-				self.currentPalette = try ASE.Palette(colorList)
-			}
-		}
-		if typeName == UTType.aco.identifier {
-			let palette = try ASE.ACOColorSwatch(fileURL: url)
-			self.currentPalette = ASE.Palette()
-			self.currentPalette!.colors = palette.colors
-		}
-		else if typeName == UTType.ase.identifier {
-			self.currentPalette = try ASE.Palette(fileURL: url)
-		}
-		else {
-			throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
-		}
+		self.currentPalette = try ASE.Factory.shared.load(fileURL: url)
 	}
 }

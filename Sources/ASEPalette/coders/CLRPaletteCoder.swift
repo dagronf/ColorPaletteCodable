@@ -36,10 +36,13 @@ internal struct CLRPaletteCoder: PaletteCoder {
 internal extension CLRPaletteCoder {
 	func read(_ inputStream: InputStream) throws -> ASE.Palette {
 		let allData = inputStream.readAllData()
-		guard let cl = try NSKeyedUnarchiver.unarchivedObject(ofClass: NSColorList.self, from: allData) else {
-			throw ASE.CommonError.invalidVersion
+		let cl = try withDataWrittenToTemporaryFile(allData, fileExtension: "clr") { fileURL in
+			return NSColorList(name: "", fromFile: fileURL.path)
 		}
-		return try ASE.Palette(cl)
+		if let cl = cl {
+			return try ASE.Palette(cl)
+		}
+		throw ASE.CommonError.unableToLoadFile
 	}
 }
 
@@ -48,7 +51,11 @@ internal extension CLRPaletteCoder {
 		// We only store 'global' colors in the colorlist. If you need some other behaviour, build a new
 		// ASE.Palette containing a flat collection
 		let cl = palette.globalColorList()
-		let data = try NSKeyedArchiver.archivedData(withRootObject: cl, requiringSecureCoding: true)
+
+		let data = try withTemporaryFile("clr") { tempURL -> Data in
+			try cl.write(to: tempURL)
+			return try Data(contentsOf: tempURL)
+		}
 		return data
 	}
 }
