@@ -28,7 +28,7 @@
 import Foundation
 import OSLog
 
-public extension ASE {
+public extension PAL {
 	/// A color palette
 	struct Palette: Equatable {
 		/// Colors that are not assigned to a group ('global' colors)

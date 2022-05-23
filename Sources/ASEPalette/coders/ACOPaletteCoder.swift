@@ -29,8 +29,8 @@ import Foundation
 // An object representing an ACO (Adobe Photoshop Swatch)
 //
 // Based on the discussion here: https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577411_pgfId-1070626
-public extension ASE.Coder {
-	struct ACO: PaletteCoder {
+public extension PAL.Coder {
+	struct ACO: PAL_PaletteCoder {
 		// ACO colorspace definitions
 		private enum Colorspace: UInt16 {
 			case RGB = 0
@@ -44,18 +44,18 @@ public extension ASE.Coder {
 	}
 }
 
-extension ASE.Coder.ACO {
-	public func read(_ inputStream: InputStream) throws -> ASE.Palette {
-		var result = ASE.Palette()
+extension PAL.Coder.ACO {
+	public func read(_ inputStream: InputStream) throws -> PAL.Palette {
+		var result = PAL.Palette()
 		
-		var v1Colors = [ASE.Color]()
-		var v2Colors = [ASE.Color]()
+		var v1Colors = [PAL.Color]()
+		var v2Colors = [PAL.Color]()
 		
 		try (1 ... 2).forEach { type in
 			do {
 				let version: UInt16 = try readIntegerBigEndian(inputStream)
 				if version != type {
-					throw ASE.CommonError.invalidVersion
+					throw PAL.CommonError.invalidVersion
 				}
 			}
 			catch {
@@ -69,8 +69,8 @@ extension ASE.Coder.ACO {
 			try (0 ..< numberOfColors).forEach { index in
 				
 				let colorSpace: UInt16 = try readIntegerBigEndian(inputStream)
-				guard let cs = ASE.Coder.ACO.Colorspace(rawValue: colorSpace) else {
-					throw ASE.CommonError.unsupportedColorSpace
+				guard let cs = PAL.Coder.ACO.Colorspace(rawValue: colorSpace) else {
+					throw PAL.CommonError.unsupportedColorSpace
 				}
 				
 				let c0: UInt16 = try readIntegerBigEndian(inputStream)
@@ -85,13 +85,13 @@ extension ASE.Coder.ACO {
 					return ""
 				}()
 				
-				var color: ASE.Color
+				var color: PAL.Color
 				
 				switch cs {
 				case .RGB:
-					color = try ASE.Color(name: name, model: .RGB, colorComponents: [Float32(c0) / 65535.0, Float32(c1) / 65535.0, Float32(c2) / 65535.0])
+					color = try PAL.Color(name: name, model: .RGB, colorComponents: [Float32(c0) / 65535.0, Float32(c1) / 65535.0, Float32(c2) / 65535.0])
 				case .CMYK:
-					color = try ASE.Color(
+					color = try PAL.Color(
 						name: name,
 						model: .CMYK,
 						colorComponents: [
@@ -103,12 +103,12 @@ extension ASE.Coder.ACO {
 					)
 				case .Grayscale:
 					assert(c0 <= 10000)
-					color = try ASE.Color(name: name, model: .Gray, colorComponents: [Float32(c0) / 10000])
+					color = try PAL.Color(name: name, model: .Gray, colorComponents: [Float32(c0) / 10000])
 					
 				case .LAB:
-					throw ASE.CommonError.unsupportedColorSpace
+					throw PAL.CommonError.unsupportedColorSpace
 				case .HSB:
-					throw ASE.CommonError.unsupportedColorSpace
+					throw PAL.CommonError.unsupportedColorSpace
 				}
 				
 				if type == 1 {
@@ -118,7 +118,7 @@ extension ASE.Coder.ACO {
 					v2Colors.append(color)
 				}
 				else {
-					throw ASE.CommonError.invalidVersion
+					throw PAL.CommonError.invalidVersion
 				}
 			}
 		}
@@ -131,8 +131,8 @@ extension ASE.Coder.ACO {
 	}
 }
 
-extension ASE.Coder.ACO {
-	public func data(for palette: ASE.Palette) throws -> Data {
+extension PAL.Coder.ACO {
+	public func data(for palette: PAL.Palette) throws -> Data {
 		var outputData = Data(capacity: 1024)
 		
 		// Write out both v1 and v2 colors
@@ -147,7 +147,7 @@ extension ASE.Coder.ACO {
 				var c2: UInt16 = 0
 				var c3: UInt16 = 0
 				
-				let acoModel: ASE.Coder.ACO.Colorspace
+				let acoModel: PAL.Coder.ACO.Colorspace
 				switch color.model {
 				case .RGB:
 					acoModel = .RGB
@@ -165,7 +165,7 @@ extension ASE.Coder.ACO {
 					c0 = UInt16(10000 * color.colorComponents[0])
 					
 				case .LAB:
-					throw ASE.CommonError.unsupportedColorSpace
+					throw PAL.CommonError.unsupportedColorSpace
 				}
 				
 				outputData.append(try writeUInt16BigEndian(UInt16(acoModel.rawValue)))

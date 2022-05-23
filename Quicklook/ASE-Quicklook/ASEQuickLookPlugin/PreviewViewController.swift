@@ -69,6 +69,6 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 
 	func configure(for url: URL) throws {
 		self.currentPalette.palette = nil
-		self.currentPalette.palette = try ASE.Palette.load(fileURL: url)
+		self.currentPalette.palette = try PAL.Palette.load(fileURL: url)
 	}
 }

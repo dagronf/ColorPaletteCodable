@@ -1,7 +1,6 @@
 //
-//  ASEPalette+Group.swift
+//  PAL+CoderProtocol.swift
 //
-//  Created by Darren Ford on 16/5/2022.
 //  Copyright © 2022 Darren Ford. All rights reserved.
 //
 //  MIT License
@@ -27,27 +26,41 @@
 
 import Foundation
 
-public extension ASE {
-	/// A grouping of colors
-	struct Group: Equatable, Identifiable {
-		/// Unique identifier
-		public let id = UUID()
-
-		public var name: String
-		/// The colors assigned to the group
-		public internal(set) var colors: [Color]
-		/// Create a group with the specified name and colors
-		public init(name: String = "", colors: [Color] = []) {
-			self.name = name
-			self.colors = colors
-		}
-	}
+public extension PAL {
+	class Coder { }
 }
 
-extension ASE.Group {
-	public static func == (lhs: ASE.Group, rhs: ASE.Group) -> Bool {
-		return
-			lhs.name == rhs.name &&
-			lhs.colors == rhs.colors
+/// A Palette coder protocol
+public protocol PAL_PaletteCoder {
+	/// The extension for the file, or a unique name for identifying the coder type.
+	var fileExtension: String { get }
+
+	/// Read the palette from an input stream
+	func read(_ inputStream: InputStream) throws -> PAL.Palette
+
+	/// Write the palette to data
+	func data(for palette: PAL.Palette) throws -> Data
+}
+
+extension PAL_PaletteCoder {
+	/// Load from the contents of a fileURL
+	func load(fileURL: URL) throws -> PAL.Palette {
+		guard let inputStream = InputStream(fileAtPath: fileURL.path) else {
+			throw PAL.CommonError.unableToLoadFile
+		}
+		inputStream.open()
+		return try read(inputStream)
+	}
+
+	/// Load from data
+	func load(data: Data) throws -> PAL.Palette {
+		let inputStream = InputStream(data: data)
+		inputStream.open()
+		return try read(inputStream)
+	}
+
+	/// Return the encoded palette
+	func data(_ palette: PAL.Palette) throws -> Data {
+		return try self.data(for: palette)
 	}
 }

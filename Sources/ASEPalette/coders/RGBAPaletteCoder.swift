@@ -38,20 +38,20 @@ import Foundation
 /// #f4ec6c67
 /// #ecdc5cb3
 /// ```
-public extension ASE.Coder {
-	struct RGBA: PaletteCoder {
+public extension PAL.Coder {
+	struct RGBA: PAL_PaletteCoder {
 		public let fileExtension = "rgba"
 	}
 }
 
-extension ASE.Coder.RGBA {
-	public func read(_ inputStream: InputStream) throws -> ASE.Palette {
+extension PAL.Coder.RGBA {
+	public func read(_ inputStream: InputStream) throws -> PAL.Palette {
 		let data = inputStream.readAllData()
 		guard let text = String(data: data, encoding: .utf8) else {
-			throw ASE.CommonError.unableToLoadFile
+			throw PAL.CommonError.unableToLoadFile
 		}
 		let lines = text.split(separator: "\n")
-		var palette = ASE.Palette()
+		var palette = PAL.Palette()
 		try lines.forEach { line in
 			let l = line.trimmingCharacters(in: CharacterSet.whitespaces)
 
@@ -62,29 +62,29 @@ extension ASE.Coder.RGBA {
 
 			do {
 				// Try with rgba, and if it throws try rgb
-				let color = try ASE.Color(rgbaHexString: l)
+				let color = try PAL.Color(rgbaHexString: l)
 				palette.colors.append(color)
 			}
 			catch {
 				// Fallback to trying RGB with alpha 1
-				let color = try ASE.Color(rgbHexString: l)
+				let color = try PAL.Color(rgbHexString: l)
 				palette.colors.append(color)
 			}
 		}
 		return palette
 	}
 
-	public func data(for palette: ASE.Palette) throws -> Data {
+	public func data(for palette: PAL.Palette) throws -> Data {
 		var result = ""
 		for color in palette.colors {
 			if !result.isEmpty { result += "\n" }
 			guard let h = color.hexRGBA else {
-				throw ASE.CommonError.unsupportedColorSpace
+				throw PAL.CommonError.unsupportedColorSpace
 			}
 			result += h
 		}
 		guard let d = result.data(using: .utf8) else {
-			throw ASE.CommonError.unsupportedColorSpace
+			throw PAL.CommonError.unsupportedColorSpace
 		}
 		return d
 	}

@@ -12,8 +12,8 @@ import UniformTypeIdentifiers
 import ASEPalette
 
 class PaletteModel: ObservableObject {
-	@Published var palette: ASE.Palette?
-	init(_ palette: ASE.Palette?) {
+	@Published var palette: PAL.Palette?
+	init(_ palette: PAL.Palette?) {
 		self.palette = palette
 	}
 }
@@ -37,7 +37,7 @@ struct PaletteView: View {
 
 struct GroupingView: View {
 	let name: String
-	let colors: [ASE.Color]
+	let colors: [PAL.Color]
 	var body: some View {
 		VStack(alignment: .leading, spacing: 0) {
 
@@ -66,7 +66,7 @@ struct GroupingView: View {
 }
 
 struct ColorView: View {
-	let color: ASE.Color
+	let color: PAL.Color
 	var body: some View {
 		ZStack {
 			RoundedRectangle(cornerRadius: 4)
@@ -88,7 +88,7 @@ struct ColorView: View {
 }
 
 struct ColorTooltipView: View {
-	let color: ASE.Color
+	let color: PAL.Color
 	var body: some View {
 		HStack {
 			ColorView(color: color)
@@ -107,27 +107,27 @@ struct ColorTooltipView: View {
 
 #if DEBUG
 
-let _display: ASE.Palette = {
-	try! ASE.Palette(
+let _display: PAL.Palette = {
+	try! PAL.Palette(
 		rgbColors: [
-			ASE.RGB(1.0, 0, 0),
-			ASE.RGB(0, 1.0, 0),
-			ASE.RGB(0, 0, 1.0),
+			PAL.RGB(1.0, 0, 0),
+			PAL.RGB(0, 1.0, 0),
+			PAL.RGB(0, 0, 1.0),
 		],
 		groups: [
-			ASE.RGBGroup(name: "one", [
-				ASE.RGB(0, 0, 1.0),
-				ASE.RGB(0, 1.0, 0),
-				ASE.RGB(1.0, 0, 0),
+			PAL.RGBGroup(name: "one", [
+				PAL.RGB(0, 0, 1.0),
+				PAL.RGB(0, 1.0, 0),
+				PAL.RGB(1.0, 0, 0),
 			]),
-			ASE.RGBGroup(name: "two is the second one", [
-				ASE.RGB(0.5, 0, 1),
-				ASE.RGB(0, 0.8, 0.3),
-				ASE.RGB(0.1, 0.3, 1.0),
-				ASE.RGB(000, 000, 000),
-				ASE.RGB(153, 000, 000),
-				ASE.RGB(102, 085, 085),
-				ASE.RGB(221, 017, 017),
+			PAL.RGBGroup(name: "two is the second one", [
+				PAL.RGB(0.5, 0, 1),
+				PAL.RGB(0, 0.8, 0.3),
+				PAL.RGB(0.1, 0.3, 1.0),
+				PAL.RGB(000, 000, 000),
+				PAL.RGB(153, 000, 000),
+				PAL.RGB(102, 085, 085),
+				PAL.RGB(221, 017, 017),
 			]),
 		]
 	)
@@ -138,7 +138,7 @@ private var model = PaletteModel(_display)
 struct ColorTooltipView_Previews: PreviewProvider {
 	static var previews: some View {
 		Group {
-			ColorTooltipView(color: try! ASE.Color(name: "red", model: .RGB, colorComponents: [1, 0, 0]))
+			ColorTooltipView(color: try! PAL.Color(name: "red", model: .RGB, colorComponents: [1, 0, 0]))
 		}
 	}
 }
@@ -147,21 +147,21 @@ struct ColorView_Previews: PreviewProvider {
 	static var previews: some View {
 		Group {
 			HStack {
-				ColorView(color: try! ASE.RGB(1.0, 0, 1.0).color())
+				ColorView(color: try! PAL.RGB(1.0, 0, 1.0).color())
 					.frame(width: 26, height: 26)
-				ColorView(color: try! ASE.RGB(0.0, 1.0, 1.0).color())
+				ColorView(color: try! PAL.RGB(0.0, 1.0, 1.0).color())
 					.frame(width: 26, height: 26)
-				ColorView(color: try! ASE.RGB(1.0, 1.0, 0.0).color())
+				ColorView(color: try! PAL.RGB(1.0, 1.0, 0.0).color())
 					.frame(width: 26, height: 26)
 			}
 			.preferredColorScheme(.dark)
 
 			HStack {
-				ColorView(color: try! ASE.RGB(1.0, 0, 1.0).color())
+				ColorView(color: try! PAL.RGB(1.0, 0, 1.0).color())
 					.frame(width: 26, height: 26)
-				ColorView(color: try! ASE.RGB(0.0, 1.0, 1.0).color())
+				ColorView(color: try! PAL.RGB(0.0, 1.0, 1.0).color())
 					.frame(width: 26, height: 26)
-				ColorView(color: try! ASE.RGB(1.0, 1.0, 0.0).color())
+				ColorView(color: try! PAL.RGB(1.0, 1.0, 0.0).color())
 					.frame(width: 26, height: 26)
 			}
 			.preferredColorScheme(.light)

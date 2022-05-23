@@ -13,10 +13,10 @@ class RGBPaletteTests: XCTestCase {
 
 	func testRGB() throws {
 		let rgbURL = try XCTUnwrap(Bundle.module.url(forResource: "basic1", withExtension: "txt"))
-		let palette = try ASE.Palette.load(fileURL: rgbURL, forcedExtension: "rgb")
+		let palette = try PAL.Palette.load(fileURL: rgbURL, forcedExtension: "rgb")
 		XCTAssertEqual(palette.colors.count, 7)
 
-		let data = try ASE.Coder.RGB().data(for: palette)
+		let data = try PAL.Coder.RGB().data(for: palette)
 		try data.write(to: URL(fileURLWithPath: "/tmp/output.txt"))
 	}
 
@@ -25,7 +25,7 @@ class RGBPaletteTests: XCTestCase {
 		let origData = try Data(contentsOf: rgbaURL)
 
 		// Read in as RGBA
-		let palette = try ASE.Palette.load(fileURL: rgbaURL, forcedExtension: "rgba")
+		let palette = try PAL.Palette.load(fileURL: rgbaURL, forcedExtension: "rgba")
 		XCTAssertEqual(palette.colors.count, 7)
 
 		// Check some alpha values that they are correctly loaded
@@ -35,7 +35,7 @@ class RGBPaletteTests: XCTestCase {
 		XCTAssertEqual(palette.colors[6].alpha, 0.7019, accuracy: 0.0001)
 
 		// Write out as RGBA
-		let data = try ASE.Palette.data(palette, fileExtension: "rgba")
+		let data = try PAL.Palette.data(palette, fileExtension: "rgba")
 
 		// The input and output files should be identical
 		XCTAssertEqual(origData, data)
@@ -45,14 +45,14 @@ class RGBPaletteTests: XCTestCase {
 		let rgbaURL = try XCTUnwrap(Bundle.module.url(forResource: "basic1alpha", withExtension: "txt"))
 
 		// Decode from an RGBA file
-		let decoder = ASE.Coder.RGBA()
+		let decoder = PAL.Coder.RGBA()
 		let palette = try decoder.load(fileURL: rgbaURL)
 		XCTAssertEqual(palette.colors[0].alpha, 0.6666, accuracy: 0.0001)
 		XCTAssertEqual(palette.colors[1].alpha, 0.7333, accuracy: 0.0001)
 		XCTAssertEqual(palette.colors[2].alpha, 0.0705, accuracy: 0.0001)
 
 		// Encode to an RGB File (which drop the alpha component)
-		let encoder = ASE.Coder.RGB()
+		let encoder = PAL.Coder.RGB()
 		let data = try encoder.data(for: palette)
 
 		// Decode back... the alpha component should be 1
@@ -64,6 +64,6 @@ class RGBPaletteTests: XCTestCase {
 
 	func testAttemptLoadBadFormattedTxtFile() throws {
 		let rgbaURL = try XCTUnwrap(Bundle.module.url(forResource: "bad-coding", withExtension: "txt"))
-		XCTAssertThrowsError(try ASE.Coder.RGBA().load(fileURL: rgbaURL))
+		XCTAssertThrowsError(try PAL.Coder.RGBA().load(fileURL: rgbaURL))
 	}
 }

@@ -31,31 +31,31 @@ import AppKit
 #endif
 
 /// An NSColorList palette coder/decoder.
-public extension ASE.Coder {
-	struct CLR: PaletteCoder {
+public extension PAL.Coder {
+	struct CLR: PAL_PaletteCoder {
 		public let fileExtension = "clr"
 	}
 }
 
-extension ASE.Coder.CLR {
-	public func read(_ inputStream: InputStream) throws -> ASE.Palette {
+extension PAL.Coder.CLR {
+	public func read(_ inputStream: InputStream) throws -> PAL.Palette {
 #if os(macOS)
 		let allData = inputStream.readAllData()
 		let cl = try withDataWrittenToTemporaryFile(allData, fileExtension: "clr") { fileURL in
 			return NSColorList(name: "", fromFile: fileURL.path)
 		}
 		if let cl = cl {
-			return try ASE.Palette(cl)
+			return try PAL.Palette(cl)
 		}
-		throw ASE.CommonError.unableToLoadFile
+		throw PAL.CommonError.unableToLoadFile
 #else
-		throw ASE.CommonError.unsupportedCoderType
+		throw PAL.CommonError.unsupportedCoderType
 #endif
 	}
 }
 
-extension ASE.Coder.CLR {
-	public func data(for palette: ASE.Palette) throws -> Data {
+extension PAL.Coder.CLR {
+	public func data(for palette: PAL.Palette) throws -> Data {
 #if os(macOS)
 		// We only store 'global' colors in the colorlist. If you need some other behaviour, build a new
 		// ASE.Palette containing a flat collection
@@ -67,7 +67,7 @@ extension ASE.Coder.CLR {
 		}
 		return data
 #else
-		throw ASE.CommonError.unsupportedCoderType
+		throw PAL.CommonError.unsupportedCoderType
 #endif
 	}
 }

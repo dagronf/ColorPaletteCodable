@@ -1,5 +1,5 @@
 //
-//  ASEPalette+CoreGraphics.swift
+//  PAL+CoreGraphics.swift
 //
 //  Created by Darren Ford on 16/5/2022.
 //  Copyright © 2022 Darren Ford. All rights reserved.
@@ -32,7 +32,7 @@
 import CoreGraphics
 import Foundation
 
-public extension ASE {
+public extension PAL {
 	/// CoreGraphics color space definitions for ASE model types
 	struct ColorSpaceCG {
 		/// RGB colorspace
@@ -46,45 +46,45 @@ public extension ASE {
 	}
 }
 
-public extension ASE.Color {
+public extension PAL.Color {
 	/// Create a Color object from a CGColor
 	/// - Parameters:
 	///   - cgColor: The cgColor to add to the palette. Note any alpha value is lost (as .ase files don't support transparency)
 	///   - name: The color's name (optional)
 	///   - colorType: The type of color (global, normal, spot) (optional)
-	init(cgColor: CGColor, name: String = "", colorType: ASE.ColorType = .normal) throws {
+	init(cgColor: CGColor, name: String = "", colorType: PAL.ColorType = .normal) throws {
 		self.name = name
 		self.colorType = colorType
 
-		var model: ASE.ColorSpace?
+		var model: PAL.ColorSpace?
 		var convertedColor: CGColor = cgColor
 
 		if let cs = cgColor.colorSpace {
-			if cs.name == ASE.ColorSpaceCG.CMYK.name {
+			if cs.name == PAL.ColorSpaceCG.CMYK.name {
 				model = .CMYK
 			}
-			else if cs.name == ASE.ColorSpaceCG.RGB.name {
+			else if cs.name == PAL.ColorSpaceCG.RGB.name {
 				model = .RGB
 			}
-			else if cs.name == ASE.ColorSpaceCG.LAB.name {
+			else if cs.name == PAL.ColorSpaceCG.LAB.name {
 				model = .LAB
 			}
-			else if cs.name == ASE.ColorSpaceCG.Gray.name {
+			else if cs.name == PAL.ColorSpaceCG.Gray.name {
 				model = .Gray
 			}
 		}
 
 		if model == nil {
 			// If we can't figure out the model, fall back to Core Graphics to attempt to convert the color to RGB
-			guard let conv = cgColor.converted(to: ASE.ColorSpaceCG.RGB, intent: .defaultIntent, options: nil) else {
-				throw ASE.CommonError.unsupportedCGColorType
+			guard let conv = cgColor.converted(to: PAL.ColorSpaceCG.RGB, intent: .defaultIntent, options: nil) else {
+				throw PAL.CommonError.unsupportedCGColorType
 			}
 			convertedColor = conv
 			model = .RGB
 		}
 
 		guard let comp = convertedColor.components, let model = model else {
-			throw ASE.CommonError.unsupportedCGColorType
+			throw PAL.CommonError.unsupportedCGColorType
 		}
 
 		// The last component in CG components is the alpha, so we need to drop it (as .ase doesn't use alpha)
@@ -100,13 +100,13 @@ public extension ASE.Color {
 		let components = colorComponents.map { CGFloat($0) }
 		switch model {
 		case .CMYK:
-			return CGColor(colorSpace: ASE.ColorSpaceCG.CMYK, components: components)?.copy(alpha: CGFloat(self.alpha))
+			return CGColor(colorSpace: PAL.ColorSpaceCG.CMYK, components: components)?.copy(alpha: CGFloat(self.alpha))
 		case .RGB:
-			return CGColor(colorSpace: ASE.ColorSpaceCG.RGB, components: components)?.copy(alpha: CGFloat(self.alpha))
+			return CGColor(colorSpace: PAL.ColorSpaceCG.RGB, components: components)?.copy(alpha: CGFloat(self.alpha))
 		case .LAB:
-			return CGColor(colorSpace: ASE.ColorSpaceCG.LAB, components: components)?.copy(alpha: CGFloat(self.alpha))
+			return CGColor(colorSpace: PAL.ColorSpaceCG.LAB, components: components)?.copy(alpha: CGFloat(self.alpha))
 		case .Gray:
-			return CGColor(colorSpace: ASE.ColorSpaceCG.Gray, components: components)?.copy(alpha: CGFloat(self.alpha))
+			return CGColor(colorSpace: PAL.ColorSpaceCG.Gray, components: components)?.copy(alpha: CGFloat(self.alpha))
 		}
 	}
 

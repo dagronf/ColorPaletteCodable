@@ -1,5 +1,5 @@
 //
-//  ASEPalette+Color.swift
+//  PAL+Color.swift
 //
 //  Created by Darren Ford on 16/5/2022.
 //  Copyright © 2022 Darren Ford. All rights reserved.
@@ -27,12 +27,12 @@
 
 import Foundation
 
-public extension ASE.Palette {
+public extension PAL.Palette {
 	/// Convenience constructor for creating a palette of RGB colors
-	init(rgbColors: [ASE.RGB], groups: [ASE.RGBGroup] = []) throws {
+	init(rgbColors: [PAL.RGB], groups: [PAL.RGBGroup] = []) throws {
 		self.colors = try rgbColors.map { try $0.color() }
 		self.groups = try groups.map {
-			ASE.Group(
+			PAL.Group(
 				name: $0.name,
 				colors: try $0.colors.map { try $0.color() }
 			)
@@ -40,20 +40,20 @@ public extension ASE.Palette {
 	}
 
 	/// Returns all the groups for the palette. Global colors are represented in a group called 'global'
-	@inlinable var allGroups: [ASE.Group] {
-		return [ASE.Group(name: "global", colors: self.colors)] + self.groups
+	@inlinable var allGroups: [PAL.Group] {
+		return [PAL.Group(name: "global", colors: self.colors)] + self.groups
 	}
 
 	/// Returns all the colors in the palette as a flat array of colors
-	func flattenedColors() -> [ASE.Color] {
-		var results: [ASE.Color] = []
+	func flattenedColors() -> [PAL.Color] {
+		var results: [PAL.Color] = []
 		results.append(contentsOf: self.colors)
 		groups.forEach { results.append(contentsOf: $0.colors) }
 		return results
 	}
 }
 
-public extension ASE {
+public extension PAL {
 	struct RGB {
 		public let name: String
 		public let r: Float32
@@ -71,15 +71,15 @@ public extension ASE {
 			self.g = Float32(g) / 255.0
 			self.b = Float32(b) / 255.0
 		}
-		public func color() throws -> ASE.Color {
-			try ASE.Color(name: name, model: .RGB, colorComponents: [r, g, b])
+		public func color() throws -> PAL.Color {
+			try PAL.Color(name: name, model: .RGB, colorComponents: [r, g, b])
 		}
 	}
 
 	struct RGBGroup {
 		public let name: String
-		public let colors: [ASE.RGB]
-		public init(name: String = "", _ colors: [ASE.RGB]) {
+		public let colors: [PAL.RGB]
+		public init(name: String = "", _ colors: [PAL.RGB]) {
 			self.name = name
 			self.colors = colors
 		}
