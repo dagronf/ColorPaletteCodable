@@ -61,4 +61,9 @@ class RGBPaletteTests: XCTestCase {
 		XCTAssertEqual(palette2.colors[1].alpha, 1, accuracy: 0.0001)
 		XCTAssertEqual(palette2.colors[2].alpha, 1, accuracy: 0.0001)
 	}
+
+	func testAttemptLoadBadFormattedTxtFile() throws {
+		let rgbaURL = try XCTUnwrap(Bundle.module.url(forResource: "bad-coding", withExtension: "txt"))
+		XCTAssertThrowsError(try ASE.Coder.RGBA().load(fileURL: rgbaURL))
+	}
 }
