@@ -23,4 +23,18 @@ class JSONPaletteTests: XCTestCase {
 
 		XCTAssertEqual(palette, rec)
 	}
+
+	func testJSONColorPaletteLoading2() throws {
+		let rgbaURL = try XCTUnwrap(Bundle.module.url(forResource: "24 colour palettes", withExtension: "ase"))
+		let palette = try PAL.Palette.Create(from: rgbaURL)
+
+		// Get json data
+		let data = try PAL.Coder.JSON().data(palette)
+		//try data.write(to: URL(fileURLWithPath: "/tmp/encodedgroups.jsoncolorpalette"))
+
+		// Reload palette
+		let rec = try PAL.Coder.JSON().create(from: data)
+
+		XCTAssertEqual(palette, rec)
+	}
 }
