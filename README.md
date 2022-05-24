@@ -123,6 +123,8 @@ In the `Quicklook` subfolder you'll find an `xcodeproj` which you can use to bui
 
 For the plugin to register, you need to run the application. After the first run the QuickLook plugin will be registered.
 
+## Palette viewer
+
 Palette Viewer allows you to view the contents of
 
 * Adobe Swatch Exchange files (.ase)
@@ -131,6 +133,8 @@ Palette Viewer allows you to view the contents of
 * RGB/RGBA hex encoded text files (.txt)
 
 You can drag colors out of the preview window into applications that support dropping of `NSColor` instances.
+
+You can also save the palette to a new format (eg. saving a gimp `.gpl` format to an Adobe `.aco` format)
 
 ## License
 
