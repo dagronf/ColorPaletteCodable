@@ -27,7 +27,7 @@
 import Foundation
 import UniformTypeIdentifiers
 
-#if os(macOS)
+#if canImport(AppKit)
 
 import AppKit
 public let NSColorListPasteboardTypeName = "NSColorList.bplist"
