@@ -75,7 +75,7 @@ struct ColorView: View {
 			RoundedRectangle(cornerRadius: 4)
 				.stroke(Color(NSColor.disabledControlTextColor.cgColor), lineWidth: 1)
 		}
-		.help("Name: \(color.name)\nMode: \(color.modelString)\nType: \(color.typeString)")
+		.help("Name: \(color.name)\nMode: \(color.model.rawValue)\nType: \(color.colorType.rawValue)")
 		.onDrag {
 			if let c = color.nsColor {
 				return NSItemProvider(item: c, typeIdentifier: UTType.nsColor.identifier)
@@ -95,8 +95,8 @@ struct ColorTooltipView: View {
 				.frame(width: 20, height: 20)
 			VStack(alignment: .leading, spacing: 1) {
 				Text("Name: \(color.name)").font(.caption2)
-				Text("Mode: \(color.modelString)").font(.caption2)
-				Text("Type: \(color.typeString)").font(.caption2)
+				Text("Mode: \(color.model.rawValue)").font(.caption2)
+				Text("Type: \(color.colorType.rawValue)").font(.caption2)
 			}
 		}
 		.padding(4)

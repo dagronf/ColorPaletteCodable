@@ -47,37 +47,25 @@ public extension PAL {
 			self.name = name
 			self.model = model
 
-			// Quick sanity check on the color model and components
-			switch model {
-			case .CMYK: if colorComponents.count != 4 { throw PAL.CommonError.invalidColorComponentCountForModelType }
-			case .RGB: if colorComponents.count != 3 { throw PAL.CommonError.invalidColorComponentCountForModelType }
-			case .LAB: if colorComponents.count != 3 { throw PAL.CommonError.invalidColorComponentCountForModelType }
-			case .Gray: if colorComponents.count != 1 { throw PAL.CommonError.invalidColorComponentCountForModelType }
-			}
-
 			self.colorComponents = colorComponents
 			self.colorType = colorType
 			self.alpha = alpha
+
+			// Validate that our color object is correctly formatted
+			try self.validate()
 		}
 
 		public var description: String {
 			"Color '\(self.name)' [(\(self.model):\(self.colorType):\(self.colorComponents):\(self.alpha)]"
 		}
 
-		@inlinable public var modelString: String {
+		// Quick sanity check on the color model and components
+		public func validate() throws {
 			switch model {
-			case .CMYK: return "CMYK"
-			case .RGB: return "RGB"
-			case .LAB: return "LAB"
-			case .Gray: return "Gray"
-			}
-		}
-
-		@inlinable public var typeString: String {
-			switch colorType {
-			case .global: return "global"
-			case .spot: return "spot"
-			case .normal: return "normal"
+			case .CMYK: if colorComponents.count != 4 { throw PAL.CommonError.invalidColorComponentCountForModelType }
+			case .RGB: if colorComponents.count != 3 { throw PAL.CommonError.invalidColorComponentCountForModelType }
+			case .LAB: if colorComponents.count != 3 { throw PAL.CommonError.invalidColorComponentCountForModelType }
+			case .Gray: if colorComponents.count != 1 { throw PAL.CommonError.invalidColorComponentCountForModelType }
 			}
 		}
 	}
@@ -99,9 +87,16 @@ public extension PAL.Color {
 		self.colorComponents = try container.decode([Float32].self, forKey: .colorComponents)
 		self.colorType = try container.decodeIfPresent(PAL.ColorType.self, forKey: .colorType) ?? .global
 		self.alpha = try container.decodeIfPresent(Float32.self, forKey: .alpha) ?? 1
+
+		// Make sure our content is valid
+		try self.validate()
 	}
 
 	func encode(to encoder: Encoder) throws {
+
+		// Make sure our content is valid
+		try self.validate()
+
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		if !name.isEmpty { try container.encode(name, forKey: .name) }
 		try container.encode(model, forKey: .model)

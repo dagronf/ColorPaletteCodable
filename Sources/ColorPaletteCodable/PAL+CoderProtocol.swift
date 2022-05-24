@@ -43,8 +43,10 @@ public protocol PAL_PaletteCoder {
 	func data(for palette: PAL.Palette) throws -> Data
 }
 
-extension PAL_PaletteCoder {
-	/// Load from the contents of a fileURL
+public extension PAL_PaletteCoder {
+	/// Create a palette object from the contents of a fileURL
+	/// - Parameter fileURL: The file containing the palette
+	/// - Returns: A palette object
 	func create(from fileURL: URL) throws -> PAL.Palette {
 		guard let inputStream = InputStream(fileAtPath: fileURL.path) else {
 			throw PAL.CommonError.unableToLoadFile
@@ -53,7 +55,9 @@ extension PAL_PaletteCoder {
 		return try create(from: inputStream)
 	}
 
-	/// Load from data
+	/// Create a palette object from the provided data
+	/// - Parameter data: The encoded palette
+	/// - Returns: A palette object
 	func create(from data: Data) throws -> PAL.Palette {
 		let inputStream = InputStream(data: data)
 		inputStream.open()

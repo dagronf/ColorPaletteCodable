@@ -1,5 +1,5 @@
 //
-//  PAL+Types.swift
+//  PAL+Errors.swift
 //
 //  Created by Darren Ford on 16/5/2022.
 //  Copyright © 2022 Darren Ford. All rights reserved.
@@ -27,19 +27,30 @@
 
 import Foundation
 
-public extension PAL {
-	/// A color representation for a color
-	enum ColorSpace: String, Codable {
-		case CMYK
-		case RGB
-		case LAB
-		case Gray
-	}
+/// ASE Palette errors
 
-	/// The type of the color (normal, spot, global)
-	enum ColorType: String, Codable {
-		case global
-		case spot
-		case normal
+public extension PAL {
+	/// Errors
+	enum CommonError: Error {
+		case unsupportedPaletteType
+		case unableToLoadFile
+		case invalidFormat
+		case invalidASEHeader
+		case invalidColorComponentCountForModelType
+		case invalidEndOfFile
+		case invalidString
+		case invalidIntegerValue
+		case unknownBlockType
+		case groupAlreadyOpen
+		case groupNotOpen
+		case unknownColorMode(String)
+		case unknownColorType(Int)
+		case unsupportedCGColorType
+		case invalidRGBHexString(String)
+		case invalidRGBAHexString(String)
+		case unsupportedColorSpace
+		case invalidVersion
+		case invalidUnicodeFormatString
+		case unsupportedCoderType
 	}
 }

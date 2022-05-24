@@ -32,11 +32,8 @@ import Foundation
 /// Format of the form
 /// ```
 /// #fcfc80
-/// #fcfc80
-/// #fcf87c
 /// #fcf87c
 /// #fcf478
-/// #f8f478
 /// ```
 public extension PAL.Coder {
 	struct RGB: PAL_PaletteCoder {
