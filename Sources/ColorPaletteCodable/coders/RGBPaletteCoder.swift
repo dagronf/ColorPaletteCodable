@@ -42,6 +42,9 @@ public extension PAL.Coder {
 }
 
 public extension PAL.Coder.RGB {
+	/// Create a palette from the contents of the input stream
+	/// - Parameter inputStream: The input stream containing the encoded palette
+	/// - Returns: A palette
 	func create(from inputStream: InputStream) throws -> PAL.Palette {
 		let data = inputStream.readAllData()
 		guard let text = String(data: data, encoding: .utf8) else {
@@ -72,7 +75,10 @@ public extension PAL.Coder.RGB {
 		}
 		return palette
 	}
-	
+
+	/// Encode the palette
+	/// - Parameter palette: The palette to encode
+	/// - Returns: The encoded representation  of the palette
 	func data(for palette: PAL.Palette) throws -> Data {
 		var result = ""
 		for color in palette.colors {

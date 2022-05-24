@@ -30,16 +30,35 @@ public extension PAL.Coder {
 	/// A JSON encoder/decoder
 	struct JSON: PAL_PaletteCoder {
 		public let fileExtension = "jsoncolorpalette"
+
+		/// Should the output be pretty-printed?
+		public let prettyPrint: Bool
+
+		/// Create a JSON coder
+		/// - Parameter prettyPrint: Should the generated data be pretty printed?
+		public init(prettyPrint: Bool = false) {
+			self.prettyPrint = prettyPrint
+		}
 	}
 }
 
 public extension PAL.Coder.JSON {
+	/// Create a palette from the contents of the input stream
+	/// - Parameter inputStream: The input stream containing the encoded palette
+	/// - Returns: A palette
 	func create(from inputStream: InputStream) throws -> PAL.Palette {
 		let data = inputStream.readAllData()
 		return try JSONDecoder().decode(PAL.Palette.self, from: data)
 	}
 
+	/// Encode the palette
+	/// - Parameter palette: The palette to encode
+	/// - Returns: The encoded representation  of the palette
 	func data(for palette: PAL.Palette) throws -> Data {
-		return try JSONEncoder().encode(palette)
+		let encoder = JSONEncoder()
+		if self.prettyPrint {
+			encoder.outputFormatting = .prettyPrinted
+		}
+		return try encoder.encode(palette)
 	}
 }

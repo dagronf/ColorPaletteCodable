@@ -29,7 +29,7 @@ class JSONPaletteTests: XCTestCase {
 		let palette = try PAL.Palette.Create(from: rgbaURL)
 
 		// Get json data
-		let data = try PAL.Coder.JSON().data(palette)
+		let data = try PAL.Coder.JSON(prettyPrint: true).data(palette)
 		//try data.write(to: URL(fileURLWithPath: "/tmp/encodedgroups.jsoncolorpalette"))
 
 		// Reload palette
