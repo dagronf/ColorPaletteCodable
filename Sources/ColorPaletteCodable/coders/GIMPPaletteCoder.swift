@@ -22,7 +22,7 @@ public extension PAL.Coder.GIMP {
 			throw PAL.CommonError.invalidFormat
 		}
 
-		let lines = content.split(separator: "\n")
+		let lines = content.split(whereSeparator: \.isNewline)
 		guard
 			lines.count > 0,
 			lines[0] == "GIMP Palette"

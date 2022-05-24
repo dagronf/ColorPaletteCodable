@@ -59,4 +59,11 @@ class GIMPPaletteTests: XCTestCase {
 		XCTAssertEqual(6, recons.colors.count)
 		XCTAssertEqual("5b404e", recons.colors[0].name)
 	}
+
+	func testSlashRSlashNSeparator() throws {
+		// Check handling \r\n separators
+		let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: "pear36-sep-rn", withExtension: "gpl"))
+		let palette = try PAL.Palette.Decode(from: paletteURL)
+		XCTAssertEqual(36, palette.colors.count)
+	}
 }
