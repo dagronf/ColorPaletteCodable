@@ -29,7 +29,7 @@ import Foundation
 public extension PAL.Coder {
 	/// A JSON encoder/decoder
 	struct JSON: PAL_PaletteCoder {
-		public let fileExtension = "json"
+		public let fileExtension = "jsoncolorpalette"
 	}
 }
 

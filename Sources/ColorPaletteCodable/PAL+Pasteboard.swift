@@ -37,7 +37,7 @@ public typealias PALPasteboard = UIPasteboard
 #endif
 
 public extension PAL {
-	static let UTI = "public.dagronf.colorpalette"
+	static let UTI = "public.dagronf.jsoncolorpalette"
 }
 
 @available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)

@@ -5,7 +5,9 @@ A palette reader/editor/writer package, supporting the following formats
 * Adobe Swatch Exchange (.ase)
 * Adobe Photoshop Color Swatch (.aco)
 * NSColorList (.clr) *(macOS only)* 
-* RGB(A) text files (.rgb)
+* RGB text files (.rgb)
+* RGBA text files (.rgba)
+* JSON encoded color files (.jsoncolorpalette) *ColorPaletteCodable internal file format*
 
 <p align="center">
     <img src="https://img.shields.io/github/v/tag/dagronf/ASEPalette" />
@@ -42,14 +44,14 @@ The `.aco` file format is defined [here](https://www.adobe.com/devnet-apps/photo
 
 ### Coders
 
-| Type             | Description                         |
-|:-----------------|:------------------------------------|
-|`PAL.Coder.ASE`   | Adobe Swatch Exchange (.ase)        |
-|`PAL.Coder.ACO`   | Adobe Photoshop Color Swatch (.aco) |
-|`PAL.Coder.CLR`   | NSColorList (.clr) *(macOS only)*   |
-|`PAL.Coder.RGB`   | RGB text files (.rgb)               |
-|`PAL.Coder.RGBA`  | RGB(A) text files (.rgba)           |
-|`PAL.Coder.JSON`  | JSON encoded palette (.json)        |
+| Type             | Description                              |
+|:-----------------|:-----------------------------------------|
+|`PAL.Coder.ASE`   | Adobe Swatch Exchange (.ase)             |
+|`PAL.Coder.ACO`   | Adobe Photoshop Color Swatch (.aco)      |
+|`PAL.Coder.CLR`   | NSColorList (.clr) *(macOS only)*        |
+|`PAL.Coder.RGB`   | RGB text files (.rgb)                    |
+|`PAL.Coder.RGBA`  | RGB(A) text files (.rgba)                |
+|`PAL.Coder.JSON`  | JSON encoded palette (.jsoncolorpalette) |
 
 ## Tasks
 

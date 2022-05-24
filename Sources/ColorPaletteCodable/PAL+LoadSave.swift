@@ -32,6 +32,7 @@ private let AvailableCoders: [PAL_PaletteCoder] = [
 	PAL.Coder.CLR(),
 	PAL.Coder.RGB(),
 	PAL.Coder.RGBA(),
+	PAL.Coder.JSON(),
 ]
 
 public extension PAL.Palette {

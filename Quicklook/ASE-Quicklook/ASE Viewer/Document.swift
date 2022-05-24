@@ -41,10 +41,10 @@ class Document: NSDocument {
 
 	override func read(from url: URL, ofType typeName: String) throws {
 		if url.pathExtension == "txt" {
-			self.currentPalette = try PAL.Palette.load(fileURL: url, forcedExtension: "rgba")
+			self.currentPalette = try PAL.Palette.Create(from: url, forcedExtension: "rgba")
 		}
 		else {
-			self.currentPalette = try PAL.Palette.load(fileURL: url)
+			self.currentPalette = try PAL.Palette.Create(from: url)
 		}
 	}
 }

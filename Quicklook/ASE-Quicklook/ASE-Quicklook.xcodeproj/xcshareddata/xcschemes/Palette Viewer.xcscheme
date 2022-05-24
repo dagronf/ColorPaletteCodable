@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ASEPaletteTests"
-               BuildableName = "ASEPaletteTests"
-               BlueprintName = "ASEPaletteTests"
+               BlueprintIdentifier = "ColorPaletteCodableTests"
+               BuildableName = "ColorPaletteCodableTests"
+               BlueprintName = "ColorPaletteCodableTests"
                ReferencedContainer = "container:../..">
             </BuildableReference>
          </TestableReference>
