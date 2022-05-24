@@ -46,6 +46,18 @@ public extension PAL {
 	}
 }
 
+public extension PAL.ColorSpace {
+	/// Return a CGColorspace representation
+	var cgColorSpace: CGColorSpace {
+		switch self {
+		case .CMYK: return PAL.ColorSpaceCG.CMYK
+		case .RGB: return PAL.ColorSpaceCG.RGB
+		case .LAB: return PAL.ColorSpaceCG.LAB
+		case .Gray: return PAL.ColorSpaceCG.Gray
+		}
+	}
+}
+
 public extension PAL.Color {
 	/// Create a Color object from a CGColor
 	/// - Parameters:
@@ -121,6 +133,23 @@ public extension PAL.Color {
 		guard let s = self.cgColor?.hexRGB else { return nil }
 		return s + String(format: "%02x", Int(self.alpha * 255.0))
  	}
+}
+
+public extension PAL.Color {
+	/// Convert the color object to a new color object with the specified colorspace
+	/// - Parameter colorspace: The colorspace to convert to
+	/// - Returns: A new color with the specified namespace
+	func converted(to colorspace: PAL.ColorSpace) throws -> PAL.Color {
+		if self.model == colorspace {
+			return self
+		}
+
+		if let cg = self.cgColor,
+			let conv = cg.converted(to: colorspace.cgColorSpace, intent: .defaultIntent, options: nil) {
+			return try PAL.Color(cgColor: conv, name: self.name, colorType: self.colorType)
+		}
+		throw PAL.CommonError.cannotConvertColorspace
+	}
 }
 
 #endif

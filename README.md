@@ -7,6 +7,7 @@ A palette reader/editor/writer package for iOS, macOS, watchOS and tvOS, support
 * NSColorList (.clr) *(macOS only)* 
 * RGB text files (.rgb)
 * RGBA text files (.rgba)
+* GIMP palette files (.gpl)
 * JSON encoded color files (.jsoncolorpalette) *ColorPaletteCodable internal file format*
 
 <p align="center">
@@ -52,6 +53,7 @@ The `.aco` file format is defined [here](https://www.adobe.com/devnet-apps/photo
 |`PAL.Coder.CLR`   | NSColorList (.clr) *(macOS only)*        |
 |`PAL.Coder.RGB`   | RGB text files (.rgb)                    |
 |`PAL.Coder.RGBA`  | RGB(A) text files (.rgba)                |
+|`PAL.Coder.GIMP`  | GIMP palette files (.gpl)                |
 |`PAL.Coder.JSON`  | JSON encoded palette (.jsoncolorpalette) |
 
 ## Tasks

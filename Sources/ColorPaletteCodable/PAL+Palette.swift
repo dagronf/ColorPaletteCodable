@@ -30,6 +30,9 @@ import Foundation
 public extension PAL {
 	/// A color palette
 	struct Palette: Equatable, Codable {
+		// The palette name
+		public var name: String = ""
+
 		/// Colors that are not assigned to a group ('global' colors)
 		public var colors: [Color] = []
 
@@ -48,18 +51,23 @@ public extension PAL {
 
 public extension PAL.Palette {
 	internal enum CodingKeys: String, CodingKey {
+		case name
 		case colors
 		case groups
 	}
 
 	init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
+		self.name = try container.decodeIfPresent(String.self, forKey: .name) ?? ""
 		self.colors = try container.decodeIfPresent([PAL.Color].self, forKey: .colors) ?? []
 		self.groups = try container.decodeIfPresent([PAL.Group].self, forKey: .groups) ?? []
 	}
 
 	func encode(to encoder: Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
+		if !self.name.isEmpty {
+			try container.encode(name, forKey: .name)
+		}
 		if !self.colors.isEmpty {
 			try container.encode(colors, forKey: .colors)
 		}

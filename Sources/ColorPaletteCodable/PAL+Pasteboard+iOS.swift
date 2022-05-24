@@ -26,7 +26,7 @@
 
 import Foundation
 
-#if canImport(UIKit)
+#if os(iOS)
 
 import UIKit
 public typealias PALPasteboard = UIPasteboard
