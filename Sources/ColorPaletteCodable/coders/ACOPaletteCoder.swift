@@ -32,6 +32,7 @@ import Foundation
 public extension PAL.Coder {
 	struct ACO: PAL_PaletteCoder {
 		public let fileExtension = "aco"
+		public init() {}
 	}
 }
 

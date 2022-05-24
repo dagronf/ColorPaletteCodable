@@ -34,6 +34,7 @@ import AppKit
 public extension PAL.Coder {
 	struct CLR: PAL_PaletteCoder {
 		public let fileExtension = "clr"
+		public init() {}
 	}
 }
 

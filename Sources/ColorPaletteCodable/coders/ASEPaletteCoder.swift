@@ -30,6 +30,7 @@ import Foundation
 public extension PAL.Coder {
 	struct ASE: PAL_PaletteCoder {
 		public let fileExtension = "ase"
+		public init() {}
 	}
 }
 

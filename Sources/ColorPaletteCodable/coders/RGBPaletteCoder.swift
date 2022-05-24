@@ -38,6 +38,7 @@ import Foundation
 public extension PAL.Coder {
 	struct RGB: PAL_PaletteCoder {
 		public let fileExtension = "rgb"
+		public init() {}
 	}
 }
 
