@@ -1,6 +1,6 @@
 # ColorPaletteCodable
 
-A palette reader/editor/writer package, supporting the following formats
+A palette reader/editor/writer package for iOS, macOS, watchOS and tvOS, supporting the following formats
 
 * Adobe Swatch Exchange (.ase)
 * Adobe Photoshop Color Swatch (.aco)
@@ -14,6 +14,7 @@ A palette reader/editor/writer package, supporting the following formats
     <img src="https://img.shields.io/badge/macOS-10.13+-red" />
     <img src="https://img.shields.io/badge/iOS-13+-blue" />
     <img src="https://img.shields.io/badge/tvOS-13+-orange" />
+    <img src="https://img.shields.io/badge/watchOS-4+-yellow" />
     <img src="https://img.shields.io/badge/macCatalyst-2+-purple" />
 </p>
 

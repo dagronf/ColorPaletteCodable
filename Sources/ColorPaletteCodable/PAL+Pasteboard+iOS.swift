@@ -26,7 +26,7 @@
 
 import Foundation
 
-#if !os(macOS)
+#if os(iOS)
 
 import UIKit
 public typealias PALPasteboard = UIPasteboard

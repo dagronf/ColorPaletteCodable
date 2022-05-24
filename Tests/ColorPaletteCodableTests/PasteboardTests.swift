@@ -1,12 +1,13 @@
 @testable import ColorPaletteCodable
 import XCTest
 
+#if os(macOS) || os(iOS)
 
 #if os(macOS)
 func CreatePasteboard(named name: String) -> NSPasteboard {
 	return NSPasteboard(name: NSPasteboard.Name(name))
 }
-#else
+#elseif os(iOS)
 func CreatePasteboard(named name: String) -> UIPasteboard {
 	return UIPasteboard(name: UIPasteboard.Name(name), create: true)!
 }
@@ -46,3 +47,5 @@ final class PasteboardTests: XCTestCase {
 		XCTAssertEqual(rep, palette)
 	}
 }
+
+#endif

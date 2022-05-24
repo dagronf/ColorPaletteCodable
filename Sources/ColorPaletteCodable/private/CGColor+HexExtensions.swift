@@ -26,7 +26,7 @@
 
 // CoreGraphics extensions for ASEPalette.Color
 
-#if os(macOS) || os(iOS) || os(tvOS)
+#if canImport(CoreGraphics)
 
 import CoreGraphics
 import Foundation
