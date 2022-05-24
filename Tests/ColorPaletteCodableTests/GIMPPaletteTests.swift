@@ -5,10 +5,6 @@ import Foundation
 
 class GIMPPaletteTests: XCTestCase {
 
-/*
-
- */
-
 	// You can find palette files in
 	//  /Applications/GIMP-2.10.app/Contents/Resources/share/gimp/2.0/palettes/
 
@@ -56,6 +52,8 @@ class GIMPPaletteTests: XCTestCase {
 		let aseData = try PAL.Coder.ASE().encode(palette)
 
 		let recons = try PAL.Palette.Decode(from: aseData, fileExtension: "ase")
+		// ASE format doesn't support palette name
+		XCTAssertEqual("", recons.name)
 		XCTAssertEqual(6, recons.colors.count)
 		XCTAssertEqual("5b404e", recons.colors[0].name)
 	}

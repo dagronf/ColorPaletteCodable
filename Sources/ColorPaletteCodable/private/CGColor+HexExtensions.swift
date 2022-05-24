@@ -37,7 +37,7 @@ extension CGColor {
 	/// The color is converted to the `genericRGBLinear` colorspace
 	var hexRGB: String? {
 		guard
-			let converted = self.converted(to: PAL.ColorSpaceCG.RGB, intent: .defaultIntent, options: nil),
+			let converted = self.converted(to: PAL.ColorSpace.RGB.cgColorSpace, intent: .defaultIntent, options: nil),
 			let r = converted.components?[0],
 			let g = converted.components?[1],
 			let b = converted.components?[2]
@@ -57,7 +57,7 @@ extension CGColor {
 	/// The color is converted to the `genericRGBLinear` colorspace
 	var hexRGBA: String? {
 		guard
-			let converted = self.converted(to: PAL.ColorSpaceCG.RGB, intent: .defaultIntent, options: nil),
+			let converted = self.converted(to: PAL.ColorSpace.RGB.cgColorSpace, intent: .defaultIntent, options: nil),
 			let r = converted.components?[0],
 			let g = converted.components?[1],
 			let b = converted.components?[2],

@@ -43,8 +43,10 @@ public extension PAL {
 		public init() {}
 
 		/// Create a palette with collection of global colors
-		public init(colors: [PAL.Color]) {
+		public init(name: String = "", colors: [PAL.Color], groups: [PAL.Group] = []) {
+			self.name = name
 			self.colors = colors
+			self.groups = groups
 		}
 	}
 }

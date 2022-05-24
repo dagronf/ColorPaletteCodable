@@ -22,13 +22,20 @@ struct PaletteView: View {
 	@ObservedObject var paletteModel: PaletteModel
 
 	var body: some View {
-		ScrollView(.vertical) {
-			if let p = paletteModel.palette {
-				if p.colors.count > 0 {
-					GroupingView(name: "Global colors", colors: p.colors)
-				}
-				ForEach(p.groups) { group in
-					GroupingView(name: group.name, colors: group.colors)
+		VStack(alignment: .leading, spacing: 0) {
+			if let name = paletteModel.palette?.name, name.count > 0 {
+				Text("􀦳 \(name)")
+					.font(.title2).fontWeight(.heavy)
+					.padding(4)
+			}
+			ScrollView(.vertical) {
+				if let p = paletteModel.palette {
+					if p.colors.count > 0 {
+						GroupingView(name: "Global colors", colors: p.colors)
+					}
+					ForEach(p.groups) { group in
+						GroupingView(name: group.name, colors: group.colors)
+					}
 				}
 			}
 		}
@@ -108,26 +115,27 @@ struct ColorTooltipView: View {
 #if DEBUG
 
 let _display: PAL.Palette = {
-	try! PAL.Palette(
-		rgbaColors: [
-			PAL.RGBA(1.0, 0, 0),
-			PAL.RGBA(0, 1.0, 0),
-			PAL.RGBA(0, 0, 1.0),
+	PAL.Palette(
+		name: "My Colors",
+		colors: [
+			PAL.Color.rgb(1.0, 0, 0),
+			PAL.Color.rgb(0, 1.0, 0),
+			PAL.Color.rgb(0, 0, 1.0),
 		],
 		groups: [
-			PAL.RGBAGroup(name: "one", [
-				PAL.RGBA(0, 0, 1.0),
-				PAL.RGBA(0, 1.0, 0),
-				PAL.RGBA(1.0, 0, 0),
+			PAL.Group(name: "one", colors: [
+				PAL.Color.rgb(0, 0, 1.0),
+				PAL.Color.rgb(0, 1.0, 0),
+				PAL.Color.rgb(1.0, 0, 0),
 			]),
-			PAL.RGBAGroup(name: "two is the second one", [
-				PAL.RGBA(0.5, 0, 1),
-				PAL.RGBA(0, 0.8, 0.3),
-				PAL.RGBA(0.1, 0.3, 1.0),
-				PAL.RGBA(000, 000, 000),
-				PAL.RGBA(153, 000, 000),
-				PAL.RGBA(102, 085, 085),
-				PAL.RGBA(221, 017, 017),
+			PAL.Group(name: "two is the second one", colors: [
+				PAL.Color.rgb(0.5, 0, 1),
+				PAL.Color.rgb(0, 0.8, 0.3),
+				PAL.Color.rgb(0.1, 0.3, 1.0),
+				PAL.Color.rgb(000, 000, 000),
+				PAL.Color.rgb(153, 000, 000),
+				PAL.Color.rgb(102, 085, 085),
+				PAL.Color.rgb(221, 017, 017),
 			]),
 		]
 	)
@@ -147,21 +155,21 @@ struct ColorView_Previews: PreviewProvider {
 	static var previews: some View {
 		Group {
 			HStack {
-				ColorView(color: try! PAL.RGBA(1.0, 0, 1.0).color())
+				ColorView(color: PAL.Color.rgb(1.0, 0, 1.0))
 					.frame(width: 26, height: 26)
-				ColorView(color: try! PAL.RGBA(0.0, 1.0, 1.0).color())
+				ColorView(color: PAL.Color.rgb(0.0, 1.0, 1.0))
 					.frame(width: 26, height: 26)
-				ColorView(color: try! PAL.RGBA(1.0, 1.0, 0.0).color())
+				ColorView(color: PAL.Color.rgb(1.0, 1.0, 0.0))
 					.frame(width: 26, height: 26)
 			}
 			.preferredColorScheme(.dark)
 
 			HStack {
-				ColorView(color: try! PAL.RGBA(1.0, 0, 1.0).color())
+				ColorView(color: PAL.Color.rgb(1.0, 0, 1.0))
 					.frame(width: 26, height: 26)
-				ColorView(color: try! PAL.RGBA(0.0, 1.0, 1.0).color())
+				ColorView(color: PAL.Color.rgb(0.0, 1.0, 1.0))
 					.frame(width: 26, height: 26)
-				ColorView(color: try! PAL.RGBA(1.0, 1.0, 0.0).color())
+				ColorView(color: PAL.Color.rgb(1.0, 1.0, 0.0))
 					.frame(width: 26, height: 26)
 			}
 			.preferredColorScheme(.light)

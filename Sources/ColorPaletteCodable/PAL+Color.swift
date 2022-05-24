@@ -55,11 +55,12 @@ public extension PAL {
 			try self.validate()
 		}
 
+		/// Return a string description of the color
 		public var description: String {
 			"Color '\(self.name)' [(\(self.model):\(self.colorType):\(self.colorComponents):\(self.alpha)]"
 		}
 
-		// Quick sanity check on the color model and components
+		/// Quick sanity check on the color model and components
 		public func validate() throws {
 			switch model {
 			case .CMYK: if colorComponents.count != 4 { throw PAL.CommonError.invalidColorComponentCountForModelType }

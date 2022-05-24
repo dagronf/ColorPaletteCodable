@@ -32,28 +32,14 @@
 import CoreGraphics
 import Foundation
 
-public extension PAL {
-	/// CoreGraphics color space definitions for ASE model types
-	struct ColorSpaceCG {
-		/// RGB colorspace
-		static let RGB  = CGColorSpace(name: CGColorSpace.sRGB)!
-		/// CMYK colorspace
-		static let CMYK = CGColorSpace(name: CGColorSpace.genericCMYK)!
-		/// LAB colorspace
-		static let LAB  = CGColorSpace(name: CGColorSpace.genericLab)!
-		/// Gray colorspace
-		static let Gray = CGColorSpace(name: CGColorSpace.linearGray)!
-	}
-}
-
 public extension PAL.ColorSpace {
-	/// Return a CGColorspace representation
+	/// Return the CGColorspace representation used for this colorspace
 	var cgColorSpace: CGColorSpace {
 		switch self {
-		case .CMYK: return PAL.ColorSpaceCG.CMYK
-		case .RGB: return PAL.ColorSpaceCG.RGB
-		case .LAB: return PAL.ColorSpaceCG.LAB
-		case .Gray: return PAL.ColorSpaceCG.Gray
+		case .CMYK: return CGColorSpace(name: CGColorSpace.genericCMYK)!
+		case .RGB: return CGColorSpace(name: CGColorSpace.sRGB)!
+		case .LAB: return CGColorSpace(name: CGColorSpace.genericLab)!
+		case .Gray: return CGColorSpace(name: CGColorSpace.linearGray)!
 		}
 	}
 }
@@ -72,23 +58,23 @@ public extension PAL.Color {
 		var convertedColor: CGColor = cgColor
 
 		if let cs = cgColor.colorSpace {
-			if cs.name == PAL.ColorSpaceCG.CMYK.name {
+			if cs.name == PAL.ColorSpace.CMYK.cgColorSpace.name {
 				model = .CMYK
 			}
-			else if cs.name == PAL.ColorSpaceCG.RGB.name {
+			else if cs.name == PAL.ColorSpace.RGB.cgColorSpace.name {
 				model = .RGB
 			}
-			else if cs.name == PAL.ColorSpaceCG.LAB.name {
+			else if cs.name == PAL.ColorSpace.LAB.cgColorSpace.name {
 				model = .LAB
 			}
-			else if cs.name == PAL.ColorSpaceCG.Gray.name {
+			else if cs.name == PAL.ColorSpace.Gray.cgColorSpace.name {
 				model = .Gray
 			}
 		}
 
 		if model == nil {
 			// If we can't figure out the model, fall back to Core Graphics to attempt to convert the color to RGB
-			guard let conv = cgColor.converted(to: PAL.ColorSpaceCG.RGB, intent: .defaultIntent, options: nil) else {
+			guard let conv = cgColor.converted(to: PAL.ColorSpace.RGB.cgColorSpace, intent: .defaultIntent, options: nil) else {
 				throw PAL.CommonError.unsupportedCGColorType
 			}
 			convertedColor = conv
@@ -112,13 +98,13 @@ public extension PAL.Color {
 		let components = colorComponents.map { CGFloat($0) }
 		switch model {
 		case .CMYK:
-			return CGColor(colorSpace: PAL.ColorSpaceCG.CMYK, components: components)?.copy(alpha: CGFloat(self.alpha))
+			return CGColor(colorSpace: PAL.ColorSpace.CMYK.cgColorSpace, components: components)?.copy(alpha: CGFloat(self.alpha))
 		case .RGB:
-			return CGColor(colorSpace: PAL.ColorSpaceCG.RGB, components: components)?.copy(alpha: CGFloat(self.alpha))
+			return CGColor(colorSpace: PAL.ColorSpace.RGB.cgColorSpace, components: components)?.copy(alpha: CGFloat(self.alpha))
 		case .LAB:
-			return CGColor(colorSpace: PAL.ColorSpaceCG.LAB, components: components)?.copy(alpha: CGFloat(self.alpha))
+			return CGColor(colorSpace: PAL.ColorSpace.LAB.cgColorSpace, components: components)?.copy(alpha: CGFloat(self.alpha))
 		case .Gray:
-			return CGColor(colorSpace: PAL.ColorSpaceCG.Gray, components: components)?.copy(alpha: CGFloat(self.alpha))
+			return CGColor(colorSpace: PAL.ColorSpace.Gray.cgColorSpace, components: components)?.copy(alpha: CGFloat(self.alpha))
 		}
 	}
 
