@@ -38,7 +38,7 @@ public extension PAL.Coder {
 }
 
 extension PAL.Coder.CLR {
-	public func create(from inputStream: InputStream) throws -> PAL.Palette {
+	public func decode(from inputStream: InputStream) throws -> PAL.Palette {
 #if os(macOS)
 		let allData = inputStream.readAllData()
 		let cl = try withDataWrittenToTemporaryFile(allData, fileExtension: "clr") { fileURL in
@@ -54,8 +54,8 @@ extension PAL.Coder.CLR {
 	}
 }
 
-extension PAL.Coder.CLR {
-	public func data(for palette: PAL.Palette) throws -> Data {
+public extension PAL.Coder.CLR {
+	func encode(_ palette: PAL.Palette) throws -> Data {
 #if os(macOS)
 		// We only store 'global' colors in the colorlist. If you need some other behaviour, build a new
 		// ASE.Palette containing a flat collection

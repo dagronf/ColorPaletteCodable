@@ -48,12 +48,12 @@ public extension PAL.Palette {
 		return AvailableCoders.first(where: { $0.fileExtension == lext })
 	}
 	
-	/// Create a palette from the contents of a fileURL
+	/// Decode a palette from the contents of a fileURL
 	/// - Parameters:
 	///   - fileURL: The file to load
 	///   - usingCoder: If set, provides a coder to use instead if using the fileURL extension
 	/// - Returns: A palette
-	static func Create(from fileURL: URL, usingCoder coder: PAL_PaletteCoder? = nil) throws -> PAL.Palette {
+	static func Decode(from fileURL: URL, usingCoder coder: PAL_PaletteCoder? = nil) throws -> PAL.Palette {
 		let coder: PAL_PaletteCoder = try {
 			if let coder = coder {
 				return coder
@@ -63,19 +63,19 @@ public extension PAL.Palette {
 			}
 			return coder
 		}()
-		return try coder.create(from: fileURL)
+		return try coder.decode(from: fileURL)
 	}
 	
-	/// Load a palette from the contents of a fileURL
+	/// Decode a palette from the contents of a fileURL
 	/// - Parameters:
 	///   - data: The data
 	///   - fileExtension: The expected file extension for the data
 	/// - Returns: A palette
-	static func Create(from data: Data, fileExtension: String) throws -> PAL.Palette {
+	static func Decode(from data: Data, fileExtension: String) throws -> PAL.Palette {
 		guard let coder = self.coder(for: fileExtension) else {
 			throw PAL.CommonError.unsupportedCoderType
 		}
-		return try coder.create(from: data)
+		return try coder.decode(from: data)
 	}
 	
 	/// Encode the specified palette using the specified coder
@@ -83,10 +83,10 @@ public extension PAL.Palette {
 	///   - palette: The palette to encode
 	///   - fileExtension: The coder to use for the encoded data
 	/// - Returns: The encoded data
-	static func data(_ palette: PAL.Palette, fileExtension: String) throws -> Data {
+	static func Encode(_ palette: PAL.Palette, fileExtension: String) throws -> Data {
 		guard let coder = self.coder(for: fileExtension) else {
 			throw PAL.CommonError.unsupportedCoderType
 		}
-		return try coder.data(for: palette)
+		return try coder.encode(palette)
 	}
 }

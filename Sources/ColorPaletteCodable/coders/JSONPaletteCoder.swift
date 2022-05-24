@@ -46,7 +46,7 @@ public extension PAL.Coder.JSON {
 	/// Create a palette from the contents of the input stream
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
-	func create(from inputStream: InputStream) throws -> PAL.Palette {
+	func decode(from inputStream: InputStream) throws -> PAL.Palette {
 		let data = inputStream.readAllData()
 		return try JSONDecoder().decode(PAL.Palette.self, from: data)
 	}
@@ -54,7 +54,7 @@ public extension PAL.Coder.JSON {
 	/// Encode the palette
 	/// - Parameter palette: The palette to encode
 	/// - Returns: The encoded representation  of the palette
-	func data(for palette: PAL.Palette) throws -> Data {
+	func encode(_ palette: PAL.Palette) throws -> Data {
 		let encoder = JSONEncoder()
 		if self.prettyPrint {
 			encoder.outputFormatting = .prettyPrinted

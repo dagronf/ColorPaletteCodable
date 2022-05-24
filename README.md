@@ -55,12 +55,12 @@ The `.aco` file format is defined [here](https://www.adobe.com/devnet-apps/photo
 
 ## Tasks
 
-### Load a palette file
+### Decode a palette file
 
 ```swift
 do {
    let myFileURL = URL(fileURL: ...)
-   let palette = try PAL.Palette.load(fileURL: myFileURL)
+   let palette = try PAL.Palette.Decode(from: myFileURL)
    
    // do something with 'palette'
 }
@@ -84,7 +84,7 @@ do {
    let coder = PAL.Coder.ASE()
 
    // Get the .ase format data
-   let rawData = try coder.data(palette)
+   let rawData = try coder.encode(palette)
    
    // Do something with 'rawData' (like write to a file for example)
 }
@@ -99,13 +99,13 @@ catch {
 do {
    let acoFileURL = URL(fileURL: ...)
    let coder = PAL.Coder.ACO()
-   var palette = try coder.load(fileURL: acoFileURL)
+   var palette = try coder.decode(from: acoFileURL)
    
    // do something with 'palette'
    
    // re-encode the palette to an ASE format
    let encoder = PAL.Coder.ASE()
-   let rawData = try encoder.data(palette) 
+   let rawData = try encoder.encode(palette) 
 }
 catch {
    // Do something with 'error'

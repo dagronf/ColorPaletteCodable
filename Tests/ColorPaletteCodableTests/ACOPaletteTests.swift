@@ -20,7 +20,7 @@ final class ACOSwatchesTests: XCTestCase {
 			Swift.print("Validating '\(name)...'")
 
 			// Attempt to load the ase file
-			let swatches = try paletteCoder.create(from: controlACO)
+			let swatches = try paletteCoder.decode(from: controlACO)
 
 			// Write to a data stream
 			let data = try paletteCoder.data(swatches)
@@ -29,7 +29,7 @@ final class ACOSwatchesTests: XCTestCase {
 			XCTAssertEqual(origData, data)
 
 			// Re-create the ase structure from the written data ...
-			let reconstitutedSwatches = try paletteCoder.create(from: data)
+			let reconstitutedSwatches = try paletteCoder.decode(from: data)
 
 			// ... and check equality between the original file and our reconstituted one.
 			XCTAssertEqual(swatches, reconstitutedSwatches)
@@ -40,7 +40,7 @@ final class ACOSwatchesTests: XCTestCase {
 		let acoURL = try XCTUnwrap(Bundle.module.url(forResource: "davis-colors-concrete-pigments", withExtension: "aco"))
 		let paletteCoder = PAL.Coder.ACO()
 
-		let aco = try paletteCoder.create(from: acoURL)
+		let aco = try paletteCoder.decode(from: acoURL)
 		XCTAssertEqual(59, aco.colors.count)
 	}
 
@@ -48,7 +48,7 @@ final class ACOSwatchesTests: XCTestCase {
 		let acoURL = try XCTUnwrap(Bundle.module.url(forResource: "Material Palette", withExtension: "aco"))
 		let paletteCoder = PAL.Coder.ACO()
 
-		let aco = try paletteCoder.create(from: acoURL)
+		let aco = try paletteCoder.decode(from: acoURL)
 		XCTAssertEqual(256, aco.colors.count)
 
 		XCTAssertEqual("Red 500 - Primary", aco.colors[0].name)
@@ -59,7 +59,7 @@ final class ACOSwatchesTests: XCTestCase {
 		let acoURL = try XCTUnwrap(Bundle.module.url(forResource: "Zeldman-v1", withExtension: "aco"))
 		let paletteCoder = PAL.Coder.ACO()
 
-		let aco = try paletteCoder.create(from: acoURL)
+		let aco = try paletteCoder.decode(from: acoURL)
 		XCTAssertEqual(6, aco.colors.count)
 	}
 }

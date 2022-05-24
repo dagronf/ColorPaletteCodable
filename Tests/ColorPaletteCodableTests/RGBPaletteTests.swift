@@ -13,7 +13,7 @@ class RGBPaletteTests: XCTestCase {
 
 	func testRGB() throws {
 		let rgbURL = try XCTUnwrap(Bundle.module.url(forResource: "basic1", withExtension: "txt"))
-		let palette = try PAL.Palette.Create(from: rgbURL, usingCoder: PAL.Coder.RGB())
+		let palette = try PAL.Palette.Decode(from: rgbURL, usingCoder: PAL.Coder.RGB())
 		XCTAssertEqual(palette.colors.count, 7)
 
 		XCTAssertEqual(palette.colors[3].name, "Fish and chips")
@@ -27,7 +27,7 @@ class RGBPaletteTests: XCTestCase {
 		let origData = try Data(contentsOf: rgbaURL)
 
 		// Read in as RGBA
-		let palette = try PAL.Palette.Create(from: rgbaURL, usingCoder: PAL.Coder.RGBA())
+		let palette = try PAL.Palette.Decode(from: rgbaURL, usingCoder: PAL.Coder.RGBA())
 		XCTAssertEqual(palette.colors.count, 7)
 
 		// Check some alpha values that they are correctly loaded
@@ -38,7 +38,7 @@ class RGBPaletteTests: XCTestCase {
 		XCTAssertEqual(palette.colors[6].alpha, 0.7019, accuracy: 0.0001)
 
 		// Write out as RGBA
-		let data = try PAL.Palette.data(palette, fileExtension: "rgba")
+		let data = try PAL.Palette.Encode(palette, fileExtension: "rgba")
 
 		// The input and output files should be identical
 		let o = String(data: origData, encoding: .utf8)!
@@ -53,19 +53,19 @@ class RGBPaletteTests: XCTestCase {
 
 		// Decode from an RGBA file
 		let decoder = PAL.Coder.RGBA()
-		let palette = try decoder.create(from: rgbaURL)
+		let palette = try decoder.decode(from: rgbaURL)
 		XCTAssertEqual(palette.colors[0].alpha, 0.6666, accuracy: 0.0001)
 		XCTAssertEqual(palette.colors[1].alpha, 0.7333, accuracy: 0.0001)
 		XCTAssertEqual(palette.colors[2].alpha, 0.0705, accuracy: 0.0001)
 
 		// Encode to an RGB File (which drop the alpha component)
 		let encoder = PAL.Coder.RGB()
-		let data = try encoder.data(for: palette)
+		let data = try encoder.encode(palette)
 
 		//let encText = String(data: data, encoding: .utf8)!
 
 		// Decode back... the alpha component should be 1
-		let palette2 = try decoder.create(from: data)
+		let palette2 = try decoder.decode(from: data)
 		XCTAssertEqual(palette2.colors[0].alpha, 1, accuracy: 0.0001)
 		XCTAssertEqual(palette2.colors[1].alpha, 1, accuracy: 0.0001)
 		XCTAssertEqual(palette2.colors[2].alpha, 1, accuracy: 0.0001)
@@ -73,6 +73,6 @@ class RGBPaletteTests: XCTestCase {
 
 	func testAttemptLoadBadFormattedTxtFile() throws {
 		let rgbaURL = try XCTUnwrap(Bundle.module.url(forResource: "bad-coding", withExtension: "txt"))
-		XCTAssertThrowsError(try PAL.Coder.RGBA().create(from: rgbaURL))
+		XCTAssertThrowsError(try PAL.Coder.RGBA().decode(from: rgbaURL))
 	}
 }

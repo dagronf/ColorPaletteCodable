@@ -57,30 +57,30 @@ extension PAL.Palette {
 	public func setOnPasteboard(_ pasteboard: NSPasteboard) throws {
 		let types = [PAL.Palette.PasteboardType, NSColorListPasteboardType]
 		pasteboard.declareTypes(types, owner: nil)
-		let enc = try PAL.Coder.JSON().data(for: self)
+		let enc = try PAL.Coder.JSON().encode(self)
 		if let encString = String(data: enc, encoding: .utf8) {
 			pasteboard.setString(encString, forType: PAL.Palette.PasteboardType)
 			pasteboard.setString(encString, forType: .string)
 		}
 
-		if let data = try? PAL.Coder.CLR().data(for: self) {
+		if let data = try? PAL.Coder.CLR().encode(self) {
 			pasteboard.setData(data, forType: NSColorListPasteboardType)
 		}
 	}
 
 	/// Attempt to create a palette from the contents of the pasteboard
-	public static func Create(from pasteboard: NSPasteboard) -> PAL.Palette? {
+	public static func Decode(from pasteboard: NSPasteboard) -> PAL.Palette? {
 		if
 			let strVal = pasteboard.string(forType: NSPasteboard.PasteboardType(PAL.UTI)),
 			let data = strVal.data(using: .utf8)
 		{
-			if let palette = try? PAL.Coder.JSON().create(from: data) {
+			if let palette = try? PAL.Coder.JSON().decode(from: data) {
 				return palette
 			}
 		}
 
 		if let colorListData = pasteboard.data(forType: NSColorListPasteboardType) {
-			if let palette = try? PAL.Coder.CLR().create(from: colorListData) {
+			if let palette = try? PAL.Coder.CLR().decode(from: colorListData) {
 				return palette
 			}
 		}
@@ -92,7 +92,7 @@ extension PAL.Palette {
 extension PAL.Palette {
 	/// Put the content of the colorlist onto the pasteboard using the color coder
 	public func setOnPasteboard(_ pasteboard: UIPasteboard) throws {
-		let enc = try PAL.Coder.JSON().data(for: self)
+		let enc = try PAL.Coder.JSON().encode(self)
 		if let encString = String(data: enc, encoding: .utf8) {
 			pasteboard.setValue(encString, forPasteboardType: PAL.UTI)
 		}
@@ -103,7 +103,7 @@ extension PAL.Palette {
 		if
 			pasteboard.contains(pasteboardTypes: [PAL.UTI]),
 			let data = pasteboard.value(forPasteboardType: PAL.UTI) as? Data,
-			let palette = try? PAL.Coder.JSON().create(from: data)
+			let palette = try? PAL.Coder.JSON().decode(from: data)
 		{
 			return palette
 		}

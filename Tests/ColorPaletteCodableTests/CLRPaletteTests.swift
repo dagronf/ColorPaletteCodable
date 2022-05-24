@@ -21,13 +21,13 @@ final class CLRPaletteTests: XCTestCase {
 			Swift.print("Validating '\(name)...'")
 			
 			// Attempt to load the ase file
-			let palette = try coder.create(from: fileURL)
+			let palette = try coder.decode(from: fileURL)
 			
 			// Write to a data stream
 			let data = try coder.data(palette)
 			
 			// Re-create the ase structure from the written data ...
-			let reconstitutedPalette = try coder.create(from: data)
+			let reconstitutedPalette = try coder.decode(from: data)
 			
 			// ... and check equality between the original file and our reconstituted one.
 			XCTAssertEqual(palette, reconstitutedPalette)
@@ -44,10 +44,10 @@ final class CLRPaletteTests: XCTestCase {
 		palette.colors.append(contentsOf: [c1, c2, c3])
 		
 		// Encode
-		let rawData = try coder.data(for: palette)
+		let rawData = try coder.encode(palette)
 		
 		// Decode
-		let reconst = try coder.create(from: rawData)
+		let reconst = try coder.decode(from: rawData)
 		
 		// Check equal
 		XCTAssertEqual(reconst, palette)
@@ -58,7 +58,7 @@ final class CLRPaletteTests: XCTestCase {
 		
 		let clrURL = try XCTUnwrap(Bundle.module.url(forResource: "DarkMailTopBar", withExtension: "clr"))
 
-		let palette = try coder.create(from: clrURL)
+		let palette = try coder.decode(from: clrURL)
 		XCTAssertEqual(12, palette.colors.count)
 	}
 }

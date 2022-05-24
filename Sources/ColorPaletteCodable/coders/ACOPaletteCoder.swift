@@ -49,7 +49,10 @@ private enum ACO_Colorspace: UInt16 {
 // MARK: - Load/Save
 
 public extension PAL.Coder.ACO {
-	func create(from inputStream: InputStream) throws -> PAL.Palette {
+	/// Create a palette from the contents of the input stream
+	/// - Parameter inputStream: The input stream containing the encoded palette
+	/// - Returns: A palette
+	func decode(from inputStream: InputStream) throws -> PAL.Palette {
 		var result = PAL.Palette()
 
 		var v1Colors = [PAL.Color]()
@@ -134,7 +137,10 @@ public extension PAL.Coder.ACO {
 		return result
 	}
 
-	func data(for palette: PAL.Palette) throws -> Data {
+	/// Encode the palette
+	/// - Parameter palette: The palette to encode
+	/// - Returns: The encoded representation of the palette
+	func encode(_ palette: PAL.Palette) throws -> Data {
 		var outputData = Data(capacity: 1024)
 
 		// Write out both v1 and v2 colors
