@@ -1,5 +1,5 @@
 //
-//  PAL+Common.swift
+//  PAL+Pasteboard+iOS.swift
 //
 //  Copyright © 2022 Darren Ford. All rights reserved.
 //
@@ -24,28 +24,45 @@
 //  SOFTWARE.
 //
 
-// Common definitions
-
 import Foundation
-import UniformTypeIdentifiers
 
-/// Common namespace for all ASEPalette types
-public class PAL {
-	static let UTI = "public.dagronf.jsoncolorpalette"
-}
+#if !os(macOS)
 
-@available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
-public extension UTType {
-	/// RGBA UTI - conforms to public.json
-	static var colorPalette: UTType {
-		UTType(importedAs: PAL.UTI, conformingTo: .json)
+import UIKit
+public typealias PALPasteboard = UIPasteboard
+
+public extension PAL.Palette {
+	/// Put the content of the colorlist onto the pasteboard using the color coder
+	func setOnPasteboard(_ pasteboard: UIPasteboard) throws {
+		try pasteboard.setPalette(self)
+	}
+
+	/// Read a palette from the pasteboard. If no palette is found, returns nil
+	static func readFromPasteboard(_ pasteboard: UIPasteboard) -> PAL.Palette? {
+		return pasteboard.readPalette()
 	}
 }
 
-// Logger
-let plt_log = OSLogger(subsystem: Bundle.main.bundleIdentifier!, category: "ASEPalette")
+public extension UIPasteboard {
+	/// Set the palette on this pasteboard
+	func setPalette(_ palette: PAL.Palette) throws {
+		let enc = try PAL.Coder.JSON(prettyPrint: true).encode(palette)
+		if let encString = String(data: enc, encoding: .utf8) {
+			self.setValue(encString, forPasteboardType: PAL.UTI)
+		}
+	}
 
-internal struct Common {
-	// Two 'zero' bytes in succession
-	internal static let DataTwoZeros = Data([0, 0])
+	/// Read a palette from the pasteboard. If no palette is found, returns nil
+	func readPalette() -> PAL.Palette? {
+		if
+			self.contains(pasteboardTypes: [PAL.UTI]),
+			let data = self.value(forPasteboardType: PAL.UTI) as? Data,
+			let palette = try? PAL.Coder.JSON().decode(from: data)
+		{
+			return palette
+		}
+		return nil
+	}
 }
+
+#endif

@@ -23,7 +23,7 @@ final class PasteboardTests: XCTestCase {
 		try palette.setOnPasteboard(pasteboard)
 
 		// Read back from the pasteboard
-		let rep = try XCTUnwrap(PAL.Palette.Create(from: pasteboard))
+		let rep = try XCTUnwrap(PAL.Palette.readFromPasteboard(pasteboard))
 		XCTAssertEqual(rep, palette)
 	}
 
@@ -37,11 +37,12 @@ final class PasteboardTests: XCTestCase {
 		try palette.setOnPasteboard(pasteboard)
 
 		#if os(macOS)
-		try palette.setOnPasteboard(NSPasteboard.general)
+		// Purely for debugging
+		// try palette.setOnPasteboard(NSPasteboard.general)
 		#endif
 
 		// Read back from the pasteboard
-		let rep = try XCTUnwrap(PAL.Palette.Create(from: pasteboard))
+		let rep = try XCTUnwrap(PAL.Palette.readFromPasteboard(pasteboard))
 		XCTAssertEqual(rep, palette)
 	}
 }
