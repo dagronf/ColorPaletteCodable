@@ -13,7 +13,7 @@ class RGBPaletteTests: XCTestCase {
 
 	func testRGB() throws {
 		let rgbURL = try XCTUnwrap(Bundle.module.url(forResource: "basic1", withExtension: "txt"))
-		let palette = try PAL.Palette.Create(from: rgbURL, forcedExtension: "rgb")
+		let palette = try PAL.Palette.Create(from: rgbURL, usingCoder: PAL.Coder.RGB())
 		XCTAssertEqual(palette.colors.count, 7)
 
 		XCTAssertEqual(palette.colors[3].name, "Fish and chips")
@@ -27,7 +27,7 @@ class RGBPaletteTests: XCTestCase {
 		let origData = try Data(contentsOf: rgbaURL)
 
 		// Read in as RGBA
-		let palette = try PAL.Palette.Create(from: rgbaURL, forcedExtension: "rgba")
+		let palette = try PAL.Palette.Create(from: rgbaURL, usingCoder: PAL.Coder.RGBA())
 		XCTAssertEqual(palette.colors.count, 7)
 
 		// Check some alpha values that they are correctly loaded

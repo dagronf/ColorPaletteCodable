@@ -51,13 +51,18 @@ public extension PAL.Palette {
 	/// Create a palette from the contents of a fileURL
 	/// - Parameters:
 	///   - fileURL: The file to load
-	///   - forcedExtension: If set, overrides the coder used for loading to `forcedExtension` rather than the fileURL extension
+	///   - usingCoder: If set, provides a coder to use instead if using the fileURL extension
 	/// - Returns: A palette
-	static func Create(from fileURL: URL, forcedExtension: String? = nil) throws -> PAL.Palette {
-		let extn = forcedExtension ?? fileURL.pathExtension
-		guard let coder = self.coder(for: extn) else {
-			throw PAL.CommonError.unsupportedCoderType
-		}
+	static func Create(from fileURL: URL, usingCoder coder: PAL_PaletteCoder? = nil) throws -> PAL.Palette {
+		let coder: PAL_PaletteCoder = try {
+			if let coder = coder {
+				return coder
+			}
+			guard let coder = self.coder(for: fileURL.pathExtension) else {
+				throw PAL.CommonError.unsupportedCoderType
+			}
+			return coder
+		}()
 		return try coder.create(from: fileURL)
 	}
 	

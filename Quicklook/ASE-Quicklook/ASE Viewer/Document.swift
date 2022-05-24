@@ -41,7 +41,8 @@ class Document: NSDocument {
 
 	override func read(from url: URL, ofType typeName: String) throws {
 		if url.pathExtension == "txt" {
-			self.currentPalette = try PAL.Palette.Create(from: url, forcedExtension: "rgba")
+			// Force the RGBA decoder (which will fallback to RGB if it cannot find alpha)
+			self.currentPalette = try PAL.Palette.Create(from: url, usingCoder: PAL.Coder.RGBA())
 		}
 		else {
 			self.currentPalette = try PAL.Palette.Create(from: url)

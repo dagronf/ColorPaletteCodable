@@ -13,7 +13,7 @@ class JSONPaletteTests: XCTestCase {
 
 	func testJSONColorPaletteLoading() throws {
 		let rgbaURL = try XCTUnwrap(Bundle.module.url(forResource: "basic1alpha", withExtension: "txt"))
-		let palette = try PAL.Palette.Create(from: rgbaURL, forcedExtension: "rgba")
+		let palette = try PAL.Palette.Create(from: rgbaURL, usingCoder: PAL.Coder.RGBA())
 
 		// Get json data
 		let data = try PAL.Coder.JSON().data(palette)

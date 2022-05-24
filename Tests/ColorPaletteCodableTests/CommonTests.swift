@@ -67,7 +67,7 @@ final class CommonTests: XCTestCase {
 		#endif
 
 		// The RGB format uses .txt extension, so to load it we need to overload the extension
-		let p4 = try PAL.Palette.Create(from: txtFile, forcedExtension: "rgb")
+		let p4 = try PAL.Palette.Create(from: txtFile, usingCoder: PAL.Coder.RGB())
 		XCTAssertEqual(p4.colors.count, 7)
 	}
 
