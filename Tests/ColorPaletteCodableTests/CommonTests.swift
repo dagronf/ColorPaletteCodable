@@ -8,12 +8,12 @@ final class CommonTests: XCTestCase {
 		let rgb = PAL.Color.rgb(1, 0, 0)
 
 		let cmyk = try rgb.converted(to: .CMYK)
-		XCTAssertEqual(cmyk.model, .CMYK)
+		XCTAssertEqual(cmyk.colorSpace, .CMYK)
 		XCTAssertEqual(cmyk.colorComponents.count, 4)
 
 		// Make sure we don't barf if converting to the same colorspace (some coders rely on it)
 		let converted = try rgb.converted(to: .RGB)
-		XCTAssertEqual(converted.model, .RGB)
+		XCTAssertEqual(converted.colorSpace, .RGB)
 	}
 
 	func testRoundTripValueEncodingDecoding() throws {
@@ -97,9 +97,9 @@ final class CommonTests: XCTestCase {
 		let c2 = PAL.Color.cmyk(1, 1, 0, 0, 0.5)
 		let c3 = PAL.Color.gray(white: 0.5)
 
-		XCTAssertEqual(c1.model, .RGB)
-		XCTAssertEqual(c2.model, .CMYK)
-		XCTAssertEqual(c3.model, .Gray)
+		XCTAssertEqual(c1.colorSpace, .RGB)
+		XCTAssertEqual(c2.colorSpace, .CMYK)
+		XCTAssertEqual(c3.colorSpace, .Gray)
 
 		let palette = PAL.Palette(colors: [c1, c2, c3])
 
@@ -110,11 +110,11 @@ final class CommonTests: XCTestCase {
 		let reloaded = try PAL.Coder.ASE().decode(from: aseData)
 
 		XCTAssertEqual(1.0, reloaded.colors[0].alpha)
-		XCTAssertEqual(.RGB, reloaded.colors[0].model)
+		XCTAssertEqual(.RGB, reloaded.colors[0].colorSpace)
 		XCTAssertEqual(1.0, reloaded.colors[1].alpha)
-		XCTAssertEqual(.CMYK, reloaded.colors[1].model)
+		XCTAssertEqual(.CMYK, reloaded.colors[1].colorSpace)
 		XCTAssertEqual(1.0, reloaded.colors[2].alpha)
-		XCTAssertEqual(.Gray, reloaded.colors[2].model)
+		XCTAssertEqual(.Gray, reloaded.colors[2].colorSpace)
 	}
 
 

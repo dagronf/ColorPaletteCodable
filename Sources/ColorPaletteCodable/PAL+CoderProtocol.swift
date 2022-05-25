@@ -63,9 +63,4 @@ public extension PAL_PaletteCoder {
 		inputStream.open()
 		return try decode(from: inputStream)
 	}
-
-	/// Return the encoded palette
-	func data(_ palette: PAL.Palette) throws -> Data {
-		return try self.encode(palette)
-	}
 }

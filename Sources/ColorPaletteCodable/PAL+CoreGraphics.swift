@@ -50,53 +50,56 @@ public extension PAL.Color {
 	///   - cgColor: The cgColor to add to the palette.
 	///   - name: The color's name (optional)
 	///   - colorType: The type of color (global, normal, spot) (optional)
+	///
+	/// Throws an error if the CGColor cannot be represented as a PAL.Color object
 	init(cgColor: CGColor, name: String = "", colorType: PAL.ColorType = .global) throws {
 		self.name = name
 		self.colorType = colorType
 
-		var model: PAL.ColorSpace?
+		var colorSpace: PAL.ColorSpace?
 		var convertedColor: CGColor = cgColor
 
 		if let cs = cgColor.colorSpace {
 			if cs.name == PAL.ColorSpace.CMYK.cgColorSpace.name {
-				model = .CMYK
+				colorSpace = .CMYK
 			}
 			else if cs.name == PAL.ColorSpace.RGB.cgColorSpace.name {
-				model = .RGB
+				colorSpace = .RGB
 			}
 			else if cs.name == PAL.ColorSpace.LAB.cgColorSpace.name {
-				model = .LAB
+				colorSpace = .LAB
 			}
 			else if cs.name == PAL.ColorSpace.Gray.cgColorSpace.name {
-				model = .Gray
+				colorSpace = .Gray
 			}
 		}
 
-		if model == nil {
+		if colorSpace == nil {
 			// If we can't figure out the model, fall back to Core Graphics to attempt to convert the color to RGB
 			guard let conv = cgColor.converted(to: PAL.ColorSpace.RGB.cgColorSpace, intent: .defaultIntent, options: nil) else {
 				throw PAL.CommonError.unsupportedCGColorType
 			}
 			convertedColor = conv
-			model = .RGB
+			colorSpace = .RGB
 		}
 
-		guard let comp = convertedColor.components, let model = model else {
+		guard let comp = convertedColor.components, let colorSpace = colorSpace else {
 			throw PAL.CommonError.unsupportedCGColorType
 		}
 
 		// The last component in CG components is the alpha, so we need to drop it (as .ase doesn't use alpha)
 		self.colorComponents = comp.dropLast().map { Float32($0) }
 		self.alpha = Float32(cgColor.alpha)
-		self.model = model
+		self.colorSpace = colorSpace
 	}
 
 	/// Returns a CGColor representation of the color. Returns nil if the color cannot be converted
 	///
 	/// Makes no underlying assumptions that the ase file color model is correct for the colorComponent count
 	var cgColor: CGColor? {
+		guard self.isValid else { return nil }
 		let components = colorComponents.map { CGFloat($0) }
-		switch model {
+		switch colorSpace {
 		case .CMYK:
 			return CGColor(colorSpace: PAL.ColorSpace.CMYK.cgColorSpace, components: components)?.copy(alpha: CGFloat(self.alpha))
 		case .RGB:

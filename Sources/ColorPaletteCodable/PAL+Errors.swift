@@ -53,5 +53,6 @@ public extension PAL {
 		case invalidUnicodeFormatString
 		case unsupportedCoderType
 		case cannotConvertColorSpace
+		case mismatchedColorspace
 	}
 }

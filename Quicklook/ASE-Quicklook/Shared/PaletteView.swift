@@ -84,7 +84,7 @@ struct ColorView: View {
 			RoundedRectangle(cornerRadius: 4)
 				.stroke(Color(NSColor.disabledControlTextColor.cgColor), lineWidth: 1)
 		}
-		.help("Name: \(color.name)\nMode: \(color.model.rawValue)\nType: \(color.colorType.rawValue)")
+		.help("Name: \(color.name)\nMode: \(color.colorSpace.rawValue)\nType: \(color.colorType.rawValue)")
 		.onDrag {
 			if let c = color.nsColor {
 				return NSItemProvider(item: c, typeIdentifier: UTType.nsColor.identifier)
@@ -104,7 +104,7 @@ struct ColorTooltipView: View {
 				.frame(width: 20, height: 20)
 			VStack(alignment: .leading, spacing: 1) {
 				Text("Name: \(color.name)").font(.caption2)
-				Text("Mode: \(color.model.rawValue)").font(.caption2)
+				Text("Mode: \(color.colorSpace.rawValue)").font(.caption2)
 				Text("Type: \(color.colorType.rawValue)").font(.caption2)
 			}
 		}
@@ -143,12 +143,12 @@ let _display: PAL.Palette = {
 	)
 }()
 
-private var model = PaletteModel(_display)
+private var colorSpace = PaletteModel(_display)
 
 struct ColorTooltipView_Previews: PreviewProvider {
 	static var previews: some View {
 		Group {
-			ColorTooltipView(color: try! PAL.Color(name: "red", model: .RGB, colorComponents: [1, 0, 0]))
+			ColorTooltipView(color: try! PAL.Color(name: "red", colorSpace: .RGB, colorComponents: [1, 0, 0]))
 		}
 	}
 }
@@ -183,9 +183,9 @@ struct ColorView_Previews: PreviewProvider {
 struct PaletteView_Previews: PreviewProvider {
 	static var previews: some View {
 		Group {
-			PaletteView(paletteModel: model)
+			PaletteView(paletteModel: colorSpace)
 				.preferredColorScheme(.dark)
-			PaletteView(paletteModel: model)
+			PaletteView(paletteModel: colorSpace)
 				.preferredColorScheme(.light)
 		}
 		.frame(height: 250)

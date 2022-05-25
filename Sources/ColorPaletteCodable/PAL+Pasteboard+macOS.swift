@@ -30,8 +30,9 @@ import Foundation
 import UniformTypeIdentifiers
 import AppKit
 
-public let NSColorListPasteboardTypeName = "NSColorList.bplist"
-public let NSColorListPasteboardType = NSPasteboard.PasteboardType(NSColorListPasteboardTypeName)
+/// The pasteboard type for the NSColorList
+let NSColorListPasteboardTypeName = "NSColorList.bplist"
+let NSColorListPasteboardType = NSPasteboard.PasteboardType(NSColorListPasteboardTypeName)
 
 public extension PAL.Palette {
 	/// macOS pasteboard type

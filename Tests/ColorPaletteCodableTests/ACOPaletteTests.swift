@@ -23,7 +23,7 @@ final class ACOSwatchesTests: XCTestCase {
 			let swatches = try paletteCoder.decode(from: controlACO)
 
 			// Write to a data stream
-			let data = try paletteCoder.data(swatches)
+			let data = try paletteCoder.encode(swatches)
 
 			// Check that the generated data matches the original data exactly
 			XCTAssertEqual(origData, data)

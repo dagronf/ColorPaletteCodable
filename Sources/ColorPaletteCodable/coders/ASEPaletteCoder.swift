@@ -73,8 +73,8 @@ private enum ASEColorModel: String {
 	case LAB = "LAB "
 	case Gray
 	
-	internal static func from(_ model: PAL.ColorSpace) -> ASEColorModel {
-		switch model {
+	internal static func from(_ colorspace: PAL.ColorSpace) -> ASEColorModel {
+		switch colorspace {
 		case .RGB: return ASEColorModel.RGB
 		case .CMYK: return ASEColorModel.CMYK
 		case .LAB: return ASEColorModel.LAB
@@ -209,7 +209,7 @@ extension PAL.Coder.ASE {
 			throw PAL.CommonError.unknownColorType(Int(colorTypeValue))
 		}
 		
-		let color = try PAL.Color(name: name, model: colorspace, colorComponents: colors, colorType: colorType.asColorType())
+		let color = try PAL.Color(name: name, colorSpace: colorspace, colorComponents: colors, colorType: colorType.asColorType())
 		if let _ = currentGroup {
 			currentGroup?.colors.append(color)
 		}
@@ -298,11 +298,11 @@ extension PAL.Coder.ASE {
 			colorData.append(Common.DataTwoZeros)
 			
 			/// Write the model
-			let colorModel = ASEColorModel.from(color.model)
+			let colorModel = ASEColorModel.from(color.colorSpace)
 			
 			colorData.append(try writeASCII(colorModel.rawValue))
 			
-			switch color.model {
+			switch color.colorSpace {
 			case .CMYK:
 				colorData.append(try writeFloat32(color.colorComponents[0]))
 				colorData.append(try writeFloat32(color.colorComponents[1]))

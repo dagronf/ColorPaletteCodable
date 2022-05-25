@@ -33,7 +33,7 @@ public extension PAL {
 		/// The color name
 		public let name: String
 		/// The colorspace model for the color
-		public let model: PAL.ColorSpace
+		public let colorSpace: PAL.ColorSpace
 		/// The components of the color
 		public let colorComponents: [Float32]
 		/// The type of color (global, spot, normal)
@@ -43,30 +43,38 @@ public extension PAL {
 		public let alpha: Float32
 
 		/// Create a color object
-		public init(name: String, model: PAL.ColorSpace, colorComponents: [Float32], colorType: ColorType = .global, alpha: Float32 = 1) throws {
+		public init(name: String, colorSpace: PAL.ColorSpace, colorComponents: [Float32], colorType: ColorType = .global, alpha: Float32 = 1) throws {
 			self.name = name
-			self.model = model
+			self.colorSpace = colorSpace
 
 			self.colorComponents = colorComponents
 			self.colorType = colorType
 			self.alpha = alpha
 
 			// Validate that our color object is correctly formatted
-			try self.validate()
+			try self.checkValidity()
 		}
 
 		/// Return a string description of the color
 		public var description: String {
-			"Color '\(self.name)' [(\(self.model):\(self.colorType):\(self.colorComponents):\(self.alpha)]"
+			"Color '\(self.name)' [(\(self.colorSpace):\(self.colorType):\(self.colorComponents):\(self.alpha)]"
 		}
 
-		/// Quick sanity check on the color model and components
-		public func validate() throws {
-			switch model {
-			case .CMYK: if colorComponents.count != 4 { throw PAL.CommonError.invalidColorComponentCountForModelType }
-			case .RGB: if colorComponents.count != 3 { throw PAL.CommonError.invalidColorComponentCountForModelType }
-			case .LAB: if colorComponents.count != 3 { throw PAL.CommonError.invalidColorComponentCountForModelType }
-			case .Gray: if colorComponents.count != 1 { throw PAL.CommonError.invalidColorComponentCountForModelType }
+		/// Returns true if the underlying color structure is valid for its colorspace and settings
+		public var isValid: Bool {
+			switch self.colorSpace {
+			case .CMYK: if self.colorComponents.count == 4 { return true }
+			case .RGB: if self.colorComponents.count == 3 { return true }
+			case .LAB: if self.colorComponents.count == 3 { return true }
+			case .Gray: if self.colorComponents.count == 1 { return true }
+			}
+			return false
+		}
+
+		/// Throws an error if the color is in an invalid state
+		public func checkValidity() throws {
+			if self.isValid == false {
+				throw CommonError.invalidColorComponentCountForModelType
 			}
 		}
 	}
@@ -75,7 +83,7 @@ public extension PAL {
 public extension PAL.Color {
 	internal enum CodingKeys: String, CodingKey {
 		case name
-		case model
+		case colorSpace
 		case colorComponents
 		case colorType
 		case alpha
@@ -84,23 +92,22 @@ public extension PAL.Color {
 	init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.name = try container.decodeIfPresent(String.self, forKey: .name) ?? ""
-		self.model = try container.decode(PAL.ColorSpace.self, forKey: .model)
+		self.colorSpace = try container.decode(PAL.ColorSpace.self, forKey: .colorSpace)
 		self.colorComponents = try container.decode([Float32].self, forKey: .colorComponents)
 		self.colorType = try container.decodeIfPresent(PAL.ColorType.self, forKey: .colorType) ?? .global
 		self.alpha = try container.decodeIfPresent(Float32.self, forKey: .alpha) ?? 1
 
 		// Make sure our content is valid
-		try self.validate()
+		try self.checkValidity()
 	}
 
 	func encode(to encoder: Encoder) throws {
-
 		// Make sure our content is valid
-		try self.validate()
+		try self.checkValidity()
 
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		if !name.isEmpty { try container.encode(name, forKey: .name) }
-		try container.encode(model, forKey: .model)
+		try container.encode(colorSpace, forKey: .colorSpace)
 		try container.encode(colorComponents, forKey: .colorComponents)
 		if colorType != .global { try container.encode(colorType, forKey: .colorType) }
 		if alpha != 1 { try container.encode(alpha, forKey: .alpha) }
@@ -126,16 +133,16 @@ public extension PAL.Color {
 		guard let color = Self.fromRGBHexString(rgbHexString) else {
 			throw PAL.CommonError.invalidRGBHexString(rgbHexString)
 		}
-		try self.init(name: name, model: .RGB, colorComponents: [color.r, color.g, color.b], colorType: colorType)
+		try self.init(name: name, colorSpace: .RGB, colorComponents: [color.r, color.g, color.b], colorType: colorType)
 	}
 
 	/// Create a color object from a rgb hex string (eg. "12E5B412" or "#12E5B412")
 	init(name: String = "", rgbaHexString: String, colorType: PAL.ColorType = .normal) throws {
 		if let color = Self.fromRGBAHexString(rgbaHexString) {
-			try self.init(name: name, model: .RGB, colorComponents: [color.r, color.g, color.b], colorType: colorType, alpha: color.a)
+			try self.init(name: name, colorSpace: .RGB, colorComponents: [color.r, color.g, color.b], colorType: colorType, alpha: color.a)
 		}
 		else if let color = Self.fromRGBHexString(rgbaHexString) {
-			try self.init(name: name, model: .RGB, colorComponents: [color.r, color.g, color.b], colorType: colorType)
+			try self.init(name: name, colorSpace: .RGB, colorComponents: [color.r, color.g, color.b], colorType: colorType)
 		}
 		else {
 			throw PAL.CommonError.invalidRGBHexString(rgbaHexString)
@@ -222,7 +229,7 @@ public extension PAL.Color {
 	/// - Returns: A color
 	static func rgb(name: String = "", _ r: Float32, _ g: Float32, _ b: Float32, _ a: Float32 = 1, colorType: PAL.ColorType = .global) -> PAL.Color {
 		// We know that the color has the correct components here
-		try! PAL.Color(name: name, model: .RGB, colorComponents: [r, g, b], colorType: colorType, alpha: a)
+		try! PAL.Color(name: name, colorSpace: .RGB, colorComponents: [r, g, b], colorType: colorType, alpha: a)
 	}
 
 	/// Create a color from CMYK components
@@ -236,7 +243,7 @@ public extension PAL.Color {
 	/// - Returns: A color
 	static func cmyk(name: String = "", _ c: Float32, _ m: Float32, _ y: Float32, _ k: Float32, _ a: Float32 = 1, colorType: PAL.ColorType = .global) -> PAL.Color {
 		// We know that the color has the correct components here
-		try! PAL.Color(name: name, model: .CMYK, colorComponents: [c, m, y, k], colorType: colorType, alpha: a)
+		try! PAL.Color(name: name, colorSpace: .CMYK, colorComponents: [c, m, y, k], colorType: colorType, alpha: a)
 	}
 
 	/// Create a color from a gray component
@@ -247,44 +254,76 @@ public extension PAL.Color {
 	/// - Returns: A color
 	static func gray(name: String = "", white: Float32, alpha: Float32 = 1, colorType: PAL.ColorType = .global) -> PAL.Color {
 		// We know that the color has the correct components here
-		try! PAL.Color(name: name, model: .Gray, colorComponents: [white], colorType: colorType, alpha: alpha)
+		try! PAL.Color(name: name, colorSpace: .Gray, colorComponents: [white], colorType: colorType, alpha: alpha)
 	}
 }
 
 public extension PAL.Color {
-
 	// RGB compoments
 
+	/// The color's red component IF the colorspace is `.RGB`
+	///
+	/// Calls `fatalError()` if the colorspace isn't `.RGB`
 	@inlinable var r: Float32 {
-		if model == .RGB { return colorComponents[0] }
+		if colorSpace == .RGB { return colorComponents[0] }
 		fatalError("Mismatched colorspace")
 	}
+
+	/// The color's green component IF the colorspace is `.RGB`
+	///
+	/// Calls `fatalError()` if the colorspace isn't `.RGB`
 	@inlinable var g: Float32 {
-		if model == .RGB { return colorComponents[1] }
+		if colorSpace == .RGB { return colorComponents[1] }
 		fatalError("Mismatched colorspace")
 	}
+
+	/// The color's blue component IF the colorspace is `.RGB`
+	///
+	/// Calls `fatalError()` if the colorspace isn't `.RGB`
 	@inlinable var b: Float32 {
-		if model == .RGB { return colorComponents[2] }
+		if colorSpace == .RGB { return colorComponents[2] }
 		fatalError("Mismatched colorspace")
 	}
 
 	// CMYK compoments
 
+	/// The color's cyan component IF the colorspace is `.CMYK`
+	///
+	/// Calls `fatalError()` if the colorspace isn't `.CMYK`
 	@inlinable var c: Float32 {
-		if model == .CMYK { return colorComponents[0] }
-		fatalError("Mismatched colorspace")
-	}
-	@inlinable var m: Float32 {
-		if model == .CMYK { return colorComponents[1] }
-		fatalError("Mismatched colorspace")
-	}
-	@inlinable var y: Float32 {
-		if model == .CMYK { return colorComponents[2] }
-		fatalError("Mismatched colorspace")
-	}
-	@inlinable var k: Float32 {
-		if model == .CMYK { return colorComponents[3] }
+		if colorSpace == .CMYK { return colorComponents[0] }
 		fatalError("Mismatched colorspace")
 	}
 
+	/// The color's magenta component IF the colorspace is `.CMYK`
+	///
+	/// Calls `fatalError()` if the colorspace isn't `.CMYK`
+	@inlinable var m: Float32 {
+		if colorSpace == .CMYK { return colorComponents[1] }
+		fatalError("Mismatched colorspace")
+	}
+
+	/// The color's yellow component IF the colorspace is `.CMYK`
+	///
+	/// Calls `fatalError()` if the colorspace isn't `.CMYK`
+	@inlinable var y: Float32 {
+		if colorSpace == .CMYK { return colorComponents[2] }
+		fatalError("Mismatched colorspace")
+	}
+
+	/// The color's black component IF the colorspace is `.CMYK`
+	///
+	/// Calls `fatalError()` if the colorspace isn't `.CMYK`
+	@inlinable var k: Float32 {
+		if colorSpace == .CMYK { return colorComponents[3] }
+		fatalError("Mismatched colorspace")
+	}
+
+	/// The color's luminance component IF the colorspace is .Gray
+	///
+	/// Calls `fatalError()` if the colorspace isn't `.Gray`
+	@inlinable var luminance: Float32 {
+		if colorSpace == .Gray { return colorComponents[0] }
+		fatalError("Mismatched colorspace")
+	}
 }

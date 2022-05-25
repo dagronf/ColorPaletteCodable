@@ -14,6 +14,14 @@ Supports the following color palette formats
 
 <p align="center">
     <img src="https://img.shields.io/github/v/tag/dagronf/ColorPaletteCodable" />
+    <img src="https://img.shields.io/badge/Swift-5.4-orange.svg" />
+    <img src="https://img.shields.io/badge/License-MIT-lightgrey" />
+    <a href="https://swift.org/package-manager">
+        <img src="https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat" alt="Swift Package Manager" />
+    </a>
+</p>
+
+<p align="center">
     <img src="https://img.shields.io/badge/macOS-10.13+-red" />
     <img src="https://img.shields.io/badge/macCatalyst-2+-purple" />
     <img src="https://img.shields.io/badge/iOS-13+-blue" />
@@ -22,22 +30,21 @@ Supports the following color palette formats
     <img src="https://img.shields.io/badge/Linux-compatible-orange" />
 </p>
 
-<p align="center">
-    <img src="https://img.shields.io/badge/Swift-5.3-orange.svg" />
-    <img src="https://img.shields.io/badge/License-MIT-lightgrey" />
-    <a href="https://swift.org/package-manager">
-        <img src="https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat" alt="Swift Package Manager" />
-    </a>
-</p>
-
 ## Why?
 
-I wanted to be able to read and write `.ase` files in Swift. This was extended to Adobe Photoshop Color Swatch files `.aco`.
+I wanted to be able to read and write `.ase` palette files in my Swift app. 
+This then extended to `.aco` Adobe Photoshop Color Swatch files.
+Which then expanded to other types :-)
 
-The `.ase` file format is not formally defined, however there are a number of deconstructions available on the web.
-I used the breakdown of the format defined [here](http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase).
+Some features :-
 
-The `.aco` file format is defined [here](https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577411_pgfId-1070626).
+* Named palettes
+* Named colors
+* Multiple named groups of colors within a single palette
+* Colorspace support (RGB, CMYK, Gray) with conversion capabilities
+* Encoding/Decoding of all supported palette coder types
+* Includes a cross-platorm, human readable, palette coder (json utf8 format)
+* Integrated pasteboard support for macOS/iOS
 
 ## API
 
@@ -155,6 +162,13 @@ You can also save the palette to a new format (eg. saving a gimp `.gpl` format t
 ## Linux caveats
 
 * Linux only supports very naive color conversions between RGB-CMYK-Gray.
+
+## ASE/ACO formats
+
+The `.ase` file format is not formally defined, however there are a number of deconstructions available on the web.
+I used the breakdown of the format defined [here](http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase).
+
+The `.aco` file format is defined [here](https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577411_pgfId-1070626).
 
 ## License
 

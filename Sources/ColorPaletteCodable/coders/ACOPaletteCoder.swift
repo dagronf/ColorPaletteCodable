@@ -97,11 +97,11 @@ public extension PAL.Coder.ACO {
 
 				switch cs {
 				case .RGB:
-					color = try PAL.Color(name: name, model: .RGB, colorComponents: [Float32(c0) / 65535.0, Float32(c1) / 65535.0, Float32(c2) / 65535.0])
+					color = try PAL.Color(name: name, colorSpace: .RGB, colorComponents: [Float32(c0) / 65535.0, Float32(c1) / 65535.0, Float32(c2) / 65535.0])
 				case .CMYK:
 					color = try PAL.Color(
 						name: name,
-						model: .CMYK,
+						colorSpace: .CMYK,
 						colorComponents: [
 							Float32(65535 - c0) / 65535.0,
 							Float32(65535 - c1) / 65535.0,
@@ -111,7 +111,7 @@ public extension PAL.Coder.ACO {
 					)
 				case .Grayscale:
 					assert(c0 <= 10000)
-					color = try PAL.Color(name: name, model: .Gray, colorComponents: [Float32(c0) / 10000])
+					color = try PAL.Color(name: name, colorSpace: .Gray, colorComponents: [Float32(c0) / 10000])
 
 				case .LAB:
 					throw PAL.CommonError.unsupportedColorSpace
@@ -157,7 +157,7 @@ public extension PAL.Coder.ACO {
 				var c3: UInt16 = 0
 
 				let acoModel: ACO_Colorspace
-				switch color.model {
+				switch color.colorSpace {
 				case .RGB:
 					acoModel = .RGB
 					c0 = UInt16(65535 * color.colorComponents[0])

@@ -24,7 +24,7 @@ final class CLRPaletteTests: XCTestCase {
 			let palette = try coder.decode(from: fileURL)
 			
 			// Write to a data stream
-			let data = try coder.data(palette)
+			let data = try coder.encode(palette)
 			
 			// Re-create the ase structure from the written data ...
 			let reconstitutedPalette = try coder.decode(from: data)
@@ -38,9 +38,9 @@ final class CLRPaletteTests: XCTestCase {
 		let coder = PAL.Coder.CLR()
 		
 		var palette = PAL.Palette()
-		let c1 = try PAL.Color(name: "red", model: PAL.ColorSpace.RGB, colorComponents: [1, 0, 0])
-		let c2 = try PAL.Color(name: "green", model: PAL.ColorSpace.RGB, colorComponents: [0, 1, 0])
-		let c3 = try PAL.Color(name: "blue", model: PAL.ColorSpace.RGB, colorComponents: [0, 0, 1])
+		let c1 = try PAL.Color(name: "red", colorSpace: PAL.ColorSpace.RGB, colorComponents: [1, 0, 0])
+		let c2 = try PAL.Color(name: "green", colorSpace: PAL.ColorSpace.RGB, colorComponents: [0, 1, 0])
+		let c3 = try PAL.Color(name: "blue", colorSpace: PAL.ColorSpace.RGB, colorComponents: [0, 0, 1])
 		palette.colors.append(contentsOf: [c1, c2, c3])
 		
 		// Encode

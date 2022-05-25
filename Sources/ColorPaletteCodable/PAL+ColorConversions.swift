@@ -57,7 +57,7 @@ import CoreGraphics
 
 internal struct CoreGraphicsColorSpaceConversion: PAL_ColorSpaceConvertible {
 	func convert(color: PAL.Color, to colorspace: PAL.ColorSpace) throws -> PAL.Color {
-		if color.model == colorspace { return color }
+		if color.colorSpace == colorspace { return color }
 		if let cg = color.cgColor,
 			let conv = cg.converted(to: colorspace.cgColorSpace, intent: .defaultIntent, options: nil)
 		{
@@ -73,29 +73,29 @@ internal struct CoreGraphicsColorSpaceConversion: PAL_ColorSpaceConvertible {
 internal struct NaiveColorSpaceConversion: PAL_ColorSpaceConvertible {
 	func convert(color: PAL.Color, to colorspace: PAL.ColorSpace) throws -> PAL.Color {
 		// If this color is already the right colorspace then just return it.
-		if color.model == colorspace { return color }
+		if color.colorSpace == colorspace { return color }
 
-		if color.model == .CMYK, colorspace == .RGB {
+		if color.colorSpace == .CMYK, colorspace == .RGB {
 			let rgb = NaiveConversions.CMYK2RGB((c: color.c, m: color.m, y: color.y, k: color.k))
 			return PAL.Color.rgb(name: color.name, rgb.r, rgb.g, rgb.b, color.alpha, colorType: color.colorType)
 		}
-		if color.model == .RGB, colorspace == .CMYK {
+		if color.colorSpace == .RGB, colorspace == .CMYK {
 			let cmyk = NaiveConversions.RGB2CMYK((r: color.r, g: color.g, b: color.b))
 			return PAL.Color.cmyk(name: color.name, cmyk.c, cmyk.m, cmyk.y, cmyk.k, color.alpha, colorType: color.colorType)
 		}
-		if color.model == .Gray, colorspace == .RGB {
+		if color.colorSpace == .Gray, colorspace == .RGB {
 			let rgb = NaiveConversions.Gray2RGB(l: color.colorComponents[0])
 			return PAL.Color.rgb(name: color.name, rgb.r, rgb.g, rgb.b, color.alpha, colorType: color.colorType)
 		}
-		if color.model == .RGB, colorspace == .Gray {
+		if color.colorSpace == .RGB, colorspace == .Gray {
 			let gray = NaiveConversions.RGB2Gray((r: color.r, g: color.g, b: color.b))
 			return PAL.Color.gray(name: color.name, white: gray, alpha: color.alpha, colorType: color.colorType)
 		}
-		if color.model == .Gray, colorspace == .CMYK {
+		if color.colorSpace == .Gray, colorspace == .CMYK {
 			let cmyk = NaiveConversions.Gray2CMYK(l: color.colorComponents[0])
 			return PAL.Color.cmyk(name: color.name, cmyk.c, cmyk.m, cmyk.y, cmyk.k, color.alpha, colorType: color.colorType)
 		}
-		if color.model == .CMYK, colorspace == .Gray {
+		if color.colorSpace == .CMYK, colorspace == .Gray {
 			let gray = NaiveConversions.CMYK2Gray((c: color.c, m: color.m, y: color.y, k: color.k))
 			return PAL.Color.gray(name: color.name, white: gray, alpha: color.alpha, colorType: color.colorType)
 		}

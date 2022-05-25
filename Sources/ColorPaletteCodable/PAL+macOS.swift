@@ -28,6 +28,20 @@
 
 import AppKit
 
+public extension PAL.Color {
+	/// Create a color from an NSColor instance
+	///
+	/// Throws an error if the CGColor cannot be represented as a PAL.Color object
+	init(color: NSColor, name: String = "", colorType: PAL.ColorType = .global) throws {
+		try self.init(cgColor: color.cgColor, name: name, colorType: colorType)
+	}
+
+	/// Returns an NSColor representation of this color
+	var nsColor: NSColor? {
+		return self.cgColor.unwrapping { NSColor(cgColor: $0) }
+	}
+}
+
 public extension PAL.Palette {
 	/// Load a palette from an NSColorList (macOS only)
 	init(_ colorList: NSColorList) throws {
@@ -71,18 +85,6 @@ public extension PAL.Palette {
 			}
 		}
 		return result
-	}
-}
-
-public extension PAL.Color {
-	/// Create a color from an NSColor instance
-	init(color: NSColor, name: String = "", colorType: PAL.ColorType = .global) throws {
-		try self.init(cgColor: color.cgColor, name: name, colorType: colorType)
-	}
-
-	/// Returns an NSColor representation of this color
-	var nsColor: NSColor? {
-		return self.cgColor.unwrapping { NSColor(cgColor: $0) }
 	}
 }
 
