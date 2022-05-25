@@ -7,14 +7,9 @@ final class CommonTests: XCTestCase {
 
 		let rgb = PAL.Color.rgb(1, 0, 0)
 
-		#if canImport(CoreGraphics)
 		let cmyk = try rgb.converted(to: .CMYK)
 		XCTAssertEqual(cmyk.model, .CMYK)
 		XCTAssertEqual(cmyk.colorComponents.count, 4)
-		#else
-		// Cannot convert between colorspaces
-		XCTAssertThrowsError(try rgb.converted(to: .CMYK))
-		#endif
 
 		// Make sure we don't barf if converting to the same colorspace (some coders rely on it)
 		let converted = try rgb.converted(to: .RGB)
@@ -120,5 +115,42 @@ final class CommonTests: XCTestCase {
 		XCTAssertEqual(.CMYK, reloaded.colors[1].model)
 		XCTAssertEqual(1.0, reloaded.colors[2].alpha)
 		XCTAssertEqual(.Gray, reloaded.colors[2].model)
+	}
+
+
+	func testCMKYRBGNaiveConversions() throws {
+
+		let c1 = NaiveConversions.RGB2CMYK((r: 139.0 / 255.0, g: 0, b: 22.0 / 255.0))
+		XCTAssertEqual(c1.0, 0, accuracy: 0.01)
+		XCTAssertEqual(c1.1, 1, accuracy: 0.01)
+		XCTAssertEqual(c1.2, 0.84, accuracy: 0.01)
+		XCTAssertEqual(c1.3, 0.45, accuracy: 0.01)
+
+		let r1 = NaiveConversions.CMYK2RGB((c: 0, m: 1, y: 0.84, k: 0.45))
+		XCTAssertEqual(r1.0, 139.0 / 255.0, accuracy: 0.01)
+		XCTAssertEqual(r1.1, 0, accuracy: 0.01)
+		XCTAssertEqual(r1.2, 22.0 / 255.0, accuracy: 0.01)
+
+		let c2 = NaiveConversions.RGB2CMYK((r: 110 / 255.0, g: 195 / 255.0, b: 201 / 255.0))
+		XCTAssertEqual(c2.0, 0.45, accuracy: 0.01)
+		XCTAssertEqual(c2.1, 0.03, accuracy: 0.01)
+		XCTAssertEqual(c2.2, 0.0, accuracy: 0.01)
+		XCTAssertEqual(c2.3, 0.21, accuracy: 0.01)
+
+		let r2 = NaiveConversions.CMYK2RGB((c: 0.45, m: 0.03, y: 0.0, k: 0.21))
+		XCTAssertEqual(r2.0, 110 / 255.0, accuracy: 0.01)
+		XCTAssertEqual(r2.1, 195 / 255.0, accuracy: 0.01)
+		XCTAssertEqual(r2.2, 201 / 255.0, accuracy: 0.01)
+
+		let c3 = NaiveConversions.RGB2CMYK((r: 0, g: 0, b: 1))
+		XCTAssertEqual(c3.0, 1, accuracy: 0.01)
+		XCTAssertEqual(c3.1, 1, accuracy: 0.01)
+		XCTAssertEqual(c3.2, 0, accuracy: 0.01)
+		XCTAssertEqual(c3.3, 0, accuracy: 0.01)
+
+		let r3 = NaiveConversions.CMYK2RGB((c: 1, m: 1, y: 0, k: 0))
+		XCTAssertEqual(r3.0, 0, accuracy: 0.01)
+		XCTAssertEqual(r3.1, 0, accuracy: 0.01)
+		XCTAssertEqual(r3.2, 1, accuracy: 0.01)
 	}
 }

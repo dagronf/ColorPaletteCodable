@@ -152,9 +152,9 @@ You can also save the palette to a new format (eg. saving a gimp `.gpl` format t
 
 *(A ColorType represents the type of color (global/spot/normal))*
 
-## Linux support caveats
+## Linux caveats
 
-* Linux does not currently support converting colors between colorspaces. 
+* Linux only supports very naive color conversions between RGB-CMYK-Gray.
 
 ## License
 

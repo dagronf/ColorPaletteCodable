@@ -107,69 +107,6 @@ public extension PAL.Color {
 			return CGColor(colorSpace: PAL.ColorSpace.Gray.cgColorSpace, components: components)?.copy(alpha: CGFloat(self.alpha))
 		}
 	}
-
-	/// Return a hex RGB string (eg. "#523b50")
-	///
-	/// If the underlying colorspace is not RGB, attempts to convert to `genericRGBLinear`
-	/// before performing the conversion
-	var hexRGB: String? { return self.cgColor?.hexRGB }
-
-	/// Return a hex RGBA string (eg. "#523b50FF")
-	var hexRGBA: String? {
-		guard let s = self.cgColor?.hexRGB else { return nil }
-		return s + String(format: "%02x", Int(self.alpha * 255.0))
- 	}
-}
-
-#else
-
-// If coregraphics isn't available, then we cannot do colorspace conversion
-
-public extension PAL.Color {
-	/// Return a hex RGB string (eg. "#523b50") for an RGB color
-	///
-	/// If the underlying colorspace is not RGB returns nil
-	var hexRGB: String? {
-		if model != .RGB || colorComponents.count != 3 {
-			return nil
-		}
-
-		let r = self.colorComponents[0]
-		let g = self.colorComponents[1]
-		let b = self.colorComponents[2]
-
-		let cr = UInt8(r * 255).clamped(to: 0 ... 255)
-		let cg = UInt8(g * 255).clamped(to: 0 ... 255)
-		let cb = UInt8(b * 255).clamped(to: 0 ... 255)
-
-		return String(format: "#%02x%02x%02x", cr, cg, cb)
-	}
-
-	/// Return a hex RGBA string (eg. "#523b50FF")
-	var hexRGBA: String? {
-		guard let rgb = hexRGB else { return nil }
-		return rgb + String(format: "%02x", Int(self.alpha * 255.0))
-	}
 }
 
 #endif
-
-public extension PAL.Color {
-	/// Convert the color object to a new color object with the specified colorspace
-	/// - Parameter colorspace: The colorspace to convert to
-	/// - Returns: A new color with the specified namespace
-	func converted(to colorspace: PAL.ColorSpace) throws -> PAL.Color {
-		if self.model == colorspace {
-			return self
-		}
-
-		#if canImport(CoreGraphics)
-		if let cg = self.cgColor,
-			let conv = cg.converted(to: colorspace.cgColorSpace, intent: .defaultIntent, options: nil) {
-			return try PAL.Color(cgColor: conv, name: self.name, colorType: self.colorType)
-		}
-		#endif
-
-		throw PAL.CommonError.cannotConvertColorspace
-	}
-}
