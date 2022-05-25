@@ -141,7 +141,9 @@ final class ASEPaletteTests: XCTestCase {
 			XCTAssertEqual(palette.groups[0].colors.count, p2.groups[0].colors.count)
 		}
 	}
-		
+
+#if canImport(CoreGraphics)
+
 	func testCGColorThings() throws {
 		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
 
@@ -151,6 +153,7 @@ final class ASEPaletteTests: XCTestCase {
 
 			let c1 = palette.groups[0].colors[0]
 			let c2 = palette.groups[0].colors[1]
+
 
 			let cg1 = try XCTUnwrap(c1.cgColor)
 			XCTAssertEqual(CGColorSpace.sRGB, cg1.colorSpace?.name)
@@ -181,6 +184,8 @@ final class ASEPaletteTests: XCTestCase {
 			XCTAssertEqual(0.2, p1.colors[0].colorComponents[3])
 		}
 	}
+
+#endif
 	
 	func testDoco1() throws {
 		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))

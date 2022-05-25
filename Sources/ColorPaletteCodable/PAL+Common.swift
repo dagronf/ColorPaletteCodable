@@ -27,12 +27,14 @@
 // Common definitions
 
 import Foundation
-import UniformTypeIdentifiers
 
 /// Common namespace for all ASEPalette types
 public class PAL {
 	static let UTI = "public.dagronf.jsoncolorpalette"
 }
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
 
 @available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
 public extension UTType {
@@ -41,9 +43,7 @@ public extension UTType {
 		UTType(importedAs: PAL.UTI, conformingTo: .json)
 	}
 }
-
-// Logger
-let plt_log = OSLogger(subsystem: Bundle.main.bundleIdentifier!, category: "ASEPalette")
+#endif
 
 internal struct Common {
 	// Two 'zero' bytes in succession

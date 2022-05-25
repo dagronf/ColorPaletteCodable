@@ -93,7 +93,11 @@ func withTemporaryFile<ReturnType>(_ fileExtension: String? = nil, _ block: (URL
 
 func withDataWrittenToTemporaryFile<T>(_ data: Data, fileExtension: String? = nil, _ block: (URL) throws -> T?) throws -> T? {
 	return try withTemporaryFile(fileExtension, { tempURL in
+		#if os(Linux)
+		try data.write(to: tempURL)
+		#else
 		try data.write(to: tempURL, options: .atomicWrite)
+		#endif
 		defer { try? FileManager.default.removeItem(at: tempURL) }
 		return try block(tempURL)
 	})

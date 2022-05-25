@@ -25,7 +25,13 @@
 //
 
 import Foundation
+
+#if canImport(OSLog)
+
 import OSLog
+
+// Logger
+let plt_log = OSLogger(subsystem: Bundle.main.bundleIdentifier!, category: "ASEPalette")
 
 class OSLogger {
 	private let _logger: OSLog
@@ -66,3 +72,21 @@ class OSLogger {
 		}
 	}
 }
+
+#else
+
+/// A dummy log which writes to the console
+class _logger {
+	enum OSLogType: String {
+		case error
+	}
+
+	func log(_ type: OSLogType, _ message: StaticString, _ args: CVarArg...) {
+		let message = String(format: message.description, arguments: args)
+		Swift.print("LOG: \(type.rawValue) - \(message)")
+	}
+}
+
+let plt_log = _logger()
+
+#endif

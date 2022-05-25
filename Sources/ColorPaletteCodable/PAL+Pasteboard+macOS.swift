@@ -24,12 +24,12 @@
 //  SOFTWARE.
 //
 
-import Foundation
-import UniformTypeIdentifiers
-
 #if os(macOS)
 
+import Foundation
+import UniformTypeIdentifiers
 import AppKit
+
 public let NSColorListPasteboardTypeName = "NSColorList.bplist"
 public let NSColorListPasteboardType = NSPasteboard.PasteboardType(NSColorListPasteboardTypeName)
 

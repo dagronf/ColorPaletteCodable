@@ -5,6 +5,8 @@
 //  Created by Darren Ford on 16/5/2022.
 //
 
+#if os(macOS)
+
 import Foundation
 import UniformTypeIdentifiers
 
@@ -25,3 +27,5 @@ extension UTType {
 	/// NSColor UTType
 	static let nsColor = UTType("com.apple.cocoa.pasteboard.color")!
 }
+
+#endif

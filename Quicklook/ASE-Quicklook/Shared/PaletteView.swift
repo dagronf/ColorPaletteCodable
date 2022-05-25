@@ -5,6 +5,8 @@
 //  Created by Darren Ford on 22/5/2022.
 //
 
+#if os(macOS)
+
 import SwiftUI
 import SwiftUIFlowLayout
 import UniformTypeIdentifiers
@@ -189,5 +191,7 @@ struct PaletteView_Previews: PreviewProvider {
 		.frame(height: 250)
 	}
 }
+
+#endif
 
 #endif

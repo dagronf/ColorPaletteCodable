@@ -5,6 +5,8 @@
 //  Created by Darren Ford on 19/5/2022.
 //
 
+#if os(macOS)
+
 import Cocoa
 import ColorPaletteCodable
 import UniformTypeIdentifiers
@@ -80,3 +82,5 @@ class Document: NSDocument {
 		}
 	}
 }
+
+#endif

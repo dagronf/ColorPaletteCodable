@@ -1,6 +1,8 @@
 # ColorPaletteCodable
 
-A palette reader/editor/writer package for iOS, macOS, watchOS and tvOS, supporting the following formats
+A palette reader/editor/writer package for iOS, macOS, macCatalyst, tvOS, watchOS and Linux.
+
+Supports the following color palette formats
 
 * Adobe Swatch Exchange (.ase)
 * Adobe Photoshop Color Swatch (.aco)
@@ -11,16 +13,17 @@ A palette reader/editor/writer package for iOS, macOS, watchOS and tvOS, support
 * JSON encoded color files (.jsoncolorpalette) *ColorPaletteCodable internal file format*
 
 <p align="center">
-    <img src="https://img.shields.io/github/v/tag/dagronf/ASEPalette" />
+    <img src="https://img.shields.io/github/v/tag/dagronf/ColorPaletteCodable" />
     <img src="https://img.shields.io/badge/macOS-10.13+-red" />
+    <img src="https://img.shields.io/badge/macCatalyst-2+-purple" />
     <img src="https://img.shields.io/badge/iOS-13+-blue" />
     <img src="https://img.shields.io/badge/tvOS-13+-orange" />
     <img src="https://img.shields.io/badge/watchOS-4+-yellow" />
-    <img src="https://img.shields.io/badge/macCatalyst-2+-purple" />
+    <img src="https://img.shields.io/badge/Linux-compatible-orange" />
 </p>
 
 <p align="center">
-    <img src="https://img.shields.io/badge/Swift-5.4-orange.svg" />
+    <img src="https://img.shields.io/badge/Swift-5.3-orange.svg" />
     <img src="https://img.shields.io/badge/License-MIT-lightgrey" />
     <a href="https://swift.org/package-manager">
         <img src="https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat" alt="Swift Package Manager" />
@@ -72,15 +75,15 @@ catch {
 }
 ```
 
-### Generate an ASE binary representation
+### Build a palette and generate an ASE binary representation
 
 ```swift
 do {
    // Build a palette
    var palette = PAL.Palette()
-   let c1 = try PAL.Color(name: "red", model: .RGB, colorComponents: [1, 0, 0])
-   let c2 = try PAL.Color(name: "green", model: .RGB, colorComponents: [0, 1, 0])
-   let c3 = try PAL.Color(name: "blue", model: .RGB, colorComponents: [0, 0, 1])
+   let c1 = try PAL.Color.rgb(name: "red",   1, 0, 0)
+   let c2 = try PAL.Color.rgb(name: "green", 0, 1, 0)
+   let c3 = try PAL.Color.rgb(name: "blue",  0, 0, 1)
    palette.colors.append(contentsOf: [c1, c2, c3])
 
    // Create an ASE coder
@@ -135,6 +138,23 @@ Palette Viewer allows you to view the contents of
 You can drag colors out of the preview window into applications that support dropping of `NSColor` instances.
 
 You can also save the palette to a new format (eg. saving a gimp `.gpl` format to an Adobe `.aco` format)
+
+## Palette format encoding/decoding limitations
+
+|                   | File Type              | Named<br>Colors? | Named<br>palette? | Color<br>Groups? | ColorType<br>Support? | Supports<br>Colorspaces? |
+|-------------------|------------------------|:----------------:|:-----------------:|:----------------:|:---------------------:|:------------------------:|
+| `PAL.Coder.JSON`  | JSON Text              |         ✅        |         ✅         |         ✅        |           ✅           |             ✅            |
+| `PAL.Coder.ASE`   | Binary                 |         ✅        |         ❌         |         ✅        |           ✅           |             ✅            |
+| `PAL.Coder.ACO`   | Binary                 |         ✅        |         ❌         |         ❌        |           ❌           |             ✅            |
+| `PAL.Coder.RGB/A` | Text                   |         ✅        |         ❌         |         ❌        |           ❌           |         RGB only         |
+| `PAL.Coder.GIMP`  | Text                   |         ✅        |         ✅         |         ❌        |           ❌           |         RGB only         |
+| `PAL.Coder.CLR`   | Binary<br>(macOS only) |         ✅        |         ❌         |         ❌        |           ❌           |             ✅            |
+
+*(A ColorType represents the type of color (global/spot/normal))*
+
+## Linux support caveats
+
+* Linux does not currently support converting colors between colorspaces. 
 
 ## License
 

@@ -2,6 +2,25 @@
 import XCTest
 
 final class CommonTests: XCTestCase {
+
+	func testSimpleColorspaceConversion() throws {
+
+		let rgb = PAL.Color.rgb(1, 0, 0)
+
+		#if canImport(CoreGraphics)
+		let cmyk = try rgb.converted(to: .CMYK)
+		XCTAssertEqual(cmyk.model, .CMYK)
+		XCTAssertEqual(cmyk.colorComponents.count, 4)
+		#else
+		// Cannot convert between colorspaces
+		XCTAssertThrowsError(try rgb.converted(to: .CMYK))
+		#endif
+
+		// Make sure we don't barf if converting to the same colorspace (some coders rely on it)
+		let converted = try rgb.converted(to: .RGB)
+		XCTAssertEqual(converted.model, .RGB)
+	}
+
 	func testRoundTripValueEncodingDecoding() throws {
 
 		// Round-trip Float32
