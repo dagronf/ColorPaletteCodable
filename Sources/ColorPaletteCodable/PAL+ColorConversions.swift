@@ -43,10 +43,10 @@ public protocol PAL_ColorSpaceConvertible {
 public var PAL_ColorSpaceConverter: PAL_ColorSpaceConvertible = {
 #if canImport(CoreGraphics)
 	// CoreGraphics
-	CoreGraphicsColorSpaceConversion()
+	return CoreGraphicsColorSpaceConversion()
 #else
 	// Naive implementation
-	NaiveColorSpaceConversion()
+	return NaiveColorSpaceConversion()
 #endif
 }()
 

@@ -55,44 +55,44 @@ public extension PAL.Color {
 	init(cgColor: CGColor, name: String = "", colorType: PAL.ColorType = .global) throws {
 		self.name = name
 		self.colorType = colorType
-
-		var colorSpace: PAL.ColorSpace?
+		
+		var model: PAL.ColorSpace?
 		var convertedColor: CGColor = cgColor
-
+		
 		if let cs = cgColor.colorSpace {
 			if cs.name == PAL.ColorSpace.CMYK.cgColorSpace.name {
-				colorSpace = .CMYK
+				model = .CMYK
 			}
 			else if cs.name == PAL.ColorSpace.RGB.cgColorSpace.name {
-				colorSpace = .RGB
+				model = .RGB
 			}
 			else if cs.name == PAL.ColorSpace.LAB.cgColorSpace.name {
-				colorSpace = .LAB
+				model = .LAB
 			}
 			else if cs.name == PAL.ColorSpace.Gray.cgColorSpace.name {
-				colorSpace = .Gray
+				model = .Gray
 			}
 		}
-
-		if colorSpace == nil {
+		
+		if model == nil {
 			// If we can't figure out the model, fall back to Core Graphics to attempt to convert the color to RGB
 			guard let conv = cgColor.converted(to: PAL.ColorSpace.RGB.cgColorSpace, intent: .defaultIntent, options: nil) else {
 				throw PAL.CommonError.unsupportedCGColorType
 			}
 			convertedColor = conv
-			colorSpace = .RGB
+			model = .RGB
 		}
-
-		guard let comp = convertedColor.components, let colorSpace = colorSpace else {
+		
+		guard let comp = convertedColor.components, let cs = model else {
 			throw PAL.CommonError.unsupportedCGColorType
 		}
-
+		
 		// The last component in CG components is the alpha, so we need to drop it (as .ase doesn't use alpha)
 		self.colorComponents = comp.dropLast().map { Float32($0) }
 		self.alpha = Float32(cgColor.alpha)
-		self.colorSpace = colorSpace
+		self.colorSpace = cs
 	}
-
+	
 	/// Returns a CGColor representation of the color. Returns nil if the color cannot be converted
 	///
 	/// Makes no underlying assumptions that the ase file color model is correct for the colorComponent count
