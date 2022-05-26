@@ -134,10 +134,10 @@ let _display: PAL.Palette = {
 				PAL.Color.rgb(0.5, 0, 1),
 				PAL.Color.rgb(0, 0.8, 0.3),
 				PAL.Color.rgb(0.1, 0.3, 1.0),
-				PAL.Color.rgb(000, 000, 000),
-				PAL.Color.rgb(153, 000, 000),
-				PAL.Color.rgb(102, 085, 085),
-				PAL.Color.rgb(221, 017, 017),
+				PAL.Color.rgb(0, 0, 0),
+				PAL.Color.rgb(153 / 255.0, 0, 0),
+				PAL.Color.rgb(102 / 255.0, 085 / 255.0, 085 / 255.0),
+				PAL.Color.rgb(221 / 255.0, 017 / 255.0, 017 / 255.0),
 			]),
 		]
 	)
@@ -189,6 +189,19 @@ struct PaletteView_Previews: PreviewProvider {
 				.preferredColorScheme(.light)
 		}
 		.frame(height: 250)
+	}
+}
+
+struct PALColorView_Previews: PreviewProvider {
+	static var previews: some View {
+		HStack {
+			PAL.Color.rgb(1, 0, 0).SwiftUIColor!
+				.frame(width: 25, height: 25)
+			PAL.Color.rgb(1, 1, 0).SwiftUIColor!
+				.frame(width: 25, height: 25)
+			PAL.Color.rgb(1, 0, 1).SwiftUIColor!
+				.frame(width: 25, height: 25)
+		}
 	}
 }
 

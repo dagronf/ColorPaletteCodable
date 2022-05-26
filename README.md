@@ -4,13 +4,13 @@ A palette reader/editor/writer package for iOS, macOS, macCatalyst, tvOS, watchO
 
 Supports the following color palette formats
 
-* Adobe Swatch Exchange (.ase)
-* Adobe Photoshop Color Swatch (.aco)
-* NSColorList (.clr) *(macOS only)* 
-* RGB text files (.rgb)
-* RGBA text files (.rgba)
-* GIMP palette files (.gpl)
-* JSON encoded color files (.jsoncolorpalette) *ColorPaletteCodable internal file format*
+* Adobe Swatch Exchange (`.ase`)
+* Adobe Photoshop Color Swatch (`.aco`)
+* NSColorList (`.clr`) *(macOS only)* 
+* RGB text files (`.rgb`)
+* RGBA text files (`.rgba`)
+* GIMP palette files (`.gpl`)
+* JSON encoded color files (`.jsoncolorpalette`) *ColorPaletteCodable internal file format*
 
 <p align="center">
     <img src="https://img.shields.io/github/v/tag/dagronf/ColorPaletteCodable" />
@@ -45,6 +45,7 @@ Some features :-
 * Encoding/Decoding of all supported palette coder types
 * Includes a cross-platorm, human readable, palette coder (json utf8 format)
 * Integrated pasteboard support for macOS/iOS
+* Simple image generation for an group of colors
 
 ## API
 
@@ -92,6 +93,9 @@ do {
    let c2 = try PAL.Color.rgb(name: "green", 0, 1, 0)
    let c3 = try PAL.Color.rgb(name: "blue",  0, 0, 1)
    palette.colors.append(contentsOf: [c1, c2, c3])
+
+   // Generate a simple image from the colors
+   let image = try PAL.Image.Image(colors: [c1, c2, c3], size: CGSize(width: 100, height: 25))
 
    // Create an ASE coder
    let coder = PAL.Coder.ASE()

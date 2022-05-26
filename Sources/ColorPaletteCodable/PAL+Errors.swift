@@ -54,5 +54,6 @@ public extension PAL {
 		case unsupportedCoderType
 		case cannotConvertColorSpace
 		case mismatchedColorspace
+		case cannotCreateImage
 	}
 }

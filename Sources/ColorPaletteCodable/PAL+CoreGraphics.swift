@@ -113,3 +113,9 @@ public extension PAL.Color {
 }
 
 #endif
+
+#if os(iOS) || os(tvOS) || os(watchOS)
+extension CGColor {
+	static let clear = CGColor(colorSpace: PAL.ColorSpace.RGB.cgColorSpace, components: [0, 0, 0, 0])!
+}
+#endif
