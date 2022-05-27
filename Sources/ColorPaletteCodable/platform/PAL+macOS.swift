@@ -24,6 +24,8 @@
 //  SOFTWARE.
 //
 
+// macOS related functions
+
 #if os(macOS)
 
 import AppKit
@@ -35,56 +37,24 @@ public extension PAL.Color {
 	init(color: NSColor, name: String = "", colorType: PAL.ColorType = .global) throws {
 		try self.init(cgColor: color.cgColor, name: name, colorType: colorType)
 	}
-
+	
 	/// Returns an NSColor representation of this color
-	var nsColor: NSColor? {
+	@inlinable var nsColor: NSColor? {
 		return self.cgColor.unwrapping { NSColor(cgColor: $0) }
 	}
 }
 
-public extension PAL.Palette {
-	/// Load a palette from an NSColorList (macOS only)
-	init(_ colorList: NSColorList) throws {
-		let names = colorList.allKeys
-		
-		var colors: [PAL.Color] = []
-		try names.forEach { name in
-			if let color = colorList.color(withKey: name) {
-				colors.append(try PAL.Color(cgColor: color.cgColor, name: name))
-			}
-		}
-		self.colors = colors
-	}
-	
-	/// Returns a flattened nscolorlist from the palette
-	func flattenedColorList() -> NSColorList {
-		let result = NSColorList()
-		self.allGroups.enumerated().forEach { giter in
-			giter.1.colors.enumerated().forEach { citer in
-				if let ci = citer.1.nsColor {
-					result.setColor(ci, forKey: "\(giter.offset):\(giter.element.name):\(citer.offset):\(citer.element.name)")
-				}
-			}
-		}
-		return result
-	}
-
-	/// Returns a a colorlist from just the 'global' colors
-	///
-	/// if a color isn't named, it automatically generates an name for the color before storing
-	func globalColorList() -> NSColorList {
-		let result = NSColorList()
-		self.colors.enumerated().forEach { iter in
-			if let ci = iter.1.nsColor {
-				let name: String = {
-					if iter.element.name.count > 0 { return iter.element.name }
-					else if let hex = ci.cgColor.hexRGB { return hex }
-					return UUID().uuidString
-				}()
-				result.setColor(ci, forKey: name)
-			}
-		}
-		return result
+public extension PAL.Image {
+	/// Generate an NSImage of the list of colors. Useful for drag item images etc.
+	/// - Parameters:
+	///   - colors: The array of colors to include in the resulting image
+	///   - size: The point size of the resulting image
+	///   - cornerRadius: The corner radius
+	///   - scale: The scale to use when creating the image
+	/// - Returns: The created CGImage, or nil if an error occurred
+	static func Image(colors: [PAL.Color], size: CGSize, cornerRadius: CGFloat = 4, scale: CGFloat = 2) throws -> NSImage {
+		let image = try Self.CGImage(colors: colors, size: size, cornerRadius: cornerRadius, scale: scale)
+		return NSImage(cgImage: image, size: size)
 	}
 }
 

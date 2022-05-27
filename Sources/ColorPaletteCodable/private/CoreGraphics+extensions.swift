@@ -1,7 +1,6 @@
 //
-//  PAL+Color.swift
+//  CoreGraphics+extensions.swift
 //
-//  Created by Darren Ford on 16/5/2022.
 //  Copyright © 2022 Darren Ford. All rights reserved.
 //
 //  MIT License
@@ -25,19 +24,19 @@
 //  SOFTWARE.
 //
 
-import Foundation
+// CoreGraphics extensions
 
-public extension PAL.Palette {
-	/// Returns all the groups for the palette. Global colors are represented in a group called 'global'
-	@inlinable var allGroups: [PAL.Group] {
-		return [PAL.Group(name: "global", colors: self.colors)] + self.groups
-	}
+#if canImport(CoreGraphics)
 
-	/// Returns all the colors in the palette as a flat array of colors
-	func flattenedColors() -> [PAL.Color] {
-		var results: [PAL.Color] = []
-		results.append(contentsOf: self.colors)
-		groups.forEach { results.append(contentsOf: $0.colors) }
-		return results
+import CoreGraphics
+
+extension CGContext {
+	// Call a block while wrapped in a GState save
+	@inlinable func savingGState<ReturnValue>(_ block: (CGContext) throws -> ReturnValue) rethrows -> ReturnValue {
+		self.saveGState()
+		defer { self.restoreGState() }
+		return try block(self)
 	}
 }
+
+#endif

@@ -30,7 +30,7 @@ import Foundation
 public extension PAL {
 	/// A color palette
 	struct Palette: Equatable, Codable {
-		// The palette name
+		/// The palette name
 		public var name: String = ""
 
 		/// Colors that are not assigned to a group ('global' colors)
@@ -50,6 +50,24 @@ public extension PAL {
 		}
 	}
 }
+
+// MARK: - Conveniences
+
+public extension PAL.Palette {
+	/// Returns all the groups for the palette. Global colors are represented in a group called 'global'
+	@inlinable var allGroups: [PAL.Group] {
+		return [PAL.Group(name: "global", colors: self.colors)] + self.groups
+	}
+
+	/// Returns all the colors in the palette as a flat array of colors (all group information is lost)
+	func allColors() -> [PAL.Color] {
+		var results: [PAL.Color] = self.colors
+		self.groups.forEach { results.append(contentsOf: $0.colors) }
+		return results
+	}
+}
+
+// MARK: - Encoding/Decoding
 
 public extension PAL.Palette {
 	internal enum CodingKeys: String, CodingKey {

@@ -60,7 +60,7 @@ public extension PAL.Coder.CLR {
 #if os(macOS)
 		// We only store 'global' colors in the colorlist. If you need some other behaviour, build a new
 		// ASE.Palette containing a flat collection
-		let cl = palette.globalColorList()
+		let cl = palette.colorListFromGlobalColors()
 
 		let data = try withTemporaryFile("clr") { tempURL -> Data in
 			try cl.write(to: tempURL)
