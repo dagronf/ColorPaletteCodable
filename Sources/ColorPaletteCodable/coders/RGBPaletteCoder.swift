@@ -39,6 +39,12 @@ public extension PAL.Coder {
 	struct RGB: PAL_PaletteCoder {
 		public let fileExtension = "rgb"
 		public init() {}
+
+		// Regex for file of the format
+		//   #aabbccdd   The first color
+		//   #112423     The second color
+		//   acbf
+		static let regex = try! DSFRegex(#"^#?\s*([a-f0-9]{3,8})\s*(.*)\s*"#, options: .caseInsensitive)
 	}
 }
 
@@ -51,11 +57,10 @@ public extension PAL.Coder.RGB {
 		guard let text = String(data: data, encoding: .utf8) else {
 			throw PAL.CommonError.unableToLoadFile
 		}
+
 		let lines = text.split(separator: "\n")
 		var palette = PAL.Palette()
-		
-		let regex = try DSFRegex("\\s*([a-f0-9]{3,8})\\s*(.*)\\s*", options: .caseInsensitive)
-		
+
 		try lines.forEach { line in
 			let l = line.trimmingCharacters(in: CharacterSet.whitespaces)
 			
@@ -64,13 +69,13 @@ public extension PAL.Coder.RGB {
 				return
 			}
 			
-			let searchResult = regex.matches(for: l)
+			let searchResult = Self.regex.matches(for: l)
 			// Loop over each of the matches found, and print them out
 			try searchResult.forEach { match in
 				let hex = l[match.captures[0]]
 				let name = l[match.captures[1]]
 				
-				let color = try PAL.Color(name: String(name), rgbHexString: String(hex))
+				let color = try PAL.Color(name: String(name), rgbHexString: String(hex)).withAlpha(1.0)
 				palette.colors.append(color)
 			}
 		}

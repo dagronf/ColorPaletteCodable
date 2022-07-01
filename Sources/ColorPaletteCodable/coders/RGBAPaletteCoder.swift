@@ -43,6 +43,12 @@ public extension PAL.Coder {
 	struct RGBA: PAL_PaletteCoder {
 		public let fileExtension = "rgba"
 		public init() {}
+
+		// Regex for file of the format
+		//   #aabbccdd   The first color
+		//   #112423     The second color
+		//   acbf
+		static let regex = try! DSFRegex(#"^#?\s*([a-f0-9]{3,8})\s*(.*)\s*"#, options: .caseInsensitive)
 	}
 }
 
@@ -50,15 +56,18 @@ public extension PAL.Coder.RGBA {
 	/// Create a palette from the contents of the input stream
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
+	///
+	/// Format:
+	///    #FFFFFFFF  White color
+	///    #000000FF  Black color
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
 		let data = inputStream.readAllData()
 		guard let text = String(data: data, encoding: .utf8) else {
 			throw PAL.CommonError.unableToLoadFile
 		}
+		
 		let lines = text.split(separator: "\n")
 		var palette = PAL.Palette()
-
-		let regex = try DSFRegex("\\s*([a-f0-9]{3,8})\\s*(.*)\\s*", options: .caseInsensitive)
 
 		try lines.forEach { line in
 			let l = line.trimmingCharacters(in: CharacterSet.whitespaces)
@@ -68,13 +77,17 @@ public extension PAL.Coder.RGBA {
 				return
 			}
 
-			let searchResult = regex.matches(for: l)
-			// Loop over each of the matches found, and print them out
+			let searchResult = Self.regex.matches(for: l)
+			if searchResult.count == 0 {
+				throw PAL.CommonError.invalidRGBAHexString(l)
+			}
+
+			// Loop over each of the matches found, and add them to the palette
 			try searchResult.forEach { match in
 				let hex = l[match.captures[0]]
 				let name = l[match.captures[1]]
 
-				let color = try PAL.Color(name: String(name), rgbaHexString: String(hex))
+				let color = try PAL.Color(name: String(name), rgbHexString: String(hex))
 				palette.colors.append(color)
 			}
 		}

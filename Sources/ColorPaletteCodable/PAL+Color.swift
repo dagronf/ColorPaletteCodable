@@ -81,6 +81,19 @@ public extension PAL {
 }
 
 public extension PAL.Color {
+	/// Return a copy of this color with the specified alpha value
+	func withAlpha(_ alphaValue: Float32) throws -> PAL.Color {
+		return try PAL.Color(
+			name: self.name,
+			colorSpace: self.colorSpace,
+			colorComponents: self.colorComponents,
+			colorType: self.colorType,
+			alpha: alphaValue
+		)
+	}
+}
+
+public extension PAL.Color {
 	internal enum CodingKeys: String, CodingKey {
 		case name
 		case colorSpace
@@ -129,24 +142,22 @@ public extension PAL.Color {
 
 public extension PAL.Color {
 	/// Create a color object from a rgb hex string (eg. "12E5B4" or "#12E5B4")
+	///
+	/// Supported hex formats :-
+	/// - [#]FFF      : RGB color
+	/// - [#]FFFF     : RGBA color
+	/// - [#]FFFFFF   : RGB color
+	/// - [#]FFFFFFFF : RGBA color
 	init(name: String = "", rgbHexString: String, colorType: PAL.ColorType = .normal) throws {
-		guard let color = Self.fromRGBHexString(rgbHexString) else {
+		guard let color = Self.fromHexString(rgbHexString) else {
 			throw PAL.CommonError.invalidRGBHexString(rgbHexString)
 		}
-		try self.init(name: name, colorSpace: .RGB, colorComponents: [color.r, color.g, color.b], colorType: colorType)
-	}
-
-	/// Create a color object from a rgb hex string (eg. "12E5B412" or "#12E5B412")
-	init(name: String = "", rgbaHexString: String, colorType: PAL.ColorType = .normal) throws {
-		if let color = Self.fromRGBAHexString(rgbaHexString) {
-			try self.init(name: name, colorSpace: .RGB, colorComponents: [color.r, color.g, color.b], colorType: colorType, alpha: color.a)
-		}
-		else if let color = Self.fromRGBHexString(rgbaHexString) {
-			try self.init(name: name, colorSpace: .RGB, colorComponents: [color.r, color.g, color.b], colorType: colorType)
-		}
-		else {
-			throw PAL.CommonError.invalidRGBHexString(rgbaHexString)
-		}
+		try self.init(
+			name: name,
+			colorSpace: .RGB,
+			colorComponents: [color.r, color.g, color.b],
+			colorType: colorType,
+			alpha: color.a)
 	}
 }
 
@@ -182,39 +193,41 @@ public extension PAL.Color {
 // MARK: Hex color converters
 
 private extension PAL.Color {
-	static func fromRGBHexString(_ rgbaHexString: String) -> (r: Float32, g: Float32, b: Float32)? {
-		// Validate the string length ('XXXXXX' or '#XXXXXX')
-		guard rgbaHexString.count == 6 || (rgbaHexString.count == 7 && rgbaHexString.first == "#") else { return nil }
-
-		// Create scanner
-		let scanner = Scanner(string: rgbaHexString)
-		scanner.charactersToBeSkipped = CharacterSet(charactersIn: "#")
-		var hexNumber: UInt64 = 0
-		if scanner.scanHexInt64(&hexNumber) {
-			let r = Float32((hexNumber & 0x00FF_0000) >> 16) / 255
-			let g = Float32((hexNumber & 0x0000_FF00) >> 8) / 255
-			let b = Float32(hexNumber & 0x0000_00FF) / 255
-			return (r, g, b)
+	static func fromHexString(_ hexString: String) -> (r: Float32, g: Float32, b: Float32, a: Float32)? {
+		var string = hexString.lowercased()
+		if hexString.hasPrefix("#") {
+			string = String(string.dropFirst())
 		}
-		return nil
-	}
-
-	static func fromRGBAHexString(_ rgbaHexString: String) -> (r: Float32, g: Float32, b: Float32, a: Float32)? {
-		// Validate the string length ('XXXXXXXX' or '#XXXXXXXX')
-		guard rgbaHexString.count == 8 || (rgbaHexString.count == 9 && rgbaHexString.first == "#") else { return nil }
-
-		// Create scanner
-		let scanner = Scanner(string: rgbaHexString)
-		scanner.charactersToBeSkipped = CharacterSet(charactersIn: "#")
-		var hexNumber: UInt64 = 0
-		if scanner.scanHexInt64(&hexNumber) {
-			let r = Float32((hexNumber & 0xFF00_0000) >> 24) / 255
-			let g = Float32((hexNumber & 0x00FF_0000) >> 16) / 255
-			let b = Float32((hexNumber & 0x0000_FF00) >> 8) / 255
-			let a = Float32(hexNumber & 0x0000_00FF) / 255
-			return (r, g, b, a)
+		switch string.count {
+		case 3:
+			string += "f"
+			fallthrough
+		case 4:
+			let chars = Array(string)
+			let red = chars[0]
+			let green = chars[1]
+			let blue = chars[2]
+			let alpha = chars[3]
+			string = "\(red)\(red)\(green)\(green)\(blue)\(blue)\(alpha)\(alpha)"
+		case 6:
+			string += "ff"
+		case 8:
+			break
+		default:
+			return nil
 		}
-		return nil
+
+		guard let rgba = Double("0x" + string)
+			.flatMap( {UInt32(exactly: $0) } )
+		else {
+			return nil
+		}
+		let red = Float32((rgba & 0xFF00_0000) >> 24) / 255
+		let green = Float32((rgba & 0x00FF_0000) >> 16) / 255
+		let blue = Float32((rgba & 0x0000_FF00) >> 8) / 255
+		let alpha = Float32((rgba & 0x0000_00FF) >> 0) / 255
+
+		return (red, green, blue, alpha)
 	}
 }
 
@@ -258,72 +271,114 @@ public extension PAL.Color {
 	}
 }
 
+// MARK: RGB compoments
+
+// Unsafe RGB retrieval. No checks or validation are performed. Do not use unless you are absolutely sure.
+internal extension PAL.Color {
+	@inlinable var _r: Float32 { colorComponents[0] }
+	@inlinable var _g: Float32 { colorComponents[1] }
+	@inlinable var _b: Float32 { colorComponents[2] }
+}
+
 public extension PAL.Color {
-	// RGB compoments
+	/// Returns the rgb values as a tuple for a color with colorspace RGB.
+	///
+	/// Throws `CommonError.mismatchedColorspace` if the colorspace is not RGB
+	@inlinable func rgbValues() throws -> (r: Float32, g: Float32, b: Float32) {
+		if colorSpace == .RGB { return (r: _r, g: _g, b: _b) }
+		throw PAL.CommonError.mismatchedColorspace
+	}
 
 	/// The color's red component IF the colorspace is `.RGB`
 	///
-	/// Calls `fatalError()` if the colorspace isn't `.RGB`
-	@inlinable var r: Float32 {
-		if colorSpace == .RGB { return colorComponents[0] }
-		fatalError("Mismatched colorspace")
+	/// Throws `PAL.CommonError.mismatchedColorspace` if the colorspace isn't `.RGB`
+	@inlinable func r() throws -> Float32 {
+		if colorSpace == .RGB { return _r }
+		throw PAL.CommonError.mismatchedColorspace
 	}
 
 	/// The color's green component IF the colorspace is `.RGB`
 	///
-	/// Calls `fatalError()` if the colorspace isn't `.RGB`
-	@inlinable var g: Float32 {
-		if colorSpace == .RGB { return colorComponents[1] }
-		fatalError("Mismatched colorspace")
+	/// Throws `PAL.CommonError.mismatchedColorspace` if the colorspace isn't `.RGB`
+	@inlinable func g() throws -> Float32 {
+		if colorSpace == .RGB { return _g }
+		throw PAL.CommonError.mismatchedColorspace
 	}
 
 	/// The color's blue component IF the colorspace is `.RGB`
 	///
-	/// Calls `fatalError()` if the colorspace isn't `.RGB`
-	@inlinable var b: Float32 {
-		if colorSpace == .RGB { return colorComponents[2] }
-		fatalError("Mismatched colorspace")
+	/// Throws `PAL.CommonError.mismatchedColorspace` if the colorspace isn't `.RGB`
+	@inlinable func b() throws -> Float32 {
+		if colorSpace == .RGB { return _b }
+		throw PAL.CommonError.mismatchedColorspace
 	}
+}
 
-	// CMYK compoments
+// MARK: CMYK compoments
+
+// Unsafe CMYK retrieval. No checks or validation are performed. Do not use unless you are absolutely sure.
+internal extension PAL.Color {
+	@inlinable var _c: Float32 { colorComponents[0] }
+	@inlinable var _m: Float32 { colorComponents[1] }
+	@inlinable var _y: Float32 { colorComponents[2] }
+	@inlinable var _k: Float32 { colorComponents[3] }
+}
+
+public extension PAL.Color {
+	/// Returns the cmyk values as a tuple for a color with colorspace CMYK
+	///
+	/// Throws `CommonError.mismatchedColorspace` if the colorspace is not CMYK
+	@inlinable func cmykValues() throws -> (c: Float32, m: Float32, y: Float32, k: Float32) {
+		if colorSpace != .CMYK { throw PAL.CommonError.mismatchedColorspace }
+		return (c: _c, m: _m, y: _y, k: _k)
+	}
 
 	/// The color's cyan component IF the colorspace is `.CMYK`
 	///
-	/// Calls `fatalError()` if the colorspace isn't `.CMYK`
-	@inlinable var c: Float32 {
-		if colorSpace == .CMYK { return colorComponents[0] }
-		fatalError("Mismatched colorspace")
+	/// Throws `PAL.CommonError.mismatchedColorspace` if the colorspace isn't `.CMYK`
+	@inlinable func c() throws -> Float32 {
+		if colorSpace == .CMYK { return _c }
+		throw PAL.CommonError.mismatchedColorspace
 	}
 
 	/// The color's magenta component IF the colorspace is `.CMYK`
 	///
-	/// Calls `fatalError()` if the colorspace isn't `.CMYK`
-	@inlinable var m: Float32 {
-		if colorSpace == .CMYK { return colorComponents[1] }
-		fatalError("Mismatched colorspace")
+	/// Throws `PAL.CommonError.mismatchedColorspace` if the colorspace isn't `.CMYK`
+	@inlinable func m() throws -> Float32 {
+		if colorSpace == .CMYK { return _m }
+		throw PAL.CommonError.mismatchedColorspace
 	}
 
 	/// The color's yellow component IF the colorspace is `.CMYK`
 	///
-	/// Calls `fatalError()` if the colorspace isn't `.CMYK`
-	@inlinable var y: Float32 {
-		if colorSpace == .CMYK { return colorComponents[2] }
-		fatalError("Mismatched colorspace")
+	/// Throws `PAL.CommonError.mismatchedColorspace` if the colorspace isn't `.CMYK`
+	@inlinable func y() throws -> Float32 {
+		if colorSpace == .CMYK { return _y }
+		throw PAL.CommonError.mismatchedColorspace
 	}
 
 	/// The color's black component IF the colorspace is `.CMYK`
 	///
-	/// Calls `fatalError()` if the colorspace isn't `.CMYK`
-	@inlinable var k: Float32 {
-		if colorSpace == .CMYK { return colorComponents[3] }
-		fatalError("Mismatched colorspace")
+	/// Throws `PAL.CommonError.mismatchedColorspace` if the colorspace isn't `.CMYK`
+	@inlinable func k() throws -> Float32 {
+		if colorSpace == .CMYK { return _k }
+		throw PAL.CommonError.mismatchedColorspace
 	}
+}
 
+// MARK: Gray compoments
+
+// Unsafe Gray retrieval. No checks or validation are performed
+internal extension PAL.Color {
+	@inlinable var _l: Float32 { colorComponents[0] }
+}
+
+public extension PAL.Color {
 	/// The color's luminance component IF the colorspace is .Gray
 	///
-	/// Calls `fatalError()` if the colorspace isn't `.Gray`
-	@inlinable var luminance: Float32 {
-		if colorSpace == .Gray { return colorComponents[0] }
-		fatalError("Mismatched colorspace")
+	/// Throws `PAL.CommonError.mismatchedColorspace` if the colorspace isn't `.Gray`
+	@inlinable func luminance() throws -> Float32 {
+		if colorSpace == .Gray { return _l }
+		throw PAL.CommonError.mismatchedColorspace
 	}
 }

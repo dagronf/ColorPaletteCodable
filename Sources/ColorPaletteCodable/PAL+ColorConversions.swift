@@ -76,11 +76,11 @@ internal struct NaiveColorSpaceConversion: PAL_ColorSpaceConvertible {
 		if color.colorSpace == colorspace { return color }
 
 		if color.colorSpace == .CMYK, colorspace == .RGB {
-			let rgb = NaiveConversions.CMYK2RGB((c: color.c, m: color.m, y: color.y, k: color.k))
+			let rgb = NaiveConversions.CMYK2RGB(try color.cmykValues())
 			return PAL.Color.rgb(name: color.name, rgb.r, rgb.g, rgb.b, color.alpha, colorType: color.colorType)
 		}
 		if color.colorSpace == .RGB, colorspace == .CMYK {
-			let cmyk = NaiveConversions.RGB2CMYK((r: color.r, g: color.g, b: color.b))
+			let cmyk = NaiveConversions.RGB2CMYK(try color.rgbValues())
 			return PAL.Color.cmyk(name: color.name, cmyk.c, cmyk.m, cmyk.y, cmyk.k, color.alpha, colorType: color.colorType)
 		}
 		if color.colorSpace == .Gray, colorspace == .RGB {
@@ -88,7 +88,7 @@ internal struct NaiveColorSpaceConversion: PAL_ColorSpaceConvertible {
 			return PAL.Color.rgb(name: color.name, rgb.r, rgb.g, rgb.b, color.alpha, colorType: color.colorType)
 		}
 		if color.colorSpace == .RGB, colorspace == .Gray {
-			let gray = NaiveConversions.RGB2Gray((r: color.r, g: color.g, b: color.b))
+			let gray = NaiveConversions.RGB2Gray(try color.rgbValues())
 			return PAL.Color.gray(name: color.name, white: gray, alpha: color.alpha, colorType: color.colorType)
 		}
 		if color.colorSpace == .Gray, colorspace == .CMYK {
@@ -96,7 +96,7 @@ internal struct NaiveColorSpaceConversion: PAL_ColorSpaceConvertible {
 			return PAL.Color.cmyk(name: color.name, cmyk.c, cmyk.m, cmyk.y, cmyk.k, color.alpha, colorType: color.colorType)
 		}
 		if color.colorSpace == .CMYK, colorspace == .Gray {
-			let gray = NaiveConversions.CMYK2Gray((c: color.c, m: color.m, y: color.y, k: color.k))
+			let gray = NaiveConversions.CMYK2Gray(try color.cmykValues())
 			return PAL.Color.gray(name: color.name, white: gray, alpha: color.alpha, colorType: color.colorType)
 		}
 

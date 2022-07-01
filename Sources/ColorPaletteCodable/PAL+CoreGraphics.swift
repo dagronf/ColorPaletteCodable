@@ -25,7 +25,7 @@
 //  SOFTWARE.
 //
 
-// CoreGraphics extensions for ASEPalette.Color
+// CoreGraphics convenience extensions
 
 #if canImport(CoreGraphics)
 
@@ -109,6 +109,25 @@ public extension PAL.Color {
 		case .Gray:
 			return CGColor(colorSpace: PAL.ColorSpace.Gray.cgColorSpace, components: components)?.copy(alpha: CGFloat(self.alpha))
 		}
+	}
+}
+
+public extension Array where Element == PAL.Color {
+	/// Returns an array of the colors as `CGColor`s
+	@inlinable func cgColors() -> [CGColor?] {
+		self.map { $0.cgColor }
+	}
+}
+
+public extension PAL.Palette {
+	/// Returns an array of the global colors as `CGColor`s
+	@inlinable func globalCGColors() -> [CGColor?] {
+		self.colors.cgColors()
+	}
+
+	/// Returns a flattened array of all colors defined in the palette as `CGColor`s
+	@inlinable func allCGColors() -> [CGColor?] {
+		self.allColors().cgColors()
 	}
 }
 

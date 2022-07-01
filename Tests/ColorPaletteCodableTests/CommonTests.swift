@@ -153,4 +153,34 @@ final class CommonTests: XCTestCase {
 		XCTAssertEqual(r3.1, 0, accuracy: 0.01)
 		XCTAssertEqual(r3.2, 1, accuracy: 0.01)
 	}
+
+	func testDefaultColors() throws {
+		let r1 = PAL.Color.red
+		XCTAssertEqual(r1.colorSpace, .RGB)
+		XCTAssertEqual(try r1.r(), 1, accuracy: 0.001)
+		XCTAssertEqual(try r1.g(), 0, accuracy: 0.001)
+		XCTAssertEqual(try r1.b(), 0, accuracy: 0.001)
+		XCTAssertEqual(r1.alpha, 1, accuracy: 0.001)
+
+		#if canImport(CoreGraphics)
+		let rx = r1.cgColor
+		XCTAssertNotNil(rx)
+		#endif
+
+		let c1 = PAL.Color.cyan
+		XCTAssertEqual(c1.colorSpace, .CMYK)
+		XCTAssertEqual(try c1.c(), 1, accuracy: 0.001)
+		XCTAssertEqual(try c1.m(), 0, accuracy: 0.001)
+		XCTAssertEqual(try c1.y(), 0, accuracy: 0.001)
+		XCTAssertEqual(try c1.k(), 0, accuracy: 0.001)
+		XCTAssertEqual(c1.alpha, 1, accuracy: 0.001)
+
+		#if canImport(CoreGraphics)
+		let cr = try c1.converted(to: .RGB)
+		XCTAssertEqual(cr.colorSpace, .RGB)
+		XCTAssertEqual(try cr.r(), 0, accuracy: 0.001)
+		XCTAssertEqual(try cr.g(), 0.640, accuracy: 0.001)
+		XCTAssertEqual(try cr.b(), 0.855, accuracy: 0.001)
+		#endif
+	}
 }
