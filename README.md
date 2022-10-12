@@ -176,6 +176,19 @@ let gradient = PAL.Gradient(
       (1.0, try PAL.Color(rgbHexString: "#000000"))
    ]
 )
+
+let coder = PAL.Gradient.Coder.JSON()
+
+// Encode the gradient using the JSON encoder
+let data = try coder.encode(gradient)
+
+// Decode a gradient from data
+let decoded = try PAL.Gradient.Decode(
+   from: data,
+   fileExtension: PAL.Gradient.Coder.JSON.fileExtension
+)
+
+
 ```
 
 ## Linux support

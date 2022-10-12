@@ -29,7 +29,10 @@ import Foundation
 public extension PAL.Gradient.Coder {
 	/// Simple JSON encoder/decoder
 	struct JSON: PAL_GradientCoder {
-		public let fileExtension = "jsongradient"
+		/// The coder's file format
+		public static let fileExtension = "jsongradient"
+
+		/// Create
 		public init() {}
 
 		/// Attempt to decode a gradient using the
@@ -41,7 +44,7 @@ public extension PAL.Gradient.Coder {
 
 		/// Encode the gradient using the default JSON format
 		/// - Parameter gradient: The gradient to encode
-		/// - Returns: <#description#>
+		/// - Returns: encoded data
 		public func encode(_ gradient: PAL.Gradient) throws -> Data {
 			try JSONEncoder().encode(gradient)
 		}

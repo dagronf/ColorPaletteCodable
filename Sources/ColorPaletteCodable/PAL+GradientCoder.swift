@@ -38,6 +38,9 @@ public extension PAL.Gradient {
 /// A gradient coder protocol
 public protocol PAL_GradientCoder {
 	/// The extension for the file, or a unique name for identifying the coder type.
+	static var fileExtension: String { get }
+
+	/// The extension for the file, or a unique name for identifying the coder type.
 	var fileExtension: String { get }
 
 	/// Create a gradient from an input stream
@@ -48,6 +51,9 @@ public protocol PAL_GradientCoder {
 }
 
 public extension PAL_GradientCoder {
+	/// The file extension supported by the coder
+	var fileExtension: String { Self.fileExtension }
+
 	/// Create a palette object from the contents of a fileURL
 	/// - Parameter fileURL: The file containing the palette
 	/// - Returns: A palette object
