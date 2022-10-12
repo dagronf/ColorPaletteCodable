@@ -163,6 +163,21 @@ You can also save the palette to a new format (eg. saving a gimp `.gpl` format t
 
 *(A ColorType represents the type of color (global/spot/normal))*
 
+## Simple Gradient support
+
+The library additional defines `PAL.Gradient` which defines a collection of colors with positions
+that can be used when defining gradient types.
+
+```swift
+let gradient = PAL.Gradient(
+   colorPositions: [
+      (0.0, try PAL.Color(rgbHexString: "#FFFFFF")),
+      (0.5, try PAL.Color(rgbHexString: "#444444")),
+      (1.0, try PAL.Color(rgbHexString: "#000000"))
+   ]
+)
+```
+
 ## Linux support
 
 * Linux only supports very naive color conversions between RGB-CMYK-Gray.

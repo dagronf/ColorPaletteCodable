@@ -25,7 +25,7 @@ final class CodableTests: XCTestCase {
 		let palette = try PAL.Palette.Decode(from: controlASE)
 
 		let enc = try JSONEncoder().encode(palette)
-		//try enc.write(to: URL(fileURLWithPath: "/tmp/encoded.json"), options: .atomic)
+		try enc.write(to: URL(fileURLWithPath: "/tmp/encoded.json"), options: .atomic)
 
 		let reconst = try JSONDecoder().decode(PAL.Palette.self, from: enc)
 
