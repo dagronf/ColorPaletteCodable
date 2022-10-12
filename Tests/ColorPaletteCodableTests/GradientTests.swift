@@ -24,8 +24,9 @@ class GradientTests: XCTestCase {
 		XCTAssertEqual(1.0, gradient.stops[2].position)
 		XCTAssertEqual("#000000ff", gradient.stops[2].color.hexRGBA)
 
-		let g1 = try JSONEncoder().encode(gradient)
-		let gradient2 = try JSONDecoder().decode(PAL.Gradient.self, from: g1)
+		let coder = PAL.Gradient.Coder.JSON()
+		let g1 = try coder.encode(gradient)
+		let gradient2 = try PAL.Gradient.Decode(from: g1, fileExtension: coder.fileExtension)
 
 		XCTAssertEqual("first", gradient2.name)
 		XCTAssertEqual(3, gradient2.stops.count)

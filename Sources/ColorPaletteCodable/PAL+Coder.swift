@@ -52,7 +52,7 @@ public extension PAL.Palette {
 	/// Decode a palette from the contents of a fileURL
 	/// - Parameters:
 	///   - fileURL: The file to load
-	///   - usingCoder: If set, provides a coder to use instead if using the fileURL extension
+	///   - coder: If set, provides a coder to use instead if using the fileURL extension
 	/// - Returns: A palette
 	static func Decode(from fileURL: URL, usingCoder coder: PAL_PaletteCoder? = nil) throws -> PAL.Palette {
 		let coder: PAL_PaletteCoder = try {
