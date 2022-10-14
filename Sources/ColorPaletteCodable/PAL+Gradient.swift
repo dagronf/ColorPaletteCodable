@@ -194,13 +194,12 @@ public extension PAL.Gradient {
 		guard colors.count == self.stops.count else {
 			throw PAL.GradientError.mismatchColorCount
 		}
+
 		return PAL.Gradient(
 			name: self.name,
-			stops: self.stops
-				.enumerated()
-				.map {
-					Stop(position: $0.element.position, color: colors[$0.offset])
-				}
+			stops:
+				zip(self.stops, colors)
+					.map { Stop(position: $0.0.position, color: $0.1) }
 		)
 	}
 
