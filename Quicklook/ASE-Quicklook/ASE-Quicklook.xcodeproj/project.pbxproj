@@ -25,6 +25,12 @@
 		23B20C182835D552005BD670 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23B20C172835D552005BD670 /* Assets.xcassets */; };
 		23B20C1B2835D552005BD670 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23B20C192835D552005BD670 /* Main.storyboard */; };
 		23B20C212835D613005BD670 /* ASEQuickLookPlugin.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 23A03DF528332AA2003846A4 /* ASEQuickLookPlugin.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		23EDD2772907A81D00B63B08 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A03DF728332AA2003846A4 /* Quartz.framework */; };
+		23EDD27A2907A81D00B63B08 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDD2792907A81D00B63B08 /* PreviewViewController.swift */; };
+		23EDD27C2907A81D00B63B08 /* PreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDD27B2907A81D00B63B08 /* PreviewProvider.swift */; };
+		23EDD27F2907A81D00B63B08 /* PreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23EDD27D2907A81D00B63B08 /* PreviewViewController.xib */; };
+		23EDD2842907A81D00B63B08 /* ASEGradientQuicklookPlugin.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 23EDD2762907A81D00B63B08 /* ASEGradientQuicklookPlugin.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		23EDD2892907AB3E00B63B08 /* ColorPaletteCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 23EDD2882907AB3E00B63B08 /* ColorPaletteCodable */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +41,13 @@
 			remoteGlobalIDString = 23A03DF428332AA2003846A4;
 			remoteInfo = ASEQuickLookPlugin;
 		};
+		23EDD2822907A81D00B63B08 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23A03DD728332A83003846A4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 23EDD2752907A81D00B63B08;
+			remoteInfo = ASEGradientQuicklookPlugin;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -44,6 +57,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				23EDD2842907A81D00B63B08 /* ASEGradientQuicklookPlugin.appex in Embed App Extensions */,
 				23B20C212835D613005BD670 /* ASEQuickLookPlugin.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
@@ -91,6 +105,12 @@
 		23B20C1A2835D552005BD670 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		23B20C1C2835D552005BD670 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23B20CCD2835E459005BD670 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		23EDD2762907A81D00B63B08 /* ASEGradientQuicklookPlugin.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ASEGradientQuicklookPlugin.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		23EDD2792907A81D00B63B08 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
+		23EDD27B2907A81D00B63B08 /* PreviewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewProvider.swift; sourceTree = "<group>"; };
+		23EDD27E2907A81D00B63B08 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreviewViewController.xib; sourceTree = "<group>"; };
+		23EDD2802907A81D00B63B08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		23EDD2812907A81D00B63B08 /* ASEGradientQuicklookPlugin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ASEGradientQuicklookPlugin.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +133,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		23EDD2732907A81D00B63B08 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23EDD2772907A81D00B63B08 /* Quartz.framework in Frameworks */,
+				23EDD2892907AB3E00B63B08 /* ColorPaletteCodable in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -121,6 +150,7 @@
 			children = (
 				236DC935283B71BF0097B4DE /* ColorPaletteCodable */,
 				23A03DF928332AA2003846A4 /* ASEQuickLookPlugin */,
+				23EDD2782907A81D00B63B08 /* ASEGradientQuicklookPlugin */,
 				23B20C102835D551005BD670 /* ASE Viewer */,
 				23FF72832839CA0500448D16 /* Shared */,
 				23A03DF628332AA2003846A4 /* Frameworks */,
@@ -133,6 +163,7 @@
 			children = (
 				23A03DF528332AA2003846A4 /* ASEQuickLookPlugin.appex */,
 				23B20C0F2835D551005BD670 /* Palette Viewer.app */,
+				23EDD2762907A81D00B63B08 /* ASEGradientQuicklookPlugin.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -170,6 +201,18 @@
 				23B20C1C2835D552005BD670 /* Info.plist */,
 			);
 			path = "ASE Viewer";
+			sourceTree = "<group>";
+		};
+		23EDD2782907A81D00B63B08 /* ASEGradientQuicklookPlugin */ = {
+			isa = PBXGroup;
+			children = (
+				23EDD2792907A81D00B63B08 /* PreviewViewController.swift */,
+				23EDD27B2907A81D00B63B08 /* PreviewProvider.swift */,
+				23EDD27D2907A81D00B63B08 /* PreviewViewController.xib */,
+				23EDD2802907A81D00B63B08 /* Info.plist */,
+				23EDD2812907A81D00B63B08 /* ASEGradientQuicklookPlugin.entitlements */,
+			);
+			path = ASEGradientQuicklookPlugin;
 			sourceTree = "<group>";
 		};
 		23FF72832839CA0500448D16 /* Shared */ = {
@@ -220,6 +263,7 @@
 			);
 			dependencies = (
 				23B20C232835D613005BD670 /* PBXTargetDependency */,
+				23EDD2832907A81D00B63B08 /* PBXTargetDependency */,
 			);
 			name = "Palette Viewer";
 			packageProductDependencies = (
@@ -230,6 +274,26 @@
 			productReference = 23B20C0F2835D551005BD670 /* Palette Viewer.app */;
 			productType = "com.apple.product-type.application";
 		};
+		23EDD2752907A81D00B63B08 /* ASEGradientQuicklookPlugin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 23EDD2872907A81D00B63B08 /* Build configuration list for PBXNativeTarget "ASEGradientQuicklookPlugin" */;
+			buildPhases = (
+				23EDD2722907A81D00B63B08 /* Sources */,
+				23EDD2732907A81D00B63B08 /* Frameworks */,
+				23EDD2742907A81D00B63B08 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ASEGradientQuicklookPlugin;
+			packageProductDependencies = (
+				23EDD2882907AB3E00B63B08 /* ColorPaletteCodable */,
+			);
+			productName = ASEGradientQuicklookPlugin;
+			productReference = 23EDD2762907A81D00B63B08 /* ASEGradientQuicklookPlugin.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -237,7 +301,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1330;
+				LastSwiftUpdateCheck = 1410;
 				LastUpgradeCheck = 1330;
 				TargetAttributes = {
 					23A03DF428332AA2003846A4 = {
@@ -245,6 +309,9 @@
 					};
 					23B20C0E2835D551005BD670 = {
 						CreatedOnToolsVersion = 13.3.1;
+					};
+					23EDD2752907A81D00B63B08 = {
+						CreatedOnToolsVersion = 14.1;
 					};
 				};
 			};
@@ -265,6 +332,7 @@
 			projectRoot = "";
 			targets = (
 				23A03DF428332AA2003846A4 /* ASEQuickLookPlugin */,
+				23EDD2752907A81D00B63B08 /* ASEGradientQuicklookPlugin */,
 				23B20C0E2835D551005BD670 /* Palette Viewer */,
 			);
 		};
@@ -285,6 +353,14 @@
 			files = (
 				23B20C182835D552005BD670 /* Assets.xcassets in Resources */,
 				23B20C1B2835D552005BD670 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23EDD2742907A81D00B63B08 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23EDD27F2907A81D00B63B08 /* PreviewViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,6 +390,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		23EDD2722907A81D00B63B08 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23EDD27A2907A81D00B63B08 /* PreviewViewController.swift in Sources */,
+				23EDD27C2907A81D00B63B08 /* PreviewProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -321,6 +406,11 @@
 			isa = PBXTargetDependency;
 			target = 23A03DF428332AA2003846A4 /* ASEQuickLookPlugin */;
 			targetProxy = 23B20C222835D613005BD670 /* PBXContainerItemProxy */;
+		};
+		23EDD2832907A81D00B63B08 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 23EDD2752907A81D00B63B08 /* ASEGradientQuicklookPlugin */;
+			targetProxy = 23EDD2822907A81D00B63B08 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -339,6 +429,14 @@
 				23B20C1A2835D552005BD670 /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		23EDD27D2907A81D00B63B08 /* PreviewViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				23EDD27E2907A81D00B63B08 /* Base */,
+			);
+			name = PreviewViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -470,7 +568,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASEQuickLookPlugin/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ASEQuickLookPlugin;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -497,7 +595,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASEQuickLookPlugin/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ASEQuickLookPlugin;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -527,7 +625,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ASE Viewer/Info.plist";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -557,7 +655,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ASE Viewer/Info.plist";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -568,6 +666,62 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		23EDD2852907A81D00B63B08 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = ASEGradientQuicklookPlugin/ASEGradientQuicklookPlugin.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3L6RK3LGGW;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ASEGradientQuicklookPlugin/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ASEGradientQuicklookPlugin;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer.ASEGradientQuicklookPlugin";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		23EDD2862907A81D00B63B08 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = ASEGradientQuicklookPlugin/ASEGradientQuicklookPlugin.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3L6RK3LGGW;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ASEGradientQuicklookPlugin/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ASEGradientQuicklookPlugin;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer.ASEGradientQuicklookPlugin";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -603,6 +757,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		23EDD2872907A81D00B63B08 /* Build configuration list for PBXNativeTarget "ASEGradientQuicklookPlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23EDD2852907A81D00B63B08 /* Debug */,
+				23EDD2862907A81D00B63B08 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -634,6 +797,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 237EF04C28399BD9000D6F42 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */;
 			productName = SwiftUIFlowLayout;
+		};
+		23EDD2882907AB3E00B63B08 /* ColorPaletteCodable */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ColorPaletteCodable;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

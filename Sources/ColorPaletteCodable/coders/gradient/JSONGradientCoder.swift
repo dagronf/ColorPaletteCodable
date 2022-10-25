@@ -30,7 +30,7 @@ public extension PAL.Gradient.Coder {
 	/// Simple JSON encoder/decoder
 	struct JSON: PAL_GradientCoder {
 		/// The coder's file format
-		public static let fileExtension = "jsongradient"
+		public static let fileExtension = "jsoncolorgradient"
 
 		/// Create
 		public init() {}

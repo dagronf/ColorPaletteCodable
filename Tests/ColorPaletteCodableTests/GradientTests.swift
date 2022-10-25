@@ -222,6 +222,41 @@ class GGRGradientTests: XCTestCase {
 		#endif
 	}
 
+	func testLoadJSONGradient() throws {
+		do {
+			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "skyline", withExtension: "jsoncolorgradient"))
+			let content = try Data(contentsOf: fileURL)
+
+			let dec = PAL.Gradient.Coder.JSON()
+			let gradient = try dec.decode(from: content)
+
+			XCTAssertEqual("Skyline", gradient.name)
+			XCTAssertEqual(7, gradient.stops.count)
+		}
+
+		do {
+			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "simple2", withExtension: "jsoncolorgradient"))
+			let content = try Data(contentsOf: fileURL)
+
+			let dec = PAL.Gradient.Coder.JSON()
+			let gradient = try dec.decode(from: content)
+
+			XCTAssertEqual(nil, gradient.name)
+			XCTAssertEqual(2, gradient.stops.count)
+		}
+
+		do {
+			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "basic3pos", withExtension: "jsoncolorgradient"))
+			let content = try Data(contentsOf: fileURL)
+
+			let dec = PAL.Gradient.Coder.JSON()
+			let gradient = try dec.decode(from: content)
+
+			XCTAssertEqual("alphablurry!", gradient.name)
+			XCTAssertEqual(3, gradient.stops.count)
+		}
+	}
+
 	func testBasicLoad2() throws {
 		do {
 			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "Tube_Red", withExtension: "ggr"))
