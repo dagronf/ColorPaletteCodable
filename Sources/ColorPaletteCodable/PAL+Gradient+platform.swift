@@ -26,6 +26,23 @@
 
 // Platform specific routines
 
+#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+import CoreGraphics
+public extension PAL.Gradient {
+	/// Returns a CGGradient representation of the gradient object
+	func cgGradient() -> CGGradient? {
+		let cgcolors: [CGColor] = self.stops.compactMap { $0.color.cgColor! }
+		let positions: [CGFloat] = self.stops.compactMap { $0.position }
+		return CGGradient(
+			colorsSpace: CGColorSpace(name: CGColorSpace.sRGB)!,
+			colors: cgcolors as CFArray,
+			locations: positions
+		)
+	}
+}
+
+#endif
+
 #if os(macOS)
 
 import AppKit
@@ -33,19 +50,12 @@ import AppKit
 public extension PAL.Gradient {
 	/// Returns an image representation of the gradient.
 	func image(size: CGSize) -> NSImage? {
-		let cgcolors: [CGColor] = self.stops.compactMap { $0.color.cgColor! }
-		let positions: [CGFloat] = self.stops.compactMap { $0.position }
-		let gr = CGGradient(
-			colorsSpace: CGColorSpace(name: CGColorSpace.sRGB)!,
-			colors: cgcolors as CFArray,
-			locations: positions
-		)!
-
+		guard let gradient = self.cgGradient() else { return nil }
 		let rect = CGRect(origin: .zero, size: size)
 		let image = NSImage(size: rect.size, flipped: false) { rect in
 			let ctx = NSGraphicsContext.current!.cgContext
 			ctx.drawLinearGradient(
-				gr,
+				gradient,
 				start: CGPoint(x: 0, y: 0),
 				end: CGPoint(x: rect.width, y: 0),
 				options: [.drawsAfterEndLocation, .drawsBeforeStartLocation]
@@ -68,20 +78,14 @@ import UIKit
 public extension PAL.Gradient {
 	/// Returns an image representation of the gradient.
 	func image(size: CGSize) -> UIImage? {
-		let cgcolors: [CGColor] = self.stops.compactMap { $0.color.cgColor! }
-		let positions: [CGFloat] = self.stops.compactMap { $0.position }
-		let gr = CGGradient(
-			colorsSpace: CGColorSpace(name: CGColorSpace.sRGB)!,
-			colors: cgcolors as CFArray,
-			locations: positions
-		)!
+		guard let gradient = self.cgGradient() else { return nil }
 
 		let rect = CGRect(origin: .zero, size: size)
 
 		UIGraphicsBeginImageContextWithOptions(size, false, 0)
 		let ctx = UIGraphicsGetCurrentContext()!
 		ctx.drawLinearGradient(
-			gr,
+			gradient,
 			start: CGPoint(x: 0, y: 0),
 			end: CGPoint(x: rect.width, y: 0),
 			options: [.drawsAfterEndLocation, .drawsBeforeStartLocation]
