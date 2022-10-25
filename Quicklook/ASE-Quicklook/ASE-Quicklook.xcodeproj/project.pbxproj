@@ -31,6 +31,7 @@
 		23EDD27F2907A81D00B63B08 /* PreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23EDD27D2907A81D00B63B08 /* PreviewViewController.xib */; };
 		23EDD2842907A81D00B63B08 /* ASEGradientQuicklookPlugin.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 23EDD2762907A81D00B63B08 /* ASEGradientQuicklookPlugin.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		23EDD2892907AB3E00B63B08 /* ColorPaletteCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 23EDD2882907AB3E00B63B08 /* ColorPaletteCodable */; };
+		23F1FBA52907B8C200277016 /* CheckerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F1FBA42907B8C200277016 /* CheckerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +112,7 @@
 		23EDD27E2907A81D00B63B08 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreviewViewController.xib; sourceTree = "<group>"; };
 		23EDD2802907A81D00B63B08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23EDD2812907A81D00B63B08 /* ASEGradientQuicklookPlugin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ASEGradientQuicklookPlugin.entitlements; sourceTree = "<group>"; };
+		23F1FBA42907B8C200277016 /* CheckerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +208,7 @@
 		23EDD2782907A81D00B63B08 /* ASEGradientQuicklookPlugin */ = {
 			isa = PBXGroup;
 			children = (
+				23F1FBA42907B8C200277016 /* CheckerView.swift */,
 				23EDD2792907A81D00B63B08 /* PreviewViewController.swift */,
 				23EDD27B2907A81D00B63B08 /* PreviewProvider.swift */,
 				23EDD27D2907A81D00B63B08 /* PreviewViewController.xib */,
@@ -394,6 +397,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23F1FBA52907B8C200277016 /* CheckerView.swift in Sources */,
 				23EDD27A2907A81D00B63B08 /* PreviewViewController.swift in Sources */,
 				23EDD27C2907A81D00B63B08 /* PreviewProvider.swift in Sources */,
 			);

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PreviewViewController" customModule="ASEGradientQuicklookPlugin" customModuleProvider="target">
             <connections>
-                <outlet property="imageView" destination="2Gp-we-pIe" id="QkA-su-kxJ"/>
+                <outlet property="gradientView" destination="vxu-kz-2GF" id="Ad1-Yp-FNe"/>
                 <outlet property="view" destination="c22-O7-iKe" id="NRM-P4-wb6"/>
             </connections>
         </customObject>
@@ -16,16 +17,28 @@
         <customView translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe" userLabel="Preview View">
             <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
             <subviews>
-                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="100" verticalCompressionResistancePriority="100" translatesAutoresizingMaskIntoConstraints="NO" id="2Gp-we-pIe">
-                    <rect key="frame" x="12" y="12" width="456" height="248"/>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="Iar-39-Y5z"/>
-                </imageView>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="KD6-Ph-o0U" customClass="CheckerView" customModule="ASEGradientQuicklookPlugin" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
+                    <subviews>
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="vxu-kz-2GF" customClass="GradientDisplayView" customModule="ASEGradientQuicklookPlugin" customModuleProvider="target">
+                            <rect key="frame" x="8" y="86" width="464" height="100"/>
+                            <constraints>
+                                <constraint firstAttribute="height" priority="100" constant="100" id="KsK-CK-401"/>
+                            </constraints>
+                        </customView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="vxu-kz-2GF" firstAttribute="leading" secondItem="KD6-Ph-o0U" secondAttribute="leading" constant="8" id="JWk-eX-Oz4"/>
+                        <constraint firstItem="vxu-kz-2GF" firstAttribute="centerY" secondItem="KD6-Ph-o0U" secondAttribute="centerY" id="lKe-L0-Shb"/>
+                        <constraint firstAttribute="trailing" secondItem="vxu-kz-2GF" secondAttribute="trailing" constant="8" id="pan-ZV-xrJ"/>
+                    </constraints>
+                </customView>
             </subviews>
             <constraints>
-                <constraint firstItem="2Gp-we-pIe" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="12" id="EZD-Nq-hwV"/>
-                <constraint firstAttribute="bottom" secondItem="2Gp-we-pIe" secondAttribute="bottom" constant="12" id="FuQ-2R-Heu"/>
-                <constraint firstAttribute="trailing" secondItem="2Gp-we-pIe" secondAttribute="trailing" constant="12" id="KRi-z7-pQY"/>
-                <constraint firstItem="2Gp-we-pIe" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="12" id="ecL-dc-JZh"/>
+                <constraint firstItem="KD6-Ph-o0U" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="Sko-BN-WU7"/>
+                <constraint firstAttribute="bottom" secondItem="KD6-Ph-o0U" secondAttribute="bottom" id="Yss-TN-gHz"/>
+                <constraint firstItem="KD6-Ph-o0U" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="b26-Qv-rhc"/>
+                <constraint firstAttribute="trailing" secondItem="KD6-Ph-o0U" secondAttribute="trailing" id="c58-10-hEI"/>
             </constraints>
             <point key="canvasLocation" x="92" y="154"/>
         </customView>

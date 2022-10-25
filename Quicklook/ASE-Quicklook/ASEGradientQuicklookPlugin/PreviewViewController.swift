@@ -1,8 +1,27 @@
 //
 //  PreviewViewController.swift
-//  ASEGradientQuicklookPlugin
 //
-//  Created by Darren Ford on 25/10/2022.
+//  Copyright © 2022 Darren Ford. All rights reserved.
+//
+//  MIT License
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all
+//  copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//  SOFTWARE.
 //
 
 import Cocoa
@@ -12,7 +31,7 @@ import ColorPaletteCodable
 
 class PreviewViewController: NSViewController, QLPreviewingController {
 
-	@IBOutlet weak var imageView: NSImageView!
+	@IBOutlet weak var gradientView: GradientDisplayView!
 
 	var gradient: PAL.Gradient?
 
@@ -48,7 +67,7 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 
 		do {
 			try self.configure(for: url)
-			imageView.image = gradient?.image(size: CGSize(width: 500, height: 50))
+			gradientView.gradient = gradient
 			handler(nil)
 		}
 		catch {
@@ -61,4 +80,56 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 	func configure(for url: URL) throws {
 		self.gradient = try PAL.Gradient.Decode(from: url)
 	}
+}
+
+
+class GradientDisplayView: NSView {
+	override var isOpaque: Bool { false }
+
+	private var _gradient: CGGradient?
+
+	var gradient: PAL.Gradient? {
+		didSet {
+			self._gradient = gradient?.cgGradient()
+		}
+	}
+
+	override func draw(_ dirtyRect: NSRect) {
+		super.draw(dirtyRect)
+
+		guard
+			let g = _gradient,
+			let ctx = NSGraphicsContext.current?.cgContext
+		else {
+			return
+		}
+
+		let contextRect = self.bounds.insetBy(dx: 1, dy: 1)
+
+		let boundsPath = CGPath(
+			roundedRect: contextRect,
+			cornerWidth: 4,
+			cornerHeight: 4,
+			transform: nil
+		)
+
+		ctx.saveGState()
+		ctx.addPath(boundsPath)
+		ctx.clip()
+		ctx.drawLinearGradient(
+			g,
+			start: .zero,
+			end: CGPoint(x: contextRect.width, y: 0),
+			options: [.drawsAfterEndLocation, .drawsBeforeStartLocation]
+		)
+		ctx.restoreGState()
+
+		ctx.saveGState()
+		ctx.addPath(boundsPath)
+		ctx.setStrokeColor(NSColor.textColor.withAlphaComponent(0.1).cgColor)
+		ctx.setLineWidth(1)
+		ctx.strokePath()
+		ctx.restoreGState()
+	}
+
 }
