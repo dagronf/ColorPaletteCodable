@@ -194,3 +194,113 @@ class GradientTests: XCTestCase {
 		XCTAssertEqual(1, gradient.stops[5].position, accuracy: 0.01)
 	}
 }
+
+class GGRGradientTests: XCTestCase {
+	func testBasicLoadUnsupported() throws {
+			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "Pastel_Rainbow", withExtension: "ggr"))
+			let content = try Data(contentsOf: fileURL)
+
+			let dec = PAL.Gradient.Coder.GGR()
+			_ = try XCTAssertThrowsError(dec.decode(from: content))
+	}
+
+	func testBasicLoad() throws {
+		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "Skyline", withExtension: "ggr"))
+		let content = try Data(contentsOf: fileURL)
+
+		let dec = PAL.Gradient.Coder.GGR()
+		let gradient = try dec.decode(from: content)
+
+		XCTAssertEqual("Skyline", gradient.name)
+		XCTAssertEqual(7, gradient.stops.count)
+
+		#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+		do {
+			let image = gradient.image(size: CGSize(width: 500, height: 25))
+			XCTAssertNotNil(image)
+		}
+		#endif
+	}
+
+	func testBasicLoad2() throws {
+		do {
+			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "Tube_Red", withExtension: "ggr"))
+			let content = try Data(contentsOf: fileURL)
+
+			let dec = PAL.Gradient.Coder.GGR()
+			let gradient = try dec.decode(from: content)
+
+			XCTAssertEqual("Tube Red", gradient.name)
+			XCTAssertEqual(10, gradient.stops.count)
+
+			#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+			do {
+				let image = gradient.image(size: CGSize(width: 500, height: 25))
+				XCTAssertNotNil(image)
+			}
+			#endif
+		}
+		do {
+			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "colorcube", withExtension: "ggr"))
+			let content = try Data(contentsOf: fileURL)
+
+			let dec = PAL.Gradient.Coder.GGR()
+			let gradient = try dec.decode(from: content)
+
+			XCTAssertEqual("colorcube", gradient.name)
+			XCTAssertEqual(64, gradient.stops.count)
+
+			#if os(macOS) || os(iOS) || os(tvOS)
+			do {
+				let image = gradient.image(size: CGSize(width: 500, height: 25))
+				XCTAssertNotNil(image)
+			}
+			#endif
+		}
+	}
+
+
+	func testBasicEncode() throws {
+		let dec = PAL.Gradient.Coder.GGR()
+
+		do {
+			let gradient = PAL.Gradient(colorPositions: [
+				(position: 0.0, color: PAL.Color.red),
+				(position: 1.0, color: PAL.Color.white),
+			])
+			let out = try XCTUnwrap(try? dec.encode(gradient))
+//			let outStr = String(data: out, encoding: .utf8)
+//			Swift.print(outStr)
+
+			let gradient2 = try dec.decode(from: out)
+			XCTAssertEqual("", gradient2.name)
+			XCTAssertEqual(2, gradient2.stops.count)
+
+		}
+		do {
+			let gradient = PAL.Gradient(
+				name: "alphablurry!",
+				colorPositions: [
+					(position: 0.0, color: try PAL.Color.blue.withAlpha(0.1)),
+					(position: 0.2, color: PAL.Color.white),
+					(position: 1.0, color: try PAL.Color.green.withAlpha(0.8)),
+				]
+			)
+
+			#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+			do {
+				let image = gradient.image(size: CGSize(width: 500, height: 25))
+				XCTAssertNotNil(image)
+			}
+			#endif
+
+			let out = try XCTUnwrap(try? dec.encode(gradient))
+//			let outStr = String(data: out, encoding: .utf8)
+//			Swift.print(outStr)
+
+			let gradient2 = try dec.decode(from: out)
+			XCTAssertEqual("alphablurry!", gradient2.name)
+			XCTAssertEqual(3, gradient2.stops.count)
+		}
+	}
+}

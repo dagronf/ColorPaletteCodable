@@ -29,6 +29,7 @@ import Foundation
 /// The built-in supported coders
 private let AvailableGradientCoders: [PAL_GradientCoder] = [
 	PAL.Gradient.Coder.JSON(),
+	PAL.Gradient.Coder.GGR(),
 ]
 
 public extension PAL.Gradient {

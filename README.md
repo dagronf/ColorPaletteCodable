@@ -187,9 +187,19 @@ let decoded = try PAL.Gradient.Decode(
    from: data,
    fileExtension: PAL.Gradient.Coder.JSON.fileExtension
 )
-
-
 ```
+
+The gradient coder includes basic importers/exporters.
+
+| Type                     | Description                           |
+|:-------------------------|:--------------------------------------|
+|`PAL.Gradient.Coder.JSON` | Built-in JSON format (.jsongradient)  |
+|`PAL.Gradient.Coder.GGR`  | GIMP gradient file (.ggr)             |
+
+* `.ggr` support doesn't respect segment blending functions other than linear (always imported as linear)
+* `.ggr` support doesn't allow for segment coloring functions other than rgb (throws an error)
+
+For some nice gradient files, [cptcity](http://soliton.vm.bytemark.co.uk/pub/cpt-city/index.html) has all of them :-)
 
 ## Linux support
 
