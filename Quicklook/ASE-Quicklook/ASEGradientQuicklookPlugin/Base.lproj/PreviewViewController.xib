@@ -21,15 +21,14 @@
                     <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
                     <subviews>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="vxu-kz-2GF" customClass="GradientDisplayView" customModule="ASEGradientQuicklookPlugin" customModuleProvider="target">
-                            <rect key="frame" x="8" y="86" width="464" height="100"/>
-                            <constraints>
-                                <constraint firstAttribute="height" priority="100" constant="100" id="KsK-CK-401"/>
-                            </constraints>
+                            <rect key="frame" x="8" y="8" width="464" height="255"/>
                         </customView>
                     </subviews>
                     <constraints>
                         <constraint firstItem="vxu-kz-2GF" firstAttribute="leading" secondItem="KD6-Ph-o0U" secondAttribute="leading" constant="8" id="JWk-eX-Oz4"/>
-                        <constraint firstItem="vxu-kz-2GF" firstAttribute="centerY" secondItem="KD6-Ph-o0U" secondAttribute="centerY" id="lKe-L0-Shb"/>
+                        <constraint firstItem="vxu-kz-2GF" firstAttribute="leading" secondItem="KD6-Ph-o0U" secondAttribute="leading" constant="8" id="S8u-be-iKI"/>
+                        <constraint firstAttribute="bottom" secondItem="vxu-kz-2GF" secondAttribute="bottom" constant="8" id="d0T-1e-iDD"/>
+                        <constraint firstItem="vxu-kz-2GF" firstAttribute="top" secondItem="KD6-Ph-o0U" secondAttribute="top" constant="9" id="mhE-HH-EHa"/>
                         <constraint firstAttribute="trailing" secondItem="vxu-kz-2GF" secondAttribute="trailing" constant="8" id="pan-ZV-xrJ"/>
                     </constraints>
                 </customView>
