@@ -201,6 +201,8 @@ The gradient coder includes basic importers/exporters.
 
 For some nice gradient files, [cptcity](http://soliton.vm.bytemark.co.uk/pub/cpt-city/index.html) has all of them :-)
 
+cptcity also has a [nice converter](http://soliton.vm.bytemark.co.uk/pub/cptutils-online/select.html) for gradients to ggr
+
 ## Linux support
 
 * Linux only supports very naive color conversions between RGB-CMYK-Gray.
