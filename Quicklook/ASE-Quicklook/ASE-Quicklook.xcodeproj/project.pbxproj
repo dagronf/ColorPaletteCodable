@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		232540B72909F3F900FC94C6 /* QuickLookThumbnailing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 232540B62909F3F900FC94C6 /* QuickLookThumbnailing.framework */; };
+		232540B82909F3F900FC94C6 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A03DF728332AA2003846A4 /* Quartz.framework */; };
+		232540BB2909F3F900FC94C6 /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232540BA2909F3F900FC94C6 /* ThumbnailProvider.swift */; };
+		232540C02909F3F900FC94C6 /* ASEGradientThumbnailGenerator.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 232540B52909F3F900FC94C6 /* ASEGradientThumbnailGenerator.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		232540C52909F41C00FC94C6 /* ColorPaletteCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 232540C42909F41C00FC94C6 /* ColorPaletteCodable */; };
 		236DC937283B71CD0097B4DE /* ColorPaletteCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 236DC936283B71CD0097B4DE /* ColorPaletteCodable */; };
 		236DC939283B71D60097B4DE /* ColorPaletteCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 236DC938283B71D60097B4DE /* ColorPaletteCodable */; };
 		237EF04528398ABD000D6F42 /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237EF04428398ABD000D6F42 /* PaletteView.swift */; };
@@ -35,6 +40,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		232540BE2909F3F900FC94C6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23A03DD728332A83003846A4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 232540B42909F3F900FC94C6;
+			remoteInfo = ASEGradientThumbnailGenerator;
+		};
 		23B20C222835D613005BD670 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 23A03DD728332A83003846A4 /* Project object */;
@@ -58,6 +70,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				232540C02909F3F900FC94C6 /* ASEGradientThumbnailGenerator.appex in Embed Foundation Extensions */,
 				23EDD2842907A81D00B63B08 /* ASEGradientQuicklookPlugin.appex in Embed Foundation Extensions */,
 				23B20C212835D613005BD670 /* ASEQuickLookPlugin.appex in Embed Foundation Extensions */,
 			);
@@ -87,6 +100,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		232540B52909F3F900FC94C6 /* ASEGradientThumbnailGenerator.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ASEGradientThumbnailGenerator.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		232540B62909F3F900FC94C6 /* QuickLookThumbnailing.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLookThumbnailing.framework; path = System/Library/Frameworks/QuickLookThumbnailing.framework; sourceTree = SDKROOT; };
+		232540BA2909F3F900FC94C6 /* ThumbnailProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailProvider.swift; sourceTree = "<group>"; };
+		232540BC2909F3F900FC94C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		232540BD2909F3F900FC94C6 /* ASEGradientThumbnailGenerator.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ASEGradientThumbnailGenerator.entitlements; sourceTree = "<group>"; };
 		236DC935283B71BF0097B4DE /* ColorPaletteCodable */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ColorPaletteCodable; path = ../..; sourceTree = "<group>"; };
 		237EF04428398ABD000D6F42 /* PaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
 		237EF08B2839BCA5000D6F42 /* Palette_Viewer.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Palette_Viewer.entitlements; sourceTree = "<group>"; };
@@ -116,6 +134,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		232540B22909F3F900FC94C6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				232540C52909F41C00FC94C6 /* ColorPaletteCodable in Frameworks */,
+				232540B72909F3F900FC94C6 /* QuickLookThumbnailing.framework in Frameworks */,
+				232540B82909F3F900FC94C6 /* Quartz.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		23A03DF228332AA2003846A4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -147,14 +175,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		232540B92909F3F900FC94C6 /* ASEGradientThumbnailGenerator */ = {
+			isa = PBXGroup;
+			children = (
+				232540BA2909F3F900FC94C6 /* ThumbnailProvider.swift */,
+				232540BC2909F3F900FC94C6 /* Info.plist */,
+				232540BD2909F3F900FC94C6 /* ASEGradientThumbnailGenerator.entitlements */,
+			);
+			path = ASEGradientThumbnailGenerator;
+			sourceTree = "<group>";
+		};
 		23A03DD628332A83003846A4 = {
 			isa = PBXGroup;
 			children = (
 				236DC935283B71BF0097B4DE /* ColorPaletteCodable */,
-				23A03DF928332AA2003846A4 /* ASEQuickLookPlugin */,
-				23EDD2782907A81D00B63B08 /* ASEGradientQuicklookPlugin */,
 				23B20C102835D551005BD670 /* ASE Viewer */,
+				23A03DF928332AA2003846A4 /* ASEQuickLookPlugin */,
 				23FF72832839CA0500448D16 /* Shared */,
+				23EDD2782907A81D00B63B08 /* ASEGradientQuicklookPlugin */,
+				232540B92909F3F900FC94C6 /* ASEGradientThumbnailGenerator */,
 				23A03DF628332AA2003846A4 /* Frameworks */,
 				23A03DE028332A83003846A4 /* Products */,
 			);
@@ -166,6 +205,7 @@
 				23A03DF528332AA2003846A4 /* ASEQuickLookPlugin.appex */,
 				23B20C0F2835D551005BD670 /* Palette Viewer.app */,
 				23EDD2762907A81D00B63B08 /* ASEGradientQuicklookPlugin.appex */,
+				232540B52909F3F900FC94C6 /* ASEGradientThumbnailGenerator.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -175,6 +215,7 @@
 			children = (
 				23B20CCD2835E459005BD670 /* CoreGraphics.framework */,
 				23A03DF728332AA2003846A4 /* Quartz.framework */,
+				232540B62909F3F900FC94C6 /* QuickLookThumbnailing.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -230,6 +271,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		232540B42909F3F900FC94C6 /* ASEGradientThumbnailGenerator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 232540C32909F3FA00FC94C6 /* Build configuration list for PBXNativeTarget "ASEGradientThumbnailGenerator" */;
+			buildPhases = (
+				232540B12909F3F900FC94C6 /* Sources */,
+				232540B22909F3F900FC94C6 /* Frameworks */,
+				232540B32909F3F900FC94C6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ASEGradientThumbnailGenerator;
+			packageProductDependencies = (
+				232540C42909F41C00FC94C6 /* ColorPaletteCodable */,
+			);
+			productName = ASEGradientThumbnailGenerator;
+			productReference = 232540B52909F3F900FC94C6 /* ASEGradientThumbnailGenerator.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		23A03DF428332AA2003846A4 /* ASEQuickLookPlugin */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 23A03E0628332AA2003846A4 /* Build configuration list for PBXNativeTarget "ASEQuickLookPlugin" */;
@@ -267,6 +328,7 @@
 			dependencies = (
 				23B20C232835D613005BD670 /* PBXTargetDependency */,
 				23EDD2832907A81D00B63B08 /* PBXTargetDependency */,
+				232540BF2909F3F900FC94C6 /* PBXTargetDependency */,
 			);
 			name = "Palette Viewer";
 			packageProductDependencies = (
@@ -307,6 +369,9 @@
 				LastSwiftUpdateCheck = 1410;
 				LastUpgradeCheck = 1410;
 				TargetAttributes = {
+					232540B42909F3F900FC94C6 = {
+						CreatedOnToolsVersion = 14.1;
+					};
 					23A03DF428332AA2003846A4 = {
 						CreatedOnToolsVersion = 13.3.1;
 					};
@@ -337,11 +402,19 @@
 				23A03DF428332AA2003846A4 /* ASEQuickLookPlugin */,
 				23EDD2752907A81D00B63B08 /* ASEGradientQuicklookPlugin */,
 				23B20C0E2835D551005BD670 /* Palette Viewer */,
+				232540B42909F3F900FC94C6 /* ASEGradientThumbnailGenerator */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		232540B32909F3F900FC94C6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		23A03DF328332AA2003846A4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -370,6 +443,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		232540B12909F3F900FC94C6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				232540BB2909F3F900FC94C6 /* ThumbnailProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		23A03DF128332AA2003846A4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -406,6 +487,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		232540BF2909F3F900FC94C6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 232540B42909F3F900FC94C6 /* ASEGradientThumbnailGenerator */;
+			targetProxy = 232540BE2909F3F900FC94C6 /* PBXContainerItemProxy */;
+		};
 		23B20C232835D613005BD670 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 23A03DF428332AA2003846A4 /* ASEQuickLookPlugin */;
@@ -446,6 +532,64 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		232540C12909F3FA00FC94C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = ASEGradientThumbnailGenerator/ASEGradientThumbnailGenerator.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3L6RK3LGGW;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ASEGradientThumbnailGenerator/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ASEGradientThumbnailGenerator;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.9.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer.ASEGradientThumbnailGenerator";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		232540C22909F3FA00FC94C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = ASEGradientThumbnailGenerator/ASEGradientThumbnailGenerator.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3L6RK3LGGW;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ASEGradientThumbnailGenerator/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ASEGradientThumbnailGenerator;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.9.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer.ASEGradientThumbnailGenerator";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		23A03DEC28332A85003846A4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -750,6 +894,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		232540C32909F3FA00FC94C6 /* Build configuration list for PBXNativeTarget "ASEGradientThumbnailGenerator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				232540C12909F3FA00FC94C6 /* Debug */,
+				232540C22909F3FA00FC94C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		23A03DDA28332A83003846A4 /* Build configuration list for PBXProject "ASE-Quicklook" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -800,6 +953,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		232540C42909F41C00FC94C6 /* ColorPaletteCodable */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ColorPaletteCodable;
+		};
 		236DC936283B71CD0097B4DE /* ColorPaletteCodable */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ColorPaletteCodable;

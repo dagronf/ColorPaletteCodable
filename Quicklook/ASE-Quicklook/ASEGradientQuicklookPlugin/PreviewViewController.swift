@@ -136,19 +136,19 @@ class GradientDisplayView: NSView {
 			let boundsPath = CGPath(roundedRect: coreRect, cornerWidth: 4, cornerHeight: 4, transform: nil)
 
 			// Draw the gradient within the bounds path
-			ctx.savingState {
+			ctx.savingGState {
 				$0.addPath(boundsPath)
 				$0.clip()
 				$0.drawLinearGradient(
 					g,
-					start: CGPoint(x: 0, y: horizontalRect.height),
-					end: CGPoint(x: horizontalRect.width, y: 0),
+					start: CGPoint(x: coreRect.minX, y: coreRect.maxY),
+					end: CGPoint(x: coreRect.maxX, y: coreRect.minY),
 					options: [.drawsAfterEndLocation, .drawsBeforeStartLocation]
 				)
 			}
 
 			// Add a shadow to the gradient path.
-			ctx.savingState {
+			ctx.savingGState {
 				// Add a path around the bounds
 				$0.addPath(CGPath(rect: self.bounds, transform: nil))
 				// Add another path around the bounds path
@@ -164,7 +164,7 @@ class GradientDisplayView: NSView {
 			}
 
 			// Draw a border around the gradient path
-			ctx.savingState {
+			ctx.savingGState {
 				$0.addPath(boundsPath)
 				let alpha: Double = NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast ? 1.0 : 0.1
 				$0.setStrokeColor(NSColor.textColor.withAlphaComponent(alpha).cgColor)
@@ -172,131 +172,12 @@ class GradientDisplayView: NSView {
 				$0.strokePath()
 			}
 		}
-
-//		var verticalRect = insetRect
-//		do {
-//			verticalRect.origin.x = insetRect.maxX - dimension - 3
-//			verticalRect.origin.y = dimension + 16
-//			verticalRect.size.width = dimension
-//			verticalRect.size.height = insetRect.maxY - dimension - 16
-//
-//			// The drawing rectangle, WITHOUT the shadow
-//			let coreRect = CGRect(
-//				x: verticalRect.origin.x,
-//				y: verticalRect.origin.y + 3,
-//				width: verticalRect.width - 3,
-//				height: verticalRect.height - 3
-//			)
-//
-//			// The path for the gradient content
-//			let boundsPath = CGPath(roundedRect: verticalRect, cornerWidth: 4, cornerHeight: 4, transform: nil)
-//
-//			// Draw the gradient within the bounds path
-//			ctx.savingState {
-//				$0.addPath(boundsPath)
-//				$0.clip()
-//				$0.drawLinearGradient(
-//					g,
-//					start: CGPoint(x: 0, y: coreRect.minY),
-//					end: CGPoint(x: 0, y: coreRect.maxY),
-//					options: [.drawsAfterEndLocation, .drawsBeforeStartLocation]
-//				)
-//			}
-//
-//			// Draw a border around the gradient path
-//			ctx.savingState {
-//				$0.addPath(boundsPath)
-//				let alpha: Double = NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast ? 1.0 : 0.1
-//				$0.setStrokeColor(NSColor.textColor.withAlphaComponent(alpha).cgColor)
-//				$0.setLineWidth(1)
-//				$0.strokePath()
-//			}
-//
-//			// Add a shadow to the gradient path.
-//			ctx.savingState {
-//				// Add a path around the bounds
-//				$0.addPath(CGPath(rect: self.bounds, transform: nil))
-//				// Add another path around the bounds path
-//				$0.addPath(boundsPath)
-//				// Clip the drawing using evenOdd, which means that the clip path is the DIFFERENCE between the two paths
-//				$0.clip(using: .evenOdd)
-//
-//				// Now, draw the shadow
-//				$0.addPath(boundsPath)
-//				$0.setFillColor(CGColor.white.copy(alpha: 0.3)!)
-//				$0.setShadow(offset: CGSize(width: 2, height: -2), blur: 3, color: .black)
-//				$0.fillPath()
-//			}
-//		}
-//
-//		do {
-//			let radialRect = CGRect(
-//				x: horizontalRect.minX,
-//				y: dimension + 3,
-//				width: verticalRect.maxX - dimension - 16,
-//				height: verticalRect.maxY - dimension - 16)
-//
-//			let w = min(radialRect.width - 3, radialRect.height - 3)
-//
-//			let midx = (radialRect.width - w) / 2
-//			let midy = (radialRect.height - w) / 2
-//
-//			// The drawing rectangle, WITHOUT the shadow
-//			let coreRect = CGRect(
-//				x: radialRect.origin.x + midx,
-//				y: radialRect.origin.y + 16 + midy,
-//				width: w,
-//				height: w
-//			)
-//
-//			// The path for the gradient content
-//			let boundsPath = CGPath(ellipseIn: coreRect, transform: nil)
-//
-//			// Draw the gradient within the bounds path
-//			ctx.savingState {
-//				$0.addPath(boundsPath)
-//				$0.clip()
-//				$0.drawRadialGradient(
-//					g,
-//					startCenter: CGPoint(x: coreRect.midX, y: coreRect.midY),
-//					startRadius: 0,
-//					endCenter: CGPoint(x: coreRect.midX, y: coreRect.midY),
-//					endRadius: max(coreRect.width, coreRect.height) / 2,
-//					options: [.drawsAfterEndLocation, .drawsBeforeStartLocation]
-//				)
-//			}
-//
-//			// Add a shadow to the gradient path.
-//			ctx.savingState {
-//				// Add a path around the bounds
-//				$0.addPath(CGPath(rect: self.bounds, transform: nil))
-//				// Add another path around the bounds path
-//				$0.addPath(boundsPath)
-//				// Clip the drawing using evenOdd, which means that the clip path is the DIFFERENCE between the two paths
-//				$0.clip(using: .evenOdd)
-//
-//				// Now, draw the shadow
-//				$0.addPath(boundsPath)
-//				$0.setFillColor(CGColor.white.copy(alpha: 0.3)!)
-//				$0.setShadow(offset: CGSize(width: 2, height: -2), blur: 3, color: .black)
-//				$0.fillPath()
-//			}
-//
-//			// Draw a border around the gradient path
-//			ctx.savingState {
-//				$0.addPath(boundsPath)
-//				let alpha: Double = NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast ? 1.0 : 0.1
-//				$0.setStrokeColor(NSColor.textColor.withAlphaComponent(alpha).cgColor)
-//				$0.setLineWidth(1)
-//				$0.strokePath()
-//			}
-//		}
-
 	}
 }
 
 extension CGContext {
-	@inlinable func savingState(_ block: (CGContext) -> Void) {
+	// Call a block while wrapped in a GState save
+	@inlinable func savingGState(_ block: (CGContext) -> Void) {
 		self.saveGState()
 		defer { self.restoreGState() }
 		block(self)
