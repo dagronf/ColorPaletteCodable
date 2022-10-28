@@ -25,6 +25,11 @@
 		23A03E0028332AA2003846A4 /* PreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A03DFE28332AA2003846A4 /* PreviewViewController.xib */; };
 		23A03E0E28332AEB003846A4 /* UTType+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E0D28332AEB003846A4 /* UTType+extensions.swift */; };
 		23A0FFE0290B520800E29FAE /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 23A0FFDF290B520800E29FAE /* Defaults */; };
+		23A0FFE3290B61A700E29FAE /* GradientDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A0FFE1290B61A700E29FAE /* GradientDocument.swift */; };
+		23A0FFE4290B61A700E29FAE /* GradientDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A0FFE2290B61A700E29FAE /* GradientDocument.xib */; };
+		23A0FFE8290B692000E29FAE /* GradientViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A0FFE6290B692000E29FAE /* GradientViewController.swift */; };
+		23A0FFE9290B692000E29FAE /* GradientViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A0FFE7290B692000E29FAE /* GradientViewController.xib */; };
+		23A0FFEB290B6AA900E29FAE /* GradientEditorUI in Frameworks */ = {isa = PBXBuildFile; productRef = 23A0FFEA290B6AA900E29FAE /* GradientEditorUI */; };
 		23B20C122835D551005BD670 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B20C112835D551005BD670 /* AppDelegate.swift */; };
 		23B20C142835D551005BD670 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B20C132835D551005BD670 /* ViewController.swift */; };
 		23B20C162835D551005BD670 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B20C152835D551005BD670 /* Document.swift */; };
@@ -117,6 +122,11 @@
 		23A03E0128332AA2003846A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23A03E0228332AA2003846A4 /* ASEQuickLookPlugin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ASEQuickLookPlugin.entitlements; sourceTree = "<group>"; };
 		23A03E0D28332AEB003846A4 /* UTType+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UTType+extensions.swift"; sourceTree = "<group>"; };
+		23A0FFE1290B61A700E29FAE /* GradientDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientDocument.swift; sourceTree = "<group>"; };
+		23A0FFE2290B61A700E29FAE /* GradientDocument.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GradientDocument.xib; sourceTree = "<group>"; };
+		23A0FFE5290B64EE00E29FAE /* GradientEditorUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GradientEditorUI; path = ../../../GradientEditorUI; sourceTree = "<group>"; };
+		23A0FFE6290B692000E29FAE /* GradientViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientViewController.swift; sourceTree = "<group>"; };
+		23A0FFE7290B692000E29FAE /* GradientViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GradientViewController.xib; sourceTree = "<group>"; };
 		23B20C0F2835D551005BD670 /* Palette Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Palette Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23B20C112835D551005BD670 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		23B20C132835D551005BD670 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -159,6 +169,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23A0FFEB290B6AA900E29FAE /* GradientEditorUI in Frameworks */,
 				237EF04E28399BD9000D6F42 /* SwiftUIFlowLayout in Frameworks */,
 				236DC939283B71D60097B4DE /* ColorPaletteCodable in Frameworks */,
 			);
@@ -190,6 +201,7 @@
 		23A03DD628332A83003846A4 = {
 			isa = PBXGroup;
 			children = (
+				23A0FFE5290B64EE00E29FAE /* GradientEditorUI */,
 				236DC935283B71BF0097B4DE /* ColorPaletteCodable */,
 				23B20C102835D551005BD670 /* ASE Viewer */,
 				23A03DF928332AA2003846A4 /* ASEQuickLookPlugin */,
@@ -244,6 +256,10 @@
 				23B20C172835D552005BD670 /* Assets.xcassets */,
 				23B20C192835D552005BD670 /* Main.storyboard */,
 				23B20C1C2835D552005BD670 /* Info.plist */,
+				23A0FFE1290B61A700E29FAE /* GradientDocument.swift */,
+				23A0FFE2290B61A700E29FAE /* GradientDocument.xib */,
+				23A0FFE6290B692000E29FAE /* GradientViewController.swift */,
+				23A0FFE7290B692000E29FAE /* GradientViewController.xib */,
 			);
 			path = "ASE Viewer";
 			sourceTree = "<group>";
@@ -336,6 +352,7 @@
 			packageProductDependencies = (
 				237EF04D28399BD9000D6F42 /* SwiftUIFlowLayout */,
 				236DC938283B71D60097B4DE /* ColorPaletteCodable */,
+				23A0FFEA290B6AA900E29FAE /* GradientEditorUI */,
 			);
 			productName = "ASE Viewer";
 			productReference = 23B20C0F2835D551005BD670 /* Palette Viewer.app */;
@@ -431,7 +448,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23A0FFE9290B692000E29FAE /* GradientViewController.xib in Resources */,
 				23B20C182835D552005BD670 /* Assets.xcassets in Resources */,
+				23A0FFE4290B61A700E29FAE /* GradientDocument.xib in Resources */,
 				23B20C1B2835D552005BD670 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -472,6 +491,8 @@
 			files = (
 				237EF0872839B324000D6F42 /* UTType+extensions.swift in Sources */,
 				23B20C142835D551005BD670 /* ViewController.swift in Sources */,
+				23A0FFE3290B61A700E29FAE /* GradientDocument.swift in Sources */,
+				23A0FFE8290B692000E29FAE /* GradientViewController.swift in Sources */,
 				23B20C122835D551005BD670 /* AppDelegate.swift in Sources */,
 				23B20C162835D551005BD670 /* Document.swift in Sources */,
 				237EF04628398ABD000D6F42 /* PaletteView.swift in Sources */,
@@ -991,6 +1012,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 23A0FFDC290B51BC00E29FAE /* XCRemoteSwiftPackageReference "Defaults" */;
 			productName = Defaults;
+		};
+		23A0FFEA290B6AA900E29FAE /* GradientEditorUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GradientEditorUI;
 		};
 		23EDD2882907AB3E00B63B08 /* ColorPaletteCodable */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -100,7 +100,7 @@
 				<string>org.gimp.ggr</string>
 			</array>
 			<key>NSDocumentClass</key>
-			<string>$(PRODUCT_MODULE_NAME).Document</string>
+			<string>$(PRODUCT_MODULE_NAME).GradientDocument</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeName</key>
@@ -114,7 +114,7 @@
 				<string>public.dagronf.jsoncolorgradient</string>
 			</array>
 			<key>NSDocumentClass</key>
-			<string>$(PRODUCT_MODULE_NAME).Document</string>
+			<string>$(PRODUCT_MODULE_NAME).GradientDocument</string>
 		</dict>
 	</array>
 	<key>UTExportedTypeDeclarations</key>
