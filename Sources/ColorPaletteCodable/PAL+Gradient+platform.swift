@@ -27,7 +27,9 @@
 // Platform specific routines
 
 #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+
 import CoreGraphics
+
 public extension PAL.Gradient {
 	/// Returns a CGGradient representation of the gradient object
 	/// - Parameter reversed: Reverse the order of the colors and positions in the gradient.
@@ -37,7 +39,7 @@ public extension PAL.Gradient {
 		var cgcolors: [CGColor] = normalized.compactMap { $0.color.cgColor }
 		var positions: [CGFloat] = normalized.compactMap { $0.position }
 		guard cgcolors.count == positions.count else {
-			plt_log.log(.error, "Could not convert color(s) to CGColor")
+			ASEPaletteLogger.log(.error, "Could not convert all colors in gradient to CGColors")
 			return nil
 		}
 
@@ -53,6 +55,7 @@ public extension PAL.Gradient {
 		)
 	}
 }
+
 #endif
 
 #if os(macOS)

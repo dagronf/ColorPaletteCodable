@@ -98,7 +98,7 @@ extension PAL.Coder.ASE {
 		// Load and validate the header
 		let header = try readData(inputStream, size: 4)
 		if header != ASE_HEADER_DATA {
-			plt_log.log(.error, "Invalid .ase header")
+			ASEPaletteLogger.log(.error, "Invalid .ase header")
 			throw PAL.CommonError.invalidASEHeader
 		}
 		
@@ -127,13 +127,13 @@ extension PAL.Coder.ASE {
 			switch type {
 			case ASE_GROUP_START:
 				guard currentGroup == nil else {
-					plt_log.log(.error, "Attempting to open group with a group already open")
+					ASEPaletteLogger.log(.error, "Attempting to open group with a group already open")
 					throw PAL.CommonError.groupAlreadyOpen
 				}
 				currentGroup = try self.readStartGroupBlock(inputStream)
 			case ASE_GROUP_END:
 				guard let c = currentGroup else {
-					plt_log.log(.error, "Attempting to close group without an open group")
+					ASEPaletteLogger.log(.error, "Attempting to close group without an open group")
 					throw PAL.CommonError.groupNotOpen
 				}
 				try self.readEndGroupBlock(inputStream, currentGroup: c, palette: &result)
@@ -142,7 +142,7 @@ extension PAL.Coder.ASE {
 				// Pass group in by reference so we can add to it
 				try self.readColor(inputStream, currentGroup: &currentGroup, palette: &result)
 			default:
-				plt_log.log(.error, "Unknown ase block type")
+				ASEPaletteLogger.log(.error, "Unknown ase block type")
 				throw PAL.CommonError.unknownBlockType
 			}
 		}
@@ -166,13 +166,13 @@ extension PAL.Coder.ASE {
 		let stringLen: UInt16 = try readIntegerBigEndian(inputStream)
 		let name = try readZeroTerminatedUTF16String(inputStream)
 		guard stringLen == name.count + 1 else {
-			plt_log.log(.error, "Invalid color name")
+			ASEPaletteLogger.log(.error, "Invalid color name")
 			throw PAL.CommonError.invalidString
 		}
 		
 		let mode = try readAsciiString(inputStream, length: 4)
 		guard let colorModel = ASEColorModel(rawValue: mode) else {
-			plt_log.log(.error, "Invalid .ase color model %@", mode)
+			ASEPaletteLogger.log(.error, "Invalid .ase color model %@", mode)
 			throw PAL.CommonError.unknownColorMode(mode)
 		}
 		
@@ -205,7 +205,7 @@ extension PAL.Coder.ASE {
 		
 		let colorTypeValue: UInt16 = try readIntegerBigEndian(inputStream)
 		guard let colorType = ASEColorType(rawValue: Int(colorTypeValue)) else {
-			plt_log.log(.error, "Invalid color type %@", colorTypeValue)
+			ASEPaletteLogger.log(.error, "Invalid color type %@", colorTypeValue)
 			throw PAL.CommonError.unknownColorType(Int(colorTypeValue))
 		}
 		

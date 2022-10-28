@@ -31,7 +31,7 @@ import Foundation
 // Read raw UInt8 bytes from the input stream
 internal func readData(_ inputStream: InputStream, size: Int) throws -> Data {
 	if inputStream.hasBytesAvailable == false {
-		plt_log.log(.error, "Found end of file")
+		ASEPaletteLogger.log(.error, "Found end of file")
 		throw PAL.CommonError.invalidEndOfFile
 	}
 
@@ -74,7 +74,7 @@ internal func readIntegerBigEndian<ValueType: FixedWidthInteger>(_ inputStream: 
 // Read a 0-terminated string of uint16 double-byte characters
 internal func readZeroTerminatedUTF16String(_ inputStream: InputStream) throws -> String {
 	guard inputStream.hasBytesAvailable else {
-		plt_log.log(.error, "Found end of file")
+		ASEPaletteLogger.log(.error, "Found end of file")
 		throw PAL.CommonError.invalidEndOfFile
 	}
 
@@ -114,7 +114,7 @@ internal func readPascalStyleUnicodeString(_ inputStream: InputStream) throws ->
 // Fixed length of ascii (single byte) characters
 internal func readAsciiString(_ inputStream: InputStream, length: Int) throws -> String {
 	guard inputStream.hasBytesAvailable else {
-		plt_log.log(.error, "Found end of file")
+		ASEPaletteLogger.log(.error, "Found end of file")
 		throw PAL.CommonError.invalidEndOfFile
 	}
 

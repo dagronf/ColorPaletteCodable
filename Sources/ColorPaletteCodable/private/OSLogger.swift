@@ -31,7 +31,7 @@ import Foundation
 import OSLog
 
 // Logger
-let plt_log = OSLogger(subsystem: Bundle.main.bundleIdentifier!, category: "ASEPalette")
+let ASEPaletteLogger = OSLogger(subsystem: Bundle.main.bundleIdentifier!, category: "ASEPalette")
 
 class OSLogger {
 	private let _logger: OSLog

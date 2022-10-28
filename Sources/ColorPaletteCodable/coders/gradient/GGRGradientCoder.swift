@@ -52,18 +52,28 @@ public extension PAL.Gradient.Coder {
 		public func decode(from inputStream: InputStream) throws -> PAL.Gradient {
 			let data = inputStream.readAllData()
 			guard let content = String(bytes: data, encoding: .utf8) else {
+				ASEPaletteLogger.log(.error, "GGRCoder: Unexpected text encoding")
 				throw GimpGradientError.unexpectedTextEncoding
 			}
 
 			// Remove any blank lines from the input file
 			let lines = content.components(separatedBy: .newlines).filter { $0.count > 0 }
-			guard lines.count > 3 else { throw GimpGradientError.notEnoughData }
+			guard lines.count > 3 else {
+				ASEPaletteLogger.log(.error, "GGRCoder: Not enough data in file")
+				throw GimpGradientError.notEnoughData
+			}
 
 			// Read the BOM
-			guard lines[0] == "GIMP Gradient" else { throw GimpGradientError.missingBOM }
+			guard lines[0] == "GIMP Gradient" else {
+				ASEPaletteLogger.log(.error, "GGRCoder: Invalid file format (missing header)")
+				throw GimpGradientError.missingBOM
+			}
 
 			// Read the name line
-			guard lines[1].hasPrefix("Name: ") else { throw GimpGradientError.missingName }
+			guard lines[1].hasPrefix("Name: ") else {
+				ASEPaletteLogger.log(.error, "GGRCoder: Invalid file format (missing name)")
+				throw GimpGradientError.missingName
+			}
 			let name = lines[1].suffix(from: lines[1].index(lines[1].startIndex, offsetBy: 6))
 
 			// Read the number of stops
@@ -71,6 +81,7 @@ public extension PAL.Gradient.Coder {
 				let stopCount = Int(lines[2]),
 				lines.count == stopCount + 3
 			else {
+				ASEPaletteLogger.log(.error, "GGRCoder: Invalid palette count")
 				throw GimpGradientError.invalidCount
 			}
 
@@ -99,6 +110,7 @@ public extension PAL.Gradient.Coder {
 				}
 
 				if GimpGradientSegmentType != 0 {
+					ASEPaletteLogger.log(.error, "GGRCoder: Unsupported segment format (%d)", GimpGradientSegmentType)
 					throw GimpGradientError.unsupportedSegmentFormat
 				}
 
@@ -171,6 +183,7 @@ public extension PAL.Gradient.Coder {
 			}
 
 			guard let data = result.data(using: .utf8) else {
+				ASEPaletteLogger.log(.error, "GGRCoder: invalid utf8 data during write")
 				throw GimpGradientError.invalidData
 			}
 
