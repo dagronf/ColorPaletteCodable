@@ -30,9 +30,22 @@
 import CoreGraphics
 public extension PAL.Gradient {
 	/// Returns a CGGradient representation of the gradient object
-	func cgGradient() -> CGGradient? {
-		let cgcolors: [CGColor] = self.stops.compactMap { $0.color.cgColor! }
-		let positions: [CGFloat] = self.stops.compactMap { $0.position }
+	/// - Parameter reversed: Reverse the order of the colors and positions in the gradient.
+	/// - Returns: A gradient
+	func cgGradient(reversed: Bool = false) -> CGGradient? {
+		guard let normalized = try? self.normalized().sorted.stops else { return nil }
+		var cgcolors: [CGColor] = normalized.compactMap { $0.color.cgColor }
+		var positions: [CGFloat] = normalized.compactMap { $0.position }
+		guard cgcolors.count == positions.count else {
+			plt_log.log(.error, "Could not convert color(s) to CGColor")
+			return nil
+		}
+
+		if reversed {
+			cgcolors = cgcolors.reversed()
+			positions = positions.map { 1.0 - $0 }
+		}
+
 		return CGGradient(
 			colorsSpace: CGColorSpace(name: CGColorSpace.sRGB)!,
 			colors: cgcolors as CFArray,
@@ -40,7 +53,6 @@ public extension PAL.Gradient {
 		)
 	}
 }
-
 #endif
 
 #if os(macOS)
