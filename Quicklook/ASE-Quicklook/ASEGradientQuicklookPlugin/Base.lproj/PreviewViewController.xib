@@ -8,6 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PreviewViewController" customModule="ASEGradientQuicklookPlugin" customModuleProvider="target">
             <connections>
+                <outlet property="gradientStyleSegment" destination="Sz6-eI-gzL" id="dvB-1m-3Kc"/>
                 <outlet property="gradientView" destination="vxu-kz-2GF" id="Ad1-Yp-FNe"/>
                 <outlet property="view" destination="c22-O7-iKe" id="NRM-P4-wb6"/>
             </connections>
@@ -15,31 +16,91 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe" userLabel="Preview View">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
+            <rect key="frame" x="0.0" y="0.0" width="480" height="381"/>
             <subviews>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="KD6-Ph-o0U" customClass="CheckerView" customModule="ASEGradientQuicklookPlugin" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
+                <stackView distribution="fillProportionally" orientation="vertical" alignment="centerX" spacing="4" horizontalStackHuggingPriority="100" verticalStackHuggingPriority="100" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Ge-Ke-Ai6">
+                    <rect key="frame" x="0.0" y="4" width="480" height="377"/>
                     <subviews>
-                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="vxu-kz-2GF" customClass="GradientDisplayView" customModule="ASEGradientQuicklookPlugin" customModuleProvider="target">
-                            <rect key="frame" x="8" y="8" width="464" height="255"/>
+                        <customView horizontalHuggingPriority="10" verticalHuggingPriority="10" horizontalCompressionResistancePriority="10" verticalCompressionResistancePriority="10" translatesAutoresizingMaskIntoConstraints="NO" id="KD6-Ph-o0U" customClass="CheckerView" customModule="ASEGradientQuicklookPlugin" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="27" width="480" height="350"/>
+                            <subviews>
+                                <customView horizontalHuggingPriority="10" verticalHuggingPriority="10" horizontalCompressionResistancePriority="10" verticalCompressionResistancePriority="10" translatesAutoresizingMaskIntoConstraints="NO" id="vxu-kz-2GF" customClass="GradientDisplayView" customModule="ASEGradientQuicklookPlugin" customModuleProvider="target">
+                                    <rect key="frame" x="8" y="8" width="464" height="334"/>
+                                </customView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="vxu-kz-2GF" firstAttribute="leading" secondItem="KD6-Ph-o0U" secondAttribute="leading" constant="8" id="JWk-eX-Oz4"/>
+                                <constraint firstAttribute="bottom" secondItem="vxu-kz-2GF" secondAttribute="bottom" constant="8" id="d0T-1e-iDD"/>
+                                <constraint firstItem="vxu-kz-2GF" firstAttribute="top" secondItem="KD6-Ph-o0U" secondAttribute="top" constant="8" id="mhE-HH-EHa"/>
+                                <constraint firstAttribute="trailing" secondItem="vxu-kz-2GF" secondAttribute="trailing" constant="8" id="pan-ZV-xrJ"/>
+                            </constraints>
                         </customView>
+                        <box horizontalHuggingPriority="10" verticalHuggingPriority="750" horizontalCompressionResistancePriority="10" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="qGJ-Lz-H5X">
+                            <rect key="frame" x="0.0" y="20" width="480" height="5"/>
+                        </box>
+                        <stackView distribution="fillProportionally" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="100" verticalStackHuggingPriority="999" horizontalHuggingPriority="100" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TBP-WY-iqh">
+                            <rect key="frame" x="160" y="0.0" width="161" height="18"/>
+                            <subviews>
+                                <segmentedControl verticalHuggingPriority="750" horizontalCompressionResistancePriority="999" verticalCompressionResistancePriority="999" translatesAutoresizingMaskIntoConstraints="NO" id="Sz6-eI-gzL">
+                                    <rect key="frame" x="-2" y="-2" width="89" height="21"/>
+                                    <segmentedCell key="cell" controlSize="small" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="ii9-rp-rV6">
+                                        <font key="font" metaFont="smallSystem"/>
+                                        <segments>
+                                            <segment label="linear" width="40" selected="YES"/>
+                                            <segment label="radial" width="40" tag="1"/>
+                                        </segments>
+                                    </segmentedCell>
+                                    <connections>
+                                        <action selector="selectionChanged:" target="-2" id="DAa-c7-0aM"/>
+                                        <binding destination="-2" name="selectedIndex" keyPath="self.selectedPresentationTag" id="oDG-mY-XXA"/>
+                                    </connections>
+                                </segmentedControl>
+                                <box horizontalHuggingPriority="750" horizontalCompressionResistancePriority="10" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="zUf-L5-fGo">
+                                    <rect key="frame" x="91" y="0.0" width="5" height="18"/>
+                                </box>
+                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9U4-f6-0nG">
+                                    <rect key="frame" x="101" y="-1" width="60" height="20"/>
+                                    <buttonCell key="cell" type="check" title="reverse" bezelStyle="regularSquare" imagePosition="left" controlSize="small" state="on" inset="2" id="DMh-fo-lqX">
+                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                        <font key="font" metaFont="smallSystem"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <binding destination="-2" name="value" keyPath="self.flipGradient" id="2DZ-bg-1CX"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <visibilityPriorities>
+                                <integer value="1000"/>
+                                <integer value="1000"/>
+                                <integer value="1000"/>
+                            </visibilityPriorities>
+                            <customSpacing>
+                                <real value="3.4028234663852886e+38"/>
+                                <real value="3.4028234663852886e+38"/>
+                                <real value="3.4028234663852886e+38"/>
+                            </customSpacing>
+                        </stackView>
                     </subviews>
-                    <constraints>
-                        <constraint firstItem="vxu-kz-2GF" firstAttribute="leading" secondItem="KD6-Ph-o0U" secondAttribute="leading" constant="8" id="JWk-eX-Oz4"/>
-                        <constraint firstItem="vxu-kz-2GF" firstAttribute="leading" secondItem="KD6-Ph-o0U" secondAttribute="leading" constant="8" id="S8u-be-iKI"/>
-                        <constraint firstAttribute="bottom" secondItem="vxu-kz-2GF" secondAttribute="bottom" constant="8" id="d0T-1e-iDD"/>
-                        <constraint firstItem="vxu-kz-2GF" firstAttribute="top" secondItem="KD6-Ph-o0U" secondAttribute="top" constant="9" id="mhE-HH-EHa"/>
-                        <constraint firstAttribute="trailing" secondItem="vxu-kz-2GF" secondAttribute="trailing" constant="8" id="pan-ZV-xrJ"/>
-                    </constraints>
-                </customView>
+                    <visibilityPriorities>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                    </visibilityPriorities>
+                    <customSpacing>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                    </customSpacing>
+                </stackView>
             </subviews>
             <constraints>
-                <constraint firstItem="KD6-Ph-o0U" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="Sko-BN-WU7"/>
-                <constraint firstAttribute="bottom" secondItem="KD6-Ph-o0U" secondAttribute="bottom" id="Yss-TN-gHz"/>
-                <constraint firstItem="KD6-Ph-o0U" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="b26-Qv-rhc"/>
-                <constraint firstAttribute="trailing" secondItem="KD6-Ph-o0U" secondAttribute="trailing" id="c58-10-hEI"/>
+                <constraint firstAttribute="bottom" secondItem="6Ge-Ke-Ai6" secondAttribute="bottom" constant="4" id="6na-0x-mzR"/>
+                <constraint firstItem="6Ge-Ke-Ai6" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="dRE-CU-gcd"/>
+                <constraint firstAttribute="trailing" secondItem="6Ge-Ke-Ai6" secondAttribute="trailing" id="kW6-PG-bhp"/>
+                <constraint firstItem="6Ge-Ke-Ai6" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="wbE-VU-pDD"/>
             </constraints>
-            <point key="canvasLocation" x="92" y="154"/>
+            <point key="canvasLocation" x="92" y="153.5"/>
         </customView>
+        <userDefaultsController representsSharedInstance="YES" id="X7Z-eF-qeR"/>
     </objects>
 </document>
