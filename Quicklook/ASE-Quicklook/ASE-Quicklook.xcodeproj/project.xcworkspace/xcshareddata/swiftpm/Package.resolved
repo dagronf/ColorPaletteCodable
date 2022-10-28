@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "Defaults",
+        "repositoryURL": "https://github.com/sindresorhus/Defaults",
+        "state": {
+          "branch": "main",
+          "revision": "b23fb7b0574187218c53ae66f6aa84e68cc38816",
+          "version": null
+        }
+      },
+      {
         "package": "DSFRegex",
         "repositoryURL": "https://github.com/dagronf/DSFRegex",
         "state": {
