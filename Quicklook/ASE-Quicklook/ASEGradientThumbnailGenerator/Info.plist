@@ -9,7 +9,7 @@
 			<key>QLSupportedContentTypes</key>
 			<array>
 				<string>public.dagronf.jsoncolorgradient</string>
-				<string>org.gimp.ggr</string>
+				<string>public.dagronf.gimp.ggr</string>
 			</array>
 			<key>QLThumbnailMinimumDimension</key>
 			<integer>0</integer>

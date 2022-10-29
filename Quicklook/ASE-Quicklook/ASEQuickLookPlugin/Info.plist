@@ -14,7 +14,7 @@
 				<string>com.adobe.aco</string>
 				<string>com.apple.color-file</string>
 				<string>public.dagronf.colorpalette</string>
-				<string>org.gimp.gpl</string>
+				<string>public.dagronf.gimp.gpl</string>
 			</array>
 			<key>QLSupportsSearchableItems</key>
 			<false/>

@@ -61,7 +61,7 @@ class Document: NSDocument {
 			"com.adobe.ase",
 			"com.adobe.aco",
 			"com.apple.color-file",
-			"org.gimp.gpl",
+			"public.dagronf.gimp.gpl",
 			"RGB Text File",
 			"RGBA Text File",
 		]
