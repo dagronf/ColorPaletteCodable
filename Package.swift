@@ -12,24 +12,17 @@ let package = Package(
 		.watchOS(.v4)
 	],
 	products: [
-		.library(
-			name: "ColorPaletteCodable",
-			type: .static,
-			targets: ["ColorPaletteCodable"]
-		),
-		.library(
-			name: "ColorPaletteCodableDynamic",
-			type: .dynamic,
-			targets: ["ColorPaletteCodable"]
-		),
+		.library(name: "ColorPaletteCodable", targets: ["ColorPaletteCodable"]),
+		.library(name: "ColorPaletteCodable-static", type: .static, targets: ["ColorPaletteCodable"]),
+		.library(name: "ColorPaletteCodable-shared", type: .dynamic, targets: ["ColorPaletteCodable"]),
 	],
 	dependencies: [
-		.package(url: "https://github.com/dagronf/DSFRegex", from: "3.0.0")
+		.package(url: "https://github.com/dagronf/DSFRegex", from: "3.1.0")
 	],
 	targets: [
 		.target(
 			name: "ColorPaletteCodable",
-			dependencies: [.product(name: "DSFRegexStatic", package: "DSFRegex")]
+			dependencies: [.product(name: "DSFRegex", package: "DSFRegex")]
 		),
 		.testTarget(
 			name: "ColorPaletteCodableTests",

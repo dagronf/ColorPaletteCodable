@@ -6,7 +6,7 @@
         "repositoryURL": "https://github.com/sindresorhus/Defaults",
         "state": {
           "branch": "main",
-          "revision": "b23fb7b0574187218c53ae66f6aa84e68cc38816",
+          "revision": "be7e30ba366a7a10e198671505dbe6b4e07b76bc",
           "version": null
         }
       },
@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/dagronf/DSFRegex",
         "state": {
           "branch": null,
-          "revision": "00fb7652574f1e4a3da724adf6461b3587296129",
-          "version": "3.0.0"
+          "revision": "29f9a2924e318ab3a3c39692bcc48757cf2756e4",
+          "version": "3.1.0"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/globulus/swiftui-flow-layout",
         "state": {
           "branch": null,
-          "revision": "96f9a3fdb83fd0b73525f6324b8a35ef0dc235fd",
-          "version": "1.0.4"
+          "revision": "de7da3440c3b87ba94adfa98c698828d7746a76d",
+          "version": "1.0.5"
         }
       }
     ]
