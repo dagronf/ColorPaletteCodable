@@ -75,18 +75,19 @@ class OSLogger {
 
 #else
 
-/// A dummy log which writes to the console
-class _logger {
+// Only very basic logging support for non-OSLogger supported platforms
+
+internal class BasicLogger {
 	enum OSLogType: String {
 		case error
 	}
-
 	func log(_ type: OSLogType, _ message: StaticString, _ args: CVarArg...) {
 		let message = String(format: message.description, arguments: args)
-		Swift.print("LOG: \(type.rawValue) - \(message)")
+		Swift.print("[ASEPalette]: \(type.rawValue) - \(message)")
 	}
 }
 
-let plt_log = _logger()
+// Logger
+let ASEPaletteLogger = BasicLogger()
 
 #endif

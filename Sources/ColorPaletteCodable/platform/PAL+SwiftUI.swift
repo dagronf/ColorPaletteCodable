@@ -46,11 +46,11 @@ public extension PAL.Color {
 
 	/// Extract a SwiftUI color from this color
 	@inlinable var SwiftUIColor: Color? {
-        #if swift(<5.4)
-        return unwrapping(self.cgColor) { SwiftUI.Color($0) }
-        #else
+#if swift(<5.5)
+		return unwrapping(self.cgColor) { SwiftUI.Color($0) }
+#else
 		return unwrapping(self.cgColor) { SwiftUI.Color(cgColor: $0) }
-        #endif
+#endif
 	}
 }
 
