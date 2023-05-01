@@ -12,9 +12,12 @@
 			<array>
 				<string>com.adobe.ase</string>
 				<string>com.adobe.aco</string>
+				<string>com.adobe.act</string>
 				<string>com.apple.color-file</string>
 				<string>public.dagronf.colorpalette</string>
 				<string>public.dagronf.gimp.gpl</string>
+				<string>public.dagronf.corel.pal</string>
+				<string>public.dagronf.corel.psppalette</string>
 			</array>
 			<key>QLSupportsSearchableItems</key>
 			<false/>

@@ -21,6 +21,8 @@ extension UTType {
 
 	static let aco = UTType("com.adobe.aco")!
 
+	static let act = UTType("com.adobe.act")!
+	
 	/// NSColorList UTType
 	static let clr = UTType("com.apple.color-file")!
 

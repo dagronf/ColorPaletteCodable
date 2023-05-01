@@ -35,6 +35,7 @@ private let AvailableCoders: [PAL_PaletteCoder] = [
 	PAL.Coder.JSON(),
 	PAL.Coder.GIMP(),
 	PAL.Coder.PaintShopPro(),
+	PAL.Coder.ACT()
 ]
 
 public extension PAL.Palette {
@@ -79,18 +80,20 @@ public extension PAL.Palette {
 			return coders
 		}()
 
+		var lastError: Error = PAL.CommonError.unsupportedPaletteType
+
 		// Loop through coders that support this path extension and try each one until one works
 		for coder in coders {
 			do {
 				return try coder.decode(from: fileURL)
 			}
 			catch {
-
+				lastError = error
 			}
 		}
 
 		// None of our coders worked
-		throw PAL.CommonError.unsupportedPaletteType
+		throw lastError
 	}
 	
 	/// Decode a palette from the contents of a fileURL

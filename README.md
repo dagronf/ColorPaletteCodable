@@ -6,6 +6,7 @@ Supports the following color palette formats
 
 * Adobe Swatch Exchange (`.ase`)
 * Adobe Photoshop Color Swatch (`.aco`)
+* Adobe Color Table (`.act`)
 * NSColorList (`.clr`) *(macOS only)* 
 * RGB text files (`.rgb`)
 * RGBA text files (`.rgba`)
@@ -62,6 +63,7 @@ Some features :-
 |:-----------------|:-----------------------------------------|
 |`PAL.Coder.ASE`   | Adobe Swatch Exchange (.ase)             |
 |`PAL.Coder.ACO`   | Adobe Photoshop Color Swatch (.aco)      |
+|`PAL.Coder.ACT`   | Adobe Color Table (.act)                 |
 |`PAL.Coder.CLR`   | NSColorList (.clr) *(macOS only)*        |
 |`PAL.Coder.RGB`   | RGB text files (.rgb)                    |
 |`PAL.Coder.RGBA`  | RGB(A) text files (.rgba)                |
@@ -145,6 +147,7 @@ Palette Viewer allows you to view the contents of
 
 * Adobe Swatch Exchange files (.ase)
 * Adobe Photoshop Color Swatch files (.aco)
+* Adobe Color Table files (.act)
 * Apple ColorList files (.clr)
 * RGB/RGBA hex encoded text files (.txt)
 * GIMP text files (.gpl)
@@ -157,14 +160,15 @@ You can also save the palette to a new format (eg. saving a gimp `.gpl` format t
 ## Palette format encoding/decoding limitations
 
 |                          | File Type              | Named<br>Colors? | Named<br>palette? | Color<br>Groups? | ColorType<br>Support? | Supports<br>Colorspaces? |
-|--------------------------|------------------------|:----------------:|:-----------------:|:----------------:|:---------------------:|:------------------------:|
-| `PAL.Coder.JSON`         | JSON Text              |         ✅        |         ✅         |         ✅        |           ✅           |        ✅           |
-| `PAL.Coder.ASE`          | Binary                 |         ✅        |         ❌         |         ✅        |           ✅           |        ✅           |
-| `PAL.Coder.ACO`          | Binary                 |         ✅        |         ❌         |         ❌        |           ❌           |        ✅           |
-| `PAL.Coder.RGB/A`        | Text                   |         ✅        |         ❌         |         ❌        |           ❌           |     RGB only        |
-| `PAL.Coder.GIMP`         | Text                   |         ✅        |         ✅         |         ❌        |           ❌           |     RGB only        |
-| `PAL.Coder.PaintShopPro` | Text                   |         ❌        |         ❌         |         ❌        |           ❌           |     RGB only        |
-| `PAL.Coder.CLR`          | Binary<br>(macOS only) |         ✅        |         ❌         |         ❌        |           ❌           |        ✅           |
+|--------------------------|------------------------|:----------------:|:-----------------:|:-----------------:|:----------------------:|:--------------------:|
+| `PAL.Coder.JSON`         | JSON Text              |         ✅       |         ✅        |         ✅        |           ✅           |        ✅           |
+| `PAL.Coder.ASE`          | Binary                 |         ✅       |         ❌        |         ✅        |           ✅           |        ✅           |
+| `PAL.Coder.ACO`          | Binary                 |         ✅       |         ❌        |         ❌        |           ❌           |        ✅           |
+| `PAL.Coder.ACT`          | Binary                 |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
+| `PAL.Coder.RGB/A`        | Text                   |         ✅       |         ❌        |         ❌        |           ❌           |     RGB only        |
+| `PAL.Coder.GIMP`         | Text                   |         ✅       |         ✅        |         ❌        |           ❌           |     RGB only        |
+| `PAL.Coder.PaintShopPro` | Text                   |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
+| `PAL.Coder.CLR`          | Binary<br>(macOS only) |         ✅       |         ❌        |         ❌        |           ❌           |        ✅           |
 
 *(A ColorType represents the type of color (global/spot/normal))*
 
@@ -233,12 +237,14 @@ swift test --enable-test-discovery
 
 Note that the /src directory in the Linux container is a direct mirror of the current directory on the host OS, not a copy. If you delete a file in /src in the Linux container, that file will be gone on the host OS, too.
 
-## ASE/ACO formats
+## ASE/ACO/ACT formats
 
 The `.ase` file format is not formally defined, however there are a number of deconstructions available on the web.
 I used the breakdown of the format defined [here](http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase).
 
-The `.aco` file format is defined [here](https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577411_pgfId-1070626).
+The `.aco` file format is defined [here](https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577411_pgfId-1055819).
+
+The `.act` file format is defined [here](https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577411_pgfId-1070626).
 
 ## License
 

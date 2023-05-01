@@ -78,6 +78,7 @@ public extension PAL.Coder.ACO {
 
 				let colorSpace: UInt16 = try readIntegerBigEndian(inputStream)
 				guard let cs = ACO_Colorspace(rawValue: colorSpace) else {
+					Swift.print("ACOPaletteCoder: Unsupported colorspace \(colorSpace)")
 					throw PAL.CommonError.unsupportedColorSpace
 				}
 
@@ -114,8 +115,10 @@ public extension PAL.Coder.ACO {
 					color = try PAL.Color(name: name, colorSpace: .Gray, colorComponents: [Float32(c0) / 10000])
 
 				case .LAB:
+					Swift.print("ACOPaletteCoder: Unsupported colorspace LAB")
 					throw PAL.CommonError.unsupportedColorSpace
 				case .HSB:
+					Swift.print("ACOPaletteCoder: Unsupported colorspace HSB")
 					throw PAL.CommonError.unsupportedColorSpace
 				}
 
@@ -126,6 +129,7 @@ public extension PAL.Coder.ACO {
 					v2Colors.append(color)
 				}
 				else {
+					Swift.print("ACOPaletteCoder: Unexpected version \(type)")
 					throw PAL.CommonError.invalidVersion
 				}
 			}
@@ -147,7 +151,6 @@ public extension PAL.Coder.ACO {
 		// Write out both v1 and v2 colors
 		try (1 ... 2).forEach { type in
 			outputData.append(try writeUInt16BigEndian(UInt16(type)))
-
 			outputData.append(try writeUInt16BigEndian(UInt16(palette.colors.count)))
 
 			for color in palette.colors {

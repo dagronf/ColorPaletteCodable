@@ -48,6 +48,20 @@
 		</dict>
 		<dict>
 			<key>CFBundleTypeName</key>
+			<string>Adobe Color Table</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.adobe.act</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>$(PRODUCT_MODULE_NAME).Document</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
 			<string>Color Text File</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
@@ -182,6 +196,25 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>aco</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Adobe Color Table</string>
+			<key>UTTypeIcons</key>
+			<dict/>
+			<key>UTTypeIdentifier</key>
+			<string>com.adobe.act</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>act</string>
 				</array>
 			</dict>
 		</dict>
