@@ -29,7 +29,7 @@ import Foundation
 public extension PAL.Coder {
 	/// A JSON encoder/decoder
 	struct JSON: PAL_PaletteCoder {
-		public let fileExtension = "jsoncolorpalette"
+		public let fileExtension = ["jsoncolorpalette"]
 
 		/// Should the output be pretty-printed?
 		public let prettyPrint: Bool

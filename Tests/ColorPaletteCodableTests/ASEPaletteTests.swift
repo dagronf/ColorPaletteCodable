@@ -21,7 +21,7 @@ final class ASEPaletteTests: XCTestCase {
 		// Loop through all the resource files
 		Swift.print("Round-tripping ASE files...'")
 		
-		let coder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
+		let coder = try XCTUnwrap(PAL.Palette.firstCoder(for: "ase"))
 		
 		for name in ase_resources {
 			let controlASE = try XCTUnwrap(Bundle.module.url(forResource: name, withExtension: "ase"))
@@ -47,7 +47,7 @@ final class ASEPaletteTests: XCTestCase {
 	}
 	
 	func testBasic() throws {
-		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
+		let paletteCoder = try XCTUnwrap(PAL.Palette.firstCoder(for: "ase"))
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
 		let origData = try Data(contentsOf: controlASE)
 		let palette = try paletteCoder.decode(from: controlASE)
@@ -58,7 +58,7 @@ final class ASEPaletteTests: XCTestCase {
 	}
 	
 	func testSimpleLoad() throws {
-		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
+		let paletteCoder = try XCTUnwrap(PAL.Palette.firstCoder(for: "ase"))
 		
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
 		let palette = try paletteCoder.decode(from: controlASE)
@@ -69,7 +69,7 @@ final class ASEPaletteTests: XCTestCase {
 	}
 	
 	func testNextUltraMattes() throws {
-		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
+		let paletteCoder = try XCTUnwrap(PAL.Palette.firstCoder(for: "ase"))
 		
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "Ultra-Mattes Reverse", withExtension: "ase"))
 		let palette = try paletteCoder.decode(from: controlASE)
@@ -81,7 +81,7 @@ final class ASEPaletteTests: XCTestCase {
 	}
 	
 	func testNextWisteric() throws {
-		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
+		let paletteCoder = try XCTUnwrap(PAL.Palette.firstCoder(for: "ase"))
 		
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "wisteric-17", withExtension: "ase"))
 		let palette = try paletteCoder.decode(from: controlASE)
@@ -91,7 +91,7 @@ final class ASEPaletteTests: XCTestCase {
 	}
 	
 	func testMulti() throws {
-		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
+		let paletteCoder = try XCTUnwrap(PAL.Palette.firstCoder(for: "ase"))
 		
 		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "24 colour palettes", withExtension: "ase"))
 		let palette = try paletteCoder.decode(from: controlASE)
@@ -104,7 +104,7 @@ final class ASEPaletteTests: XCTestCase {
 	}
 	
 	func testWriteRead() throws {
-		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
+		let paletteCoder = try XCTUnwrap(PAL.Palette.firstCoder(for: "ase"))
 		
 		do {
 			let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
@@ -143,7 +143,7 @@ final class ASEPaletteTests: XCTestCase {
 	}
 	
 	func testDoco1() throws {
-		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
+		let paletteCoder = try XCTUnwrap(PAL.Palette.firstCoder(for: "ase"))
 		
 		var palette = PAL.Palette()
 		let c1 = try PAL.Color(name: "red", colorSpace: .RGB, colorComponents: [1, 0, 0])

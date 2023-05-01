@@ -62,6 +62,7 @@ class Document: NSDocument {
 			"com.adobe.aco",
 			"com.apple.color-file",
 			"public.dagronf.gimp.gpl",
+			"public.dagronf.corel.psppalette",
 			"RGB Text File",
 			"RGBA Text File",
 		]
@@ -78,7 +79,7 @@ class Document: NSDocument {
 		if
 			let t = UTType(typeName),
 			let extn = t.preferredFilenameExtension,
-			let coder = PAL.Palette.coder(for: extn)
+			let coder = PAL.Palette.coder(for: extn).first
 		{
 			return try coder.encode(pal)
 		}

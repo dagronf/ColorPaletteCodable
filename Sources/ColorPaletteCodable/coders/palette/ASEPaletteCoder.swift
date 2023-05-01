@@ -29,7 +29,7 @@ import Foundation
 /// An ASE file reader, based on [the format defined here](http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase)
 public extension PAL.Coder {
 	struct ASE: PAL_PaletteCoder {
-		public let fileExtension = "ase"
+		public let fileExtension = ["ase"]
 		public init() {}
 	}
 }

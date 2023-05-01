@@ -34,19 +34,30 @@ private let AvailableCoders: [PAL_PaletteCoder] = [
 	PAL.Coder.RGBA(),
 	PAL.Coder.JSON(),
 	PAL.Coder.GIMP(),
+	PAL.Coder.PaintShopPro(),
 ]
 
 public extension PAL.Palette {
 	/// Returns a coder for the specified fileExtension
-	static func coder(for fileExtension: String) -> PAL_PaletteCoder? {
+	static func coder(for fileExtension: String) -> [PAL_PaletteCoder] {
 		let lext = fileExtension.lowercased()
-		return AvailableCoders.first(where: { $0.fileExtension == lext })
+		return AvailableCoders.filter({ $0.fileExtension.contains(lext) })
 	}
 	
 	/// Returns a coder for the specified fileURL
-	static func coder(for fileURL: URL) -> PAL_PaletteCoder? {
+	static func coder(for fileURL: URL) -> [PAL_PaletteCoder] {
 		let lext = fileURL.pathExtension.lowercased()
-		return AvailableCoders.first(where: { $0.fileExtension == lext })
+		return AvailableCoders.filter({ $0.fileExtension.contains(lext) })
+	}
+
+	/// Returns the first coder for the file type
+	@inlinable static func firstCoder(for fileExtension: String) -> PAL_PaletteCoder? {
+		PAL.Palette.coder(for: fileExtension).first
+	}
+
+	/// Returns the first coder for the file type
+	@inlinable static func firstCoder(for fileURL: URL) -> PAL_PaletteCoder? {
+		PAL.Palette.coder(for: fileURL).first
 	}
 	
 	/// Decode a palette from the contents of a fileURL
@@ -55,16 +66,31 @@ public extension PAL.Palette {
 	///   - coder: If set, provides a coder to use instead if using the fileURL extension
 	/// - Returns: A palette
 	static func Decode(from fileURL: URL, usingCoder coder: PAL_PaletteCoder? = nil) throws -> PAL.Palette {
-		let coder: PAL_PaletteCoder = try {
+		let coders: [PAL_PaletteCoder] = try {
 			if let coder = coder {
-				return coder
+				return [coder]
 			}
-			guard let coder = self.coder(for: fileURL.pathExtension) else {
+
+			let coders = self.coder(for: fileURL.pathExtension)
+			guard coders.count > 0 else {
 				throw PAL.CommonError.unsupportedCoderType
 			}
-			return coder
+
+			return coders
 		}()
-		return try coder.decode(from: fileURL)
+
+		// Loop through coders that support this path extension and try each one until one works
+		for coder in coders {
+			do {
+				return try coder.decode(from: fileURL)
+			}
+			catch {
+
+			}
+		}
+
+		// None of our coders worked
+		throw PAL.CommonError.unsupportedPaletteType
 	}
 	
 	/// Decode a palette from the contents of a fileURL
@@ -73,21 +99,34 @@ public extension PAL.Palette {
 	///   - fileExtension: The expected file extension for the data
 	/// - Returns: A palette
 	static func Decode(from data: Data, fileExtension: String) throws -> PAL.Palette {
-		guard let coder = self.coder(for: fileExtension) else {
+		let coders = self.coder(for: fileExtension)
+		guard coders.count > 0 else {
 			throw PAL.CommonError.unsupportedCoderType
 		}
-		return try coder.decode(from: data)
+
+		// Loop through coders that support this path extension and try each one until one works
+		for coder in coders {
+			do {
+				return try coder.decode(from: data)
+			}
+			catch {
+
+			}
+		}
+
+		// None of our coders worked
+		throw PAL.CommonError.unsupportedPaletteType
 	}
 	
-	/// Encode the specified palette using the specified coder
-	/// - Parameters:
-	///   - palette: The palette to encode
-	///   - fileExtension: The coder to use for the encoded data
-	/// - Returns: The encoded data
-	static func Encode(_ palette: PAL.Palette, fileExtension: String) throws -> Data {
-		guard let coder = self.coder(for: fileExtension) else {
-			throw PAL.CommonError.unsupportedCoderType
-		}
-		return try coder.encode(palette)
-	}
+//	/// Encode the specified palette using the specified coder
+//	/// - Parameters:
+//	///   - palette: The palette to encode
+//	///   - fileExtension: The coder to use for the encoded data
+//	/// - Returns: The encoded data
+//	static func Encode(_ palette: PAL.Palette, fileExtension: String) throws -> Data {
+//		guard let coder = self.coder(for: fileExtension) else {
+//			throw PAL.CommonError.unsupportedCoderType
+//		}
+//		return try coder.encode(palette)
+//	}
 }

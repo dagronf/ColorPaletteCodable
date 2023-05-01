@@ -13,7 +13,7 @@ final class CLRPaletteTests: XCTestCase {
 		// Loop through all the resource files
 		Swift.print("Round-tripping CLR files...'")
 		
-		let coder = try XCTUnwrap(PAL.Palette.coder(for: "clr"))
+		let coder = try XCTUnwrap(PAL.Palette.firstCoder(for: "clr"))
 		
 		for name in clrResources {
 			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: name, withExtension: "clr"))

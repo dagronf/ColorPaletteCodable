@@ -34,7 +34,7 @@ public extension PAL {
 /// A Palette coder protocol
 public protocol PAL_PaletteCoder {
 	/// The extension for the file, or a unique name for identifying the coder type.
-	var fileExtension: String { get }
+	var fileExtension: [String] { get }
 
 	/// Create a palette from an input stream
 	func decode(from inputStream: InputStream) throws -> PAL.Palette

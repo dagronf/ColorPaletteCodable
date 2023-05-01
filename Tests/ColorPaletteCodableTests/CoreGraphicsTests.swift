@@ -7,7 +7,7 @@ import CoreGraphics
 
 final class CoreGraphicsTests: XCTestCase {
 	func testCGColorThings() throws {
-		let paletteCoder = try XCTUnwrap(PAL.Palette.coder(for: "ase"))
+		let paletteCoder = try XCTUnwrap(PAL.Palette.firstCoder(for: "ase"))
 
 		do {
 			let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))

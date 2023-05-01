@@ -31,7 +31,7 @@ import Foundation
 // Based on the discussion here: https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577411_pgfId-1070626
 public extension PAL.Coder {
 	struct ACO: PAL_PaletteCoder {
-		public let fileExtension = "aco"
+		public let fileExtension = ["aco"]
 		public init() {}
 	}
 }

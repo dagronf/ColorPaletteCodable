@@ -10,6 +10,7 @@ Supports the following color palette formats
 * RGB text files (`.rgb`)
 * RGBA text files (`.rgba`)
 * GIMP palette files (`.gpl`)
+* Paint Shop Pro files (`.pal`, `.psppalette`)
 * JSON encoded color files (`.jsoncolorpalette`) *ColorPaletteCodable internal file format*
 
 <p align="center">
@@ -66,6 +67,7 @@ Some features :-
 |`PAL.Coder.RGBA`  | RGB(A) text files (.rgba)                |
 |`PAL.Coder.GIMP`  | GIMP palette files (.gpl)                |
 |`PAL.Coder.JSON`  | JSON encoded palette (.jsoncolorpalette) |
+|`PAL.Coder.PaintShopPro`  | Paint Shop Pro palette (.pal;.psppalette)  |
 
 ## Tasks
 
@@ -145,6 +147,8 @@ Palette Viewer allows you to view the contents of
 * Adobe Photoshop Color Swatch files (.aco)
 * Apple ColorList files (.clr)
 * RGB/RGBA hex encoded text files (.txt)
+* GIMP text files (.gpl)
+* JASC Paint Shop Pro (Corel) text files (.pal)
 
 You can drag colors out of the preview window into applications that support dropping of `NSColor` instances.
 
@@ -152,14 +156,15 @@ You can also save the palette to a new format (eg. saving a gimp `.gpl` format t
 
 ## Palette format encoding/decoding limitations
 
-|                   | File Type              | Named<br>Colors? | Named<br>palette? | Color<br>Groups? | ColorType<br>Support? | Supports<br>Colorspaces? |
-|-------------------|------------------------|:----------------:|:-----------------:|:----------------:|:---------------------:|:------------------------:|
-| `PAL.Coder.JSON`  | JSON Text              |         ✅        |         ✅         |         ✅        |           ✅           |             ✅            |
-| `PAL.Coder.ASE`   | Binary                 |         ✅        |         ❌         |         ✅        |           ✅           |             ✅            |
-| `PAL.Coder.ACO`   | Binary                 |         ✅        |         ❌         |         ❌        |           ❌           |             ✅            |
-| `PAL.Coder.RGB/A` | Text                   |         ✅        |         ❌         |         ❌        |           ❌           |         RGB only         |
-| `PAL.Coder.GIMP`  | Text                   |         ✅        |         ✅         |         ❌        |           ❌           |         RGB only         |
-| `PAL.Coder.CLR`   | Binary<br>(macOS only) |         ✅        |         ❌         |         ❌        |           ❌           |             ✅            |
+|                          | File Type              | Named<br>Colors? | Named<br>palette? | Color<br>Groups? | ColorType<br>Support? | Supports<br>Colorspaces? |
+|--------------------------|------------------------|:----------------:|:-----------------:|:----------------:|:---------------------:|:------------------------:|
+| `PAL.Coder.JSON`         | JSON Text              |         ✅        |         ✅         |         ✅        |           ✅           |        ✅           |
+| `PAL.Coder.ASE`          | Binary                 |         ✅        |         ❌         |         ✅        |           ✅           |        ✅           |
+| `PAL.Coder.ACO`          | Binary                 |         ✅        |         ❌         |         ❌        |           ❌           |        ✅           |
+| `PAL.Coder.RGB/A`        | Text                   |         ✅        |         ❌         |         ❌        |           ❌           |     RGB only        |
+| `PAL.Coder.GIMP`         | Text                   |         ✅        |         ✅         |         ❌        |           ❌           |     RGB only        |
+| `PAL.Coder.PaintShopPro` | Text                   |         ❌        |         ❌         |         ❌        |           ❌           |     RGB only        |
+| `PAL.Coder.CLR`          | Binary<br>(macOS only) |         ✅        |         ❌         |         ❌        |           ❌           |        ✅           |
 
 *(A ColorType represents the type of color (global/spot/normal))*
 

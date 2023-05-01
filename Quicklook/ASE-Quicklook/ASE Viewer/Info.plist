@@ -90,6 +90,34 @@
 		</dict>
 		<dict>
 			<key>CFBundleTypeName</key>
+			<string>Paint Shop Pro Palette</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.dagronf.corel.pal</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>$(PRODUCT_MODULE_NAME).Document</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Paint Shop Pro Palette File</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.dagronf.corel.psppalette</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>$(PRODUCT_MODULE_NAME).Document</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
 			<string>GIMP Gradient File</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
@@ -192,6 +220,44 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>gpl</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.text</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Paint Shop Pro Palette File</string>
+			<key>UTTypeIcons</key>
+			<dict/>
+			<key>UTTypeIdentifier</key>
+			<string>public.dagronf.corel.pal</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>pal</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.text</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Paint Shop Pro Palette File</string>
+			<key>UTTypeIcons</key>
+			<dict/>
+			<key>UTTypeIdentifier</key>
+			<string>public.dagronf.corel.psppalette</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>psppalette</string>
 				</array>
 			</dict>
 		</dict>

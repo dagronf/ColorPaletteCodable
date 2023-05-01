@@ -80,6 +80,51 @@ public extension PAL {
 	}
 }
 
+// MARK: initializers
+
+public extension PAL.Color {
+	/// Create a color object from a rgb hex string (eg. "12E5B4" or "#12E5B4")
+	///
+	/// Supported hex formats :-
+	/// - [#]FFF      : RGB color
+	/// - [#]FFFF     : RGBA color
+	/// - [#]FFFFFF   : RGB color
+	/// - [#]FFFFFFFF : RGBA color
+	init(name: String = "", rgbHexString: String, colorType: PAL.ColorType = .normal) throws {
+		guard let color = Self.fromHexString(rgbHexString) else {
+			throw PAL.CommonError.invalidRGBHexString(rgbHexString)
+		}
+		try self.init(
+			name: name,
+			colorSpace: .RGB,
+			colorComponents: [color.r, color.g, color.b],
+			colorType: colorType,
+			alpha: color.a)
+	}
+
+	/// Create a color objec from 0 -> 255 component values
+	/// - Parameters:
+	///   - name: The color name
+	///   - r: Red component
+	///   - g: Green component
+	///   - b: Blue component
+	///   - a: Alpha component
+	///   - colorType: The type of color
+	init(name: String = "", r: UInt8, g: UInt8, b: UInt8, a: UInt8 = 255, colorType: PAL.ColorType = .global) throws {
+		try self.init(
+			name: name,
+			colorSpace: .RGB,
+			colorComponents: [
+				Float32(r.clamped(to: 0 ... 255)) / 255.0,
+				Float32(g.clamped(to: 0 ... 255)) / 255.0,
+				Float32(b.clamped(to: 0 ... 255)) / 255.0
+			],
+			colorType: colorType,
+			alpha: Float32(a.clamped(to: 0 ... 255)) / 255.0
+		)
+	}
+}
+
 public extension PAL.Color {
 	/// Return a copy of this color with the specified alpha value
 	func withAlpha(_ alphaValue: Float32) throws -> PAL.Color {
@@ -135,29 +180,6 @@ public extension PAL.Color {
 	/// - Returns: A new color with the specified namespace
 	func converted(to colorspace: PAL.ColorSpace) throws -> PAL.Color {
 		return try PAL_ColorSpaceConverter.convert(color: self, to: colorspace)
-	}
-}
-
-// MARK: Hex color initializers
-
-public extension PAL.Color {
-	/// Create a color object from a rgb hex string (eg. "12E5B4" or "#12E5B4")
-	///
-	/// Supported hex formats :-
-	/// - [#]FFF      : RGB color
-	/// - [#]FFFF     : RGBA color
-	/// - [#]FFFFFF   : RGB color
-	/// - [#]FFFFFFFF : RGBA color
-	init(name: String = "", rgbHexString: String, colorType: PAL.ColorType = .normal) throws {
-		guard let color = Self.fromHexString(rgbHexString) else {
-			throw PAL.CommonError.invalidRGBHexString(rgbHexString)
-		}
-		try self.init(
-			name: name,
-			colorSpace: .RGB,
-			colorComponents: [color.r, color.g, color.b],
-			colorType: colorType,
-			alpha: color.a)
 	}
 }
 

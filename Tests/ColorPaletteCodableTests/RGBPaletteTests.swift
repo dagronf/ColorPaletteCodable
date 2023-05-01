@@ -38,7 +38,7 @@ class RGBPaletteTests: XCTestCase {
 		XCTAssertEqual(palette.colors[6].alpha, 0.7019, accuracy: 0.0001)
 
 		// Write out as RGBA
-		let data = try PAL.Palette.Encode(palette, fileExtension: "rgba")
+		let data = try PAL.Coder.RGBA().encode(palette)
 
 		// The input and output files should be identical
 		let o = String(data: origData, encoding: .utf8)!
