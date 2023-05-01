@@ -8,6 +8,19 @@ class GIMPPaletteTests: XCTestCase {
 	// You can find palette files in
 	//  /Applications/GIMP-2.10.app/Contents/Resources/share/gimp/2.0/palettes/
 
+	func testAll() throws {
+		let files = ["atari-800xl-palette", "Caramel", "Default", "pear36-sep-rn"]
+		try files.forEach { file in
+			let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: file, withExtension: "gpl"))
+			let palette = try PAL.Palette.Decode(from: paletteURL)
+			XCTAssertGreaterThan(palette.colors.count, 0)
+			let data = try PAL.Coder.GIMP().encode(palette)
+			let palette2 = try PAL.Palette.Decode(from: data, fileExtension: "gpl")
+			XCTAssertGreaterThan(palette2.colors.count, 0)
+			XCTAssertEqual(palette.colors.count, palette2.colors.count)
+		}
+	}
+
 	func testBasicDefault() throws {
 		let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: "Default", withExtension: "gpl"))
 		let palette = try PAL.Palette.Decode(from: paletteURL)
@@ -63,5 +76,13 @@ class GIMPPaletteTests: XCTestCase {
 		let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: "pear36-sep-rn", withExtension: "gpl"))
 		let palette = try PAL.Palette.Decode(from: paletteURL)
 		XCTAssertEqual(36, palette.colors.count)
+	}
+
+	func testUnableToLoadGPL() throws {
+		// This file has a UTF8 bom
+		let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: "atari-800xl-palette", withExtension: "gpl"))
+		let palette = try PAL.Palette.Decode(from: paletteURL)
+		XCTAssertEqual("Atari 800XL Palette", palette.name)
+		XCTAssertEqual(256, palette.colors.count)
 	}
 }

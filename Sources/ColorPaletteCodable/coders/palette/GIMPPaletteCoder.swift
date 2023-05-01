@@ -37,39 +37,32 @@ public extension PAL.Coder {
 public extension PAL.Coder.GIMP {
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
 		let allData = inputStream.readAllData()
-		guard let content = String(data: allData, encoding: .utf8) else {
+		guard let content = String(data: allData, encoding: allData.stringEncoding ?? .utf8) else {
 			throw PAL.CommonError.invalidFormat
 		}
 
 		let lines = content.split(whereSeparator: \.isNewline)
-		guard
-			lines.count > 0,
-			lines[0] == "GIMP Palette"
-		else {
+		guard lines.count > 0, lines[0].contains("GIMP Palette") else {
 			throw PAL.CommonError.invalidFormat
 		}
 
 		var palette = PAL.Palette()
 
-		let regex = try DSFRegex(#"^\s*(\d+)\s+(\d+)\s+(\d+)(.*)$"#)
+		// Regex to find the name
+		let nameRegex = try DSFRegex(#"^Name:\s*(.*)$"#)
+		// Regex for the color line(s)
+		let colorRegex = try DSFRegex(#"^\s*(\d+)\s+(\d+)\s+(\d+)(.*)$"#)
 
 		for line in lines.dropFirst() {
-			if line.starts(with: "Name:") {
-				//Name:  Web design
-				let colorlistName = line.suffix(line.count - 5).trimmingCharacters(in: .whitespacesAndNewlines)
-				if colorlistName.count > 0 {
-					palette.name = colorlistName
-				}
-			}
-			else if line.starts(with: "#") {
+			let lineStr = String(line)
+
+			if let match = nameRegex.matches(for: lineStr).matches.first {
+				let colorlistName = lineStr[match.captures[0]]
+				palette.name = String(colorlistName)
 				continue
 			}
 
-			let lineStr = String(line)
-
-			let searchResult = regex.matches(for: lineStr)
-
-			for match in searchResult {
+			if let match = colorRegex.matches(for: lineStr).matches.first {
 				let rs = lineStr[match.captures[0]]
 				let gs = lineStr[match.captures[1]]
 				let bs = lineStr[match.captures[2]]
