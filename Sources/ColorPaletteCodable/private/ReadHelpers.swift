@@ -102,13 +102,13 @@ internal func readPascalStyleUnicodeString(_ inputStream: InputStream) throws ->
 	var data = Data()
 	try (0 ..< length).forEach { index in
 		let ch: Data = try readData(inputStream, size: 2)
-
-		if index == length - 1, ch != Common.DataTwoZeros {
-			throw PAL.CommonError.invalidUnicodeFormatString
-		}
 		data.append(ch)
 	}
-	return String(data: data.dropLast(), encoding: .utf16BigEndian) ?? ""
+
+	if data.last == 0x00 {
+		data = data.dropLast()
+	}
+	return String(data: data, encoding: .utf16BigEndian) ?? ""
 }
 
 // Fixed length of ascii (single byte) characters

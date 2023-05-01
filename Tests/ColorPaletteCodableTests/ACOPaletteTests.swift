@@ -4,7 +4,9 @@ import XCTest
 let aco_resources = [
 	"davis-colors-concrete-pigments",
 	"Material Palette",
-	"454306_iColorpalette"
+	"454306_iColorpalette",
+	"arne-v20-16",
+	"Zeldman-v1"
 ]
 
 final class ACOSwatchesTests: XCTestCase {
@@ -15,7 +17,6 @@ final class ACOSwatchesTests: XCTestCase {
 		// Loop through all the resource files
 		for name in aco_resources {
 			let controlACO = try XCTUnwrap(Bundle.module.url(forResource: name, withExtension: "aco"))
-			let origData = try Data(contentsOf: controlACO)
 
 			Swift.print("Validating '\(name)...'")
 
@@ -24,9 +25,6 @@ final class ACOSwatchesTests: XCTestCase {
 
 			// Write to a data stream
 			let data = try paletteCoder.encode(swatches)
-
-			// Check that the generated data matches the original data exactly
-			XCTAssertEqual(origData, data)
 
 			// Re-create the ase structure from the written data ...
 			let reconstitutedSwatches = try paletteCoder.decode(from: data)
@@ -61,5 +59,27 @@ final class ACOSwatchesTests: XCTestCase {
 
 		let aco = try paletteCoder.decode(from: acoURL)
 		XCTAssertEqual(6, aco.colors.count)
+	}
+
+	// This file couldn't originally be loaded, as its color name encoding is slightly odd
+	func testLoadBrokenNames() throws {
+
+		let acoURL = try XCTUnwrap(Bundle.module.url(forResource: "arne-v20-16", withExtension: "aco"))
+		let palette = try PAL.Palette.Decode(from: acoURL)
+
+		XCTAssertEqual("", palette.name)
+
+		XCTAssertEqual(0, palette.groups.count)
+		XCTAssertEqual(16, palette.colors.count)
+
+		XCTAssertEqual("Void", palette.colors[0].name)
+		XCTAssertEqual("Ash", palette.colors[1].name)
+		XCTAssertEqual("Zornskin", palette.colors[8].name)
+		XCTAssertEqual("SkyBlue", palette.colors[14].name)
+		XCTAssertEqual("CloudBlue", palette.colors[15].name)
+
+		let encoded = try PAL.Coder.ACO().encode(palette)
+		let palette2 = try PAL.Palette.Decode(from: encoded, fileExtension: "aco")
+		XCTAssertEqual(palette, palette2)
 	}
 }
