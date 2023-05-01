@@ -71,6 +71,15 @@ internal func readIntegerBigEndian<ValueType: FixedWidthInteger>(_ inputStream: 
 	return result
 }
 
+// Read a little-endian integer value from the input stream
+internal func readIntegerLittleEndian<ValueType: FixedWidthInteger>(_ inputStream: InputStream) throws -> ValueType {
+	let rawData = try readData(inputStream, size: MemoryLayout<ValueType>.size)
+	guard let result = rawData.parseLittleEndian(type: ValueType.self) else {
+		throw PAL.CommonError.invalidIntegerValue
+	}
+	return result
+}
+
 // Read a 0-terminated string of uint16 double-byte characters
 internal func readZeroTerminatedUTF16String(_ inputStream: InputStream) throws -> String {
 	guard inputStream.hasBytesAvailable else {

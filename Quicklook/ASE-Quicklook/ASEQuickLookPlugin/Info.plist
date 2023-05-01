@@ -18,6 +18,7 @@
 				<string>public.dagronf.gimp.gpl</string>
 				<string>public.dagronf.corel.pal</string>
 				<string>public.dagronf.corel.psppalette</string>
+				<string>public.dagronf.microsoft.riff.palette</string>
 			</array>
 			<key>QLSupportsSearchableItems</key>
 			<false/>

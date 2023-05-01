@@ -12,6 +12,7 @@ Supports the following color palette formats
 * RGBA text files (`.rgba`)
 * GIMP palette files (`.gpl`)
 * Paint Shop Pro files (`.pal`, `.psppalette`)
+* Microsoft RIFF palette files (`.pal`) *(read only)*
 * JSON encoded color files (`.jsoncolorpalette`) *ColorPaletteCodable internal file format*
 
 <p align="center">
@@ -70,6 +71,7 @@ Some features :-
 |`PAL.Coder.GIMP`  | GIMP palette files (.gpl)                |
 |`PAL.Coder.JSON`  | JSON encoded palette (.jsoncolorpalette) |
 |`PAL.Coder.PaintShopPro`  | Paint Shop Pro palette (.pal;.psppalette)  |
+|`PAL.Coder.RIFF`  | Microsoft RIFF palette (.pal)  |
 
 ## Tasks
 
@@ -151,7 +153,8 @@ Palette Viewer allows you to view the contents of
 * Apple ColorList files (.clr)
 * RGB/RGBA hex encoded text files (.txt)
 * GIMP text files (.gpl)
-* JASC Paint Shop Pro (Corel) text files (.pal)
+* JASC Paint Shop Pro (Corel) text files (.pal, .psppalette)
+* Microsoft RIFF Palette (.pal)
 
 You can drag colors out of the preview window into applications that support dropping of `NSColor` instances.
 
@@ -169,6 +172,7 @@ You can also save the palette to a new format (eg. saving a gimp `.gpl` format t
 | `PAL.Coder.GIMP`         | Text                   |         ✅       |         ✅        |         ❌        |           ❌           |     RGB only        |
 | `PAL.Coder.PaintShopPro` | Text                   |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
 | `PAL.Coder.CLR`          | Binary<br>(macOS only) |         ✅       |         ❌        |         ❌        |           ❌           |        ✅           |
+| `PAL.Coder.RIFF`         | Binary                 |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
 
 *(A ColorType represents the type of color (global/spot/normal))*
 
