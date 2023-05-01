@@ -27,6 +27,7 @@
 import Foundation
 
 /// A Microsoft RIFF palette file reader
+/// See https://www.codeproject.com/Articles/1172812/Loading-Microsoft-RIFF-Palette-pal-Files-with-Csha
 public extension PAL.Coder {
 	struct RIFF: PAL_PaletteCoder {
 		public let fileExtension = ["pal"]
