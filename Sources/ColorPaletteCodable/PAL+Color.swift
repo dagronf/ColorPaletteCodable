@@ -123,6 +123,28 @@ public extension PAL.Color {
 			alpha: Float32(a.clamped(to: 0 ... 255)) / 255.0
 		)
 	}
+
+	/// Create a color objec from 0 -> 255 component values
+	/// - Parameters:
+	///   - name: The color name
+	///   - r: Red component
+	///   - g: Green component
+	///   - b: Blue component
+	///   - a: Alpha component
+	///   - colorType: The type of color
+	init(name: String = "", rf: Float32, gf: Float32, bf: Float32, af: Float32 = 1.0, colorType: PAL.ColorType = .global) throws {
+		try self.init(
+			name: name,
+			colorSpace: .RGB,
+			colorComponents: [
+				Float32(rf.clamped(to: 0.0 ... 1.0)) / 1.0,
+				Float32(gf.clamped(to: 0.0 ... 1.0)) / 1.0,
+				Float32(bf.clamped(to: 0.0 ... 1.0)) / 1.0
+			],
+			colorType: colorType,
+			alpha: Float32(af.clamped(to: 0.0 ... 1.0)) / 1.0
+		)
+	}
 }
 
 public extension PAL.Color {

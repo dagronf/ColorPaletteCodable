@@ -14,6 +14,7 @@ let ase_resources = [
 	"sw-colors-name-ede-ase",
 	"zenit-241",
 	"color-cubes",
+	"ADG3-CMYK",
 ]
 
 final class ASEPaletteTests: XCTestCase {

@@ -36,7 +36,8 @@ private let AvailableCoders: [PAL_PaletteCoder] = [
 	PAL.Coder.GIMP(),
 	PAL.Coder.PaintShopPro(),
 	PAL.Coder.ACT(),
-	PAL.Coder.RIFF()
+	PAL.Coder.RIFF(),
+	PAL.Coder.SketchPalette()
 ]
 
 public extension PAL.Palette {

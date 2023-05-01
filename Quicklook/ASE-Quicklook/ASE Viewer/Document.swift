@@ -64,6 +64,7 @@ class Document: NSDocument {
 			"com.apple.color-file",
 			"public.dagronf.gimp.gpl",
 			"public.dagronf.corel.psppalette",
+			"com.bohemiancoding.sketch.palette",
 			"RGB Text File",
 			"RGBA Text File",
 		]
