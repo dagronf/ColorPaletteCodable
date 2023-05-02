@@ -6,7 +6,7 @@ import Foundation
 class SketchPaletteTests: XCTestCase {
 
 	func testAllRoundTrip() throws {
-		let files = ["ios", "material-design", "sketch-default", "iOS-Material-FlatUI"]
+		let files = ["ios", "material-design", "sketch-default", "iOS-Material-FlatUI", "emoji-average-colors.gpl"]
 		try files.forEach { file in
 			let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: file, withExtension: "sketchpalette"))
 			let palette = try PAL.Palette.Decode(from: paletteURL)

@@ -8,7 +8,7 @@
 #if os(macOS)
 
 import SwiftUI
-import SwiftUIFlowLayout
+import DSFAppearanceManager
 import UniformTypeIdentifiers
 
 import ColorPaletteCodable
@@ -60,13 +60,7 @@ struct GroupingView: View {
 			}
 			.padding(4)
 
-			FlowLayout(mode: .scrollable,
-						  items: colors,
-						  itemSpacing: 1) {
-				ColorView(color: $0)
-					.frame(width: 26, height: 26)
-			}
-			.padding(EdgeInsets(top: 0, leading: 8, bottom: 4, trailing: 8))
+			ColorGroup(color: colors)
 
 			Divider()
 				.padding(EdgeInsets(top: 4, leading: 8, bottom: -4, trailing: 8))
@@ -208,3 +202,256 @@ struct PALColorView_Previews: PreviewProvider {
 #endif
 
 #endif
+
+
+
+////////
+
+
+struct ColorGroup: NSViewRepresentable {
+
+	let color: [PAL.Color]
+
+	func makeNSView(context: Context) -> ColorGroupView {
+		ColorGroupView()
+	}
+
+	func updateNSView(_ nsView: ColorGroupView, context: Context) {
+		nsView.colors = color
+	}
+
+	typealias NSViewType = ColorGroupView
+}
+
+class ColorGroupView: NSView, DSFAppearanceCacheNotifiable {
+	override var isFlipped: Bool { true }
+	@MainActor var colors: [PAL.Color] = [] {
+		didSet {
+			self.rebuild()
+		}
+	}
+	private var layers: [CAShapeLayer] = []
+
+	@MainActor var inset: CGSize = CGSize(width: 8, height: 8) {
+		didSet {
+			self.needsLayout = true
+		}
+	}
+
+	@MainActor var colorSize = CGSize(width: 24, height: 24) {
+		didSet {
+			self.needsLayout = true
+		}
+	}
+
+	@MainActor var spacing: CGFloat = 3.0 {
+		didSet {
+			self.needsLayout = true
+		}
+	}
+
+	private var _draggingColor: NSColor?
+
+	override init(frame frameRect: NSRect) {
+		super.init(frame: frameRect)
+		self.setup()
+	}
+
+	required init?(coder: NSCoder) {
+		super.init(coder: coder)
+		self.setup()
+	}
+
+	func setup() {
+		self.translatesAutoresizingMaskIntoConstraints = false
+		self.wantsLayer = true
+
+		registerForDraggedTypes([.color])
+
+		self.rebuild()
+
+		DSFAppearanceCache.shared.register(self)
+	}
+
+	func appearanceDidChange() {
+		self.rebuild()
+	}
+
+	override func layout() {
+		super.layout()
+		self.relayout()
+	}
+
+	var computedHeight: CGFloat = 0
+
+	override var intrinsicContentSize: NSSize {
+		return CGSize(width: 64, height: self.computedHeight)
+	}
+
+	func rebuild() {
+
+		let showShadows = false // colors.count <= 512
+
+		self.layers.forEach { $0.removeFromSuperlayer() }
+		self.layers = colors.map {
+			let l = CAShapeLayer()
+			l.masksToBounds = false
+			l.path = CGPath(roundedRect: CGRect(origin: .zero, size: colorSize),
+								 cornerWidth: 4, cornerHeight: 4, transform: nil)
+			l.fillColor = $0.cgColor
+			self.usingEffectiveAppearance {
+				l.strokeColor = NSColor.textColor.cgColor
+			}
+			l.lineWidth = 0.75
+
+			if showShadows {
+				l.shadowColor = .black
+				l.shadowOffset = .init(width: 0, height: 1)
+				l.shadowRadius = 2
+				l.shadowOpacity = 0.6
+			}
+
+			self.layer!.addSublayer(l)
+			return l
+		}
+		CATransaction.commit()
+		self.needsLayout = true
+	}
+
+	var tooltipMapping: [NSView.ToolTipTag: Int] = [:]
+
+	func relayout() {
+		let bounds = self.bounds
+
+		self.removeAllToolTips()
+		self.tooltipMapping = [:]
+
+		var xOffset: Double = inset.width
+		var yOffset: Double = inset.height
+
+		CATransaction.withDisabledActions {
+
+			self.layers.enumerated().forEach { indexed in
+				let rect = CGRect(x: xOffset, y: yOffset, width: self.colorSize.width, height: self.colorSize.height)
+				indexed.element.frame = rect
+
+				let tt = self.addToolTip(rect, owner: self, userData: nil)
+				tooltipMapping[tt] = indexed.offset
+
+				xOffset += self.colorSize.width + self.spacing
+				if bounds.width < (xOffset + self.colorSize.width + inset.width) {
+					xOffset = inset.width
+					yOffset += self.colorSize.height + self.spacing
+				}
+			}
+		}
+
+		self.computedHeight = yOffset + self.colorSize.height + self.spacing + inset.height
+
+		self.invalidateIntrinsicContentSize()
+	}
+}
+
+extension ColorGroupView: NSDraggingSource, NSPasteboardItemDataProvider {
+
+	func draggingSession(_ session: NSDraggingSession, sourceOperationMaskFor context: NSDraggingContext) -> NSDragOperation {
+		return .generic
+	}
+
+	override func mouseDragged(with event: NSEvent) {
+		let pasteboardItem = NSPasteboardItem()
+		pasteboardItem.setDataProvider(self, forTypes: [.color])
+
+		let mousePosition = event.locationInWindow
+		let pos = self.convert(mousePosition, from: nil)
+		let flipped = CGPoint(x: pos.x, y: self.bounds.height - pos.y)
+		guard
+			let l = self.layer?.hitTest(flipped) as? CAShapeLayer,
+			let c = l.fillColor,
+			let nc = NSColor(cgColor: c)
+		else {
+			return
+		}
+
+		self._draggingColor = nc
+
+		let draggingItem = NSDraggingItem(pasteboardWriter: pasteboardItem)
+
+		draggingItem.setDraggingFrame(
+			l.frame,
+			contents: self.swatchWithColor(nc, size: self.colorSize)
+		)
+
+		let draggingSession = beginDraggingSession(with: [draggingItem], event: event, source: self)
+		draggingSession.animatesToStartingPositionsOnCancelOrFail = true
+		draggingSession.draggingFormation = .none
+	}
+
+	override func draggingEnded(_ sender: NSDraggingInfo) {
+		self._draggingColor = nil
+	}
+
+	private func swatchWithColor2(_ color: NSColor, size: NSSize) -> NSImage {
+		let im = NSImage(size: size)
+		im.lockFocus()
+		color.drawSwatch(in: NSMakeRect(0, 0, size.width, size.height))
+		im.unlockFocus()
+		return im
+	}
+
+	private func swatchWithColor(_ color: NSColor, size: NSSize) -> NSImage {
+		let im = NSImage(size: size)
+		im.lockingFocus { _ in
+			let pth = NSBezierPath(roundedRect: NSRect(origin: .zero, size: self.colorSize).insetBy(dx: 0.5, dy: 0.5), xRadius: 4, yRadius: 4)
+			pth.lineWidth = 0.5
+			color.setFill()
+			pth.fill()
+			self.usingEffectiveAppearance {
+				NSColor.textColor.setStroke()
+			}
+			pth.stroke()
+		}
+		return im
+	}
+
+	func pasteboard(_ pasteboard: NSPasteboard?, item: NSPasteboardItem, provideDataForType type: NSPasteboard.PasteboardType) {
+		if type == .color,
+			let pasteboard = pasteboard,
+			let color = self._draggingColor
+		{
+			color.write(to: pasteboard)
+		}
+	}
+}
+
+extension NSImage {
+	@inlinable func lockingFocus(flipped: Bool = false, _ block: (NSImage) -> Void) {
+		self.lockFocusFlipped(flipped)
+		defer { self.unlockFocus() }
+		block(self)
+	}
+}
+
+extension CATransaction {
+	@inlinable static func withDisabledActions(_ block: () -> Void) -> Void {
+		CATransaction.begin()
+		defer { CATransaction.commit() }
+		CATransaction.setDisableActions(true)
+		block()
+	}
+}
+
+// MARK: - Handling tooltips
+
+extension ColorGroupView: NSViewToolTipOwner {
+	func view(_ view: NSView, stringForToolTip tag: NSView.ToolTipTag, point: NSPoint, userData data: UnsafeMutableRawPointer?) -> String {
+		if let colorIndex = self.tooltipMapping[tag] {
+			let color = self.colors[colorIndex]
+			let name = color.name.count > 0 ? color.name : "<unnamed>"
+			let hexString = (color.hexRGBA?.uppercased() ?? "<none>")
+			return "Name: \(name)\nMode: \(color.colorSpace.rawValue)\nType: \(color.colorType.rawValue)\nHex: \(hexString)"
+		}
+		return ""
+	}
+}
+
