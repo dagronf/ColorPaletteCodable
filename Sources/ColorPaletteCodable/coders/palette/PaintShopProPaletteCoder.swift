@@ -100,8 +100,11 @@ public extension PAL.Coder.PaintShopPro {
 
 public extension PAL.Coder.PaintShopPro {
 	func encode(_ palette: PAL.Palette) throws -> Data {
-		var result = "JASC-PAL\n0100\n\(palette.colors.count)"
-		for color in palette.colors {
+		// Flatten _all_ the colors in the palette (including global and group colors)
+		let flattenedColors = palette.allColors()
+		
+		var result = "JASC-PAL\n0100\n\(flattenedColors.count)"
+		for color in flattenedColors {
 			result += "\n"
 			// Colors are RGB
 			let rgb = try color.converted(to: .RGB)

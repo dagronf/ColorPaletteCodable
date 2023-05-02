@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<palette guid="044ada9e-78d9-4082-86be-e43fcfc29108" name="db32-rgb.xml">
+  <colors>
+    <page>
+      <color cs="RGB" name="Black" tints="0,0,0"/>
+      <color cs="RGB" name="Valhalla" tints="0.133333,0.12549,0.203922"/>
+      <color cs="RGB" name="Loulou" tints="0.270588,0.156863,0.235294"/>
+      <color cs="RGB" name="Oiled cedar" tints="0.4,0.223529,0.192157"/>
+      <color cs="RGB" name="Rope" tints="0.560784,0.337255,0.231373"/>
+      <color cs="RGB" name="Tahiti gold" tints="0.87451,0.443137,0.14902"/>
+      <color cs="RGB" name="Twine" tints="0.85098,0.627451,0.4"/>
+      <color cs="RGB" name="Pancho" tints="0.933333,0.764706,0.603922"/>
+      <color cs="RGB" name="Golden fizz" tints="0.984314,0.94902,0.211765"/>
+      <color cs="RGB" name="Atlantis" tints="0.6,0.898039,0.313725"/>
+      <color cs="RGB" name="Christi" tints="0.415686,0.745098,0.188235"/>
+      <color cs="RGB" name="Elf green" tints="0.215686,0.580392,0.431373"/>
+      <color cs="RGB" name="Dell" tints="0.294118,0.411765,0.184314"/>
+      <color cs="RGB" name="Verdigris" tints="0.321569,0.294118,0.141176"/>
+      <color cs="RGB" name="Opal" tints="0.196078,0.235294,0.223529"/>
+      <color cs="RGB" name="Deep koamaru" tints="0.247059,0.247059,0.454902"/>
+      <color cs="RGB" name="Venice blue" tints="0.188235,0.376471,0.509804"/>
+      <color cs="RGB" name="Royal blue" tints="0.356863,0.431373,0.882353"/>
+      <color cs="RGB" name="Cornflower" tints="0.388235,0.607843,1"/>
+      <color cs="RGB" name="Viking" tints="0.372549,0.803922,0.894118"/>
+      <color cs="RGB" name="Light steel blue" tints="0.796078,0.858824,0.988235"/>
+      <color cs="RGB" name="White" tints="1,1,1"/>
+      <color cs="RGB" name="Heather" tints="0.607843,0.678431,0.717647"/>
+      <color cs="RGB" name="Topaz" tints="0.517647,0.494118,0.529412"/>
+      <color cs="RGB" name="Dim gray" tints="0.411765,0.415686,0.415686"/>
+      <color cs="RGB" name="Smokey ash" tints="0.34902,0.337255,0.321569"/>
+      <color cs="RGB" name="Clairvoyant" tints="0.462745,0.258824,0.541176"/>
+      <color cs="RGB" name="Brown" tints="0.67451,0.196078,0.196078"/>
+      <color cs="RGB" name="Mandy" tints="0.85098,0.341176,0.388235"/>
+      <color cs="RGB" name="Plum" tints="0.843137,0.482353,0.729412"/>
+      <color cs="RGB" name="Rain forest" tints="0.560784,0.592157,0.290196"/>
+      <color cs="RGB" name="Stinger" tints="0.541176,0.435294,0.188235"/>
+    </page>
+  </colors>
+</palette>

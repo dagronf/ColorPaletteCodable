@@ -86,8 +86,10 @@ public extension PAL.Coder.RGB {
 	/// - Parameter palette: The palette to encode
 	/// - Returns: The encoded representation  of the palette
 	func encode(_ palette: PAL.Palette) throws -> Data {
+		// Flatten _all_ the colors in the palette (including global and group colors)
+		let flattenedColors = palette.allColors()
 		var result = ""
-		for color in palette.colors {
+		for color in flattenedColors {
 			if !result.isEmpty { result += "\n" }
 			guard let h = color.hexRGB else {
 				throw PAL.CommonError.unsupportedColorSpace

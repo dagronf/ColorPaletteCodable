@@ -97,8 +97,11 @@ public extension PAL.Coder.GIMP {
 			result += "Name: \(palette.name)\n"
 		}
 
-		result += "#Colors: \(palette.colors.count)\n"
-		for color in palette.colors {
+		// Flatten _all_ the colors in the palette (including global and group colors)
+		let flattenedColors = palette.allColors()
+
+		result += "#Colors: \(flattenedColors.count)\n"
+		for color in flattenedColors {
 
 			// Colors are RGB
 			let rgb = try color.converted(to: .RGB)

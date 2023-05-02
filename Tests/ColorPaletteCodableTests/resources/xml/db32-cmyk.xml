@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<palette guid="044ada9e-78d9-4082-86be-e43fcfc29108" name="db32-cmyk.xml">
+  <colors>
+    <page>
+      <color name="Black" cs="CMYK" tints="0,0,0,1" />
+      <color name="Valhalla" cs="CMYK" tints="0.3461538,0.3846153,0,0.7960784" />
+      <color name="Loulou" cs="CMYK" tints="0.0000001101,0.4202899,0.1304349,0.7294117" />
+      <color name="Oiled cedar" cs="CMYK" tints="0,0.4411764,0.5196078,0.6" />
+      <color name="Rope" cs="CMYK" tints="0,0.3986014,0.5874126,0.4392157" />
+      <color name="Tahiti gold" cs="CMYK" tints="0,0.4932736,0.8295964,0.1254902" />
+      <color name="Twine" cs="CMYK" tints="0,0.2626728,0.5299539,0.1490196" />
+      <color name="Pancho" cs="CMYK" tints="0,0.1806723,0.3529412,0.06666666" />
+      <color name="Golden fizz" cs="CMYK" tints="0,0.03585657,0.7848606,0.01568627" />
+      <color name="Atlantis" cs="CMYK" tints="0.3318777,0,0.650655,0.1019608" />
+      <color name="Christi" cs="CMYK" tints="0.4421053,0,0.7473684,0.2549019" />
+      <color name="Elf green" cs="CMYK" tints="0.6283784,0,0.2567568,0.4196078" />
+      <color name="Dell" cs="CMYK" tints="0.2857143,0.0000000724,0.552381,0.5882353" />
+      <color name="Verdigris" cs="CMYK" tints="0,0.08536576,0.5609756,0.6784314" />
+      <color name="Opal" cs="CMYK" tints="0.1666666,0,0.04999994,0.7647059" />
+      <color name="Deep koamaru" cs="CMYK" tints="0.4568965,0.4568965,0,0.5450981" />
+      <color name="Venice blue" cs="CMYK" tints="0.6307693,0.2615385,0,0.490196" />
+      <color name="Royal blue" cs="CMYK" tints="0.5955555,0.5111111,0,0.1176471" />
+      <color name="Cornflower" cs="CMYK" tints="0.6117647,0.3921568,0,0" />
+      <color name="Viking" cs="CMYK" tints="0.5833333,0.1008772,0,0.1058823" />
+      <color name="Light steel blue" cs="CMYK" tints="0.1944444,0.1309524,0,0.01176471" />
+      <color name="White" cs="CMYK" tints="0,0,0,0" />
+      <color name="Heather" cs="CMYK" tints="0.1530055,0.0546448,0,0.2823529" />
+      <color name="Topaz" cs="CMYK" tints="0.02222222,0.06666671,0,0.4705882" />
+      <color name="Dim gray" cs="CMYK" tints="0.009433891,0,0,0.5843138" />
+      <color name="Smokey ash" cs="CMYK" tints="0.0000000854,0.03370795,0.07865176,0.6509804" />
+      <color name="Clairvoyant" cs="CMYK" tints="0.1449276,0.5217391,0,0.4588235" />
+      <color name="Brown" cs="CMYK" tints="0,0.7093023,0.7093023,0.3254902" />
+      <color name="Mandy" cs="CMYK" tints="0,0.5990784,0.5437788,0.1490196" />
+      <color name="Plum" cs="CMYK" tints="0,0.427907,0.1348837,0.1568627" />
+      <color name="Rain forest" cs="CMYK" tints="0.05298013,0,0.5099338,0.4078431" />
+      <color name="Stinger" cs="CMYK" tints="0,0.1956522,0.6521739,0.4588235" />
+    </page>
+  </colors>
+</palette>

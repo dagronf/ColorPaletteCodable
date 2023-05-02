@@ -49,7 +49,10 @@ extension PAL.Coder.SketchPalette {
 	}
 
 	public func encode(_ palette: PAL.Palette) throws -> Data {
-		let colors = try palette.colors.map { SketchColor(red: try $0.r(), green: try $0.g(), blue: try $0.b(), alpha: $0.alpha) }
+		// Flatten _all_ the colors in the palette (including global and group colors)
+		let flattenedColors = palette.allColors()
+
+		let colors = try flattenedColors.map { SketchColor(red: try $0.r(), green: try $0.g(), blue: try $0.b(), alpha: $0.alpha) }
 		let file = SketchFile(
 			compatibleVersion: "1.4",
 			pluginVersion: "1.4",
