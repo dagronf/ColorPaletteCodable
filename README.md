@@ -15,6 +15,7 @@ Supports the following color palette formats
 * Microsoft RIFF palette files (`.pal`) *(read only)*
 * SketchPalette files (`.sketchpalette`)
 * JSON encoded color files (`.jsoncolorpalette`) *ColorPaletteCodable internal file format*
+* CorelDraw/Adobe Illustrator xml palette (`.xml`)
 
 <p align="center">
     <img src="https://img.shields.io/github/v/tag/dagronf/ColorPaletteCodable" />
@@ -74,6 +75,7 @@ Some features :-
 |`PAL.Coder.PaintShopPro`  | Paint Shop Pro palette (.pal;.psppalette)  |
 |`PAL.Coder.RIFF`  | Microsoft RIFF palette (.pal)  |
 |`PAL.Coder.SketchPalette`  | Sketch Palette (.sketchpalette)  |
+|`PAL.Coder.XMLPalette`  | CorelDraw/Adobe Illustrator Palette (.xml)  |
 
 ## Tasks
 
@@ -158,6 +160,7 @@ Palette Viewer allows you to view the contents of
 * JASC Paint Shop Pro (Corel) text files (.pal, .psppalette)
 * Microsoft RIFF Palette (.pal)
 * Sketch palette (.sketchpalette)
+* CorelDraw/Adobe Illustrator XML palette (.xml)
 
 You can drag colors out of the preview window into applications that support dropping of `NSColor` instances.
 
@@ -176,7 +179,8 @@ You can also save the palette to a new format (eg. saving a gimp `.gpl` format t
 | `PAL.Coder.PaintShopPro` | Text                   |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
 | `PAL.Coder.CLR`          | Binary<br>(macOS only) |         ✅       |         ❌        |         ❌        |           ❌           |        ✅           |
 | `PAL.Coder.RIFF`         | Binary                 |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
-| `PAL.Coder.SketchPalette` | Text                   |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
+| `PAL.Coder.SketchPalette` | XML                   |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
+| `PAL.Coder.XMLPalette`   | XML                    |         ✅       |         ✅        |         ✅        |           ❌           |        ✅           |
 
 
 *(A ColorType represents the type of color (global/spot/normal))*
@@ -246,7 +250,7 @@ swift test --enable-test-discovery
 
 Note that the /src directory in the Linux container is a direct mirror of the current directory on the host OS, not a copy. If you delete a file in /src in the Linux container, that file will be gone on the host OS, too.
 
-## ASE/ACO/ACT formats
+## Format specs
 
 The `.ase` file format is not formally defined, however there are a number of deconstructions available on the web.
 I used the breakdown of the format defined [here](http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase).
@@ -255,6 +259,8 @@ The `.aco` file format is defined [here](https://www.adobe.com/devnet-apps/photo
 
 The `.act` file format is defined [here](https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577411_pgfId-1070626).
 
+The CorelDraw/Adobe Illustrator `.xml` file format is (somewhat) defined [here](https://community.coreldraw.com/sdk/w/articles/177/creating-color-palettes)
+
 ## License
 
 MIT. Use it for anything you want, just attribute my work if you do. Let me know if you do use it somewhere, I'd love to hear about it!
@@ -262,7 +268,7 @@ MIT. Use it for anything you want, just attribute my work if you do. Let me know
 ```
 MIT License
 
-Copyright (c) 2022 Darren Ford
+Copyright (c) 2023 Darren Ford
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
