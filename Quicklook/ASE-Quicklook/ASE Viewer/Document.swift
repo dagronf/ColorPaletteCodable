@@ -58,9 +58,10 @@ class Document: NSDocument {
 	override func writableTypes(for saveOperation: NSDocument.SaveOperationType) -> [String] {
 		[
 			"public.dagronf.colorpalette",
+			"public.xml",
 			"com.adobe.aco",
 			"com.adobe.ase",
-			"com.adobe.ast",
+			"com.adobe.act",
 			"com.apple.color-file",
 			"public.dagronf.gimp.gpl",
 			"public.dagronf.corel.psppalette",

@@ -27,6 +27,7 @@
 import Foundation
 
 /// An ACT file reader (Adobe Color Table)
+/// UTI: com.adobe.act
 public extension PAL.Coder {
 	struct ACT: PAL_PaletteCoder {
 		public let fileExtension = ["act"]
@@ -89,7 +90,8 @@ extension PAL.Coder.ACT {
 
 		try (0 ..< 256).forEach { index in
 			if index < maxColors {
-				let c = palette.colors[index]
+				// All colors in the ACT table are RGB
+				let c = try flattenedColors[index].converted(to: .RGB)
 				let cc = try c.rgbValues()
 				outputData.append(UInt8(cc.r * 255.0))
 				outputData.append(UInt8(cc.g * 255.0))
