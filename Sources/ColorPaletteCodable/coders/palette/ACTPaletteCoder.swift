@@ -81,8 +81,8 @@ extension PAL.Coder.ACT {
 	public func encode(_ palette: PAL.Palette) throws -> Data {
 		var outputData = Data(capacity: 1024)
 
-		// Flatten _all_ the colors in the palette (including global and group colors)
-		let flattenedColors = palette.allColors()
+		// Flatten _all_ the colors in the palette (including global and group colors) to an RGB list
+		let flattenedColors = try palette.allColors().map { try $0.converted(to: .RGB) }
 
 		// This format only supports 256 colors max
 		let colors = flattenedColors.prefix(256)

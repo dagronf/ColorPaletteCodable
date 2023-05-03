@@ -100,18 +100,16 @@ public extension PAL.Coder.PaintShopPro {
 
 public extension PAL.Coder.PaintShopPro {
 	func encode(_ palette: PAL.Palette) throws -> Data {
-		// Flatten _all_ the colors in the palette (including global and group colors)
-		let flattenedColors = palette.allColors()
-		
+		// Flatten _all_ the colors in the palette (including global and group colors) to an RGB list
+		let flattenedColors = try palette.allColors().map { try $0.converted(to: .RGB) }
+
 		var result = "JASC-PAL\n0100\n\(flattenedColors.count)"
 		for color in flattenedColors {
 			result += "\n"
-			// Colors are RGB
-			let rgb = try color.converted(to: .RGB)
 
-			let rv = Int(min(255, max(0, rgb.colorComponents[0] * 255)).rounded(.towardZero))
-			let gv = Int(min(255, max(0, rgb.colorComponents[1] * 255)).rounded(.towardZero))
-			let bv = Int(min(255, max(0, rgb.colorComponents[2] * 255)).rounded(.towardZero))
+			let rv = Int(min(255, max(0, color.colorComponents[0] * 255)).rounded(.towardZero))
+			let gv = Int(min(255, max(0, color.colorComponents[1] * 255)).rounded(.towardZero))
+			let bv = Int(min(255, max(0, color.colorComponents[2] * 255)).rounded(.towardZero))
 
 			result += "\(rv) \(gv) \(bv)"
 		}
