@@ -26,6 +26,11 @@
 
 import Foundation
 
+#if canImport(FoundationXML)
+// For non-apple platforms it seems that the XML parser has been shifted into its own module
+import FoundationXML
+#endif
+
 public extension PAL.Coder {
 	/// XML palette file for CorelDraw/Adobe Illustrator(?)
 	///
