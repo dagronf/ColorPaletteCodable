@@ -296,8 +296,13 @@ class ColorGroupView: NSView, DSFAppearanceCacheNotifiable {
 		self.layers = colors.map {
 			let l = CAShapeLayer()
 			l.masksToBounds = false
-			l.path = CGPath(roundedRect: CGRect(origin: .zero, size: colorSize),
-								 cornerWidth: 4, cornerHeight: 4, transform: nil)
+			l.path = CGPath(
+				roundedRect: CGRect(origin: .zero, size: colorSize),
+				cornerWidth: 4,
+				cornerHeight: 4,
+				transform: nil
+			)
+
 			l.fillColor = $0.cgColor
 			self.usingEffectiveAppearance {
 				l.strokeColor = NSColor.textColor.cgColor

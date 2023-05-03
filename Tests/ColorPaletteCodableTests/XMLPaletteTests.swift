@@ -4,18 +4,29 @@ import XCTest
 import Foundation
 
 class XMLPaletteTests: XCTestCase {
-	
+
+	let files = [
+		"db32-cmyk",
+		"db32-rgb",
+		"Signature",
+		"ThermoFlex Plus",		// colorspaces
+		"Satins Cap Colors"		// CMYK colors
+	]
+
 	func testAllRoundTrip() throws {
-		let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: "db32-rgb", withExtension: "xml"))
-		let palette = try PAL.Palette.Decode(from: paletteURL)
-		XCTAssertEqual(palette.groups.count, 1)
-		XCTAssertEqual(palette.groups[0].colors.count, 32)
+		try files.forEach { item in
+			Swift.print("> Roundtripping: \(item)")
+			let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: item, withExtension: "xml"))
+			let palette = try PAL.Palette.Decode(from: paletteURL)
 
-		let coder = PAL.Coder.XMLPalette()
-		let data = try coder.encode(palette)
+			let coder = PAL.Coder.XMLPalette()
+			let data = try coder.encode(palette)
 
-		let str = try XCTUnwrap(String(data: data, encoding: .utf8))
-		XCTAssert(str.count > 0)
+			let rebuilt = try coder.decode(from: data)
+
+			XCTAssertEqual(rebuilt.name, palette.name)
+			XCTAssertEqual(rebuilt.allColors().count, palette.allColors().count)
+		}
 	}
 
 	func testXMLWithCustomColorspace() throws {

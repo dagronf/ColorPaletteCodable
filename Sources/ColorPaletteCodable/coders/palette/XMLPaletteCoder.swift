@@ -27,7 +27,9 @@
 import Foundation
 
 public extension PAL.Coder {
-	/// .sketchpalette Sketch palette file
+	/// XML palette file for CorelDraw/Adobe Illustrator(?)
+	///
+	/// https://community.coreldraw.com/sdk/w/articles/177/creating-color-palettes
 	class XMLPalette: NSObject, PAL_PaletteCoder {
 		public let fileExtension = ["xml"]
 		public override init() {
@@ -96,7 +98,6 @@ extension PAL.Coder.XMLPalette: XMLParserDelegate {
 			self.group = PAL.Group(name: name)
 		}
 		else if elementName == "color" {
-			//guard self.isInColorsSection == true else { return }
 			let cs = attributeDict["cs"]?.lowercased()
 			let name = attributeDict["name"] ?? ""
 			let tints = attributeDict["tints"] ?? ""
@@ -108,15 +109,23 @@ extension PAL.Coder.XMLPalette: XMLParserDelegate {
 					return try? PAL.Color(name: name, colorSpace: .CMYK, colorComponents: components)
 				case "rgb":
 					return try? PAL.Color(name: name, colorSpace: .RGB, colorComponents: components)
+				case "lab":
+					// convert the components to the CGColorSpace.lab ranges
+					let l = (components[0] * 100.0)           // Range 0 -> 100
+					let a = (components[1] * 256.0) - 128.0   // Range -128 -> 128
+					let b = (components[2] * 256.0) - 128.0   // Range -128 -> 128
+					let map = [l, a, b]
+					return try? PAL.Color(name: name, colorSpace: .LAB, colorComponents: map)
+				case "gray":
+					return try? PAL.Color(name: name, colorSpace: .Gray, colorComponents: components)
 				default:
 					if isInColorsSection {
-						if let c = self.colorspaces.first(where: { $0.name == cs }),
-							components.count == 1
-						{
-							let offsetf = components[0]
-							let offset = Int(offsetf) - 1
-							if offset < c.colors.count {
-								let color = c.colors[offset]
+						if let c = self.colorspaces.first(where: { $0.name == cs }) {
+							// TODO: Work out what exactly the `tints` value means for colorspace-defined colors means
+							// We are just going to be lazy here and just take the first color in the colorspace collection
+							// I'm not sure what the 'tints' attribute is being used for here (the doco says something
+							// about setting the channel which I just can't wrap my head around)
+							if let color = c.colors.first {
 								let m = try? PAL.Color(
 									name: name,
 									colorSpace: color.colorSpace,
@@ -134,6 +143,14 @@ extension PAL.Coder.XMLPalette: XMLParserDelegate {
 
 			if let color2 = color {
 				if self.isInColorspaceSection {
+					// It's a color defined as a collection of colors defined for multiple colorspaces
+
+					// <cs name="MySpotColor1" fixedID="1">
+					//    <color cs="CMYK" tints="0,0,0.58,0"/>
+					//    <color cs="LAB" tints="0.9227,0.480039215686275,0.714196078431373"/>
+					//    <color cs="RGB" tints="0.968627450980392,0.92156862745098,0.490196078431373"/>
+					// </cs>
+
 					self.colorspaces.last?.colors.append(color2)
 				}
 				else {
@@ -188,24 +205,33 @@ extension PAL.Coder.XMLPalette {
 	func pageData(name: String, colors: [PAL.Color]) throws -> String {
 		var result = "<page>"
 		try colors.forEach { color in
+
 			result += "<color"
+
 			if color.name.isEmpty == false {
-
-				let csMap: String = try {
-					switch color.colorSpace {
-					case .CMYK: return "CMYK"
-					case .RGB: return "RGB"
-					default: throw PAL.CommonError.unsupportedColorspace(color.colorSpace)
-					}
-				}()
-
-				result += " cs=\"\(csMap)\""
 				result += " name=\"\(color.name)\""
-				let tint = color.colorComponents.map { "\($0)" }
-					.joined(separator: ",")
-				if tint.isEmpty == false {
-					result += " tints=\"\(tint)\""
+			}
+
+			let colorspaceInfo = try {
+				switch color.colorSpace {
+				case .CMYK: return ("CMYK", color.colorComponents)
+				case .RGB: return ("RGB", color.colorComponents)
+				case .Gray: return ("GRAY", color.colorComponents)
+				case .LAB:
+					// Map from CGColorSpace values to XML specification
+					if color.colorComponents.count < 3 { throw PAL.CommonError.invalidColorComponentCountForModelType }
+					return ("LAB", [
+						color.colorComponents[0] / 100.0,            // 0…100 -> 0.0…1.0
+						(color.colorComponents[1] + 128.0) / 256.0,  // -128…128 -> 0.0…1.0
+						(color.colorComponents[2] + 128.0) / 256.0   // -128…128 -> 0.0…1.0
+					])
 				}
+			}()
+
+			result += " cs=\"\(colorspaceInfo.0)\""
+			let tints = colorspaceInfo.1.map({ "\($0)" }).joined(separator: ",")
+			if tints.isEmpty == false {
+				result += " tints=\"\(tints)\""
 			}
 			result += "/>"
 		}
