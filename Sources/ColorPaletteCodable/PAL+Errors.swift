@@ -50,6 +50,7 @@ public extension PAL {
 		case invalidRGBAHexString(String)
 		case unsupportedColorSpace
 		case invalidVersion
+		case invalidBOM
 		case invalidUnicodeFormatString
 		case unsupportedCoderType
 		case cannotConvertColorSpace

@@ -232,6 +232,10 @@ public extension PAL.Color {
 		guard let rgb = hexRGB else { return nil }
 		return rgb + String(format: "%02x", Int(self.alpha * 255.0))
 	}
+
+	var componentsString: String {
+		String(self.colorComponents.map({ "\($0)" }).joined(separator: ", "))
+	}
 }
 
 // MARK: Hex color converters

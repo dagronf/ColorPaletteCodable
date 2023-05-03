@@ -68,44 +68,6 @@ struct GroupingView: View {
 	}
 }
 
-struct ColorView: View {
-	let color: PAL.Color
-	var body: some View {
-		ZStack {
-			RoundedRectangle(cornerRadius: 4)
-				.fill(Color(cgColor: color.cgColor ?? .clear))
-				.shadow(color: .black.opacity(0.8), radius: 1, x: 0, y: 0.5)
-			RoundedRectangle(cornerRadius: 4)
-				.stroke(Color(NSColor.disabledControlTextColor.cgColor), lineWidth: 1)
-		}
-		.help("Name: \(color.name)\nMode: \(color.colorSpace.rawValue)\nType: \(color.colorType.rawValue)")
-		.onDrag {
-			if let c = color.nsColor {
-				return NSItemProvider(item: c, typeIdentifier: UTType.nsColor.identifier)
-			}
-			return NSItemProvider()
-		} preview: {
-			ColorTooltipView(color: color)
-		}
-	}
-}
-
-struct ColorTooltipView: View {
-	let color: PAL.Color
-	var body: some View {
-		HStack {
-			ColorView(color: color)
-				.frame(width: 20, height: 20)
-			VStack(alignment: .leading, spacing: 1) {
-				Text("Name: \(color.name)").font(.caption2)
-				Text("Mode: \(color.colorSpace.rawValue)").font(.caption2)
-				Text("Type: \(color.colorType.rawValue)").font(.caption2)
-			}
-		}
-		.padding(4)
-	}
-}
-
 // MARK: - Previews
 
 #if DEBUG
@@ -139,41 +101,6 @@ let _display: PAL.Palette = {
 
 private var colorSpace = PaletteModel(_display)
 
-struct ColorTooltipView_Previews: PreviewProvider {
-	static var previews: some View {
-		Group {
-			ColorTooltipView(color: try! PAL.Color(name: "red", colorSpace: .RGB, colorComponents: [1, 0, 0]))
-		}
-	}
-}
-
-struct ColorView_Previews: PreviewProvider {
-	static var previews: some View {
-		Group {
-			HStack {
-				ColorView(color: PAL.Color.rgb(1.0, 0, 1.0))
-					.frame(width: 26, height: 26)
-				ColorView(color: PAL.Color.rgb(0.0, 1.0, 1.0))
-					.frame(width: 26, height: 26)
-				ColorView(color: PAL.Color.rgb(1.0, 1.0, 0.0))
-					.frame(width: 26, height: 26)
-			}
-			.preferredColorScheme(.dark)
-
-			HStack {
-				ColorView(color: PAL.Color.rgb(1.0, 0, 1.0))
-					.frame(width: 26, height: 26)
-				ColorView(color: PAL.Color.rgb(0.0, 1.0, 1.0))
-					.frame(width: 26, height: 26)
-				ColorView(color: PAL.Color.rgb(1.0, 1.0, 0.0))
-					.frame(width: 26, height: 26)
-			}
-			.preferredColorScheme(.light)
-		}
-		.padding(4)
-	}
-}
-
 struct PaletteView_Previews: PreviewProvider {
 	static var previews: some View {
 		Group {
@@ -183,19 +110,6 @@ struct PaletteView_Previews: PreviewProvider {
 				.preferredColorScheme(.light)
 		}
 		.frame(height: 250)
-	}
-}
-
-struct PALColorView_Previews: PreviewProvider {
-	static var previews: some View {
-		HStack {
-			PAL.Color.rgb(1, 0, 0).SwiftUIColor!
-				.frame(width: 25, height: 25)
-			PAL.Color.rgb(1, 1, 0).SwiftUIColor!
-				.frame(width: 25, height: 25)
-			PAL.Color.rgb(1, 0, 1).SwiftUIColor!
-				.frame(width: 25, height: 25)
-		}
 	}
 }
 
@@ -303,9 +217,11 @@ class ColorGroupView: NSView, DSFAppearanceCacheNotifiable {
 				transform: nil
 			)
 
-			l.fillColor = $0.cgColor
+			let color = $0.cgColor
+			l.fillColor = color
+
 			self.usingEffectiveAppearance {
-				l.strokeColor = NSColor.textColor.cgColor
+				l.strokeColor = NSColor.secondaryLabelColor.cgColor
 			}
 			l.lineWidth = 0.75
 
@@ -453,8 +369,8 @@ extension ColorGroupView: NSViewToolTipOwner {
 		if let colorIndex = self.tooltipMapping[tag] {
 			let color = self.colors[colorIndex]
 			let name = color.name.count > 0 ? color.name : "<unnamed>"
-			let hexString = (color.hexRGBA?.uppercased() ?? "<none>")
-			return "Name: \(name)\nMode: \(color.colorSpace.rawValue)\nType: \(color.colorType.rawValue)\nHex: \(hexString)"
+			let hexString = color.componentsString
+			return "Name: \(name)\nMode: \(color.colorSpace.rawValue)\nType: \(color.colorType.rawValue)\nComponents: \(hexString)"
 		}
 		return ""
 	}

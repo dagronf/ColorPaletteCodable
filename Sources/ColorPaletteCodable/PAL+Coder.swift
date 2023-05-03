@@ -27,8 +27,9 @@
 import Foundation
 
 private let AvailableCoders: [PAL_PaletteCoder] = [
-	PAL.Coder.ASE(),
+	PAL.Coder.ACB(),
 	PAL.Coder.ACO(),
+	PAL.Coder.ASE(),
 	PAL.Coder.CLR(),
 	PAL.Coder.RGB(),
 	PAL.Coder.RGBA(),
