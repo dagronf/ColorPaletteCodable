@@ -210,12 +210,15 @@ class ColorGroupView: NSView, DSFAppearanceCacheNotifiable {
 		assert(Thread.isMainThread)
 
 		self.layers.forEach { $0.removeFromSuperlayer() }
-		self.layers = colors.map {
-			let color = $0.cgColor
+		self.layers = colors.enumerated().map {
+
+			let index = $0.0
+			let color = $0.1
+			let cgColor = $0.1.cgColor
 
 			let root = CAShapeLayer()
 
-			if $0.alpha < 1.0 {
+			if color.alpha < 1.0 {
 				// If the color has an alpha component, add a black/white triangle behind to present it
 				let background = CALayer()
 				background.frame = CGRect(origin: .zero, size: colorSize)
@@ -263,17 +266,20 @@ class ColorGroupView: NSView, DSFAppearanceCacheNotifiable {
 					transform: nil
 				)
 
-				d.fillColor = color
+				d.fillColor = cgColor
 
 				self.usingEffectiveAppearance {
 					d.strokeColor = NSColor.secondaryLabelColor.cgColor
 				}
 				d.lineWidth = 0.75
 				d.zPosition = 10
+
 				root.addSublayer(d)
 			}
 
+			root.name = "\(index)"
 			self.layer!.addSublayer(root)
+
 			return root
 		}
 
@@ -329,8 +335,10 @@ extension ColorGroupView: NSDraggingSource, NSPasteboardItemDataProvider {
 		let flipped = CGPoint(x: pos.x, y: self.bounds.height - pos.y)
 		guard
 			let l = self.layer?.hitTest(flipped) as? CAShapeLayer,
-			let c = l.fillColor,
-			let nc = NSColor(cgColor: c)
+			let indexString = l.name,
+			let colorIndex = Int(indexString),
+			let fillColor = self.colors.cgColors()[colorIndex],
+			let nc = NSColor(cgColor: fillColor)
 		else {
 			return
 		}
