@@ -400,13 +400,34 @@ extension CATransaction {
 
 // MARK: - Handling tooltips
 
+extension NumberFormatter {
+	convenience init(
+		minimumFractionDigits: Int = 0,
+		maximumFractionDigits: Int = 20,
+		numberStyle: NumberFormatter.Style? = nil
+	) {
+		self.init()
+		self.minimumFractionDigits = minimumFractionDigits
+		self.maximumFractionDigits = maximumFractionDigits
+		if let numberStyle = numberStyle {
+			self.numberStyle = numberStyle
+		}
+	}
+}
+
+let formatter = NumberFormatter(
+	minimumFractionDigits: 1,
+	maximumFractionDigits: 3
+)
+
 extension ColorGroupView: NSViewToolTipOwner {
 	func view(_ view: NSView, stringForToolTip tag: NSView.ToolTipTag, point: NSPoint, userData data: UnsafeMutableRawPointer?) -> String {
 		if let colorIndex = self.tooltipMapping[tag] {
 			let color = self.colors[colorIndex]
 			let name = color.name.count > 0 ? color.name : "<unnamed>"
 			let hexString = color.componentsString
-			return "Name: \(name)\nMode: \(color.colorSpace.rawValue)\nType: \(color.colorType.rawValue)\nComponents: \(hexString)"
+			let alphaString = formatter.string(from: NSNumber(value: color.alpha)) ?? "<>"
+			return "Name: \(name)\nMode: \(color.colorSpace.rawValue)\nType: \(color.colorType.rawValue)\nComponents: \(hexString)\nAlpha: \(alphaString)"
 		}
 		return ""
 	}
