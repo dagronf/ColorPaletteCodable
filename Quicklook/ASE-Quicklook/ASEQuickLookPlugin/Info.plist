@@ -15,13 +15,15 @@
 				<string>com.adobe.aco</string>
 				<string>com.adobe.ase</string>
 				<string>com.apple.color-file</string>
+				<string>com.bohemiancoding.sketch.palette</string>
 				<string>public.dagronf.gimp.gpl</string>
 				<string>public.dagronf.colorpalette</string>
 				<string>public.dagronf.palette.hex</string>
 				<string>public.dagronf.corel.pal</string>
 				<string>public.dagronf.corel.psppalette</string>
 				<string>public.dagronf.microsoft.riff.palette</string>
-				<string>com.bohemiancoding.sketch.palette</string>
+				<string>public.dagronf.palette.rgb</string>
+				<string>public.dagronf.palette.rgba</string>
 			</array>
 			<key>QLSupportsSearchableItems</key>
 			<false/>

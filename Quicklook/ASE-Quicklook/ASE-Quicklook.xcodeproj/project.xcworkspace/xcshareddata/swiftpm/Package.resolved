@@ -27,24 +27,6 @@
           "revision": "29f9a2924e318ab3a3c39692bcc48757cf2756e4",
           "version": "3.1.0"
         }
-      },
-      {
-        "package": "Flow",
-        "repositoryURL": "https://github.com/tevelee/SwiftUI-Flow",
-        "state": {
-          "branch": null,
-          "revision": "76c03c9fa9fa0e5470cb6d8f2da17466b2efd63d",
-          "version": "1.1.0"
-        }
-      },
-      {
-        "package": "SwiftUIFlowLayout",
-        "repositoryURL": "https://github.com/globulus/swiftui-flow-layout",
-        "state": {
-          "branch": null,
-          "revision": "de7da3440c3b87ba94adfa98c698828d7746a76d",
-          "version": "1.0.5"
-        }
       }
     ]
   },

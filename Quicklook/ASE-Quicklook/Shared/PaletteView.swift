@@ -28,6 +28,8 @@ struct PaletteView: View {
 			if let name = paletteModel.palette?.name, name.count > 0 {
 				Text("􀦳 \(name)")
 					.font(.title2).fontWeight(.heavy)
+					.truncationMode(.tail)
+					.frame(maxWidth: .infinity, alignment: .leading)
 					.padding(4)
 			}
 			ScrollView(.vertical) {
@@ -49,7 +51,6 @@ struct GroupingView: View {
 	let colors: [PAL.Color]
 	var body: some View {
 		VStack(alignment: .leading, spacing: 0) {
-
 			HStack(spacing: 4) {
 				Text("􀐠")
 					.font(.title3)
@@ -57,6 +58,8 @@ struct GroupingView: View {
 				Text("\(name) (\(colors.count))")
 					.font(.title3)
 					.fontWeight(.semibold)
+					.truncationMode(.tail)
+					.frame(maxWidth: .infinity, alignment: .leading)
 			}
 			.padding(4)
 
@@ -74,7 +77,7 @@ struct GroupingView: View {
 
 let _display: PAL.Palette = {
 	PAL.Palette(
-		name: "My Colors",
+		name: "These are my colors, and they are mosly nice.",
 		colors: [
 			PAL.Color.rgb(1.0, 0, 0),
 			PAL.Color.rgb(0, 1.0, 0),
@@ -204,6 +207,8 @@ class ColorGroupView: NSView, DSFAppearanceCacheNotifiable {
 
 	func rebuild() {
 
+		assert(Thread.isMainThread)
+
 		self.layers.forEach { $0.removeFromSuperlayer() }
 		self.layers = colors.map {
 			let color = $0.cgColor
@@ -271,7 +276,7 @@ class ColorGroupView: NSView, DSFAppearanceCacheNotifiable {
 			self.layer!.addSublayer(root)
 			return root
 		}
-		CATransaction.commit()
+
 		self.needsLayout = true
 	}
 
@@ -286,8 +291,8 @@ class ColorGroupView: NSView, DSFAppearanceCacheNotifiable {
 		var xOffset: Double = inset.width
 		var yOffset: Double = inset.height
 
-		CATransaction.withDisabledActions {
-
+		CATransaction.setDisableActions(true)
+		//CATransaction.withDisabledActions {
 			self.layers.enumerated().forEach { indexed in
 				let rect = CGRect(x: xOffset, y: yOffset, width: self.colorSize.width, height: self.colorSize.height)
 				indexed.element.frame = rect
@@ -301,7 +306,7 @@ class ColorGroupView: NSView, DSFAppearanceCacheNotifiable {
 					yOffset += self.colorSize.height + self.spacing
 				}
 			}
-		}
+		//}
 
 		self.computedHeight = yOffset + self.colorSize.height + self.spacing + inset.height
 

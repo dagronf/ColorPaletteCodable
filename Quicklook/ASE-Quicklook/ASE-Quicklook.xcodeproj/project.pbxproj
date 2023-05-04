@@ -16,7 +16,6 @@
 		236DC939283B71D60097B4DE /* ColorPaletteCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 236DC938283B71D60097B4DE /* ColorPaletteCodable */; };
 		237EF04528398ABD000D6F42 /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237EF04428398ABD000D6F42 /* PaletteView.swift */; };
 		237EF04628398ABD000D6F42 /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237EF04428398ABD000D6F42 /* PaletteView.swift */; };
-		237EF05028399BE1000D6F42 /* SwiftUIFlowLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 237EF04F28399BE1000D6F42 /* SwiftUIFlowLayout */; };
 		237EF0872839B324000D6F42 /* UTType+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E0D28332AEB003846A4 /* UTType+extensions.swift */; };
 		23A03DF828332AA2003846A4 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A03DF728332AA2003846A4 /* Quartz.framework */; };
 		23A03DFB28332AA2003846A4 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03DFA28332AA2003846A4 /* PreviewViewController.swift */; };
@@ -38,7 +37,6 @@
 		23B8BEBB2A00C16C00E86048 /* DSFAppearanceManager in Frameworks */ = {isa = PBXBuildFile; productRef = 23B8BEBA2A00C16C00E86048 /* DSFAppearanceManager */; };
 		23B8BEBD2A00C17500E86048 /* DSFAppearanceManager in Frameworks */ = {isa = PBXBuildFile; productRef = 23B8BEBC2A00C17500E86048 /* DSFAppearanceManager */; };
 		23B8BEBF2A00C18100E86048 /* DSFAppearanceManager in Frameworks */ = {isa = PBXBuildFile; productRef = 23B8BEBE2A00C18100E86048 /* DSFAppearanceManager */; };
-		23BB705629FFF11C0083998F /* Flow in Frameworks */ = {isa = PBXBuildFile; productRef = 23BB705529FFF11C0083998F /* Flow */; };
 		23EDD2772907A81D00B63B08 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A03DF728332AA2003846A4 /* Quartz.framework */; };
 		23EDD27A2907A81D00B63B08 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDD2792907A81D00B63B08 /* PreviewViewController.swift */; };
 		23EDD27C2907A81D00B63B08 /* PreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDD27B2907A81D00B63B08 /* PreviewProvider.swift */; };
@@ -163,10 +161,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				23B8BEB92A00C15800E86048 /* DSFAppearanceManager in Frameworks */,
-				23BB705629FFF11C0083998F /* Flow in Frameworks */,
 				236DC937283B71CD0097B4DE /* ColorPaletteCodable in Frameworks */,
 				23A03DF828332AA2003846A4 /* Quartz.framework in Frameworks */,
-				237EF05028399BE1000D6F42 /* SwiftUIFlowLayout in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,9 +325,7 @@
 			);
 			name = ASEQuickLookPlugin;
 			packageProductDependencies = (
-				237EF04F28399BE1000D6F42 /* SwiftUIFlowLayout */,
 				236DC936283B71CD0097B4DE /* ColorPaletteCodable */,
-				23BB705529FFF11C0083998F /* Flow */,
 				23B8BEB82A00C15800E86048 /* DSFAppearanceManager */,
 			);
 			productName = ASEQuickLookPlugin;
@@ -420,9 +414,7 @@
 			);
 			mainGroup = 23A03DD628332A83003846A4;
 			packageReferences = (
-				237EF04C28399BD9000D6F42 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */,
 				23A0FFDC290B51BC00E29FAE /* XCRemoteSwiftPackageReference "Defaults" */,
-				23BB705429FFF11C0083998F /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */,
 				23B8BEB72A00C15800E86048 /* XCRemoteSwiftPackageReference "DSFAppearanceManager" */,
 			);
 			productRefGroup = 23A03DE028332A83003846A4 /* Products */;
@@ -572,6 +564,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = ASEGradientThumbnailGenerator/ASEGradientThumbnailGenerator.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3L6RK3LGGW;
@@ -601,6 +594,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = ASEGradientThumbnailGenerator/ASEGradientThumbnailGenerator.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3L6RK3LGGW;
@@ -746,6 +740,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ASEQuickLookPlugin/ASEQuickLookPlugin.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
@@ -775,6 +770,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ASEQuickLookPlugin/ASEQuickLookPlugin.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
@@ -807,6 +803,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "ASE Viewer/Palette_Viewer.entitlements";
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -823,7 +820,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.20.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -840,6 +837,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "ASE Viewer/Palette_Viewer.entitlements";
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -856,7 +854,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.20.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -871,6 +869,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = ASEGradientQuicklookPlugin/ASEGradientQuicklookPlugin.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
@@ -901,6 +900,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = ASEGradientQuicklookPlugin/ASEGradientQuicklookPlugin.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
@@ -976,14 +976,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		237EF04C28399BD9000D6F42 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/globulus/swiftui-flow-layout";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 		23A0FFDC290B51BC00E29FAE /* XCRemoteSwiftPackageReference "Defaults" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/Defaults";
@@ -1000,14 +992,6 @@
 				minimumVersion = 3.0.0;
 			};
 		};
-		23BB705429FFF11C0083998F /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tevelee/SwiftUI-Flow";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1022,11 +1006,6 @@
 		236DC938283B71D60097B4DE /* ColorPaletteCodable */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ColorPaletteCodable;
-		};
-		237EF04F28399BE1000D6F42 /* SwiftUIFlowLayout */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 237EF04C28399BD9000D6F42 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */;
-			productName = SwiftUIFlowLayout;
 		};
 		23A0FFDF290B520800E29FAE /* Defaults */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1052,11 +1031,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 23B8BEB72A00C15800E86048 /* XCRemoteSwiftPackageReference "DSFAppearanceManager" */;
 			productName = DSFAppearanceManager;
-		};
-		23BB705529FFF11C0083998F /* Flow */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 23BB705429FFF11C0083998F /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */;
-			productName = Flow;
 		};
 		23EDD2882907AB3E00B63B08 /* ColorPaletteCodable */ = {
 			isa = XCSwiftPackageProductDependency;
