@@ -17,6 +17,7 @@ Supports the following color palette formats
 * SketchPalette files (`.sketchpalette`)
 * CorelDraw/Adobe Illustrator xml palette (`.xml`)
 * JSON encoded color files (`.jsoncolorpalette`) *ColorPaletteCodable internal file format*
+* Hex Color Palette (text file with delimited hexadecimal color strings) (`.hex`)
 
 <p align="center">
     <img src="https://img.shields.io/github/v/tag/dagronf/ColorPaletteCodable" />
@@ -71,6 +72,7 @@ Some features :-
 |`PAL.Coder.ASE`            | Adobe Swatch Exchange (.ase)                |
 |`PAL.Coder.CLR`            | NSColorList (.clr) *(macOS only)*           |
 |`PAL.Coder.GIMP`           | GIMP palette files (.gpl)                   |
+|`PAL.Coder.HEX`            | Hex Color Palette (`.hex`)                  |
 |`PAL.Coder.JSON`           | JSON encoded palette (.jsoncolorpalette)    |
 |`PAL.Coder.PaintShopPro`   | Paint Shop Pro palette (.pal;.psppalette)   |
 |`PAL.Coder.RGB`            | RGB text files (.rgb)                       |
@@ -164,6 +166,7 @@ Palette Viewer allows you to view the contents of
 * Microsoft RIFF Palette (.pal)
 * Sketch palette (.sketchpalette)
 * CorelDraw/Adobe Illustrator XML palette (.xml)
+* Hex delimited color palette (.hex)
 
 You can drag colors out of the preview window into applications that support dropping of `NSColor` instances.
 
@@ -179,13 +182,13 @@ You can also save the palette to a new format (eg. saving a gimp `.gpl` format t
 | `PAL.Coder.ASE`           | Binary                 |         ✅       |         ❌        |         ✅        |           ✅           |        ✅           |
 | `PAL.Coder.CLR`           | Binary<br>(macOS only) |         ✅       |         ❌        |         ❌        |           ❌           |        ✅           |
 | `PAL.Coder.GIMP`          | Text                   |         ✅       |         ✅        |         ❌        |           ❌           |     RGB only        |
+| `PAL.Coder.HEX`           | Text                   |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
 | `PAL.Coder.JSON`          | JSON Text              |         ✅       |         ✅        |         ✅        |           ✅           |        ✅           |
 | `PAL.Coder.PaintShopPro`  | Text                   |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
 | `PAL.Coder.RGB/A`         | Text                   |         ✅       |         ❌        |         ❌        |           ❌           |     RGB only        |
 | `PAL.Coder.RIFF`          | Binary                 |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
 | `PAL.Coder.SketchPalette` | XML                   |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
 | `PAL.Coder.XMLPalette`    | XML                    |         ✅       |         ✅        |         ✅        |           ❌           |        ✅           |
-
 
 *(A ColorType represents the type of color (global/spot/normal))*
 
@@ -249,7 +252,7 @@ Now, from within the docker container, run
 
 ```bash
 swift build
-swift test --enable-test-discovery
+swift test
 ```
 
 Note that the /src directory in the Linux container is a direct mirror of the current directory on the host OS, not a copy. If you delete a file in /src in the Linux container, that file will be gone on the host OS, too.

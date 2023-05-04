@@ -39,7 +39,8 @@ private let AvailableCoders: [PAL_PaletteCoder] = [
 	PAL.Coder.ACT(),
 	PAL.Coder.RIFF(),
 	PAL.Coder.SketchPalette(),
-	PAL.Coder.XMLPalette()
+	PAL.Coder.XMLPalette(),
+	PAL.Coder.HEX()
 ]
 
 public extension PAL.Palette {
