@@ -7,6 +7,7 @@ Supports the following color palette formats
 * Adobe Swatch Exchange (`.ase`)
 * Adobe Photoshop Color Swatch (`.aco`)
 * Adobe Color Table (`.act`)
+* Adobe Color Book (`.acb`) *(read only)*
 * NSColorList (`.clr`) *(macOS only)* 
 * RGB text files (`.rgb`)
 * RGBA text files (`.rgba`)
@@ -14,8 +15,8 @@ Supports the following color palette formats
 * Paint Shop Pro files (`.pal`, `.psppalette`)
 * Microsoft RIFF palette files (`.pal`) *(read only)*
 * SketchPalette files (`.sketchpalette`)
-* JSON encoded color files (`.jsoncolorpalette`) *ColorPaletteCodable internal file format*
 * CorelDraw/Adobe Illustrator xml palette (`.xml`)
+* JSON encoded color files (`.jsoncolorpalette`) *ColorPaletteCodable internal file format*
 
 <p align="center">
     <img src="https://img.shields.io/github/v/tag/dagronf/ColorPaletteCodable" />
@@ -62,20 +63,21 @@ Some features :-
 
 ### Coders
 
-| Type             | Description                              |
-|:-----------------|:-----------------------------------------|
-|`PAL.Coder.ASE`   | Adobe Swatch Exchange (.ase)             |
-|`PAL.Coder.ACO`   | Adobe Photoshop Color Swatch (.aco)      |
-|`PAL.Coder.ACT`   | Adobe Color Table (.act)                 |
-|`PAL.Coder.CLR`   | NSColorList (.clr) *(macOS only)*        |
-|`PAL.Coder.RGB`   | RGB text files (.rgb)                    |
-|`PAL.Coder.RGBA`  | RGB(A) text files (.rgba)                |
-|`PAL.Coder.GIMP`  | GIMP palette files (.gpl)                |
-|`PAL.Coder.JSON`  | JSON encoded palette (.jsoncolorpalette) |
-|`PAL.Coder.PaintShopPro`  | Paint Shop Pro palette (.pal;.psppalette)  |
-|`PAL.Coder.RIFF`  | Microsoft RIFF palette (.pal)  |
-|`PAL.Coder.SketchPalette`  | Sketch Palette (.sketchpalette)  |
-|`PAL.Coder.XMLPalette`  | CorelDraw/Adobe Illustrator Palette (.xml)  |
+| Type                      | Description                                 |
+|:--------------------------|:--------------------------------------------|
+|`PAL.Coder.ACB`            | Adobe Color Book (.acb)                     |
+|`PAL.Coder.ACO`            | Adobe Photoshop Color Swatch (.aco)         |
+|`PAL.Coder.ACT`            | Adobe Color Table (.act)                    |
+|`PAL.Coder.ASE`            | Adobe Swatch Exchange (.ase)                |
+|`PAL.Coder.CLR`            | NSColorList (.clr) *(macOS only)*           |
+|`PAL.Coder.GIMP`           | GIMP palette files (.gpl)                   |
+|`PAL.Coder.JSON`           | JSON encoded palette (.jsoncolorpalette)    |
+|`PAL.Coder.PaintShopPro`   | Paint Shop Pro palette (.pal;.psppalette)   |
+|`PAL.Coder.RGB`            | RGB text files (.rgb)                       |
+|`PAL.Coder.RGBA`           | RGB(A) text files (.rgba)                   |
+|`PAL.Coder.RIFF`           | Microsoft RIFF palette (.pal)               |
+|`PAL.Coder.SketchPalette`  | Sketch Palette (.sketchpalette)             |
+|`PAL.Coder.XMLPalette`     | CorelDraw/Adobe Illustrator Palette (.xml)  |
 
 ## Tasks
 
@@ -151,9 +153,10 @@ For the plugin to register, you need to run the application. After the first run
 
 Palette Viewer allows you to view the contents of
 
-* Adobe Swatch Exchange files (.ase)
+* Adobe Color Book files (.acb)
 * Adobe Photoshop Color Swatch files (.aco)
 * Adobe Color Table files (.act)
+* Adobe Swatch Exchange files (.ase)
 * Apple ColorList files (.clr)
 * RGB/RGBA hex encoded text files (.txt)
 * GIMP text files (.gpl)
@@ -168,19 +171,20 @@ You can also save the palette to a new format (eg. saving a gimp `.gpl` format t
 
 ## Palette format encoding/decoding limitations
 
-|                          | File Type              | Named<br>Colors? | Named<br>palette? | Color<br>Groups? | ColorType<br>Support? | Supports<br>Colorspaces? |
-|--------------------------|------------------------|:----------------:|:-----------------:|:-----------------:|:----------------------:|:--------------------:|
-| `PAL.Coder.JSON`         | JSON Text              |         ✅       |         ✅        |         ✅        |           ✅           |        ✅           |
-| `PAL.Coder.ASE`          | Binary                 |         ✅       |         ❌        |         ✅        |           ✅           |        ✅           |
-| `PAL.Coder.ACO`          | Binary                 |         ✅       |         ❌        |         ❌        |           ❌           |        ✅           |
-| `PAL.Coder.ACT`          | Binary                 |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
-| `PAL.Coder.RGB/A`        | Text                   |         ✅       |         ❌        |         ❌        |           ❌           |     RGB only        |
-| `PAL.Coder.GIMP`         | Text                   |         ✅       |         ✅        |         ❌        |           ❌           |     RGB only        |
-| `PAL.Coder.PaintShopPro` | Text                   |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
-| `PAL.Coder.CLR`          | Binary<br>(macOS only) |         ✅       |         ❌        |         ❌        |           ❌           |        ✅           |
-| `PAL.Coder.RIFF`         | Binary                 |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
+|                           | File Type              | Named<br>Colors? | Named<br>palette? | Color<br>Groups? | ColorType<br>Support? | Supports<br>Colorspaces? |
+|---------------------------|------------------------|:----------------:|:-----------------:|:-----------------:|:--------------------:|:--------------------:|
+| `PAL.Coder.ACB`           | Binary                 |         ✅       |         ❌        |         ❌        |           ❌           |        ✅           |
+| `PAL.Coder.ACO`           | Binary                 |         ✅       |         ❌        |         ❌        |           ❌           |        ✅           |
+| `PAL.Coder.ACT`           | Binary                 |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
+| `PAL.Coder.ASE`           | Binary                 |         ✅       |         ❌        |         ✅        |           ✅           |        ✅           |
+| `PAL.Coder.CLR`           | Binary<br>(macOS only) |         ✅       |         ❌        |         ❌        |           ❌           |        ✅           |
+| `PAL.Coder.GIMP`          | Text                   |         ✅       |         ✅        |         ❌        |           ❌           |     RGB only        |
+| `PAL.Coder.JSON`          | JSON Text              |         ✅       |         ✅        |         ✅        |           ✅           |        ✅           |
+| `PAL.Coder.PaintShopPro`  | Text                   |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
+| `PAL.Coder.RGB/A`         | Text                   |         ✅       |         ❌        |         ❌        |           ❌           |     RGB only        |
+| `PAL.Coder.RIFF`          | Binary                 |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
 | `PAL.Coder.SketchPalette` | XML                   |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
-| `PAL.Coder.XMLPalette`   | XML                    |         ✅       |         ✅        |         ✅        |           ❌           |        ✅           |
+| `PAL.Coder.XMLPalette`    | XML                    |         ✅       |         ✅        |         ✅        |           ❌           |        ✅           |
 
 
 *(A ColorType represents the type of color (global/spot/normal))*
@@ -258,6 +262,8 @@ I used the breakdown of the format defined [here](http://www.selapa.net/swatches
 The `.aco` file format is defined [here](https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577411_pgfId-1055819).
 
 The `.act` file format is defined [here](https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577411_pgfId-1070626).
+
+The `.acb` format discussed and deined [here](https://magnetiq.ca/pages/acb-spec/)
 
 The CorelDraw/Adobe Illustrator `.xml` file format is (somewhat) defined [here](https://community.coreldraw.com/sdk/w/articles/177/creating-color-palettes)
 

@@ -31,7 +31,7 @@ import Foundation
 import OSLog
 
 // Logger
-let ASEPaletteLogger = OSLogger(subsystem: Bundle.main.bundleIdentifier!, category: "ASEPalette")
+let ASEPaletteLogger = OSLogger(subsystem: Bundle.main.bundleIdentifier!, category: "ColorPaletteCoder")
 
 class OSLogger {
 	private let _logger: OSLog
@@ -79,11 +79,12 @@ class OSLogger {
 
 internal class BasicLogger {
 	enum OSLogType: String {
+		case info
 		case error
 	}
 	func log(_ type: OSLogType, _ message: StaticString, _ args: CVarArg...) {
 		let message = String(format: message.description, arguments: args)
-		Swift.print("[ASEPalette]: \(type.rawValue) - \(message)")
+		Swift.print("[ColorPaletteCoder]: \(type.rawValue) - \(message)")
 	}
 }
 

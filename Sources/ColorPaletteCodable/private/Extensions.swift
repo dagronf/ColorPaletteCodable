@@ -43,8 +43,11 @@ internal extension Data {
 }
 
 extension ExpressibleByIntegerLiteral where Self: Comparable {
-	func clamped(to range: ClosedRange<Self>) -> Self {
-		return min(range.upperBound, max(range.lowerBound, self))
+	@inlinable func clamped(to range: ClosedRange<Self>) -> Self {
+		min(range.upperBound, max(range.lowerBound, self))
+	}
+	@inlinable func unitClamped() -> Self {
+		min(1, max(0, self))
 	}
 }
 
