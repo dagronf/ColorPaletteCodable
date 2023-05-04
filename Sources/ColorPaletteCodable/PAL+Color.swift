@@ -208,10 +208,10 @@ public extension PAL.Color {
 // MARK: Convert to hex
 
 public extension PAL.Color {
-	/// Return a hex RGB string (eg. "#523b50") for an RGB color
+	/// Return a raw hex RGB string (eg. "523b50" - note no '#') for an RGB color
 	///
 	/// If the underlying colorspace is not RGB attempts conversion to RGB before failing
-	var hexRGB: String? {
+	var rawHexRGB: String? {
 		guard let rgb = try? self.converted(to: .RGB) else {
 			return nil
 		}
@@ -224,15 +224,35 @@ public extension PAL.Color {
 		let cg = UInt8(g * 255).clamped(to: 0 ... 255)
 		let cb = UInt8(b * 255).clamped(to: 0 ... 255)
 
-		return String(format: "#%02x%02x%02x", cr, cg, cb)
+		return String(format: "%02x%02x%02x", cr, cg, cb)
+	}
+
+	/// Return a raw hex RGBA string (eg. "523b50ef" - note no '#') for an RGBA color
+	///
+	/// If the underlying colorspace is not RGB attempts conversion to RGB before failing
+	var rawHexRGBA: String? {
+		guard let rgb = rawHexRGB else { return nil }
+		let alpha = String(format: "%02x", Int(self.alpha * 255.0))
+		return "\(rgb)\(alpha)"
+	}
+}
+
+public extension PAL.Color {
+	/// Return a hex RGB string (eg. "#523b50") for an RGB color
+	///
+	/// If the underlying colorspace is not RGB attempts conversion to RGB before failing
+	var hexRGB: String? {
+		guard let rgbs = self.rawHexRGB else { return nil }
+		return "#\(rgbs)"
 	}
 
 	/// Return a hex RGBA string (eg. "#523b50FF")
 	var hexRGBA: String? {
-		guard let rgb = hexRGB else { return nil }
-		return rgb + String(format: "%02x", Int(self.alpha * 255.0))
+		guard let rgbas = self.rawHexRGBA else { return nil }
+		return "#\(rgbas)"
 	}
 
+	/// Returns a comma-delimited string containing the color components
 	var componentsString: String {
 		String(self.colorComponents.map({ "\($0)" }).joined(separator: ", "))
 	}
