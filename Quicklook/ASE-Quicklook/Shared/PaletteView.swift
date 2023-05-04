@@ -204,36 +204,72 @@ class ColorGroupView: NSView, DSFAppearanceCacheNotifiable {
 
 	func rebuild() {
 
-		let showShadows = false // colors.count <= 512
-
 		self.layers.forEach { $0.removeFromSuperlayer() }
 		self.layers = colors.map {
-			let l = CAShapeLayer()
-			l.masksToBounds = false
-			l.path = CGPath(
-				roundedRect: CGRect(origin: .zero, size: colorSize),
-				cornerWidth: 4,
-				cornerHeight: 4,
-				transform: nil
-			)
-
 			let color = $0.cgColor
-			l.fillColor = color
 
-			self.usingEffectiveAppearance {
-				l.strokeColor = NSColor.secondaryLabelColor.cgColor
+			let root = CAShapeLayer()
+
+			if $0.alpha < 1.0 {
+				// If the color has an alpha component, add a black/white triangle behind to present it
+				let background = CALayer()
+				background.frame = CGRect(origin: .zero, size: colorSize)
+
+				let mask = CAShapeLayer()
+				mask.path = CGPath(
+					roundedRect: CGRect(origin: .zero, size: colorSize),
+					cornerWidth: 4,
+					cornerHeight: 4,
+					transform: nil
+				)
+				background.mask = mask
+
+				do {
+					let d = CALayer()
+					d.frame = CGRect(origin: .zero, size: colorSize)
+					d.backgroundColor = .black
+					d.zPosition = -20
+					background.addSublayer(d)
+				}
+
+				do {
+					let d = CAShapeLayer()
+					let m = CGMutablePath()
+					m.move(to: CGPoint(x: 0, y: colorSize.height))
+					m.addLine(to: CGPoint(x: colorSize.width, y: colorSize.height))
+					m.addLine(to: CGPoint(x: colorSize.width, y: 0))
+					m.closeSubpath()
+					d.path = m
+					d.fillColor = .white
+					d.zPosition = -10
+					background.addSublayer(d)
+				}
+
+				background.zPosition = -10
+				root.addSublayer(background)
 			}
-			l.lineWidth = 0.75
 
-			if showShadows {
-				l.shadowColor = .black
-				l.shadowOffset = .init(width: 0, height: 1)
-				l.shadowRadius = 2
-				l.shadowOpacity = 0.6
+			do {
+				let d = CAShapeLayer()
+				d.path = CGPath(
+					roundedRect: CGRect(origin: .zero, size: colorSize),
+					cornerWidth: 4,
+					cornerHeight: 4,
+					transform: nil
+				)
+
+				d.fillColor = color
+
+				self.usingEffectiveAppearance {
+					d.strokeColor = NSColor.secondaryLabelColor.cgColor
+				}
+				d.lineWidth = 0.75
+				d.zPosition = 10
+				root.addSublayer(d)
 			}
 
-			self.layer!.addSublayer(l)
-			return l
+			self.layer!.addSublayer(root)
+			return root
 		}
 		CATransaction.commit()
 		self.needsLayout = true

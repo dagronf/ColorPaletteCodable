@@ -4,7 +4,7 @@ import XCTest
 final class HEXPaletteTests: XCTestCase {
 	let hexResources: [(name: String, count: Int)] = [
 		("pear36", 36),
-		("pear36-2", 36),
+		("pear36-transparency", 36),
 		("behr", 4696),
 	]
 
@@ -27,6 +27,17 @@ final class HEXPaletteTests: XCTestCase {
 			// Check that the palettes match
 			XCTAssertEqual(decoded, swatches)
 		}
+	}
+
+	func testLoadingAlpha() throws {
+		let palette = try loadPalette("pear36-transparency")
+
+		XCTAssertEqual(36, palette.colors.count)
+
+		let color1 = palette.colors[0]
+		let color2 = palette.colors[1]
+		XCTAssertEqual(0.7333, color1.alpha, accuracy: 0.001)
+		XCTAssertEqual(0.7333, color2.alpha, accuracy: 0.001)
 	}
 
 	func testBasicReadFormats() throws {
