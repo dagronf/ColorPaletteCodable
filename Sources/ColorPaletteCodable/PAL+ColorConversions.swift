@@ -107,46 +107,38 @@ internal struct NaiveColorSpaceConversion: PAL_ColorSpaceConvertible {
 // Very naive colorspace conversion routines.
 
 internal struct NaiveConversions {
-
-	internal typealias RGBValue = (r: Float32, g: Float32, b: Float32)
-	internal typealias CMYKValue = (c: Float32, m: Float32, y: Float32, k: Float32)
-	internal typealias XYZValue = (x: Float32, y: Float32, z: Float32)
-	internal typealias LABValue = (l: Float32, a: Float32, b: Float32)
-
 	/// Incredibly naive implementation for CMYK to RGB.
-	static func CMYK2RGB(_ value: CMYKValue) -> RGBValue {
+	static func CMYK2RGB(_ value: PAL.Color.CMYK) -> PAL.Color.RGB {
 		let r = (1 - value.c) * (1 - value.k)
 		let g = (1 - value.m) * (1 - value.k)
 		let b = (1 - value.y) * (1 - value.k)
-		return (r, g, b)
+		return PAL.Color.RGB(r: r, g: g, b: b)
 	}
 
 	/// Incredibly naive implementation for RGB to CMYK.
-	static func RGB2CMYK(_ value: RGBValue) -> CMYKValue {
+	static func RGB2CMYK(_ value: PAL.Color.RGB) -> PAL.Color.CMYK {
 		let k = 1 - max(max(value.r, value.g), value.b)
-
 		let c = (1 - value.r - k) / (1.0 - k)
 		let m = (1 - value.g - k) / (1.0 - k)
 		let y = (1 - value.b - k) / (1.0 - k)
-
-		return (c, m, y, k)
+		return PAL.Color.CMYK(c: c, m: m, y: y, k: k, a: value.a)
 	}
 
-	static func CMYK2Gray(_ value: CMYKValue) -> Float32 {
+	static func CMYK2Gray(_ value: PAL.Color.CMYK) -> Float32 {
 		let rgb = CMYK2RGB(value)
 		return RGB2Gray(rgb)
 	}
 
-	static func Gray2CMYK(l: Float32) -> CMYKValue {
+	static func Gray2CMYK(l: Float32) -> PAL.Color.CMYK {
 		return RGB2CMYK(Gray2RGB(l: l))
 	}
 
-	static func RGB2Gray(_ value: RGBValue) -> Float32 {
+	static func RGB2Gray(_ value: PAL.Color.RGB) -> Float32 {
 		return 0.299 * value.r + 0.587 * value.g + 0.114 * value.b
 	}
 
-	static func Gray2RGB(l: Float32) -> RGBValue {
-		return (l, l, l)
+	static func Gray2RGB(l: Float32) -> PAL.Color.RGB {
+		return PAL.Color.RGB(r: l, g: l, b: l)
 	}
 
 	// I cannot verify these, so I'm going to ignore them for the moment

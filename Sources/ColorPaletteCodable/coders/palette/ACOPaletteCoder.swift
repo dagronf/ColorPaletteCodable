@@ -41,7 +41,7 @@ public extension PAL.Coder {
 // ACO colorspace definitions
 private enum ACO_Colorspace: UInt16 {
 	case RGB = 0
-	case HSB = 1 // Lightness is a 16-bit value from 0...10000. Chrominance components are each 16-bit values from -12800...12700. Gray values are represented by chrominance components of 0. Pure white = 10000,0,0.
+	case HSB = 1 // The first three values in the color data are hue, saturation, and brightness. They are full unsigned 16-bit values as in Apple's HSVColor data structure. Pure red = 0,65535, 65535.
 	case CMYK = 2 // 0 = 100% ink. For example, pure cyan = 0,65535,65535,65535.
 	case LAB = 7 // Lightness is a 16-bit value from 0...10000. Chrominance components are each 16-bit values from -12800...12700. Gray values are represented by chrominance components of 0. Pure white = 10000,0,0.
 	case Grayscale = 8 // The first value in the color data is the gray value, from 0...10000.
@@ -115,10 +115,18 @@ public extension PAL.Coder.ACO {
 					color = try PAL.Color(name: name, colorSpace: .Gray, colorComponents: [Float32(c0) / 10000])
 
 				case .LAB:
-					Swift.print("ACOPaletteCoder: Unsupported colorspace LAB")
-					throw PAL.CommonError.unsupportedColorSpace
+					// Lightness is a 16-bit value from 0...10000
+					// Chrominance components are each 16-bit values from -12800...12700
+					let l0 = Float(c0) / 100.0
+					let a0 = Float(c1) / 100.0
+					let b0 = Float(c2) / 100.0
+					color = try PAL.Color(
+						name: name,
+						colorSpace: .LAB,
+						colorComponents: [l0, a0, b0]
+					)
 				case .HSB:
-					Swift.print("ACOPaletteCoder: Unsupported colorspace HSB")
+					ASEPaletteLogger.log(.error, "ACOPaletteCoder: Unsupported color space HSB")
 					throw PAL.CommonError.unsupportedColorSpace
 				}
 
@@ -129,7 +137,7 @@ public extension PAL.Coder.ACO {
 					v2Colors.append(color)
 				}
 				else {
-					Swift.print("ACOPaletteCoder: Unexpected version \(type)")
+					ASEPaletteLogger.log(.error, "ACOPaletteCoder: Unexpected version $d", type)
 					throw PAL.CommonError.invalidVersion
 				}
 			}
@@ -167,6 +175,7 @@ public extension PAL.Coder.ACO {
 					c1 = UInt16(65535 * color.colorComponents[1])
 					c2 = UInt16(65535 * color.colorComponents[2])
 				case .CMYK:
+					// 0 = 100% ink. For example, pure cyan = 0,65535,65535,65535.
 					acoModel = .CMYK
 					c0 = UInt16(65535 - UInt16(65535 * color.colorComponents[0]))
 					c1 = UInt16(65535 - UInt16(65535 * color.colorComponents[1]))
@@ -177,7 +186,12 @@ public extension PAL.Coder.ACO {
 					c0 = UInt16(10000 * color.colorComponents[0])
 
 				case .LAB:
-					throw PAL.CommonError.unsupportedColorSpace
+					// Being lazy here. Just converting LAB colors to RGB
+					acoModel = .RGB
+					let converted = try color.converted(to: .RGB)
+					c0 = UInt16(65535 * converted.colorComponents[0])
+					c1 = UInt16(65535 * converted.colorComponents[1])
+					c2 = UInt16(65535 * converted.colorComponents[2])
 				}
 
 				outputData.append(try writeUInt16BigEndian(UInt16(acoModel.rawValue)))

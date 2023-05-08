@@ -26,6 +26,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 public extension PAL {
 	/// A color in the palette
@@ -352,8 +353,8 @@ public extension PAL.Color {
 	/// Returns the rgb values as a tuple for a color with colorspace RGB.
 	///
 	/// Throws `CommonError.mismatchedColorspace` if the colorspace is not RGB
-	@inlinable func rgbValues() throws -> (r: Float32, g: Float32, b: Float32) {
-		if colorSpace == .RGB { return (r: _r, g: _g, b: _b) }
+	@inlinable func rgbValues() throws -> PAL.Color.RGB {
+		if colorSpace == .RGB { return PAL.Color.RGB(r: _r, g: _g, b: _b, a: self.alpha) }
 		throw PAL.CommonError.mismatchedColorspace
 	}
 
@@ -396,9 +397,9 @@ public extension PAL.Color {
 	/// Returns the cmyk values as a tuple for a color with colorspace CMYK
 	///
 	/// Throws `CommonError.mismatchedColorspace` if the colorspace is not CMYK
-	@inlinable func cmykValues() throws -> (c: Float32, m: Float32, y: Float32, k: Float32) {
+	@inlinable func cmykValues() throws -> PAL.Color.CMYK {
 		if colorSpace != .CMYK { throw PAL.CommonError.mismatchedColorspace }
-		return (c: _c, m: _m, y: _y, k: _k)
+		return PAL.Color.CMYK(c: _c, m: _m, y: _y, k: _k, a: self.alpha)
 	}
 
 	/// The color's cyan component IF the colorspace is `.CMYK`

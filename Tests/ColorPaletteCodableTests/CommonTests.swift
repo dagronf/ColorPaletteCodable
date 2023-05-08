@@ -120,38 +120,35 @@ final class CommonTests: XCTestCase {
 
 	func testCMKYRBGNaiveConversions() throws {
 
-		let c1 = NaiveConversions.RGB2CMYK((r: 139.0 / 255.0, g: 0, b: 22.0 / 255.0))
-		XCTAssertEqual(c1.0, 0, accuracy: 0.01)
-		XCTAssertEqual(c1.1, 1, accuracy: 0.01)
-		XCTAssertEqual(c1.2, 0.84, accuracy: 0.01)
-		XCTAssertEqual(c1.3, 0.45, accuracy: 0.01)
+		let c1 = NaiveConversions.RGB2CMYK(PAL.Color.RGB(r: 139.0 / 255.0, g: 0, b: 22.0 / 255.0))
+		XCTAssertEqual(c1, PAL.Color.CMYK(c: 0, m: 1, y: 0.84, k: 0.45))
 
-		let r1 = NaiveConversions.CMYK2RGB((c: 0, m: 1, y: 0.84, k: 0.45))
-		XCTAssertEqual(r1.0, 139.0 / 255.0, accuracy: 0.01)
-		XCTAssertEqual(r1.1, 0, accuracy: 0.01)
-		XCTAssertEqual(r1.2, 22.0 / 255.0, accuracy: 0.01)
+		let r1 = NaiveConversions.CMYK2RGB(PAL.Color.CMYK(c: 0, m: 1, y: 0.84, k: 0.45))
+		XCTAssertEqual(r1.r, 139.0 / 255.0, accuracy: 0.01)
+		XCTAssertEqual(r1.g, 0, accuracy: 0.01)
+		XCTAssertEqual(r1.b, 22.0 / 255.0, accuracy: 0.01)
 
-		let c2 = NaiveConversions.RGB2CMYK((r: 110 / 255.0, g: 195 / 255.0, b: 201 / 255.0))
-		XCTAssertEqual(c2.0, 0.45, accuracy: 0.01)
-		XCTAssertEqual(c2.1, 0.03, accuracy: 0.01)
-		XCTAssertEqual(c2.2, 0.0, accuracy: 0.01)
-		XCTAssertEqual(c2.3, 0.21, accuracy: 0.01)
+		let c2 = NaiveConversions.RGB2CMYK(PAL.Color.RGB(r: 110 / 255.0, g: 195 / 255.0, b: 201 / 255.0))
+		XCTAssertEqual(c2.c, 0.45, accuracy: 0.01)
+		XCTAssertEqual(c2.m, 0.03, accuracy: 0.01)
+		XCTAssertEqual(c2.y, 0.0, accuracy: 0.01)
+		XCTAssertEqual(c2.k, 0.21, accuracy: 0.01)
 
-		let r2 = NaiveConversions.CMYK2RGB((c: 0.45, m: 0.03, y: 0.0, k: 0.21))
-		XCTAssertEqual(r2.0, 110 / 255.0, accuracy: 0.01)
-		XCTAssertEqual(r2.1, 195 / 255.0, accuracy: 0.01)
-		XCTAssertEqual(r2.2, 201 / 255.0, accuracy: 0.01)
+		let r2 = NaiveConversions.CMYK2RGB(PAL.Color.CMYK(c: 0.45, m: 0.03, y: 0.0, k: 0.21))
+		XCTAssertEqual(r2.r, 110 / 255.0, accuracy: 0.01)
+		XCTAssertEqual(r2.g, 195 / 255.0, accuracy: 0.01)
+		XCTAssertEqual(r2.b, 201 / 255.0, accuracy: 0.01)
 
-		let c3 = NaiveConversions.RGB2CMYK((r: 0, g: 0, b: 1))
-		XCTAssertEqual(c3.0, 1, accuracy: 0.01)
-		XCTAssertEqual(c3.1, 1, accuracy: 0.01)
-		XCTAssertEqual(c3.2, 0, accuracy: 0.01)
-		XCTAssertEqual(c3.3, 0, accuracy: 0.01)
+		let c3 = NaiveConversions.RGB2CMYK(PAL.Color.RGB(r: 0, g: 0, b: 1))
+		XCTAssertEqual(c3.c, 1, accuracy: 0.01)
+		XCTAssertEqual(c3.m, 1, accuracy: 0.01)
+		XCTAssertEqual(c3.y, 0, accuracy: 0.01)
+		XCTAssertEqual(c3.k, 0, accuracy: 0.01)
 
-		let r3 = NaiveConversions.CMYK2RGB((c: 1, m: 1, y: 0, k: 0))
-		XCTAssertEqual(r3.0, 0, accuracy: 0.01)
-		XCTAssertEqual(r3.1, 0, accuracy: 0.01)
-		XCTAssertEqual(r3.2, 1, accuracy: 0.01)
+		let r3 = NaiveConversions.CMYK2RGB(PAL.Color.CMYK(c: 1, m: 1, y: 0, k: 0))
+		XCTAssertEqual(r3.r, 0, accuracy: 0.01)
+		XCTAssertEqual(r3.g, 0, accuracy: 0.01)
+		XCTAssertEqual(r3.b, 1, accuracy: 0.01)
 	}
 
 	func testDefaultColors() throws {
@@ -182,5 +179,64 @@ final class CommonTests: XCTestCase {
 		XCTAssertEqual(try cr.g(), 0.640, accuracy: 0.001)
 		XCTAssertEqual(try cr.b(), 0.855, accuracy: 0.001)
 		#endif
+	}
+
+	func testHSB() throws {
+		do {
+			#if os(macOS)
+			// random device rgb color
+
+			let r1 = CGFloat.random(in: 0...1)
+			let g1 = CGFloat.random(in: 0...1)
+			let b1 = CGFloat.random(in: 0...1)
+
+			// convert to hsb using NSColor
+			let c = NSColor(deviceRed: r1, green: g1, blue: b1, alpha: 1)
+			let h1 = c.hueComponent
+			let s1 = c.saturationComponent
+			let v1 = c.brightnessComponent
+
+			// convert to hsb using routine
+			let hsb1 = RGB_to_HSB(RGB: (r: r1, g: g1, b: b1))
+
+			// Verify our routine matches the NSColor routines
+			XCTAssertEqual(h1, hsb1.h, accuracy: 0.00001)
+			XCTAssertEqual(s1, hsb1.s, accuracy: 0.00001)
+			XCTAssertEqual(v1, hsb1.b, accuracy: 0.00001)
+
+			// Verify our routine reverses correctly
+			let rgb2 = HSB_to_RGB((h: h1, s: s1, b: v1))
+			XCTAssertEqual(r1, rgb2.r, accuracy: 0.00001)
+			XCTAssertEqual(g1, rgb2.g, accuracy: 0.00001)
+			XCTAssertEqual(b1, rgb2.b, accuracy: 0.00001)
+
+			#endif
+		}
+		do {
+			let color = try PAL.Color(r: 0, g: 255, b: 0)
+			let hsb1 = try color.hsb()
+			XCTAssertEqual(hsb1.h, Float32(0.3333), accuracy: 0.0001)
+			XCTAssertEqual(hsb1.s, Float32(1))
+			XCTAssertEqual(hsb1.b, Float32(1))
+		}
+		do {
+			let color = try PAL.Color(r: 50, g: 216, b: 164)
+			let hsb1 = try color.hsb()
+			XCTAssertEqual(hsb1.h, Float32(161.2 / 360.0), accuracy: 0.0001)	// 0...360
+			XCTAssertEqual(hsb1.s, Float32(76.85 / 100.0), accuracy: 0.0001)	// 0...100
+			XCTAssertEqual(hsb1.b, Float32(84.71 / 100.0), accuracy: 0.0001)	// 0...100
+		}
+
+//		do {
+//			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "pear36", withExtension: "hex"))
+//			let palette = try PAL.Palette.Decode(from: fileURL)
+//
+//			for color in palette.allColors() {
+//				let hsb1 = try color.hsb()
+//				let recon = try PAL.Color(name: color.name, h: hsb1.h, s: hsb1.s, b: hsb1.b, a: color.alpha)
+//				XCTAssertEqual(recon, color)
+//			}
+//
+//		}
 	}
 }
