@@ -226,17 +226,13 @@ final class CommonTests: XCTestCase {
 			XCTAssertEqual(hsb1.s, Float32(76.85 / 100.0), accuracy: 0.0001)	// 0...100
 			XCTAssertEqual(hsb1.b, Float32(84.71 / 100.0), accuracy: 0.0001)	// 0...100
 		}
+	}
 
-//		do {
-//			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "pear36", withExtension: "hex"))
-//			let palette = try PAL.Palette.Decode(from: fileURL)
-//
-//			for color in palette.allColors() {
-//				let hsb1 = try color.hsb()
-//				let recon = try PAL.Color(name: color.name, h: hsb1.h, s: hsb1.s, b: hsb1.b, a: color.alpha)
-//				XCTAssertEqual(recon, color)
-//			}
-//
-//		}
+	func testUnitWrapped() throws {
+		XCTAssertEqual(0, (0).wrappingUnitValue())
+		XCTAssertEqual(0.4, (1.4).wrappingUnitValue(), accuracy: 0.0001)
+		XCTAssertEqual(0.8, (6.8).wrappingUnitValue(), accuracy: 0.0001)
+		XCTAssertEqual(0.6, (-0.4).wrappingUnitValue(), accuracy: 0.0001)
+		XCTAssertEqual(0.6, (-10.4).wrappingUnitValue(), accuracy: 0.0001)
 	}
 }
