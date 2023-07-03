@@ -55,6 +55,8 @@ Some features :-
 * Integrated pasteboard support for macOS/iOS
 * Simple image generation for an group of colors
 
+[Online API Documentation](https://swiftpackageindex.com/dagronf/ColorPaletteCodable/main/documentation/colorpalettecodable)
+
 ## API
 
 | Type          | Description    | 
