@@ -140,3 +140,40 @@ RGBType HSV_to_RGB( HSVType HSV )
 	 RETURN_RGB(0, 0, 0);
 	 }
 */
+
+
+#if canImport(CoreGraphics)
+import CoreGraphics
+
+private let DefaultHueConversionColorspace = CGColorSpace(name: CGColorSpace.sRGB)!
+
+extension CGColor {
+	/// Return the HSB representation for this color (converted to sRGB)
+	func hue() -> (h: CGFloat, s: CGFloat, b: CGFloat)? {
+		var mapped = self
+		if self.colorSpace != DefaultHueConversionColorspace {
+			guard let m = self.converted(to: DefaultHueConversionColorspace, intent: .defaultIntent, options: nil) else {
+				return nil
+			}
+			mapped = m
+		}
+
+		guard let rgb = mapped.components, rgb.count == 4 else {
+			return nil
+		}
+
+		let hsb = RGB_to_HSB(RGB: (r: rgb[0], g: rgb[1], b: rgb[2]))
+		return (h: hsb.h, s: hsb.s, b: hsb.b)
+	}
+
+	/// Create an sRGB CGColor from HSB values
+	static func fromHSB(h: CGFloat, s: CGFloat, b: CGFloat) -> CGColor? {
+		let h = max(0, min(1, h))
+		let s = max(0, min(1, s))
+		let b = max(0, min(1, b))
+		let rgb = HSB_to_RGB((h: h, s: s, b: b))
+		let components: [CGFloat] = [rgb.r, rgb.g, rgb.b, 1.0]
+		return CGColor(colorSpace: DefaultHueConversionColorspace, components: components)
+	}
+}
+#endif

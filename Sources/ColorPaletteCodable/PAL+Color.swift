@@ -26,7 +26,6 @@
 //
 
 import Foundation
-import CoreGraphics
 
 public extension PAL {
 	/// A color in the palette
