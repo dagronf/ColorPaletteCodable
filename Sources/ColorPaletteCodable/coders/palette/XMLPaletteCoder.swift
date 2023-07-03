@@ -217,7 +217,8 @@ extension PAL.Coder.XMLPalette {
 				result += " name=\"\(color.name)\""
 			}
 
-			let colorspaceInfo = try {
+			// Needs an explicit type for supporting older swift versions
+			let colorspaceInfo: (String, [Float32]) = try {
 				switch color.colorSpace {
 				case .CMYK: return ("CMYK", color.colorComponents)
 				case .RGB: return ("RGB", color.colorComponents)

@@ -26,6 +26,7 @@ Supports the following color palette formats
     <a href="https://swift.org/package-manager">
         <img src="https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat" alt="Swift Package Manager" />
     </a>
+    <img src="https://img.shields.io/github/actions/workflow/status/dagronf/ColorPaletteCodable/swift.yml">
 </p>
 
 <p align="center">
