@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		230BE3512A526EDD009A4D88 /* CheckerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F1FBA42907B8C200277016 /* CheckerView.swift */; };
+		230BE3522A526EE1009A4D88 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDD2792907A81D00B63B08 /* PreviewViewController.swift */; };
+		230BE3532A526EE5009A4D88 /* PreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23EDD27D2907A81D00B63B08 /* PreviewViewController.xib */; };
+		230BE3552A526F8F009A4D88 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 230BE3542A526F8F009A4D88 /* Defaults */; };
 		232540B72909F3F900FC94C6 /* QuickLookThumbnailing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 232540B62909F3F900FC94C6 /* QuickLookThumbnailing.framework */; };
 		232540B82909F3F900FC94C6 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A03DF728332AA2003846A4 /* Quartz.framework */; };
 		232540BB2909F3F900FC94C6 /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232540BA2909F3F900FC94C6 /* ThumbnailProvider.swift */; };
@@ -170,6 +174,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				230BE3552A526F8F009A4D88 /* Defaults in Frameworks */,
 				23B8BEBD2A00C17500E86048 /* DSFAppearanceManager in Frameworks */,
 				236DC939283B71D60097B4DE /* ColorPaletteCodable in Frameworks */,
 			);
@@ -203,7 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				236DC935283B71BF0097B4DE /* ColorPaletteCodable */,
-				23B20C102835D551005BD670 /* ASE Viewer */,
+				23B20C102835D551005BD670 /* Palette Viewer */,
 				23A03DF928332AA2003846A4 /* ASEQuickLookPlugin */,
 				23FF72832839CA0500448D16 /* Shared */,
 				23EDD2782907A81D00B63B08 /* ASEGradientQuicklookPlugin */,
@@ -246,7 +251,7 @@
 			path = ASEQuickLookPlugin;
 			sourceTree = "<group>";
 		};
-		23B20C102835D551005BD670 /* ASE Viewer */ = {
+		23B20C102835D551005BD670 /* Palette Viewer */ = {
 			isa = PBXGroup;
 			children = (
 				237EF08B2839BCA5000D6F42 /* Palette_Viewer.entitlements */,
@@ -261,7 +266,7 @@
 				23A0FFE6290B692000E29FAE /* GradientViewController.swift */,
 				23A0FFE7290B692000E29FAE /* GradientViewController.xib */,
 			);
-			path = "ASE Viewer";
+			path = "Palette Viewer";
 			sourceTree = "<group>";
 		};
 		23EDD2782907A81D00B63B08 /* ASEGradientQuicklookPlugin */ = {
@@ -353,6 +358,7 @@
 			packageProductDependencies = (
 				236DC938283B71D60097B4DE /* ColorPaletteCodable */,
 				23B8BEBC2A00C17500E86048 /* DSFAppearanceManager */,
+				230BE3542A526F8F009A4D88 /* Defaults */,
 			);
 			productName = "ASE Viewer";
 			productReference = 23B20C0F2835D551005BD670 /* Palette Viewer.app */;
@@ -450,6 +456,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				23A0FFE9290B692000E29FAE /* GradientViewController.xib in Resources */,
+				230BE3532A526EE5009A4D88 /* PreviewViewController.xib in Resources */,
 				23B20C182835D552005BD670 /* Assets.xcassets in Resources */,
 				23A0FFE4290B61A700E29FAE /* GradientDocument.xib in Resources */,
 				23B20C1B2835D552005BD670 /* Main.storyboard in Resources */,
@@ -494,9 +501,11 @@
 				23B20C142835D551005BD670 /* ViewController.swift in Sources */,
 				23A0FFE3290B61A700E29FAE /* GradientDocument.swift in Sources */,
 				23A0FFE8290B692000E29FAE /* GradientViewController.swift in Sources */,
+				230BE3512A526EDD009A4D88 /* CheckerView.swift in Sources */,
 				23B20C122835D551005BD670 /* AppDelegate.swift in Sources */,
 				23B20C162835D551005BD670 /* Document.swift in Sources */,
 				237EF04628398ABD000D6F42 /* PaletteView.swift in Sources */,
+				230BE3522A526EE1009A4D88 /* PreviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -801,7 +810,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "ASE Viewer/Palette_Viewer.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Palette Viewer/Palette_Viewer.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -811,7 +820,7 @@
 				DEVELOPMENT_TEAM = 3L6RK3LGGW;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "ASE Viewer/Info.plist";
+				INFOPLIST_FILE = "Palette Viewer/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.graphics-design";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
@@ -835,7 +844,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "ASE Viewer/Palette_Viewer.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Palette Viewer/Palette_Viewer.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -845,7 +854,7 @@
 				DEVELOPMENT_TEAM = 3L6RK3LGGW;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "ASE Viewer/Info.plist";
+				INFOPLIST_FILE = "Palette Viewer/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.graphics-design";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
@@ -995,6 +1004,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		230BE3542A526F8F009A4D88 /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 23A0FFDC290B51BC00E29FAE /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
+		};
 		232540C42909F41C00FC94C6 /* ColorPaletteCodable */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ColorPaletteCodable;

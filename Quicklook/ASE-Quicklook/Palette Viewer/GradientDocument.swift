@@ -48,14 +48,8 @@ class GradientDocument: NSDocument {
 		aController.window?.autorecalculatesKeyViewLoop = true
 
 		aController.contentViewController = gradientVC
-//		containerView.addSubview(gradientVC.view)
-//
-//		gradientVC.view.translatesAutoresizingMaskIntoConstraints = false
-//		gradientVC.view.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
-//		gradientVC.view.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
-//		gradientVC.view.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
-//		gradientVC.view.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
 
+		gradientVC.gradient = self.gradient
 	}
 
 	override func writableTypes(for saveOperation: NSDocument.SaveOperationType) -> [String] {

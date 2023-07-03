@@ -67,6 +67,10 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 		// Do any additional setup after loading the view.
 	}
 
+	func rebuild() {
+		self.gradientView.gradient = self.gradient
+	}
+
 	func preparePreviewOfFile(at url: URL, completionHandler handler: @escaping (Error?) -> Void) {
 		do {
 			self.gradient = try PAL.Gradient.Decode(from: url)
