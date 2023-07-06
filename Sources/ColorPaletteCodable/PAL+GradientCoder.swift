@@ -30,6 +30,7 @@ import Foundation
 private let AvailableGradientCoders: [PAL_GradientCoder] = [
 	PAL.Gradient.Coder.JSON(),
 	PAL.Gradient.Coder.GGR(),
+	PAL.Gradient.Coder.GRD(),
 ]
 
 public extension PAL.Gradient {
@@ -44,11 +45,11 @@ public protocol PAL_GradientCoder {
 	/// The extension for the file, or a unique name for identifying the coder type.
 	var fileExtension: String { get }
 
-	/// Create a gradient from an input stream
-	func decode(from inputStream: InputStream) throws -> PAL.Gradient
+	/// Load gradients from an input stream
+	func decode(from inputStream: InputStream) throws -> PAL.Gradients
 
-	/// Write the gradient to data
-	func encode(_ gradient: PAL.Gradient) throws -> Data
+	/// Write the gradients to data
+	func encode(_ gradients: PAL.Gradients) throws -> Data
 }
 
 public extension PAL_GradientCoder {
@@ -58,7 +59,7 @@ public extension PAL_GradientCoder {
 	/// Create a palette object from the contents of a fileURL
 	/// - Parameter fileURL: The file containing the palette
 	/// - Returns: A palette object
-	func decode(from fileURL: URL) throws -> PAL.Gradient {
+	func decode(from fileURL: URL) throws -> PAL.Gradients {
 		guard let inputStream = InputStream(fileAtPath: fileURL.path) else {
 			throw PAL.CommonError.unableToLoadFile
 		}
@@ -69,7 +70,7 @@ public extension PAL_GradientCoder {
 	/// Create a gradient object from the provided data
 	/// - Parameter data: The encoded gradient
 	/// - Returns: A gradient object
-	func decode(from data: Data) throws -> PAL.Gradient {
+	func decode(from data: Data) throws -> PAL.Gradients {
 		let inputStream = InputStream(data: data)
 		inputStream.open()
 		return try decode(from: inputStream)
@@ -78,7 +79,7 @@ public extension PAL_GradientCoder {
 
 // MARK: - Gradient extension
 
-public extension PAL.Gradient {
+public extension PAL.Gradients {
 
 	/// Returns a gradient coder for the specified fileExtension
 	static func coder(for fileExtension: String) -> PAL_GradientCoder? {
@@ -91,7 +92,7 @@ public extension PAL.Gradient {
 	///   - fileURL: The file to load
 	///   - coder: If set, provides a coder to use instead if using the fileURL extension
 	/// - Returns: A palette
-	static func Decode(from fileURL: URL, usingCoder coder: PAL_GradientCoder? = nil) throws -> PAL.Gradient {
+	static func Decode(from fileURL: URL, usingCoder coder: PAL_GradientCoder? = nil) throws -> PAL.Gradients {
 		let coder: PAL_GradientCoder = try {
 			if let coder = coder {
 				return coder
@@ -109,7 +110,7 @@ public extension PAL.Gradient {
 	///   - data: The data
 	///   - fileExtension: The expected file extension for the data
 	/// - Returns: A gradient
-	static func Decode(from data: Data, fileExtension: String) throws -> PAL.Gradient {
+	static func Decode(from data: Data, fileExtension: String) throws -> PAL.Gradients {
 		guard let coder = self.coder(for: fileExtension) else {
 			throw PAL.CommonError.unsupportedCoderType
 		}
@@ -121,11 +122,11 @@ public extension PAL.Gradient {
 	///   - palette: The palette to encode
 	///   - fileExtension: The coder to use for the encoded data
 	/// - Returns: The encoded data
-	static func Encode(_ gradient: PAL.Gradient, fileExtension: String) throws -> Data {
+	static func Encode(_ gradients: PAL.Gradients, fileExtension: String) throws -> Data {
 		guard let coder = self.coder(for: fileExtension) else {
 			throw PAL.CommonError.unsupportedCoderType
 		}
-		return try coder.encode(gradient)
+		return try coder.encode(gradients)
 	}
 
 	/// Encode the gradient using the provided gradient coder

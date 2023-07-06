@@ -338,4 +338,21 @@ class GGRGradientTests: XCTestCase {
 			XCTAssertEqual(3, gradient2.stops.count)
 		}
 	}
+
+	func testGRD1() throws {
+		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "my-custom-gradient-3-rgb", withExtension: "grd"))
+		let i = InputStream(url: fileURL)!
+		i.open()
+		let grad1 = try PAL.Gradient.Coder.GRD().decode(from: i)
+		Swift.print(grad1)
+	}
+
+	func testGRD2() throws {
+		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "35", withExtension: "grd"))
+		let i = InputStream(url: fileURL)!
+		i.open()
+		let grad1 = try PAL.Gradient.Coder.GRD().decode(from: i)
+		Swift.print(grad1)
+	}
+
 }

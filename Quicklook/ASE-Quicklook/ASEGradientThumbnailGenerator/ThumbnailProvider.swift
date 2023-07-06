@@ -31,7 +31,8 @@ import ColorPaletteCodable
 class ThumbnailProvider: QLThumbnailProvider {
 	override func provideThumbnail(for request: QLFileThumbnailRequest, _ handler: @escaping (QLThumbnailReply?, Error?) -> Void) {
 		guard
-			let gradient = try? PAL.Gradient.Decode(from: request.fileURL),
+			let gradients = try? PAL.Gradients.Decode(from: request.fileURL),
+			let gradient = gradients.gradients.first,
 			let cgGradient = gradient.cgGradient()
 		else {
 			handler(nil, nil)

@@ -38,15 +38,15 @@ public extension PAL.Gradient.Coder {
 		/// Attempt to decode a gradient using the
 		/// - Parameter inputStream: The input stream containing the data
 		/// - Returns: a gradient
-		public func decode(from inputStream: InputStream) throws -> PAL.Gradient {
-			try JSONDecoder().decode(PAL.Gradient.self, from: inputStream.readAllData())
+		public func decode(from inputStream: InputStream) throws -> PAL.Gradients {
+			try JSONDecoder().decode(PAL.Gradients.self, from: inputStream.readAllData())
 		}
 
 		/// Encode the gradient using the default JSON format
 		/// - Parameter gradient: The gradient to encode
 		/// - Returns: encoded data
-		public func encode(_ gradient: PAL.Gradient) throws -> Data {
-			try JSONEncoder().encode(gradient)
+		public func encode(_ gradients: PAL.Gradients) throws -> Data {
+			try JSONEncoder().encode(gradients)
 		}
 	}
 }

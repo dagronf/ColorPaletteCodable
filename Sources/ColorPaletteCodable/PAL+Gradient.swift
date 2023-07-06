@@ -33,6 +33,18 @@ public extension PAL {
 		case cannotNormalize
 		/// Attempted to map a palette onto a gradient with a different number of colors
 		case mismatchColorCount
+
+		case unsupportedColorFormat
+	}
+
+	/// A collection of gradients
+	struct Gradients: Codable {
+		/// The gradients
+		public var gradients: [Gradient]
+		/// Create a collection of gradients
+		public init(gradients: [Gradient] = []) {
+			self.gradients = gradients
+		}
 	}
 
 	/// A simple gradient object

@@ -43,8 +43,9 @@ enum PresentationType: Int, DefaultsSerializable {
 class PreviewViewController: NSViewController, QLPreviewingController {
 	@IBOutlet var gradientView: GradientDisplayView!
 	@IBOutlet weak var gradientStyleSegment: NSSegmentedControl!
+	@IBOutlet weak var directionalControl: NSSegmentedControl!
 
-	var gradient: PAL.Gradient?
+	var gradients: PAL.Gradients?
 
 	@objc dynamic var selectedPresentationTag: Int = Defaults[.presentation].rawValue {
 		didSet {
@@ -58,6 +59,8 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 		}
 	}
 
+	var selectedGradientIndex = 0
+
 	override var nibName: NSNib.Name? {
 		return NSNib.Name("PreviewViewController")
 	}
@@ -65,16 +68,25 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 	override func loadView() {
 		super.loadView()
 		// Do any additional setup after loading the view.
+		self.directionalControl.font = .userFixedPitchFont(ofSize: NSFont.systemFontSize)
 	}
 
 	func rebuild() {
-		self.gradientView.gradient = self.gradient
+		self.gradientView.gradient = self.gradients?.gradients.first
+
+		if let g = gradients {
+			self.directionalControl.setLabel("\(self.selectedGradientIndex + 1)/\(g.gradients.count)", forSegment: 1)
+		}
+		else {
+			self.directionalControl.setLabel("", forSegment: 1)
+		}
 	}
 
 	func preparePreviewOfFile(at url: URL, completionHandler handler: @escaping (Error?) -> Void) {
 		do {
-			self.gradient = try PAL.Gradient.Decode(from: url)
-			self.gradientView.gradient = self.gradient
+			// TODO: Support multiple?
+			self.gradients = try PAL.Gradients.Decode(from: url)
+			self.gradientView.gradient = self.gradients?.gradients.first
 			handler(nil)
 		}
 		catch {
@@ -82,6 +94,21 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 		}
 
 		handler(nil)
+	}
+	@IBAction func changeGradient(_ sender: NSSegmentedControl) {
+		if let g = gradients {
+			var next = selectedGradientIndex + sender.selectedTag()
+			if next >= g.gradients.count {
+				next = 0
+			}
+			else if next < 0 {
+				next = g.gradients.count - 1
+			}
+			self.selectedGradientIndex = next
+			self.gradientView.gradient = g.gradients[next]
+
+			self.directionalControl.setLabel("\(next + 1)/\(g.gradients.count)", forSegment: 1)
+		}
 	}
 }
 
@@ -92,7 +119,8 @@ class GradientDisplayView: NSView {
 
 	var gradient: PAL.Gradient? {
 		didSet {
-			self._gradient = gradient?.cgGradient()
+			self._gradient = self.gradient?.cgGradient()
+			self.needsDisplay = true
 		}
 	}
 

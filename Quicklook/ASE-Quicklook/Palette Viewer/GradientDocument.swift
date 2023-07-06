@@ -31,7 +31,7 @@ import ColorPaletteCodable
 
 class GradientDocument: NSDocument {
 
-	var gradient: PAL.Gradient?
+	var gradients: PAL.Gradients?
 
 	let gradientVC = GradientViewController()
 
@@ -49,7 +49,7 @@ class GradientDocument: NSDocument {
 
 		aController.contentViewController = gradientVC
 
-		gradientVC.gradient = self.gradient
+		gradientVC.gradients = self.gradients
 	}
 
 	override func writableTypes(for saveOperation: NSDocument.SaveOperationType) -> [String] {
@@ -68,7 +68,7 @@ class GradientDocument: NSDocument {
 	override func read(from url: URL, ofType typeName: String) throws {
 		// Insert code here to read your document from the given data of the specified type, throwing an error in case of failure.
 		// Alternatively, you could remove this method and override read(from:ofType:) instead.  If you do, you should also override isEntireFileLoaded to return false if the contents are lazily loaded.
-		self.gradient = try PAL.Gradient.Decode(from: url)
+		self.gradients = try PAL.Gradients.Decode(from: url)
 
 		//throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
 	}

@@ -223,13 +223,21 @@ let decoded = try PAL.Gradient.Decode(
 
 The gradient coder includes basic importers/exporters.
 
-| Type                     | Description                           |
-|:-------------------------|:--------------------------------------|
-|`PAL.Gradient.Coder.JSON` | Built-in JSON format (.jsongradient)  |
-|`PAL.Gradient.Coder.GGR`  | GIMP gradient file (.ggr)             |
+| Type                     | Description                                |
+|:-------------------------|:-------------------------------------------|
+|`PAL.Gradient.Coder.JSON` | Built-in JSON format (.jsongradient)       |
+|`PAL.Gradient.Coder.GGR`  | GIMP gradient file (.ggr)                  |
+|`PAL.Gradient.Coder.GRD`  | Basic Adobe Photoshop gradient file (.grd) |
 
 * `.ggr` support doesn't respect segment blending functions other than linear (always imported as linear)
 * `.ggr` support doesn't allow for segment coloring functions other than rgb (throws an error)
+* `.grd` support is _very_ basic at this point. There's no formal document for it, and I built this using very 
+vague documents [1](http://www.selapa.net/swatches/gradients/fileformats.php), [2]()
+  * doesn't support encode
+  * Only user colors are supported in the gradients (ie. book colors aren't supported)
+  * Noise gradients aren't supported
+  * only rgb, cmyk, hsb, gray colors are supported
+  
 
 For some nice gradient files, [cptcity](http://soliton.vm.bytemark.co.uk/pub/cpt-city/index.html) has all of them :-)
 

@@ -15,9 +15,9 @@ class GradientViewController: NSViewController {
 	}()
 	var childView: NSView { gradientVC.view }
 
-	var gradient: PAL.Gradient? {
+	var gradients: PAL.Gradients? {
 		didSet {
-			self.gradientVC.gradient = self.gradient
+			self.gradientVC.gradients = self.gradients
 			self.gradientVC.rebuild()
 		}
 	}

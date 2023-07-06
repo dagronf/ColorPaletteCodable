@@ -7,6 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PreviewViewController" customModule="ASEGradientQuicklookPlugin" customModuleProvider="target">
             <connections>
+                <outlet property="directionalControl" destination="QQo-eV-sI8" id="RaI-Jn-72d"/>
                 <outlet property="gradientStyleSegment" destination="Sz6-eI-gzL" id="dvB-1m-3Kc"/>
                 <outlet property="gradientView" destination="vxu-kz-2GF" id="Ad1-Yp-FNe"/>
                 <outlet property="view" destination="c22-O7-iKe" id="NRM-P4-wb6"/>
@@ -38,10 +39,27 @@
                             <rect key="frame" x="0.0" y="20" width="480" height="5"/>
                         </box>
                         <stackView distribution="fillProportionally" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="100" verticalStackHuggingPriority="999" horizontalHuggingPriority="100" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TBP-WY-iqh">
-                            <rect key="frame" x="160" y="0.0" width="161" height="18"/>
+                            <rect key="frame" x="96" y="0.0" width="288" height="18"/>
                             <subviews>
+                                <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QQo-eV-sI8">
+                                    <rect key="frame" x="-3" y="-3" width="116" height="23"/>
+                                    <segmentedCell key="cell" controlSize="small" borderStyle="border" alignment="left" style="rounded" trackingMode="momentary" id="f32-Pr-2Xf">
+                                        <font key="font" metaFont="smallSystem"/>
+                                        <segments>
+                                            <segment image="NSGoBackTemplate" width="28" tag="-1"/>
+                                            <segment label="0/0" width="52"/>
+                                            <segment image="NSGoForwardTemplate" width="28" tag="1"/>
+                                        </segments>
+                                    </segmentedCell>
+                                    <connections>
+                                        <action selector="changeGradient:" target="-2" id="ZZV-3T-BD9"/>
+                                    </connections>
+                                </segmentedControl>
+                                <box horizontalHuggingPriority="750" horizontalCompressionResistancePriority="10" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="3SU-4D-yH5">
+                                    <rect key="frame" x="116" y="0.0" width="5" height="18"/>
+                                </box>
                                 <segmentedControl verticalHuggingPriority="750" horizontalCompressionResistancePriority="999" verticalCompressionResistancePriority="999" translatesAutoresizingMaskIntoConstraints="NO" id="Sz6-eI-gzL">
-                                    <rect key="frame" x="-2" y="-2" width="89" height="21"/>
+                                    <rect key="frame" x="125" y="-2" width="89" height="21"/>
                                     <segmentedCell key="cell" controlSize="small" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="ii9-rp-rV6">
                                         <font key="font" metaFont="smallSystem"/>
                                         <segments>
@@ -55,10 +73,10 @@
                                     </connections>
                                 </segmentedControl>
                                 <box horizontalHuggingPriority="750" horizontalCompressionResistancePriority="10" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="zUf-L5-fGo">
-                                    <rect key="frame" x="91" y="0.0" width="5" height="18"/>
+                                    <rect key="frame" x="218" y="0.0" width="5" height="18"/>
                                 </box>
                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9U4-f6-0nG">
-                                    <rect key="frame" x="101" y="-1" width="60" height="20"/>
+                                    <rect key="frame" x="228" y="-1" width="60" height="20"/>
                                     <buttonCell key="cell" type="check" title="reverse" bezelStyle="regularSquare" imagePosition="left" controlSize="small" state="on" inset="2" id="DMh-fo-lqX">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="smallSystem"/>
@@ -72,8 +90,12 @@
                                 <integer value="1000"/>
                                 <integer value="1000"/>
                                 <integer value="1000"/>
+                                <integer value="1000"/>
+                                <integer value="1000"/>
                             </visibilityPriorities>
                             <customSpacing>
+                                <real value="3.4028234663852886e+38"/>
+                                <real value="3.4028234663852886e+38"/>
                                 <real value="3.4028234663852886e+38"/>
                                 <real value="3.4028234663852886e+38"/>
                                 <real value="3.4028234663852886e+38"/>
@@ -102,4 +124,8 @@
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="X7Z-eF-qeR"/>
     </objects>
+    <resources>
+        <image name="NSGoBackTemplate" width="12" height="17"/>
+        <image name="NSGoForwardTemplate" width="12" height="17"/>
+    </resources>
 </document>

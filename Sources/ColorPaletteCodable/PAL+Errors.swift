@@ -57,5 +57,6 @@ public extension PAL {
 		case mismatchedColorspace
 		case unsupportedColorspace(PAL.ColorSpace)
 		case cannotCreateImage
+		case notImplemented
 	}
 }
