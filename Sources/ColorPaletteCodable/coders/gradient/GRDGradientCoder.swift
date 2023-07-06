@@ -13,6 +13,7 @@ public extension PAL.Gradient.Coder {
 	/// References :-
 	/// [1](http://www.selapa.net/swatches/gradients/fileformats.php)
 	/// [2](https://github.com/Balakov/GrdToAfpalette/blob/master/palette-js/load_grd.js)
+	/// [3](https://github.com/abought/grd_to_cmap/blob/master/grd_reader.py)
 	struct GRD: PAL_GradientCoder {
 		/// The coder's file format
 		public static let fileExtension = "grd"
@@ -45,18 +46,18 @@ public extension PAL.Gradient.Coder.GRD {
 				let co = $0.color
 				let color: PAL.Color
 				if co.colorspace == "rgb" {
-					guard co.components.count == 3 else {
+					guard co.components.count >= 3 else {
 						ASEPaletteLogger.log(.error, "GRD: rgb component count mismatch")
 						throw PAL.GradientError.unsupportedColorFormat
 					}
 					color = try PAL.Color(
-						rf: Float32(co.components[0] / 255.0),
-						gf: Float32(co.components[1] / 255.0),
-						bf: Float32(co.components[2] / 255.0)
+						rf: Float32(co.components[0]),   // normalized 0 -> 1
+						gf: Float32(co.components[1]),   // normalized 0 -> 1
+						bf: Float32(co.components[2])    // normalized 0 -> 1
 					)
 				}
 				else if co.colorspace == "hsb" {
-					guard co.components.count == 3 else {
+					guard co.components.count >= 3 else {
 						ASEPaletteLogger.log(.error, "GRD: hsb component count mismatch")
 						throw PAL.GradientError.unsupportedColorFormat
 					}
@@ -68,7 +69,7 @@ public extension PAL.Gradient.Coder.GRD {
 					)
 				}
 				else if co.colorspace == "cmyk" {
-					guard co.components.count == 4 else {
+					guard co.components.count >= 4 else {
 						ASEPaletteLogger.log(.error, "GRD: cmyk component count mismatch")
 						throw PAL.GradientError.unsupportedColorFormat
 					}
@@ -80,7 +81,7 @@ public extension PAL.Gradient.Coder.GRD {
 					)
 				}
 				else if co.colorspace == "gray" {
-					guard co.components.count == 1 else {
+					guard co.components.count >= 1 else {
 						ASEPaletteLogger.log(.error, "GRD: gray component count mismatch")
 						throw PAL.GradientError.unsupportedColorFormat
 					}
@@ -92,7 +93,7 @@ public extension PAL.Gradient.Coder.GRD {
 					)
 				}
 				else if co.colorspace == "lab" {
-					guard co.components.count == 3 else {
+					guard co.components.count >= 3 else {
 						ASEPaletteLogger.log(.error, "GRD: lab component count mismatch")
 						throw PAL.GradientError.unsupportedColorFormat
 					}
@@ -166,7 +167,11 @@ private class GRD {
 			throw GRDError.invalidFormat
 		}
 		let version: UInt16 = try readIntegerBigEndian(inputStream)
-		if version != 5 {
+		if version == 3 {
+			//throw GRDError.unsupportedFormat
+			return try parseVersion3(inputStream)
+		}
+		else if version != 5 {
 			throw GRDError.unsupportedFormat
 		}
 
@@ -226,67 +231,40 @@ private class GRD {
 		}
 	}
 
+	/// <typenamelength uint32><typename><uint32>
+	func parseTypedLong(_ inputStream: InputStream, expectedTag: String) throws -> UInt32 {
+		let type1 = try parseGrd5Typename(inputStream)
+		guard type1 == expectedTag else {
+			ASEPaletteLogger.log(.error, "GRDCoder: Expected %@ when trying to read long value", expectedTag)
+			throw GRDError.invalidFormat
+		}
+		return try parseLong(inputStream)
+	}
+
 	func parseNoiseGradient(_ inputStream: InputStream) throws {
 
-		let shtr = try parseBool(inputStream, expectedType: "ShTr")
-		let vctc = try parseBool(inputStream, expectedType: "VctC")
+		// Currently, we read the noise gradient data but ignore it, so we can continue to the next gradient
 
-		let clrs = try parseColorspace(inputStream)
+		let /*shtr*/ _ = try parseBool(inputStream, expectedType: "ShTr")
+		let /*vctc*/ _ = try parseBool(inputStream, expectedType: "VctC")
 
-		let type1 = try parseGrd5Typename(inputStream)
-		guard type1 == "RndS" else {
-			ASEPaletteLogger.log(.error, "GRDCoder: Missing RndS")
-			throw GRDError.invalidFormat
-		}
-		let rand = try parseLong(inputStream)
+		let /*clrs*/ _ = try parseColorspace(inputStream)
 
-		let type2 = try parseGrd5Typename(inputStream)
-		guard type2 == "Smth" else {
-			ASEPaletteLogger.log(.error, "GRDCoder: Missing Smth")
-			throw GRDError.invalidFormat
-		}
-		let roughness = try parseLong(inputStream)  // 0 ..< 4096
+		let /*rand*/ _ = try parseTypedLong(inputStream, expectedTag: "RndS")       // 0 ..< 4096
+		let /*smoothness*/ _ = try parseTypedLong(inputStream, expectedTag: "Smth") // 0 ..< 4096
 
-		do {
-			// Mnm
-			let mnmType = try parseGrd5Typename(inputStream)
-			guard mnmType == "Mnm " else {
-				ASEPaletteLogger.log(.error, "GRDCoder: Missing Mnm")
-				throw GRDError.invalidFormat
-			}
-
-			let vllType = try parseType(inputStream)
-			guard vllType == "VlLs" else {
-				ASEPaletteLogger.log(.error, "GRDCoder: Missing Mnm VlLs")
-				throw GRDError.invalidFormat
-			}
-
-			let minsCount: UInt32 = try readIntegerBigEndian(inputStream)
-			var mins = [UInt32]()
-			for _ in 0 ..< minsCount {
-				mins.append(try parseLong(inputStream))
-			}
+		// Mnm
+		let minsCount = try parseVLLLength(inputStream, expected: "Mnm ")
+		var mins = [UInt32]()
+		for _ in 0 ..< minsCount {
+			mins.append(try parseLong(inputStream))
 		}
 
-		do {
-			// Mxm
-			let mxmType = try parseGrd5Typename(inputStream)
-			guard mxmType == "Mxm " else {
-				ASEPaletteLogger.log(.error, "GRDCoder: Missing Mxm")
-				throw GRDError.invalidFormat
-			}
-
-			let vllType = try parseType(inputStream)
-			guard vllType == "VlLs" else {
-				ASEPaletteLogger.log(.error, "GRDCoder: Missing Mxm VlLs")
-				throw GRDError.invalidFormat
-			}
-
-			let maxsCount: UInt32 = try readIntegerBigEndian(inputStream)
-			var maxs = [UInt32]()
-			for _ in 0 ..< maxsCount {
-				maxs.append(try parseLong(inputStream))
-			}
+		// Mxm
+		let maxsCount = try parseVLLLength(inputStream, expected: "Mxm ")
+		var maxs = [UInt32]()
+		for _ in 0 ..< maxsCount {
+			maxs.append(try parseLong(inputStream))
 		}
 	}
 
@@ -488,7 +466,7 @@ private class GRD {
 		let r = try parseDouble(inputStream, expected: "Rd  ")
 		let g = try parseDouble(inputStream, expected: "Grn ")
 		let b = try parseDouble(inputStream, expected: "Bl  ")
-		return Color(colorspace: "rgb", components: [r, g, b])
+		return Color(colorspace: "rgb", components: [r / 255.0, g / 255.0, b / 255.0])
 	}
 
 	func parseUserCMYK(_ inputStream: InputStream) throws -> Color {
@@ -601,5 +579,88 @@ private class GRD {
 			return String(str.dropLast())
 		}
 		return str
+	}
+}
+
+/////
+
+extension GRD {
+	func parseVersion3(_ inputStream: InputStream) throws -> [Gradient] {
+		let numGradients: UInt16 = try readIntegerBigEndian(inputStream)
+		var result = [Gradient]()
+		for _ in 0 ..< numGradients {
+			result.append(try parseV3Gradient(inputStream))
+		}
+		return result
+	}
+
+	func parseV3Gradient(_ inputStream: InputStream) throws -> Gradient {
+
+		// Gradient name string of length (int8) characters ("Pascal string")
+		let titleLength: Int8 = try readIntegerBigEndian(inputStream)
+		let title = try readAsciiString(inputStream, length: Int(titleLength))
+
+		let numberOfStops: Int16 = try readIntegerBigEndian(inputStream)
+		var stops: [ColorStop] = []
+		for _ in 0 ..< numberOfStops {
+			let location: UInt32 = try readIntegerBigEndian(inputStream)  // 0 ... 4096
+			let midPoint: UInt32 = try readIntegerBigEndian(inputStream)  // percent
+			let colorModel: Int16 = try readIntegerBigEndian(inputStream)
+			let colorspace: String = try {
+				switch colorModel {
+				case 0: return "rgb"
+				case 1: return "hsb"
+				case 2: return "cmyk"
+				case 7: return "lab"
+				case 8: return "gray"
+				default: throw PAL.GradientError.unsupportedColorFormat
+				}
+			}()
+
+			let c0: UInt16 = try readIntegerBigEndian(inputStream)
+			let c1: UInt16 = try readIntegerBigEndian(inputStream)
+			let c2: UInt16 = try readIntegerBigEndian(inputStream)
+			let c3: UInt16 = try readIntegerBigEndian(inputStream)
+			let color = Color(
+				colorspace: colorspace,
+				components: [
+					Double(c0) / 65535.0,
+					Double(c1) / 65535.0,
+					Double(c2) / 65535.0,
+					Double(c3) / 65535.0
+				]
+			)
+
+			// 0 ⇒ User color, 1 ⇒ Foreground, 2 ⇒ Background)
+			let colorType: Int16 = try readIntegerBigEndian(inputStream)
+			let ct: ColorStop.ColorType = try {
+				switch colorType {
+				case 0: return ColorStop.ColorType.userStop
+				case 1: return ColorStop.ColorType.foreground
+				case 2: return ColorStop.ColorType.background
+				default:
+					ASEPaletteLogger.log(.error, "GRDCoder: Unsupported v3 color type (%@)", colorType)
+					throw GRDError.invalidFormat
+				}
+			}()
+
+			let cs = ColorStop(colorType: ct, color: color, location: location, midpoint: midPoint)
+			stops.append(cs)
+		}
+
+		let numberOfTransparencyStops: Int16 = try readIntegerBigEndian(inputStream)
+		var tstops = [TransparencyStop]()
+		for _ in 0 ..< numberOfTransparencyStops {
+			let stopOffset: UInt32 = try readIntegerBigEndian(inputStream)  // 0 ... 4096
+			let midPoint: UInt32 = try readIntegerBigEndian(inputStream)  // percent
+			let opacity: Int16 = try readIntegerBigEndian(inputStream)  // 0 ... 255
+			let stop = TransparencyStop(
+				value: Double(opacity) / 255.0,
+				location: UInt32(stopOffset),
+				midpoint: UInt32(midPoint)
+			)
+			tstops.append(stop)
+		}
+		return Gradient(name: title, smoothness: 0, colorStops: stops, transparencyStops: tstops)
 	}
 }

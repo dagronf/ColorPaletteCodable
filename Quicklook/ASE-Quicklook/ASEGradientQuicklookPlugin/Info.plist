@@ -12,6 +12,7 @@
 			<array>
 				<string>public.dagronf.jsoncolorgradient</string>
 				<string>public.dagronf.gimp.ggr</string>
+				<string>com.adobe.grd</string>
 			</array>
 			<key>QLSupportsSearchableItems</key>
 			<false/>

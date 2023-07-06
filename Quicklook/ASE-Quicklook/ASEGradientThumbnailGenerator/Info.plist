@@ -10,6 +10,7 @@
 			<array>
 				<string>public.dagronf.jsoncolorgradient</string>
 				<string>public.dagronf.gimp.ggr</string>
+				<string>com.adobe.grd</string>
 			</array>
 			<key>QLThumbnailMinimumDimension</key>
 			<integer>0</integer>
