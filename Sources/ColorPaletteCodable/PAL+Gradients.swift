@@ -33,10 +33,14 @@ public extension PAL {
 		case cannotNormalize
 		/// Attempted to map a palette onto a gradient with a different number of colors
 		case mismatchColorCount
-
+		/// The gradient colorspace is not supported
 		case unsupportedColorFormat
 	}
+}
 
+// MARK: Multi gradient definition
+
+public extension PAL {
 	/// A collection of gradients
 	struct Gradients: Codable {
 		/// The gradients
@@ -47,8 +51,24 @@ public extension PAL {
 		public init(gradients: [Gradient] = []) {
 			self.gradients = gradients
 		}
-	}
 
+		/// Return a palette containing all the gradients as mapped color groups
+		public var palette: PAL.Palette {
+			let grs = gradients.map { gradient in
+				PAL.Group(colors: gradient.sorted.colors)
+			}
+			return PAL.Palette(colors: [], groups: grs)
+		}
+	}
+}
+
+public extension PAL.Gradients {
+	struct Coder { }
+}
+
+// MARK: Single gradient definition
+
+public extension PAL {
 	/// A simple gradient object
 	struct Gradient: Equatable, Codable {
 		/// A color stop within the gradient
@@ -85,6 +105,11 @@ public extension PAL {
 		/// The colors defined in the gradient.
 		@inlinable public var colors: [PAL.Color] {
 			self.stops.map { $0.color }
+		}
+
+		/// Return a palette containing the colors in the order of the color stops
+		public var palette: PAL.Palette {
+			PAL.Palette(name: self.name ?? "", colors: self.sorted.colors)
 		}
 
 		// MARK: Creation
@@ -127,10 +152,6 @@ public extension PAL {
 			self.init(name: name, stops: colorPositions.map { Stop(position: $0.position, color: $0.color) })
 		}
 	}
-}
-
-public extension PAL.Gradients {
-	struct Coder { }
 }
 
 // MARK: - Sorting
@@ -219,11 +240,6 @@ public extension PAL.Gradient {
 				zip(self.stops, colors)
 					.map { Stop(position: $0.0.position, color: $0.1) }
 		)
-	}
-
-	/// Creates a palette from the colors in the gradient
-	@inlinable func palette() -> PAL.Palette {
-		PAL.Palette(name: self.name ?? "", colors: self.colors)
 	}
 }
 
