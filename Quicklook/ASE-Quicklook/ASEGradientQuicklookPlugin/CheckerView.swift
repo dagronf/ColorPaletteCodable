@@ -96,3 +96,22 @@ class CheckerboardLayer: CALayer {
 		}
 	}
 }
+
+
+#if canImport(SwiftUI)
+
+import SwiftUI
+
+struct CheckerboardView: NSViewRepresentable {
+	func makeNSView(context: Context) -> CheckerView {
+		CheckerView()
+	}
+
+	func updateNSView(_ nsView: CheckerView, context: Context) {
+
+	}
+
+	typealias NSViewType = CheckerView
+}
+
+#endif

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2304D0A32A57AEEF006CCAA9 /* GradientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2304D0A22A57AEEF006CCAA9 /* GradientsView.swift */; };
+		2304D0A42A57AEEF006CCAA9 /* GradientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2304D0A22A57AEEF006CCAA9 /* GradientsView.swift */; };
+		2304D0A72A57B241006CCAA9 /* SwiftUIFlowLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 2304D0A62A57B241006CCAA9 /* SwiftUIFlowLayout */; };
+		2304D0A92A57B276006CCAA9 /* SwiftUIFlowLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 2304D0A82A57B276006CCAA9 /* SwiftUIFlowLayout */; };
+		2304D0AB2A57B284006CCAA9 /* SwiftUIFlowLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 2304D0AA2A57B284006CCAA9 /* SwiftUIFlowLayout */; };
 		230BE3512A526EDD009A4D88 /* CheckerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F1FBA42907B8C200277016 /* CheckerView.swift */; };
 		230BE3522A526EE1009A4D88 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDD2792907A81D00B63B08 /* PreviewViewController.swift */; };
 		230BE3532A526EE5009A4D88 /* PreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23EDD27D2907A81D00B63B08 /* PreviewViewController.xib */; };
@@ -111,6 +116,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2304D0A22A57AEEF006CCAA9 /* GradientsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientsView.swift; sourceTree = "<group>"; };
 		232540B52909F3F900FC94C6 /* ASEGradientThumbnailGenerator.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ASEGradientThumbnailGenerator.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		232540B62909F3F900FC94C6 /* QuickLookThumbnailing.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLookThumbnailing.framework; path = System/Library/Frameworks/QuickLookThumbnailing.framework; sourceTree = SDKROOT; };
 		232540BA2909F3F900FC94C6 /* ThumbnailProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailProvider.swift; sourceTree = "<group>"; };
@@ -166,6 +172,7 @@
 			files = (
 				23B8BEB92A00C15800E86048 /* DSFAppearanceManager in Frameworks */,
 				236DC937283B71CD0097B4DE /* ColorPaletteCodable in Frameworks */,
+				2304D0A72A57B241006CCAA9 /* SwiftUIFlowLayout in Frameworks */,
 				23A03DF828332AA2003846A4 /* Quartz.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -176,6 +183,7 @@
 			files = (
 				230BE3552A526F8F009A4D88 /* Defaults in Frameworks */,
 				23B8BEBD2A00C17500E86048 /* DSFAppearanceManager in Frameworks */,
+				2304D0AB2A57B284006CCAA9 /* SwiftUIFlowLayout in Frameworks */,
 				236DC939283B71D60097B4DE /* ColorPaletteCodable in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -186,6 +194,7 @@
 			files = (
 				23B8BEBB2A00C16C00E86048 /* DSFAppearanceManager in Frameworks */,
 				23A0FFE0290B520800E29FAE /* Defaults in Frameworks */,
+				2304D0A92A57B276006CCAA9 /* SwiftUIFlowLayout in Frameworks */,
 				23EDD2772907A81D00B63B08 /* Quartz.framework in Frameworks */,
 				23EDD2892907AB3E00B63B08 /* ColorPaletteCodable in Frameworks */,
 			);
@@ -278,6 +287,7 @@
 				23EDD27D2907A81D00B63B08 /* PreviewViewController.xib */,
 				23EDD2802907A81D00B63B08 /* Info.plist */,
 				23EDD2812907A81D00B63B08 /* ASEGradientQuicklookPlugin.entitlements */,
+				2304D0A22A57AEEF006CCAA9 /* GradientsView.swift */,
 			);
 			path = ASEGradientQuicklookPlugin;
 			sourceTree = "<group>";
@@ -332,6 +342,7 @@
 			packageProductDependencies = (
 				236DC936283B71CD0097B4DE /* ColorPaletteCodable */,
 				23B8BEB82A00C15800E86048 /* DSFAppearanceManager */,
+				2304D0A62A57B241006CCAA9 /* SwiftUIFlowLayout */,
 			);
 			productName = ASEQuickLookPlugin;
 			productReference = 23A03DF528332AA2003846A4 /* ASEQuickLookPlugin.appex */;
@@ -359,6 +370,7 @@
 				236DC938283B71D60097B4DE /* ColorPaletteCodable */,
 				23B8BEBC2A00C17500E86048 /* DSFAppearanceManager */,
 				230BE3542A526F8F009A4D88 /* Defaults */,
+				2304D0AA2A57B284006CCAA9 /* SwiftUIFlowLayout */,
 			);
 			productName = "ASE Viewer";
 			productReference = 23B20C0F2835D551005BD670 /* Palette Viewer.app */;
@@ -381,6 +393,7 @@
 				23EDD2882907AB3E00B63B08 /* ColorPaletteCodable */,
 				23A0FFDF290B520800E29FAE /* Defaults */,
 				23B8BEBA2A00C16C00E86048 /* DSFAppearanceManager */,
+				2304D0A82A57B276006CCAA9 /* SwiftUIFlowLayout */,
 			);
 			productName = ASEGradientQuicklookPlugin;
 			productReference = 23EDD2762907A81D00B63B08 /* ASEGradientQuicklookPlugin.appex */;
@@ -422,6 +435,7 @@
 			packageReferences = (
 				23A0FFDC290B51BC00E29FAE /* XCRemoteSwiftPackageReference "Defaults" */,
 				23B8BEB72A00C15800E86048 /* XCRemoteSwiftPackageReference "DSFAppearanceManager" */,
+				2304D0A52A57B241006CCAA9 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */,
 			);
 			productRefGroup = 23A03DE028332A83003846A4 /* Products */;
 			projectDirPath = "";
@@ -505,6 +519,7 @@
 				23B20C122835D551005BD670 /* AppDelegate.swift in Sources */,
 				23B20C162835D551005BD670 /* Document.swift in Sources */,
 				237EF04628398ABD000D6F42 /* PaletteView.swift in Sources */,
+				2304D0A42A57AEEF006CCAA9 /* GradientsView.swift in Sources */,
 				230BE3522A526EE1009A4D88 /* PreviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -515,6 +530,7 @@
 			files = (
 				23F1FBA52907B8C200277016 /* CheckerView.swift in Sources */,
 				23EDD27A2907A81D00B63B08 /* PreviewViewController.swift in Sources */,
+				2304D0A32A57AEEF006CCAA9 /* GradientsView.swift in Sources */,
 				23EDD27C2907A81D00B63B08 /* PreviewProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -985,6 +1001,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		2304D0A52A57B241006CCAA9 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/globulus/swiftui-flow-layout";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		23A0FFDC290B51BC00E29FAE /* XCRemoteSwiftPackageReference "Defaults" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/Defaults";
@@ -1004,6 +1028,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2304D0A62A57B241006CCAA9 /* SwiftUIFlowLayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2304D0A52A57B241006CCAA9 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */;
+			productName = SwiftUIFlowLayout;
+		};
+		2304D0A82A57B276006CCAA9 /* SwiftUIFlowLayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2304D0A52A57B241006CCAA9 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */;
+			productName = SwiftUIFlowLayout;
+		};
+		2304D0AA2A57B284006CCAA9 /* SwiftUIFlowLayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2304D0A52A57B241006CCAA9 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */;
+			productName = SwiftUIFlowLayout;
+		};
 		230BE3542A526F8F009A4D88 /* Defaults */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 23A0FFDC290B51BC00E29FAE /* XCRemoteSwiftPackageReference "Defaults" */;

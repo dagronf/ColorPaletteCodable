@@ -118,3 +118,27 @@ public extension PAL.Gradient {
 }
 
 #endif
+
+#if canImport(SwiftUI)
+
+import SwiftUI
+
+@available(macOS 12, *)
+public extension PAL.Gradient {
+	/// Returns a SwiftUI Gradient representation of the gradient object
+	/// - Parameter reversed: Reverse the order of the colors and positions in the gradient.
+	/// - Returns: A gradient
+	func SwiftUIGradient(reversed: Bool = false) -> SwiftUI.Gradient? {
+		guard let normalized = try? self.normalized().sorted.stops else { return nil }
+		let stops: [SwiftUI.Gradient.Stop] = normalized.compactMap {
+			guard let c = $0.color.cgColor else { return nil }
+			return SwiftUI.Gradient.Stop(
+				color: Color(cgColor: c),
+				location: $0.position
+			)
+		}
+		return SwiftUI.Gradient(stops: stops)
+	}
+}
+
+#endif

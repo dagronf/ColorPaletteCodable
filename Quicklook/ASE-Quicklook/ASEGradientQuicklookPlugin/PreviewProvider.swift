@@ -27,7 +27,7 @@
 import Cocoa
 import Quartz
 
-class PreviewProvider: QLPreviewProvider, QLPreviewingController {
+class GradientPreviewProvider: QLPreviewProvider, QLPreviewingController {
     
 
     /*

@@ -29,11 +29,16 @@
 import Cocoa
 import ColorPaletteCodable
 
+import SwiftUI
+
 class GradientDocument: NSDocument {
 
 	var gradients: PAL.Gradients?
 
 	let gradientVC = GradientViewController()
+
+	//let gradientSWUI: NSHostingView(rootView: nil)
+
 
 	override var windowNibName: String? {
 		// Override to return the nib file name of the document.
@@ -47,9 +52,13 @@ class GradientDocument: NSDocument {
 
 		aController.window?.autorecalculatesKeyViewLoop = true
 
-		aController.contentViewController = gradientVC
+		let g = self.gradients ?? PAL.Gradients(gradients: [])
+		let v = NSHostingController(rootView: GradientsView(gradients: g))
+		//v.view.setFrameSize(NSSize(width: 600, height: 400))
 
-		gradientVC.gradients = self.gradients
+		aController.contentViewController = v
+
+		//gradientVC.gradients = self.gradients
 	}
 
 	override func writableTypes(for saveOperation: NSDocument.SaveOperationType) -> [String] {
