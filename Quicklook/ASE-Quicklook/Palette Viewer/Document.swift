@@ -53,6 +53,9 @@ class Document: NSDocument {
 		let vc = windowController.contentViewController as! ViewController
 		vc.representedObject = self
 		vc.currentPalette.palette = currentPalette
+
+		vc.view.setFrameSize(NSSize(width: 800, height: 600))
+
 	}
 
 	override func writableTypes(for saveOperation: NSDocument.SaveOperationType) -> [String] {

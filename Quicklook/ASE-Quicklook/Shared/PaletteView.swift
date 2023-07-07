@@ -31,6 +31,7 @@ struct PaletteView: View {
 					.truncationMode(.tail)
 					.frame(maxWidth: .infinity, alignment: .leading)
 					.padding(4)
+					.background(Rectangle().fill(.background))
 			}
 			ScrollView(.vertical) {
 				if let p = paletteModel.palette {

@@ -60,6 +60,12 @@ public extension PAL {
 			"Color '\(self.name)' [(\(self.colorSpace):\(self.colorType):\(self.colorComponents):\(self.alpha)]"
 		}
 
+		/// Returns a printable version of the color
+		public var printable: String {
+			let s = self.colorComponents.map { "\($0)" }.joined(separator: ",")
+			return "\(self.colorSpace)(\(s),\(self.alpha))"
+		}
+
 		/// Returns true if the underlying color structure is valid for its colorspace and settings
 		public var isValid: Bool {
 			switch self.colorSpace {
@@ -76,6 +82,18 @@ public extension PAL {
 			if self.isValid == false {
 				throw CommonError.invalidColorComponentCountForModelType
 			}
+		}
+
+		/// Returns a copy of this color without transparency
+		public func removeTransparency() -> PAL.Color {
+			if self.isValid == false { return PAL.Color.black }
+			return (try? PAL.Color(
+				name: self.name,
+				colorSpace: self.colorSpace,
+				colorComponents: self.colorComponents,
+				colorType: self.colorType,
+				alpha: 1
+			)) ?? PAL.Color.black
 		}
 	}
 }

@@ -29,6 +29,27 @@ import AppKit
 
 class CheckerView: NSView {
 
+	var checkerboardLayer: CheckerboardLayer { self.layer as! CheckerboardLayer }
+	var color0: CIColor = CIColor(red: 1, green: 1, blue: 1, alpha: 0.01) {
+		didSet {
+			self.checkerboardLayer.color0 = self.color0
+			self.layer?.needsDisplay()
+		}
+	}
+	var color1: CIColor = CIColor(red: 0, green: 0, blue: 0, alpha: 0.03) {
+		didSet {
+			self.checkerboardLayer.color1 = self.color1
+			self.layer?.needsDisplay()
+		}
+	}
+
+	var width: Double = 20 {
+		didSet {
+			self.checkerboardLayer.width = Float(self.width)
+			self.layer?.needsDisplay()
+		}
+	}
+
 	override init(frame frameRect: NSRect) {
 		super.init(frame: frameRect)
 		self.setup()
@@ -43,6 +64,9 @@ class CheckerView: NSView {
 		self.wantsLayer = true
 		self.translatesAutoresizingMaskIntoConstraints = false
 		self.layer = CheckerboardLayer()
+
+		self.checkerboardLayer.color0 = self.color0
+		self.checkerboardLayer.color1 = self.color1
 	}
 }
 
@@ -55,7 +79,6 @@ class CheckerboardLayer: CALayer {
 
 	var color0: CIColor = CIColor(red: 1, green: 1, blue: 1, alpha: 0.01) { didSet { self.filter.color0 = color0; self.needsDisplay() } }
 	var color1: CIColor = CIColor(red: 0, green: 0, blue: 0, alpha: 0.03) { didSet { self.filter.color1 = color1; self.needsDisplay() } }
-	var center: CGPoint = .zero { didSet { self.filter.center = center; self.needsDisplay() } }
 	var width: Float = 20 { didSet { self.filter.width = width; self.needsDisplay() } }
 
 	override init() {
@@ -66,7 +89,6 @@ class CheckerboardLayer: CALayer {
 	private func syncSettings() {
 		self.filter.color0 = color0
 		self.filter.color1 = color1
-		self.filter.center = center
 		self.filter.width = width
 	}
 
@@ -74,7 +96,6 @@ class CheckerboardLayer: CALayer {
 		if let l = layer as? CheckerboardLayer {
 			self.color0 = l.color0
 			self.color1 = l.color1
-			self.center = l.center
 			self.width = l.width
 			super.init()
 		}
@@ -103,8 +124,28 @@ class CheckerboardLayer: CALayer {
 import SwiftUI
 
 struct CheckerboardView: NSViewRepresentable {
+	let dimension: Double
+	let color0: CGColor?
+	let color1: CGColor?
+
+	init(dimension: Double = 20, color0: CGColor? = nil, color1: CGColor? = nil) {
+		self.dimension = dimension
+		self.color0 = color0
+		self.color1 = color1
+	}
+
 	func makeNSView(context: Context) -> CheckerView {
-		CheckerView()
+		let v = CheckerView()
+		v.width = self.dimension
+
+		if let c0 = self.color0 {
+			v.color0 = CIColor(cgColor: c0)
+		}
+		if let c1 = self.color1 {
+			v.color1 = CIColor(cgColor: c1)
+		}
+
+		return v
 	}
 
 	func updateNSView(_ nsView: CheckerView, context: Context) {

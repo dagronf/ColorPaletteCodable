@@ -35,9 +35,7 @@ class GradientDocument: NSDocument {
 
 	var gradients: PAL.Gradients?
 
-	let gradientVC = GradientViewController()
-
-	//let gradientSWUI: NSHostingView(rootView: nil)
+	//let gradientVC = GradientViewController()
 
 
 	override var windowNibName: String? {
@@ -53,12 +51,10 @@ class GradientDocument: NSDocument {
 		aController.window?.autorecalculatesKeyViewLoop = true
 
 		let g = self.gradients ?? PAL.Gradients(gradients: [])
-		let v = NSHostingController(rootView: GradientsView(gradients: g))
-		//v.view.setFrameSize(NSSize(width: 600, height: 400))
+		let v = NSHostingController(rootView: GradientsInteractorView(gradients: g))
+		v.view.setFrameSize(NSSize(width: 600, height: 400))
 
 		aController.contentViewController = v
-
-		//gradientVC.gradients = self.gradients
 	}
 
 	override func writableTypes(for saveOperation: NSDocument.SaveOperationType) -> [String] {

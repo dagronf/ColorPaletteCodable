@@ -128,14 +128,34 @@ public extension PAL.Gradient {
 	/// Returns a SwiftUI Gradient representation of the gradient object
 	/// - Parameter reversed: Reverse the order of the colors and positions in the gradient.
 	/// - Returns: A gradient
-	func SwiftUIGradient(reversed: Bool = false) -> SwiftUI.Gradient? {
+	func SwiftUIGradient(reversed: Bool = false, removeTransparency: Bool = false) -> SwiftUI.Gradient? {
 		guard let normalized = try? self.normalized().sorted.stops else { return nil }
 		let stops: [SwiftUI.Gradient.Stop] = normalized.compactMap {
-			guard let c = $0.color.cgColor else { return nil }
+			guard var c = $0.color.cgColor else { return nil }
+			if removeTransparency, let c1 = $0.color.cgColor?.copy(alpha: 1.0) {
+				c = c1
+			}
 			return SwiftUI.Gradient.Stop(
 				color: Color(cgColor: c),
 				location: $0.position
 			)
+		}
+		return SwiftUI.Gradient(stops: stops)
+	}
+
+	/// Returns a SwiftUI Gradient representation of the transparency gradient
+	/// - Parameter reversed: Reverse the order of the colors and positions in the gradient.
+	/// - Returns: A gradient
+	func SwiftUITransparencyGradient(reversed: Bool = false) -> SwiftUI.Gradient {
+		guard let ts = self.transparencyStops else {
+			return Gradient(stops: [
+				Gradient.Stop(color: .black, location: 0),
+				Gradient.Stop(color: .black, location: 1)
+			])
+		}
+
+		let stops = ts.map { stop in
+			SwiftUI.Gradient.Stop(color: Color(.sRGB, white: 0, opacity: stop.value), location: stop.position)
 		}
 		return SwiftUI.Gradient(stops: stops)
 	}

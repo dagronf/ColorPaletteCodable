@@ -21,6 +21,11 @@
 		232540BB2909F3F900FC94C6 /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232540BA2909F3F900FC94C6 /* ThumbnailProvider.swift */; };
 		232540C02909F3F900FC94C6 /* ASEGradientThumbnailGenerator.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 232540B52909F3F900FC94C6 /* ASEGradientThumbnailGenerator.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		232540C52909F41C00FC94C6 /* ColorPaletteCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 232540C42909F41C00FC94C6 /* ColorPaletteCodable */; };
+		235C1FFC2A57F89000725FCB /* GradientInteractorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235C1FFB2A57F89000725FCB /* GradientInteractorView.swift */; };
+		236719BE2A5A512A00147812 /* GradientSwatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236719BD2A5A512A00147812 /* GradientSwatchView.swift */; };
+		236719BF2A5A512A00147812 /* GradientSwatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236719BD2A5A512A00147812 /* GradientSwatchView.swift */; };
+		236719C22A5A566900147812 /* GradientTransparencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236719C12A5A566900147812 /* GradientTransparencyView.swift */; };
+		236719C42A5A8E8900147812 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 236719C32A5A8E8900147812 /* Charts.framework */; };
 		236DC937283B71CD0097B4DE /* ColorPaletteCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 236DC936283B71CD0097B4DE /* ColorPaletteCodable */; };
 		236DC939283B71D60097B4DE /* ColorPaletteCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 236DC938283B71D60097B4DE /* ColorPaletteCodable */; };
 		237EF04528398ABD000D6F42 /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237EF04428398ABD000D6F42 /* PaletteView.swift */; };
@@ -46,6 +51,7 @@
 		23B8BEBB2A00C16C00E86048 /* DSFAppearanceManager in Frameworks */ = {isa = PBXBuildFile; productRef = 23B8BEBA2A00C16C00E86048 /* DSFAppearanceManager */; };
 		23B8BEBD2A00C17500E86048 /* DSFAppearanceManager in Frameworks */ = {isa = PBXBuildFile; productRef = 23B8BEBC2A00C17500E86048 /* DSFAppearanceManager */; };
 		23B8BEBF2A00C18100E86048 /* DSFAppearanceManager in Frameworks */ = {isa = PBXBuildFile; productRef = 23B8BEBE2A00C18100E86048 /* DSFAppearanceManager */; };
+		23E710A12A5B79C800B4D8F1 /* GradientComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E710A02A5B79C800B4D8F1 /* GradientComponentView.swift */; };
 		23EDD2772907A81D00B63B08 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A03DF728332AA2003846A4 /* Quartz.framework */; };
 		23EDD27A2907A81D00B63B08 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDD2792907A81D00B63B08 /* PreviewViewController.swift */; };
 		23EDD27C2907A81D00B63B08 /* PreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDD27B2907A81D00B63B08 /* PreviewProvider.swift */; };
@@ -122,6 +128,10 @@
 		232540BA2909F3F900FC94C6 /* ThumbnailProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailProvider.swift; sourceTree = "<group>"; };
 		232540BC2909F3F900FC94C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		232540BD2909F3F900FC94C6 /* ASEGradientThumbnailGenerator.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ASEGradientThumbnailGenerator.entitlements; sourceTree = "<group>"; };
+		235C1FFB2A57F89000725FCB /* GradientInteractorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientInteractorView.swift; sourceTree = "<group>"; };
+		236719BD2A5A512A00147812 /* GradientSwatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientSwatchView.swift; sourceTree = "<group>"; };
+		236719C12A5A566900147812 /* GradientTransparencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientTransparencyView.swift; sourceTree = "<group>"; };
+		236719C32A5A8E8900147812 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = System/Library/Frameworks/Charts.framework; sourceTree = SDKROOT; };
 		236DC935283B71BF0097B4DE /* ColorPaletteCodable */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ColorPaletteCodable; path = ../..; sourceTree = "<group>"; };
 		237EF04428398ABD000D6F42 /* PaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
 		237EF08B2839BCA5000D6F42 /* Palette_Viewer.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Palette_Viewer.entitlements; sourceTree = "<group>"; };
@@ -145,6 +155,7 @@
 		23B20C1A2835D552005BD670 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		23B20C1C2835D552005BD670 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23B20CCD2835E459005BD670 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		23E710A02A5B79C800B4D8F1 /* GradientComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientComponentView.swift; sourceTree = "<group>"; };
 		23EDD2762907A81D00B63B08 /* ASEGradientQuicklookPlugin.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ASEGradientQuicklookPlugin.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		23EDD2792907A81D00B63B08 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		23EDD27B2907A81D00B63B08 /* PreviewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewProvider.swift; sourceTree = "<group>"; };
@@ -183,6 +194,7 @@
 			files = (
 				230BE3552A526F8F009A4D88 /* Defaults in Frameworks */,
 				23B8BEBD2A00C17500E86048 /* DSFAppearanceManager in Frameworks */,
+				236719C42A5A8E8900147812 /* Charts.framework in Frameworks */,
 				2304D0AB2A57B284006CCAA9 /* SwiftUIFlowLayout in Frameworks */,
 				236DC939283B71D60097B4DE /* ColorPaletteCodable in Frameworks */,
 			);
@@ -241,6 +253,7 @@
 		23A03DF628332AA2003846A4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				236719C32A5A8E8900147812 /* Charts.framework */,
 				23B20CCD2835E459005BD670 /* CoreGraphics.framework */,
 				23A03DF728332AA2003846A4 /* Quartz.framework */,
 				232540B62909F3F900FC94C6 /* QuickLookThumbnailing.framework */,
@@ -274,6 +287,7 @@
 				23A0FFE2290B61A700E29FAE /* GradientDocument.xib */,
 				23A0FFE6290B692000E29FAE /* GradientViewController.swift */,
 				23A0FFE7290B692000E29FAE /* GradientViewController.xib */,
+				235C1FFB2A57F89000725FCB /* GradientInteractorView.swift */,
 			);
 			path = "Palette Viewer";
 			sourceTree = "<group>";
@@ -281,13 +295,11 @@
 		23EDD2782907A81D00B63B08 /* ASEGradientQuicklookPlugin */ = {
 			isa = PBXGroup;
 			children = (
-				23F1FBA42907B8C200277016 /* CheckerView.swift */,
 				23EDD2792907A81D00B63B08 /* PreviewViewController.swift */,
 				23EDD27B2907A81D00B63B08 /* PreviewProvider.swift */,
 				23EDD27D2907A81D00B63B08 /* PreviewViewController.xib */,
 				23EDD2802907A81D00B63B08 /* Info.plist */,
 				23EDD2812907A81D00B63B08 /* ASEGradientQuicklookPlugin.entitlements */,
-				2304D0A22A57AEEF006CCAA9 /* GradientsView.swift */,
 			);
 			path = ASEGradientQuicklookPlugin;
 			sourceTree = "<group>";
@@ -297,6 +309,11 @@
 			children = (
 				23A03E0D28332AEB003846A4 /* UTType+extensions.swift */,
 				237EF04428398ABD000D6F42 /* PaletteView.swift */,
+				2304D0A22A57AEEF006CCAA9 /* GradientsView.swift */,
+				236719BD2A5A512A00147812 /* GradientSwatchView.swift */,
+				23F1FBA42907B8C200277016 /* CheckerView.swift */,
+				236719C12A5A566900147812 /* GradientTransparencyView.swift */,
+				23E710A02A5B79C800B4D8F1 /* GradientComponentView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -513,10 +530,14 @@
 			files = (
 				237EF0872839B324000D6F42 /* UTType+extensions.swift in Sources */,
 				23B20C142835D551005BD670 /* ViewController.swift in Sources */,
+				236719C22A5A566900147812 /* GradientTransparencyView.swift in Sources */,
 				23A0FFE3290B61A700E29FAE /* GradientDocument.swift in Sources */,
 				23A0FFE8290B692000E29FAE /* GradientViewController.swift in Sources */,
 				230BE3512A526EDD009A4D88 /* CheckerView.swift in Sources */,
 				23B20C122835D551005BD670 /* AppDelegate.swift in Sources */,
+				236719BF2A5A512A00147812 /* GradientSwatchView.swift in Sources */,
+				23E710A12A5B79C800B4D8F1 /* GradientComponentView.swift in Sources */,
+				235C1FFC2A57F89000725FCB /* GradientInteractorView.swift in Sources */,
 				23B20C162835D551005BD670 /* Document.swift in Sources */,
 				237EF04628398ABD000D6F42 /* PaletteView.swift in Sources */,
 				2304D0A42A57AEEF006CCAA9 /* GradientsView.swift in Sources */,
@@ -529,6 +550,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				23F1FBA52907B8C200277016 /* CheckerView.swift in Sources */,
+				236719BE2A5A512A00147812 /* GradientSwatchView.swift in Sources */,
 				23EDD27A2907A81D00B63B08 /* PreviewViewController.swift in Sources */,
 				2304D0A32A57AEEF006CCAA9 /* GradientsView.swift in Sources */,
 				23EDD27C2907A81D00B63B08 /* PreviewProvider.swift in Sources */,

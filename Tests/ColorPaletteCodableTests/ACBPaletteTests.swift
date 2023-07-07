@@ -26,7 +26,7 @@ final class ACBPaletteTests: XCTestCase {
 		}
 	}
 
-//	// A test harness for checking the CMYK loading from ACB files
+	// A test harness for checking the CMYK loading from ACB files
 //	func testCMYKEncodingStrangeness() throws {
 //		let swatches = try loadPalette("HKS K Process (CMYK)")
 //		let allColors = swatches.allColors()

@@ -43,7 +43,8 @@ public extension PAL.Gradients.Coder.GRD {
 
 		try gradients.forEach { gradient in
 			var gr = PAL.Gradient(colors: [])
-			let cs = try gradient.colorStops.map {
+			gr.name = gradient.name
+			let cs: [PAL.Gradient.Stop] = try gradient.colorStops.map {
 				let co = $0.color
 				let color: PAL.Color
 				if co.colorspace == "rgb" {
@@ -114,6 +115,18 @@ public extension PAL.Gradients.Coder.GRD {
 				return PAL.Gradient.Stop(position: Double($0.location) / 4096.0, color: color)
 			}
 			gr.stops = cs
+
+			let trs = gradient.transparencyStops.map { stop in
+				PAL.Gradient.TransparencyStop(
+					value: stop.value / 100.0,                 // 0 ... 100
+					position: Double(stop.location) / 4096.0,  // 0 ... 4096
+					midpoint: Double(stop.midpoint) / 100.0    // 0 ... 100
+				)
+			}
+			if trs.count > 0 {
+				gr.transparencyStops = trs
+			}
+
 			result.gradients.append(gr)
 		}
 		return result
@@ -330,6 +343,11 @@ private class GRD {
 			tstops.append(try parseTransparencyStop(inputStream))
 		}
 
+		if tstops.count > 0 {
+			// Map transparency into the color table
+			
+		}
+
 		return Gradient(name: gradientName, smoothness: smoothness, colorStops: stops, transparencyStops: tstops)
 	}
 
@@ -427,7 +445,7 @@ private class GRD {
 
 		let objc = try parseObjc(inputStream)
 		let colorType = objc.1
-		let numberOfComponents = objc.2
+		let /*numberOfComponents*/ _ = objc.2
 
 		let color: Color
 		switch colorType {
@@ -656,7 +674,7 @@ extension GRD {
 			let midPoint: UInt32 = try readIntegerBigEndian(inputStream)  // percent
 			let opacity: Int16 = try readIntegerBigEndian(inputStream)  // 0 ... 255
 			let stop = TransparencyStop(
-				value: Double(opacity) / 255.0,
+				value: Double(opacity),
 				location: UInt32(stopOffset),
 				midpoint: UInt32(midPoint)
 			)

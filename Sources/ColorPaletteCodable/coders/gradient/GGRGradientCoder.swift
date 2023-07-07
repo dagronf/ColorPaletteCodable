@@ -28,6 +28,14 @@ import Foundation
 
 public extension PAL.Gradients.Coder {
 	/// GIMP gradient encoder/decoder
+	///
+	/// ```
+	/// GIMP Gradient
+	/// Name: <name>
+	/// number_of_segments
+	/// left middle right r0 g0 b0 a0 r1 g1 b1 a1 type coloring
+	/// left middle right r0 g0 b0 a0 r1 g1 b1 a1 type coloring
+	/// ```
 	struct GGR: PAL_GradientsCoder {
 
 		public enum GimpGradientError: Error {
@@ -124,7 +132,7 @@ public extension PAL.Gradients.Coder.GGR {
 			// Given that GGR format works on gradient segments (eg. 0.0 -> 0.2, 0.2 -> 1.0), the end point of the
 			// last stop and the start point of the next stop may be the same. If they are the same, lets just
 			// ignore the new 'start' point.
-			if s1 != stops.last {
+			if !s1.matchesColorAndPosition(of: stops.last) {
 				stops.append(s1)
 			}
 
