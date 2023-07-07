@@ -197,8 +197,9 @@ You can also save the palette to a new format (eg. saving a gimp `.gpl` format t
 
 ## Simple Gradient support
 
-The library additional defines `PAL.Gradient` which defines a collection of colors with positions
-that can be used when defining gradient types.
+The library additional defines `PAL.Gradients` which defines a collection of colors with positions
+that can be used when defining gradient types.  Certain gradient types (eg. `.grd`) support multiple 
+gradients within the same file.
 
 ```swift
 let gradient = PAL.Gradient(
@@ -209,35 +210,40 @@ let gradient = PAL.Gradient(
    ]
 )
 
-let coder = PAL.Gradient.Coder.JSON()
+// Create a gradients container
+let gradients = PAL.Gradients(gradients: [gradient])
+
+// Create the appropriate coder
+let coder = PAL.Gradients.Coder.JSON()
 
 // Encode the gradient using the JSON encoder
-let data = try coder.encode(gradient)
+let data = try coder.encode(gradients)
 
 // Decode a gradient from data
-let decoded = try PAL.Gradient.Decode(
+let decoded = try PAL.Gradients.Decode(
    from: data,
-   fileExtension: PAL.Gradient.Coder.JSON.fileExtension
+   fileExtension: PAL.Gradients.Coder.JSON.fileExtension
 )
 ```
 
 The gradient coder includes basic importers/exporters.
 
-| Type                     | Description                                |
-|:-------------------------|:-------------------------------------------|
-|`PAL.Gradient.Coder.JSON` | Built-in JSON format (.jsongradient)       |
-|`PAL.Gradient.Coder.GGR`  | GIMP gradient file (.ggr)                  |
-|`PAL.Gradient.Coder.GRD`  | Basic Adobe Photoshop gradient file (.grd) |
+| Type                       | Description                                       |
+|:---------------------------|:--------------------------------------------------|
+|`PAL.Gradients.Coder.JSON`  | Built-in JSON format (.jsongradient)              |
+|`PAL.Gradients.Coder.GGR`   | GIMP gradient file (.ggr)                         |
+|`PAL.Gradients.Coder.GRD`   | Basic Adobe Photoshop gradient file (.grd)        |
+|`PAL.Gradients.Coder.PSP`   | Basic Paint Shop Pro gradient file (.pspgradient) |
 
 * `.ggr` support doesn't respect segment blending functions other than linear (always imported as linear)
 * `.ggr` support doesn't allow for segment coloring functions other than rgb (throws an error)
 * `.grd` support is _very_ basic at this point. There's no formal document for it, and I built this using very 
 vague documents [1](http://www.selapa.net/swatches/gradients/fileformats.php), [2]()
-  * doesn't support encode
+  * doesn't (currently) support encode
   * Only user colors are supported in the gradients (ie. book colors aren't supported)
   * Noise gradients aren't supported
   * only rgb, cmyk, hsb, gray colors are supported
-  
+* `.pspgradient` _appears_ to be equal to the grd v3 format. (Read only)
 
 For some nice gradient files, [cptcity](http://soliton.vm.bytemark.co.uk/pub/cpt-city/index.html) has all of them :-)
 
@@ -281,9 +287,14 @@ The `.acb` format discussed and deined [here](https://magnetiq.ca/pages/acb-spec
 
 The CorelDraw/Adobe Illustrator `.xml` file format is (somewhat) defined [here](https://community.coreldraw.com/sdk/w/articles/177/creating-color-palettes)
 
-## License
+### GRD references
 
-MIT. Use it for anything you want, just attribute my work if you do. Let me know if you do use it somewhere, I'd love to hear about it!
+* [http://www.selapa.net/swatches/gradients/fileformats.php](http://www.selapa.net/swatches/gradients/fileformats.php)
+* [https://github.com/Balakov/GrdToAfpalette/blob/master/palette-js/load_grd.js](https://github.com/Balakov/GrdToAfpalette/blob/master/palette-js/load_grd.js)
+* [https://github.com/abought/grd_to_cmap/blob/master/grd_reader.py](https://github.com/abought/grd_to_cmap/blob/master/grd_reader.py)
+* [https://github.com/tonton-pixel/json-photoshop-scripting/tree/master/Documentation/Photoshop-Gradients-File-Format#descriptor](https://github.com/tonton-pixel/json-photoshop-scripting/tree/master/Documentation/Photoshop-Gradients-File-Format#descriptor)
+
+## License
 
 ```
 MIT License

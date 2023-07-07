@@ -7,27 +7,28 @@
 
 import Foundation
 
-public extension PAL.Gradient.Coder {
-	/// A coder for GRD palette(s)
+public extension PAL.Gradients.Coder {
+	/// A coder for GRD gradients
 	///
 	/// References :-
 	/// [1](http://www.selapa.net/swatches/gradients/fileformats.php)
 	/// [2](https://github.com/Balakov/GrdToAfpalette/blob/master/palette-js/load_grd.js)
 	/// [3](https://github.com/abought/grd_to_cmap/blob/master/grd_reader.py)
-	struct GRD: PAL_GradientCoder {
+	/// [4](https://github.com/tonton-pixel/json-photoshop-scripting/tree/master/Documentation/Photoshop-Gradients-File-Format#descriptor)
+	struct GRD: PAL_GradientsCoder {
 		/// The coder's file format
 		public static let fileExtension = "grd"
 		public init() {}
 	}
 }
 
-public extension PAL.Gradient.Coder.GRD {
+public extension PAL.Gradients.Coder.GRD {
 	func encode(_ gradients: PAL.Gradients) throws -> Data {
 		throw PAL.CommonError.notImplemented
 	}
 }
 
-public extension PAL.Gradient.Coder.GRD {
+public extension PAL.Gradients.Coder.GRD {
 	/// Create a palette from the contents of the input stream
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette

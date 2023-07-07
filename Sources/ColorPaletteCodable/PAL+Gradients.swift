@@ -41,6 +41,8 @@ public extension PAL {
 	struct Gradients: Codable {
 		/// The gradients
 		public var gradients: [Gradient]
+		/// The number of gradients
+		@inlinable public var count: Int { gradients.count }
 		/// Create a collection of gradients
 		public init(gradients: [Gradient] = []) {
 			self.gradients = gradients
@@ -125,6 +127,10 @@ public extension PAL {
 			self.init(name: name, stops: colorPositions.map { Stop(position: $0.position, color: $0.color) })
 		}
 	}
+}
+
+public extension PAL.Gradients {
+	struct Coder { }
 }
 
 // MARK: - Sorting

@@ -26,9 +26,9 @@
 
 import Foundation
 
-public extension PAL.Gradient.Coder {
+public extension PAL.Gradients.Coder {
 	/// Simple JSON encoder/decoder
-	struct JSON: PAL_GradientCoder {
+	struct JSON: PAL_GradientsCoder {
 		/// The coder's file format
 		public static let fileExtension = "jsoncolorgradient"
 

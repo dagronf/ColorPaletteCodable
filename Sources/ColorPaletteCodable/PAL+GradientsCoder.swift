@@ -27,18 +27,15 @@
 import Foundation
 
 /// The built-in supported coders
-private let AvailableGradientCoders: [PAL_GradientCoder] = [
-	PAL.Gradient.Coder.JSON(),
-	PAL.Gradient.Coder.GGR(),
-	PAL.Gradient.Coder.GRD(),
+private let AvailableGradientCoders: [PAL_GradientsCoder] = [
+	PAL.Gradients.Coder.JSON(),
+	PAL.Gradients.Coder.GGR(),
+	PAL.Gradients.Coder.GRD(),
+	PAL.Gradients.Coder.PSP()
 ]
 
-public extension PAL.Gradient {
-	struct Coder { }
-}
-
 /// A gradient coder protocol
-public protocol PAL_GradientCoder {
+public protocol PAL_GradientsCoder {
 	/// The extension for the file, or a unique name for identifying the coder type.
 	static var fileExtension: String { get }
 
@@ -52,7 +49,7 @@ public protocol PAL_GradientCoder {
 	func encode(_ gradients: PAL.Gradients) throws -> Data
 }
 
-public extension PAL_GradientCoder {
+public extension PAL_GradientsCoder {
 	/// The file extension supported by the coder
 	var fileExtension: String { Self.fileExtension }
 
@@ -82,7 +79,7 @@ public extension PAL_GradientCoder {
 public extension PAL.Gradients {
 
 	/// Returns a gradient coder for the specified fileExtension
-	static func coder(for fileExtension: String) -> PAL_GradientCoder? {
+	static func coder(for fileExtension: String) -> PAL_GradientsCoder? {
 		let lext = fileExtension.lowercased()
 		return AvailableGradientCoders.first(where: { $0.fileExtension == lext })
 	}
@@ -92,8 +89,8 @@ public extension PAL.Gradients {
 	///   - fileURL: The file to load
 	///   - coder: If set, provides a coder to use instead if using the fileURL extension
 	/// - Returns: A palette
-	static func Decode(from fileURL: URL, usingCoder coder: PAL_GradientCoder? = nil) throws -> PAL.Gradients {
-		let coder: PAL_GradientCoder = try {
+	static func Decode(from fileURL: URL, usingCoder coder: PAL_GradientsCoder? = nil) throws -> PAL.Gradients {
+		let coder: PAL_GradientsCoder = try {
 			if let coder = coder {
 				return coder
 			}
@@ -130,7 +127,7 @@ public extension PAL.Gradients {
 	}
 
 	/// Encode the gradient using the provided gradient coder
-	func encode(using encoder: PAL_GradientCoder) throws -> Data {
+	func encode(using encoder: PAL_GradientsCoder) throws -> Data {
 		return try encoder.encode(self)
 	}
 }

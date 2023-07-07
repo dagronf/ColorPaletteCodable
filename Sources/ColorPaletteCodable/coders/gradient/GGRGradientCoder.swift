@@ -26,9 +26,9 @@
 
 import Foundation
 
-public extension PAL.Gradient.Coder {
+public extension PAL.Gradients.Coder {
 	/// GIMP gradient encoder/decoder
-	struct GGR: PAL_GradientCoder {
+	struct GGR: PAL_GradientsCoder {
 
 		public enum GimpGradientError: Error {
 			case invalidData
@@ -49,7 +49,7 @@ public extension PAL.Gradient.Coder {
 	}
 }
 
-public extension PAL.Gradient.Coder.GGR {
+public extension PAL.Gradients.Coder.GGR {
 	/// Attempt to decode a gradient using the
 	/// - Parameter inputStream: The input stream containing the data
 	/// - Returns: a gradient
@@ -137,12 +137,12 @@ public extension PAL.Gradient.Coder.GGR {
 	}
 }
 
-public extension PAL.Gradient.Coder.GGR {
+public extension PAL.Gradients.Coder.GGR {
 	/// Encode the gradient using the default JSON format
 	/// - Parameter gradient: The gradient to encode
 	/// - Returns: encoded data
 	func encode(_ gradients: PAL.Gradients) throws -> Data {
-		// GGR only supports a single gradient, so just grab the first
+		// GGR only supports a single gradient, so just grab the first one
 		guard let gradient = gradients.gradients.first else {
 			ASEPaletteLogger.log(.error, "GGRCoder: invalid utf8 data during write")
 			throw GimpGradientError.noGradients
