@@ -37,7 +37,7 @@ public extension PAL.Gradient {
 	func cgGradient(reversed: Bool = false) -> CGGradient? {
 		guard let normalized = try? self.normalized().sorted.stops else { return nil }
 		var cgcolors: [CGColor] = normalized.compactMap { $0.color.cgColor }
-		var positions: [CGFloat] = normalized.compactMap { $0.position }
+		var positions: [CGFloat] = normalized.compactMap { CGFloat($0.position) }
 		guard cgcolors.count == positions.count else {
 			ASEPaletteLogger.log(.error, "Could not convert all colors in gradient to CGColors")
 			return nil
@@ -135,7 +135,12 @@ public extension PAL.Gradient {
 			if removeTransparency, let c1 = $0.color.cgColor?.copy(alpha: 1.0) {
 				c = c1
 			}
-			return SwiftUI.Gradient.Stop(color: Color(cgColor: c), location: $0.position)
+			#if swift(<5.5)
+			let sc = Color(c)
+			#else
+			let sc = Color(cgColor: c)
+			#endif
+			return SwiftUI.Gradient.Stop(color: sc, location: CGFloat($0.position))
 		}
 		return SwiftUI.Gradient(stops: stops)
 	}
@@ -152,7 +157,7 @@ public extension PAL.Gradient {
 		}
 
 		let stops = ts.map { stop in
-			SwiftUI.Gradient.Stop(color: Color(.sRGB, white: 0, opacity: stop.value), location: stop.position)
+			SwiftUI.Gradient.Stop(color: Color(.sRGB, white: 0, opacity: stop.value), location: CGFloat(stop.position))
 		}
 		return SwiftUI.Gradient(stops: stops)
 	}

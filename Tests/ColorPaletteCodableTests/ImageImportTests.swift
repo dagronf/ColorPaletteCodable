@@ -1,6 +1,8 @@
 @testable import ColorPaletteCodable
 import XCTest
 
+#if swift(>=5.5)
+
 #if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 
 final class ImageImportTests: XCTestCase {
@@ -20,5 +22,7 @@ final class ImageImportTests: XCTestCase {
 		XCTAssertEqual(image.size, CGSize(width: 100, height: 25))
 	}
 }
+
+#endif
 
 #endif

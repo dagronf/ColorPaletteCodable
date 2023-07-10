@@ -36,6 +36,10 @@ import AppKit
 import UIKit
 #endif
 
+// Unfortunately, swift 5.4 and lower the compiler crashes on these functions and doesn't give
+// much information on how to fix it.
+#if swift(>=5.5)
+
 public extension PAL.Palette {
 
 	/// Import a palette by retrieving the unique pixel colors in the first row of the image
@@ -124,3 +128,4 @@ public extension PAL.Palette {
 
 #endif
 
+#endif
