@@ -146,35 +146,6 @@ catch {
 }
 ```
 
-## QuickLook support (macOS 12+ only)
-
-This package also includes a Quicklook Plugin for palette files. macOS 12 has changed the was quicklook plugins work, by creating an .appex extension (which is the quicklook plugin) embedded within an application.
-
-In the `Quicklook` subfolder you'll find an `xcodeproj` which you can use to build the application `Palette Viewer` which contains the QuickLook plugin.
-
-For the plugin to register, you need to run the application. After the first run the QuickLook plugin will be registered.
-
-## Palette viewer
-
-Palette Viewer allows you to view the contents of
-
-* Adobe Color Book files (.acb)
-* Adobe Photoshop Color Swatch files (.aco)
-* Adobe Color Table files (.act)
-* Adobe Swatch Exchange files (.ase)
-* Apple ColorList files (.clr)
-* RGB/RGBA hex encoded text files (.txt)
-* GIMP text files (.gpl)
-* JASC Paint Shop Pro (Corel) text files (.pal, .psppalette)
-* Microsoft RIFF Palette (.pal)
-* Sketch palette (.sketchpalette)
-* CorelDraw/Adobe Illustrator XML palette (.xml)
-* Hex delimited color palette (.hex)
-
-You can drag colors out of the preview window into applications that support dropping of `NSColor` instances.
-
-You can also save the palette to a new format (eg. saving a gimp `.gpl` format to an Adobe `.aco` format)
-
 ## Palette format encoding/decoding limitations
 
 |                           | File Type              | Named<br>Colors? | Named<br>palette? | Color<br>Groups? | ColorType<br>Support? | Supports<br>Colorspaces? |
@@ -195,7 +166,7 @@ You can also save the palette to a new format (eg. saving a gimp `.gpl` format t
 
 *(A ColorType represents the type of color (global/spot/normal))*
 
-## Simple Gradient support
+## Gradient support
 
 The library additional defines `PAL.Gradients` which defines a collection of colors with positions
 that can be used when defining gradient types.  Certain gradient types (eg. `.grd`) support multiple 
@@ -248,6 +219,23 @@ vague documents [1](http://www.selapa.net/swatches/gradients/fileformats.php), [
 For some nice gradient files, [cptcity](http://soliton.vm.bytemark.co.uk/pub/cpt-city/index.html) has all of them :-)
 
 cptcity also has a [nice converter](http://soliton.vm.bytemark.co.uk/pub/cptutils-online/select.html) for gradients to ggr
+
+## QuickLook support (macOS 12+ only)
+
+This package also includes a Quicklook Plugin for palette and gradient files.
+
+In the `Quicklook` subfolder you'll find an `xcodeproj` which you can use to build the application `Palette Viewer` which contains the QuickLook plugin.
+
+For the plugin to register, you need to run the application. After the first run the QuickLook plugin will be registered.
+
+## Palette viewer
+
+Palette Viewer allows you to view the contents of all supported palette and gradient files
+
+You can drag colors out of the preview window into applications that support dropping of `NSColor` instances.
+
+You can also save the palette to a new format (eg. saving a gimp `.gpl` format to an Adobe `.aco` format)
+
 
 ## Linux support
 
