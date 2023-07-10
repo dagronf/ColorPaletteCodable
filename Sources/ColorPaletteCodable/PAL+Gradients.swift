@@ -43,11 +43,12 @@ public extension PAL {
 		/// Return a palette containing all the gradients as mapped color groups
 		public var palette: PAL.Palette {
 			let grs = gradients.map { gradient in
-				PAL.Group(colors: gradient.sorted.colors)
+				PAL.Group(name: gradient.name ?? "", colors: gradient.sorted.colors)
 			}
 			return PAL.Palette(colors: [], groups: grs)
 		}
 
+		/// Locate a gradient via its id.
 		@inlinable public func find(id: UUID) -> PAL.Gradient? {
 			self.gradients.first { $0.id == id }
 		}

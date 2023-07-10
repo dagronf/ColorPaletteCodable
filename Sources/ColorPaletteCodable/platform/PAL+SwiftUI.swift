@@ -26,13 +26,12 @@
 
 // SwiftUI support routines
 
-import Foundation
-
 #if canImport(SwiftUI)
 
+import Foundation
 import SwiftUI
 
-@available(macOS 12, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(macOS 11, iOS 14.0, tvOS 14.0, watchOS 8.0, *)
 public extension PAL.Color {
 	/// Create a color from a SwiftUI Color
 	/// - Parameters:
@@ -46,15 +45,17 @@ public extension PAL.Color {
 
 	/// Extract a SwiftUI color from this color
 	@inlinable var SwiftUIColor: Color? {
-#if swift(<5.5)
-		return unwrapping(self.cgColor) { SwiftUI.Color($0) }
-#else
-		return unwrapping(self.cgColor) { SwiftUI.Color(cgColor: $0) }
-#endif
+		guard let cgColor = self.cgColor else { return nil }
+		#if os(macOS)
+		guard let nsColor = NSColor(cgColor: cgColor) else { return nil }
+		return Color(nsColor)
+		#else
+		return Color(UIColor(cgColor: cgColor))
+		#endif
 	}
 }
 
-@available(macOS 12, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(macOS 10.15, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
 public extension PAL.Image {
 	/// Generate a SwiftUI Image of the list of colors. Useful for drag item images etc.
 	/// - Parameters:
