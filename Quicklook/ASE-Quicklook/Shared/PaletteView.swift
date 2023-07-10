@@ -21,12 +21,13 @@ class PaletteModel: ObservableObject {
 }
 
 struct PaletteView: View {
+	let title: String?
 	@ObservedObject var paletteModel: PaletteModel
 
 	var body: some View {
 		VStack(alignment: .leading, spacing: 0) {
-			if let name = paletteModel.palette?.name, name.count > 0 {
-				Text("􀦳 \(name)")
+			if let title = title, title.count > 0 {
+				Text("􀦳 \(title)")
 					.font(.title2).fontWeight(.heavy)
 					.truncationMode(.tail)
 					.frame(maxWidth: .infinity, alignment: .leading)
@@ -108,9 +109,9 @@ private var colorSpace = PaletteModel(_display)
 struct PaletteView_Previews: PreviewProvider {
 	static var previews: some View {
 		Group {
-			PaletteView(paletteModel: colorSpace)
+			PaletteView(title: "title1", paletteModel: colorSpace)
 				.preferredColorScheme(.dark)
-			PaletteView(paletteModel: colorSpace)
+			PaletteView(title: "title3", paletteModel: colorSpace)
 				.preferredColorScheme(.light)
 		}
 		.frame(height: 250)

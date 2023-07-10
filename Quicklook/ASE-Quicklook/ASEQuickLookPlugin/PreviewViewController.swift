@@ -1,7 +1,7 @@
 //
 //  PreviewViewController.swift
 //
-//  Copyright © 2022 Darren Ford. All rights reserved.
+//  Copyright © 2023 Darren Ford. All rights reserved.
 //
 //  MIT License
 //
@@ -38,7 +38,10 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 	}
 	
 	let currentPalette = PaletteModel(nil)
-	private lazy var hostedView = PaletteView(paletteModel: self.currentPalette)
+	private lazy var hostedView = PaletteView(
+		title: self.currentPalette.palette?.name,
+		paletteModel: self.currentPalette
+	)
 	
 	override func loadView() {
 		super.loadView()

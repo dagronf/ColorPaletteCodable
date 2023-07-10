@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  Palette Viewer
 //
-//  Copyright © 2022 Darren Ford. All rights reserved.
+//  Copyright © 2023 Darren Ford. All rights reserved.
 //
 //  MIT License
 //
@@ -35,7 +35,7 @@ class ViewController: NSViewController {
 	let currentPalette = PaletteModel(nil)
 
 	private lazy var hostedView: PaletteView = {
-		PaletteView(paletteModel: self.currentPalette)
+		PaletteView(title: self.currentPalette.palette?.name, paletteModel: self.currentPalette)
 	}()
 
 	override func loadView() {

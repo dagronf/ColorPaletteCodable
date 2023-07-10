@@ -31,7 +31,7 @@ struct GradientsInteractorView: View {
 			if let s = selected {
 				VStack {
 					GradientTransparencyView(gradient: s)
-					PaletteView(paletteModel: palette)
+					PaletteView(title: "Colors", paletteModel: palette)
 						.frame(minWidth: 250)
 				}
 			}
