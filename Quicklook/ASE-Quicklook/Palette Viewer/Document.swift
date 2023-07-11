@@ -101,15 +101,15 @@ class Document: NSDocument {
 
 	override func read(from url: URL, ofType typeName: String) throws {
 		if url.pathExtension == "txt" {
-			// Force the RGBA decoder (which will fallback to RGB if it cannot find alpha)
-			self.currentPalette = try PAL.Palette.Decode(from: url, usingCoder: PAL.Coder.RGBA())
+			do {
+				// Try Paint.NET first...
+				self.currentPalette = try PAL.Palette.Decode(from: url, usingCoder: PAL.Coder.PaintNET())
+			}
+			catch {
+				// Force the RGBA decoder (which will fallback to RGB if it cannot find alpha)
+				self.currentPalette = try PAL.Palette.Decode(from: url, usingCoder: PAL.Coder.RGBA())
+			}
 		}
-//		else if url.pathExtension == "jsoncolorgradient" {
-//			self.currentPalette = try PAL.Gradients.Decode(from: url).palette()
-//		}
-//		else if url.pathExtension == "ggr" {
-//			self.currentPalette = try PAL.Gradients.Decode(from: url).palette()
-//		}
 		else {
 			self.currentPalette = try PAL.Palette.Decode(from: url)
 		}

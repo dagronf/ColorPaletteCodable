@@ -1,0 +1,47 @@
+;paint.net Palette File
+;Downloaded from Lospec.com/palette-list
+;Palette Name: Lospec500
+;Description: A collaboration from the Lospec Discord server to create a palette celebrating 500 palettes hosted on Lospec. Base colors were chosen by Foxbutt, Rhoq, Dimi, Skeddles, MiggityMoogity, PureAsbestos, Polyducks, SybilQ, Unsettled,  DaaWeed, Moertel, KingW, Glacier, WildLeoKnight and GooGroker, and the rest of the colors were filled in and adjusted collaboratively.
+;Colors: 42
+FF10121c
+FF2c1e31
+FF6b2643
+FFac2847
+FFec273f
+FF94493a
+FFde5d3a
+FFe98537
+FFf3a833
+FF4d3533
+FF6e4c30
+FFa26d3f
+FFce9248
+FFdab163
+FFe8d282
+FFf7f3b7
+FF1e4044
+FF006554
+FF26854c
+FF5ab552
+FF9de64e
+FF008b8b
+FF62a477
+FFa6cb96
+FFd3eed3
+FF3e3b65
+FF3859b3
+FF3388de
+FF36c5f4
+FF6dead6
+FF5e5b8c
+FF8c78a5
+FFb0a7b8
+FFdeceed
+FF9a4d76
+FFc878af
+FFcc99ff
+FFfa6e79
+FFffa2ac
+FFffd1d5
+FFf6e8e0
+FFffffff

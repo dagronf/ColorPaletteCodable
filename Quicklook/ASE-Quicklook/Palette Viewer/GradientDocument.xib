@@ -40,12 +40,12 @@
                 <allowedToolbarItems>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="TNB-Xc-Piq"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="dZS-uu-pPS"/>
-                    <toolbarItem implicitItemIdentifier="829FEEC3-61F6-4D4A-AA69-97C8E27862B5" label="Swift" paletteLabel="Swift Generator" image="square.split.bottomrightquarter.fill" catalog="system" sizingBehavior="auto" id="c2B-8I-IhS">
+                    <toolbarItem implicitItemIdentifier="829FEEC3-61F6-4D4A-AA69-97C8E27862B5" label="Swift" paletteLabel="Swift Generator" image="swift-icon" sizingBehavior="auto" id="c2B-8I-IhS">
                         <nil key="toolTip"/>
                         <button key="view" verticalHuggingPriority="750" id="mdM-By-SOE">
                             <rect key="frame" x="35" y="14" width="21" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="square.split.bottomrightquarter.fill" catalog="system" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="51v-G3-4bv">
+                            <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="swift-icon" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="51v-G3-4bv">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
@@ -54,12 +54,12 @@
                             </connections>
                         </button>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="9FF32A42-F48F-4EAF-98D7-97D443BBA792" label="SwiftUI" paletteLabel="SwiftUI Generator" image="square.split.bottomrightquarter.fill" catalog="system" sizingBehavior="auto" id="9IV-u5-o4I">
+                    <toolbarItem implicitItemIdentifier="9FF32A42-F48F-4EAF-98D7-97D443BBA792" label="SwiftUI" paletteLabel="SwiftUI Generator" image="swiftui-icon" sizingBehavior="auto" id="9IV-u5-o4I">
                         <nil key="toolTip"/>
                         <button key="view" verticalHuggingPriority="750" id="v2H-0F-laZ">
                             <rect key="frame" x="40" y="14" width="21" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="square.split.bottomrightquarter.fill" catalog="system" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="aSm-Ki-Lu6">
+                            <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="swiftui-icon" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="aSm-Ki-Lu6">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
@@ -82,6 +82,7 @@
         </window>
     </objects>
     <resources>
-        <image name="square.split.bottomrightquarter.fill" catalog="system" width="15" height="14"/>
+        <image name="swift-icon" width="22" height="22"/>
+        <image name="swiftui-icon" width="22" height="22"/>
     </resources>
 </document>

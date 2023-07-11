@@ -1,0 +1,9 @@
+;paint.net Palette File
+;Downloaded from Lospec.com/palette-list
+;Palette Name: EB GB Strawberry Flavour
+;Description: A GameBoy compatible palette based on EarthBound's strawberry window flavour.
+;Colors: 4
+FFf6edc1
+FFf890a8
+FF8b506d
+FF381a3e
