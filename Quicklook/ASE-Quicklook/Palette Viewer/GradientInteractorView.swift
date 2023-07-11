@@ -11,8 +11,9 @@ import ColorPaletteCodable
 struct GradientsInteractorView: View {
 	let gradients: PAL.Gradients
 
-	@State var palette = PaletteModel(PAL.Palette())
+	let parent: GradientDocument?
 
+	@State var palette = PaletteModel(PAL.Palette())
 	@State var selectedGradient: UUID? = nil
 
 	var selected: PAL.Gradient? {
@@ -27,16 +28,22 @@ struct GradientsInteractorView: View {
 				selectedGradient: $selectedGradient
 			)
 			.layoutPriority(1)
-
-			if let s = selected {
-				VStack {
+			VStack {
+				if let s = selected {
 					GradientTransparencyView(gradient: s)
 					PaletteView(title: "Colors", paletteModel: palette)
 						.frame(minWidth: 250)
 				}
+				else {
+					ZStack {
+						Rectangle()
+							.fill(.regularMaterial)
+						Text("No selection").font(.headline)
+					}
+				}
 			}
 		}.toolbar {
-			 ToolbarItem(placement: .navigation) {
+			ToolbarItem(placement: .automatic) {
 				  Button(action: toggleSidebar, label: { // 1
 						Image(systemName: "sidebar.leading")
 				  })
@@ -51,6 +58,7 @@ struct GradientsInteractorView: View {
 		}
 		.onChange(of: selectedGradient) { newValue in
 			updatePalette()
+			parent?.selectedGradient = selectedGradient
 		}
 	}
 
@@ -68,21 +76,32 @@ struct GradientsInteractorView: View {
 	}
 }
 
+#if DEBUG
+
+private let dummy: PAL.Gradients = {
+	let gradient1 = PAL.Gradient(name: "Simple", colorPositions: [
+		(position: 0.0, color: PAL.Color.red),
+		(position: 1.0, color: PAL.Color.white),
+	])
+	let gradient2 = PAL.Gradient(name: "Parrot!", colorPositions: [
+		(position: 0.0, color: PAL.Color.blue),
+		(position: 0.5, color: PAL.Color.green),
+		(position: 0.75, color: PAL.Color.yellow),
+		(position: 1.0, color: PAL.Color.black),
+	])
+	return PAL.Gradients(gradients: [gradient1, gradient2])
+}()
+
 struct GradientsInteractorView_Previews: PreviewProvider {
-	static let dummy: PAL.Gradients = {
-		let gradient1 = PAL.Gradient(name: "Simple", colorPositions: [
-			(position: 0.0, color: PAL.Color.red),
-			(position: 1.0, color: PAL.Color.white),
-		])
-		let gradient2 = PAL.Gradient(name: "Parrot!", colorPositions: [
-			(position: 0.0, color: PAL.Color.blue),
-			(position: 0.5, color: PAL.Color.green),
-			(position: 0.75, color: PAL.Color.yellow),
-			(position: 1.0, color: PAL.Color.black),
-		])
-		return PAL.Gradients(gradients: [gradient1, gradient2])
-	}()
 	static var previews: some View {
-		GradientsInteractorView(gradients: Self.dummy, selectedGradient: Self.dummy.gradients[0].id)
+		GradientsInteractorView(gradients: dummy, parent: nil, selectedGradient: dummy.gradients[0].id)
 	}
 }
+
+struct GradientsInteractorViewNoSelection_Previews: PreviewProvider {
+	static var previews: some View {
+		GradientsInteractorView(gradients: dummy, parent: nil, selectedGradient: nil)
+	}
+}
+
+#endif

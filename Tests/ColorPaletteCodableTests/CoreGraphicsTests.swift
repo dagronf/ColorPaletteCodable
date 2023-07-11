@@ -46,6 +46,43 @@ final class CoreGraphicsTests: XCTestCase {
 			XCTAssertEqual(0.2, p1.colors[0].colorComponents[3])
 		}
 	}
+
+
+	func testSwiftUIDefinitionGeneration() throws {
+
+		do {
+			let gradient = PAL.Gradient(
+				colors: [
+					try PAL.Color(rgbHexString: "#FFFFFF"),
+					try PAL.Color(rgbHexString: "#121212"),
+					try PAL.Color(rgbHexString: "#444444")
+				],
+				positions: [60, 45, 30]
+			)
+			let gs = PAL.Gradients(gradients: [gradient])
+
+			let suis = try PAL.Gradients.Coder.SwiftGen().encode(gs)
+			try suis.write(to: URL(fileURLWithPath: "/tmp/data.swift"))
+
+			let suis2 = try PAL.Gradients.Coder.SwiftUIGen().encode(gs)
+			try suis2.write(to: URL(fileURLWithPath: "/tmp/dataUI.swift"))
+		}
+
+		do {
+			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "Tube_Red", withExtension: "ggr"))
+			let content = try Data(contentsOf: fileURL)
+			let dec = PAL.Gradients.Coder.GGR()
+			let gradients = try dec.decode(from: content)
+
+			let suis = try PAL.Gradients.Coder.SwiftGen().encode(gradients)
+			try suis.write(to: URL(fileURLWithPath: "/tmp/data.swift"))
+
+			let suis2 = try PAL.Gradients.Coder.SwiftUIGen().encode(gradients)
+			try suis2.write(to: URL(fileURLWithPath: "/tmp/dataUI.swift"))
+
+		}
+	}
+
 }
 
 #endif

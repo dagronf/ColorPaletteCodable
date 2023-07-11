@@ -35,8 +35,8 @@ class GradientDocument: NSDocument {
 
 	var gradients: PAL.Gradients?
 
-	//let gradientVC = GradientViewController()
-
+	var gradientsView: GradientsInteractorView?
+	var selectedGradient: UUID? = nil
 
 	override var windowNibName: String? {
 		// Override to return the nib file name of the document.
@@ -51,7 +51,9 @@ class GradientDocument: NSDocument {
 		aController.window?.autorecalculatesKeyViewLoop = true
 
 		let g = self.gradients ?? PAL.Gradients(gradients: [])
-		let v = NSHostingController(rootView: GradientsInteractorView(gradients: g))
+		let rootView = GradientsInteractorView(gradients: g, parent: self)
+		self.gradientsView = rootView
+		let v = NSHostingController(rootView: rootView)
 		v.view.setFrameSize(NSSize(width: 600, height: 400))
 
 		aController.contentViewController = v
@@ -85,14 +87,51 @@ class GradientDocument: NSDocument {
 		// Insert code here to read your document from the given data of the specified type, throwing an error in case of failure.
 		// Alternatively, you could remove this method and override read(from:ofType:) instead.  If you do, you should also override isEntireFileLoaded to return false if the contents are lazily loaded.
 		self.gradients = try PAL.Gradients.Decode(from: url)
+	}
+}
 
-		//throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+extension GradientDocument: NSToolbarItemValidation {
+	func validateToolbarItem(_ item: NSToolbarItem) -> Bool {
+		if self.selectedGradient != nil {
+			return true
+		}
+		return false
 	}
 
-	//    override class var autosavesInPlace: Bool {
-	//        return true
-	//    }
+	@IBAction func ShowSwiftUIGenerated(_ sender: NSButton) {
+		present(PAL.Gradients.Coder.SwiftUIGen(), sender)
+	}
 
+	@IBAction func ShowSwiftGenerated(_ sender: NSButton) {
+		present(PAL.Gradients.Coder.SwiftGen(), sender)
+	}
+
+	func present(_ generator: PAL_GradientsCoder, _ sender: NSButton) {
+		let export: PAL.Gradients? = {
+			if let selected = self.selectedGradient,
+				let gradient = self.gradients?.find(id: selected) {
+				return PAL.Gradients(gradients: [gradient])
+			}
+			return self.gradients
+		}()
+
+		guard let gs = export else { fatalError() }
+
+		guard
+			let data = try? generator.encode(gs),
+			let str = String(data: data, encoding: .utf8)
+		else {
+			fatalError()
+		}
+
+		let popover = NSPopover()
+		popover.behavior = .semitransient
+
+		let controller = NSHostingController(rootView: CodePopupView(code: str))
+		controller.view.translatesAutoresizingMaskIntoConstraints = false
+		popover.contentViewController = controller
+		popover.show(relativeTo: sender.bounds, of: sender, preferredEdge: .maxY)
+	}
 }
 
 #endif

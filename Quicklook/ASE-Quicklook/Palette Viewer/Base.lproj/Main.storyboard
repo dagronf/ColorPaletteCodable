@@ -689,6 +689,21 @@
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <toolbar key="toolbar" implicitIdentifier="9A2D9220-C8A4-495C-A538-28C32BF64DD3" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="DkY-49-TBc">
+                            <allowedToolbarItems>
+                                <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" id="nDR-OF-Uz6"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="wbJ-H0-m7T"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="68r-Kq-2WV"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="dSj-21-h3d"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="jmO-HO-zDv"/>
+                            </allowedToolbarItems>
+                            <defaultToolbarItems>
+                                <toolbarItem reference="nDR-OF-Uz6"/>
+                                <toolbarItem reference="wbJ-H0-m7T"/>
+                                <toolbarItem reference="jmO-HO-zDv"/>
+                                <toolbarItem reference="68r-Kq-2WV"/>
+                            </defaultToolbarItems>
+                        </toolbar>
                         <connections>
                             <outlet property="delegate" destination="jGA-0Y-lOj" id="98r-iN-zZc"/>
                         </connections>

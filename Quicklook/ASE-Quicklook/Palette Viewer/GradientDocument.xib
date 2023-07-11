@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -21,7 +20,7 @@
             <value key="minSize" type="size" width="94" height="86"/>
             <view key="contentView" id="gIp-Ho-8D9">
                 <rect key="frame" x="0.0" y="0.0" width="507" height="413"/>
-                <autoresizingMask key="autoresizingMask"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Hz6-mo-xeY">
                         <rect key="frame" x="131" y="196" width="246" height="21"/>
@@ -37,10 +36,52 @@
                     <constraint firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="s6i-b7-llN"/>
                 </constraints>
             </view>
+            <toolbar key="toolbar" implicitIdentifier="1734EE77-A728-4931-90C5-460D3718A04B" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="TuU-8Z-FtZ">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="TNB-Xc-Piq"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="dZS-uu-pPS"/>
+                    <toolbarItem implicitItemIdentifier="829FEEC3-61F6-4D4A-AA69-97C8E27862B5" label="Swift" paletteLabel="Swift Generator" image="square.split.bottomrightquarter.fill" catalog="system" sizingBehavior="auto" id="c2B-8I-IhS">
+                        <nil key="toolTip"/>
+                        <button key="view" verticalHuggingPriority="750" id="mdM-By-SOE">
+                            <rect key="frame" x="35" y="14" width="21" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="square.split.bottomrightquarter.fill" catalog="system" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="51v-G3-4bv">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="ShowSwiftGenerated:" target="-2" id="n86-mT-Itm"/>
+                            </connections>
+                        </button>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="9FF32A42-F48F-4EAF-98D7-97D443BBA792" label="SwiftUI" paletteLabel="SwiftUI Generator" image="square.split.bottomrightquarter.fill" catalog="system" sizingBehavior="auto" id="9IV-u5-o4I">
+                        <nil key="toolTip"/>
+                        <button key="view" verticalHuggingPriority="750" id="v2H-0F-laZ">
+                            <rect key="frame" x="40" y="14" width="21" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="square.split.bottomrightquarter.fill" catalog="system" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="aSm-Ki-Lu6">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="ShowSwiftUIGenerated:" target="-2" id="haD-5e-Jn1"/>
+                            </connections>
+                        </button>
+                    </toolbarItem>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="dZS-uu-pPS"/>
+                    <toolbarItem reference="c2B-8I-IhS"/>
+                    <toolbarItem reference="9IV-u5-o4I"/>
+                </defaultToolbarItems>
+            </toolbar>
             <connections>
                 <outlet property="delegate" destination="-2" id="0bl-1N-x8E"/>
             </connections>
             <point key="canvasLocation" x="132" y="-83"/>
         </window>
     </objects>
+    <resources>
+        <image name="square.split.bottomrightquarter.fill" catalog="system" width="15" height="14"/>
+    </resources>
 </document>

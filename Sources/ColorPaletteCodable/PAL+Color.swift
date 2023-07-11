@@ -217,6 +217,7 @@ public extension PAL.Color {
 	/// - Parameter colorspace: The colorspace to convert to
 	/// - Returns: A new color with the specified namespace
 	func converted(to colorspace: PAL.ColorSpace) throws -> PAL.Color {
+		if self.colorSpace == colorspace { return self }
 		return try PAL_ColorSpaceConverter.convert(color: self, to: colorspace)
 	}
 }
@@ -318,9 +319,9 @@ public extension PAL.Color {
 
 // Unsafe RGB retrieval. No checks or validation are performed. Do not use unless you are absolutely sure.
 internal extension PAL.Color {
-	@inlinable var _r: Float32 { colorComponents[0] }
-	@inlinable var _g: Float32 { colorComponents[1] }
-	@inlinable var _b: Float32 { colorComponents[2] }
+	@inlinable var _r: Float32 { self.colorComponents[0] }
+	@inlinable var _g: Float32 { self.colorComponents[1] }
+	@inlinable var _b: Float32 { self.colorComponents[2] }
 }
 
 public extension PAL.Color {
@@ -330,6 +331,14 @@ public extension PAL.Color {
 	@inlinable func rgbValues() throws -> PAL.Color.RGB {
 		if colorSpace == .RGB { return PAL.Color.RGB(r: _r, g: _g, b: _b, a: self.alpha) }
 		throw PAL.CommonError.mismatchedColorspace
+	}
+
+	/// RGBA representation (0 ... 1) for the color
+	///
+	/// Converts the colorspace as necessary
+	@inlinable func rgbaComponents() throws -> (Double, Double, Double, Double) {
+		let c = try self.converted(to: .RGB)
+		return (Double(c._r), Double(c._g), Double(c._b), Double(c.alpha))
 	}
 
 	/// The color's red component IF the colorspace is `.RGB`
