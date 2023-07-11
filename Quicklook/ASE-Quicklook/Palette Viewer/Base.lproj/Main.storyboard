@@ -689,37 +689,13 @@
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
-                        <toolbar key="toolbar" implicitIdentifier="9A2D9220-C8A4-495C-A538-28C32BF64DD3" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="DkY-49-TBc">
+                        <toolbar key="toolbar" implicitIdentifier="9A2D9220-C8A4-495C-A538-28C32BF64DD3" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="DkY-49-TBc">
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="dSj-21-h3d"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="jmO-HO-zDv"/>
-                                <toolbarItem implicitItemIdentifier="315D38D5-C717-467B-8F19-22ADFC47492F" label="Swift" paletteLabel="Swift Generator" image="swift-icon" sizingBehavior="auto" id="zz3-ZX-7lM">
-                                    <nil key="toolTip"/>
-                                    <button key="view" verticalHuggingPriority="750" id="2Tw-sY-9Vn">
-                                        <rect key="frame" x="34" y="14" width="22" height="22"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="swift-icon" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="Plm-5K-RPF">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                    </button>
-                                </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="BEF899EB-E8E0-44C9-80A2-0C302C3A8483" label="SwiftUI" paletteLabel="SwiftUI Generator" image="swiftui-icon" sizingBehavior="auto" id="XD3-h7-d13">
-                                    <nil key="toolTip"/>
-                                    <button key="view" verticalHuggingPriority="750" id="CVW-U5-s1G">
-                                        <rect key="frame" x="40" y="14" width="22" height="22"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="swiftui-icon" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="OHV-o8-WHK">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                    </button>
-                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="jmO-HO-zDv"/>
-                                <toolbarItem reference="zz3-ZX-7lM"/>
-                                <toolbarItem reference="XD3-h7-d13"/>
                             </defaultToolbarItems>
                         </toolbar>
                         <connections>
@@ -748,8 +724,4 @@
             <point key="canvasLocation" x="75.5" y="822.5"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="swift-icon" width="22" height="22"/>
-        <image name="swiftui-icon" width="22" height="22"/>
-    </resources>
 </document>
