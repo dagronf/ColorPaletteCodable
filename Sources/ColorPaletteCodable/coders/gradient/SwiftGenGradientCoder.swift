@@ -60,7 +60,7 @@ public extension PAL.Gradients.Coder.SwiftGen {
 		try gradients.gradients.enumerated().forEach { item in
 			let gradient = item.element
 			// Make sure stops are arranged 0 ... 1, and sorted from 0 ... 1
-			let comps = try gradient.normalized().sorted.stops.map {
+			let comps: [([Double], Double)] = try gradient.normalized().sorted.stops.map {
 				let components = try $0.color.rgbaComponents()
 				let position = $0.position
 				return ([components.0, components.1, components.2, components.3], position)
@@ -127,7 +127,7 @@ public extension PAL.Gradients.Coder.SwiftUIGen {
 
 			result += "let gradientStops\(item.offset + 1): [Gradient.Stop] = [\n"
 
-			let stopsStrings = try normalized.map { stop in
+			let stopsStrings: [String] = try normalized.map { stop in
 				let color = stop.color
 
 				// SwiftUI colors are easier in RGB
