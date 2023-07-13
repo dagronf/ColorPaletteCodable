@@ -2,45 +2,51 @@
 
 A color palette reader/editor/writer package for iOS, macOS, macCatalyst, tvOS, watchOS and Linux.
 
-Supports the following color palette formats
+![tag](https://img.shields.io/github/v/tag/dagronf/ColorPaletteCodable)
+![Swift](https://img.shields.io/badge/Swift-5.4-orange.svg)
+[![License MIT](https://img.shields.io/badge/license-MIT-magenta.svg)](https://github.com/dagronf/ColorPaletteCodable/blob/master/LICENSE) 
+![SPM](https://img.shields.io/badge/spm-compatible-maroon.svg)
+![Build](https://img.shields.io/github/actions/workflow/status/dagronf/ColorPaletteCodable/swift.yml)
+
+
+![macOS](https://img.shields.io/badge/macOS-10.13+-darkblue)
+![iOS](https://img.shields.io/badge/iOS-13+-crimson)
+![tvOS](https://img.shields.io/badge/tvOS-13+-forestgreen)
+![watchOS](https://img.shields.io/badge/watchOS-6+-indigo)
+![macCatalyst](https://img.shields.io/badge/macCatalyst-2+-orangered)
+![Linux](https://img.shields.io/badge/Linux-compatible-peru)
+
+Supports the following :-
+
+## Supported palette formats
 
 * Adobe Swatch Exchange (`.ase`)
 * Adobe Photoshop Color Swatch (`.aco`)
 * Adobe Color Table (`.act`)
-* Adobe Color Book (`.acb`) *(read only)*
-* NSColorList (`.clr`) *(macOS only)* 
+* Adobe Color Book (`.acb`) ***(read only)***
+* NSColorList (`.clr`) ***(macOS only)***
 * RGB text files (`.rgb`)
 * RGBA text files (`.rgba`)
 * GIMP palette files (`.gpl`)
 * Paint Shop Pro files (`.pal`, `.psppalette`)
-* Microsoft RIFF palette files (`.pal`) *(read only)*
+* Microsoft RIFF palette files (`.pal`) ***(read only)***
 * SketchPalette files (`.sketchpalette`)
 * CorelDraw/Adobe Illustrator xml palette (`.xml`)
-* JSON encoded color files (`.jsoncolorpalette`) *ColorPaletteCodable internal file format*
+* JSON encoded color files (`.jsoncolorpalette`) ***ColorPaletteCodable internal file format***
 * Hex Color Palette (text file with delimited hexadecimal color strings) (`.hex`)
+* Paint.NET palette files (`.txt`)
+* PNG palette files (`.png`)
 
-<p align="center">
-    <img src="https://img.shields.io/github/v/tag/dagronf/ColorPaletteCodable" />
-    <img src="https://img.shields.io/badge/Swift-5.4-orange.svg" />
-    <img src="https://img.shields.io/badge/License-MIT-lightgrey" />
-    <a href="https://swift.org/package-manager">
-        <img src="https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat" alt="Swift Package Manager" />
-    </a>
-    <img src="https://img.shields.io/github/actions/workflow/status/dagronf/ColorPaletteCodable/swift.yml">
-</p>
+## Supported gradient formats
 
-<p align="center">
-    <img src="https://img.shields.io/badge/macOS-10.13+-red" />
-    <img src="https://img.shields.io/badge/macCatalyst-2+-purple" />
-    <img src="https://img.shields.io/badge/iOS-13+-blue" />
-    <img src="https://img.shields.io/badge/tvOS-13+-orange" />
-    <img src="https://img.shields.io/badge/watchOS-4+-yellow" />
-    <img src="https://img.shields.io/badge/Linux-compatible-orange" />
-</p>
+* GIMP gradient (`.ggr`)
+* Built-in JSON format gradient (`.jsongradient`)
+* Basic Adobe gradient (`.grd`) ***(read only)***
+* Basic Paint Shop Pro gradient (`.pspgradient`) ***(read only)***
 
 ## Why?
 
-I wanted to be able to read and write `.ase` palette files in my Swift app. 
+I wanted to be able to read and write Adobe `.ase` palette files in my Swift app. 
 This then extended to `.aco` Adobe Photoshop Color Swatch files.
 Which then expanded to other types :-)
 
@@ -53,19 +59,20 @@ Some features :-
 * Encoding/Decoding of all supported palette coder types
 * Includes a cross-platorm, human readable, palette coder (json utf8 format)
 * Integrated pasteboard support for macOS/iOS
-* Simple image generation for an group of colors
+* Simple image generation for an collection of colors
+* Gradient support
 
 [Online API Documentation](https://swiftpackageindex.com/dagronf/ColorPaletteCodable/main/documentation/colorpalettecodable)
 
-## API
+## Palette API
 
-| Type          | Description    | 
-|:--------------|:---------------|
+| Type          | Description                              | 
+|:--------------|:-----------------------------------------|
 |`PAL.Palette`  | The full representation of a palette     |
 |`PAL.Group`    | An optionally named collection of colors |
 |`PAL.Color`    | An optionally named color                |
 
-### Coders
+### Available Coders
 
 | Type                      | Description                                 |
 |:--------------------------|:--------------------------------------------|
@@ -77,20 +84,25 @@ Some features :-
 |`PAL.Coder.GIMP`           | GIMP palette files (.gpl)                   |
 |`PAL.Coder.HEX`            | Hex Color Palette (`.hex`)                  |
 |`PAL.Coder.JSON`           | JSON encoded palette (.jsoncolorpalette)    |
+|`PAL.Coder.PaintNET`       | Paint.NET Palette (.txt)                    |
 |`PAL.Coder.PaintShopPro`   | Paint Shop Pro palette (.pal;.psppalette)   |
-|`PAL.Coder.RGB`            | RGB text files (.rgb)                       |
 |`PAL.Coder.RGBA`           | RGB(A) text files (.rgba)                   |
+|`PAL.Coder.RGB`            | RGB text files (.rgb)                       |
 |`PAL.Coder.RIFF`           | Microsoft RIFF palette (.pal)               |
 |`PAL.Coder.SketchPalette`  | Sketch Palette (.sketchpalette)             |
 |`PAL.Coder.XMLPalette`     | CorelDraw/Adobe Illustrator Palette (.xml)  |
 
-## Tasks
+Each coder defines `.encode` and `.decode` for explicitly 
 
-### Decode a palette file
+### Example usage
+
+#### Decode a palette file
 
 ```swift
 do {
    let myFileURL = URL(fileURL: ...)
+   
+   // Try to decode the palette based on its file extension
    let palette = try PAL.Palette.Decode(from: myFileURL)
    
    // do something with 'palette'
@@ -100,53 +112,43 @@ catch {
 }
 ```
 
-### Build a palette and generate an ASE binary representation
+#### Build a palette and generate an ASE binary representation
 
 ```swift
-do {
-   // Build a palette
-   var palette = PAL.Palette()
-   let c1 = try PAL.Color.rgb(name: "red",   1, 0, 0)
-   let c2 = try PAL.Color.rgb(name: "green", 0, 1, 0)
-   let c3 = try PAL.Color.rgb(name: "blue",  0, 0, 1)
-   palette.colors.append(contentsOf: [c1, c2, c3])
+// Build a palette
+var palette = PAL.Palette()
+let c1 = try PAL.Color.rgb(name: "red",   1, 0, 0)
+let c2 = try PAL.Color.rgb(name: "green", 0, 1, 0)
+let c3 = try PAL.Color.rgb(name: "blue",  0, 0, 1)
+palette.colors.append(contentsOf: [c1, c2, c3])
 
-   // Generate a simple image from the colors
-   let image = try PAL.Image.Image(colors: [c1, c2, c3], size: CGSize(width: 100, height: 25))
+// Generate a simple image from the colors
+let image = try PAL.Image.Image(colors: [c1, c2, c3], size: CGSize(width: 100, height: 25))
 
-   // Create an ASE coder
-   let coder = PAL.Coder.ASE()
+// Create an ASE coder
+let coder = PAL.Coder.ASE()
 
-   // Get the .ase format data
-   let rawData = try coder.encode(palette)
+// Get the .ase format data
+let rawData = try coder.encode(palette)
    
-   // Do something with 'rawData' (like write to a file for example)
-}
-catch {
-   // Do something with 'error'
-}
+// Do something with 'rawData' (like write to a file for example)
 ```
 
-### Read an ACO file, write an ASE file
+#### Read an ACO file, write an ASE file
 
 ```swift
-do {
-   let acoFileURL = URL(fileURL: ...)
-   let coder = PAL.Coder.ACO()
-   var palette = try coder.decode(from: acoFileURL)
+let acoFileURL = URL(fileURL: ...)
+let coder = PAL.Coder.ACO()
+var palette = try coder.decode(from: acoFileURL)
    
-   // do something with 'palette'
+// do something with 'palette'
    
-   // re-encode the palette to an ASE format
-   let encoder = PAL.Coder.ASE()
-   let rawData = try encoder.encode(palette) 
-}
-catch {
-   // Do something with 'error'
-}
+// re-encode the palette to an ASE format
+let encoder = PAL.Coder.ASE()
+let rawData = try encoder.encode(palette) 
 ```
 
-## Palette format encoding/decoding limitations
+### Palette format encoding/decoding limitations
 
 |                           | File Type              | Named<br>Colors? | Named<br>palette? | Color<br>Groups? | ColorType<br>Support? | Supports<br>Colorspaces? |
 |---------------------------|------------------------|:----------------:|:-----------------:|:-----------------:|:--------------------:|:--------------------:|
@@ -158,19 +160,61 @@ catch {
 | `PAL.Coder.GIMP`          | Text                   |         ✅       |         ✅        |         ❌        |           ❌           |     RGB only        |
 | `PAL.Coder.HEX`           | Text                   |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
 | `PAL.Coder.JSON`          | JSON Text              |         ✅       |         ✅        |         ✅        |           ✅           |        ✅           |
+| `PAL.Coder.PaintNET`      | Text                   |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
 | `PAL.Coder.PaintShopPro`  | Text                   |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
+| `PAL.Coder.PNG`           | Binary                    |         ❌       |         ❌         |         ❌        |           ❌           |        ❌           |
 | `PAL.Coder.RGB/A`         | Text                   |         ✅       |         ❌        |         ❌        |           ❌           |     RGB only        |
 | `PAL.Coder.RIFF`          | Binary                 |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
 | `PAL.Coder.SketchPalette` | XML                   |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
 | `PAL.Coder.XMLPalette`    | XML                    |         ✅       |         ✅        |         ✅        |           ❌           |        ✅           |
 
+
 *(A ColorType represents the type of color (global/spot/normal))*
 
-## Gradient support
+## Gradients
 
-The library additional defines `PAL.Gradients` which defines a collection of colors with positions
-that can be used when defining gradient types.  Certain gradient types (eg. `.grd`) support multiple 
+The library defines `PAL.Gradients` which defines a collection of colors with positions
+that can be used when using a gradient.  Certain gradient types (eg. `.grd`) support multiple 
 gradients within the same file.
+
+## Gradient API
+
+| Type                   | Description                            | 
+|:-----------------------|:---------------------------------------|
+|`PAL.Gradients`         | A collection of gradients              |
+|`PAL.Gradient`          | A gradient                             |
+|`PAL.Stop`              | A color stop within a gradient         |
+|`PAL.TransparencyStop`  | A transparency stop within a gradient  |
+
+### Available Coders
+
+| Type                       | Description                                       |  Supports encode?  |
+|:---------------------------|:--------------------------------------------------|--------------------|
+|`PAL.Gradients.Coder.JSON`  | Built-in JSON format (.jsongradient)              |         ✅         |
+|`PAL.Gradients.Coder.GGR`   | GIMP gradient file (.ggr)                         |         ✅         |
+|`PAL.Gradients.Coder.GRD`   | Basic Adobe Photoshop gradient file (.grd)        |         ❌         |
+|`PAL.Gradients.Coder.PSP`   | Basic Paint Shop Pro gradient file (.pspgradient) |         ❌         |
+
+* `.ggr` support doesn't respect segment blending functions other than linear (always imported as linear)
+* `.ggr` support doesn't allow for segment coloring functions other than rgb (throws an error)
+* `.grd` support is _very_ basic at this point. There's no formal document for it, and I built this using very 
+vague documents [1](http://www.selapa.net/swatches/gradients/fileformats.php), [2]()
+  * doesn't (currently) support encode
+  * Only user colors are supported in the gradients (ie. book colors aren't supported)
+  * Noise gradients aren't supported
+  * only rgb, cmyk, hsb, gray colors are supported
+* `.pspgradient` _appears_ to be equal to the grd v3 format. (Read only)
+
+For some nice gradient files
+
+* [cptcity](http://soliton.vm.bytemark.co.uk/pub/cpt-city/index.html) has all of them :-)
+* [lospec](https://lospec.com/palette-list)
+
+cptcity also has a [nice converter](http://soliton.vm.bytemark.co.uk/pub/cptutils-online/select.html) for gradients to ggr
+
+### Examples
+
+#### Create a gradient
 
 ```swift
 let gradient = PAL.Gradient(
@@ -185,56 +229,44 @@ let gradient = PAL.Gradient(
 let gradients = PAL.Gradients(gradients: [gradient])
 
 // Create the appropriate coder
-let coder = PAL.Gradients.Coder.JSON()
+let coder = PAL.Gradients.Coder.GGR()
 
-// Encode the gradient using the JSON encoder
+// Encode the gradient using the GIMP gradient encoder
 let data = try coder.encode(gradients)
 
 // Decode a gradient from data
 let decoded = try PAL.Gradients.Decode(
    from: data,
-   fileExtension: PAL.Gradients.Coder.JSON.fileExtension
+   fileExtension: PAL.Gradients.Coder.GGR.fileExtension
 )
 ```
 
-The gradient coder includes basic importers/exporters.
+#### Load a gradient
 
-| Type                       | Description                                       |
-|:---------------------------|:--------------------------------------------------|
-|`PAL.Gradients.Coder.JSON`  | Built-in JSON format (.jsongradient)              |
-|`PAL.Gradients.Coder.GGR`   | GIMP gradient file (.ggr)                         |
-|`PAL.Gradients.Coder.GRD`   | Basic Adobe Photoshop gradient file (.grd)        |
-|`PAL.Gradients.Coder.PSP`   | Basic Paint Shop Pro gradient file (.pspgradient) |
+```swift
+// Load a gradient from a file, inferring the type from the file's extension
+let gradient1 = try PAL.Gradients.Decode(from: fileURL)
 
-* `.ggr` support doesn't respect segment blending functions other than linear (always imported as linear)
-* `.ggr` support doesn't allow for segment coloring functions other than rgb (throws an error)
-* `.grd` support is _very_ basic at this point. There's no formal document for it, and I built this using very 
-vague documents [1](http://www.selapa.net/swatches/gradients/fileformats.php), [2]()
-  * doesn't (currently) support encode
-  * Only user colors are supported in the gradients (ie. book colors aren't supported)
-  * Noise gradients aren't supported
-  * only rgb, cmyk, hsb, gray colors are supported
-* `.pspgradient` _appears_ to be equal to the grd v3 format. (Read only)
+// Load a specific gradient format from a file
+let coder = PAL.Gradients.Coder.GRD()
+let gradient2 = try coder.decode(from: i)
+```
 
-For some nice gradient files, [cptcity](http://soliton.vm.bytemark.co.uk/pub/cpt-city/index.html) has all of them :-)
-
-cptcity also has a [nice converter](http://soliton.vm.bytemark.co.uk/pub/cptutils-online/select.html) for gradients to ggr
-
-## QuickLook support (macOS 12+ only)
-
-This package also includes a Quicklook Plugin for palette and gradient files.
-
-In the `Quicklook` subfolder you'll find an `xcodeproj` which you can use to build the application `Palette Viewer` which contains the QuickLook plugin.
-
-For the plugin to register, you need to run the application. After the first run the QuickLook plugin will be registered.
-
-## Palette viewer
+## Palette Viewer
 
 Palette Viewer allows you to view the contents of all supported palette and gradient files
 
 You can drag colors out of the preview window into applications that support dropping of `NSColor` instances.
 
 You can also save the palette to a new format (eg. saving a gimp `.gpl` format to an Adobe `.aco` format)
+
+### QuickLook support
+
+This package also includes a Quicklook Plugin for palette and gradient files.
+
+In the `Quicklook` subfolder you'll find an `xcodeproj` which you can use to build the application `Palette Viewer` which contains the QuickLook plugin.
+
+For the plugin to register, you need to run the application. After the first run the QuickLook plugin will be registered.
 
 
 ## Linux support

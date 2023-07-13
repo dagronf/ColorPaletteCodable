@@ -32,7 +32,7 @@ final class PaintNETPaletteTests: XCTestCase {
 		XCTAssertEqual(4, palette.colors.count)
 
 		let data = try PAL.Coder.PaintNET().encode(palette)
-		Swift.print(String(data: data, encoding: .utf8))
+		//Swift.print(String(data: data, encoding: .utf8))
 
 		let palette2 = try PAL.Coder.PaintNET().decode(from: data)
 		XCTAssertEqual(palette, palette2)

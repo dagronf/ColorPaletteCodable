@@ -27,7 +27,6 @@
 // Coder for generating SwiftUI and Swift code
 
 import Foundation
-import CoreGraphics
 
 // MARK: - Swift CoreGraphics generator
 

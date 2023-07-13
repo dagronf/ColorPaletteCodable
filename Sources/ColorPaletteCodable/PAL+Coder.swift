@@ -26,23 +26,31 @@
 
 import Foundation
 
-private let AvailableCoders: [PAL_PaletteCoder] = [
-	PAL.Coder.ACB(),
-	PAL.Coder.ACO(),
-	PAL.Coder.ASE(),
-	PAL.Coder.CLR(),
-	PAL.Coder.RGB(),
-	PAL.Coder.RGBA(),
-	PAL.Coder.JSON(),
-	PAL.Coder.GIMP(),
-	PAL.Coder.PaintShopPro(),
-	PAL.Coder.ACT(),
-	PAL.Coder.RIFF(),
-	PAL.Coder.SketchPalette(),
-	PAL.Coder.XMLPalette(),
-	PAL.Coder.HEX(),
-	PAL.Coder.PaintNET()
-]
+private let AvailableCoders: [PAL_PaletteCoder] = {
+	var coders: [PAL_PaletteCoder] = [
+		PAL.Coder.ACB(),
+		PAL.Coder.ACO(),
+		PAL.Coder.ASE(),
+		PAL.Coder.CLR(),
+		PAL.Coder.RGB(),
+		PAL.Coder.RGBA(),
+		PAL.Coder.JSON(),
+		PAL.Coder.GIMP(),
+		PAL.Coder.PaintShopPro(),
+		PAL.Coder.ACT(),
+		PAL.Coder.RIFF(),
+		PAL.Coder.SketchPalette(),
+		PAL.Coder.XMLPalette(),
+		PAL.Coder.HEX(),
+		PAL.Coder.PaintNET()
+	]
+
+#if !os(Linux)
+	coders.append(PAL.Coder.PNG())
+#endif
+
+	return coders
+}()
 
 public extension PAL.Palette {
 	/// Returns a coder for the specified fileExtension
