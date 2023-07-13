@@ -284,6 +284,20 @@
 			<key>NSDocumentClass</key>
 			<string>$(PRODUCT_MODULE_NAME).GradientDocument</string>
 		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Portable Network Graphics file (PNG)</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.png</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>$(PRODUCT_MODULE_NAME).Document</string>
+		</dict>
 	</array>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
@@ -626,6 +640,21 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>pal</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeDescription</key>
+			<string>Portable Network Graphics</string>
+			<key>UTTypeIcons</key>
+			<dict/>
+			<key>UTTypeIdentifier</key>
+			<string>public.png</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>png</string>
 				</array>
 			</dict>
 		</dict>
