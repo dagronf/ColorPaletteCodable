@@ -74,4 +74,48 @@ public extension PAL.Image {
 	}
 }
 
+@available(macOS 11, iOS 14.0, tvOS 14.0, watchOS 8.0, *)
+public extension PAL.Palette {
+	/// Generate a gradient using the colors in this palette
+	/// - Parameter style: The style to apply when generating the gradient
+	/// - Returns: A  SwiftUI Gradient
+	func SwiftUIGradient(style: ExportGradientStyle = .smooth) throws -> Gradient {
+		let allColors: [Color] = self.allColors().compactMap { $0.SwiftUIColor }
+		guard allColors.count > 1 else { throw PAL.CommonError.notEnoughColorsToGenerateGradient }
+		var stops: [Gradient.Stop] = []
+
+		switch style {
+		case .stepped:
+			let step: CGFloat = 1.0 / CGFloat(colors.count)
+			var offset = step
+
+			// First stop
+			stops.append(Gradient.Stop(color: allColors[0], location: 0))
+			stops.append(Gradient.Stop(color: allColors[0], location: step - 0.0001))
+
+			allColors
+				.dropFirst()
+				.dropLast()
+				.enumerated()
+				.forEach { color in
+					stops.append(Gradient.Stop(color: color.1, location: offset))
+					stops.append(Gradient.Stop(color: color.1, location: offset + step - 0.0001))
+					offset += step
+				}
+
+			stops.append(Gradient.Stop(color: allColors.last!, location: offset))
+			stops.append(Gradient.Stop(color: allColors.last!, location: 1.0))
+		case .smooth:
+			let step: CGFloat = 1.0 / CGFloat(colors.count - 1)
+			var offset: CGFloat = 0.0
+			allColors.forEach { color in
+				stops.append(Gradient.Stop(color: color, location: offset))
+				offset += step
+			}
+		}
+		return Gradient(stops: stops)
+	}
+}
+
+
 #endif

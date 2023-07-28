@@ -4,6 +4,7 @@ import XCTest
 #if canImport(CoreGraphics)
 
 import CoreGraphics
+import SwiftUI
 
 final class CoreGraphicsTests: XCTestCase {
 	func testCGColorThings() throws {
@@ -69,8 +70,7 @@ final class CoreGraphicsTests: XCTestCase {
 		}
 
 		do {
-			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "Tube_Red", withExtension: "ggr"))
-			let content = try Data(contentsOf: fileURL)
+			let content = try loadResourceData(named: "Tube_Red.ggr")
 			let dec = PAL.Gradients.Coder.GGR()
 			let gradients = try dec.decode(from: content)
 
@@ -79,10 +79,47 @@ final class CoreGraphicsTests: XCTestCase {
 
 			let suis2 = try PAL.Gradients.Coder.SwiftUIGen().encode(gradients)
 			try suis2.write(to: URL(fileURLWithPath: "/tmp/dataUI.swift"))
-
 		}
 	}
 
+	func testGeneratingCGGradientFromPalette() throws {
+		let palette = try loadResourcePalette(named: "paintnet-palette.pal")
+
+		do {
+			// Create a CGGradient from the palette
+			let gradient = try XCTUnwrap(palette.cgGradient(style: .smooth))
+			Swift.print(gradient)
+
+			let image = PAL.Image.GenerateGradientImage(
+				gradient: gradient,
+				size: CGSize(width: 300, height: 36)
+			)
+			Swift.print(image)
+		}
+
+		do {
+			// Create a CGGradient from the palette
+			let gradient = try XCTUnwrap(palette.cgGradient(style: .stepped))
+			Swift.print(gradient)
+
+			let image = PAL.Image.GenerateGradientImage(
+				gradient: gradient,
+				size: CGSize(width: 300, height: 36)
+			)
+			Swift.print(image)
+		}
+	}
+
+	@available(macOS 11, iOS 14.0, tvOS 14.0, watchOS 8.0, *)
+	func testGeneratingSwiftUIGradientFromPalette() throws {
+		let palette = try loadResourcePalette(named: "paintnet-palette.pal")
+		let gradient1 = try XCTUnwrap(palette.SwiftUIGradient(style: .smooth))
+		XCTAssertEqual(24, gradient1.stops.count)
+
+		// The stepped style has twice as many stop points
+		let gradient2 = try XCTUnwrap(palette.SwiftUIGradient(style: .stepped))
+		XCTAssertEqual(48, gradient2.stops.count)
+	}
 }
 
 #endif

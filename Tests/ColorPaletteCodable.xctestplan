@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "1DC2443B-81DE-4BD9-BA81-46FD383D02E7",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "ColorPaletteCodableTests",
+        "name" : "ColorPaletteCodableTests"
+      }
+    }
+  ],
+  "version" : 1
+}

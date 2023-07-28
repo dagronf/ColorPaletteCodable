@@ -205,11 +205,11 @@ class GradientTests: XCTestCase {
 
 class GGRGradientTests: XCTestCase {
 	func testBasicLoadUnsupported() throws {
-			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "Pastel_Rainbow", withExtension: "ggr"))
-			let content = try Data(contentsOf: fileURL)
+		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "Pastel_Rainbow", withExtension: "ggr"))
+		let content = try Data(contentsOf: fileURL)
 
-			let dec = PAL.Gradients.Coder.GGR()
-			_ = try XCTAssertThrowsError(dec.decode(from: content))
+		let dec = PAL.Gradients.Coder.GGR()
+		_ = try XCTAssertThrowsError(dec.decode(from: content))
 	}
 
 	func testBasicLoad() throws {
@@ -225,27 +225,27 @@ class GGRGradientTests: XCTestCase {
 		XCTAssertEqual("Skyline", gradient.name)
 		XCTAssertEqual(7, gradient.stops.count)
 
-		#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
 		do {
 			let image = gradient.image(size: CGSize(width: 500, height: 25))
 			XCTAssertNotNil(image)
 		}
-		#endif
+#endif
 	}
 
 	func testLoadJSONGradient1() throws {
-			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "skyline", withExtension: "jsoncolorgradient"))
-			let content = try Data(contentsOf: fileURL)
+		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "skyline", withExtension: "jsoncolorgradient"))
+		let content = try Data(contentsOf: fileURL)
 
-			let dec = PAL.Gradients.Coder.JSON()
-			let gradients = try dec.decode(from: content)
+		let dec = PAL.Gradients.Coder.JSON()
+		let gradients = try dec.decode(from: content)
 
-			XCTAssertEqual(1, gradients.count)
-			let gradient = gradients.gradients[0]
+		XCTAssertEqual(1, gradients.count)
+		let gradient = gradients.gradients[0]
 
-			XCTAssertEqual("Skyline", gradient.name)
-			XCTAssertEqual(7, gradient.stops.count)
-		}
+		XCTAssertEqual("Skyline", gradient.name)
+		XCTAssertEqual(7, gradient.stops.count)
+	}
 
 	func testLoadJSONGradient2() throws {
 		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "simple2", withExtension: "jsoncolorgradient"))
@@ -289,12 +289,12 @@ class GGRGradientTests: XCTestCase {
 			XCTAssertEqual("Tube Red", gradient.name)
 			XCTAssertEqual(10, gradient.stops.count)
 
-			#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
 			do {
 				let image = gradient.image(size: CGSize(width: 500, height: 25))
 				XCTAssertNotNil(image)
 			}
-			#endif
+#endif
 		}
 		do {
 			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "colorcube", withExtension: "ggr"))
@@ -309,12 +309,12 @@ class GGRGradientTests: XCTestCase {
 			XCTAssertEqual("colorcube", gradient.name)
 			XCTAssertEqual(64, gradient.stops.count)
 
-			#if os(macOS) || os(iOS) || os(tvOS)
+#if os(macOS) || os(iOS) || os(tvOS)
 			do {
 				let image = gradient.image(size: CGSize(width: 500, height: 25))
 				XCTAssertNotNil(image)
 			}
-			#endif
+#endif
 		}
 	}
 
@@ -329,8 +329,8 @@ class GGRGradientTests: XCTestCase {
 			])
 			let gradients = PAL.Gradients(gradients: [gradient])
 			let out = try XCTUnwrap(try? dec.encode(gradients))
-//			let outStr = String(data: out, encoding: .utf8)
-//			Swift.print(outStr)
+			//			let outStr = String(data: out, encoding: .utf8)
+			//			Swift.print(outStr)
 
 			let gradients2 = try dec.decode(from: out)
 			XCTAssertEqual(1, gradients2.count)
@@ -349,17 +349,17 @@ class GGRGradientTests: XCTestCase {
 				]
 			)
 
-			#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
 			do {
 				let image = gradient.image(size: CGSize(width: 500, height: 25))
 				XCTAssertNotNil(image)
 			}
-			#endif
+#endif
 
 			let gradients = PAL.Gradients(gradients: [gradient])
 			let out = try XCTUnwrap(try? dec.encode(gradients))
-//			let outStr = String(data: out, encoding: .utf8)
-//			Swift.print(outStr)
+			//			let outStr = String(data: out, encoding: .utf8)
+			//			Swift.print(outStr)
 
 			let gradients2 = try dec.decode(from: out)
 			XCTAssertEqual(1, gradients2.count)
@@ -395,8 +395,7 @@ class GGRGradientTests: XCTestCase {
 	}
 
 	func testpspgradient() throws {
-		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "temperature", withExtension: "pspgradient"))
-		let gradients = try PAL.Gradients.Decode(from: fileURL)
+		let gradients = try loadResourceGradient(named: "temperature.pspgradient")
 		XCTAssertEqual(1, gradients.count)
 		let g1 = gradients.gradients[0]
 		XCTAssertEqual(36, g1.colors.count)

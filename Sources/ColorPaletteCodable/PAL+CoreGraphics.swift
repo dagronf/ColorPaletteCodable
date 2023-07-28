@@ -55,10 +55,10 @@ public extension PAL.Color {
 	init(cgColor: CGColor, name: String = "", colorType: PAL.ColorType = .global) throws {
 		self.name = name
 		self.colorType = colorType
-		
+
 		var model: PAL.ColorSpace?
 		var convertedColor: CGColor = cgColor
-		
+
 		if let cs = cgColor.colorSpace {
 			if cs.name == PAL.ColorSpace.CMYK.cgColorSpace.name {
 				model = .CMYK
@@ -73,7 +73,7 @@ public extension PAL.Color {
 				model = .Gray
 			}
 		}
-		
+
 		if model == nil {
 			// If we can't figure out the model, fall back to Core Graphics to attempt to convert the color to RGB
 			guard let conv = cgColor.converted(to: PAL.ColorSpace.RGB.cgColorSpace, intent: .defaultIntent, options: nil) else {
@@ -82,17 +82,17 @@ public extension PAL.Color {
 			convertedColor = conv
 			model = .RGB
 		}
-		
+
 		guard let comp = convertedColor.components, let cs = model else {
 			throw PAL.CommonError.unsupportedCGColorType
 		}
-		
+
 		// The last component in CG components is the alpha, so we need to drop it (as .ase doesn't use alpha)
 		self.colorComponents = comp.dropLast().map { Float32($0) }
 		self.alpha = Float32(cgColor.alpha)
 		self.colorSpace = cs
 	}
-	
+
 	/// Returns a CGColor representation of the color. Returns nil if the color cannot be converted
 	///
 	/// Makes no underlying assumptions that the ase file color model is correct for the colorComponent count
@@ -128,6 +128,65 @@ public extension PAL.Palette {
 	/// Returns a flattened array of all colors defined in the palette as `CGColor`s
 	@inlinable func allCGColors() -> [CGColor?] {
 		self.allColors().cgColors()
+	}
+}
+
+public extension PAL.Palette {
+	/// The style to use when exporting a CG/SwiftUI gradient object
+	enum ExportGradientStyle {
+		/// An evenly spaced smooth gradient
+		case smooth
+		/// An evenly stepped gradient
+		case stepped
+	}
+
+	/// Generate a gradient using the colors in this palette
+	/// - Parameter style: The style to apply when generating the gradient
+	/// - Returns: A CGGradient
+	func cgGradient(style: ExportGradientStyle = .smooth) throws -> CGGradient {
+		let allColors: [CGColor] = self.allCGColors().compactMap { $0 }
+		guard allColors.count > 1 else { throw PAL.CommonError.notEnoughColorsToGenerateGradient }
+
+		var stops: [(CGColor, CGFloat)] = []
+
+		switch style {
+		case .stepped:
+			let step: CGFloat = 1.0 / CGFloat(colors.count)
+			var offset = step
+
+			// First stop
+			stops.append((allColors[0], 0.0))
+			stops.append((allColors[0], step - 0.0001))
+
+			allColors
+				.dropFirst()
+				.dropLast()
+				.enumerated()
+				.forEach { color in
+					stops.append((color.1, offset))
+					stops.append((color.1, offset + step - 0.0001))
+					offset += step
+				}
+
+			stops.append((allColors.last!, offset))
+			stops.append((allColors.last!, 1.0))
+		case .smooth:
+			let step: CGFloat = 1.0 / CGFloat(colors.count - 1)
+			var offset: CGFloat = 0.0
+			allColors.forEach { color in
+				stops.append((color, offset))
+				offset += step
+			}
+		}
+		guard let gradient = CGGradient(
+			colorsSpace: CGColorSpace(name: CGColorSpace.sRGB),
+			colors: stops.map { $0.0 } as CFArray,
+			locations: stops.map { $0.1 }
+		)
+		else {
+			throw PAL.CommonError.cannotGenerateGradient
+		}
+		return gradient
 	}
 }
 

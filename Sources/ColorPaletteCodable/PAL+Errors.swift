@@ -58,5 +58,7 @@ public extension PAL {
 		case unsupportedColorspace(PAL.ColorSpace)
 		case cannotCreateImage
 		case notImplemented
+		case notEnoughColorsToGenerateGradient
+		case cannotGenerateGradient
 	}
 }

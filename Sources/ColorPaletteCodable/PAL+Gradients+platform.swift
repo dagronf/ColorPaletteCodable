@@ -163,4 +163,99 @@ public extension PAL.Gradient {
 	}
 }
 
+extension PAL.Image {
+	#if os(macOS)
+	/// Generate an image containing the specified gradient
+	/// - Parameters:
+	///   - gradient: The gradient
+	///   - startPoint: The start point (0,0) -> (1,1)
+	///   - endPoint: The end point (0,0) -> (1,1)
+	///   - size: The resulting image size
+	/// - Returns: An image
+	static func GenerateGradientImage(
+		gradient: CGGradient,
+		startPoint: CGPoint = CGPoint(x: 0, y: 0),
+		endPoint: CGPoint = CGPoint(x: 1, y: 0),
+		size: CGSize
+	) -> NSImage? {
+		let startPt = CGPoint(x: startPoint.x * size.width, y: startPoint.y * size.height)
+		let endPt = CGPoint(x: endPoint.x * size.width, y: endPoint.y * size.height)
+		return NSImage.generateImage(size: size) { ctx, size in
+			ctx.drawLinearGradient(
+				gradient,
+				start: startPt,
+				end: endPt,
+				options: [.drawsAfterEndLocation, .drawsBeforeStartLocation]
+			)
+		}
+	}
+	#else
+	/// Generate an image containing the specified gradient
+	/// - Parameters:
+	///   - gradient: The gradient
+	///   - startPoint: The start point (0,0) -> (1,1)
+	///   - endPoint: The end point (0,0) -> (1,1)
+	///   - size: The resulting image size
+	/// - Returns: An image
+	static func GenerateGradientImage(
+		gradient: CGGradient,
+		startPoint: CGPoint = CGPoint(x: 0, y: 0),
+		endPoint: CGPoint = CGPoint(x: 1, y: 0),
+		size: CGSize
+	) -> UIImage {
+		UIImage.generateImage(size: size) { ctx, size in
+			ctx.drawLinearGradient(
+				gradient,
+				start: CGPoint(x: startPoint.x * size.width, y: startPoint.y * size.height),
+				end: CGPoint(x: endPoint.x * size.width, y: endPoint.y * size.height),
+				options: [.drawsAfterEndLocation, .drawsBeforeStartLocation]
+			)
+		}!
+	}
+	#endif
+}
+
+#endif
+
+#if os(macOS)
+extension NSImage {
+	/// Create an image and draw into it
+	/// - Parameters:
+	///   - size: The size of the image to create
+	///   - drawBlock: The block containing drawing command to apply to the image
+	/// - Returns: An image
+	static func generateImage(
+		size: CGSize,
+		_ drawBlock: @escaping (CGContext, CGSize) -> Void
+	) -> NSImage {
+		return NSImage(size: size, flipped: false) { rect in
+			let ctx = NSGraphicsContext.current!.cgContext
+			drawBlock(ctx, rect.size)
+			return true
+		}
+	}
+}
+#endif
+
+#if canImport(UIKit)
+public extension UIImage {
+	/// Create an image and draw into it
+	/// - Parameters:
+	///   - size: The size of the image to create
+	///   - opaque: If false, uses a transparent background
+	///   - drawBlock: The block containing drawing command to apply to the image
+	/// - Returns: An image
+	static func generateImage(
+		size: CGSize,
+		opaque: Bool = false,
+		scale: Double = 1.0,
+		_ drawBlock: (CGContext, CGSize) -> Void
+	) -> UIImage? {
+		UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
+		defer { UIGraphicsEndImageContext() }
+		guard let context = UIGraphicsGetCurrentContext() else { return nil }
+		drawBlock(context, size)
+		return UIGraphicsGetImageFromCurrentImageContext()
+	}
+}
 #endif
