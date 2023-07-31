@@ -28,6 +28,8 @@ extension UTType {
 
 	/// NSColor UTType
 	static let nsColor = UTType("com.apple.cocoa.pasteboard.color")!
+
+	static let jsonColorPalette = UTType("public.dagronf.colorpalette")!
 }
 
 #endif

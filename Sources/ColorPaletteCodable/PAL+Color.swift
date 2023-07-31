@@ -62,8 +62,14 @@ public extension PAL {
 
 		/// Returns a printable version of the color
 		public var printable: String {
-			let s = self.colorComponents.map { "\($0)" }.joined(separator: ",")
+			let s = self.printableComponents
 			return "\(self.colorSpace)(\(s),\(self.alpha))"
+		}
+
+		public var printableComponents: String {
+			return self.colorComponents.map {
+				String(format: "%0.03f", $0)
+			}.joined(separator: ", ")
 		}
 
 		/// Returns true if the underlying color structure is valid for its colorspace and settings
