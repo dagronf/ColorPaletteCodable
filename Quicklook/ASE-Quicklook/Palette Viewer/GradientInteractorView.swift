@@ -30,9 +30,13 @@ struct GradientsInteractorView: View {
 			.layoutPriority(1)
 			VStack {
 				if let s = selected {
-					GradientTransparencyView(gradient: s)
-					PaletteView(title: "Colors", paletteModel: palette)
-						.frame(minWidth: 250)
+					ScrollView {
+						VStack(spacing: 20) {
+							GradientTransparencyView(gradient: s)
+							GradientColorListView(gradient: s)
+						}
+					}
+					.frame(minWidth: 250)
 				}
 				else {
 					ZStack {

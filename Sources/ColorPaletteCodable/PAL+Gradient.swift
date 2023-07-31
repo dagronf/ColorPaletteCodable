@@ -192,7 +192,7 @@ public extension PAL {
 		///   - name: The gradient name
 		///   - stops: The color stops within the gradient
 		///   - transparencyStops: The transparency stops within the gradient
-		public init(name: String? = nil, stops: [PAL.Gradient.Stop], transparencyStops: [PAL.Gradient.TransparencyStop]) {
+		public init(name: String? = nil, stops: [PAL.Gradient.Stop], transparencyStops: [PAL.Gradient.TransparencyStop]?) {
 			self.id = UUID()
 			self.name = name
 			self.stops = stops
@@ -253,7 +253,7 @@ public extension PAL.Gradient {
 		PAL.Gradient(
 			name: self.name,
 			stops: self.stops.sorted { a, b in a.position < b.position },
-			transparencyStops: self.transparencyStops?.sorted(by: { a, b in a.position < b.position }) ?? []
+			transparencyStops: self.transparencyStops?.sorted(by: { a, b in a.position < b.position })
 		)
 	}
 }

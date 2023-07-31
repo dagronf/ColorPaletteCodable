@@ -21,6 +21,13 @@ struct Pair<T, U>: Identifiable {
 	}
 }
 
+//struct GradientSnapshotView: View {
+//	let gradient: PAL.Gradient
+//
+//}
+
+
+
 struct GradientTransparencyView: View {
 	let gradient: PAL.Gradient
 
@@ -44,8 +51,7 @@ struct GradientTransparencyView: View {
 
 
 	var body: some View {
-		VStack {
-			VStack(spacing: 0) {
+		VStack(spacing: 20) {
 				Text("􀪫 Gradient")
 					.font(.title2).fontWeight(.heavy)
 					.truncationMode(.tail)
@@ -56,11 +62,8 @@ struct GradientTransparencyView: View {
 				GradientComponentView(gradient: gradient)
 					.frame(height: 84)
 					.padding(2)
-			}
 
 			if gradient.hasTransparency {
-
-				Divider()
 
 				Text("􀪫 Components")
 					.font(.title2).fontWeight(.heavy)

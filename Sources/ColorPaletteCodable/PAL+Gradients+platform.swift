@@ -167,7 +167,7 @@ public extension PAL.Gradient {
 	/// - Parameter reversed: Reverse the order of the colors and positions in the gradient.
 	/// - Returns: A gradient
 	func SwiftUITransparencyGradient(reversed: Bool = false) -> SwiftUI.Gradient {
-		guard let ts = self.transparencyStops else {
+		guard let ts = self.transparencyStops, ts.count > 1 else {
 			return Gradient(stops: [
 				Gradient.Stop(color: .black, location: 0),
 				Gradient.Stop(color: .black, location: 1)

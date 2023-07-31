@@ -31,6 +31,11 @@ func exportGradient(_ gradient: PAL.Gradient) throws {
 	}
 }
 
+func exportPalette(_ gradient: PAL.Gradient) throws {
+	let palette = gradient.sorted.palette
+	
+}
+
 struct GradientSwatchView: View {
 	let gradient: PAL.Gradient
 	let cornerRadius: Double
@@ -95,7 +100,11 @@ struct GradientSwatchView: View {
 			Button("Export Gradient…") {
 				try? exportGradient(gradient)
 			}
+			Button("Export Palette…") {
+				try? exportPalette(gradient)
+			}
 		})
+		.frame(maxWidth: .infinity, maxHeight: .infinity)
 	}
 }
 
