@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 import ColorPaletteCodable
 
+import UniformTypeIdentifiers
+
 struct GradientSwatchView: View {
 	let gradient: PAL.Gradient
 	let cornerRadius: Double
@@ -16,35 +18,75 @@ struct GradientSwatchView: View {
 
 	var isSelected: Bool { selectedGradient == gradient.id }
 
+	var filename: String {
+		(gradient.name ?? "exported") + ".ggr"
+	}
+
+	var uniqueFilename: String {
+		(gradient.name ?? "gradient") + "_" + gradient.id.uuidString + ".ggr"
+	}
+
+	func generateGradientData() throws -> Data {
+		let flattened = try gradient.mergeTransparencyStops()
+		return try PAL.Gradients.Coder.GGR().encode(PAL.Gradients(gradients: [flattened]))
+	}
+
+	func generateDragContent() -> URL {
+		let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(uniqueFilename)
+		let data = try! generateGradientData()
+		try! data.write(to: url)
+		return url
+	}
+
 	var body: some View {
-
-		Button {
-			selectedGradient = gradient.id
-		} label: {
-			ZStack {
-				RoundedRectangle(cornerRadius: cornerRadius)
-					.fill(
-						LinearGradient(
-							gradient: gradient.SwiftUIGradient()!,
-							startPoint: .topLeading,
-							endPoint: .bottomTrailing
-						)
+		ZStack {
+			RoundedRectangle(cornerRadius: cornerRadius)
+				.fill(
+					LinearGradient(
+						gradient: gradient.SwiftUIGradient()!,
+						startPoint: .topLeading,
+						endPoint: .bottomTrailing
 					)
-					.mask {
-						LinearGradient(
-							gradient: gradient.SwiftUITransparencyGradient(),
-							startPoint: .topLeading,
-							endPoint: .bottomTrailing
-						)
-					}
-					.help(gradient.name ?? "<unnamed>")
+				)
+				.mask {
+					LinearGradient(
+						gradient: gradient.SwiftUITransparencyGradient(),
+						startPoint: .topLeading,
+						endPoint: .bottomTrailing
+					)
+				}
+				.help(gradient.name ?? "<unnamed>")
 
-				RoundedRectangle(cornerRadius: cornerRadius)
-					.strokeBorder(isSelected ? Color.accentColor : Color(white: 0.4), lineWidth: isSelected ? 4 : 1)
-					.animation(.linear(duration: 0.1), value: isSelected)
-			}
+			RoundedRectangle(cornerRadius: cornerRadius)
+				.strokeBorder(isSelected ? Color.accentColor : Color(white: 0.4), lineWidth: isSelected ? 4 : 1)
+				.animation(.linear(duration: 0.1), value: isSelected)
 		}
-		.buttonStyle(.borderless)
+		.focusable()
+		.accessibilityAddTraits(.isButton)
+		.onTapGesture {
+			selectedGradient = gradient.id
+		}
+		.draggable(
+			generateDragContent()
+		)
+		.contextMenu(menuItems: {
+			Button("Export Gradient…") {
+				let data = try! generateGradientData()
+				let savePanel = NSSavePanel()
+				savePanel.allowedContentTypes = [ UTType("public.dagronf.gimp.ggr")! ]
+				savePanel.canCreateDirectories = true
+				savePanel.isExtensionHidden = false
+				savePanel.title = "Save gradient"
+				savePanel.nameFieldStringValue = filename
+				savePanel.message = "Choose a folder and a name to store the gradient."
+				savePanel.nameFieldLabel = "Gradient file name:"
+
+				let response = savePanel.runModal()
+				if response == .OK {
+					try? data.write(to: savePanel.url!)
+				}
+			}
+		})
 	}
 }
 
