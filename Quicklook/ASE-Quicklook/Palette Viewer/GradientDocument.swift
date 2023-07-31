@@ -50,7 +50,7 @@ class GradientDocument: NSDocument {
 
 		aController.window?.autorecalculatesKeyViewLoop = true
 
-		let g = self.gradients ?? PAL.Gradients(gradients: [])
+		let g = self.gradients?.expandAllGradientsToEdges() ?? PAL.Gradients(gradients: [])
 		let rootView = GradientsInteractorView(gradients: g, parent: self)
 		self.gradientsView = rootView
 		let v = NSHostingController(rootView: rootView)

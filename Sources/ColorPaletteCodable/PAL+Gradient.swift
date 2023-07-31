@@ -248,9 +248,13 @@ public extension PAL.Gradient {
 		self.stops = self.stops.sorted { a, b in a.position < b.position }
 	}
 
-	/// Return a gradient with the stops sorted ascending by position
+	/// Return a gradient with the stops and transparency sorted ascending by position
 	@inlinable var sorted: PAL.Gradient {
-		PAL.Gradient(name: self.name, stops: self.stops.sorted { a, b in a.position < b.position })
+		PAL.Gradient(
+			name: self.name,
+			stops: self.stops.sorted { a, b in a.position < b.position },
+			transparencyStops: self.transparencyStops?.sorted(by: { a, b in a.position < b.position }) ?? []
+		)
 	}
 }
 
@@ -470,5 +474,41 @@ public extension PAL.Gradient {
 		}
 
 		return PAL.Gradient(colors: mappedColorStops, positions: g_stops)
+	}
+
+	/// Expand gradient edges to the full 0.0 -> 1.0 bounds
+	///
+	/// Example :-
+	///
+	/// * If the gradient starts at position 0.2, this function inserts a new stop at 0
+	///   with the same color as the first position
+	/// * If the gradient ends at position 0.95, this function appends a new stop with
+	///   the same color as the last position
+	///
+	/// The same approach occurs for transparency stops if they exist.
+	func expandGradientToEdges() -> PAL.Gradient {
+		// Make sure our stops are sorted from 0 -> 1
+		var gradient = self.sorted
+
+		if let first = gradient.stops.first, first.position > 0.05 {
+			let infill = PAL.Gradient.Stop(position: 0, color: first.color)
+			gradient.stops.insert(infill, at: 0)
+		}
+
+		if let last = gradient.stops.last, last.position < 0.95 {
+			let infill = PAL.Gradient.Stop(position: 1, color: last.color)
+			gradient.stops.append(infill)
+		}
+
+		if let first = gradient.transparencyStops?.first, first.position > 0.05 {
+			let infill = PAL.Gradient.TransparencyStop(position: 0, value: first.value)
+			gradient.transparencyStops?.insert(infill, at: 0)
+		}
+
+		if let last = gradient.transparencyStops?.last, last.position < 0.95 {
+			let infill = PAL.Gradient.TransparencyStop(position: 1, value: last.value)
+			gradient.transparencyStops?.append(infill)
+		}
+		return gradient
 	}
 }

@@ -52,6 +52,11 @@ public extension PAL {
 		@inlinable public func find(id: UUID) -> PAL.Gradient? {
 			self.gradients.first { $0.id == id }
 		}
+
+		/// Map all the gradients to a 0 -> 1 range
+		public func expandAllGradientsToEdges() -> PAL.Gradients {
+			PAL.Gradients(gradients: self.gradients.map { $0.expandGradientToEdges() })
+		}
 	}
 }
 
