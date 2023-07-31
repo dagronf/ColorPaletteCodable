@@ -1,6 +1,8 @@
 @testable import ColorPaletteCodable
 import XCTest
 
+let testResultsContainer = try! TestFilesContainer(named: "ColorPaletteCodableTests")
+
 final class CommonTests: XCTestCase {
 
 	func testSimpleColorspaceConversion() throws {

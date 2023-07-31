@@ -69,6 +69,15 @@ public extension PAL.Gradient {
 		let rect = CGRect(origin: .zero, size: size)
 		let image = NSImage(size: rect.size, flipped: false) { rect in
 			let ctx = NSGraphicsContext.current!.cgContext
+
+			// If there are transparency stops for this gradient, map them as an image mask to the context
+			if let _ = self.transparencyStops {
+				let tgrad = self.transparencyGradient(.clear)
+				if let maskImage = tgrad.image(size: size)?.cgImage {
+					ctx.clip(to: CGRect(origin: .zero, size: size), mask: maskImage)
+				}
+			}
+
 			ctx.drawLinearGradient(
 				gradient,
 				start: CGPoint(x: 0, y: 0),
@@ -99,6 +108,15 @@ public extension PAL.Gradient {
 
 		UIGraphicsBeginImageContextWithOptions(size, false, 0)
 		let ctx = UIGraphicsGetCurrentContext()!
+
+		// If there are transparency stops for this gradient, map them as an image mask to the context
+		if let _ = self.transparencyStops {
+			let tgrad = self.transparencyGradient(.clear)
+			if let maskImage = tgrad.image(size: size)?.cgImage {
+				ctx.clip(to: CGRect(origin: .zero, size: size), mask: maskImage)
+			}
+		}
+
 		ctx.drawLinearGradient(
 			gradient,
 			start: CGPoint(x: 0, y: 0),

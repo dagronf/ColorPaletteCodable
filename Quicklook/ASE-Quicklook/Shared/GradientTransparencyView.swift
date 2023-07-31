@@ -121,9 +121,9 @@ struct GradientTransparency_Previews: PreviewProvider {
 			(position: 1.0, color: PAL.Color.white),
 		])
 		g.transparencyStops = [
-			PAL.Gradient.TransparencyStop(value: 1, position: 0, midpoint: 0.5),
-			PAL.Gradient.TransparencyStop(value: 0, position: 0.5, midpoint: 0.5),
-			PAL.Gradient.TransparencyStop(value: 1, position: 1, midpoint: 0.5)
+			PAL.Gradient.TransparencyStop(position: 0, value: 1, midpoint: 0.5),
+			PAL.Gradient.TransparencyStop(position: 0.5, value: 0, midpoint: 0.5),
+			PAL.Gradient.TransparencyStop(position: 1, value: 1, midpoint: 0.5)
 		]
 		return g
 	}()

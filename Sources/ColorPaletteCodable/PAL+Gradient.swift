@@ -82,7 +82,7 @@ public extension PAL {
 			/// The midpoint for the stop (0 ... 1)
 			public var midpoint: Double
 
-			public init(value: Double, position: Double, midpoint: Double) {
+			public init(position: Double, value: Double, midpoint: Double = 0.5) {
 				self.id = UUID()
 				self.value = max(0, min(1, value))
 				self.position = max(0, min(1, position))
@@ -127,7 +127,7 @@ public extension PAL {
 
 			// Otherwise, map the alpha colors out of the gradient's colors
 			return self.stops.map {
-				TransparencyStop(value: Double($0.color.alpha), position: Double($0.position), midpoint: 0.5)
+				TransparencyStop(position: Double($0.position), value: Double($0.color.alpha), midpoint: 0.5)
 			}
 		}
 
@@ -153,7 +153,6 @@ public extension PAL {
 			self.mappedTransparency.first(where: { $0.value < 0.99 }) != nil
 		}
 
-
 		/// The minimum position value for a stop within the gradient
 		@inlinable public var minValue: Double {
 			if self.stops.isEmpty { return 0 }
@@ -172,7 +171,7 @@ public extension PAL {
 		}
 
 		/// Return a palette containing the colors in the order of the color stops
-		public var palette: PAL.Palette {
+		@inlinable public var palette: PAL.Palette {
 			PAL.Palette(name: self.name ?? "", colors: self.sorted.colors)
 		}
 
@@ -188,12 +187,16 @@ public extension PAL {
 			self.stops = stops
 		}
 
-		public init(from decoder: Decoder) throws {
-			let container = try decoder.container(keyedBy: Self.CodingKeys.self)
-			self.id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
-			self.name = try container.decodeIfPresent(String.self, forKey: .name)
-			self.stops = try container.decode([Stop].self, forKey: .stops)
-			self.transparencyStops = try container.decodeIfPresent([TransparencyStop].self, forKey: .transparencyStops)
+		/// Create a gradient
+		/// - Parameters:
+		///   - name: The gradient name
+		///   - stops: The color stops within the gradient
+		///   - transparencyStops: The transparency stops within the gradient
+		public init(name: String? = nil, stops: [PAL.Gradient.Stop], transparencyStops: [PAL.Gradient.TransparencyStop]) {
+			self.id = UUID()
+			self.name = name
+			self.stops = stops
+			self.transparencyStops = transparencyStops
 		}
 
 		/// Create an evenly spaced gradient from an array of colors with spacing between 0 -> 1
@@ -223,6 +226,16 @@ public extension PAL {
 		///   - colorPositions: An array of position:color tuples
 		@inlinable public init(name: String? = nil, colorPositions: [(position: Double, color: PAL.Color)]) {
 			self.init(name: name, stops: colorPositions.map { Stop(position: $0.position, color: $0.color) })
+		}
+
+		/// Decode a gradient
+		/// - Parameter decoder: the decoder
+		public init(from decoder: Decoder) throws {
+			let container = try decoder.container(keyedBy: Self.CodingKeys.self)
+			self.id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
+			self.name = try container.decodeIfPresent(String.self, forKey: .name)
+			self.stops = try container.decode([Stop].self, forKey: .stops)
+			self.transparencyStops = try container.decodeIfPresent([TransparencyStop].self, forKey: .transparencyStops)
 		}
 	}
 }
@@ -308,7 +321,7 @@ public extension PAL.Gradient {
 			let shifted = position - minVal
 			// Scale to fit the range
 			let scaled = shifted / range
-			return TransparencyStop(value: $0.value, position: scaled, midpoint: $0.midpoint)
+			return TransparencyStop(position: scaled, value: $0.value, midpoint: $0.midpoint)
 		}
 		return scaled
 	}
@@ -349,5 +362,113 @@ public extension PAL.Palette {
 	/// Returns an evenly-spaced gradient from the global colors of this palette
 	@inlinable func gradient(named name: String? = nil) -> PAL.Gradient {
 		PAL.Gradient(name: name, colors: self.colors)
+	}
+}
+
+public extension PAL.Gradient {
+	/// Return a new gradient by flattening transparency stops into the color stops
+	///
+	/// Some gradient formats (such as Adobe GRD) maintain the transparencies as a separate
+	/// array. This function creates a new gradient with the transparency values baked into the
+	/// color stops. Note that the number of color stops may change, as there may be more
+	/// transparency stops than there are color stops
+	///
+	/// If the gradient has no transparency stops, returns the original gradient.
+	func mergeTransparencyStops() throws -> PAL.Gradient {
+		// If we have no transparency stops, then just return the original gradient
+		if self.transparencyStops == nil { return self }
+
+		// Make sure our colors map between 0 ... 1
+		let colors = try self.normalized()
+		// The 't' values for the color stops within the gradient
+		let color_t = colors.stops.map { $0.position }
+
+		struct cpos {
+			let color1: PAL.Color
+			let t1: Double
+			let color2: PAL.Color
+			let t2: Double
+			var span: Double { t2 - t1 }
+			func contains(_ value: Double) -> Bool { value >= t1 && value <= t2 }
+		}
+
+		let csegments: [cpos] = try {
+			var segments: [cpos] = []
+			for index in 0 ..< (colors.stops.count - 1) {
+				let c1 = colors.stops[index]
+				let cc1 = try c1.color.converted(to: .RGB)
+				let c2 = colors.stops[index + 1]
+				let cc2 = try c2.color.converted(to: .RGB)
+				segments.append(cpos(color1: cc1, t1: c1.position, color2: cc2, t2: c2.position))
+			}
+			return segments
+		}()
+
+		// Map the transparency stops to 0 ... 1
+		let trans = try self.normalizedTransparencyStops()
+		// The 't' values for the transparency stops within the gradient
+		let trans_t = trans.map { $0.position }
+
+		struct tpos {
+			let value1: Double
+			let t1: Double
+			let value2: Double
+			let t2: Double
+			var span: Double { t2 - t1 }
+			func contains(_ value: Double) -> Bool { value >= t1 && value <= t2 }
+		}
+
+		let tsegments: [tpos] = {
+			var segments: [tpos] = []
+			for index in 0 ..< (trans.count - 1) {
+				let c1 = trans[index]
+				let c2 = trans[index + 1]
+				segments.append(tpos(value1: c1.value, t1: c1.position, value2: c2.value, t2: c2.position))
+			}
+			return segments
+		}()
+
+		// All of the stops in the resulting gradient (0 ... 1)
+		let g_stops = (color_t + trans_t).sorted(by: <).unique
+
+		var mappedColorStops: [PAL.Color] = []
+
+		for stop in g_stops {
+			var r: Float32 = 0.0
+			var g: Float32 = 0.0
+			var b: Float32 = 0.0
+			var a: Float32 = 0.0
+
+			guard
+				let cseg = csegments.first(where: { $0.contains(stop) }),
+				let tseg = tsegments.first(where: { $0.contains(stop) })
+			else {
+				assert(false, "color or transparency segment mapping failed?")
+				return self
+			}
+
+			do {
+				// Find the color percentage within this segment using lerp
+				let tv = (stop - cseg.t1) / cseg.span
+				let rgb1 = try cseg.color1.rgbaComponents()
+				let rgb2 = try cseg.color2.rgbaComponents()
+				r = Float32(rgb1.0 + ((rgb2.0 - rgb1.0) * tv))
+				g = Float32(rgb1.1 + ((rgb2.1 - rgb1.1) * tv))
+				b = Float32(rgb1.2 + ((rgb2.2 - rgb1.2) * tv))
+			}
+
+			do {
+				// Find the transparency percentage within this segment using lerp
+				let tv = (stop - tseg.t1) / tseg.span
+				let tt1 = tseg.value1
+				let tt2 = tseg.value2
+				a = Float32(tt1 + ((tt2 - tt1) * tv))
+			}
+
+			let cv = try PAL.Color(rf: r, gf: g, bf: b, af: a)
+			mappedColorStops.append(cv)
+		}
+
+		return PAL.Gradient(colors: mappedColorStops, positions: g_stops)
 	}
 }

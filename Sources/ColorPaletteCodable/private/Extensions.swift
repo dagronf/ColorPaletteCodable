@@ -26,6 +26,19 @@
 
 import Foundation
 
+extension Sequence where Element: Equatable {
+	/// Return the unique elements in the array using Equatable as the predicate
+	///
+	/// Guaranteed to return the same ordering as per the original sequence
+	@inlinable var unique: [Element] {
+		return self.reduce(into: []) { uniqueElements, element in
+			if !uniqueElements.contains(element) {
+				uniqueElements.append(element)
+			}
+		}
+	}
+}
+
 internal extension Data {
 	// Parse a big-endian value from a block of data
 	func parseBigEndian<T: FixedWidthInteger>(type: T.Type) -> T? {

@@ -4,7 +4,6 @@ import XCTest
 import Foundation
 
 class GradientTests: XCTestCase {
-
 	func testBasic() throws {
 		let gradient = PAL.Gradient(
 			name: "first",
@@ -201,203 +200,67 @@ class GradientTests: XCTestCase {
 		XCTAssertEqual("#eeeee1", gradient.stops[5].color.hexRGB)
 		XCTAssertEqual(1, gradient.stops[5].position, accuracy: 0.01)
 	}
-}
 
-class GGRGradientTests: XCTestCase {
-	func testBasicLoadUnsupported() throws {
-		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "Pastel_Rainbow", withExtension: "ggr"))
-		let content = try Data(contentsOf: fileURL)
-
-		let dec = PAL.Gradients.Coder.GGR()
-		_ = try XCTAssertThrowsError(dec.decode(from: content))
-	}
-
-	func testBasicLoad() throws {
-		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "Skyline", withExtension: "ggr"))
-		let content = try Data(contentsOf: fileURL)
-
-		let dec = PAL.Gradients.Coder.GGR()
-		let gradients = try dec.decode(from: content)
-
-		XCTAssertEqual(1, gradients.count)
-		let gradient = gradients.gradients[0]
-
-		XCTAssertEqual("Skyline", gradient.name)
-		XCTAssertEqual(7, gradient.stops.count)
-
-#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
-		do {
-			let image = gradient.image(size: CGSize(width: 500, height: 25))
-			XCTAssertNotNil(image)
-		}
-#endif
-	}
-
-	func testLoadJSONGradient1() throws {
-		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "skyline", withExtension: "jsoncolorgradient"))
-		let content = try Data(contentsOf: fileURL)
-
-		let dec = PAL.Gradients.Coder.JSON()
-		let gradients = try dec.decode(from: content)
-
-		XCTAssertEqual(1, gradients.count)
-		let gradient = gradients.gradients[0]
-
-		XCTAssertEqual("Skyline", gradient.name)
-		XCTAssertEqual(7, gradient.stops.count)
-	}
-
-	func testLoadJSONGradient2() throws {
-		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "simple2", withExtension: "jsoncolorgradient"))
-		let content = try Data(contentsOf: fileURL)
-
-		let dec = PAL.Gradients.Coder.JSON()
-		let gradients = try dec.decode(from: content)
-
-		XCTAssertEqual(1, gradients.count)
-		let gradient = gradients.gradients[0]
-
-		XCTAssertEqual(nil, gradient.name)
-		XCTAssertEqual(2, gradient.stops.count)
-	}
-
-	func testLoadJSONGradient3() throws {
-		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "basic3pos", withExtension: "jsoncolorgradient"))
-		let content = try Data(contentsOf: fileURL)
-
-		let dec = PAL.Gradients.Coder.JSON()
-		let gradients = try dec.decode(from: content)
-
-		XCTAssertEqual(1, gradients.count)
-		let gradient = gradients.gradients[0]
-
-		XCTAssertEqual("alphablurry!", gradient.name)
-		XCTAssertEqual(3, gradient.stops.count)
-	}
-
-	func testBasicLoad2() throws {
-		do {
-			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "Tube_Red", withExtension: "ggr"))
-			let content = try Data(contentsOf: fileURL)
-
-			let dec = PAL.Gradients.Coder.GGR()
-			let gradients = try dec.decode(from: content)
-
-			XCTAssertEqual(1, gradients.count)
-			let gradient = gradients.gradients[0]
-
-			XCTAssertEqual("Tube Red", gradient.name)
-			XCTAssertEqual(10, gradient.stops.count)
-
-#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
-			do {
-				let image = gradient.image(size: CGSize(width: 500, height: 25))
-				XCTAssertNotNil(image)
-			}
-#endif
-		}
-		do {
-			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "colorcube", withExtension: "ggr"))
-			let content = try Data(contentsOf: fileURL)
-
-			let dec = PAL.Gradients.Coder.GGR()
-			let gradients = try dec.decode(from: content)
-
-			XCTAssertEqual(1, gradients.count)
-			let gradient = gradients.gradients[0]
-
-			XCTAssertEqual("colorcube", gradient.name)
-			XCTAssertEqual(64, gradient.stops.count)
-
-#if os(macOS) || os(iOS) || os(tvOS)
-			do {
-				let image = gradient.image(size: CGSize(width: 500, height: 25))
-				XCTAssertNotNil(image)
-			}
-#endif
-		}
-	}
-
-
-	func testBasicEncode() throws {
-		let dec = PAL.Gradients.Coder.GGR()
-
-		do {
-			let gradient = PAL.Gradient(colorPositions: [
-				(position: 0.0, color: PAL.Color.red),
-				(position: 1.0, color: PAL.Color.white),
-			])
-			let gradients = PAL.Gradients(gradients: [gradient])
-			let out = try XCTUnwrap(try? dec.encode(gradients))
-			//			let outStr = String(data: out, encoding: .utf8)
-			//			Swift.print(outStr)
-
-			let gradients2 = try dec.decode(from: out)
-			XCTAssertEqual(1, gradients2.count)
-			let gradient2 = gradients2.gradients[0]
-
-			XCTAssertEqual("", gradient2.name)
-			XCTAssertEqual(2, gradient2.stops.count)
-		}
+	func testFlattenTransparencyStops() throws {
+		let outputFolder = try! testResultsContainer.subfolder(with: "TransparencyStopFlattening")
 		do {
 			let gradient = PAL.Gradient(
-				name: "alphablurry!",
-				colorPositions: [
-					(position: 0.0, color: try PAL.Color.blue.withAlpha(0.1)),
-					(position: 0.2, color: PAL.Color.white),
-					(position: 1.0, color: try PAL.Color.green.withAlpha(0.8)),
+				stops: [
+					PAL.Gradient.Stop(position: 0, color: PAL.Color.blue),
+					PAL.Gradient.Stop(position: 1, color: PAL.Color.yellow),
+				],
+				transparencyStops: [
+					PAL.Gradient.TransparencyStop(position: 0, value: 1),
+					PAL.Gradient.TransparencyStop(position: 0.2, value: 0.25),
+					PAL.Gradient.TransparencyStop(position: 1.0, value: 1),
 				]
 			)
 
-#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
-			do {
-				let image = gradient.image(size: CGSize(width: 500, height: 25))
-				XCTAssertNotNil(image)
-			}
-#endif
+			let imOrig = try XCTUnwrap(gradient.image(size: CGSize(width: 400, height: 200)))
+			let d1 = try imOrig.representation.png()
+			try outputFolder.write(d1, to: "textGradient1_original.png")
 
-			let gradients = PAL.Gradients(gradients: [gradient])
-			let out = try XCTUnwrap(try? dec.encode(gradients))
-			//			let outStr = String(data: out, encoding: .utf8)
-			//			Swift.print(outStr)
-
-			let gradients2 = try dec.decode(from: out)
-			XCTAssertEqual(1, gradients2.count)
-			let gradient2 = gradients2.gradients[0]
-			XCTAssertEqual("alphablurry!", gradient2.name)
-			XCTAssertEqual(3, gradient2.stops.count)
+			let flattened = try gradient.mergeTransparencyStops()
+			XCTAssertNil(flattened.transparencyStops)
+			let imFlattened = try XCTUnwrap(flattened.image(size: CGSize(width: 400, height: 200)))
+			let d2 = try imFlattened.representation.png()
+			try outputFolder.write(d2, to: "textGradient1_flattened.png")
 		}
-	}
 
-	func testGRD1() throws {
-		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "my-custom-gradient-3-rgb", withExtension: "grd"))
-		let i = InputStream(url: fileURL)!
-		i.open()
-		let grad1 = try PAL.Gradients.Coder.GRD().decode(from: i)
-		XCTAssertEqual(1, grad1.count)
-		let gradient = grad1.gradients[0]
-		let palette = gradient.palette
-		XCTAssertEqual(4, palette.colors.count)
-	}
+		do {
+			let gradients = try loadResourceGradient(named: "35.grd")
+			XCTAssertEqual(10, gradients.count)
 
-	func testGRD2() throws {
-		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "35", withExtension: "grd"))
-		let i = InputStream(url: fileURL)!
-		i.open()
-		let grad1 = try PAL.Gradients.Coder.GRD().decode(from: i)
+			let first = gradients.gradients[0]
+			XCTAssertNotNil(first.transparencyStops)
 
-		// There are 10 gradients in this file
-		XCTAssertEqual(10, grad1.count)
+			let imOrig = try XCTUnwrap(first.image(size: CGSize(width: 400, height: 200)))
+			let d1 = try imOrig.representation.png()
+			try outputFolder.write(d1, to: "35_1_orig.png")
 
-		let palette = grad1.palette
-		XCTAssertEqual(0, palette.colors.count)
-		XCTAssertEqual(10, palette.groups.count)
-	}
+			let flattened = try first.mergeTransparencyStops()
+			XCTAssertNil(flattened.transparencyStops)
+			let imFlattened = try XCTUnwrap(flattened.image(size: CGSize(width: 400, height: 200)))
+			let d2 = try imFlattened.representation.png()
+			try outputFolder.write(d2, to: "35_1_flattened.png")
+		}
 
-	func testpspgradient() throws {
-		let gradients = try loadResourceGradient(named: "temperature.pspgradient")
-		XCTAssertEqual(1, gradients.count)
-		let g1 = gradients.gradients[0]
-		XCTAssertEqual(36, g1.colors.count)
+		do {
+			let gradients = try loadResourceGradient(named: "30.grd")
+			XCTAssertEqual(10, gradients.count)
+
+			let first = gradients.gradients[1]
+			XCTAssertNotNil(first.transparencyStops)
+
+			let imOrig = try XCTUnwrap(first.image(size: CGSize(width: 400, height: 200)))
+			let d1 = try imOrig.representation.png()
+			try outputFolder.write(d1, to: "30_1_orig.png")
+
+			let flattened = try first.mergeTransparencyStops()
+			XCTAssertNil(flattened.transparencyStops)
+			let imFlattened = try XCTUnwrap(flattened.image(size: CGSize(width: 400, height: 200)))
+			let d2 = try imFlattened.representation.png()
+			try outputFolder.write(d2, to: "30_1_flattened.png")
+		}
 	}
 }

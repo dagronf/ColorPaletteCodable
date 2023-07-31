@@ -118,8 +118,8 @@ public extension PAL.Gradients.Coder.GRD {
 
 			let trs = gradient.transparencyStops.map { stop in
 				PAL.Gradient.TransparencyStop(
-					value: stop.value / 100.0,                 // 0 ... 100
 					position: Double(stop.location) / 4096.0,  // 0 ... 4096
+					value: stop.value / 100.0,
 					midpoint: Double(stop.midpoint) / 100.0    // 0 ... 100
 				)
 			}

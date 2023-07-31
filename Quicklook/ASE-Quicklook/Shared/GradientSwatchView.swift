@@ -46,5 +46,34 @@ struct GradientSwatchView: View {
 		}
 		.buttonStyle(.borderless)
 	}
-		//.shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.6), radius: 3, y: 1.5)
+}
+
+struct GradientSwatchView_Previews: PreviewProvider {
+	static let gradient1 = PAL.Gradient(name: "Simple", colorPositions: [
+		(position: 0.0, color: PAL.Color.red),
+		(position: 1.0, color: PAL.Color.white),
+	])
+	static let gradient2 = PAL.Gradient(
+		stops: [
+			PAL.Gradient.Stop(position: 0, color: .red),
+			PAL.Gradient.Stop(position: 0.5, color: .green),
+			PAL.Gradient.Stop(position: 1, color: .blue),
+		],
+		transparencyStops: [
+			PAL.Gradient.TransparencyStop(position: 0, value: 1),
+			PAL.Gradient.TransparencyStop(position: 0.199, value: 1),
+			PAL.Gradient.TransparencyStop(position: 0.2, value: 0),
+			PAL.Gradient.TransparencyStop(position: 0.4, value: 1),
+			PAL.Gradient.TransparencyStop(position: 1, value: 1),
+		]
+	)
+	static var previews: some View {
+		HStack() {
+			GradientSwatchView(gradient: Self.gradient1, cornerRadius: 16, selectedGradient: .constant(nil))
+				.frame(width: 100, height: 100)
+			GradientSwatchView(gradient: Self.gradient2, cornerRadius: 16, selectedGradient: .constant(nil))
+				.frame(width: 100, height: 100)
+		}
+		.padding(8)
+	}
 }
