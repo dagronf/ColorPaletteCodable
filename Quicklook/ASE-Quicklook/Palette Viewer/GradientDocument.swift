@@ -98,6 +98,15 @@ extension GradientDocument: NSToolbarItemValidation {
 		return false
 	}
 
+
+	@IBAction func ExportSelectedGradient(_ sender: NSButton) {
+		if let selected = self.selectedGradient,
+			let gradient = self.gradients?.find(id: selected)
+		{
+			try? exportGradient(gradient)
+		}
+	}
+
 	@IBAction func ShowSwiftUIGenerated(_ sender: NSButton) {
 		present(PAL.Gradients.Coder.SwiftUIGen(), sender)
 	}

@@ -11,10 +11,32 @@ import ColorPaletteCodable
 
 import UniformTypeIdentifiers
 
+func exportGradient(_ gradient: PAL.Gradient) throws {
+	let flattened = try gradient.mergeTransparencyStops()
+	let data = try PAL.Gradients.Coder.GGR().encode(PAL.Gradients(gradients: [flattened]))
+	let filename = (gradient.name ?? "exported") + ".ggr"
+
+	let savePanel = NSSavePanel()
+	savePanel.allowedContentTypes = [ UTType("public.dagronf.gimp.ggr")! ]
+	savePanel.canCreateDirectories = true
+	savePanel.isExtensionHidden = false
+	savePanel.title = "Save gradient"
+	savePanel.nameFieldStringValue = filename
+	savePanel.message = "Choose a folder and a name to store the gradient."
+	savePanel.nameFieldLabel = "Gradient file name:"
+
+	let response = savePanel.runModal()
+	if response == .OK {
+		try? data.write(to: savePanel.url!)
+	}
+}
+
 struct GradientSwatchView: View {
 	let gradient: PAL.Gradient
 	let cornerRadius: Double
 	@Binding var selectedGradient: UUID?
+
+	@State var showSavePanel = false
 
 	var isSelected: Bool { selectedGradient == gradient.id }
 
@@ -71,20 +93,7 @@ struct GradientSwatchView: View {
 		)
 		.contextMenu(menuItems: {
 			Button("Export Gradient…") {
-				let data = try! generateGradientData()
-				let savePanel = NSSavePanel()
-				savePanel.allowedContentTypes = [ UTType("public.dagronf.gimp.ggr")! ]
-				savePanel.canCreateDirectories = true
-				savePanel.isExtensionHidden = false
-				savePanel.title = "Save gradient"
-				savePanel.nameFieldStringValue = filename
-				savePanel.message = "Choose a folder and a name to store the gradient."
-				savePanel.nameFieldLabel = "Gradient file name:"
-
-				let response = savePanel.runModal()
-				if response == .OK {
-					try? data.write(to: savePanel.url!)
-				}
+				try? exportGradient(gradient)
 			}
 		})
 	}
