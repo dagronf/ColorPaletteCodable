@@ -31,7 +31,8 @@ private let AvailableGradientCoders: [PAL_GradientsCoder] = [
 	PAL.Gradients.Coder.JSON(),
 	PAL.Gradients.Coder.GGR(),
 	PAL.Gradients.Coder.GRD(),
-	PAL.Gradients.Coder.PSP()
+	PAL.Gradients.Coder.PSP(),
+	PAL.Gradients.Coder.SVG(),
 ]
 
 /// A gradient coder protocol
@@ -131,3 +132,19 @@ public extension PAL.Gradients {
 		return try encoder.encode(self)
 	}
 }
+
+#if !os(Linux)
+
+import UniformTypeIdentifiers
+
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension PAL.Gradients {
+	/// Returns a coder that handles the specified UTType
+	static func coder(for type: UTType) -> PAL_GradientsCoder? {
+		AvailableGradientCoders.first { coder in
+			coder.fileExtension.lowercased() == type.preferredFilenameExtension?.lowercased()
+		}
+	}
+}
+
+#endif

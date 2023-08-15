@@ -205,4 +205,62 @@ class GradientFormatTests: XCTestCase {
 		let g1 = gradients.gradients[0]
 		XCTAssertEqual(36, g1.colors.count)
 	}
+
+	func testsvggradientexport() throws {
+		do {
+			// Make sure we don't attempt to load an SVG. (we can't read them yet)
+			let dummy = InputStream(data: Data())
+			let _ = XCTAssertThrowsError(try PAL.Gradients.Coder.SVG().decode(from: dummy))
+		}
+
+		do {
+			let gradients = try loadResourceGradient(named: "temperature.pspgradient")
+			XCTAssertEqual(1, gradients.count)
+			let g1 = gradients.gradients[0]
+			XCTAssertEqual(36, g1.colors.count)
+
+			let grad1 = try PAL.Gradients.Coder.SVG().encode(gradients)
+			XCTAssertGreaterThan(grad1.count, 0)
+
+			// Generate test compare data
+			//try grad1.write(to: URL(fileURLWithPath: "/tmp/temperature.pspgradient.svg"))
+
+			let compareData = try loadResourceData(named: "temperature.pspgradient.svg")
+			XCTAssertEqual(compareData, grad1)
+		}
+
+		do {
+			let gradients = try loadResourceGradient(named: "35.grd")
+			XCTAssertEqual(10, gradients.count)
+			let g1 = gradients.gradients[0]
+			XCTAssertEqual(4, g1.colors.count)
+
+			let grad1 = try PAL.Gradients.Coder.SVG().encode(gradients)
+			XCTAssertGreaterThan(grad1.count, 0)
+
+			// Generate test compare data
+			//try grad1.write(to: URL(fileURLWithPath: "/tmp/35.grd.svg"))
+
+			#if !os(Linux)
+			let compareData = try loadResourceData(named: "35.grd.svg")
+			XCTAssertEqual(compareData, grad1)
+			#endif
+		}
+
+		do {
+			let gradients = try loadResourceGradient(named: "skyline.jsoncolorgradient")
+			XCTAssertEqual(1, gradients.count)
+			let g1 = gradients.gradients[0]
+			XCTAssertEqual(7, g1.colors.count)
+
+			let grad1 = try PAL.Gradients.Coder.SVG().encode(gradients)
+			XCTAssertGreaterThan(grad1.count, 0)
+
+			// Generate test compare data
+			//try grad1.write(to: URL(fileURLWithPath: "/tmp/skyline.jsoncolorgradient.svg"))
+
+			let compareData = try loadResourceData(named: "skyline.jsoncolorgradient.svg")
+			XCTAssertEqual(compareData, grad1)
+		}
+	}
 }

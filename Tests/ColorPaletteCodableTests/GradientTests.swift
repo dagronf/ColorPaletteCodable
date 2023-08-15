@@ -216,15 +216,20 @@ class GradientTests: XCTestCase {
 				]
 			)
 
+			#if !os(Linux)
 			let imOrig = try XCTUnwrap(gradient.image(size: CGSize(width: 400, height: 200)))
 			let d1 = try imOrig.representation.png()
 			try outputFolder.write(d1, to: "textGradient1_original.png")
+			#endif
 
 			let flattened = try gradient.mergeTransparencyStops()
 			XCTAssertNil(flattened.transparencyStops)
+
+			#if !os(Linux)
 			let imFlattened = try XCTUnwrap(flattened.image(size: CGSize(width: 400, height: 200)))
 			let d2 = try imFlattened.representation.png()
 			try outputFolder.write(d2, to: "textGradient1_flattened.png")
+			#endif
 		}
 
 		do {
@@ -234,15 +239,21 @@ class GradientTests: XCTestCase {
 			let first = gradients.gradients[0]
 			XCTAssertNotNil(first.transparencyStops)
 
+			#if !os(Linux)
 			let imOrig = try XCTUnwrap(first.image(size: CGSize(width: 400, height: 200)))
 			let d1 = try imOrig.representation.png()
 			try outputFolder.write(d1, to: "35_1_orig.png")
+			#endif
 
 			let flattened = try first.mergeTransparencyStops()
 			XCTAssertNil(flattened.transparencyStops)
+			XCTAssertEqual(8, flattened.stops.count)
+
+			#if !os(Linux)
 			let imFlattened = try XCTUnwrap(flattened.image(size: CGSize(width: 400, height: 200)))
 			let d2 = try imFlattened.representation.png()
 			try outputFolder.write(d2, to: "35_1_flattened.png")
+			#endif
 		}
 
 		do {
@@ -250,17 +261,25 @@ class GradientTests: XCTestCase {
 			XCTAssertEqual(10, gradients.count)
 
 			let first = gradients.gradients[1]
+			XCTAssertEqual(3, first.stops.count)
 			XCTAssertNotNil(first.transparencyStops)
+			XCTAssertEqual(9, first.transparencyStops?.count)
 
+			#if !os(Linux)
 			let imOrig = try XCTUnwrap(first.image(size: CGSize(width: 400, height: 200)))
 			let d1 = try imOrig.representation.png()
 			try outputFolder.write(d1, to: "30_1_orig.png")
+			#endif
 
 			let flattened = try first.mergeTransparencyStops()
 			XCTAssertNil(flattened.transparencyStops)
+			XCTAssertEqual(10, flattened.stops.count)
+
+			#if !os(Linux)
 			let imFlattened = try XCTUnwrap(flattened.image(size: CGSize(width: 400, height: 200)))
 			let d2 = try imFlattened.representation.png()
 			try outputFolder.write(d2, to: "30_1_flattened.png")
+			#endif
 		}
 	}
 }

@@ -43,6 +43,7 @@ Supports the following :-
 * Built-in JSON format gradient (`.jsongradient`)
 * Basic Adobe gradient (`.grd`) ***(read only)***
 * Basic Paint Shop Pro gradient (`.pspgradient`) ***(read only)***
+* SVG Gradient file gradient (`.svg`) ***(write only)***
 
 ## Why?
 
@@ -188,12 +189,13 @@ gradients within the same file.
 
 ### Available Coders
 
-| Type                       | Description                                       |  Supports encode?  |
-|:---------------------------|:--------------------------------------------------|--------------------|
-|`PAL.Gradients.Coder.JSON`  | Built-in JSON format (.jsongradient)              |         ✅         |
-|`PAL.Gradients.Coder.GGR`   | GIMP gradient file (.ggr)                         |         ✅         |
-|`PAL.Gradients.Coder.GRD`   | Basic Adobe Photoshop gradient file (.grd)        |         ❌         |
-|`PAL.Gradients.Coder.PSP`   | Basic Paint Shop Pro gradient file (.pspgradient) |         ❌         |
+| Type                       | Description                                       | Decode? | Encode? |
+|:---------------------------|:--------------------------------------------------|-------------------|
+|`PAL.Gradients.Coder.JSON`  | Built-in JSON format (.jsongradient)              |    ✅   |   ✅   |
+|`PAL.Gradients.Coder.GGR`   | GIMP gradient file (.ggr)                         |    ✅   |   ✅   |
+|`PAL.Gradients.Coder.GRD`   | Basic Adobe Photoshop gradient file (.grd)        |    ✅   |   ❌   |
+|`PAL.Gradients.Coder.PSP`   | Basic Paint Shop Pro gradient file (.pspgradient) |    ✅   |   ❌   |
+|`PAL.Gradients.Coder.SVG`   | SVG file (.svg)                                   |    ❌   |   ✅   |
 
 * `.ggr` support doesn't respect segment blending functions other than linear (always imported as linear)
 * `.ggr` support doesn't allow for segment coloring functions other than rgb (throws an error)
