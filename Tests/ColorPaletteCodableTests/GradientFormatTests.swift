@@ -239,9 +239,9 @@ class GradientFormatTests: XCTestCase {
 			XCTAssertGreaterThan(grad1.count, 0)
 
 			// Generate test compare data
-			//try grad1.write(to: URL(fileURLWithPath: "/tmp/35.grd.svg"))
+			try grad1.write(to: URL(fileURLWithPath: "/tmp/35.grd.svg"))
 
-			#if !os(Linux)
+			#if os(macOS)
 			let compareData = try loadResourceData(named: "35.grd.svg")
 			XCTAssertEqual(compareData, grad1)
 			#endif
