@@ -71,3 +71,11 @@ public extension PAL.Coder.CLR {
 #endif
 	}
 }
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let clr = UTType("com.apple.color-file")!
+}
+#endif

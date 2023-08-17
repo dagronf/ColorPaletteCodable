@@ -147,3 +147,19 @@ public extension PAL.Palette {
 //		return try coder.encode(palette)
 //	}
 }
+
+#if !os(Linux)
+
+import UniformTypeIdentifiers
+
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension PAL.Palette {
+	/// Returns a coder that handles the specified UTType
+	static func coder(for type: UTType) -> PAL_PaletteCoder? {
+		AvailableCoders.first { coder in
+			coder.fileExtension.first?.lowercased() == type.preferredFilenameExtension?.lowercased()
+		}
+	}
+}
+
+#endif

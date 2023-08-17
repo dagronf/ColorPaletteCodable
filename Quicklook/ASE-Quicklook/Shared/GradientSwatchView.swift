@@ -13,11 +13,13 @@ import UniformTypeIdentifiers
 
 func exportGradient(_ gradient: PAL.Gradient) throws {
 	let flattened = try gradient.mergeTransparencyStops()
-	let data = try PAL.Gradients.Coder.GGR().encode(PAL.Gradients(gradients: [flattened]))
-	let filename = (gradient.name ?? "exported") + ".ggr"
+	let toEncode = PAL.Gradients(gradients: [flattened])
+	let filename = (gradient.name ?? "exported")
+
+	let supportedTypes: [UTType] = [.jsoncolorgradient, .ggr, .svg]
 
 	let savePanel = NSSavePanel()
-	savePanel.allowedContentTypes = [ UTType("public.dagronf.gimp.ggr")! ]
+	savePanel.allowedContentTypes = [.ggr, .svg]
 	savePanel.canCreateDirectories = true
 	savePanel.isExtensionHidden = false
 	savePanel.title = "Save gradient"
@@ -25,15 +27,46 @@ func exportGradient(_ gradient: PAL.Gradient) throws {
 	savePanel.message = "Choose a folder and a name to store the gradient."
 	savePanel.nameFieldLabel = "Gradient file name:"
 
+	let vc = ExportTypeAccessoryViewController(owner: savePanel, supportedTypes)
+	savePanel.accessoryView = vc.view
+
 	let response = savePanel.runModal()
 	if response == .OK {
-		try? data.write(to: savePanel.url!)
+		if let coder = PAL.Gradients.coder(for: vc.selectedType),
+			let data = try? coder.encode(toEncode)
+		{
+			try? data.write(to: savePanel.url!)
+		}
 	}
 }
 
 func exportPalette(_ gradient: PAL.Gradient) throws {
-	let palette = gradient.sorted.palette
-	
+
+	let palette = try gradient.sorted.mergeTransparencyStops().palette
+
+	let filename = (gradient.name ?? "exported")
+
+	let supportedTypes: [UTType] = [.jsonColorPalette, .gimpPalette, .aco, .clr]
+
+	let savePanel = NSSavePanel()
+	savePanel.allowedContentTypes = supportedTypes
+	savePanel.canCreateDirectories = true
+	savePanel.isExtensionHidden = false
+	savePanel.title = "Save palette"
+	savePanel.nameFieldStringValue = filename
+	savePanel.message = "Choose a folder and a name to store the palette."
+	savePanel.nameFieldLabel = "Palette file name:"
+
+	let vc = ExportTypeAccessoryViewController(owner: savePanel, supportedTypes)
+	savePanel.accessoryView = vc.view
+
+	let response = savePanel.runModal()
+	if response == .OK {
+		if let coder = PAL.Palette.coder(for: vc.selectedType) {
+			let data = try coder.encode(palette)
+			try data.write(to: savePanel.url!)
+		}
+	}
 }
 
 struct GradientSwatchView: View {
@@ -46,11 +79,11 @@ struct GradientSwatchView: View {
 	var isSelected: Bool { selectedGradient == gradient.id }
 
 	var filename: String {
-		(gradient.name ?? "exported") + ".ggr"
+		(gradient.name ?? "exported")
 	}
 
 	var uniqueFilename: String {
-		(gradient.name ?? "gradient") + "_" + gradient.id.uuidString + ".ggr"
+		(gradient.name ?? "gradient") + "_" + gradient.id.uuidString
 	}
 
 	func generateGradientData() throws -> Data {

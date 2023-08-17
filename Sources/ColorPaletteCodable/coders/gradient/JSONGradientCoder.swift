@@ -50,3 +50,11 @@ public extension PAL.Gradients.Coder {
 		}
 	}
 }
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let jsoncolorgradient = UTType("public.dagronf.jsoncolorgradient")!
+}
+#endif

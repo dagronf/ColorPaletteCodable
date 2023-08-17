@@ -212,3 +212,11 @@ public extension PAL.Gradients.Coder.GGR {
 		return data
 	}
 }
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let ggr = UTType("public.dagronf.gimp.ggr")!
+}
+#endif

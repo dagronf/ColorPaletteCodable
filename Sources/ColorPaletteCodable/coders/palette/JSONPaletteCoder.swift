@@ -62,3 +62,11 @@ public extension PAL.Coder.JSON {
 		return try encoder.encode(palette)
 	}
 }
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let jsonColorPalette = UTType("public.dagronf.colorpalette")!
+}
+#endif

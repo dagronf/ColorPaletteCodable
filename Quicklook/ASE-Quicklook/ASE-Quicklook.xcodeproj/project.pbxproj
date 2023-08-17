@@ -23,6 +23,7 @@
 		232540C52909F41C00FC94C6 /* ColorPaletteCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 232540C42909F41C00FC94C6 /* ColorPaletteCodable */; };
 		232FC4592A7766C7000DB24C /* GradientColorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232FC4582A7766C7000DB24C /* GradientColorListView.swift */; };
 		2344F2442A5CDA4500E04CE1 /* CodePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2344F2432A5CDA4500E04CE1 /* CodePopupView.swift */; };
+		23524E5C2A79BA5F00F3FAEF /* GradientEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23524E5B2A79BA5F00F3FAEF /* GradientEditor.swift */; };
 		235C1FFC2A57F89000725FCB /* GradientInteractorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235C1FFB2A57F89000725FCB /* GradientInteractorView.swift */; };
 		236719BE2A5A512A00147812 /* GradientSwatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236719BD2A5A512A00147812 /* GradientSwatchView.swift */; };
 		236719BF2A5A512A00147812 /* GradientSwatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236719BD2A5A512A00147812 /* GradientSwatchView.swift */; };
@@ -61,6 +62,8 @@
 		23EDD2842907A81D00B63B08 /* ASEGradientQuicklookPlugin.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 23EDD2762907A81D00B63B08 /* ASEGradientQuicklookPlugin.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		23EDD2892907AB3E00B63B08 /* ColorPaletteCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 23EDD2882907AB3E00B63B08 /* ColorPaletteCodable */; };
 		23F1FBA52907B8C200277016 /* CheckerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F1FBA42907B8C200277016 /* CheckerView.swift */; };
+		23F2ED212A8ECB770022262E /* ExportTypeAccessoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F2ED202A8ECB770022262E /* ExportTypeAccessoryViewController.swift */; };
+		23F2ED222A8ECBBE0022262E /* ExportTypeAccessoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F2ED202A8ECB770022262E /* ExportTypeAccessoryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -132,6 +135,7 @@
 		232540BD2909F3F900FC94C6 /* ASEGradientThumbnailGenerator.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ASEGradientThumbnailGenerator.entitlements; sourceTree = "<group>"; };
 		232FC4582A7766C7000DB24C /* GradientColorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientColorListView.swift; sourceTree = "<group>"; };
 		2344F2432A5CDA4500E04CE1 /* CodePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePopupView.swift; sourceTree = "<group>"; };
+		23524E5B2A79BA5F00F3FAEF /* GradientEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientEditor.swift; sourceTree = "<group>"; };
 		235C1FFB2A57F89000725FCB /* GradientInteractorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientInteractorView.swift; sourceTree = "<group>"; };
 		236719BD2A5A512A00147812 /* GradientSwatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientSwatchView.swift; sourceTree = "<group>"; };
 		236719C12A5A566900147812 /* GradientTransparencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientTransparencyView.swift; sourceTree = "<group>"; };
@@ -167,6 +171,7 @@
 		23EDD2802907A81D00B63B08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23EDD2812907A81D00B63B08 /* ASEGradientQuicklookPlugin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ASEGradientQuicklookPlugin.entitlements; sourceTree = "<group>"; };
 		23F1FBA42907B8C200277016 /* CheckerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckerView.swift; sourceTree = "<group>"; };
+		23F2ED202A8ECB770022262E /* ExportTypeAccessoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportTypeAccessoryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -320,6 +325,8 @@
 				236719C12A5A566900147812 /* GradientTransparencyView.swift */,
 				23E710A02A5B79C800B4D8F1 /* GradientComponentView.swift */,
 				232FC4582A7766C7000DB24C /* GradientColorListView.swift */,
+				23524E5B2A79BA5F00F3FAEF /* GradientEditor.swift */,
+				23F2ED202A8ECB770022262E /* ExportTypeAccessoryViewController.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -535,9 +542,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				237EF0872839B324000D6F42 /* UTType+extensions.swift in Sources */,
+				23524E5C2A79BA5F00F3FAEF /* GradientEditor.swift in Sources */,
 				23B20C142835D551005BD670 /* ViewController.swift in Sources */,
 				236719C22A5A566900147812 /* GradientTransparencyView.swift in Sources */,
 				23A0FFE3290B61A700E29FAE /* GradientDocument.swift in Sources */,
+				23F2ED212A8ECB770022262E /* ExportTypeAccessoryViewController.swift in Sources */,
 				23A0FFE8290B692000E29FAE /* GradientViewController.swift in Sources */,
 				230BE3512A526EDD009A4D88 /* CheckerView.swift in Sources */,
 				23B20C122835D551005BD670 /* AppDelegate.swift in Sources */,
@@ -562,6 +571,7 @@
 				23EDD27A2907A81D00B63B08 /* PreviewViewController.swift in Sources */,
 				2304D0A32A57AEEF006CCAA9 /* GradientsView.swift in Sources */,
 				23EDD27C2907A81D00B63B08 /* PreviewProvider.swift in Sources */,
+				23F2ED222A8ECBBE0022262E /* ExportTypeAccessoryViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

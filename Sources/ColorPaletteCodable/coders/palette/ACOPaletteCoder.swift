@@ -209,3 +209,12 @@ public extension PAL.Coder.ACO {
 		return outputData
 	}
 }
+
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let aco = UTType("com.adobe.aco")!
+}
+#endif
