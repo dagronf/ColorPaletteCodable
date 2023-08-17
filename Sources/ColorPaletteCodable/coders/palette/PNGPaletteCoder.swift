@@ -36,7 +36,7 @@ import UIKit
 #endif
 
 public extension PAL.Coder {
-	/// A coder that handles loading PNG image data (just the first row)
+	/// A coder that handles loading a palette from a PNG image (just the first row of the image)
 	struct PNG: PAL_PaletteCoder {
 		public let fileExtension = ["png"]
 		public let accuracy: Double
@@ -161,9 +161,7 @@ private func __decode(data: Data, accuracy: Double) throws -> PAL.Palette {
 		)
 	}
 	return PAL.Palette(colors: palcols)
-
 }
-
 
 private func __encode(_ colors: [PAL.Color], swatchSize: CGSize) throws -> Data {
 	guard !colors.isEmpty else { throw PAL.CommonError.cannotCreateImage }
@@ -203,6 +201,5 @@ private func __encode(_ colors: [PAL.Color], swatchSize: CGSize) throws -> Data 
 
 	return try cgImage.representation.png(scale: 1)
 }
-
 
 #endif

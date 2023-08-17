@@ -303,12 +303,13 @@ public extension PAL.Gradient {
 }
 
 public extension PAL.Gradient {
+	/// Map the transparency stops in the gradient to a 0 ... 1 range
 	func normalizedTransparencyStops() throws -> [TransparencyStop] {
-		guard let stops = self.transparencyStops, stops.count > 0 else { return [] }
+		guard let tstops = self.transparencyStops, stops.count > 0 else { return [] }
 
 		// Get the min/max and range values
-		let minVal = stops.map { $0.position }.min() ?? 0
-		let maxVal = stops.map { $0.position }.max() ?? 0
+		let minVal = tstops.map { $0.position }.min() ?? 0
+		let maxVal = tstops.map { $0.position }.max() ?? 0
 		let range = maxVal - minVal
 		if range == 0 {
 			// This means that the min and max values are the same. We cannot do anything with this.
@@ -316,7 +317,7 @@ public extension PAL.Gradient {
 		}
 
 		// Sort the stops
-		let sorted = stops.sorted { a, b in a.position < b.position }
+		let sorted = tstops.sorted { a, b in a.position < b.position }
 
 		// Map the stops into a 0 -> 1 range
 		let scaled: [TransparencyStop] = sorted.map {

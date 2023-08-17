@@ -29,6 +29,7 @@ Supports the following :-
 * RGBA text files (`.rgba`)
 * GIMP palette files (`.gpl`)
 * Paint Shop Pro files (`.pal`, `.psppalette`)
+* PNG files (`.png`)
 * Microsoft RIFF palette files (`.pal`) ***(read only)***
 * SketchPalette files (`.sketchpalette`)
 * CorelDraw/Adobe Illustrator xml palette (`.xml`)
@@ -87,6 +88,7 @@ Some features :-
 |`PAL.Coder.JSON`           | JSON encoded palette (.jsoncolorpalette)    |
 |`PAL.Coder.PaintNET`       | Paint.NET Palette (.txt)                    |
 |`PAL.Coder.PaintShopPro`   | Paint Shop Pro palette (.pal;.psppalette)   |
+|`PAL.Coder.PNG`            | PNG Image (.png)                            |
 |`PAL.Coder.RGBA`           | RGB(A) text files (.rgba)                   |
 |`PAL.Coder.RGB`            | RGB text files (.rgb)                       |
 |`PAL.Coder.RIFF`           | Microsoft RIFF palette (.pal)               |
@@ -190,7 +192,7 @@ gradients within the same file.
 ### Available Coders
 
 | Type                       | Description                                       | Decode? | Encode? |
-|:---------------------------|:--------------------------------------------------|-------------------|
+|:---------------------------|:--------------------------------------------------|:-------:|:-------:|
 |`PAL.Gradients.Coder.JSON`  | Built-in JSON format (.jsongradient)              |    ✅   |   ✅   |
 |`PAL.Gradients.Coder.GGR`   | GIMP gradient file (.ggr)                         |    ✅   |   ✅   |
 |`PAL.Gradients.Coder.GRD`   | Basic Adobe Photoshop gradient file (.grd)        |    ✅   |   ❌   |
