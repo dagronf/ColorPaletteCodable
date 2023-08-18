@@ -21,6 +21,19 @@ class GIMPPaletteTests: XCTestCase {
 		}
 	}
 
+	func testImage() throws {
+		let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: "atari-800xl-palette", withExtension: "gpl"))
+		let palette = try PAL.Palette.Decode(from: paletteURL)
+
+		let sz = CGSize(width: 200, height: 200)
+		let image = try XCTUnwrap(PAL.Image.GeneratePaletteImage(palette: palette, size: sz))
+		XCTAssertEqual(image.size, sz)
+
+		// Force the drawing
+		let _ = try image.representation.png()
+		Swift.print(image)
+	}
+
 	func testBasicDefault() throws {
 		let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: "Default", withExtension: "gpl"))
 		let palette = try PAL.Palette.Decode(from: paletteURL)

@@ -30,6 +30,14 @@
 
 import CoreGraphics
 
+#if os(macOS)
+import AppKit
+public typealias PlatformImage = NSImage
+#elseif !os(Linux)
+import UIKit
+public typealias PlatformImage = UIImage
+#endif
+
 public extension PAL.Gradient {
 	/// Returns a CGGradient representation of the gradient object
 	/// - Parameter reversed: Reverse the order of the colors and positions in the gradient.
@@ -182,7 +190,43 @@ public extension PAL.Gradient {
 }
 
 extension PAL.Image {
-	#if os(macOS)
+	/// Generate an image representation for a palette
+	/// - Parameters:
+	///   - palette: The palette
+	///   - size: The generated image size
+	///   - dimension: The relative size of swatches in the image
+	/// - Returns: An image
+	internal static func GeneratePaletteImage(
+		palette: PAL.Palette,
+		size: CGSize,
+		dimension: CGSize = CGSize(width: 8, height: 8)
+	) -> PlatformImage? {
+		let allColors = palette.allCGColors().compactMap { $0 }
+		let hstep = size.width / dimension.width
+		let vstep = size.height / dimension.height
+		let szh = hstep - 1
+		let szv = vstep - 1
+
+		return PlatformImage.generateImage(size: size) { ctx, size in
+			var yoffset: CGFloat = size.height - vstep
+			var xoffset: CGFloat = 0
+			var index = 0
+			while index < allColors.count, yoffset >= 0 {
+
+				ctx.setFillColor(allColors[index])
+				ctx.fill([CGRect(x: xoffset, y: yoffset, width: szh, height: szv)])
+
+				xoffset += hstep
+				if xoffset > (size.width - hstep) {
+					xoffset = 0
+					yoffset -= vstep
+				}
+
+				index += 1
+			}
+		}
+	}
+
 	/// Generate an image containing the specified gradient
 	/// - Parameters:
 	///   - gradient: The gradient
@@ -190,15 +234,15 @@ extension PAL.Image {
 	///   - endPoint: The end point (0,0) -> (1,1)
 	///   - size: The resulting image size
 	/// - Returns: An image
-	static func GenerateGradientImage(
+	internal static func GenerateGradientImage(
 		gradient: CGGradient,
 		startPoint: CGPoint = CGPoint(x: 0, y: 0),
 		endPoint: CGPoint = CGPoint(x: 1, y: 0),
 		size: CGSize
-	) -> NSImage? {
+	) -> PlatformImage? {
 		let startPt = CGPoint(x: startPoint.x * size.width, y: startPoint.y * size.height)
 		let endPt = CGPoint(x: endPoint.x * size.width, y: endPoint.y * size.height)
-		return NSImage.generateImage(size: size) { ctx, size in
+		return PlatformImage.generateImage(size: size) { ctx, size in
 			ctx.drawLinearGradient(
 				gradient,
 				start: startPt,
@@ -207,30 +251,41 @@ extension PAL.Image {
 			)
 		}
 	}
-	#else
-	/// Generate an image containing the specified gradient
+}
+
+extension PAL.Palette {
+	/// Generate an image representation for a palette
 	/// - Parameters:
-	///   - gradient: The gradient
+	///   - size: The generated image size
+	///   - dimension: The relative size of swatches in the image
+	/// - Returns: An image
+	public func thumbnailImage(
+		size: CGSize,
+		dimension: CGSize = CGSize(width: 8, height: 8)
+	) -> PlatformImage? {
+		PAL.Image.GeneratePaletteImage(palette: self, size: size, dimension: dimension)
+	}
+}
+
+extension PAL.Gradient {
+	/// Generate a thumbnail image representation for the gradient
+	/// - Parameters:
 	///   - startPoint: The start point (0,0) -> (1,1)
 	///   - endPoint: The end point (0,0) -> (1,1)
 	///   - size: The resulting image size
 	/// - Returns: An image
-	static func GenerateGradientImage(
-		gradient: CGGradient,
+	public func thumbnailImage(
 		startPoint: CGPoint = CGPoint(x: 0, y: 0),
 		endPoint: CGPoint = CGPoint(x: 1, y: 0),
 		size: CGSize
-	) -> UIImage {
-		UIImage.generateImage(size: size) { ctx, size in
-			ctx.drawLinearGradient(
-				gradient,
-				start: CGPoint(x: startPoint.x * size.width, y: startPoint.y * size.height),
-				end: CGPoint(x: endPoint.x * size.width, y: endPoint.y * size.height),
-				options: [.drawsAfterEndLocation, .drawsBeforeStartLocation]
-			)
-		}!
+	) -> PlatformImage? {
+		guard let gradient = self.cgGradient() else { return nil }
+		return PAL.Image.GenerateGradientImage(
+			gradient: gradient,
+			startPoint: startPoint,
+			endPoint: endPoint,
+			size: size)
 	}
-	#endif
 }
 
 #endif
