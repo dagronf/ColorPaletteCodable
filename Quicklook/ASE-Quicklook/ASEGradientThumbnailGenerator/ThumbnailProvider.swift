@@ -41,8 +41,6 @@ class ThumbnailProvider: QLThumbnailProvider {
 
 		// Second way: Draw the thumbnail into a context passed to your block, set up with Core Graphics's coordinate system.
 		handler(QLThumbnailReply(contextSize: request.maximumSize, drawing: { context -> Bool in
-			// Draw the thumbnail here.
-
 			let maxWidth = request.maximumSize.width * request.scale
 			let maxHeight = request.maximumSize.height * request.scale
 			let maxSize = CGSize(width: maxWidth, height: maxHeight)

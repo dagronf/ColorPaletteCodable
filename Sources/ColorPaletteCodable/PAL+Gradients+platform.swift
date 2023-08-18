@@ -190,6 +190,40 @@ public extension PAL.Gradient {
 }
 
 extension PAL.Image {
+
+	public static func DrawPaletteImage(
+		palette: PAL.Palette,
+		context: CGContext,
+		size: CGSize,
+		dimension: CGSize = CGSize(width: 8, height: 8)
+	) {
+		let allColors = palette.allCGColors().compactMap { $0 }
+		let hstep = size.width / dimension.width
+		let vstep = size.height / dimension.height
+		let szh = hstep - 1
+		let szv = vstep - 1
+
+		do {
+			var yoffset: CGFloat = size.height - vstep
+			var xoffset: CGFloat = 0
+			var index = 0
+			while index < allColors.count, yoffset >= 0 {
+
+				context.setFillColor(allColors[index])
+				context.fill([CGRect(x: xoffset, y: yoffset, width: szh, height: szv)])
+
+				xoffset += hstep
+				if xoffset > (size.width - hstep + 1) {
+					xoffset = 0
+					yoffset -= vstep
+				}
+
+				index += 1
+			}
+		}
+	}
+
+
 	/// Generate an image representation for a palette
 	/// - Parameters:
 	///   - palette: The palette
@@ -201,29 +235,8 @@ extension PAL.Image {
 		size: CGSize,
 		dimension: CGSize = CGSize(width: 8, height: 8)
 	) -> PlatformImage? {
-		let allColors = palette.allCGColors().compactMap { $0 }
-		let hstep = size.width / dimension.width
-		let vstep = size.height / dimension.height
-		let szh = hstep - 1
-		let szv = vstep - 1
-
 		return PlatformImage.generateImage(size: size) { ctx, size in
-			var yoffset: CGFloat = size.height - vstep
-			var xoffset: CGFloat = 0
-			var index = 0
-			while index < allColors.count, yoffset >= 0 {
-
-				ctx.setFillColor(allColors[index])
-				ctx.fill([CGRect(x: xoffset, y: yoffset, width: szh, height: szv)])
-
-				xoffset += hstep
-				if xoffset > (size.width - hstep) {
-					xoffset = 0
-					yoffset -= vstep
-				}
-
-				index += 1
-			}
+			Self.DrawPaletteImage(palette: palette, context: ctx, size: size, dimension: dimension)
 		}
 	}
 
