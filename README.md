@@ -37,6 +37,7 @@ Supports the following :-
 * Hex Color Palette (text file with delimited hexadecimal color strings) (`.hex`)
 * Paint.NET palette files (`.txt`)
 * PNG palette files (`.png`)
+* SVG swatches (`.svg`) ***(write only)***
 
 ## Supported gradient formats
 
@@ -44,7 +45,7 @@ Supports the following :-
 * Built-in JSON format gradient (`.jsongradient`)
 * Basic Adobe gradient (`.grd`) ***(read only)***
 * Basic Paint Shop Pro gradient (`.pspgradient`) ***(read only)***
-* SVG Gradient file gradient (`.svg`) ***(write only)***
+* SVG Gradient file (`.svg`) ***(write only)***
 
 ## Why?
 
@@ -93,9 +94,10 @@ Some features :-
 |`PAL.Coder.RGB`            | RGB text files (.rgb)                       |
 |`PAL.Coder.RIFF`           | Microsoft RIFF palette (.pal)               |
 |`PAL.Coder.SketchPalette`  | Sketch Palette (.sketchpalette)             |
+|`PAL.Coder.SVG`            | SVG image file (.svg)                       |
 |`PAL.Coder.XMLPalette`     | CorelDraw/Adobe Illustrator Palette (.xml)  |
 
-Each coder defines `.encode` and `.decode` for explicitly 
+Each coder defines `.encode` and `.decode`. Not all coders support both encode and decode.
 
 ### Example usage
 
@@ -153,23 +155,24 @@ let rawData = try encoder.encode(palette)
 
 ### Palette format encoding/decoding limitations
 
-|                           | File Type              | Named<br>Colors? | Named<br>palette? | Color<br>Groups? | ColorType<br>Support? | Supports<br>Colorspaces? |
-|---------------------------|------------------------|:----------------:|:-----------------:|:-----------------:|:--------------------:|:--------------------:|
-| `PAL.Coder.ACB`           | Binary                 |         ✅       |         ❌        |         ❌        |           ❌           |        ✅           |
-| `PAL.Coder.ACO`           | Binary                 |         ✅       |         ❌        |         ❌        |           ❌           |        ✅           |
-| `PAL.Coder.ACT`           | Binary                 |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
-| `PAL.Coder.ASE`           | Binary                 |         ✅       |         ❌        |         ✅        |           ✅           |        ✅           |
-| `PAL.Coder.CLR`           | Binary<br>(macOS only) |         ✅       |         ❌        |         ❌        |           ❌           |        ✅           |
-| `PAL.Coder.GIMP`          | Text                   |         ✅       |         ✅        |         ❌        |           ❌           |     RGB only        |
-| `PAL.Coder.HEX`           | Text                   |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
-| `PAL.Coder.JSON`          | JSON Text              |         ✅       |         ✅        |         ✅        |           ✅           |        ✅           |
-| `PAL.Coder.PaintNET`      | Text                   |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
-| `PAL.Coder.PaintShopPro`  | Text                   |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
-| `PAL.Coder.PNG`           | Binary                    |         ❌       |         ❌         |         ❌        |           ❌           |        ❌           |
-| `PAL.Coder.RGB/A`         | Text                   |         ✅       |         ❌        |         ❌        |           ❌           |     RGB only        |
-| `PAL.Coder.RIFF`          | Binary                 |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
-| `PAL.Coder.SketchPalette` | XML                   |         ❌       |         ❌        |         ❌        |           ❌           |     RGB only        |
-| `PAL.Coder.XMLPalette`    | XML                    |         ✅       |         ✅        |         ✅        |           ❌           |        ✅           |
+|                           | File Type              | Decode?  | Encode?  | Named<br>Colors? | Named<br>palette? | Color<br>Groups? | ColorType<br>Support? | Supports<br>Colorspaces? |
+|---------------------------|------------------------|:--------:|:--------:|:----------------:|:-----------------:|:----------------:|:--------------------:|:--------------------:|
+| `PAL.Coder.ACB`           | Binary                 |    ✅    |    ❌    |         ✅       |         ❌        |        ❌       |          ❌          |        ✅           |
+| `PAL.Coder.ACO`           | Binary                 |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |        ✅           |
+| `PAL.Coder.ACT`           | Binary                 |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.ASE`           | Binary                 |    ✅    |    ✅    |         ✅       |         ❌        |        ✅       |          ✅          |        ✅           |
+| `PAL.Coder.CLR`           | Binary<br>(macOS only) |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |        ✅           |
+| `PAL.Coder.GIMP`          | Text                   |    ✅    |    ✅    |         ✅       |         ✅        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.HEX`           | Text                   |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.JSON`          | JSON Text              |    ✅    |    ✅    |         ✅       |         ✅        |        ✅       |          ✅          |        ✅           |
+| `PAL.Coder.PaintNET`      | Text                   |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.PaintShopPro`  | Text                   |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.PNG`           | Binary                 |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |        ❌           |
+| `PAL.Coder.RGB/A`         | Text                   |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.RIFF`          | Binary                 |    ✅    |    ❌    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.SketchPalette` | XML                    |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.SVG`           | SVG text               |    ❌    |    ✅    |         ❌       |         ✅        |        ✅       |          ❌          |     RGB only        |
+| `PAL.Coder.XMLPalette`    | XML                    |    ✅    |    ✅    |         ✅       |         ✅        |        ✅       |          ❌          |        ✅           |
 
 
 *(A ColorType represents the type of color (global/spot/normal))*

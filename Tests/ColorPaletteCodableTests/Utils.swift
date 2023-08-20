@@ -4,7 +4,8 @@ import XCTest
 
 /// Locate the URL for the specified resource name
 func resourceURL(for name: String) throws -> URL {
-	let core = try XCTUnwrap(URL(string: name))
+	let encoded = try XCTUnwrap(name.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed))
+	let core = try XCTUnwrap(URL(string: encoded))
 	let extn = core.pathExtension
 	let name = core.deletingPathExtension().path
 	return try XCTUnwrap(Bundle.module.url(forResource: name, withExtension: extn))

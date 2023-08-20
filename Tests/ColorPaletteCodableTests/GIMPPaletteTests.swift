@@ -21,6 +21,7 @@ class GIMPPaletteTests: XCTestCase {
 		}
 	}
 
+	#if !os(Linux)
 	func testImage() throws {
 		let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: "atari-800xl-palette", withExtension: "gpl"))
 		let palette = try PAL.Palette.Decode(from: paletteURL)
@@ -33,6 +34,7 @@ class GIMPPaletteTests: XCTestCase {
 		let _ = try image.representation.png()
 		Swift.print(image)
 	}
+	#endif
 
 	func testBasicDefault() throws {
 		let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: "Default", withExtension: "gpl"))

@@ -42,4 +42,65 @@ public extension PAL {
 		case spot
 		case normal
 	}
+
+	/// Cross-platform size structure
+	struct Size {
+		public var width: Double
+		public var height: Double
+		public init(width: Double, height: Double) {
+			self.width = width
+			self.height = height
+		}
+	}
+}
+
+#if canImport(UIKit)
+import UIKit
+#endif
+
+public extension PAL {
+	/// Cross-platform edge insets
+	struct EdgeInsets {
+		public var top: CGFloat
+		public var left: CGFloat
+		public var bottom: CGFloat
+		public var right: CGFloat
+		public init(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) {
+			self.top = top
+			self.left = left
+			self.bottom = bottom
+			self.right = right
+		}
+
+		#if canImport(AppKit)
+		/// Create from NSEdgeInsets
+		public init(_ edgeInsets: NSEdgeInsets) {
+			self.top = edgeInsets.top
+			self.left = edgeInsets.left
+			self.bottom = edgeInsets.bottom
+			self.right = edgeInsets.right
+		}
+
+		/// Edge insets
+		@inlinable public var edgeInsets: NSEdgeInsets {
+			NSEdgeInsets(top: top, left: left, bottom: bottom, right: right)
+		}
+
+		#endif
+
+		#if canImport(UIKit)
+		/// Create from UIEdgeInsets
+		public init(_ edgeInsets: UIEdgeInsets) {
+			self.top = edgeInsets.top
+			self.left = edgeInsets.left
+			self.bottom = edgeInsets.bottom
+			self.right = edgeInsets.right
+		}
+
+		/// Edge insets
+		@inlinable public var edgeInsets: UIEdgeInsets {
+			UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
+		}
+		#endif
+	}
 }

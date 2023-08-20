@@ -169,7 +169,7 @@ public extension PAL.Coder.ACB {
 	/// Currently not supported for Adobe Color Book
 	func encode(_ palette: PAL.Palette) throws -> Data {
 		ASEPaletteLogger.log(.error, "ACBCoder: encode() not implemented")
-		throw PAL.CommonError.unsupportedCoderType
+		throw PAL.CommonError.notImplemented
 	}
 }
 

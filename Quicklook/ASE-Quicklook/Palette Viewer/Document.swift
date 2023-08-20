@@ -71,13 +71,11 @@ class Document: NSDocument {
 			"com.bohemiancoding.sketch.palette",
 			"RGB Text File",
 			"RGBA Text File",
+			"public.svg-image",
 		]
 	}
 
 	override func data(ofType typeName: String) throws -> Data {
-		// Insert code here to write your document to data of the specified type, throwing an error in case of failure.
-		// Alternatively, you could remove this method and override fileWrapper(ofType:), write(to:ofType:), or write(to:ofType:for:originalContentsURL:) instead.
-		//let extension =  UTTypeCopyPreferredTagWithClass(myUTI, kUTTagClassFilenameExtension);
 		guard let pal = currentPalette else {
 			throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
 		}
