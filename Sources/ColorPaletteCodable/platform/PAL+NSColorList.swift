@@ -32,6 +32,7 @@ import AppKit
 
 public extension PAL.Palette {
 	/// Load a palette from an `NSColorList` (macOS only)
+	/// - Parameter colorList: The color list
 	init(_ colorList: NSColorList) throws {
 		let names = colorList.allKeys
 
@@ -49,24 +50,28 @@ public extension PAL.Palette {
 	/// Note that a palette may have duplicate color names, so a unique index will be added to each
 	/// `NSColorList` color name to ensure that all colors are exported.
 	@inlinable func colorListFromAllColors() -> NSColorList {
-		return Self.colorList(from: self.allColors())
+		return Self.colorList(from: self.allColors(), named: self.name)
 	}
 
-	/// Returns an `NSColorList` from just the 'global' colors
+	/// Returns an `NSColorList` from the global colors of the palette
 	///
 	/// Note that a palette may have duplicate color names, so a unique index will be added to each
 	/// `NSColorList` color name to ensure that all colors are exported.
 	@inlinable func colorListFromGlobalColors() -> NSColorList {
-		return Self.colorList(from: self.colors)
+		return Self.colorList(from: self.colors, named: self.name)
 	}
 
 	/// Returns an `NSColorList` from an array of colors
+	/// - Parameters:
+	///   - colors: The colors to include in the colorlist
+	///   - name: The name of the generated colorlist
+	/// - Returns: A new colorlist
 	///
 	/// Note that the colors may have duplicate color names, so a unique index will be added to each additional duplicate
 	/// `NSColorList` color name to ensure that all colors are exported.
-	static func colorList(from colors: [PAL.Color]) -> NSColorList {
+	static func colorList(from colors: [PAL.Color], named name: NSColorList.Name = "") -> NSColorList {
 		var foundNames: [String] = []
-		let result = NSColorList()
+		let result = NSColorList(name: name)
 		colors.enumerated().forEach { iter in
 			if let ci = iter.element.nsColor {
 				let existingName = iter.element.name
@@ -80,12 +85,12 @@ public extension PAL.Palette {
 }
 
 public extension PAL.Group {
-	/// Returns an `NSColorList` from the colors in the group
+	/// Returns an `NSColorList` from the colors in this group
 	///
 	/// Note that a group can have duplicate color names, so a unique index will be added to each
 	/// `NSColorList` color name to ensure that all colors are exported.
 	@inlinable var nsColorList: NSColorList {
-		return PAL.Palette.colorList(from: self.colors)
+		return PAL.Palette.colorList(from: self.colors, named: self.name)
 	}
 }
 
