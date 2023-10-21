@@ -60,10 +60,7 @@ class GradientDocument: NSDocument {
 	}
 
 	override func writableTypes(for saveOperation: NSDocument.SaveOperationType) -> [String] {
-		[
-			"public.dagronf.jsoncolorgradient",
-			"public.dagronf.gimp.ggr",
-		]
+		ExportableGradientTypes
 	}
 
 	override func data(ofType typeName: String) throws -> Data {

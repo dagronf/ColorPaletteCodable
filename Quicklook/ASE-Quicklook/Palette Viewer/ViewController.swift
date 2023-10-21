@@ -26,9 +26,10 @@
 //
 
 import Cocoa
-import ColorPaletteCodable
-
 import SwiftUI
+import UniformTypeIdentifiers
+
+import ColorPaletteCodable
 
 class ViewController: NSViewController {
 
@@ -60,8 +61,46 @@ class ViewController: NSViewController {
 		}
 	}
 
-	@IBAction @objc func exportSwift(_ sender: Any) {
+	//var exportAccessory: ExportTypeAccessoryViewController?
 
+	@IBAction @objc func exportPalette(_ sender: Any) {
+		guard 
+			let window = self.view.window,
+			let palette = self.currentPalette.palette
+		else {
+			return
+		}
+		let filename = palette.name.isEmpty ? "exported" : palette.name
+
+		let savePanel = NSSavePanel()
+		let vc = ExportTypeAccessoryViewController(owner: savePanel, ExportablePaletteUTTypes)
+
+		// Store the export accessory inside the save panel so we don't have to manage it ourself
+		objc_setAssociatedObject(savePanel, "accessory-view", vc, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+
+		savePanel.allowedContentTypes = ExportablePaletteUTTypes
+		savePanel.accessoryView = vc.view
+		savePanel.canCreateDirectories = true
+		savePanel.isExtensionHidden = false
+		savePanel.title = "Export palette"
+		savePanel.nameFieldStringValue = filename
+		savePanel.message = "Choose a folder and a name to store the palette"
+		savePanel.nameFieldLabel = "Palette file name:"
+		savePanel.beginSheetModal(for: window) { [weak self] response in
+			guard response == .OK, let selectedURL = savePanel.url else {
+				return
+			}
+			self?.performPaletteExport(url: selectedURL, selectedType: vc.selectedType)
+		}
+	}
+
+	private func performPaletteExport(url: URL, selectedType: UTType) {
+		if let palette = self.currentPalette.palette,
+			let coder = PAL.Palette.coder(for: selectedType),
+			let data = try? coder.encode(palette)
+		{
+			try? data.write(to: url)
+		}
+		//self.exportAccessory = nil
 	}
 }
-

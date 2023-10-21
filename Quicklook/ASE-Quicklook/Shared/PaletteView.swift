@@ -45,6 +45,7 @@ struct PaletteView: View {
 				}
 			}
 		}
+		.frame(minWidth: 500, minHeight: 300)
 	}
 }
 

@@ -69,6 +69,9 @@
 		23F1FBA52907B8C200277016 /* CheckerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F1FBA42907B8C200277016 /* CheckerView.swift */; };
 		23F2ED212A8ECB770022262E /* ExportTypeAccessoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F2ED202A8ECB770022262E /* ExportTypeAccessoryViewController.swift */; };
 		23F2ED222A8ECBBE0022262E /* ExportTypeAccessoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F2ED202A8ECB770022262E /* ExportTypeAccessoryViewController.swift */; };
+		23F8D78B2A9410C00013EBF7 /* PALCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F8D78A2A9410C00013EBF7 /* PALCommon.swift */; };
+		23F8D78C2A9410C00013EBF7 /* PALCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F8D78A2A9410C00013EBF7 /* PALCommon.swift */; };
+		23F8D78D2A9410C00013EBF7 /* PALCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F8D78A2A9410C00013EBF7 /* PALCommon.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -189,6 +192,7 @@
 		23EDD2812907A81D00B63B08 /* ASEGradientQuicklookPlugin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ASEGradientQuicklookPlugin.entitlements; sourceTree = "<group>"; };
 		23F1FBA42907B8C200277016 /* CheckerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckerView.swift; sourceTree = "<group>"; };
 		23F2ED202A8ECB770022262E /* ExportTypeAccessoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportTypeAccessoryViewController.swift; sourceTree = "<group>"; };
+		23F8D78A2A9410C00013EBF7 /* PALCommon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PALCommon.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -356,6 +360,7 @@
 		23FF72832839CA0500448D16 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				23F8D78A2A9410C00013EBF7 /* PALCommon.swift */,
 				23A03E0D28332AEB003846A4 /* UTType+extensions.swift */,
 				237EF04428398ABD000D6F42 /* PaletteView.swift */,
 				2304D0A22A57AEEF006CCAA9 /* GradientsView.swift */,
@@ -603,6 +608,7 @@
 			files = (
 				23A03E0E28332AEB003846A4 /* UTType+extensions.swift in Sources */,
 				237EF04528398ABD000D6F42 /* PaletteView.swift in Sources */,
+				23F8D78B2A9410C00013EBF7 /* PALCommon.swift in Sources */,
 				23A03DFB28332AA2003846A4 /* PreviewViewController.swift in Sources */,
 				23A03DFD28332AA2003846A4 /* ASEPreviewProvider.swift in Sources */,
 			);
@@ -624,6 +630,7 @@
 				236719BF2A5A512A00147812 /* GradientSwatchView.swift in Sources */,
 				23E710A12A5B79C800B4D8F1 /* GradientComponentView.swift in Sources */,
 				2344F2442A5CDA4500E04CE1 /* CodePopupView.swift in Sources */,
+				23F8D78D2A9410C00013EBF7 /* PALCommon.swift in Sources */,
 				232FC4592A7766C7000DB24C /* GradientColorListView.swift in Sources */,
 				235C1FFC2A57F89000725FCB /* GradientInteractorView.swift in Sources */,
 				23B20C162835D551005BD670 /* Document.swift in Sources */,
@@ -645,6 +652,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23F8D78C2A9410C00013EBF7 /* PALCommon.swift in Sources */,
 				23F1FBA52907B8C200277016 /* CheckerView.swift in Sources */,
 				236719BE2A5A512A00147812 /* GradientSwatchView.swift in Sources */,
 				23EDD27A2907A81D00B63B08 /* PreviewViewController.swift in Sources */,
