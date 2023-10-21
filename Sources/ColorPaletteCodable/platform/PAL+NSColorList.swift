@@ -49,7 +49,7 @@ public extension PAL.Palette {
 	/// Note that a palette may have duplicate color names, so a unique index will be added to each
 	/// `NSColorList` color name to ensure that all colors are exported.
 	@inlinable func colorListFromAllColors() -> NSColorList {
-		return Self.colorList(from: self.allColors())
+		return Self.colorList(from: self.allColors(), name: self.name)
 	}
 
 	/// Returns an `NSColorList` from just the 'global' colors
@@ -57,16 +57,16 @@ public extension PAL.Palette {
 	/// Note that a palette may have duplicate color names, so a unique index will be added to each
 	/// `NSColorList` color name to ensure that all colors are exported.
 	@inlinable func colorListFromGlobalColors() -> NSColorList {
-		return Self.colorList(from: self.colors)
+		return Self.colorList(from: self.colors, name: self.name)
 	}
 
 	/// Returns an `NSColorList` from an array of colors
 	///
 	/// Note that the colors may have duplicate color names, so a unique index will be added to each additional duplicate
 	/// `NSColorList` color name to ensure that all colors are exported.
-	static func colorList(from colors: [PAL.Color]) -> NSColorList {
+	static func colorList(from colors: [PAL.Color], name: NSColorList.Name? = nil) -> NSColorList {
 		var foundNames: [String] = []
-		let result = NSColorList()
+		let result = NSColorList(name: name ?? "")
 		colors.enumerated().forEach { iter in
 			if let ci = iter.element.nsColor {
 				let existingName = iter.element.name
