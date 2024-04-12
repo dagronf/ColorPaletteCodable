@@ -119,35 +119,22 @@ func withDataWrittenToTemporaryFile<T>(_ data: Data, fileExtension: String? = ni
 	})
 }
 
-
-extension InputStream {
-	/// A reallly hack way of getting all the data from an input stream
-	func readAllData() -> Data {
-		var allData = Data(capacity: 1024)
-		do {
-			let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 1024)
-			defer { buffer.deallocate() }
-			var readCount = -1
-			while readCount != 0 {
-				readCount = self.read(buffer, maxLength: 1024)
-				if readCount > 0 {
-					allData += Data(bytes: buffer, count: readCount)
-				}
-				if self.hasBytesAvailable == false {
-					readCount = 0
-				}
-			}
-		}
-		return allData
-	}
-}
-
 extension Data {
 	/// Attempt to determine the string encoding contained within the data. Returns nil if encoding cannot be inferred
 	var stringEncoding: String.Encoding? {
 #if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 		var nsString: NSString?
-		guard case let rawValue = NSString.stringEncoding(for: self, encodingOptions: nil, convertedString: &nsString, usedLossyConversion: nil), rawValue != 0 else { return nil }
+		guard
+			case let rawValue = NSString.stringEncoding(
+				for: self,
+				encodingOptions: nil,
+				convertedString: &nsString,
+				usedLossyConversion: nil
+			),
+			rawValue != 0
+		else {
+			return nil
+		}
 		return .init(rawValue: rawValue)
 #else
 		return nil

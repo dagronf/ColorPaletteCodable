@@ -123,6 +123,14 @@ class GradientFormatTests: XCTestCase {
 		}
 	}
 
+	func testLargeGGRgradient() throws {
+		let gradient = try loadResourceGradient(named: "39_rainbow_white.ggr")
+		XCTAssertEqual(gradient.count, 1)
+		let g1 = gradient.gradients[0]
+
+		// Because each line in the file generates two color stops
+		XCTAssertEqual(g1.colors.count, 237 * 2)
+	}
 
 	func testBasicEncode() throws {
 		let dec = PAL.Gradients.Coder.GGR()
