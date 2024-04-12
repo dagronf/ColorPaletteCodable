@@ -267,8 +267,10 @@ class GradientFormatTests: XCTestCase {
 			// Generate test compare data
 			//try grad1.write(to: URL(fileURLWithPath: "/tmp/skyline.jsoncolorgradient.svg"))
 
+			#if os(macOS) || os(iOS) || os(tvOS) || os(visionOS) || os(watchOS)
 			let compareData = try loadResourceData(named: "skyline.jsoncolorgradient.svg")
 			XCTAssertEqual(compareData, grad1)
+			#endif
 		}
 	}
 }

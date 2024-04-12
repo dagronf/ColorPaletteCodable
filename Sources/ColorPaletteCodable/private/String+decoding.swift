@@ -79,6 +79,11 @@ extension String {
 			return String.Decoded(encoding: String.Encoding(rawValue: usedEncoding), text: String(str))
 		}
 		#endif
-		return nil
+
+		/// Just use UTF8
+		guard let content = String(data: data, encoding: .utf8) else {
+			return nil
+		}
+		return .init(encoding: .utf8, text: content)
 	}
 }
