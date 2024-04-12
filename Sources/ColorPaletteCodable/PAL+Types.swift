@@ -102,10 +102,12 @@ public extension PAL {
 			self.right = edgeInsets.right
 		}
 
+		#if !targetEnvironment(macCatalyst)
 		/// Edge insets
 		@inlinable public var edgeInsets: UIEdgeInsets {
 			UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
 		}
+		#endif
 		#endif
 	}
 }
