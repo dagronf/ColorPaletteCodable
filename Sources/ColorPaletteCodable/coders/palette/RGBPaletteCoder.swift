@@ -1,7 +1,7 @@
 //
 //  RGBPaletteCoder.swift
 //
-//  Copyright © 2023 Darren Ford. All rights reserved.
+//  Copyright © 2024 Darren Ford. All rights reserved.
 //
 //  MIT License
 //
@@ -53,10 +53,11 @@ public extension PAL.Coder.RGB {
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
-		let data = inputStream.readAllData()
-		guard let text = String(data: data, encoding: .utf8) else {
+		// Load text from the input stream
+		guard let decoded = String.decode(from: inputStream) else {
 			throw PAL.CommonError.unableToLoadFile
 		}
+		let text = decoded.text
 
 		let lines = text.split(separator: "\n")
 		var palette = PAL.Palette()

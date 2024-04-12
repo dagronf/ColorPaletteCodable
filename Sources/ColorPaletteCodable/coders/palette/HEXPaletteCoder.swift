@@ -1,7 +1,7 @@
 //
 //  HEXPaletteCoder.swift
 //
-//  Copyright © 2023 Darren Ford. All rights reserved.
+//  Copyright © 2024 Darren Ford. All rights reserved.
 //
 //  MIT License
 //
@@ -38,10 +38,11 @@ public extension PAL.Coder {
 
 public extension PAL.Coder.HEX {
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
-		let allData = inputStream.readAllData()
-		guard let content = String(data: allData, encoding: allData.stringEncoding ?? .utf8) else {
-			throw PAL.CommonError.invalidFormat
+		// Load text from the input stream
+		guard let decoded = String.decode(from: inputStream) else {
+			throw PAL.CommonError.unableToLoadFile
 		}
+		let content = decoded.text
 
 		var palette = PAL.Palette()
 

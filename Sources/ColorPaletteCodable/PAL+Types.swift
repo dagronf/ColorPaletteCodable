@@ -2,7 +2,7 @@
 //  PAL+Types.swift
 //
 //  Created by Darren Ford on 16/5/2022.
-//  Copyright © 2023 Darren Ford. All rights reserved.
+//  Copyright © 2024 Darren Ford. All rights reserved.
 //
 //  MIT License
 //
@@ -61,11 +61,11 @@ import UIKit
 public extension PAL {
 	/// Cross-platform edge insets
 	struct EdgeInsets {
-		public var top: CGFloat
-		public var left: CGFloat
-		public var bottom: CGFloat
-		public var right: CGFloat
-		public init(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) {
+		public var top: Double
+		public var left: Double
+		public var bottom: Double
+		public var right: Double
+		public init(top: Double, left: Double, bottom: Double, right: Double) {
 			self.top = top
 			self.left = left
 			self.bottom = bottom
@@ -75,15 +75,20 @@ public extension PAL {
 		#if canImport(AppKit)
 		/// Create from NSEdgeInsets
 		public init(_ edgeInsets: NSEdgeInsets) {
-			self.top = edgeInsets.top
-			self.left = edgeInsets.left
-			self.bottom = edgeInsets.bottom
-			self.right = edgeInsets.right
+			self.top = Double(edgeInsets.top)
+			self.left = Double(edgeInsets.left)
+			self.bottom = Double(edgeInsets.bottom)
+			self.right = Double(edgeInsets.right)
 		}
 
 		/// Edge insets
 		@inlinable public var edgeInsets: NSEdgeInsets {
-			NSEdgeInsets(top: top, left: left, bottom: bottom, right: right)
+			NSEdgeInsets(
+				top: CGFloat(top),
+				left: CGFloat(left),
+				bottom: CGFloat(bottom),
+				right: CGFloat(right)
+			)
 		}
 
 		#endif

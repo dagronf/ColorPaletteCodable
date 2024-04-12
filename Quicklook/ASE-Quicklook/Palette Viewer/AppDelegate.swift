@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Palette Viewer
 //
-//  Copyright © 2023 Darren Ford. All rights reserved.
+//  Copyright © 2024 Darren Ford. All rights reserved.
 //
 //  MIT License
 //
@@ -43,7 +43,5 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
 		return true
 	}
-
-
 }
 

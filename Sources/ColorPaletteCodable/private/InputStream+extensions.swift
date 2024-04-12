@@ -1,5 +1,5 @@
 //
-//  PSPGradientCoder.swift
+//  InputStream+extensions.swift
 //
 //  Copyright © 2024 Darren Ford. All rights reserved.
 //
@@ -26,28 +26,27 @@
 
 import Foundation
 
-public extension PAL.Gradients.Coder {
-	/// A coder for PSP gradients
-	struct PSP: PAL_GradientsCoder {
-		/// The coder's file format
-		public static let fileExtension = "pspgradient"
-		public init() {}
-	}
-}
-
-public extension PAL.Gradients.Coder.PSP {
-	func encode(_ gradients: PAL.Gradients) throws -> Data {
-		throw PAL.CommonError.notImplemented
-	}
-}
-
-public extension PAL.Gradients.Coder.PSP {
-	/// Create a palette from the contents of the input stream
-	/// - Parameter inputStream: The input stream containing the encoded palette
-	/// - Returns: A palette
+extension InputStream {
+	/// Read all of the remaining data from the stream
 	///
-	/// Note that the psppalette scheme appears to be equal to v3 of the grd format
-	func decode(from inputStream: InputStream) throws -> PAL.Gradients {
-		return try PAL.Gradients.Coder.GRD().decode(from: inputStream)
+	/// NOTE: This stream must have already been opened
+	func readAllData() -> Data {
+		assert(self.streamStatus == .open)
+		var allData = Data(capacity: 1024)
+		do {
+			let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 1024)
+			defer { buffer.deallocate() }
+			var readCount = -1
+			while readCount != 0 {
+				readCount = self.read(buffer, maxLength: 1024)
+				if readCount > 0 {
+					allData += Data(bytes: buffer, count: readCount)
+				}
+				if self.hasBytesAvailable == false {
+					readCount = 0
+				}
+			}
+		}
+		return allData
 	}
 }

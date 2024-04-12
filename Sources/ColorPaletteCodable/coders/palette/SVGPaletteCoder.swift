@@ -1,7 +1,7 @@
 //
 //  SVGPaletteCoder.swift
 //
-//  Copyright © 2023 Darren Ford. All rights reserved.
+//  Copyright © 2024 Darren Ford. All rights reserved.
 //
 //  MIT License
 //
@@ -61,8 +61,8 @@ public extension PAL.Coder.SVG {
 public extension PAL.Coder.SVG {
 	func encode(_ palette: PAL.Palette) throws -> Data {
 
-		var xOffset: CGFloat = edgeInset.left
-		var yOffset: CGFloat = edgeInset.top
+		var xOffset = edgeInset.left
+		var yOffset = edgeInset.top
 
 		var colors: String = ""
 

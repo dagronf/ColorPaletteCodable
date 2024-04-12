@@ -1,5 +1,4 @@
 // swift-tools-version: 5.4
-// The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
@@ -17,8 +16,8 @@ let package = Package(
 		.library(name: "ColorPaletteCodable-shared", type: .dynamic, targets: ["ColorPaletteCodable"]),
 	],
 	dependencies: [
-		.package(url: "https://github.com/dagronf/DSFRegex", from: "3.1.0"),
-		.package(url: "https://github.com/dagronf/SwiftImageReadWrite", from: "1.3.0")
+		.package(url: "https://github.com/dagronf/DSFRegex", from: "3.4.0"),
+		.package(url: "https://github.com/dagronf/SwiftImageReadWrite", from: "1.7.1")
 	],
 	targets: [
 		.target(
@@ -26,6 +25,9 @@ let package = Package(
 			dependencies: [
 				.product(name: "DSFRegex", package: "DSFRegex"),
 				.product(name: "SwiftImageReadWrite", package: "SwiftImageReadWrite")
+			],
+			resources: [
+				.copy("PrivacyInfo.xcprivacy"),
 			]
 		),
 		.testTarget(

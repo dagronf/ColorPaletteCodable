@@ -2,7 +2,7 @@
 //  Document.swift
 //  Palette Viewer
 //
-//  Copyright © 2023 Darren Ford. All rights reserved.
+//  Copyright © 2024 Darren Ford. All rights reserved.
 //
 //  MIT License
 //
@@ -59,20 +59,7 @@ class Document: NSDocument {
 	}
 
 	override func writableTypes(for saveOperation: NSDocument.SaveOperationType) -> [String] {
-		[
-			"public.dagronf.colorpalette",
-			"public.xml",
-			"com.adobe.aco",
-			"com.adobe.ase",
-			"com.adobe.act",
-			"com.apple.color-file",
-			"public.dagronf.gimp.gpl",
-			"public.dagronf.corel.psppalette",
-			"com.bohemiancoding.sketch.palette",
-			"RGB Text File",
-			"RGBA Text File",
-			"public.svg-image",
-		]
+		ExportablePaletteTypes
 	}
 
 	override func data(ofType typeName: String) throws -> Data {

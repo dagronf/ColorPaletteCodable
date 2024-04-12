@@ -1,7 +1,7 @@
 //
 //  GIMPPaletteCoder.swift
 //
-//  Copyright © 2023 Darren Ford. All rights reserved.
+//  Copyright © 2024 Darren Ford. All rights reserved.
 //
 //  MIT License
 //
@@ -36,10 +36,12 @@ public extension PAL.Coder {
 
 public extension PAL.Coder.GIMP {
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
-		let allData = inputStream.readAllData()
-		guard let content = String(data: allData, encoding: allData.stringEncoding ?? .utf8) else {
+		// Load a string from the input stream
+		guard let decoded = String.decode(from: inputStream) else {
+			ASEPaletteLogger.log(.error, "GGRCoder: Unexpected text encoding")
 			throw PAL.CommonError.invalidFormat
 		}
+		let content = decoded.text
 
 		let lines = content.split(whereSeparator: \.isNewline)
 		guard lines.count > 0, lines[0].contains("GIMP Palette") else {

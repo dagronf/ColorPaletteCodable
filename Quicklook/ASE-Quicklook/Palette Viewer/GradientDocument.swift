@@ -1,7 +1,7 @@
 //
 //  GradientDocument.swift
 //
-//  Copyright © 2023 Darren Ford. All rights reserved.
+//  Copyright © 2024 Darren Ford. All rights reserved.
 //
 //  MIT License
 //
@@ -60,10 +60,7 @@ class GradientDocument: NSDocument {
 	}
 
 	override func writableTypes(for saveOperation: NSDocument.SaveOperationType) -> [String] {
-		[
-			"public.dagronf.jsoncolorgradient",
-			"public.dagronf.gimp.ggr",
-		]
+		ExportableGradientTypes
 	}
 
 	override func data(ofType typeName: String) throws -> Data {

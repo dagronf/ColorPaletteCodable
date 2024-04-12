@@ -1,7 +1,7 @@
 //
 //  GGRGradientCoder.swift
 //
-//  Copyright © 2023 Darren Ford. All rights reserved.
+//  Copyright © 2024 Darren Ford. All rights reserved.
 //
 //  MIT License
 //
@@ -58,15 +58,16 @@ public extension PAL.Gradients.Coder {
 }
 
 public extension PAL.Gradients.Coder.GGR {
-	/// Attempt to decode a gradient using the
+	/// Decode a gradient using the GIMP Gradient format
 	/// - Parameter inputStream: The input stream containing the data
 	/// - Returns: a gradient
 	func decode(from inputStream: InputStream) throws -> PAL.Gradients {
-		let data = inputStream.readAllData()
-		guard let content = String(bytes: data, encoding: .utf8) else {
+		// Load a string from the input stream
+		guard let decoded = String.decode(from: inputStream) else {
 			ASEPaletteLogger.log(.error, "GGRCoder: Unexpected text encoding")
 			throw GimpGradientError.unexpectedTextEncoding
 		}
+		let content = decoded.text
 
 		// Remove any blank lines from the input file
 		let lines = content.components(separatedBy: .newlines).filter { $0.count > 0 }
@@ -146,7 +147,7 @@ public extension PAL.Gradients.Coder.GGR {
 }
 
 public extension PAL.Gradients.Coder.GGR {
-	/// Encode the gradient using the default JSON format
+	/// Encode the gradient using GGR format (GIMP Gradient)
 	/// - Parameter gradient: The gradient to encode
 	/// - Returns: encoded data
 	func encode(_ gradients: PAL.Gradients) throws -> Data {

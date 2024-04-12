@@ -16,10 +16,13 @@ func exportGradient(_ gradient: PAL.Gradient) throws {
 	let toEncode = PAL.Gradients(gradients: [flattened])
 	let filename = (gradient.name ?? "exported")
 
-	let supportedTypes: [UTType] = [.jsoncolorgradient, .ggr, .svg]
-
 	let savePanel = NSSavePanel()
-	savePanel.allowedContentTypes = [.ggr, .svg]
+	let vc = ExportTypeAccessoryViewController(owner: savePanel, ExportableGradientUTTypes)
+
+	// Store the export accessory inside the save panel so we don't have to manage it ourself
+	objc_setAssociatedObject(savePanel, "accessory-view", vc, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+
+	savePanel.allowedContentTypes = ExportableGradientUTTypes
 	savePanel.canCreateDirectories = true
 	savePanel.isExtensionHidden = false
 	savePanel.title = "Save gradient"
@@ -27,7 +30,6 @@ func exportGradient(_ gradient: PAL.Gradient) throws {
 	savePanel.message = "Choose a folder and a name to store the gradient."
 	savePanel.nameFieldLabel = "Gradient file name:"
 
-	let vc = ExportTypeAccessoryViewController(owner: savePanel, supportedTypes)
 	savePanel.accessoryView = vc.view
 
 	let response = savePanel.runModal()
@@ -46,10 +48,10 @@ func exportPalette(_ gradient: PAL.Gradient) throws {
 
 	let filename = (gradient.name ?? "exported")
 
-	let supportedTypes: [UTType] = [.jsonColorPalette, .gimpPalette, .aco, .clr]
+	//let supportedTypes: [UTType] = [.jsonColorPalette, .gimpPalette, .aco, .clr]
 
 	let savePanel = NSSavePanel()
-	savePanel.allowedContentTypes = supportedTypes
+	savePanel.allowedContentTypes = ExportablePaletteUTTypes
 	savePanel.canCreateDirectories = true
 	savePanel.isExtensionHidden = false
 	savePanel.title = "Save palette"
@@ -57,7 +59,7 @@ func exportPalette(_ gradient: PAL.Gradient) throws {
 	savePanel.message = "Choose a folder and a name to store the palette."
 	savePanel.nameFieldLabel = "Palette file name:"
 
-	let vc = ExportTypeAccessoryViewController(owner: savePanel, supportedTypes)
+	let vc = ExportTypeAccessoryViewController(owner: savePanel, ExportablePaletteUTTypes)
 	savePanel.accessoryView = vc.view
 
 	let response = savePanel.runModal()

@@ -69,6 +69,9 @@
 		23F1FBA52907B8C200277016 /* CheckerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F1FBA42907B8C200277016 /* CheckerView.swift */; };
 		23F2ED212A8ECB770022262E /* ExportTypeAccessoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F2ED202A8ECB770022262E /* ExportTypeAccessoryViewController.swift */; };
 		23F2ED222A8ECBBE0022262E /* ExportTypeAccessoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F2ED202A8ECB770022262E /* ExportTypeAccessoryViewController.swift */; };
+		23F8D78B2A9410C00013EBF7 /* PALCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F8D78A2A9410C00013EBF7 /* PALCommon.swift */; };
+		23F8D78C2A9410C00013EBF7 /* PALCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F8D78A2A9410C00013EBF7 /* PALCommon.swift */; };
+		23F8D78D2A9410C00013EBF7 /* PALCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F8D78A2A9410C00013EBF7 /* PALCommon.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -189,6 +192,7 @@
 		23EDD2812907A81D00B63B08 /* ASEGradientQuicklookPlugin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ASEGradientQuicklookPlugin.entitlements; sourceTree = "<group>"; };
 		23F1FBA42907B8C200277016 /* CheckerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckerView.swift; sourceTree = "<group>"; };
 		23F2ED202A8ECB770022262E /* ExportTypeAccessoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportTypeAccessoryViewController.swift; sourceTree = "<group>"; };
+		23F8D78A2A9410C00013EBF7 /* PALCommon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PALCommon.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -356,6 +360,7 @@
 		23FF72832839CA0500448D16 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				23F8D78A2A9410C00013EBF7 /* PALCommon.swift */,
 				23A03E0D28332AEB003846A4 /* UTType+extensions.swift */,
 				237EF04428398ABD000D6F42 /* PaletteView.swift */,
 				2304D0A22A57AEEF006CCAA9 /* GradientsView.swift */,
@@ -603,6 +608,7 @@
 			files = (
 				23A03E0E28332AEB003846A4 /* UTType+extensions.swift in Sources */,
 				237EF04528398ABD000D6F42 /* PaletteView.swift in Sources */,
+				23F8D78B2A9410C00013EBF7 /* PALCommon.swift in Sources */,
 				23A03DFB28332AA2003846A4 /* PreviewViewController.swift in Sources */,
 				23A03DFD28332AA2003846A4 /* ASEPreviewProvider.swift in Sources */,
 			);
@@ -624,6 +630,7 @@
 				236719BF2A5A512A00147812 /* GradientSwatchView.swift in Sources */,
 				23E710A12A5B79C800B4D8F1 /* GradientComponentView.swift in Sources */,
 				2344F2442A5CDA4500E04CE1 /* CodePopupView.swift in Sources */,
+				23F8D78D2A9410C00013EBF7 /* PALCommon.swift in Sources */,
 				232FC4592A7766C7000DB24C /* GradientColorListView.swift in Sources */,
 				235C1FFC2A57F89000725FCB /* GradientInteractorView.swift in Sources */,
 				23B20C162835D551005BD670 /* Document.swift in Sources */,
@@ -645,6 +652,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23F8D78C2A9410C00013EBF7 /* PALCommon.swift in Sources */,
 				23F1FBA52907B8C200277016 /* CheckerView.swift in Sources */,
 				236719BE2A5A512A00147812 /* GradientSwatchView.swift in Sources */,
 				23EDD27A2907A81D00B63B08 /* PreviewViewController.swift in Sources */,
@@ -721,14 +729,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASEGradientThumbnailGenerator/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ASEGradientThumbnailGenerator;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Darren Ford. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.20.0;
+				MARKETING_VERSION = 1.21.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer.ASEGradientThumbnailGenerator";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -751,14 +759,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASEGradientThumbnailGenerator/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ASEGradientThumbnailGenerator;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Darren Ford. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.20.0;
+				MARKETING_VERSION = 1.21.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer.ASEGradientThumbnailGenerator";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -898,14 +906,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASEQuickLookPlugin/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ASEQuickLookPlugin;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.20.0;
+				MARKETING_VERSION = 1.21.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer.ASEQuickLookPlugin";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -928,14 +936,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASEQuickLookPlugin/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ASEQuickLookPlugin;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.20.0;
+				MARKETING_VERSION = 1.21.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer.ASEQuickLookPlugin";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -962,7 +970,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Palette Viewer/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.graphics-design";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -970,7 +978,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.20.0;
+				MARKETING_VERSION = 1.21.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -996,7 +1004,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Palette Viewer/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.graphics-design";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1004,7 +1012,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.20.0;
+				MARKETING_VERSION = 1.21.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1026,14 +1034,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASEPaletteThumbnailGenerator/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ASEPaletteThumbnailGenerator;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.21.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer.ASEPaletteThumbnailGenerator";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1056,14 +1064,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASEPaletteThumbnailGenerator/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ASEPaletteThumbnailGenerator;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.21.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer.ASEPaletteThumbnailGenerator";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1087,14 +1095,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASEGradientQuicklookPlugin/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ASEGradientQuicklookPlugin;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.20.0;
+				MARKETING_VERSION = 1.21.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer.ASEGradientQuicklookPlugin";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1118,14 +1126,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASEGradientQuicklookPlugin/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ASEGradientQuicklookPlugin;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.20.0;
+				MARKETING_VERSION = 1.21.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer.ASEGradientQuicklookPlugin";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

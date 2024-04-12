@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="22138.1" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="22152" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22138.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22152"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -693,11 +694,18 @@
                         <value key="minSize" type="size" width="480" height="270"/>
                         <toolbar key="toolbar" implicitIdentifier="9A2D9220-C8A4-495C-A538-28C32BF64DD3" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="DkY-49-TBc">
                             <allowedToolbarItems>
-                                <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="dSj-21-h3d"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="jmO-HO-zDv"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="dSj-21-h3d"/>
+                                <toolbarItem implicitItemIdentifier="8353BAEE-0AC4-4F26-8412-5685F580DEE8" label="Export" paletteLabel="Export" tag="-1" bordered="YES" sizingBehavior="auto" id="YdS-uc-sVu">
+                                    <imageReference key="image" image="square.and.arrow.up" catalog="system" symbolScale="large"/>
+                                    <connections>
+                                        <action selector="exportPalette:" target="6f7-a7-6o1" id="dcL-ND-y15"/>
+                                    </connections>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="jmO-HO-zDv"/>
+                                <toolbarItem reference="YdS-uc-sVu"/>
                             </defaultToolbarItems>
                         </toolbar>
                         <connections>
@@ -716,7 +724,7 @@
         <scene sceneID="hIz-AP-VOD">
             <objects>
                 <viewController id="5gI-5U-AMq" customClass="ViewController" customModule="Palette_Viewer" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="ERx-hH-rdd">
+                    <view key="view" id="ERx-hH-rdd">
                         <rect key="frame" x="0.0" y="0.0" width="519" height="393"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </view>
@@ -726,4 +734,7 @@
             <point key="canvasLocation" x="75.5" y="822.5"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="square.and.arrow.up" catalog="system" width="19" height="22"/>
+    </resources>
 </document>
