@@ -729,7 +729,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASEGradientThumbnailGenerator/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ASEGradientThumbnailGenerator;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Darren Ford. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -759,7 +759,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASEGradientThumbnailGenerator/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ASEGradientThumbnailGenerator;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Darren Ford. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -906,7 +906,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASEQuickLookPlugin/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ASEQuickLookPlugin;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -936,7 +936,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASEQuickLookPlugin/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ASEQuickLookPlugin;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -970,7 +970,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Palette Viewer/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.graphics-design";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1004,7 +1004,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Palette Viewer/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.graphics-design";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1034,7 +1034,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASEPaletteThumbnailGenerator/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ASEPaletteThumbnailGenerator;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1064,7 +1064,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASEPaletteThumbnailGenerator/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ASEPaletteThumbnailGenerator;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1095,7 +1095,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASEGradientQuicklookPlugin/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ASEGradientQuicklookPlugin;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1126,7 +1126,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASEGradientQuicklookPlugin/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ASEGradientQuicklookPlugin;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Darren Ford. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Darren Ford. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
