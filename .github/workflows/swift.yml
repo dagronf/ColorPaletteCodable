@@ -20,6 +20,14 @@ jobs:
       - uses: actions/checkout@v3
       - name: Run tests on iOS
         run: xcodebuild -scheme ColorPaletteCodable test -destination "platform=iOS Simulator,name=iPhone SE (3rd generation),OS=latest"
+
+  macCatalyst_tests:
+    name: Unit tests on macCatalyst
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run tests on macCatalyst
+        run: xcodebuild -scheme ColorPaletteCodable test -destination "platform=macOS,variant=Mac Catalyst,OS=latest"
         
   ubuntu_tests:
     name: Unit tests on Ubuntu
