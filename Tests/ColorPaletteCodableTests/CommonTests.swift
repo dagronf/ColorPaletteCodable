@@ -87,13 +87,6 @@ final class CommonTests: XCTestCase {
 		XCTAssertEqual(p4.colors.count, 7)
 	}
 
-	func testUnknownFormat() throws {
-		let txtFile = try XCTUnwrap(Bundle.module.url(forResource: "basic1", withExtension: "txt"))
-
-		// Attempt to load from a file type we can't autodetect
-		XCTAssertThrowsError(try PAL.Palette.Decode(from: txtFile))
-	}
-
 	func testColors() throws {
 		let c1 = PAL.Color.rgb(1, 0, 0, 0.5)
 		let c2 = PAL.Color.cmyk(1, 1, 0, 0, 0.5)

@@ -41,7 +41,7 @@ import Foundation
 /// ```
 public extension PAL.Coder {
 	struct RGBA: PAL_PaletteCoder {
-		public let fileExtension = ["rgba"]
+		public let fileExtension = ["rgba", "txt"]
 		public init() {}
 
 		// Regex for file of the format
@@ -91,6 +91,9 @@ public extension PAL.Coder.RGBA {
 				let color = try PAL.Color(name: String(name), rgbHexString: String(hex))
 				palette.colors.append(color)
 			}
+		}
+		if palette.allColors().count == 0 {
+			throw PAL.CommonError.invalidFormat
 		}
 		return palette
 	}

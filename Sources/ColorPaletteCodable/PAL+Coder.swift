@@ -44,6 +44,7 @@ private let AvailableCoders: [PAL_PaletteCoder] = {
 		PAL.Coder.HEX(),
 		PAL.Coder.PaintNET(),
 		PAL.Coder.SVG(),
+		PAL.Coder.CorelPainter(),
 	]
 
 #if !os(Linux)

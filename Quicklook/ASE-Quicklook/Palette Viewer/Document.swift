@@ -85,19 +85,7 @@ class Document: NSDocument {
 	}
 
 	override func read(from url: URL, ofType typeName: String) throws {
-		if url.pathExtension == "txt" {
-			do {
-				// Try Paint.NET first...
-				self.currentPalette = try PAL.Palette.Decode(from: url, usingCoder: PAL.Coder.PaintNET())
-			}
-			catch {
-				// Force the RGBA decoder (which will fallback to RGB if it cannot find alpha)
-				self.currentPalette = try PAL.Palette.Decode(from: url, usingCoder: PAL.Coder.RGBA())
-			}
-		}
-		else {
-			self.currentPalette = try PAL.Palette.Decode(from: url)
-		}
+		self.currentPalette = try PAL.Palette.Decode(from: url)
 	}
 }
 

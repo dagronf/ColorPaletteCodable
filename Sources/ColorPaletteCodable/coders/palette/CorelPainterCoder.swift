@@ -1,5 +1,5 @@
 //
-//  RGBPaletteCoder.swift
+//  CorelPainterCoder.swift
 //
 //  Copyright © 2024 Darren Ford. All rights reserved.
 //
@@ -27,62 +27,95 @@
 import DSFRegex
 import Foundation
 
-/// A simple RGB plain text file importer. Any 'A' component is ignored
-///
-/// Format of the form
-/// ```
-/// #fcfc80
-/// #fcf87c
-/// #fcf478
-/// ```
+// https://www.selapa.net/swatches/colors/fileformats.php
+
+/*
+
+ROWS 12
+COLS 22
+WIDTH 16
+HEIGHT 16
+TEXTHEIGHT 0
+SPACING 1
+R: 003, G:003, B:003
+R: 015, G:015, B:015
+R: 045, G:045, B:045
+R: 059, G:059, B:059
+
+ */
+
+
 public extension PAL.Coder {
-	struct RGB: PAL_PaletteCoder {
-		public let fileExtension = ["rgb", "txt"]
+	struct CorelPainter: PAL_PaletteCoder {
+		public let fileExtension = ["txt"]
 		public init() {}
 
-		// Regex for file of the format
-		//   #aabbccdd   The first color
-		//   #112423     The second color
-		//   acbf
-		static let regex = try! DSFRegex(#"^#?\s*([a-f0-9]{3,8})\s*(.*)\s*"#, options: .caseInsensitive)
+		//static let regex = try! DSFRegex(#"R:[ \t]*([0-9]{3}),[ \t]*G:[ \t]*([0-9]{3}),[ \t]*B:[ \t]*([0-9]{3})"#)
+
+		static let regex = try! DSFRegex(#"[ \t]*R[ \t]*:[ \t]*([0-9]*\.?[0-9]+)[ \t,]*G[ \t]*:[ \t]*([0-9]*\.?[0-9]+)[ \t,]*B[ \t]*:[ \t]*([0-9]*\.?[0-9]+)[ \t,]*(?:HV[ \t]*:[ \t]*([0-9]*\.?[0-9]+)[ \t,]*)?(?:SV[ \t]*:[ \t]*([0-9]*\.?[0-9]+)[ \t,]*)?(?:VV[ \t]*:[ \t]*([0-9]*\.?[0-9]+)[ \t,]*)?(.*)"#)
 	}
 }
 
-public extension PAL.Coder.RGB {
+public extension PAL.Coder.CorelPainter {
 	/// Create a palette from the contents of the input stream
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
 		// Load text from the input stream
 		guard let decoded = String.decode(from: inputStream) else {
-			throw PAL.CommonError.unableToLoadFile
+			throw PAL.CommonError.invalidFormat
 		}
 		let text = decoded.text
 
-		let lines = text.split(separator: "\n")
-		var palette = PAL.Palette()
-
-		try lines.forEach { line in
-			let l = line.trimmingCharacters(in: CharacterSet.whitespaces)
-			
-			if l.isEmpty {
-				// Skip over empty lines
-				return
-			}
-			
-			let searchResult = Self.regex.matches(for: l)
-			// Loop over each of the matches found, and print them out
-			try searchResult.forEach { match in
-				let hex = l[match.captures[0]]
-				let name = l[match.captures[1]]
-				
-				let color = try PAL.Color(name: String(name), rgbHexString: String(hex)).withAlpha(1.0)
-				palette.colors.append(color)
-			}
-		}
-		if palette.allColors().count == 0 {
+		guard text.prefix(5) == "ROWS " else {
+			// Adobe text swatch?
 			throw PAL.CommonError.invalidFormat
 		}
+
+		let lines = text.lines
+		guard lines.count > 7 else {
+			throw PAL.CommonError.invalidFormat
+		}
+		
+		guard 
+			lines[0].prefix(4)  == "ROWS",
+			lines[1].prefix(4)  == "COLS",
+			lines[2].prefix(5)  == "WIDTH",
+			lines[3].prefix(6)  == "HEIGHT",
+			lines[4].prefix(10) == "TEXTHEIGHT",
+			lines[5].prefix(7)  == "SPACING"
+		else {
+			throw PAL.CommonError.invalidFormat
+		}
+
+		let content = lines.dropFirst(6)
+
+		var palette = PAL.Palette()
+
+		content.forEach { line in
+			let l = line.trimmingCharacters(in: CharacterSet.whitespaces)
+			let searchResult = Self.regex.matches(for: l)
+
+			try? searchResult.forEach { match in
+				let red = l[match.captures[0]]
+				let green = l[match.captures[1]]
+				let blue = l[match.captures[2]]
+				let /*HV*/_ = l[match.captures[3]]
+				let /*SV*/_ = l[match.captures[4]]
+				let /*VV*/_ = l[match.captures[5]]
+				let name = l[match.captures[6]]
+
+				if
+					let r = UInt8(red),
+					let g = UInt8(green),
+					let b = UInt8(blue)
+				{
+					let color = try PAL.Color(name: String(name).trimmingCharacters(in: .whitespaces), r: r, g: g, b: b, a: 255, colorType: .normal)
+					palette.colors.append(color)
+				}
+			}
+		}
+
 		return palette
 	}
 
@@ -90,24 +123,6 @@ public extension PAL.Coder.RGB {
 	/// - Parameter palette: The palette to encode
 	/// - Returns: The encoded representation  of the palette
 	func encode(_ palette: PAL.Palette) throws -> Data {
-		// Flatten _all_ the colors in the palette (including global and group colors) to an RGB list
-		let flattenedColors = try palette.allColors().map { try $0.converted(to: .RGB) }
-
-		var result = ""
-		for color in flattenedColors {
-			if !result.isEmpty { result += "\n" }
-
-			guard let h = color.hexRGB else {
-				throw PAL.CommonError.unsupportedColorSpace
-			}
-			result += h
-			if color.name.count > 0 {
-				result += " \(color.name)"
-			}
-		}
-		guard let d = result.data(using: .utf8) else {
-			throw PAL.CommonError.unsupportedColorSpace
-		}
-		return d
+		throw PAL.CommonError.notImplemented
 	}
 }
