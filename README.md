@@ -33,6 +33,7 @@ Supports the following :-
 * Microsoft RIFF palette files (`.pal`) ***(read only)***
 * SketchPalette files (`.sketchpalette`)
 * CorelDraw/Adobe Illustrator xml palette (`.xml`)
+* Corel swatches (`.txt`)
 * JSON encoded color files (`.jsoncolorpalette`) ***ColorPaletteCodable internal file format***
 * Hex Color Palette (text file with delimited hexadecimal color strings) (`.hex`)
 * Paint.NET palette files (`.txt`)
@@ -84,6 +85,7 @@ Some features :-
 |`PAL.Coder.ACT`            | Adobe Color Table (.act)                    |
 |`PAL.Coder.ASE`            | Adobe Swatch Exchange (.ase)                |
 |`PAL.Coder.CLR`            | NSColorList (.clr) *(macOS only)*           |
+|`PAL.Coder.CorelPainter`   | CorelPainter Swatch (.txt)                  |
 |`PAL.Coder.GIMP`           | GIMP palette files (.gpl)                   |
 |`PAL.Coder.HEX`            | Hex Color Palette (`.hex`)                  |
 |`PAL.Coder.JSON`           | JSON encoded palette (.jsoncolorpalette)    |
@@ -162,6 +164,7 @@ let rawData = try encoder.encode(palette)
 | `PAL.Coder.ACT`           | Binary                 |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.ASE`           | Binary                 |    ✅    |    ✅    |         ✅       |         ❌        |        ✅       |          ✅          |        ✅           |
 | `PAL.Coder.CLR`           | Binary<br>(macOS only) |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |        ✅           |
+| `PAL.Coder.CorelPainter`  | Text                   |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.GIMP`          | Text                   |    ✅    |    ✅    |         ✅       |         ✅        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.HEX`           | Text                   |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.JSON`          | JSON Text              |    ✅    |    ✅    |         ✅       |         ✅        |        ✅       |          ✅          |        ✅           |

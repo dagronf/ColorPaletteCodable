@@ -123,6 +123,35 @@ public extension PAL.Coder.CorelPainter {
 	/// - Parameter palette: The palette to encode
 	/// - Returns: The encoded representation  of the palette
 	func encode(_ palette: PAL.Palette) throws -> Data {
-		throw PAL.CommonError.notImplemented
+
+		var result: String =
+"""
+ROWS 12
+COLS 22
+WIDTH 16
+HEIGHT 16
+TEXTHEIGHT 0
+SPACING 1
+
+"""
+
+		let colors = palette.allColors()
+
+		try colors.forEach { c in
+			let c1 = try c.rgbValues()
+			let r: UInt8 = UInt8(c1.r * 255.0)
+			let g: UInt8 = UInt8(c1.g * 255.0)
+			let b: UInt8 = UInt8(c1.b * 255.0)
+			result += "R: \(r), G:\(g), B:\(b)  HV:0.00, SV:0.00, VV:0.00"
+			if !c.name.isEmpty {
+				result += "  \(c.name)"
+			}
+			result += "\n"
+		}
+
+		guard let d = result.data(using: .utf8) else {
+			throw PAL.CommonError.invalidUnicodeFormatString
+		}
+		return d
 	}
 }
