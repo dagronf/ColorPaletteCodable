@@ -45,6 +45,15 @@
           "revision": "de7da3440c3b87ba94adfa98c698828d7746a76d",
           "version": "1.0.5"
         }
+      },
+      {
+        "package": "TinyCSV",
+        "repositoryURL": "https://github.com/dagronf/TinyCSV",
+        "state": {
+          "branch": null,
+          "revision": "a354f61664eef13236f20c4eb5400b50a8844d5a",
+          "version": "1.0.0"
+        }
       }
     ]
   },

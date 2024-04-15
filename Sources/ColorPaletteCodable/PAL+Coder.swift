@@ -34,6 +34,7 @@ private let AvailableCoders: [PAL_PaletteCoder] = {
 		PAL.Coder.CLR(),
 		PAL.Coder.RGB(),
 		PAL.Coder.RGBA(),
+		PAL.Coder.CSV(),
 		PAL.Coder.JSON(),
 		PAL.Coder.GIMP(),
 		PAL.Coder.PaintShopPro(),

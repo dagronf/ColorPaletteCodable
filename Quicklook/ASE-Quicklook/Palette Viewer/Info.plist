@@ -146,6 +146,20 @@
 		</dict>
 		<dict>
 			<key>CFBundleTypeName</key>
+			<string>Comma Separated Values</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.comma-separated-values-text</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>$(PRODUCT_MODULE_NAME).Document</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
 			<string>GIMP Palette File</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
@@ -696,6 +710,25 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>txt</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.text</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Comma Separated Values</string>
+			<key>UTTypeIcons</key>
+			<dict/>
+			<key>UTTypeIdentifier</key>
+			<string>public.comma-separated-values-text</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>csv</string>
 				</array>
 			</dict>
 		</dict>

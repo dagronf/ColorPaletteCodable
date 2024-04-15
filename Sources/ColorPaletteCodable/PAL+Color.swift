@@ -440,3 +440,39 @@ public extension PAL.Color {
 		throw PAL.CommonError.mismatchedColorspace
 	}
 }
+
+// MARK: Color manipulations
+
+public extension PAL.Color {
+	/// Returns a midpoint color between this color and another color
+	/// - Parameters:
+	///   - color2: The color to compare against
+	///   - t: The fractional distance between the two colors (0 ... 1)
+	///   - named: The name for the generated color, or nil for no name
+	/// - Returns: The midpoint color
+	func midpoint(_ color2: PAL.Color, t: UnitValue<Double>, named name: String? = nil) throws -> PAL.Color {
+		if self.colorSpace == color2.colorSpace {
+			assert(self.colorComponents.count == color2.colorComponents.count)
+			let cs = zip(self.colorComponents, color2.colorComponents).map { i in
+				lerp(i.0, i.1, t: Float32(t.value))
+			}
+			return try PAL.Color(
+				name: name ?? "",
+				colorSpace: self.colorSpace,
+				colorComponents: cs,
+				alpha: lerp(self.alpha, color2.alpha, t: Float32(t.value))
+			)
+		}
+
+		let c1 = try self.rgbaComponents()
+		let c2 = try color2.rgbaComponents()
+		let t = t.value
+		return try PAL.Color(
+			name: name ?? "",
+			rf: Float32(lerp(c1.0, c2.0, t: t)),
+			gf: Float32(lerp(c1.1, c2.1, t: t)),
+			bf: Float32(lerp(c1.2, c2.2, t: t)),
+			af: Float32(lerp(c1.3, c2.3, t: t))
+		)
+	}
+}

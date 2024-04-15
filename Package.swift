@@ -17,14 +17,16 @@ let package = Package(
 	],
 	dependencies: [
 		.package(url: "https://github.com/dagronf/DSFRegex", from: "3.4.0"),
-		.package(url: "https://github.com/dagronf/SwiftImageReadWrite", from: "1.7.1")
+		.package(url: "https://github.com/dagronf/SwiftImageReadWrite", from: "1.7.1"),
+		.package(url: "https://github.com/dagronf/TinyCSV", from: "1.0.0"),
 	],
 	targets: [
 		.target(
 			name: "ColorPaletteCodable",
-			dependencies: [
-				.product(name: "DSFRegex", package: "DSFRegex"),
-				.product(name: "SwiftImageReadWrite", package: "SwiftImageReadWrite")
+			dependencies: [ 
+				"DSFRegex",
+				"SwiftImageReadWrite", 
+				"TinyCSV"
 			],
 			resources: [
 				.copy("PrivacyInfo.xcprivacy"),

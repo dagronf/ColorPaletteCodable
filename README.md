@@ -39,6 +39,7 @@ Supports the following :-
 * Paint.NET palette files (`.txt`)
 * PNG palette files (`.png`)
 * SVG swatches (`.svg`) ***(write only)***
+* Basic CSV
 
 ## Supported gradient formats
 
@@ -86,6 +87,7 @@ Some features :-
 |`PAL.Coder.ASE`            | Adobe Swatch Exchange (.ase)                |
 |`PAL.Coder.CLR`            | NSColorList (.clr) *(macOS only)*           |
 |`PAL.Coder.CorelPainter`   | CorelPainter Swatch (.txt)                  |
+|`PAL.Coder.CSV`            | CSV (.csv)                                  |
 |`PAL.Coder.GIMP`           | GIMP palette files (.gpl)                   |
 |`PAL.Coder.HEX`            | Hex Color Palette (`.hex`)                  |
 |`PAL.Coder.JSON`           | JSON encoded palette (.jsoncolorpalette)    |
@@ -165,6 +167,7 @@ let rawData = try encoder.encode(palette)
 | `PAL.Coder.ASE`           | Binary                 |    ✅    |    ✅    |         ✅       |         ❌        |        ✅       |          ✅          |        ✅           |
 | `PAL.Coder.CLR`           | Binary<br>(macOS only) |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |        ✅           |
 | `PAL.Coder.CorelPainter`  | Text                   |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.CSV`           | Text                   |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.GIMP`          | Text                   |    ✅    |    ✅    |         ✅       |         ✅        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.HEX`           | Text                   |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.JSON`          | JSON Text              |    ✅    |    ✅    |         ✅       |         ✅        |        ✅       |          ✅          |        ✅           |
@@ -277,7 +280,6 @@ This package also includes a Quicklook Plugin for palette and gradient files.
 In the `Quicklook` subfolder you'll find an `xcodeproj` which you can use to build the application `Palette Viewer` which contains the QuickLook plugin.
 
 For the plugin to register, you need to run the application. After the first run the QuickLook plugin will be registered.
-
 
 ## Linux support
 

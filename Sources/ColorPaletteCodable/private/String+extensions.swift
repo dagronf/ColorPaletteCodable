@@ -34,4 +34,7 @@ extension String {
 		}
 		return linesArray
 	}
+
+	/// Trim the whitespace from a string
+	@inlinable func trim() -> String { self.trimmingCharacters(in: .whitespaces) }
 }
