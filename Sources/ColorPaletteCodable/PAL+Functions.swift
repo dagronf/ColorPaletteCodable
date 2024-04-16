@@ -40,21 +40,6 @@ extension PAL {
 	}
 }
 
-extension BinaryFloatingPoint {
-	func wrappingUnitValue() -> Self {
-		let remainder = self.truncatingRemainder(dividingBy: 1)
-		if self > 1 {
-			return remainder
-		}
-		else if self < 0 {
-			return remainder + 1
-		}
-		else {
-			return self
-		}
-	}
-}
-
 extension PAL.Color {
 
 	/// Returns the complementary color
@@ -63,7 +48,7 @@ extension PAL.Color {
 		let hsba = try hsb()
 
 		// Rotate the hue to the other side of the color wheel
-		let h = (hsba.h - 0.5).wrappingUnitValue()
+		let h = (hsba.h - 0.5).wrappingToUnitValue()
 
 		// Create a new color using the new hue
 		return try PAL.Color(h: h, s: hsba.s, b: hsba.b, a: hsba.a)
@@ -114,10 +99,10 @@ extension PAL.Color {
 		let hsba = try hsb()
 		let totalSweep = Double(count - 1) * stepSize
 		let offset = totalSweep / 2.0
-		let hStart = (Double(hsba.h) - offset).wrappingUnitValue()
+		let hStart = (Double(hsba.h) - offset).wrappingToUnitValue()
 		var colors = [PAL.Color]()
 		try (0 ..< count).forEach { index in
-			let pos = (hStart + (Double(index) * stepSize)).wrappingUnitValue()
+			let pos = (hStart + (Double(index) * stepSize)).wrappingToUnitValue()
 			colors.append(try PAL.Color(
 				h: Float32(pos),
 				s: hsba.s,

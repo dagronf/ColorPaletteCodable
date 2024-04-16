@@ -236,10 +236,42 @@ final class CommonTests: XCTestCase {
 	}
 
 	func testUnitWrapped() throws {
-		XCTAssertEqual(0, (0).wrappingUnitValue())
-		XCTAssertEqual(0.4, (1.4).wrappingUnitValue(), accuracy: 0.0001)
-		XCTAssertEqual(0.8, (6.8).wrappingUnitValue(), accuracy: 0.0001)
-		XCTAssertEqual(0.6, (-0.4).wrappingUnitValue(), accuracy: 0.0001)
-		XCTAssertEqual(0.6, (-10.4).wrappingUnitValue(), accuracy: 0.0001)
+		XCTAssertEqual(0, (0).wrappingToUnitValue())
+		XCTAssertEqual(0.4, (1.4).wrappingToUnitValue(), accuracy: 0.0001)
+		XCTAssertEqual(0.8, (6.8).wrappingToUnitValue(), accuracy: 0.0001)
+		XCTAssertEqual(0.6, (-0.4).wrappingToUnitValue(), accuracy: 0.0001)
+		XCTAssertEqual(0.6, (-10.4).wrappingToUnitValue(), accuracy: 0.0001)
+	}
+
+	func testUnitWrapped2() throws {
+		do {
+			struct S: Codable, Equatable {
+				let s: String
+				let v: UnitValue<Double>
+			}
+
+			let s1 = S(s: "testing1", v: (0.85).unitValue)
+			let d1 = try JSONEncoder().encode(s1)
+			let _ = try XCTUnwrap(String(data: d1, encoding: .utf8))
+			let s11 = try JSONDecoder().decode(S.self, from: d1)
+			XCTAssertEqual("testing1", s11.s)
+			XCTAssertEqual(0.85, s11.v.value)
+			XCTAssertEqual(s1, s11)
+		}
+
+		do {
+			struct S: Codable, Equatable {
+				let s: String
+				@UnitClamped var v: Double
+			}
+
+			let s1 = S(s: "testing1", v: 0.85)
+			let d1 = try JSONEncoder().encode(s1)
+			let _ = try XCTUnwrap(String(data: d1, encoding: .utf8))
+			let s11 = try JSONDecoder().decode(S.self, from: d1)
+			XCTAssertEqual("testing1", s11.s)
+			XCTAssertEqual(0.85, s11.v, accuracy: 0.0001)
+			XCTAssertEqual(s1, s11)
+		}
 	}
 }
