@@ -62,14 +62,14 @@
 		23C29F432A8F020700CAC733 /* QuickLookThumbnailing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 232540B62909F3F900FC94C6 /* QuickLookThumbnailing.framework */; };
 		23C29F442A8F020700CAC733 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A03DF728332AA2003846A4 /* Quartz.framework */; };
 		23C29F472A8F020700CAC733 /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C29F462A8F020700CAC733 /* ThumbnailProvider.swift */; };
-		23C29F4C2A8F020700CAC733 /* PaletteViewerPaletteThumbnailGenerator.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 23C29F422A8F020700CAC733 /* PaletteViewerPaletteThumbnailGenerator.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		23C29F4C2A8F020700CAC733 /* ASEPaletteThumbnailGenerator.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 23C29F422A8F020700CAC733 /* ASEPaletteThumbnailGenerator.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		23C29F512A8F02EB00CAC733 /* ColorPaletteCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 23C29F502A8F02EB00CAC733 /* ColorPaletteCodable */; };
 		23E710A12A5B79C800B4D8F1 /* GradientComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E710A02A5B79C800B4D8F1 /* GradientComponentView.swift */; };
 		23EDD2772907A81D00B63B08 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A03DF728332AA2003846A4 /* Quartz.framework */; };
 		23EDD27A2907A81D00B63B08 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDD2792907A81D00B63B08 /* PreviewViewController.swift */; };
 		23EDD27C2907A81D00B63B08 /* PreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDD27B2907A81D00B63B08 /* PreviewProvider.swift */; };
 		23EDD27F2907A81D00B63B08 /* PreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23EDD27D2907A81D00B63B08 /* PreviewViewController.xib */; };
-		23EDD2842907A81D00B63B08 /* PaletteViewerGradientQuicklookPlugin.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 23EDD2762907A81D00B63B08 /* PaletteViewerGradientQuicklookPlugin.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		23EDD2842907A81D00B63B08 /* ASEGradientQuicklookPlugin.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 23EDD2762907A81D00B63B08 /* ASEGradientQuicklookPlugin.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		23EDD2892907AB3E00B63B08 /* ColorPaletteCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 23EDD2882907AB3E00B63B08 /* ColorPaletteCodable */; };
 		23F1FBA52907B8C200277016 /* CheckerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F1FBA42907B8C200277016 /* CheckerView.swift */; };
 		23F2ED212A8ECB770022262E /* ExportTypeAccessoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F2ED202A8ECB770022262E /* ExportTypeAccessoryViewController.swift */; };

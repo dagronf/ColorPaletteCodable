@@ -40,6 +40,7 @@ Supports the following :-
 * PNG palette files (`.png`)
 * SVG swatches (`.svg`) ***(write only)***
 * Basic CSV
+* Basic XML
 
 ## Supported gradient formats
 
@@ -85,6 +86,7 @@ Some features :-
 |`PAL.Coder.ACO`            | Adobe Photoshop Color Swatch (.aco)         |
 |`PAL.Coder.ACT`            | Adobe Color Table (.act)                    |
 |`PAL.Coder.ASE`            | Adobe Swatch Exchange (.ase)                |
+|`PAL.Coder.BasicXML`       | Basic XML structure (.xml)                  |
 |`PAL.Coder.CLR`            | NSColorList (.clr) *(macOS only)*           |
 |`PAL.Coder.CorelPainter`   | CorelPainter Swatch (.txt)                  |
 |`PAL.Coder.CSV`            | CSV (.csv)                                  |
@@ -100,7 +102,6 @@ Some features :-
 |`PAL.Coder.SketchPalette`  | Sketch Palette (.sketchpalette)             |
 |`PAL.Coder.SVG`            | SVG image file (.svg)                       |
 |`PAL.Coder.XMLPalette`     | CorelDraw/Adobe Illustrator Palette (.xml)  |
-|`PAL.Coder.BasicXML`       | Basic XML structure (.xml)                  |
 
 Each coder defines `.encode` and `.decode`. Not all coders support both encode and decode.
 
@@ -166,6 +167,7 @@ let rawData = try encoder.encode(palette)
 | `PAL.Coder.ACO`           | Binary                 |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |        ✅           |
 | `PAL.Coder.ACT`           | Binary                 |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.ASE`           | Binary                 |    ✅    |    ✅    |         ✅       |         ❌        |        ✅       |          ✅          |        ✅           |
+| `PAL.Coder.BasicXML`      | XML                    |    ✅    |    ✅    |         ✅       |         ✅        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.CLR`           | Binary<br>(macOS only) |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |        ✅           |
 | `PAL.Coder.CorelPainter`  | Text                   |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.CSV`           | Text                   |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |     RGB only        |
@@ -180,7 +182,6 @@ let rawData = try encoder.encode(palette)
 | `PAL.Coder.SketchPalette` | XML                    |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.SVG`           | SVG text               |    ❌    |    ✅    |         ❌       |         ✅        |        ✅       |          ❌          |     RGB only        |
 | `PAL.Coder.XMLPalette`    | XML                    |    ✅    |    ✅    |         ✅       |         ✅        |        ✅       |          ❌          |        ✅           |
-| `PAL.Coder.BasicXML`      | XML                    |    ✅    |    ✅    |         ✅       |         ✅        |        ❌       |          ❌          |     RGB only        |
 
 *(A ColorType represents the type of color (global/spot/normal))*
 
