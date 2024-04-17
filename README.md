@@ -100,6 +100,7 @@ Some features :-
 |`PAL.Coder.SketchPalette`  | Sketch Palette (.sketchpalette)             |
 |`PAL.Coder.SVG`            | SVG image file (.svg)                       |
 |`PAL.Coder.XMLPalette`     | CorelDraw/Adobe Illustrator Palette (.xml)  |
+|`PAL.Coder.BasicXML`       | Basic XML structure (.xml)                  |
 
 Each coder defines `.encode` and `.decode`. Not all coders support both encode and decode.
 
@@ -179,7 +180,7 @@ let rawData = try encoder.encode(palette)
 | `PAL.Coder.SketchPalette` | XML                    |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.SVG`           | SVG text               |    ❌    |    ✅    |         ❌       |         ✅        |        ✅       |          ❌          |     RGB only        |
 | `PAL.Coder.XMLPalette`    | XML                    |    ✅    |    ✅    |         ✅       |         ✅        |        ✅       |          ❌          |        ✅           |
-
+| `PAL.Coder.BasicXML`      | XML                    |    ✅    |    ✅    |         ✅       |         ✅        |        ❌       |          ❌          |     RGB only        |
 
 *(A ColorType represents the type of color (global/spot/normal))*
 

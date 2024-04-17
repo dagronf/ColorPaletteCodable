@@ -36,4 +36,23 @@ class XMLPaletteTests: XCTestCase {
 		XCTAssertEqual(palette.groups.count, 1)
 		XCTAssertEqual(palette.groups[0].colors.count, 101)
 	}
+
+	func testBasicXML1() throws {
+		let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: "basic-xml-1", withExtension: "xml"))
+		let data = try Data(contentsOf: paletteURL)
+		let c = PAL.Coder.BasicXML()
+
+		let palette: PAL.Palette = try {
+			try usingStreamData(data) { s in
+				return try c.decode(from: s)
+			}
+		}()
+		XCTAssertEqual(palette.colors.count, 5)
+		XCTAssertEqual(palette.name, "basicxml")
+
+		let ep = try c.encode(palette)
+		let dec = try c.decode(from: ep)
+		XCTAssertEqual(dec.colors.count, 5)
+		XCTAssertEqual(dec.name, "basicxml")
+	}
 }

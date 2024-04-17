@@ -81,6 +81,11 @@ public extension PAL.Coder.HEX {
 				}
 			}
 		}
+
+		if palette.colors.count == 0 {
+			throw PAL.CommonError.invalidFormat
+		}
+
 		return palette
 	}
 }

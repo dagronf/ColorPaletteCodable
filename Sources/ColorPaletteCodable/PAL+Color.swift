@@ -146,7 +146,7 @@ public extension PAL.Color {
 		)
 	}
 
-	/// Create a color objec from 0 -> 255 component values
+	/// Create a color object from 0 -> 255 component values
 	/// - Parameters:
 	///   - name: The color name
 	///   - r: Red component
@@ -166,6 +166,15 @@ public extension PAL.Color {
 			colorType: colorType,
 			alpha: Float32(af.clamped(to: 0.0 ... 1.0)) / 1.0
 		)
+	}
+
+	/// Create a color using an RGB color object
+	/// - Parameters:
+	///   - name: The color name
+	///   - color: The color components
+	///   - colorType: The type of color
+	init(name: String = "", color: PAL.Color.RGB, colorType: PAL.ColorType = .global) throws {
+		try self.init(name: name, rf: color.r, gf: color.g, bf: color.b, af: color.a, colorType: colorType)
 	}
 }
 

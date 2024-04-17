@@ -55,9 +55,9 @@ extension InputStream {
 /// - Parameters:
 ///   - data: The data
 ///   - block: The block to call with the opened InputStream
-func usingStreamData(_ data: Data, _ block: (InputStream) throws -> Void) rethrows {
+func usingStreamData<T>(_ data: Data, _ block: (InputStream) throws -> T) rethrows -> T {
 	let s = InputStream(data: data)
 	s.open()
-	try block(s)
-	s.close()
+	defer { s.close() }
+	return try block(s)
 }

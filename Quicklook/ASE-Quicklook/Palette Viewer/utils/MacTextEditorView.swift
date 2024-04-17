@@ -29,6 +29,7 @@ struct MacTextEditorView: NSViewRepresentable {
 		let textView = (theTextView.documentView as! NSTextView)
 		textView.delegate = context.coordinator
 		textView.string = text
+		textView.isAutomaticQuoteSubstitutionEnabled = false
 
 		let v = NSMutableParagraphStyle()
 		v.paragraphSpacing = 5
