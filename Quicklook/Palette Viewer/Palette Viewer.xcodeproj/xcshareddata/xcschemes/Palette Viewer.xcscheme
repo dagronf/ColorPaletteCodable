@@ -17,7 +17,7 @@
                BlueprintIdentifier = "23B20C0E2835D551005BD670"
                BuildableName = "Palette Viewer.app"
                BlueprintName = "Palette Viewer"
-               ReferencedContainer = "container:ASE-Quicklook.xcodeproj">
+               ReferencedContainer = "container:Palette Viewer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -57,7 +57,7 @@
             BlueprintIdentifier = "23B20C0E2835D551005BD670"
             BuildableName = "Palette Viewer.app"
             BlueprintName = "Palette Viewer"
-            ReferencedContainer = "container:ASE-Quicklook.xcodeproj">
+            ReferencedContainer = "container:Palette Viewer.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -74,7 +74,7 @@
             BlueprintIdentifier = "23B20C0E2835D551005BD670"
             BuildableName = "Palette Viewer.app"
             BlueprintName = "Palette Viewer"
-            ReferencedContainer = "container:ASE-Quicklook.xcodeproj">
+            ReferencedContainer = "container:Palette Viewer.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

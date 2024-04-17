@@ -544,7 +544,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 23A03DDA28332A83003846A4 /* Build configuration list for PBXProject "ASE-Quicklook" */;
+			buildConfigurationList = 23A03DDA28332A83003846A4 /* Build configuration list for PBXProject "Palette Viewer" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -1182,7 +1182,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		23A03DDA28332A83003846A4 /* Build configuration list for PBXProject "ASE-Quicklook" */ = {
+		23A03DDA28332A83003846A4 /* Build configuration list for PBXProject "Palette Viewer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				23A03DEC28332A85003846A4 /* Debug */,

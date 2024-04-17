@@ -83,7 +83,7 @@ struct GradientsInteractorView: View {
 				selectedGradient = gradients.gradients[0].id
 			}
 		}
-		.onChange(of: selectedGradient) { newValue in
+		.onChange(of: selectedGradient) { _, newValue in
 			updatePalette()
 			parent?.selectedGradient = selectedGradient
 		}
