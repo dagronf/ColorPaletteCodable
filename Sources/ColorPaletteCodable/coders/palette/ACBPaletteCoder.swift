@@ -33,6 +33,7 @@ public extension PAL.Coder {
 	///
 	/// [Coffeescript implementation](https://github.com/jacobbubu/acb/blob/master/decoder.coffee)
 	struct ACB: PAL_PaletteCoder {
+		public let name = "Adobe Color Book"
 		public let fileExtension = ["acb"]
 		public init() {}
 	}

@@ -41,6 +41,7 @@ import Foundation
 /// ```
 public extension PAL.Coder {
 	struct RGBA: PAL_PaletteCoder {
+		public let name = "RGBA text"
 		public let fileExtension = ["rgba", "txt"]
 		public init() {}
 

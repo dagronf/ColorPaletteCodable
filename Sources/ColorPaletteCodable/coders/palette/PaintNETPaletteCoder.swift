@@ -45,6 +45,7 @@ import Foundation
 public extension PAL.Coder {
 	/// A coder that handle delimited RGBA strings
 	struct PaintNET: PAL_PaletteCoder {
+		public let name = "Paint.NET Palette"
 		public let fileExtension = ["txt"]
 		public init() {}
 		static let validHexChars = "0123456789abcdefABCDEF"
@@ -54,6 +55,10 @@ public extension PAL.Coder {
 public extension PAL.Coder.PaintNET {
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
 		var allData = inputStream.readAllData()
+
+		guard allData.count > 3 else {
+			throw PAL.CommonError.invalidFormat
+		}
 
 		let utf8BOM = Data([0xEF,0xBB,0xBF])
 

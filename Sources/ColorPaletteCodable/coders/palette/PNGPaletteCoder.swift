@@ -38,6 +38,7 @@ import UIKit
 public extension PAL.Coder {
 	/// A coder that handles loading a palette from a PNG image (just the first row of the image)
 	struct PNG: PAL_PaletteCoder {
+		public let name = "PNG"
 		public let fileExtension = ["png"]
 		public let accuracy: Double
 		public let exportType: ExportType

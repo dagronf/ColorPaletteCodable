@@ -22,6 +22,11 @@
 		232540C02909F3F900FC94C6 /* ASEGradientThumbnailGenerator.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 232540B52909F3F900FC94C6 /* ASEGradientThumbnailGenerator.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		232540C52909F41C00FC94C6 /* ColorPaletteCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 232540C42909F41C00FC94C6 /* ColorPaletteCodable */; };
 		232FC4592A7766C7000DB24C /* GradientColorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232FC4582A7766C7000DB24C /* GradientColorListView.swift */; };
+		2339F5292BCE1472000C74F6 /* TextBasedDecoderWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2339F5272BCE1472000C74F6 /* TextBasedDecoderWindowController.swift */; };
+		2339F52A2BCE1472000C74F6 /* TextBasedDecoderWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2339F5282BCE1472000C74F6 /* TextBasedDecoderWindowController.xib */; };
+		2339F52C2BCE48EE000C74F6 /* MacTextEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2339F52B2BCE48EE000C74F6 /* MacTextEditorView.swift */; };
+		2339F52F2BCE490F000C74F6 /* LineNumberRulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2339F52E2BCE490F000C74F6 /* LineNumberRulerView.swift */; };
+		2339F5312BCF3F33000C74F6 /* InputStream+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2339F5302BCF3F33000C74F6 /* InputStream+extensions.swift */; };
 		2344F2442A5CDA4500E04CE1 /* CodePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2344F2432A5CDA4500E04CE1 /* CodePopupView.swift */; };
 		23524E5C2A79BA5F00F3FAEF /* GradientEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23524E5B2A79BA5F00F3FAEF /* GradientEditor.swift */; };
 		235C1FFC2A57F89000725FCB /* GradientInteractorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235C1FFB2A57F89000725FCB /* GradientInteractorView.swift */; };
@@ -150,6 +155,11 @@
 		232540BC2909F3F900FC94C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		232540BD2909F3F900FC94C6 /* ASEGradientThumbnailGenerator.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ASEGradientThumbnailGenerator.entitlements; sourceTree = "<group>"; };
 		232FC4582A7766C7000DB24C /* GradientColorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientColorListView.swift; sourceTree = "<group>"; };
+		2339F5272BCE1472000C74F6 /* TextBasedDecoderWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBasedDecoderWindowController.swift; sourceTree = "<group>"; };
+		2339F5282BCE1472000C74F6 /* TextBasedDecoderWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextBasedDecoderWindowController.xib; sourceTree = "<group>"; };
+		2339F52B2BCE48EE000C74F6 /* MacTextEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MacTextEditorView.swift; sourceTree = "<group>"; };
+		2339F52E2BCE490F000C74F6 /* LineNumberRulerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineNumberRulerView.swift; sourceTree = "<group>"; };
+		2339F5302BCF3F33000C74F6 /* InputStream+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InputStream+extensions.swift"; sourceTree = "<group>"; };
 		2344F2432A5CDA4500E04CE1 /* CodePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePopupView.swift; sourceTree = "<group>"; };
 		23524E5B2A79BA5F00F3FAEF /* GradientEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientEditor.swift; sourceTree = "<group>"; };
 		235C1FFB2A57F89000725FCB /* GradientInteractorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientInteractorView.swift; sourceTree = "<group>"; };
@@ -265,6 +275,16 @@
 			path = ASEGradientThumbnailGenerator;
 			sourceTree = "<group>";
 		};
+		2339F52D2BCE4900000C74F6 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				2339F52B2BCE48EE000C74F6 /* MacTextEditorView.swift */,
+				2339F52E2BCE490F000C74F6 /* LineNumberRulerView.swift */,
+				2339F5302BCF3F33000C74F6 /* InputStream+extensions.swift */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
 		23A03DD628332A83003846A4 = {
 			isa = PBXGroup;
 			children = (
@@ -318,6 +338,7 @@
 		23B20C102835D551005BD670 /* Palette Viewer */ = {
 			isa = PBXGroup;
 			children = (
+				2339F52D2BCE4900000C74F6 /* utils */,
 				237EF08B2839BCA5000D6F42 /* Palette_Viewer.entitlements */,
 				23B20C112835D551005BD670 /* AppDelegate.swift */,
 				23B20C132835D551005BD670 /* ViewController.swift */,
@@ -331,6 +352,8 @@
 				23A0FFE7290B692000E29FAE /* GradientViewController.xib */,
 				235C1FFB2A57F89000725FCB /* GradientInteractorView.swift */,
 				2344F2432A5CDA4500E04CE1 /* CodePopupView.swift */,
+				2339F5272BCE1472000C74F6 /* TextBasedDecoderWindowController.swift */,
+				2339F5282BCE1472000C74F6 /* TextBasedDecoderWindowController.xib */,
 			);
 			path = "Palette Viewer";
 			sourceTree = "<group>";
@@ -569,6 +592,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				23A0FFE9290B692000E29FAE /* GradientViewController.xib in Resources */,
+				2339F52A2BCE1472000C74F6 /* TextBasedDecoderWindowController.xib in Resources */,
 				230BE3532A526EE5009A4D88 /* PreviewViewController.xib in Resources */,
 				23B20C182835D552005BD670 /* Assets.xcassets in Resources */,
 				23A0FFE4290B61A700E29FAE /* GradientDocument.xib in Resources */,
@@ -623,6 +647,7 @@
 				23B20C142835D551005BD670 /* ViewController.swift in Sources */,
 				236719C22A5A566900147812 /* GradientTransparencyView.swift in Sources */,
 				23A0FFE3290B61A700E29FAE /* GradientDocument.swift in Sources */,
+				2339F52C2BCE48EE000C74F6 /* MacTextEditorView.swift in Sources */,
 				23F2ED212A8ECB770022262E /* ExportTypeAccessoryViewController.swift in Sources */,
 				23A0FFE8290B692000E29FAE /* GradientViewController.swift in Sources */,
 				230BE3512A526EDD009A4D88 /* CheckerView.swift in Sources */,
@@ -632,11 +657,14 @@
 				2344F2442A5CDA4500E04CE1 /* CodePopupView.swift in Sources */,
 				23F8D78D2A9410C00013EBF7 /* PALCommon.swift in Sources */,
 				232FC4592A7766C7000DB24C /* GradientColorListView.swift in Sources */,
+				2339F5312BCF3F33000C74F6 /* InputStream+extensions.swift in Sources */,
 				235C1FFC2A57F89000725FCB /* GradientInteractorView.swift in Sources */,
 				23B20C162835D551005BD670 /* Document.swift in Sources */,
 				237EF04628398ABD000D6F42 /* PaletteView.swift in Sources */,
 				2304D0A42A57AEEF006CCAA9 /* GradientsView.swift in Sources */,
 				230BE3522A526EE1009A4D88 /* PreviewViewController.swift in Sources */,
+				2339F52F2BCE490F000C74F6 /* LineNumberRulerView.swift in Sources */,
+				2339F5292BCE1472000C74F6 /* TextBasedDecoderWindowController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -977,8 +1005,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.21.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.23.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1011,8 +1039,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.21.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.23.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1040,7 +1068,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.21.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer.ASEPaletteThumbnailGenerator";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1070,7 +1098,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.21.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dagronf.asepalette.ASE-Viewer.ASEPaletteThumbnailGenerator";
 				PRODUCT_NAME = "$(TARGET_NAME)";

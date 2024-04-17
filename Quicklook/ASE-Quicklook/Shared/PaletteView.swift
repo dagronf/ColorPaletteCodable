@@ -13,9 +13,9 @@ import UniformTypeIdentifiers
 
 import ColorPaletteCodable
 
-class PaletteModel: ObservableObject {
-	@Published var palette: PAL.Palette?
-	init(_ palette: PAL.Palette?) {
+public class PaletteModel: ObservableObject {
+	@Published public var palette: PAL.Palette?
+	public init(_ palette: PAL.Palette?) {
 		self.palette = palette
 	}
 }
@@ -45,7 +45,7 @@ struct PaletteView: View {
 				}
 			}
 		}
-		.frame(minWidth: 500, minHeight: 300)
+		.frame(minWidth: 200, minHeight: 200)
 	}
 }
 

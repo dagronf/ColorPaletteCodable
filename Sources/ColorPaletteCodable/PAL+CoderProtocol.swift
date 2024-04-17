@@ -33,6 +33,9 @@ public extension PAL {
 
 /// A Palette coder protocol
 public protocol PAL_PaletteCoder {
+	/// The coder's name
+	var name: String { get }
+
 	/// The extension for the file, or a unique name for identifying the coder type.
 	var fileExtension: [String] { get }
 

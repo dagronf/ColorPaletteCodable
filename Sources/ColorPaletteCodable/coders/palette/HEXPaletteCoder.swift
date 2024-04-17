@@ -30,6 +30,7 @@ import Foundation
 public extension PAL.Coder {
 	/// A coder that handle delimited RGBA strings
 	struct HEX: PAL_PaletteCoder {
+		public let name = "Hex RGBA"
 		public let fileExtension = ["hex"]
 		public init() {}
 		static let validHexChars = "#0123456789abcdefABCDEF"

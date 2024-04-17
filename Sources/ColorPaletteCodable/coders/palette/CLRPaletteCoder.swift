@@ -33,6 +33,7 @@ import AppKit
 /// An NSColorList palette coder/decoder.
 public extension PAL.Coder {
 	struct CLR: PAL_PaletteCoder {
+		public let name = "Apple NSColorList"
 		public let fileExtension = ["clr"]
 		public init() {}
 	}

@@ -36,6 +36,7 @@ public extension PAL.Coder {
 	///
 	/// https://community.coreldraw.com/sdk/w/articles/177/creating-color-palettes
 	class XMLPalette: NSObject, PAL_PaletteCoder {
+		public let name = "CorelDraw XML Palette"
 		public let fileExtension = ["xml"]
 		public override init() {
 			super.init()

@@ -29,6 +29,7 @@ import Foundation
 public extension PAL.Coder {
 	/// .sketchpalette Sketch palette file
 	struct SketchPalette: PAL_PaletteCoder {
+		public let name = "Sketch Palette"
 		public let fileExtension = ["sketchpalette"]
 		public init() {}
 

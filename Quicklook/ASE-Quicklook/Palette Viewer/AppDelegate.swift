@@ -30,7 +30,7 @@ import Cocoa
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-
+	let textBasedDecoder = TextBasedDecoderWindowController()
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		// Insert code here to initialize your application
@@ -43,5 +43,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
 		return true
 	}
-}
 
+	@IBAction func showTextBasedDecoder(_ sender: Any) {
+		textBasedDecoder.showWindow(self)
+	}
+
+	func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
+		false
+	}
+}

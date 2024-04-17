@@ -47,6 +47,7 @@ R: 059, G:059, B:059
 
 public extension PAL.Coder {
 	struct CorelPainter: PAL_PaletteCoder {
+		public let name = "Corel Painter Swatch"
 		public let fileExtension = ["txt"]
 		public init() {}
 

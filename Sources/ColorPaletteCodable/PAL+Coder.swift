@@ -26,34 +26,51 @@
 
 import Foundation
 
-private let AvailableCoders: [PAL_PaletteCoder] = {
-	var coders: [PAL_PaletteCoder] = [
-		PAL.Coder.ACB(),
-		PAL.Coder.ACO(),
-		PAL.Coder.ASE(),
-		PAL.Coder.CLR(),
+public extension PAL.Palette {
+	/// All coders
+	static let AvailableCoders: [PAL_PaletteCoder] = {
+		var coders: [PAL_PaletteCoder] = [
+			PAL.Coder.ACB(),
+			PAL.Coder.ACO(),
+			PAL.Coder.ASE(),
+			PAL.Coder.CLR(),
+			PAL.Coder.RGB(),
+			PAL.Coder.RGBA(),
+			PAL.Coder.CSV(),
+			PAL.Coder.JSON(),
+			PAL.Coder.GIMP(),
+			PAL.Coder.PaintShopPro(),
+			PAL.Coder.ACT(),
+			PAL.Coder.RIFF(),
+			PAL.Coder.SketchPalette(),
+			PAL.Coder.XMLPalette(),
+			PAL.Coder.HEX(),
+			PAL.Coder.PaintNET(),
+			PAL.Coder.SVG(),
+			PAL.Coder.CorelPainter(),
+		]
+#if canImport(CoreGraphics)
+		coders.append(PAL.Coder.PNG())
+#endif
+
+		return coders
+	}()
+
+	/// All text-based coders
+	static let TextBasedCoders: [PAL_PaletteCoder] = [
 		PAL.Coder.RGB(),
 		PAL.Coder.RGBA(),
 		PAL.Coder.CSV(),
 		PAL.Coder.JSON(),
 		PAL.Coder.GIMP(),
 		PAL.Coder.PaintShopPro(),
-		PAL.Coder.ACT(),
-		PAL.Coder.RIFF(),
 		PAL.Coder.SketchPalette(),
 		PAL.Coder.XMLPalette(),
 		PAL.Coder.HEX(),
 		PAL.Coder.PaintNET(),
-		PAL.Coder.SVG(),
 		PAL.Coder.CorelPainter(),
 	]
-
-#if !os(Linux)
-	coders.append(PAL.Coder.PNG())
-#endif
-
-	return coders
-}()
+}
 
 public extension PAL.Palette {
 	/// Returns a coder for the specified fileExtension
@@ -77,7 +94,7 @@ public extension PAL.Palette {
 	@inlinable static func firstCoder(for fileURL: URL) -> PAL_PaletteCoder? {
 		PAL.Palette.coder(for: fileURL).first
 	}
-	
+
 	/// Decode a palette from the contents of a fileURL
 	/// - Parameters:
 	///   - fileURL: The file to load

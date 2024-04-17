@@ -54,6 +54,7 @@ import TinyCSV
 /// A very basic csv decoder/encoder
 public extension PAL.Coder {
 	struct CSV: PAL_PaletteCoder {
+		public let name = "CSV"
 		public let fileExtension = ["csv"]
 
 		/// Create a CSV Coder

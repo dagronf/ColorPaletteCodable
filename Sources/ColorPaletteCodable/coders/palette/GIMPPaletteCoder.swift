@@ -29,6 +29,7 @@ import Foundation
 
 public extension PAL.Coder {
 	struct GIMP: PAL_PaletteCoder {
+		public let name = "GIMP Palette"
 		public let fileExtension = ["gpl"]
 		public init() {}
 	}

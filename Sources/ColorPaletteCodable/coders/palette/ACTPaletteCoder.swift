@@ -30,6 +30,7 @@ import Foundation
 /// UTI: com.adobe.act
 public extension PAL.Coder {
 	struct ACT: PAL_PaletteCoder {
+		public let name = "Adobe Color Table"
 		public let fileExtension = ["act"]
 		public init() {}
 	}
