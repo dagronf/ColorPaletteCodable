@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "23A03DF428332AA2003846A4"
-               BuildableName = "ASEQuickLookPlugin.appex"
-               BlueprintName = "ASEQuickLookPlugin"
+               BuildableName = "PaletteViewerQuickLookPlugin.appex"
+               BlueprintName = "PaletteViewerQuickLookPlugin"
                ReferencedContainer = "container:Palette Viewer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
