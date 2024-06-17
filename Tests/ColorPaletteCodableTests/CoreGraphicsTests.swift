@@ -82,6 +82,33 @@ final class CoreGraphicsTests: XCTestCase {
 		}
 	}
 
+	func testGeneratingPaletteImage() throws {
+		let palette = try loadResourcePalette(named: "paintnet-palette.pal")
+		let image = try XCTUnwrap(palette.thumbnailImage(size: CGSize(width: 80, height: 80)))
+		Swift.print(image)
+	}
+
+	func testGenerateMixingPalette() throws {
+		do {
+			let palette = try PAL.Palette(
+				firstColor: CGColor(red: 1, green: 0, blue: 0, alpha: 1),
+				lastColor: CGColor(red: 0.5, green: 0, blue: 0.5, alpha: 1),
+				count: 8
+			)
+			let image = try XCTUnwrap(palette.thumbnailImage(size: CGSize(width: 80, height: 80)))
+			Swift.print(image)
+		}
+		do {
+			let palette = try PAL.Palette(
+				firstColor: CGColor(red: 1, green: 0, blue: 0, alpha: 1),
+				lastColor: CGColor(red: 1, green: 1, blue: 0, alpha: 1),
+				count: 32
+			)
+			let image = try XCTUnwrap(palette.thumbnailImage(size: CGSize(width: 80, height: 80)))
+			Swift.print(image)
+		}
+	}
+
 	func testGeneratingCGGradientFromPalette() throws {
 		let palette = try loadResourcePalette(named: "paintnet-palette.pal")
 
@@ -90,10 +117,10 @@ final class CoreGraphicsTests: XCTestCase {
 			let gradient = try XCTUnwrap(palette.cgGradient(style: .smooth))
 			Swift.print(gradient)
 
-			let image = PAL.Image.GenerateGradientImage(
+			let image = try XCTUnwrap(PAL.Image.GenerateGradientImage(
 				gradient: gradient,
 				size: CGSize(width: 300, height: 36)
-			)
+			))
 			Swift.print(image)
 		}
 
@@ -102,10 +129,10 @@ final class CoreGraphicsTests: XCTestCase {
 			let gradient = try XCTUnwrap(palette.cgGradient(style: .stepped))
 			Swift.print(gradient)
 
-			let image = PAL.Image.GenerateGradientImage(
+			let image = try XCTUnwrap(PAL.Image.GenerateGradientImage(
 				gradient: gradient,
 				size: CGSize(width: 300, height: 36)
-			)
+			))
 			Swift.print(image)
 		}
 	}

@@ -36,11 +36,55 @@ public extension PAL.ColorSpace {
 	/// Return the CGColorspace representation used for this colorspace
 	var cgColorSpace: CGColorSpace {
 		switch self {
-		case .CMYK: return CGColorSpace(name: CGColorSpace.genericCMYK)!
-		case .RGB: return CGColorSpace(name: CGColorSpace.sRGB)!
-		case .LAB: return CGColorSpace(name: CGColorSpace.genericLab)!
-		case .Gray: return CGColorSpace(name: CGColorSpace.linearGray)!
+		case .CMYK: return _colorspaceGenericCMYK
+		case .RGB: return _colorspaceGenericRGB
+		case .LAB: return _colorspaceGenericLab
+		case .Gray: return _colorspacelinearGray
 		}
+	}
+}
+
+// Fail early colorspace definitions
+private let _colorspaceGenericCMYK = CGColorSpace(name: CGColorSpace.genericCMYK)!
+private let _colorspaceGenericRGB = CGColorSpace(name: CGColorSpace.sRGB)!
+private let _colorspaceGenericLab = CGColorSpace(name: CGColorSpace.genericLab)!
+private let _colorspacelinearGray = CGColorSpace(name: CGColorSpace.linearGray)!
+
+public extension PAL.Palette {
+	/// Create a palette from an array of CGColors
+	/// - Parameters:
+	///   - name: The palette name
+	///   - cgColors: The initial colors for the palette
+	///
+	/// Throws an error if any of the `CGColor`s cannot be represented as a PAL.Color object
+	@inlinable init(named name: String? = nil, cgColors: [CGColor]) throws {
+		let c = try cgColors.map { try PAL.Color(cgColor: $0) }
+		self.init(colors: c)
+	}
+
+	/// Create a palette by mixing between two colors
+	/// - Parameters:
+	///   - name: The palette name
+	///   - firstColor: The first (starting) color for the palette
+	///   - lastColor: The second (ending) color for the palette
+	///   - count: Number of colors to generate
+	init(named name: String? = nil, firstColor: CGColor, lastColor: CGColor, count: Int) throws {
+		let c1 = try PAL.Color(cgColor: firstColor)
+		let c2 = try PAL.Color(cgColor: lastColor)
+		try self.init(firstColor: c1, lastColor: c2, count: count)
+	}
+}
+
+public extension PAL.Gradient {
+	/// Create a gradient from an array of CGColors.
+	/// - Parameters:
+	///   - name: The gradient name
+	///   - cgColors: The initial colors for the gradient
+	///
+	/// Throws an error if any of the `CGColor`s cannot be represented as a PAL.Color object
+	@inlinable init(named name: String? = nil, cgColors: [CGColor]) throws {
+		let c = try cgColors.map { try PAL.Color(cgColor: $0) }
+		self.init(name: name, colors: c)
 	}
 }
 

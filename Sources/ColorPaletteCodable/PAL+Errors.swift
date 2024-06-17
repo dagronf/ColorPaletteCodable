@@ -60,5 +60,6 @@ public extension PAL {
 		case notImplemented
 		case notEnoughColorsToGenerateGradient
 		case cannotGenerateGradient
+		case cannotCreateColor
 	}
 }

@@ -41,12 +41,31 @@ public extension PAL {
 		/// Create an empty palette
 		public init() {}
 
-		/// Create a palette with collection of global colors
+		/// Create a palette
+		/// - Parameters:
+		///   - name: The palette name
+		///   - colors: The global colors
+		///   - groups: The palettes groups
 		public init(name: String = "", colors: [PAL.Color], groups: [PAL.Group] = []) {
 			self.name = name
 			self.colors = colors
 			self.groups = groups
 		}
+	}
+}
+
+public extension PAL.Palette {
+	/// Create a palette by mixing between two colors
+	/// - Parameters:
+	///   - name: The palette name
+	///   - first: The first (starting) color for the palette
+	///   - last: The second (ending) color for the palette
+	///   - count: Number of colors to generate
+	init(named name: String? = nil, firstColor: PAL.Color, lastColor: PAL.Color, count: Int) throws {
+		self.init(
+			name: name ?? "",
+			colors: try PAL.Color.interpolate(firstColor: firstColor, lastColor: lastColor, count: count)
+		)
 	}
 }
 

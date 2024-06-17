@@ -340,6 +340,9 @@ internal extension PAL.Color {
 }
 
 public extension PAL.Color {
+	/// Color RGBA component container
+	typealias RGBAComponents = (r: Double, g: Double, b: Double, a: Double)
+
 	/// Returns the rgb values as a tuple for a color with colorspace RGB.
 	///
 	/// Throws `CommonError.mismatchedColorspace` if the colorspace is not RGB
@@ -351,9 +354,9 @@ public extension PAL.Color {
 	/// RGBA representation (0 ... 1) for the color
 	///
 	/// Converts the colorspace as necessary
-	@inlinable func rgbaComponents() throws -> (Double, Double, Double, Double) {
+	@inlinable func rgbaComponents() throws -> RGBAComponents {
 		let c = try self.converted(to: .RGB)
-		return (Double(c._r), Double(c._g), Double(c._b), Double(c.alpha))
+		return (r: Double(c._r), g: Double(c._g), b: Double(c._b), a: Double(c.alpha))
 	}
 
 	/// The color's red component IF the colorspace is `.RGB`
@@ -483,5 +486,33 @@ public extension PAL.Color {
 			bf: Float32(lerp(c1.2, c2.2, t: t)),
 			af: Float32(lerp(c1.3, c2.3, t: t))
 		)
+	}
+}
+
+public extension PAL.Color {
+	/// Create a color array by interpolating between two colors
+	///   - firstColor: The first (starting) color for the palette
+	///   - lastColor: The second (ending) color for the palette
+	///   - count: Number of colors to generate
+	static func interpolate(firstColor: PAL.Color, lastColor: PAL.Color, count: Int) throws -> [PAL.Color] {
+		assert(count > 2)
+		let c1 = try firstColor.rgbaComponents()
+		let c2 = try lastColor.rgbaComponents()
+		let step = 1.0 / Double(count - 1)
+
+		let rdiff = (c1.r - c2.r) * step
+		let gdiff = (c1.g - c2.g) * step
+		let bdiff = (c1.b - c2.b) * step
+		let adiff = (c1.a - c2.a) * step
+
+		return try (0 ..< count).map { index in
+			let index = Double(index)
+			return try PAL.Color(
+				rf: Float32(c1.r + (index * rdiff)),
+				gf: Float32(c1.g + (index * gdiff)),
+				bf: Float32(c1.b + (index * bdiff)),
+				af: Float32(c1.a + (index * adiff))
+			)
+		}
 	}
 }
