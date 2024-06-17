@@ -3,28 +3,15 @@ import XCTest
 
 final class CorelSwatchTests: XCTestCase {
 
-	private func loadPalette(_ name: String) throws -> PAL.Palette {
-		let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: name, withExtension: "txt"))
-		return try PAL.Coder.CorelPainter().decode(from: paletteURL)
-	}
-
-	override func setUpWithError() throws {
-		// Put setup code here. This method is called before the invocation of each test method in the class.
-	}
-
-	override func tearDownWithError() throws {
-		// Put teardown code here. This method is called after the invocation of each test method in the class.
-	}
-
 	func testCorelPainterSwatch() throws {
 
 		do {
-			let pal = try loadPalette("adobe-swatch-fun")
+			let pal = try loadResourcePalette(named: "adobe-swatch-fun.txt", using: PAL.Coder.CorelPainter())
 			XCTAssertEqual(408, pal.colors.count)
 		}
 
 		do {
-			let pal2 = try loadPalette("corel-odd-coding")
+			let pal2 = try loadResourcePalette(named: "corel-odd-coding.txt", using: PAL.Coder.CorelPainter())
 			XCTAssertEqual(13, pal2.colors.count)
 
 			XCTAssertEqual("", pal2.colors[0].name)

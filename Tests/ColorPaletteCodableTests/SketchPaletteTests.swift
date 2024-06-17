@@ -6,10 +6,15 @@ import Foundation
 class SketchPaletteTests: XCTestCase {
 
 	func testAllRoundTrip() throws {
-		let files = ["ios", "material-design", "sketch-default", "iOS-Material-FlatUI", "emoji-average-colors.gpl"]
+		let files = [
+			"ios.sketchpalette",
+			"material-design.sketchpalette",
+			"sketch-default.sketchpalette",
+			"iOS-Material-FlatUI.sketchpalette",
+			"emoji-average-colors.gpl.sketchpalette"
+		]
 		try files.forEach { file in
-			let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: file, withExtension: "sketchpalette"))
-			let palette = try PAL.Palette.Decode(from: paletteURL)
+			let palette = try loadResourcePalette(named: file)
 			let data = try PAL.Coder.SketchPalette().encode(palette)
 			let palette2 = try PAL.Palette.Decode(from: data, fileExtension: "sketchpalette")
 			XCTAssertEqual(palette.colors.count, palette2.colors.count)
@@ -17,8 +22,7 @@ class SketchPaletteTests: XCTestCase {
 	}
 
 	func testBasicDefault() throws {
-		let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: "material-design", withExtension: "sketchpalette"))
-		let palette = try PAL.Palette.Decode(from: paletteURL)
+		let palette = try loadResourcePalette(named: "material-design.sketchpalette")
 		XCTAssertEqual(256, palette.colors.count)
 		XCTAssertEqual(palette.colors[0].colorComponents[0], 0.9568, accuracy: 0.001)
 		XCTAssertEqual(palette.colors[0].colorComponents[1], 0.2627, accuracy: 0.001)
@@ -37,8 +41,11 @@ class SketchPaletteTests: XCTestCase {
 	}
 
 	func testSketchPaletteWithHex() throws {
-		let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: "iOS-Material-FlatUI", withExtension: "sketchpalette"))
-		let palette = try PAL.Palette.Decode(from: paletteURL)
+		let palette = try loadResourcePalette(named: "iOS-Material-FlatUI.sketchpalette")
 		XCTAssertEqual(48, palette.colors.count)
+		XCTAssertEqual(palette.colors[0].hexRGB, "#ffffff")
+		XCTAssertEqual(palette.colors[1].hexRGB, "#efeff4")
+		XCTAssertEqual(palette.colors[2].hexRGB, "#ceced2")
+		XCTAssertEqual(palette.colors[47].hexRGB, "#be3a31")
 	}
 }

@@ -2,9 +2,9 @@
 import XCTest
 
 let act_resources = [
-	"16pal_v20",
-	"arne-v20-16",
-	"iconworkshop"
+	"16pal_v20.act",
+	"arne-v20-16.act",
+	"iconworkshop.act"
 ]
 
 final class ACTSwatchesTests: XCTestCase {
@@ -14,12 +14,10 @@ final class ACTSwatchesTests: XCTestCase {
 		Swift.print("Round-tripping ACT files...'")
 		// Loop through all the resource files
 		for name in act_resources {
-			let url = try XCTUnwrap(Bundle.module.url(forResource: name, withExtension: "act"))
-
 			Swift.print("Validating '\(name)...'")
 
 			// Attempt to load the ase file
-			let swatches = try paletteCoder.decode(from: url)
+			let swatches = try loadResourcePalette(named: name)
 
 			// Write to a data stream
 			let data = try paletteCoder.encode(swatches)
@@ -41,8 +39,7 @@ final class ACTSwatchesTests: XCTestCase {
 	func testReadACTFileWithAlphaIndex() throws {
 		do {
 			// This file specifies that index 0 is the 'alpha' color
-			let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: "arne-v20-16", withExtension: "act"))
-			let palette = try PAL.Palette.Decode(from: paletteURL)
+			let palette = try loadResourcePalette(named: "arne-v20-16.act")
 			XCTAssertEqual(palette.colors.count, 16)
 			(0 ..< 16).forEach { index in
 				XCTAssertEqual(palette.colors[index].alpha, index == 0 ? 0 : 1)
@@ -51,8 +48,7 @@ final class ACTSwatchesTests: XCTestCase {
 
 		do {
 			// This file doesn't define an alpha index
-			let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: "16pal_v20", withExtension: "act"))
-			let palette = try PAL.Palette.Decode(from: paletteURL)
+			let palette = try loadResourcePalette(named: "16pal_v20.act")
 			XCTAssertEqual(palette.colors.count, 16)
 			(0 ..< 16).forEach { index in
 				XCTAssertEqual(palette.colors[index].alpha, 1)
@@ -61,8 +57,7 @@ final class ACTSwatchesTests: XCTestCase {
 
 		do {
 			// This file doesn't define an alpha index
-			let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: "iconworkshop", withExtension: "act"))
-			let palette = try PAL.Palette.Decode(from: paletteURL)
+			let palette = try loadResourcePalette(named: "iconworkshop.act")
 			XCTAssertEqual(palette.colors.count, 48)
 			(0 ..< palette.colors.count).forEach { index in
 				XCTAssertEqual(palette.colors[index].alpha, index == 0 ? 0 : 1)

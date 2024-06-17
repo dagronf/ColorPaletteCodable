@@ -2,19 +2,19 @@
 import XCTest
 
 let ase_resources = [
-	"wisteric-17",
-	"Ultra-Mattes Reverse",
-	"control",
-	"Big-Red-Barn",
-	"24 colour palettes", // has multiple groups
-	"palette_complex",
-	"palette_pantones",
-	"palette_simple",
-	"1629367375_iColorpalette",
-	"sw-colors-name-ede-ase",
-	"zenit-241",
-	"color-cubes",
-	"ADG3-CMYK",
+	"wisteric-17.ase",
+	"Ultra-Mattes Reverse.ase",
+	"control.ase",
+	"Big-Red-Barn.ase",
+	"24 colour palettes.ase", // has multiple groups
+	"palette_complex.ase",
+	"palette_pantones.ase",
+	"palette_simple.ase",
+	"1629367375_iColorpalette.ase",
+	"sw-colors-name-ede-ase.ase",
+	"zenit-241.ase",
+	"color-cubes.ase",
+	"ADG3-CMYK.ase",
 ]
 
 final class ASEPaletteTests: XCTestCase {
@@ -25,14 +25,13 @@ final class ASEPaletteTests: XCTestCase {
 		let coder = try XCTUnwrap(PAL.Palette.firstCoder(for: "ase"))
 		
 		for name in ase_resources {
-			let controlASE = try XCTUnwrap(Bundle.module.url(forResource: name, withExtension: "ase"))
-			let origData = try Data(contentsOf: controlASE)
-			
 			Swift.print("Validating '\(name)...'")
-			
+
+			let origData = try loadResourceData(named: name)
+
 			// Attempt to load the ase file
-			let palette = try coder.decode(from: controlASE)
-			
+			let palette = try loadResourcePalette(named: name)
+
 			// Write to a data stream
 			let data = try coder.encode(palette)
 			
@@ -48,10 +47,10 @@ final class ASEPaletteTests: XCTestCase {
 	}
 	
 	func testBasic() throws {
+		let origData = try loadResourceData(named: "control.ase")
+		let palette = try loadResourcePalette(named: "control.ase")
 		let paletteCoder = try XCTUnwrap(PAL.Palette.firstCoder(for: "ase"))
-		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
-		let origData = try Data(contentsOf: controlASE)
-		let palette = try paletteCoder.decode(from: controlASE)
+
 		let data = try paletteCoder.encode(palette)
 		XCTAssertEqual(origData, data)
 		let reconstitutedPalette = try paletteCoder.decode(from: data)
@@ -60,8 +59,8 @@ final class ASEPaletteTests: XCTestCase {
 	
 	func testSimpleLoad() throws {
 		let paletteCoder = try XCTUnwrap(PAL.Palette.firstCoder(for: "ase"))
-		
-		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
+
+		let controlASE = try resourceURL(for: "control.ase")
 		let palette = try paletteCoder.decode(from: controlASE)
 		
 		XCTAssertEqual(0, palette.colors.count)
@@ -70,33 +69,20 @@ final class ASEPaletteTests: XCTestCase {
 	}
 	
 	func testNextUltraMattes() throws {
-		let paletteCoder = try XCTUnwrap(PAL.Palette.firstCoder(for: "ase"))
-		
-		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "Ultra-Mattes Reverse", withExtension: "ase"))
-		let palette = try paletteCoder.decode(from: controlASE)
-		
-		// Swift.print(palette)
+		let palette = try loadResourcePalette(named: "Ultra-Mattes Reverse.ase")
 		XCTAssertEqual(0, palette.colors.count)
 		XCTAssertEqual(1, palette.groups.count)
 		XCTAssertEqual("Ultra-Mattes Reverse", palette.groups[0].name)
 	}
 	
 	func testNextWisteric() throws {
-		let paletteCoder = try XCTUnwrap(PAL.Palette.firstCoder(for: "ase"))
-		
-		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "wisteric-17", withExtension: "ase"))
-		let palette = try paletteCoder.decode(from: controlASE)
-		// Swift.print(palette)
+		let palette = try loadResourcePalette(named: "wisteric-17.ase")
 		XCTAssertEqual(0, palette.groups.count)
 		XCTAssertEqual(17, palette.colors.count)
 	}
 	
 	func testMulti() throws {
-		let paletteCoder = try XCTUnwrap(PAL.Palette.firstCoder(for: "ase"))
-		
-		let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "24 colour palettes", withExtension: "ase"))
-		let palette = try paletteCoder.decode(from: controlASE)
-		// Swift.print(palette)
+		let palette = try loadResourcePalette(named: "24 colour palettes.ase")
 		XCTAssertEqual(0, palette.colors.count)
 		XCTAssertEqual(24, palette.groups.count)
 		XCTAssertEqual("PB 3dmaneu chinese umbrellas", palette.groups[0].name)
@@ -108,9 +94,8 @@ final class ASEPaletteTests: XCTestCase {
 		let paletteCoder = try XCTUnwrap(PAL.Palette.firstCoder(for: "ase"))
 		
 		do {
-			let controlASE = try XCTUnwrap(Bundle.module.url(forResource: "control", withExtension: "ase"))
-			let palette = try paletteCoder.decode(from: controlASE)
-			
+			let palette = try loadResourcePalette(named: "control.ase", using: paletteCoder)
+
 			XCTAssertEqual(0, palette.colors.count)
 			XCTAssertEqual(1, palette.groups.count)
 			XCTAssertEqual(2, palette.groups[0].colors.count)

@@ -2,11 +2,11 @@
 import XCTest
 
 let aco_resources = [
-	"davis-colors-concrete-pigments",
-	"Material Palette",
-	"454306_iColorpalette",
-	"arne-v20-16",
-	"Zeldman-v1"
+	"davis-colors-concrete-pigments.aco",
+	"Material Palette.aco",
+	"454306_iColorpalette.aco",
+	"arne-v20-16.aco",
+	"Zeldman-v1.aco"
 ]
 
 final class ACOSwatchesTests: XCTestCase {
@@ -16,12 +16,9 @@ final class ACOSwatchesTests: XCTestCase {
 		Swift.print("Round-tripping ACO files...'")
 		// Loop through all the resource files
 		for name in aco_resources {
-			let controlACO = try XCTUnwrap(Bundle.module.url(forResource: name, withExtension: "aco"))
-
 			Swift.print("Validating '\(name)...'")
-
 			// Attempt to load the ase file
-			let swatches = try paletteCoder.decode(from: controlACO)
+			let swatches = try loadResourcePalette(named: name, using: paletteCoder)
 
 			// Write to a data stream
 			let data = try paletteCoder.encode(swatches)
@@ -35,18 +32,14 @@ final class ACOSwatchesTests: XCTestCase {
 	}
 
 	func testACOBasic() throws {
-		let acoURL = try XCTUnwrap(Bundle.module.url(forResource: "davis-colors-concrete-pigments", withExtension: "aco"))
 		let paletteCoder = PAL.Coder.ACO()
-
+		let acoURL =  try resourceURL(for: "davis-colors-concrete-pigments.aco")
 		let aco = try paletteCoder.decode(from: acoURL)
 		XCTAssertEqual(59, aco.colors.count)
 	}
 
 	func testACOGoogleMaterial() throws {
-		let acoURL = try XCTUnwrap(Bundle.module.url(forResource: "Material Palette", withExtension: "aco"))
-		let paletteCoder = PAL.Coder.ACO()
-
-		let aco = try paletteCoder.decode(from: acoURL)
+		let aco = try loadResourcePalette(named: "Material Palette.aco")
 		XCTAssertEqual(256, aco.colors.count)
 
 		XCTAssertEqual("Red 500 - Primary", aco.colors[0].name)
@@ -54,19 +47,13 @@ final class ACOSwatchesTests: XCTestCase {
 	}
 
 	func testLoadV1() throws {
-		let acoURL = try XCTUnwrap(Bundle.module.url(forResource: "Zeldman-v1", withExtension: "aco"))
-		let paletteCoder = PAL.Coder.ACO()
-
-		let aco = try paletteCoder.decode(from: acoURL)
+		let aco = try loadResourcePalette(named: "Zeldman-v1.aco")
 		XCTAssertEqual(6, aco.colors.count)
 	}
 
 	// This file couldn't originally be loaded, as its color name encoding is slightly odd
 	func testLoadBrokenNames() throws {
-
-		let acoURL = try XCTUnwrap(Bundle.module.url(forResource: "arne-v20-16", withExtension: "aco"))
-		let palette = try PAL.Palette.Decode(from: acoURL)
-
+		let palette = try loadResourcePalette(named: "arne-v20-16.aco")
 		XCTAssertEqual("", palette.name)
 
 		XCTAssertEqual(0, palette.groups.count)

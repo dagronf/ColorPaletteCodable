@@ -17,6 +17,12 @@ func loadResourcePalette(named name: String) throws -> PAL.Palette {
 	return try PAL.LoadPalette(paletteURL)
 }
 
+/// Load a palette from the resources, forcing the use of a specific coder
+func loadResourcePalette(named name: String, using coder: PAL_PaletteCoder) throws -> PAL.Palette {
+	let paletteURL = try resourceURL(for: name)
+	return try PAL.Palette.Decode(from: paletteURL, usingCoder: coder)
+}
+
 /// Load a gradient from the resources
 func loadResourceGradient(named name: String) throws -> PAL.Gradients {
 	let gradientURL = try resourceURL(for: name)

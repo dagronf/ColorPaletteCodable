@@ -4,8 +4,8 @@ import XCTest
 #if os(macOS)
 
 let clrResources = [
-	"apple-ii",
-	"DarkMailTopBar",
+	"apple-ii.clr",
+	"DarkMailTopBar.clr",
 ]
 
 final class CLRPaletteTests: XCTestCase {
@@ -14,15 +14,14 @@ final class CLRPaletteTests: XCTestCase {
 		Swift.print("Round-tripping CLR files...'")
 		
 		let coder = try XCTUnwrap(PAL.Palette.firstCoder(for: "clr"))
-		
+		XCTAssertEqual(coder.name, PAL.Coder.CLR().name)
+
 		for name in clrResources {
-			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: name, withExtension: "clr"))
-			
 			Swift.print("Validating '\(name)...'")
-			
-			// Attempt to load the ase file
-			let palette = try coder.decode(from: fileURL)
-			
+
+			// Try to load
+			let palette = try loadResourcePalette(named: name)
+
 			// Write to a data stream
 			let data = try coder.encode(palette)
 			
@@ -54,12 +53,14 @@ final class CLRPaletteTests: XCTestCase {
 	}
 	
 	func testRealBasicNSColorListLoad() throws {
-		let coder = PAL.Coder.CLR()
-		
-		let clrURL = try XCTUnwrap(Bundle.module.url(forResource: "DarkMailTopBar", withExtension: "clr"))
-
-		let palette = try coder.decode(from: clrURL)
+		let palette = try loadResourcePalette(named: "DarkMailTopBar.clr", using: PAL.Coder.CLR())
 		XCTAssertEqual(12, palette.colors.count)
+		XCTAssertEqual("0 0", palette.colors[0].name)
+		XCTAssertEqual("#ff1b19ff", palette.colors[0].hexRGBA)
+		XCTAssertEqual("0 1", palette.colors[1].name)
+		XCTAssertEqual("#fe7f00ff", palette.colors[1].hexRGBA)
+		XCTAssertEqual("0 2", palette.colors[2].name)
+		XCTAssertEqual("#e3e300", palette.colors[2].hexRGB)
 	}
 }
 

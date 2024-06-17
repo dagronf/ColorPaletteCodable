@@ -12,22 +12,20 @@ class RGBPaletteTests: XCTestCase {
 	}
 
 	func testRGB() throws {
-		let rgbURL = try XCTUnwrap(Bundle.module.url(forResource: "basic1", withExtension: "txt"))
-		let palette = try PAL.Palette.Decode(from: rgbURL, usingCoder: PAL.Coder.RGB())
+		let palette = try loadResourcePalette(named: "basic1.txt", using: PAL.Coder.RGB())
 		XCTAssertEqual(palette.colors.count, 7)
 
+		XCTAssertEqual(palette.colors[0].hexRGB, "#fcfc80")
+		XCTAssertEqual(palette.colors[0].name, "This is a bad thing")
+		XCTAssertEqual(palette.colors[3].hexRGB, "#aa0122")
 		XCTAssertEqual(palette.colors[3].name, "Fish and chips")
-
-		//let data = try PAL.Coder.RGB().data(for: palette)
-		//try data.write(to: URL(fileURLWithPath: "/tmp/output.txt"))
+		XCTAssertEqual(palette.colors[6].hexRGB, "#ecdc5c")
+		XCTAssertEqual(palette.colors[6].name, "")
 	}
 
 	func testRGBA() throws {
-		let rgbaURL = try XCTUnwrap(Bundle.module.url(forResource: "basic1alpha", withExtension: "txt"))
-		let origData = try Data(contentsOf: rgbaURL)
-
-		// Read in as RGBA
-		let palette = try PAL.Palette.Decode(from: rgbaURL, usingCoder: PAL.Coder.RGBA())
+		let origData = try loadResourceData(named: "basic1alpha.txt")
+		let palette = try loadResourcePalette(named: "basic1alpha.txt", using: PAL.Coder.RGBA())
 		XCTAssertEqual(palette.colors.count, 7)
 
 		// Check some alpha values that they are correctly loaded
@@ -48,10 +46,8 @@ class RGBPaletteTests: XCTestCase {
 	}
 
 	func testRGBConversion() throws {
-		let rgbaURL = try XCTUnwrap(Bundle.module.url(forResource: "basic1alpha", withExtension: "txt"))
-		//let originalText = try String(contentsOf: rgbaURL)
-
 		// Decode from an RGBA file
+		let rgbaURL = try XCTUnwrap(Bundle.module.url(forResource: "basic1alpha", withExtension: "txt"))
 		let decoder = PAL.Coder.RGBA()
 		let palette = try decoder.decode(from: rgbaURL)
 		XCTAssertEqual(palette.colors[0].alpha, 0.6666, accuracy: 0.0001)
