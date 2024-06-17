@@ -97,11 +97,7 @@ public extension PAL.Coder.RGB {
 		var result = ""
 		for color in flattenedColors {
 			if !result.isEmpty { result += "\n" }
-
-			guard let h = color.hexRGB else {
-				throw PAL.CommonError.unsupportedColorSpace
-			}
-			result += h
+			result += try color.hexRGB(hashmark: true)
 			if color.name.count > 0 {
 				result += " \(color.name)"
 			}

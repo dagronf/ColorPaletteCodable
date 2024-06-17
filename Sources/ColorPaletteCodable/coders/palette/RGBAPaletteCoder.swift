@@ -110,10 +110,7 @@ public extension PAL.Coder.RGBA {
 		for color in flattenedColors {
 			if !result.isEmpty { result += "\n" }
 
-			guard let h = color.hexRGBA else {
-				throw PAL.CommonError.unsupportedColorSpace
-			}
-			result += h
+			result += try color.hexRGBA(hashmark: true)
 			if color.name.count > 0 {
 				result += " \(color.name)"
 			}

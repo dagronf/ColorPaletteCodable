@@ -125,10 +125,12 @@ public extension PAL.Coder.PaintNET {
 """
 		try rgbColors.forEach { color in
 			let a = UInt8(color.alpha * 255).clamped(to: 0 ... 255)
-			guard let rgbs = color.rawHexRGB else {
-				throw PAL.CommonError.cannotConvertColorSpace
-			}
-			content += String(format: "%02x", a) + rgbs + "\n"
+			let rgbs = try color.hexRGB(hashmark: false, uppercase: true)
+
+			// Format is :-
+			//   AARRGGBB eg. FF404040
+
+			content += String(format: "%02X", a) + rgbs + "\n"
 		}
 
 		guard let data = content.data(using: .utf8) else {

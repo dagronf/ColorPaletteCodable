@@ -17,11 +17,11 @@ class GradientTests: XCTestCase {
 		XCTAssertEqual("first", gradient.name)
 		XCTAssertEqual(3, gradient.stops.count)
 		XCTAssertEqual(0, gradient.stops[0].position)
-		XCTAssertEqual("#ffffffff", gradient.stops[0].color.hexRGBA)
+		XCTAssertEqual("#ffffffff", try gradient.stops[0].color.hexRGBA(hashmark: true))
 		XCTAssertEqual(0.5, gradient.stops[1].position)
-		XCTAssertEqual("#444444ff", gradient.stops[1].color.hexRGBA)
+		XCTAssertEqual("#444444ff", try gradient.stops[1].color.hexRGBA(hashmark: true))
 		XCTAssertEqual(1.0, gradient.stops[2].position)
-		XCTAssertEqual("#000000ff", gradient.stops[2].color.hexRGBA)
+		XCTAssertEqual("#000000ff", try gradient.stops[2].color.hexRGBA(hashmark: true))
 
 		let gradients = PAL.Gradients(gradients: [gradient])
 
@@ -34,11 +34,11 @@ class GradientTests: XCTestCase {
 		XCTAssertEqual("first", gradient2.name)
 		XCTAssertEqual(3, gradient2.stops.count)
 		XCTAssertEqual(0, gradient2.stops[0].position)
-		XCTAssertEqual("#ffffffff", gradient2.stops[0].color.hexRGBA)
+		XCTAssertEqual("#ffffffff", try gradient2.stops[0].color.hexRGBA(hashmark: true))
 		XCTAssertEqual(0.5, gradient2.stops[1].position)
-		XCTAssertEqual("#444444ff", gradient2.stops[1].color.hexRGBA)
+		XCTAssertEqual("#444444ff", try gradient2.stops[1].color.hexRGBA(hashmark: true))
 		XCTAssertEqual(1.0, gradient2.stops[2].position)
-		XCTAssertEqual("#000000ff", gradient2.stops[2].color.hexRGBA)
+		XCTAssertEqual("#000000ff", try gradient2.stops[2].color.hexRGBA(hashmark: true))
 	}
 
 
@@ -53,11 +53,11 @@ class GradientTests: XCTestCase {
 
 		XCTAssertEqual(3, gradient.stops.count)
 		XCTAssertEqual(0, gradient.stops[0].position)
-		XCTAssertEqual("#ffffffff", gradient.stops[0].color.hexRGBA)
+		XCTAssertEqual("#ffffffff", try gradient.stops[0].color.hexRGBA(hashmark: true))
 		XCTAssertEqual(0.5, gradient.stops[1].position)
-		XCTAssertEqual("#444444ff", gradient.stops[1].color.hexRGBA)
+		XCTAssertEqual("#444444ff", try gradient.stops[1].color.hexRGBA(hashmark: true))
 		XCTAssertEqual(1.0, gradient.stops[2].position)
-		XCTAssertEqual("#000000ff", gradient.stops[2].color.hexRGBA)
+		XCTAssertEqual("#000000ff", try gradient.stops[2].color.hexRGBA(hashmark: true))
 
 		let gradients = PAL.Gradients(gradients: [gradient])
 
@@ -74,11 +74,11 @@ class GradientTests: XCTestCase {
 		XCTAssertNil(gradient2.name)
 		XCTAssertEqual(3, gradient2.stops.count)
 		XCTAssertEqual(0, gradient2.stops[0].position)
-		XCTAssertEqual("#ffffffff", gradient2.stops[0].color.hexRGBA)
+		XCTAssertEqual("#ffffffff", try gradient2.stops[0].color.hexRGBA(hashmark: true))
 		XCTAssertEqual(0.5, gradient2.stops[1].position)
-		XCTAssertEqual("#444444ff", gradient2.stops[1].color.hexRGBA)
+		XCTAssertEqual("#444444ff", try gradient2.stops[1].color.hexRGBA(hashmark: true))
 		XCTAssertEqual(1.0, gradient2.stops[2].position)
-		XCTAssertEqual("#000000ff", gradient2.stops[2].color.hexRGBA)
+		XCTAssertEqual("#000000ff", try gradient2.stops[2].color.hexRGBA(hashmark: true))
 	}
 
 	func testUnordered() throws {
@@ -95,11 +95,11 @@ class GradientTests: XCTestCase {
 
 		XCTAssertEqual(3, gradient.stops.count)
 		XCTAssertEqual(0, gradient.stops[0].position)
-		XCTAssertEqual("#000000", gradient.stops[0].color.hexRGB)
+		XCTAssertEqual("#000000", try gradient.stops[0].color.hexRGB(hashmark: true))
 		XCTAssertEqual(0.2, gradient.stops[1].position)
-		XCTAssertEqual("#ffffff", gradient.stops[1].color.hexRGB)
+		XCTAssertEqual("#ffffff", try gradient.stops[1].color.hexRGB(hashmark: true))
 		XCTAssertEqual(1.0, gradient.stops[2].position)
-		XCTAssertEqual("#444444", gradient.stops[2].color.hexRGB)
+		XCTAssertEqual("#444444", try gradient.stops[2].color.hexRGB(hashmark: true))
 	}
 
 	func testUnnormalized() throws {
@@ -121,13 +121,13 @@ class GradientTests: XCTestCase {
 		XCTAssertEqual(4, normalized.stops.count)
 
 		XCTAssertEqual(0, normalized.stops[0].position)
-		XCTAssertEqual("#121212", normalized.stops[0].color.hexRGB)
+		XCTAssertEqual("#121212", try normalized.stops[0].color.hexRGB(hashmark: true))
 		XCTAssertEqual(0.05, normalized.stops[1].position)
-		XCTAssertEqual("#444444", normalized.stops[1].color.hexRGB)
+		XCTAssertEqual("#444444", try normalized.stops[1].color.hexRGB(hashmark: true))
 		XCTAssertEqual(0.85, normalized.stops[2].position)
-		XCTAssertEqual("#000000", normalized.stops[2].color.hexRGB)
+		XCTAssertEqual("#000000", try normalized.stops[2].color.hexRGB(hashmark: true))
 		XCTAssertEqual(1.0, normalized.stops[3].position)
-		XCTAssertEqual("#ffffff", normalized.stops[3].color.hexRGB)
+		XCTAssertEqual("#ffffff", try normalized.stops[3].color.hexRGB(hashmark: true))
 	}
 
 	func testUnnormalizedNonZeroed() throws {
@@ -150,11 +150,11 @@ class GradientTests: XCTestCase {
 		XCTAssertEqual(3, gradient.stops.count)
 
 		XCTAssertEqual(0, normalized.stops[0].position)
-		XCTAssertEqual("#444444", normalized.stops[0].color.hexRGB)
+		XCTAssertEqual("#444444", try normalized.stops[0].color.hexRGB(hashmark: true))
 		XCTAssertEqual(0.5, normalized.stops[1].position, accuracy: 4)
-		XCTAssertEqual("#121212", normalized.stops[1].color.hexRGB)
+		XCTAssertEqual("#121212", try normalized.stops[1].color.hexRGB(hashmark: true))
 		XCTAssertEqual(1.0, normalized.stops[2].position)
-		XCTAssertEqual("#ffffff", normalized.stops[2].color.hexRGB)
+		XCTAssertEqual("#ffffff", try normalized.stops[2].color.hexRGB(hashmark: true))
 	}
 
 	func testDumbAssertion() throws {
@@ -187,17 +187,17 @@ class GradientTests: XCTestCase {
 		XCTAssertEqual("mona", gradient.name)
 		XCTAssertEqual(6, gradient.stops.count)
 
-		XCTAssertEqual("#5b404e", gradient.stops[0].color.hexRGB)
+		XCTAssertEqual("#5b404e", try gradient.stops[0].color.hexRGB(hashmark: true))
 		XCTAssertEqual(0, gradient.stops[0].position, accuracy: 0.01)
-		XCTAssertEqual("#775a5f", gradient.stops[1].color.hexRGB)
+		XCTAssertEqual("#775a5f", try gradient.stops[1].color.hexRGB(hashmark: true))
 		XCTAssertEqual(0.2, gradient.stops[1].position, accuracy: 0.01)
-		XCTAssertEqual("#8e7470", gradient.stops[2].color.hexRGB)
+		XCTAssertEqual("#8e7470", try gradient.stops[2].color.hexRGB(hashmark: true))
 		XCTAssertEqual(0.4, gradient.stops[2].position, accuracy: 0.01)
-		XCTAssertEqual("#ac9b90", gradient.stops[3].color.hexRGB)
+		XCTAssertEqual("#ac9b90", try gradient.stops[3].color.hexRGB(hashmark: true))
 		XCTAssertEqual(0.6, gradient.stops[3].position, accuracy: 0.01)
-		XCTAssertEqual("#d2ccb8", gradient.stops[4].color.hexRGB)
+		XCTAssertEqual("#d2ccb8", try gradient.stops[4].color.hexRGB(hashmark: true))
 		XCTAssertEqual(0.8, gradient.stops[4].position, accuracy: 0.01)
-		XCTAssertEqual("#eeeee1", gradient.stops[5].color.hexRGB)
+		XCTAssertEqual("#eeeee1", try gradient.stops[5].color.hexRGB(hashmark: true))
 		XCTAssertEqual(1, gradient.stops[5].position, accuracy: 0.01)
 	}
 

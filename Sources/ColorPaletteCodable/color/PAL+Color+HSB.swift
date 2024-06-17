@@ -33,7 +33,33 @@ import UIKit
 #endif
 
 public extension PAL.Color {
-	/// Create a color using hsb values
+	/// Create a color using fractional hsb values
+	/// - Parameters:
+	///   - name: The color name
+	///   - h: The hue (0 ... 360)
+	///   - s: Saturation (0.0 ... 100.0)
+	///   - b: Brightness (0.0 ... 100.0)
+	///   - alpha: The alpha component (0.0 ... 1.0)
+	///   - colorType: The color type
+	init(
+		name: String = "",
+		h360: Float32,
+		s100: Float32,
+		b100: Float32,
+		alpha: Float32 = 1.0,
+		colorType: PAL.ColorType = .global
+	) throws {
+		try self.init(
+			name: name,
+			h: h360 / 360.0,
+			s: s100 / 100.0,
+			b: b100 / 100.0,
+			alpha: alpha,
+			colorType: colorType
+		)
+	}
+
+	/// Create a color using fractional hsb values
 	/// - Parameters:
 	///   - name: The color name
 	///   - h: The hue (0.0 ... 1.0)      / 0 ... 360 /

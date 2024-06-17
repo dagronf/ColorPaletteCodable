@@ -43,8 +43,8 @@ final class HEXPaletteTests: XCTestCase {
 """
 			let v1p = try PAL.Coder.HEX().decode(from: v1.data(using: .utf8)!)
 			XCTAssertEqual(2, v1p.colors.count)
-			XCTAssertEqual(v1p.colors[0].rawHexRGBA, "aabbccdd")
-			XCTAssertEqual(v1p.colors[1].rawHexRGBA, "11223344")
+			XCTAssertEqual(try v1p.colors[0].hexRGBA(hashmark: false), "aabbccdd")
+			XCTAssertEqual(try v1p.colors[1].hexRGBA(hashmark: false), "11223344")
 
 			let content = String(data: try PAL.Coder.HEX().encode(v1p), encoding: .utf8)
 			XCTAssertEqual(content, "#aabbccdd\n#11223344\n")
@@ -58,8 +58,8 @@ final class HEXPaletteTests: XCTestCase {
 """
 			let v1p = try PAL.Coder.HEX().decode(from: v1.data(using: .utf8)!)
 			XCTAssertEqual(2, v1p.colors.count)
-			XCTAssertEqual(v1p.colors[0].rawHexRGB, "aabbcc")
-			XCTAssertEqual(v1p.colors[1].rawHexRGB, "445566")
+			XCTAssertEqual(try v1p.colors[0].hexRGB(hashmark: false), "aabbcc")
+			XCTAssertEqual(try v1p.colors[1].hexRGB(hashmark: false), "445566")
 
 			let content = String(data: try PAL.Coder.HEX().encode(v1p), encoding: .utf8)
 			XCTAssertEqual(content, "#aabbcc\n#445566\n")
@@ -74,9 +74,9 @@ ff2389
 """
 			let v1p = try PAL.Coder.HEX().decode(from: v1.data(using: .utf8)!)
 			XCTAssertEqual(3, v1p.colors.count)
-			XCTAssertEqual(v1p.colors[0].rawHexRGBA, "aabbccdd")
-			XCTAssertEqual(v1p.colors[1].rawHexRGBA, "11223344")
-			XCTAssertEqual(v1p.colors[2].rawHexRGBA, "ff2389ff")
+			XCTAssertEqual(try v1p.colors[0].hexRGBA(hashmark: false), "aabbccdd")
+			XCTAssertEqual(try v1p.colors[1].hexRGBA(hashmark: false), "11223344")
+			XCTAssertEqual(try v1p.colors[2].hexRGBA(hashmark: false), "ff2389ff")
 
 			let content = String(data: try PAL.Coder.HEX().encode(v1p), encoding: .utf8)
 			XCTAssertEqual(content, "#aabbccdd\n#11223344\n#ff2389\n")
@@ -89,9 +89,9 @@ AABBCCDD;11223344;ff2389
 """
 			let v1p = try PAL.Coder.HEX().decode(from: v1.data(using: .utf8)!)
 			XCTAssertEqual(3, v1p.colors.count)
-			XCTAssertEqual(v1p.colors[0].rawHexRGBA, "aabbccdd")
-			XCTAssertEqual(v1p.colors[1].rawHexRGBA, "11223344")
-			XCTAssertEqual(v1p.colors[2].rawHexRGBA, "ff2389ff")
+			XCTAssertEqual(try v1p.colors[0].hexRGBA(hashmark: false), "aabbccdd")
+			XCTAssertEqual(try v1p.colors[1].hexRGBA(hashmark: false), "11223344")
+			XCTAssertEqual(try v1p.colors[2].hexRGBA(hashmark: false), "ff2389ff")
 
 			let content = String(data: try PAL.Coder.HEX().encode(v1p), encoding: .utf8)
 			XCTAssertEqual(content, "#aabbccdd\n#11223344\n#ff2389\n")

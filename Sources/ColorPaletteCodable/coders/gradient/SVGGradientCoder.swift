@@ -68,8 +68,8 @@ public extension PAL.Gradients.Coder.SVG {
 			// Map the stops 0 -> 1
 			let g = try merged.normalized()
 
-			g.stops.forEach { stop in
-				let cl = stop.color.hexRGB ?? "ffffff"
+			try g.stops.forEach { stop in
+				let cl = try stop.color.hexRGB(hashmark: true)
 				content += "         <stop offset=\"\(stop.position)\" stop-color=\"\(cl)\" stop-opacity=\"\(stop.color.alpha)\" />\n"
 			}
 			content += "      </linearGradient>\n"

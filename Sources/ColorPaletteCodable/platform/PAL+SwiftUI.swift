@@ -117,5 +117,4 @@ public extension PAL.Palette {
 	}
 }
 
-
 #endif

@@ -56,11 +56,11 @@ final class CLRPaletteTests: XCTestCase {
 		let palette = try loadResourcePalette(named: "DarkMailTopBar.clr", using: PAL.Coder.CLR())
 		XCTAssertEqual(12, palette.colors.count)
 		XCTAssertEqual("0 0", palette.colors[0].name)
-		XCTAssertEqual("#ff1b19ff", palette.colors[0].hexRGBA)
+		XCTAssertEqual("#ff1b19ff", try palette.colors[0].hexRGBA(hashmark: true))
 		XCTAssertEqual("0 1", palette.colors[1].name)
-		XCTAssertEqual("#fe7f00ff", palette.colors[1].hexRGBA)
+		XCTAssertEqual("#fe7f00ff", try palette.colors[1].hexRGBA(hashmark: true))
 		XCTAssertEqual("0 2", palette.colors[2].name)
-		XCTAssertEqual("#e3e300", palette.colors[2].hexRGB)
+		XCTAssertEqual("#e3e300", try palette.colors[2].hexRGB(hashmark: true))
 	}
 }
 

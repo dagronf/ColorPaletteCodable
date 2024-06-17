@@ -110,15 +110,12 @@ public extension PAL.Coder.CSV {
 		let cl = palette.allColors()
 
 		var results: String = ""
-		cl.forEach { c in
-			let encoded = encodeAlpha ? c.rawHexRGBA : c.rawHexRGB
-			if let rgb = encoded {
-				results += "#\(rgb)"
-				if c.name.count > 0 {
-					results += ", \(c.name)"
-				}
-				results += "\n"
+		try cl.forEach { c in
+			results += try c.hexRGB(alpha: encodeAlpha, hashmark: true, uppercase: false)
+			if c.name.count > 0 {
+				results += ", \(c.name)"
 			}
+			results += "\n"
 		}
 		guard let d = results.data(using: .utf8) else {
 			throw PAL.CommonError.invalidUnicodeFormatString

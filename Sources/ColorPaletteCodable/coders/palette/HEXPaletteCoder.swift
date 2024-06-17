@@ -99,18 +99,10 @@ public extension PAL.Coder.HEX {
 			.compactMap { try $0.converted(to: .RGB) }
 
 		var content = ""
-		rgbColors.forEach { color in
-			if color.alpha < 1.0 {
-				// If there's an alpha component, make sure we add it
-				if let rgba = color.hexRGBA {
-					content += "\(rgba)\n"
-				}
-			}
-			else {
-				if let rgb = color.hexRGB {
-					content += "\(rgb)\n"
-				}
-			}
+		try rgbColors.forEach { color in
+			// If there's an alpha component, make sure we add it
+			let hex = try color.hexRGB(alpha: color.alpha < 1.0, hashmark: true, uppercase: false)
+			content += "\(hex)\n"
 		}
 
 		guard let data = content.data(using: .utf8) else {

@@ -67,31 +67,31 @@ public extension PAL.Coder.SVG {
 
 		var colors: String = ""
 
-		func exportGrouping(_ colors: [PAL.Color]) -> String {
+		func exportGrouping(_ colors: [PAL.Color]) throws -> String {
 			var result = ""
-			colors.forEach { color in
-				if let c = color.hexRGB {
-					// <rect x="4.0" y="4.0" width="40.0" height="40.0" fill="#5e315b" fill-opacity="0.73333335" />
-					result += "      <rect x=\"\(xOffset._svg)\" y=\"\(yOffset._svg)\" width=\"\(self.swatchSize.width._svg)\" height=\"\(self.swatchSize.height._svg)\" "
-					result += "fill=\"\(c)\" fill-opacity=\"\(color.alpha._svg)\""
-					result += " />\n"
+			try colors.forEach { color in
+				let c = try color.hexRGB(hashmark: true)
 
-					xOffset += self.swatchSize.width + 1
-					if xOffset + self.swatchSize.width + edgeInset.right > self.maxExportWidth {
-						yOffset += self.swatchSize.height + 1
-						xOffset = edgeInset.left
-					}
+				// <rect x="4.0" y="4.0" width="40.0" height="40.0" fill="#5e315b" fill-opacity="0.73333335" />
+				result += "      <rect x=\"\(xOffset._svg)\" y=\"\(yOffset._svg)\" width=\"\(self.swatchSize.width._svg)\" height=\"\(self.swatchSize.height._svg)\" "
+				result += "fill=\"\(c)\" fill-opacity=\"\(color.alpha._svg)\""
+				result += " />\n"
+
+				xOffset += self.swatchSize.width + 1
+				if xOffset + self.swatchSize.width + edgeInset.right > self.maxExportWidth {
+					yOffset += self.swatchSize.height + 1
+					xOffset = edgeInset.left
 				}
 			}
 			return result
 		}
 
 		// Global colors first
-		colors += exportGrouping(palette.colors)
+		colors += try exportGrouping(palette.colors)
 
-		palette.groups.forEach { group in
+		try palette.groups.forEach { group in
 			xOffset = edgeInset.left
-			colors += exportGrouping(group.colors)
+			colors += try exportGrouping(group.colors)
 
 			if !group.name.isEmpty {
 				yOffset += self.swatchSize.height + 10

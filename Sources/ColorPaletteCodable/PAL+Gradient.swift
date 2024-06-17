@@ -141,9 +141,9 @@ public extension PAL {
 		}
 
 		/// Returns a copy of this gradient without any transparency information
-		public func withoutTransparency() -> PAL.Gradient {
+		public func removingTransparency() -> PAL.Gradient {
 			let flatColors = self.stops.map {
-				PAL.Gradient.Stop(position: $0.position, color: $0.color.removeTransparency())
+				PAL.Gradient.Stop(position: $0.position, color: $0.color.removingTransparency())
 			}
 			return PAL.Gradient(stops: flatColors)
 		}

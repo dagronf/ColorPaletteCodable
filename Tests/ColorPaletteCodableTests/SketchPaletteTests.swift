@@ -43,9 +43,9 @@ class SketchPaletteTests: XCTestCase {
 	func testSketchPaletteWithHex() throws {
 		let palette = try loadResourcePalette(named: "iOS-Material-FlatUI.sketchpalette")
 		XCTAssertEqual(48, palette.colors.count)
-		XCTAssertEqual(palette.colors[0].hexRGB, "#ffffff")
-		XCTAssertEqual(palette.colors[1].hexRGB, "#efeff4")
-		XCTAssertEqual(palette.colors[2].hexRGB, "#ceced2")
-		XCTAssertEqual(palette.colors[47].hexRGB, "#be3a31")
+		XCTAssertEqual(try palette.colors[0].hexRGB(hashmark: true, uppercase: true), "#FFFFFF")
+		XCTAssertEqual(try palette.colors[1].hexRGB(hashmark: true), "#efeff4")
+		XCTAssertEqual(try palette.colors[2].hexRGB(hashmark: true), "#ceced2")
+		XCTAssertEqual(try palette.colors[47].hexRGB(hashmark: true), "#be3a31")
 	}
 }

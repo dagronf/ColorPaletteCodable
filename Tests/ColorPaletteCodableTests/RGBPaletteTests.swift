@@ -15,11 +15,11 @@ class RGBPaletteTests: XCTestCase {
 		let palette = try loadResourcePalette(named: "basic1.txt", using: PAL.Coder.RGB())
 		XCTAssertEqual(palette.colors.count, 7)
 
-		XCTAssertEqual(palette.colors[0].hexRGB, "#fcfc80")
+		XCTAssertEqual(try palette.colors[0].hexRGB(hashmark: true), "#fcfc80")
 		XCTAssertEqual(palette.colors[0].name, "This is a bad thing")
-		XCTAssertEqual(palette.colors[3].hexRGB, "#aa0122")
+		XCTAssertEqual(try palette.colors[3].hexRGB(hashmark: true), "#aa0122")
 		XCTAssertEqual(palette.colors[3].name, "Fish and chips")
-		XCTAssertEqual(palette.colors[6].hexRGB, "#ecdc5c")
+		XCTAssertEqual(try palette.colors[6].hexRGB(hashmark: true), "#ecdc5c")
 		XCTAssertEqual(palette.colors[6].name, "")
 	}
 

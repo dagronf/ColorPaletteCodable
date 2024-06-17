@@ -200,11 +200,11 @@ final class ASEPaletteTests: XCTestCase {
 		
 		do {
 			// Validate hex generation against the hex values obtained from https://carl.camera/sandbox/aseconvert/
-			XCTAssertEqual("#523b50", palette.groups[0].colors[0].hexRGB)
-			XCTAssertEqual("#b0ac89", palette.groups[0].colors[1].hexRGB)
-			XCTAssertEqual("#815d72", palette.groups[0].colors[2].hexRGB)
-			XCTAssertEqual("#a9b650", palette.groups[0].colors[3].hexRGB)
-			XCTAssertEqual("#ebede9", palette.groups[0].colors[4].hexRGB)
+			XCTAssertEqual("#523b50", try palette.groups[0].colors[0].hexRGB(hashmark: true))
+			XCTAssertEqual("#b0ac89", try palette.groups[0].colors[1].hexRGB(hashmark: true))
+			XCTAssertEqual("#815d72", try palette.groups[0].colors[2].hexRGB(hashmark: true))
+			XCTAssertEqual("#a9b650", try palette.groups[0].colors[3].hexRGB(hashmark: true))
+			XCTAssertEqual("#ebede9", try palette.groups[0].colors[4].hexRGB(hashmark: true))
 		}
 	}
 	
