@@ -72,8 +72,8 @@ public extension PAL.Coder.SVG {
 			colors.forEach { color in
 				if let c = color.hexRGB {
 					// <rect x="4.0" y="4.0" width="40.0" height="40.0" fill="#5e315b" fill-opacity="0.73333335" />
-					result += "      <rect x=\"\(xOffset)\" y=\"\(yOffset)\" width=\"\(self.swatchSize.width)\" height=\"\(self.swatchSize.height)\" "
-					result += "fill=\"\(c)\" fill-opacity=\"\(color.alpha)\""
+					result += "      <rect x=\"\(xOffset._svg)\" y=\"\(yOffset._svg)\" width=\"\(self.swatchSize.width._svg)\" height=\"\(self.swatchSize.height._svg)\" "
+					result += "fill=\"\(c)\" fill-opacity=\"\(color.alpha._svg)\""
 					result += " />\n"
 
 					xOffset += self.swatchSize.width + 1
@@ -95,7 +95,7 @@ public extension PAL.Coder.SVG {
 
 			if !group.name.isEmpty {
 				yOffset += self.swatchSize.height + 10
-				colors += "      <text x='5' y='\(yOffset)' font-size='8' alignment-baseline='middle'>\(group.name)</text>\n\n"
+				colors += "      <text x='5' y='\(yOffset._svg)' font-size='8' alignment-baseline='middle'>\(group.name)</text>\n\n"
 			}
 
 			yOffset += 10
@@ -107,7 +107,7 @@ public extension PAL.Coder.SVG {
 
 		var result = """
 <?xml version="1.0" encoding="utf-8"?>
-   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 \(maxExportWidth) \(yOffset + swatchSize.height)" xml:space="preserve">
+	<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 \(maxExportWidth._svg) \((yOffset + swatchSize.height)._svg)" xml:space="preserve">
 
 """
 		result += colors
@@ -118,4 +118,31 @@ public extension PAL.Coder.SVG {
 		}
 		throw PAL.CommonError.invalidString
 	}
+}
+
+// Private
+
+/// Decimal formatter for SVG output
+///
+/// Note that SVG _expects_ the decimal separator to be '.', which means we have to force the separator
+/// so that locales that use ',' as the decimal separator don't produce a garbled SVG
+/// See [Issue 19](https://github.com/dagronf/QRCode/issues/19)
+private let _svgFloatFormatter: NumberFormatter = {
+	let f = NumberFormatter()
+	f.decimalSeparator = "."
+	f.usesGroupingSeparator = false
+	#if os(macOS)
+	f.hasThousandSeparators = false
+	#endif
+	f.maximumFractionDigits = 3
+	f.minimumFractionDigits = 0
+	return f
+}()
+
+private func _SVGD<T: BinaryFloatingPoint>(_ value: T) -> String {
+	_svgFloatFormatter.string(from: NSNumber(floatLiteral: Double(value)))!
+}
+
+private extension BinaryFloatingPoint {
+	var _svg: String { _SVGD(self) }
 }

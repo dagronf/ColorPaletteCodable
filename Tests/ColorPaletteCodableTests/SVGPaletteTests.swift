@@ -19,8 +19,12 @@ class SVGPaletteTests: XCTestCase {
 		try samples.forEach { name in
 			let palette = try loadResourcePalette(named: name)
 			let data = try PAL.Coder.SVG().encode(palette)
-			try outputFolder.write(data, to: "\(name).svg")
+			try outputFolder.write(data, to: "expected - \(name).svg")
+
+			// Check against our expected SVG output
+			let expt = "expected - \(name).svg"
+			let edata = try loadResourceData(named: expt)
+			XCTAssertEqual(data, edata)
 		}
 	}
-
 }
