@@ -49,6 +49,18 @@ final class ColorFunctionTests: XCTestCase {
 		XCTAssertEqual(analogous.count, 3)
 	}
 
+	func testWhite() throws {
+		let c1 = try PAL.Color(white: 0.5)
+		XCTAssertEqual(.Gray, c1.colorSpace)
+		XCTAssertEqual(1, c1.colorComponents.count)
+		XCTAssertEqual(0.5, c1.colorComponents[0])
+
+//		let x1 = try XCTUnwrap(c1.cgColor)
+//		let c2 = try c1.converted(to: .RGB)
+//		let x2 = try XCTUnwrap(c2.cgColor)
+//		Swift.print(c2)
+	}
+
 	func testPaletteConversion() throws {
 		
 		let c1 = try PAL.Color(name: "1", colorSpace: .CMYK, colorComponents: [0, 1, 1, 0])
@@ -56,25 +68,23 @@ final class ColorFunctionTests: XCTestCase {
 		let c3 = try PAL.Color(name: "3", colorSpace: .CMYK, colorComponents: [0, 0.3, 1, 0])
 		let c4 = try PAL.Color(name: "4", colorSpace: .CMYK, colorComponents: [0, 0.05, 1, 0])
 		let c5 = try PAL.Color(name: "5", colorSpace: .CMYK, colorComponents: [0.05, 1, 0, 0])
+		let c6 = try PAL.Color(name: "6g", white: 0.3)
 
 		var palette = PAL.Palette(name: "fish", colors: [c1, c2, c3])
-		palette.groups.append(PAL.Group(colors: [c4, c5]))
-
-		XCTAssertEqual([], palette.allColors().filter { $0.colorSpace != .CMYK })
-
+		palette.groups.append(PAL.Group(colors: [c4, c5, c6]))
 //		let im = try XCTUnwrap(palette.thumbnailImage(size: CGSize(width: 120, height: 120)))
 
 		let converted = try palette.copy(using: .RGB)
+		// let cim = try XCTUnwrap(converted.thumbnailImage(size: CGSize(width: 120, height: 120)))
+		Swift.print(converted)
+
 		XCTAssertEqual("fish", converted.name)
 		XCTAssertEqual(3, converted.colors.count)
 		XCTAssertEqual(["1", "2", "3"], converted.colors.map { $0.name })
 		XCTAssertEqual(1, converted.groups.count)
-		XCTAssertEqual(2, converted.groups[0].colors.count)
-		XCTAssertEqual(["4", "5"], converted.groups[0].colors.map { $0.name })
+		XCTAssertEqual(3, converted.groups[0].colors.count)
+		XCTAssertEqual(["4", "5", "6g"], converted.groups[0].colors.map { $0.name })
 
 		XCTAssertEqual([], converted.allColors().filter { $0.colorSpace != .RGB })
-
-//		let cim = try XCTUnwrap(converted.thumbnailImage(size: CGSize(width: 120, height: 120)))
-//		Swift.print(cim)
 	}
 }

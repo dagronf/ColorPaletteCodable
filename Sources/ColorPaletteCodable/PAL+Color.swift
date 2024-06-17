@@ -176,6 +176,21 @@ public extension PAL.Color {
 	init(name: String = "", color: PAL.Color.RGB, colorType: PAL.ColorType = .global) throws {
 		try self.init(name: name, rf: color.r, gf: color.g, bf: color.b, af: color.a, colorType: colorType)
 	}
+
+	/// Create a gray color
+	/// - Parameters:
+	///   - name: The color name
+	///   - white: white component (0 ... 1)
+	///   - alpha: The alpha component
+	///   - colorType: The type of color
+	init(name: String = "", white: Float32, alpha: Float32 = 1.0, colorType: PAL.ColorType = .global) throws {
+		try self.init(
+			name: name,
+			colorSpace: .Gray,
+			colorComponents: [white.clamped(to: 0 ... 1)],
+			alpha: alpha.clamped(to: 0 ... 1)
+		)
+	}
 }
 
 public extension PAL.Color {
