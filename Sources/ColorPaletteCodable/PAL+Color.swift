@@ -104,6 +104,139 @@ public extension PAL {
 	}
 }
 
+// MARK: Color creators
+
+public extension PAL.Color {
+	/// Create a color from RGB components
+	/// - Parameters:
+	///   - name: The name for the color
+	///   - r: The red component (0.0 ... 1.0)
+	///   - g: The green component (0.0 ... 1.0)
+	///   - b: The blue component (0.0 ... 1.0)
+	///   - a: The alpha component (0.0 ... 1.0)
+	/// - Returns: A color
+	static func rgb(
+		name: String = "",
+		_ r: Float32,
+		_ g: Float32,
+		_ b: Float32,
+		_ a: Float32 = 1,
+		colorType: PAL.ColorType = .global
+	) -> PAL.Color {
+		// We know that the color has the correct components here
+		return try! PAL.Color(
+			name: name,
+			colorSpace: .RGB,
+			colorComponents: [r.unitClamped, g.unitClamped, b.unitClamped],
+			colorType: colorType,
+			alpha: a.unitClamped
+		)
+	}
+
+	/// Create a color from RGB components
+	/// - Parameters:
+	///   - name: The name for the color
+	///   - r: The red component (0 ... 255)
+	///   - g: The green component (0 ... 255)
+	///   - b: The blue component (0 ... 255)
+	///   - a: The alpha component (0 ... 255)
+	/// - Returns: A color
+	static func rgb255(
+		name: String = "",
+		_ r: UInt8,
+		_ g: UInt8,
+		_ b: UInt8,
+		_ alpha: UInt8 = 255,
+		colorType: PAL.ColorType = .global
+	) -> PAL.Color {
+		// We know that the color has the correct components here
+		return try! PAL.Color(
+			name: name,
+			colorSpace: .RGB,
+			colorComponents: [
+				(Float32(r) / 255.0).unitClamped,
+				(Float32(g) / 255.0).unitClamped,
+				(Float32(b) / 255.0).unitClamped
+			],
+			colorType: colorType,
+			alpha: (Float32(alpha) / 255.0).unitClamped
+		)
+	}
+
+	/// Create a color from CMYK components
+	/// - Parameters:
+	///   - name: The name for the color
+	///   - c: The cyan component (0.0 ... 1.0)
+	///   - m: The magenta component (0.0 ... 1.0)
+	///   - y: The yellow component (0.0 ... 1.0)
+	///   - k: The black component (0.0 ... 1.0)
+	///   - a: The alpha component (0.0 ... 1.0)
+	/// - Returns: A color
+	static func cmyk(
+		name: String = "",
+		_ c: Float32,
+		_ m: Float32,
+		_ y: Float32,
+		_ k: Float32,
+		_ alpha: Float32 = 1,
+		colorType: PAL.ColorType = .global
+	) -> PAL.Color {
+		// We know that the color has the correct components here
+		try! PAL.Color(
+			name: name,
+			colorSpace: .CMYK,
+			colorComponents: [c.unitClamped, m.unitClamped, y.unitClamped, k.unitClamped],
+			colorType: colorType,
+			alpha: alpha.unitClamped
+		)
+	}
+
+	/// Create a color from a gray component
+	/// - Parameters:
+	///   - name: The name for the color
+	///   - white: The blackness component (0.0 ... 1.0)
+	///   - a: The alpha component (0.0 ... 1.0)
+	/// - Returns: A color
+	static func gray(
+		name: String = "",
+		_ white: Float32,
+		_ alpha: Float32 = 1,
+		colorType: PAL.ColorType = .global
+	) -> PAL.Color {
+		// We know that the color has the correct components here
+		try! PAL.Color(
+			name: name,
+			colorSpace: .Gray,
+			colorComponents: [white.unitClamped],
+			colorType: colorType,
+			alpha: alpha.unitClamped
+		)
+	}
+
+	/// Create a color from a gray component
+	/// - Parameters:
+	///   - name: The name for the color
+	///   - white: The blackness component (0 ... 255)
+	///   - alpha: The alpha component (0 ... 255)
+	///   - colorType: The type of color
+	/// - Returns: A color
+	static func gray255(
+		name: String = "",
+		_ white: UInt8,
+		_ alpha: UInt8 = 255,
+		colorType: PAL.ColorType = .global
+	) -> PAL.Color {
+		// We know that the color has the correct components here
+		try! PAL.Color(
+			name: name,
+			colorSpace: .Gray,
+			colorComponents: [(Float32(white) / 255.0).unitClamped],
+			colorType: colorType,
+			alpha: (Float32(alpha) / 255.0).unitClamped
+		)
+	}
+}
+
 // MARK: initializers
 
 public extension PAL.Color {
@@ -124,47 +257,61 @@ public extension PAL.Color {
 			alpha: color.a)
 	}
 
-	/// Create a color objec from 0 -> 255 component values
-	/// - Parameters:
-	///   - name: The color name
-	///   - r: Red component
-	///   - g: Green component
-	///   - b: Blue component
-	///   - a: Alpha component
-	///   - colorType: The type of color
-	init(name: String = "", r: UInt8, g: UInt8, b: UInt8, a: UInt8 = 255, colorType: PAL.ColorType = .global) throws {
-		try self.init(
-			name: name,
-			colorSpace: .RGB,
-			colorComponents: [
-				Float32(r.clamped(to: 0 ... 255)) / 255.0,
-				Float32(g.clamped(to: 0 ... 255)) / 255.0,
-				Float32(b.clamped(to: 0 ... 255)) / 255.0
-			],
-			colorType: colorType,
-			alpha: Float32(a.clamped(to: 0 ... 255)) / 255.0
-		)
-	}
-
 	/// Create a color object from 0 -> 255 component values
 	/// - Parameters:
 	///   - name: The color name
-	///   - r: Red component
-	///   - g: Green component
-	///   - b: Blue component
-	///   - a: Alpha component
+	///   - r8: Red component
+	///   - g8: Green component
+	///   - b8: Blue component
+	///   - a8: Alpha component
 	///   - colorType: The type of color
-	init(name: String = "", rf: Float32, gf: Float32, bf: Float32, af: Float32 = 1.0, colorType: PAL.ColorType = .global) throws {
+	init(
+		name: String = "",
+		r255: UInt8,
+		g255: UInt8,
+		b255: UInt8,
+		a255: UInt8 = 255,
+		colorType: PAL.ColorType = .global
+	) throws {
 		try self.init(
 			name: name,
 			colorSpace: .RGB,
 			colorComponents: [
-				Float32(rf.clamped(to: 0.0 ... 1.0)) / 1.0,
-				Float32(gf.clamped(to: 0.0 ... 1.0)) / 1.0,
-				Float32(bf.clamped(to: 0.0 ... 1.0)) / 1.0
+				Float32(r255.clamped(to: 0 ... 255)) / 255.0,
+				Float32(g255.clamped(to: 0 ... 255)) / 255.0,
+				Float32(b255.clamped(to: 0 ... 255)) / 255.0
 			],
 			colorType: colorType,
-			alpha: Float32(af.clamped(to: 0.0 ... 1.0)) / 1.0
+			alpha: Float32(a255.clamped(to: 0 ... 255)) / 255.0
+		)
+	}
+
+	/// Create a color object from 0 ... 1 component values
+	/// - Parameters:
+	///   - name: The color name
+	///   - r: Red component (0 ... 1)
+	///   - g: Green component (0 ... 1)
+	///   - b: Blue component (0 ... 1)
+	///   - a: Alpha component (0 ... 1)
+	///   - colorType: The type of color
+	init(
+		name: String = "",
+		rf: Float32,
+		gf: Float32,
+		bf: Float32,
+		af: Float32 = 1.0,
+		colorType: PAL.ColorType = .global
+	) throws {
+		try self.init(
+			name: name,
+			colorSpace: .RGB,
+			colorComponents: [
+				rf.clamped(to: 0.0 ... 1.0),
+				gf.clamped(to: 0.0 ... 1.0),
+				bf.clamped(to: 0.0 ... 1.0)
+			],
+			colorType: colorType,
+			alpha: af.clamped(to: 0.0 ... 1.0)
 		)
 	}
 
@@ -176,12 +323,14 @@ public extension PAL.Color {
 	init(name: String = "", color: PAL.Color.RGB, colorType: PAL.ColorType = .global) throws {
 		try self.init(name: name, rf: color.r, gf: color.g, bf: color.b, af: color.a, colorType: colorType)
 	}
+}
 
+public extension PAL.Color {
 	/// Create a gray color
 	/// - Parameters:
 	///   - name: The color name
-	///   - white: white component (0 ... 1)
-	///   - alpha: The alpha component
+	///   - white: white component (0.0 ... 1.0)
+	///   - alpha: The alpha component (0.0 ... 1.0)
 	///   - colorType: The type of color
 	init(name: String = "", white: Float32, alpha: Float32 = 1.0, colorType: PAL.ColorType = .global) throws {
 		try self.init(
@@ -189,6 +338,21 @@ public extension PAL.Color {
 			colorSpace: .Gray,
 			colorComponents: [white.clamped(to: 0 ... 1)],
 			alpha: alpha.clamped(to: 0 ... 1)
+		)
+	}
+
+	/// Create a gray color
+	/// - Parameters:
+	///   - name: The color name
+	///   - white: white component (0 ... 255)
+	///   - alpha: alpha component (0 ... 255)
+	///   - colorType: The type of color
+	init(name: String = "", white255: UInt8, alpha255: UInt8 = 255, colorType: PAL.ColorType = .global) throws {
+		try self.init(
+			name: name,
+			white: Float32(white255) / 255.0,
+			alpha: Float32(alpha255) / 255.0,
+			colorType: colorType
 		)
 	}
 }
@@ -302,46 +466,6 @@ public extension PAL.Color {
 	/// Returns a comma-delimited string containing the color components
 	var componentsString: String {
 		String(self.colorComponents.map({ "\($0)" }).joined(separator: ", "))
-	}
-}
-
-public extension PAL.Color {
-	/// Create a color from RGB components
-	/// - Parameters:
-	///   - name: The name for the color
-	///   - r: The red component (0.0 ... 1.0)
-	///   - g: The green component (0.0 ... 1.0)
-	///   - b: The blue component (0.0 ... 1.0)
-	///   - a: The alpha component (0.0 ... 1.0)
-	/// - Returns: A color
-	static func rgb(name: String = "", _ r: Float32, _ g: Float32, _ b: Float32, _ a: Float32 = 1, colorType: PAL.ColorType = .global) -> PAL.Color {
-		// We know that the color has the correct components here
-		try! PAL.Color(name: name, colorSpace: .RGB, colorComponents: [r, g, b], colorType: colorType, alpha: a)
-	}
-
-	/// Create a color from CMYK components
-	/// - Parameters:
-	///   - name: The name for the color
-	///   - c: The cyan component (0.0 ... 1.0)
-	///   - m: The magenta component (0.0 ... 1.0)
-	///   - y: The yellow component (0.0 ... 1.0)
-	///   - k: The black component (0.0 ... 1.0)
-	///   - a: The alpha component (0.0 ... 1.0)
-	/// - Returns: A color
-	static func cmyk(name: String = "", _ c: Float32, _ m: Float32, _ y: Float32, _ k: Float32, _ a: Float32 = 1, colorType: PAL.ColorType = .global) -> PAL.Color {
-		// We know that the color has the correct components here
-		try! PAL.Color(name: name, colorSpace: .CMYK, colorComponents: [c, m, y, k], colorType: colorType, alpha: a)
-	}
-
-	/// Create a color from a gray component
-	/// - Parameters:
-	///   - name: The name for the color
-	///   - white: The blackness component (0.0 ... 1.0)
-	///   - alpha: The alpha component (0.0 ... 1.0)
-	/// - Returns: A color
-	static func gray(name: String = "", white: Float32, alpha: Float32 = 1, colorType: PAL.ColorType = .global) -> PAL.Color {
-		// We know that the color has the correct components here
-		try! PAL.Color(name: name, colorSpace: .Gray, colorComponents: [white], colorType: colorType, alpha: alpha)
 	}
 }
 

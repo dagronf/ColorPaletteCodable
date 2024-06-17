@@ -52,7 +52,7 @@ extension PAL.Coder.ACT {
 			let r = UInt8(rgb[0])
 			let g = UInt8(rgb[1])
 			let b = UInt8(rgb[2])
-			let color = try PAL.Color(r: r, g: g, b: b, a: 255)
+			let color = try PAL.Color(r255: r, g255: g, b255: b, a255: 255)
 			result.colors.append(color)
 		}
 

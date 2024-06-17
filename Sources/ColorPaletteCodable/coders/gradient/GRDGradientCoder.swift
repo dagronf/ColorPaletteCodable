@@ -71,10 +71,10 @@ public extension PAL.Gradients.Coder.GRD {
 						ASEPaletteLogger.log(.error, "GRD: rgb component count mismatch")
 						throw PAL.GradientError.unsupportedColorFormat
 					}
-					color = try PAL.Color(
-						rf: Float32(co.components[0]),   // normalized 0 -> 1
-						gf: Float32(co.components[1]),   // normalized 0 -> 1
-						bf: Float32(co.components[2])    // normalized 0 -> 1
+					color = PAL.Color.rgb(
+						Float32(co.components[0]),   // normalized 0 -> 1
+						Float32(co.components[1]),   // normalized 0 -> 1
+						Float32(co.components[2])    // normalized 0 -> 1
 					)
 				}
 				else if co.colorspace == "hsb" {
@@ -85,8 +85,7 @@ public extension PAL.Gradients.Coder.GRD {
 					color = try PAL.Color(
 						h: Float32(co.components[0] / 360.0),
 						s: Float32(co.components[1] / 100.0),
-						b: Float32(co.components[2] / 100.0),
-						a: 1
+						b: Float32(co.components[2] / 100.0)
 					)
 				}
 				else if co.colorspace == "cmyk" {

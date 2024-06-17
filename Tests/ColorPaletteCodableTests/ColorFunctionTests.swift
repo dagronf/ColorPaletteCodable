@@ -63,20 +63,19 @@ final class ColorFunctionTests: XCTestCase {
 
 	func testPaletteConversion() throws {
 		
-		let c1 = try PAL.Color(name: "1", colorSpace: .CMYK, colorComponents: [0, 1, 1, 0])
-		let c2 = try PAL.Color(name: "2", colorSpace: .CMYK, colorComponents: [0, 0.6, 1, 0])
-		let c3 = try PAL.Color(name: "3", colorSpace: .CMYK, colorComponents: [0, 0.3, 1, 0])
-		let c4 = try PAL.Color(name: "4", colorSpace: .CMYK, colorComponents: [0, 0.05, 1, 0])
-		let c5 = try PAL.Color(name: "5", colorSpace: .CMYK, colorComponents: [0.05, 1, 0, 0])
-		let c6 = try PAL.Color(name: "6g", white: 0.3)
+		let c1 = PAL.Color.cmyk(name: "1", 0, 1, 1, 0)
+		let c2 = PAL.Color.cmyk(name: "2", 0, 0.6, 1, 0)
+		let c3 = PAL.Color.cmyk(name: "3", 0, 0.3, 1, 0)
+		let c4 = PAL.Color.cmyk(name: "4", 0, 0.05, 1, 0)
+		let c5 = PAL.Color.cmyk(name: "5", 0.05, 1, 0, 0)
+		let c6 = PAL.Color.gray(name: "6g", 0.3)
 
 		var palette = PAL.Palette(name: "fish", colors: [c1, c2, c3])
 		palette.groups.append(PAL.Group(colors: [c4, c5, c6]))
-//		let im = try XCTUnwrap(palette.thumbnailImage(size: CGSize(width: 120, height: 120)))
+		//let im = try XCTUnwrap(palette.thumbnailImage(size: CGSize(width: 120, height: 120)))
 
 		let converted = try palette.copy(using: .RGB)
-		// let cim = try XCTUnwrap(converted.thumbnailImage(size: CGSize(width: 120, height: 120)))
-		Swift.print(converted)
+		//let cim = try XCTUnwrap(converted.thumbnailImage(size: CGSize(width: 120, height: 120)))
 
 		XCTAssertEqual("fish", converted.name)
 		XCTAssertEqual(3, converted.colors.count)
@@ -86,5 +85,18 @@ final class ColorFunctionTests: XCTestCase {
 		XCTAssertEqual(["4", "5", "6g"], converted.groups[0].colors.map { $0.name })
 
 		XCTAssertEqual([], converted.allColors().filter { $0.colorSpace != .RGB })
+	}
+
+	func testHSB() throws {
+		let c1 = PAL.Color.hsb360(120, 100, 100)
+
+		XCTAssertEqual(0, c1._r, accuracy: 0.05)
+		XCTAssertEqual(1, c1._g, accuracy: 0.05)
+		XCTAssertEqual(0, c1._b, accuracy: 0.05)
+
+//		#if canImport(CoreGraphics)
+//		let i1 = try XCTUnwrap(c1.cgColor)
+//		Swift.print(i1)
+//		#endif
 	}
 }

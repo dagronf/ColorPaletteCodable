@@ -90,7 +90,7 @@ final class CommonTests: XCTestCase {
 	func testColors() throws {
 		let c1 = PAL.Color.rgb(1, 0, 0, 0.5)
 		let c2 = PAL.Color.cmyk(1, 1, 0, 0, 0.5)
-		let c3 = PAL.Color.gray(white: 0.5)
+		let c3 = PAL.Color.gray(0.5)
 
 		XCTAssertEqual(c1.colorSpace, .RGB)
 		XCTAssertEqual(c2.colorSpace, .CMYK)
@@ -220,14 +220,14 @@ final class CommonTests: XCTestCase {
 			#endif
 		}
 		do {
-			let color = try PAL.Color(r: 0, g: 255, b: 0)
+			let color = try PAL.Color(r255: 0, g255: 255, b255: 0)
 			let hsb1 = try color.hsb()
 			XCTAssertEqual(hsb1.h, Float32(0.3333), accuracy: 0.0001)
 			XCTAssertEqual(hsb1.s, Float32(1))
 			XCTAssertEqual(hsb1.b, Float32(1))
 		}
 		do {
-			let color = try PAL.Color(r: 50, g: 216, b: 164)
+			let color = try PAL.Color(r255: 50, g255: 216, b255: 164)
 			let hsb1 = try color.hsb()
 			XCTAssertEqual(hsb1.h, Float32(161.2 / 360.0), accuracy: 0.0001)	// 0...360
 			XCTAssertEqual(hsb1.s, Float32(76.85 / 100.0), accuracy: 0.0001)	// 0...100

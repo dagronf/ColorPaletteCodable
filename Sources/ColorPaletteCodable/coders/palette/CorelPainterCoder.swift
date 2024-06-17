@@ -111,7 +111,8 @@ public extension PAL.Coder.CorelPainter {
 					let g = UInt8(green),
 					let b = UInt8(blue)
 				{
-					let color = try PAL.Color(name: String(name).trimmingCharacters(in: .whitespaces), r: r, g: g, b: b, a: 255, colorType: .normal)
+					let name = String(name).trimmingCharacters(in: .whitespaces)
+					let color = try PAL.Color(name: name, r255: r, g255: g, b255: b, a255: 255, colorType: .normal)
 					palette.colors.append(color)
 				}
 			}

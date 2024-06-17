@@ -5,13 +5,13 @@ import XCTest
 import SwiftUI
 #endif
 
-let display = PAL.Palette(
+private let __display = PAL.Palette(
 	name: "My Colors",
 	colors: [
 		PAL.Color.rgb(1.0, 0, 0),
 		PAL.Color.rgb(0, 1.0, 0),
 		PAL.Color.rgb(0, 0, 1.0),
-		PAL.Color.gray(white: 0.5),
+		PAL.Color.gray(0.5),
 		PAL.Color.cmyk(1, 0, 0, 0),
 		PAL.Color.cmyk(0, 1, 0, 0),
 		PAL.Color.cmyk(0, 0, 1, 0),
@@ -49,20 +49,20 @@ class ImageTests: XCTestCase {
 #if os(macOS)
 
 	func testmacOSImage() throws {
-		let image = try PAL.Image.Image(colors: display.colors, size: CGSize(width: 100, height: 25))
+		let image = try PAL.Image.Image(colors: __display.colors, size: CGSize(width: 100, height: 25))
 		XCTAssertEqual(image.size, CGSize(width: 100, height: 25))
 
-		let image2 = try PAL.Image.Image(colors: display.groups[0].colors, size: CGSize(width: 90, height: 30))
+		let image2 = try PAL.Image.Image(colors: __display.groups[0].colors, size: CGSize(width: 90, height: 30))
 		XCTAssertEqual(image2.size, CGSize(width: 90, height: 30))
 	}
 
 #elseif os(iOS) || os(watchOS) || os(tvOS)
 
 	func testiOSImage() throws {
-		let image = try PAL.Image.Image(colors: display.colors, size: CGSize(width: 100, height: 25))
+		let image = try PAL.Image.Image(colors: __display.colors, size: CGSize(width: 100, height: 25))
 		XCTAssertEqual(image.size, CGSize(width: 100, height: 25))
 
-		let image2 = try PAL.Image.Image(colors: display.groups[0].colors, size: CGSize(width: 90, height: 30))
+		let image2 = try PAL.Image.Image(colors: __display.groups[0].colors, size: CGSize(width: 90, height: 30))
 		XCTAssertEqual(image2.size, CGSize(width: 90, height: 30))
 	}
 
@@ -74,10 +74,10 @@ class ImageTests: XCTestCase {
 class SwiftUITests: XCTestCase {
 	@available(macOS 12, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
 	func testSwiftUIImage() throws {
-		let _ /*image*/ = try PAL.Image.SwiftUIImage(colors: display.colors, size: CGSize(width: 100, height: 25))
+		let _ /*image*/ = try PAL.Image.SwiftUIImage(colors: __display.colors, size: CGSize(width: 100, height: 25))
 		//XCTAssertEqual(image.size, CGSize(width: 100, height: 25))
 
-		let _ /*image2*/ = try PAL.Image.SwiftUIImage(colors: display.groups[0].colors, size: CGSize(width: 90, height: 30))
+		let _ /*image2*/ = try PAL.Image.SwiftUIImage(colors: __display.groups[0].colors, size: CGSize(width: 90, height: 30))
 		//XCTAssertEqual(image2.size, CGSize(width: 90, height: 30))
 	}
 }

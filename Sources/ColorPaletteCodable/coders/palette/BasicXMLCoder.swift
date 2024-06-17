@@ -105,7 +105,7 @@ extension PAL.Coder.BasicXML: XMLParserDelegate {
 					}
 					return 255
 				}()
-				if let cc = try? PAL.Color(name: name, r: r, g: g, b: b, a: a) {
+				if let cc = try? PAL.Color(name: name, r255: r, g255: g, b255: b, a255: a) {
 					self.palette.colors.append(cc)
 				}
 			}

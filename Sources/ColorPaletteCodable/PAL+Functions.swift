@@ -51,7 +51,7 @@ extension PAL.Color {
 		let h = (hsba.h - 0.5).wrappingToUnitValue()
 
 		// Create a new color using the new hue
-		return try PAL.Color(h: h, s: hsba.s, b: hsba.b, a: hsba.a)
+		return try PAL.Color(h: h, s: hsba.s, b: hsba.b, alpha: hsba.a)
 	}
 
 	/// Returns a monochromatic collection of colors
@@ -77,7 +77,7 @@ extension PAL.Color {
 
 		// We want to step the saturation down towards 0
 		while s > 0 && count > 0 {
-			results.append(try PAL.Color(h: hsba.h, s: s, b: hsba.b, a: hsba.a))
+			results.append(try PAL.Color(h: hsba.h, s: s, b: hsba.b, alpha: hsba.a))
 			s -= step
 			count -= 1
 		}
@@ -107,7 +107,7 @@ extension PAL.Color {
 				h: Float32(pos),
 				s: hsba.s,
 				b: hsba.b,
-				a: hsba.a
+				alpha: hsba.a
 			))
 		}
 		return colors

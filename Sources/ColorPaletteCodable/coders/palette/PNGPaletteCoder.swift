@@ -153,13 +153,8 @@ private func __decode(data: Data, accuracy: Double) throws -> PAL.Palette {
 		}
 	}
 
-	let palcols = try unique.map {
-		try PAL.Color(
-			rf: Float32($0.r),
-			gf: Float32($0.g),
-			bf: Float32($0.b),
-			af: Float32($0.a)
-		)
+	let palcols = unique.map {
+		PAL.Color.rgb(Float32($0.r), Float32($0.g), Float32($0.b), Float32($0.a))
 	}
 	return PAL.Palette(colors: palcols)
 }
