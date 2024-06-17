@@ -3,9 +3,7 @@ import XCTest
 
 final class RIFFSwatchesTests: XCTestCase {
 	func testBasic() throws {
-		let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: "arne-v20-16", withExtension: "pal"))
-		let coder = PAL.Coder.RIFF()
-		let palette = try coder.decode(from: paletteURL)
+		let palette = try loadResourcePalette(named: "arne-v20-16.pal", using: PAL.Coder.RIFF())
 		XCTAssertEqual(16, palette.colors.count)
 		XCTAssertEqual(palette.colors[0], try PAL.Color(r: 0, g: 0, b: 0))
 		XCTAssertEqual(palette.colors[1], try PAL.Color(r: 157, g: 157, b: 157))
@@ -14,9 +12,7 @@ final class RIFFSwatchesTests: XCTestCase {
 	}
 
 	func testBasic2() throws {
-		let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: "sample", withExtension: "pal"))
-		let coder = PAL.Coder.RIFF()
-		let palette = try coder.decode(from: paletteURL)
+		let palette = try loadResourcePalette(named: "sample.pal", using: PAL.Coder.RIFF())
 		XCTAssertEqual(256, palette.colors.count)
 	}
 }
