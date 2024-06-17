@@ -83,6 +83,20 @@ public extension PAL.Palette {
 		self.groups.forEach { results.append(contentsOf: $0.colors) }
 		return results
 	}
+
+	/// Returns a copy of this palette with all colors conforming to the specific colorspace
+	/// - Parameter colorspace: The colorspace to convert
+	/// - Returns: A new palette
+	///
+	/// Throws an error if any of the palette's colors cannot be converted
+	func copy(using colorspace: PAL.ColorSpace) throws -> PAL.Palette {
+		let colors = try self.colors.map { try $0.converted(to: colorspace) }
+		let groups = try self.groups.map { group in
+			let colors = try group.colors.map { try $0.converted(to: colorspace) }
+			return PAL.Group(name: group.name, colors: colors)
+		}
+		return PAL.Palette(name: self.name, colors: colors, groups: groups)
+	}
 }
 
 // MARK: - Encoding/Decoding

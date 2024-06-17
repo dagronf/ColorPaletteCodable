@@ -30,9 +30,13 @@ import Foundation
 public extension PAL {
 	/// A color representation for a color
 	enum ColorSpace: String, Codable {
+		/// CMYK color model
 		case CMYK
+		/// RGB color model
 		case RGB
+		/// Lab color model
 		case LAB
+		/// Linear gray color model
 		case Gray
 	}
 
