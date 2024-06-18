@@ -1,0 +1,13 @@
+{
+  "data" : [
+    {
+      "filename" : "equinox-8.pal",
+      "idiom" : "universal",
+      "universal-type-identifier" : "public.dagronf.corel.pal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
