@@ -51,7 +51,7 @@ struct GradientColorListView: View {
 							.gridCellAnchor(.leading)
 						Text(stop.color.colorSpace.rawValue)
 							.font(.callout)
-						Text(stop.color.printableComponents)
+						Text(stop.color.componentsString())
 							.font(.callout)
 							.textSelection(.enabled)
 							.monospacedDigit()
@@ -151,9 +151,7 @@ struct GradientColorListView_Previews: PreviewProvider {
 struct GradientTransparencyStopsListView: View {
 	let gradient: PAL.Gradient
 
-	var tmap: [PAL.Gradient.TransparencyStop] {
-		gradient.mappedTransparency
-	}
+	var tmap: [PAL.Gradient.TransparencyStop] { gradient.transparencyMap }
 
 	var body: some View {
 		Group {
@@ -162,8 +160,8 @@ struct GradientTransparencyStopsListView: View {
 					Grid(verticalSpacing: 4) {
 						GridRow {
 							Text("Value").bold()
-							Text("Opacity").bold()
 							Text("Position").bold()
+							Text("Opacity").bold()
 							Text("")
 						}
 						ForEach(tmap) { stop in
@@ -173,12 +171,12 @@ struct GradientTransparencyStopsListView: View {
 							GridRow {
 								GradientColorSwatch(color: Color.red.opacity(stop.value))
 									.frame(width: 26, height: 26)
-								Text(String(format: "%0.03f", stop.value))
+								Text(String(format: "%0.03f", stop.position))
 									.font(.callout)
 									.textSelection(.enabled)
 									.monospacedDigit()
 									.gridCellAnchor(.leading)
-								Text(String(format: "%0.03f", stop.position))
+								Text(String(format: "%0.03f", stop.value))
 									.font(.callout)
 									.textSelection(.enabled)
 									.monospacedDigit()

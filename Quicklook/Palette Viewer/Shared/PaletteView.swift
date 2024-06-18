@@ -431,7 +431,7 @@ extension NumberFormatter {
 	}
 }
 
-let formatter = NumberFormatter(
+private let __formatter = NumberFormatter(
 	minimumFractionDigits: 1,
 	maximumFractionDigits: 3
 )
@@ -441,11 +441,16 @@ extension ColorGroupView: NSViewToolTipOwner {
 		if let colorIndex = self.tooltipMapping[tag] {
 			let color = self.colors[colorIndex]
 			let name = color.name.count > 0 ? color.name : "<unnamed>"
-			let hexString = color.componentsString
-			let alphaString = formatter.string(from: NSNumber(value: color.alpha)) ?? "<>"
+			let hexString = color.componentsString(formatter: __formatter)
+			let alphaString = __formatter.string(from: NSNumber(value: color.alpha)) ?? "<>"
 			return "Name: \(name)\nMode: \(color.colorSpace.rawValue)\nType: \(color.colorType.rawValue)\nComponents: \(hexString)\nAlpha: \(alphaString)"
 		}
 		return ""
 	}
 }
 
+extension NumberFormatter {
+	func string<T: BinaryFloatingPoint>(_ value: T) -> String? {
+		self.string(from: NSNumber(value: Double(value)))
+	}
+}

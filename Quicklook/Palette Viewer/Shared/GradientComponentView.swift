@@ -9,6 +9,11 @@ import Foundation
 import SwiftUI
 import ColorPaletteCodable
 
+private let _defaultDoubleFormatter = NumberFormatter {
+	$0.minimumFractionDigits = 1
+	$0.maximumFractionDigits = 3
+}
+
 struct GradientComponentView: View {
 	let gradient: PAL.Gradient
 	let circleSize: Double = 12
@@ -62,7 +67,7 @@ struct GradientComponentView: View {
 								Circle()
 									.strokeBorder(Color.gray, lineWidth: 0.5)
 							}
-							.help("Color: \(stop.color.printable), Position: \(stop.position)")
+							.help("Color: \(stop.color.printableString()), Position: \(_defaultDoubleFormatter.string(for: stop.position) ?? "")")
 							.frame(width: circleSize, height: circleSize)
 							.offset(x: (geo.size.width - circleSize) * stop.position)
 						}

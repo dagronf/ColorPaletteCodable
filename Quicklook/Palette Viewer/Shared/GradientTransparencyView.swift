@@ -42,10 +42,10 @@ struct GradientTransparencyView: View {
 	
 	internal init(gradient: PAL.Gradient) {
 		self.gradient = gradient
-		self.flatGradient = gradient.withoutTransparency()
-		
+		self.flatGradient = try! gradient.removingTransparency()
+
 		// The transparency gradient, mapped to red
-		self.mappedTransparency = gradient.transparencyGradient(try! PAL.Color(cgColor: NSColor.systemRed.cgColor))
+		self.mappedTransparency = try! gradient.createTransparencyGradient(try! PAL.Color(cgColor: NSColor.systemRed.cgColor))
 		self.hasTransparency = gradient.hasTransparency
 	}
 	
@@ -55,7 +55,7 @@ struct GradientTransparencyView: View {
 			if gradient.hasTransparency, let m = mappedTransparency {
 				VStack(spacing: 12) {
 					
-					Chart(m.mappedTransparency) { item in
+					Chart(m.transparencyMap) { item in
 						LineMark(
 							x: .value("position", item.position),
 							y: .value("opacity", item.value)
@@ -68,7 +68,7 @@ struct GradientTransparencyView: View {
 					.chartXScale(domain: [0.0, 1.0])
 					.chartYScale(domain: [0.0, 1.0])
 					.chartXAxis(content: {
-						AxisMarks(values: m.mappedTransparency.map { $0.position }) {
+						AxisMarks(values: m.transparencyMap.map { $0.position }) {
 							AxisGridLine()
 						}
 					})
