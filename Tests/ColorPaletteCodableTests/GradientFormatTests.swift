@@ -32,7 +32,7 @@ class GradientFormatTests: XCTestCase {
 
 #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
 		do {
-			let image = gradient.image(size: CGSize(width: 500, height: 25))
+			let image = try gradient.image(size: CGSize(width: 500, height: 25))
 			XCTAssertNotNil(image)
 		}
 #endif
@@ -96,7 +96,7 @@ class GradientFormatTests: XCTestCase {
 
 #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
 			do {
-				let image = gradient.image(size: CGSize(width: 500, height: 25))
+				let image = try gradient.image(size: CGSize(width: 500, height: 25))
 				XCTAssertNotNil(image)
 			}
 #endif
@@ -116,7 +116,7 @@ class GradientFormatTests: XCTestCase {
 
 #if os(macOS) || os(iOS) || os(tvOS)
 			do {
-				let image = gradient.image(size: CGSize(width: 500, height: 25))
+				let image = try gradient.image(size: CGSize(width: 500, height: 25))
 				XCTAssertNotNil(image)
 			}
 #endif
@@ -164,7 +164,7 @@ class GradientFormatTests: XCTestCase {
 
 #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
 			do {
-				let image = gradient.image(size: CGSize(width: 500, height: 25))
+				let image = try gradient.image(size: CGSize(width: 500, height: 25))
 				XCTAssertNotNil(image)
 			}
 #endif
@@ -212,6 +212,20 @@ class GradientFormatTests: XCTestCase {
 		XCTAssertEqual(1, gradients.count)
 		let g1 = gradients.gradients[0]
 		XCTAssertEqual(36, g1.colors.count)
+	}
+
+	func testFlatteningTransparencyGradient() throws {
+		// This gradient has a transparency map
+		let gradients = try loadResourceGradient(named: "30.grd")
+		XCTAssertEqual(10, gradients.count)
+		let g1 = gradients.gradients[0]
+
+		XCTAssertEqual(3, g1.colors.count)
+		XCTAssertEqual(9, g1.transparencyMap.count)
+
+		let merged = try g1.mergeTransparencyStops()
+		XCTAssertNil(merged.transparencyStops)
+		XCTAssertEqual(10, merged.colors.count)
 	}
 
 	func testsvggradientexport() throws {

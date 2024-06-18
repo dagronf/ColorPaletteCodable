@@ -27,9 +27,15 @@
 
 import Foundation
 
+private let _defaultComponentsFormatter = NumberFormatter {
+	$0.minimumFractionDigits = 1
+	$0.maximumFractionDigits = 3
+}
+
 public extension PAL {
 	/// A color in the palette
 	struct Color: Equatable, CustomStringConvertible, Codable {
+		public let id = UUID()
 		/// The color name
 		public let name: String
 		/// The colorspace model for the color
@@ -60,16 +66,27 @@ public extension PAL {
 			"Color '\(self.name)' [(\(self.colorSpace):\(self.colorType):\(self.colorComponents):\(self.alpha)]"
 		}
 
-		/// Returns a printable version of the color
-		public var printable: String {
-			let s = self.printableComponents
-			return "\(self.colorSpace)(\(s),\(self.alpha))"
+		/// Returns a printable version of the color which includes the colorspace
+		/// - Parameters:
+		///   - includeAlpha: include the alpha component as the last element in the string
+		///   - formatter: An optional number formatter
+		/// - Returns: A string
+		public func printableString(includeAlpha: Bool = true, formatter: NumberFormatter? = nil) -> String {
+			"\(self.colorSpace)(\(self.componentsString(includeAlpha: includeAlpha, formatter: formatter))"
 		}
 
-		public var printableComponents: String {
-			return self.colorComponents.map {
-				String(format: "%0.03f", $0)
-			}.joined(separator: ", ")
+		/// Returns a comma-delimited string containing the color components
+		/// - Parameters:
+		///   - includeAlpha: include the alpha component as the last element in the string
+		///   - formatter: An optional number formatter
+		/// - Returns: A string
+		public func componentsString(includeAlpha: Bool = false, formatter: NumberFormatter? = nil) -> String {
+			var components = self.colorComponents
+			if includeAlpha { components.append(self.alpha) }
+			let f = formatter ?? _defaultComponentsFormatter
+			return components
+				.map { f.string(for: $0)! }
+				.joined(separator: ", ")
 		}
 
 		/// Returns true if the underlying color structure is valid for its colorspace and settings
@@ -90,24 +107,29 @@ public extension PAL {
 			}
 		}
 
-		/// Returns a comma-delimited string containing the color components
-		var componentsString: String {
-			String(self.colorComponents.map({ "\($0)" }).joined(separator: ", "))
+		/// Equality
+		public static func == (lhs: Color, rhs: Color) -> Bool {
+			return lhs.colorSpace == rhs.colorSpace &&
+			lhs.colorComponents == rhs.colorComponents &&
+			lhs.name == rhs.name &&
+			lhs.colorType == rhs.colorType &&
+			lhs.alpha == rhs.alpha
 		}
 	}
 }
 
+@available(macOS 10.15, *)
+extension PAL.Color: Identifiable { }
+
+extension PAL.Color: Hashable {
+	public func hash(into hasher: inout Hasher) { hasher.combine(self.id) }
+}
+
 public extension PAL.Color {
 	/// Returns a copy of this color without transparency
-	func removingTransparency() -> PAL.Color {
+	func removingTransparency() throws -> PAL.Color {
 		if self.isValid == false { return PAL.Color.black }
-		return (try? PAL.Color(
-			name: self.name,
-			colorSpace: self.colorSpace,
-			colorComponents: self.colorComponents,
-			colorType: self.colorType,
-			alpha: 1
-		)) ?? PAL.Color.black
+		return try self.withAlpha(1)
 	}
 
 	/// Return a copy of this color with the specified alpha value

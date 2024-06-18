@@ -28,8 +28,7 @@ import Foundation
 
 public extension PAL {
 	/// A grouping of colors
-	struct Group: Equatable, Identifiable, Codable {
-		/// Unique identifier
+	struct Group: Equatable, Codable {
 		public let id = UUID()
 		/// The group name
 		public var name: String
@@ -41,6 +40,13 @@ public extension PAL {
 			self.colors = colors
 		}
 	}
+}
+
+@available(macOS 10.15, *)
+extension PAL.Group: Identifiable { }
+
+extension PAL.Group: Hashable { 
+	public func hash(into hasher: inout Hasher) { hasher.combine(self.id) }
 }
 
 extension PAL.Group {

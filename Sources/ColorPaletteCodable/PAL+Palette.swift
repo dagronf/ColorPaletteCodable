@@ -29,6 +29,8 @@ import Foundation
 public extension PAL {
 	/// A color palette
 	struct Palette: Equatable, Codable {
+		/// Unique object identifier
+		public let id = UUID()
 		/// The palette name
 		public var name: String = ""
 
@@ -51,7 +53,21 @@ public extension PAL {
 			self.colors = colors
 			self.groups = groups
 		}
+
+		/// Equality
+		public static func ==(lhs: Palette, rhs: Palette) -> Bool {
+			lhs.name == rhs.name &&
+			lhs.colors == rhs.colors &&
+			lhs.groups == rhs.groups
+		}
 	}
+}
+
+@available(macOS 10.15, *)
+extension PAL.Palette: Identifiable { }
+
+extension PAL.Palette: Hashable { 
+	public func hash(into hasher: inout Hasher) { hasher.combine(self.id) }
 }
 
 public extension PAL.Palette {
@@ -91,9 +107,16 @@ public extension PAL.Palette {
 	/// Throws an error if any of the palette's colors cannot be converted
 	func copy(using colorspace: PAL.ColorSpace) throws -> PAL.Palette {
 		let colors = try self.colors.map { try $0.converted(to: colorspace) }
-		let groups = try self.groups.map { group in
-			let colors = try group.colors.map { try $0.converted(to: colorspace) }
-			return PAL.Group(name: group.name, colors: colors)
+		var groups: [PAL.Group] = []
+
+		// We cannot use `let groups = try self.groups.map {` here as Swift 5.4.3 cannot compile it
+
+		try self.groups.forEach { group in
+			let colors = try group.colors.map { color in
+				return try color.converted(to: colorspace)
+			}
+			let group = PAL.Group(name: group.name, colors: colors)
+			groups.append(group)
 		}
 		return PAL.Palette(name: self.name, colors: colors, groups: groups)
 	}

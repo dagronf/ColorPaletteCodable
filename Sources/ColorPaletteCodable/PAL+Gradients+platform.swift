@@ -72,18 +72,30 @@ import AppKit
 
 public extension PAL.Gradient {
 	/// Returns an image representation of the gradient.
-	func image(size: CGSize) -> NSImage? {
-		guard let gradient = self.cgGradient() else { return nil }
+	/// - Parameter size: The image size
+	/// - Returns: A new image
+	func image(size: CGSize) throws -> NSImage {
+		guard let gradient = self.cgGradient() else {
+			throw PAL.CommonError.cannotGenerateGradient
+		}
+
+		// If there are transparency stops, map them to a transparency mask
+		let maskImage: CGImage?
+		if let _ = self.transparencyStops {
+			let tgrad = try self.createTransparencyGradient(.clear)
+			maskImage = try tgrad.image(size: size).cgImage
+		}
+		else {
+			maskImage = nil
+		}
+
 		let rect = CGRect(origin: .zero, size: size)
 		let image = NSImage(size: rect.size, flipped: false) { rect in
 			let ctx = NSGraphicsContext.current!.cgContext
 
 			// If there are transparency stops for this gradient, map them as an image mask to the context
-			if let _ = self.transparencyStops {
-				let tgrad = self.transparencyGradient(.clear)
-				if let maskImage = tgrad.image(size: size)?.cgImage {
-					ctx.clip(to: CGRect(origin: .zero, size: size), mask: maskImage)
-				}
+			if let maskImage = maskImage {
+				ctx.clip(to: CGRect(origin: .zero, size: size), mask: maskImage)
 			}
 
 			ctx.drawLinearGradient(
@@ -98,8 +110,12 @@ public extension PAL.Gradient {
 	}
 
 	/// Returns an image representation of the gradient.
-	@inlinable func cgImage(size: CGSize) -> CGImage? {
-		return self.image(size: size)?.cgImage(forProposedRect: nil, context: nil, hints: nil)
+	@inlinable func cgImage(size: CGSize) throws -> CGImage {
+		let image = try self.image(size: size)
+		guard let cgi = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
+			throw PAL.CommonError.cannotGenerateGradient
+		}
+		return cgi
 	}
 }
 
@@ -109,8 +125,10 @@ import UIKit
 
 public extension PAL.Gradient {
 	/// Returns an image representation of the gradient.
-	func image(size: CGSize) -> UIImage? {
-		guard let gradient = self.cgGradient() else { return nil }
+	func image(size: CGSize) throws -> UIImage {
+		guard let gradient = self.cgGradient() else {
+			throw PAL.CommonError.cannotGenerateGradient
+		}
 
 		let rect = CGRect(origin: .zero, size: size)
 
@@ -119,8 +137,8 @@ public extension PAL.Gradient {
 
 		// If there are transparency stops for this gradient, map them as an image mask to the context
 		if let _ = self.transparencyStops {
-			let tgrad = self.transparencyGradient(.clear)
-			if let maskImage = tgrad.image(size: size)?.cgImage {
+			let tgrad = try self.createTransparencyGradient(.clear)
+			if let maskImage = try tgrad.image(size: size).cgImage {
 				ctx.clip(to: CGRect(origin: .zero, size: size), mask: maskImage)
 			}
 		}
@@ -134,12 +152,19 @@ public extension PAL.Gradient {
 		let image = UIGraphicsGetImageFromCurrentImageContext()
 		UIGraphicsEndImageContext()
 
-		return image
+		guard let cgi = image else {
+			throw PAL.CommonError.cannotGenerateGradient
+		}
+
+		return cgi
 	}
 
 	/// Returns an image representation of the gradient.
-	@inlinable func cgImage(size: CGSize) -> CGImage? {
-		return self.image(size: size)?.cgImage
+	@inlinable func cgImage(size: CGSize) throws -> CGImage {
+		guard let cgi = try self.image(size: size).cgImage else {
+			throw PAL.CommonError.cannotGenerateGradient
+		}
+		return cgi
 	}
 }
 

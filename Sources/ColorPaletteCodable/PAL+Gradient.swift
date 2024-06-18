@@ -38,120 +38,22 @@ public extension PAL {
 	}
 }
 
-// MARK: Single gradient definition
+// MARK: - Single gradient
 
 public extension PAL {
 	/// A gradient
-	struct Gradient: Equatable, Codable, Identifiable {
-		/// A color stop within the gradient
-		public struct Stop: Equatable, Codable, Identifiable {
-			public let id: UUID
-			/// The position of the color within the gradient.
-			public var position: Double
-			/// The color at the stop
-			public var color: PAL.Color
-			/// Create a color stop
-			@inlinable public init(position: Double, color: PAL.Color) {
-				self.position = position
-				self.color = color
-				self.id = UUID()
-			}
-
-			public init(from decoder: Decoder) throws {
-				let container = try decoder.container(keyedBy: Self.CodingKeys.self)
-				self.id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
-				self.position = try container.decode(Double.self, forKey: .position)
-				self.color = try container.decode(PAL.Color.self, forKey: .color)
-			}
-
-			/// Compare two stops ignoring their ids
-			public func matchesColorAndPosition(of s2: Stop?) -> Bool {
-				guard let s2 = s2 else { return false }
-				return self.position == s2.position
-				&& self.color == s2.color
-			}
-		}
-
-		/// A transparency stop
-		public struct TransparencyStop: Equatable, Codable, Identifiable {
-			public let id: UUID
-			/// The opacity value at the stop (0 ... 1)
-			public var value: Double
-			/// The position of the stop (0 ... 1)
-			public var position: Double
-			/// The midpoint for the stop (0 ... 1)
-			public var midpoint: Double
-
-			public init(position: Double, value: Double, midpoint: Double = 0.5) {
-				self.id = UUID()
-				self.value = max(0, min(1, value))
-				self.position = max(0, min(1, position))
-				self.midpoint = max(0, min(1, midpoint))
-			}
-
-			public init(from decoder: Decoder) throws {
-				let container = try decoder.container(keyedBy: Self.CodingKeys.self)
-				self.id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
-				self.value = try container.decode(Double.self, forKey: .value)
-				self.position = try container.decode(Double.self, forKey: .position)
-				self.midpoint = try container.decode(Double.self, forKey: .midpoint)
-			}
-
-			/// Compare two stops ignoring their ids
-			public func matchesOpacityPositionAndMidpoint(of s2: TransparencyStop?) -> Bool {
-				guard let s2 = s2 else { return false }
-				return self.position == s2.position
-					&& self.midpoint == s2.midpoint
-					&& self.value == s2.value
-			}
-		}
+	struct Gradient: Equatable, Codable {
+		/// The gradient's unique identifier
+		public let id = UUID()
 
 		/// The gradient's name (optional).
 		public var name: String?
-
-		/// The gradient's unique identifier
-		public let id: UUID
 
 		/// The stops within the gradient. Not guaranteed to be ordered by position
 		public var stops: [Stop] = []
 
 		/// Transparency stops within the gradient
 		public var transparencyStops: [TransparencyStop]?
-
-		/// Return a transparency map for the gradient
-		public var mappedTransparency: [TransparencyStop] {
-			// If the gradient has transparency stops, use that
-			if let t = self.transparencyStops {
-				return t
-			}
-
-			// Otherwise, map the alpha colors out of the gradient's colors
-			return self.stops.map {
-				TransparencyStop(position: Double($0.position), value: Double($0.color.alpha), midpoint: 0.5)
-			}
-		}
-
-		/// Return a gradient representing the transparency map for the gradient
-		public func transparencyGradient(_ baseColor: PAL.Color) -> PAL.Gradient {
-			let stops: [Stop] = self.mappedTransparency.map {
-				let color = try! PAL.Color(rf: baseColor.r(), gf: baseColor.g(), bf: baseColor.b(), af: Float32($0.value))
-				return Stop(position: $0.position, color: color)
-			}
-			return PAL.Gradient(stops: stops)
-		}
-
-		/// Returns a copy of this gradient without any transparency information
-		public func removingTransparency() -> PAL.Gradient {
-			let flatColors = self.stops.map {
-				PAL.Gradient.Stop(position: $0.position, color: $0.color.removingTransparency())
-			}
-			return PAL.Gradient(stops: flatColors)
-		}
-
-		/// Does this gradient have any transparency information?
-		public var hasTransparency: Bool {
-			self.mappedTransparency.first(where: { $0.value < 0.99 }) != nil
-		}
 
 		/// The minimum position value for a stop within the gradient
 		@inlinable public var minValue: Double {
@@ -182,7 +84,6 @@ public extension PAL {
 		///   - name: The name for the gradient (optional)
 		///   - stops: The stops for the gradient
 		public init(name: String? = nil, stops: [PAL.Gradient.Stop]) {
-			self.id = UUID()
 			self.name = name
 			self.stops = stops
 		}
@@ -193,7 +94,6 @@ public extension PAL {
 		///   - stops: The color stops within the gradient
 		///   - transparencyStops: The transparency stops within the gradient
 		public init(name: String? = nil, stops: [PAL.Gradient.Stop], transparencyStops: [PAL.Gradient.TransparencyStop]?) {
-			self.id = UUID()
 			self.name = name
 			self.stops = stops
 			self.transparencyStops = transparencyStops
@@ -227,150 +127,50 @@ public extension PAL {
 		@inlinable public init(name: String? = nil, colorPositions: [(position: Double, color: PAL.Color)]) {
 			self.init(name: name, stops: colorPositions.map { Stop(position: $0.position, color: $0.color) })
 		}
-
-		/// Decode a gradient
-		/// - Parameter decoder: the decoder
-		public init(from decoder: Decoder) throws {
-			let container = try decoder.container(keyedBy: Self.CodingKeys.self)
-			self.id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
-			self.name = try container.decodeIfPresent(String.self, forKey: .name)
-			self.stops = try container.decode([Stop].self, forKey: .stops)
-			self.transparencyStops = try container.decodeIfPresent([TransparencyStop].self, forKey: .transparencyStops)
-		}
 	}
 }
 
-// MARK: - Sorting
+// MARK: Transparency
 
 public extension PAL.Gradient {
-	/// Sort the stops within this gradient ascending by position
-	mutating func sort() {
-		self.stops = self.stops.sorted { a, b in a.position < b.position }
-	}
-
-	/// Return a gradient with the stops and transparency sorted ascending by position
-	@inlinable var sorted: PAL.Gradient {
-		PAL.Gradient(
-			name: self.name,
-			stops: self.stops.sorted { a, b in a.position < b.position },
-			transparencyStops: self.transparencyStops?.sorted(by: { a, b in a.position < b.position })
-		)
-	}
-}
-
-// MARK: - Normalization
-
-public extension PAL.Gradient {
-	/// Normalize the stops within the gradient
-	///
-	/// Maps the stops by scaling the stop positions to 0 -> 1 and sorting the result
-	@inlinable mutating func normalize() throws {
-		let gr = try self.normalized()
-		self.stops = gr.stops
-	}
-
-	/// Returns a new gradient by scaling the stop positions to 0 -> 1 and sorting the resulting gradient
-	///
-	/// * If the min position and max position are the same (ie. no normalization can be performed), throws `PAL.GradientError.minMaxValuesEqual`
-	func normalized() throws -> PAL.Gradient {
-		if self.stops.count == 0 {
-			return PAL.Gradient(name: self.name, colors: [])
+	/// Returns an array of transparency stops for this gradient
+	var transparencyMap: [TransparencyStop] {
+		// If the gradient has transparency stops, use that
+		if let t = self.transparencyStops {
+			return t
 		}
 
-		// Get the min/max and range values
-		let minVal = self.minValue
-		let maxVal = self.maxValue
-		let range = maxVal - minVal
-		if range == 0 {
-			// This means that the min and max values are the same. We cannot do anything with this.
-			throw PAL.GradientError.cannotNormalize
+		// Otherwise, map the alpha colors out of the gradient's colors
+		return self.stops.map {
+			TransparencyStop(position: Double($0.position), value: Double($0.color.alpha), midpoint: 0.5)
 		}
+	}
 
-		// Sort the stops
-		let sorted = stops.sorted { a, b in a.position < b.position }
-
-		// Map the stops into a 0 -> 1 range
-		let scaled: [Stop] = sorted.map {
-			let position = $0.position
-			// Shift value to zero point
-			let shifted = position - minVal
-			// Scale to fit the range
-			let scaled = shifted / range
-			return Stop(position: scaled, color: $0.color)
+	/// Create a gradient representing the transparency map for the gradient
+	/// - Parameter baseColor: The base color for the gradient
+	/// - Returns: A new gradient
+	func createTransparencyGradient(_ baseColor: PAL.Color) throws -> PAL.Gradient {
+		let base = try baseColor.rgbaComponents()
+		let stops: [Stop] = self.transparencyMap.map {
+			let color = PAL.Color.rgb(Float32(base.r), Float32(base.g), Float32(base.b), Float32($0.value))
+			return Stop(position: $0.position, color: color)
 		}
-		return PAL.Gradient(name: self.name, stops: scaled)
+		return PAL.Gradient(stops: stops)
 	}
-}
 
-public extension PAL.Gradient {
-	/// Map the transparency stops in the gradient to a 0 ... 1 range
-	func normalizedTransparencyStops() throws -> [TransparencyStop] {
-		guard let tstops = self.transparencyStops, stops.count > 0 else { return [] }
-
-		// Get the min/max and range values
-		let minVal = tstops.map { $0.position }.min() ?? 0
-		let maxVal = tstops.map { $0.position }.max() ?? 0
-		let range = maxVal - minVal
-		if range == 0 {
-			// This means that the min and max values are the same. We cannot do anything with this.
-			throw PAL.GradientError.cannotNormalize
+	/// Returns a copy of this gradient without any transparency information
+	func removingTransparency() throws -> PAL.Gradient {
+		let flatColors = try self.stops.map {
+			PAL.Gradient.Stop(position: $0.position, color: try $0.color.removingTransparency())
 		}
-
-		// Sort the stops
-		let sorted = tstops.sorted { a, b in a.position < b.position }
-
-		// Map the stops into a 0 -> 1 range
-		let scaled: [TransparencyStop] = sorted.map {
-			let position = $0.position
-			// Shift value to zero point
-			let shifted = position - minVal
-			// Scale to fit the range
-			let scaled = shifted / range
-			return TransparencyStop(position: scaled, value: $0.value, midpoint: $0.midpoint)
-		}
-		return scaled
-	}
-}
-
-// MARK: - Integration
-
-public extension PAL.Gradient {
-	/// Create an evenly-spaced gradient from the global colors of a palette
-	@inlinable init(name: String? = nil, palette: PAL.Palette) {
-		self.init(name: name ?? palette.name, colors: palette.colors)
+		return PAL.Gradient(stops: flatColors)
 	}
 
-	/// Create an evenly-spaced gradient from a color group
-	@inlinable init(name: String? = nil, group: PAL.Group) {
-		self.init(name: name, colors: group.colors)
+	/// Does this gradient have any transparency information?
+	var hasTransparency: Bool {
+		self.transparencyMap.first(where: { $0.value < 0.99 }) != nil
 	}
 
-	/// Replace the colors in a gradient with the colors defined in the palette without modifying the positions
-	///
-	/// Throws `PAL.GradientError.mismatchColorCount` if the current stop count differs from the palette color count
-	func mapPalette(_ palette: PAL.Palette) throws -> PAL.Gradient {
-		let colors = palette.allColors()
-		guard colors.count == self.stops.count else {
-			throw PAL.GradientError.mismatchColorCount
-		}
-
-		return PAL.Gradient(
-			name: self.name,
-			stops:
-				zip(self.stops, colors)
-					.map { Stop(position: $0.0.position, color: $0.1) }
-		)
-	}
-}
-
-public extension PAL.Palette {
-	/// Returns an evenly-spaced gradient from the global colors of this palette
-	@inlinable func gradient(named name: String? = nil) -> PAL.Gradient {
-		PAL.Gradient(name: name, colors: self.colors)
-	}
-}
-
-public extension PAL.Gradient {
 	/// Return a new gradient by flattening transparency stops into the color stops
 	///
 	/// Some gradient formats (such as Adobe GRD) maintain the transparencies as a separate
@@ -476,7 +276,278 @@ public extension PAL.Gradient {
 
 		return PAL.Gradient(colors: mappedColorStops, positions: g_stops)
 	}
+}
 
+// MARK: Codable
+
+public extension PAL.Gradient {
+	enum CodingKeys: CodingKey {
+		case name
+		case stops
+		case transparencyStops
+	}
+
+	/// Decode a gradient
+	/// - Parameter decoder: the decoder
+	init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		self.name = try container.decodeIfPresent(String.self, forKey: .name)
+		self.stops = try container.decode([Stop].self, forKey: .stops)
+		self.transparencyStops = try container.decodeIfPresent([TransparencyStop].self, forKey: .transparencyStops)
+	}
+
+	func encode(to encoder: Encoder) throws {
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		try container.encode(self.name, forKey: .name)
+		try container.encode(self.stops, forKey: .stops)
+		try container.encodeIfPresent(self.transparencyStops, forKey: .transparencyStops)
+	}
+}
+
+@available(macOS 10.15, *)
+extension PAL.Gradient: Identifiable { }
+
+// MARK: Sorting
+
+public extension PAL.Gradient {
+	/// Sort the stops within this gradient ascending by position
+	mutating func sort() {
+		self.stops = self.stops.sorted { a, b in a.position < b.position }
+	}
+
+	/// Return a gradient with the stops and transparency sorted ascending by position
+	@inlinable var sorted: PAL.Gradient {
+		PAL.Gradient(
+			name: self.name,
+			stops: self.stops.sorted { a, b in a.position < b.position },
+			transparencyStops: self.transparencyStops?.sorted(by: { a, b in a.position < b.position })
+		)
+	}
+}
+
+// MARK: Normalization
+
+public extension PAL.Gradient {
+	/// Normalize the stops within the gradient
+	///
+	/// Maps the stops by scaling the stop positions to 0 -> 1 and sorting the result
+	@inlinable mutating func normalize() throws {
+		let gr = try self.normalized()
+		self.stops = gr.stops
+	}
+
+	/// Returns a new gradient by scaling the stop positions to 0 -> 1 and sorting the resulting gradient
+	///
+	/// * If the min position and max position are the same (ie. no normalization can be performed), throws `PAL.GradientError.minMaxValuesEqual`
+	func normalized() throws -> PAL.Gradient {
+		if self.stops.count == 0 {
+			return PAL.Gradient(name: self.name, colors: [])
+		}
+
+		// Get the min/max and range values
+		let minVal = self.minValue
+		let maxVal = self.maxValue
+		let range = maxVal - minVal
+		if range == 0 {
+			// This means that the min and max values are the same. We cannot do anything with this.
+			throw PAL.GradientError.cannotNormalize
+		}
+
+		// Sort the stops
+		let sorted = stops.sorted { a, b in a.position < b.position }
+
+		// Map the stops into a 0 -> 1 range
+		let scaled: [Stop] = sorted.map {
+			let position = $0.position
+			// Shift value to zero point
+			let shifted = position - minVal
+			// Scale to fit the range
+			let scaled = shifted / range
+			return Stop(position: scaled, color: $0.color)
+		}
+		return PAL.Gradient(name: self.name, stops: scaled)
+	}
+
+	/// Map the transparency stops in the gradient to a 0 ... 1 range
+	func normalizedTransparencyStops() throws -> [TransparencyStop] {
+		guard let tstops = self.transparencyStops, stops.count > 0 else { return [] }
+
+		// Get the min/max and range values
+		let minVal = tstops.map { $0.position }.min() ?? 0
+		let maxVal = tstops.map { $0.position }.max() ?? 0
+		let range = maxVal - minVal
+		if range == 0 {
+			// This means that the min and max values are the same. We cannot do anything with this.
+			throw PAL.GradientError.cannotNormalize
+		}
+
+		// Sort the stops
+		let sorted = tstops.sorted { a, b in a.position < b.position }
+
+		// Map the stops into a 0 -> 1 range
+		let scaled: [TransparencyStop] = sorted.map {
+			let position = $0.position
+			// Shift value to zero point
+			let shifted = position - minVal
+			// Scale to fit the range
+			let scaled = shifted / range
+			return TransparencyStop(position: scaled, value: $0.value, midpoint: $0.midpoint)
+		}
+		return scaled
+	}
+}
+
+
+// MARK: - Gradient stop
+
+public extension PAL.Gradient {
+	/// A color stop within the gradient
+	struct Stop: Equatable, Codable {
+		public let id = UUID()
+		/// The color at the stop
+		public var color: PAL.Color
+		/// The position of the stop
+		public var position: Double
+
+		/// Create a color stop
+		public init(position: Double, color: PAL.Color) {
+			self.position = position
+			self.color = color
+		}
+
+		enum CodingKeys: CodingKey {
+			case position
+			case color
+		}
+
+		public init(from decoder: Decoder) throws {
+			let container = try decoder.container(keyedBy: Self.CodingKeys.self)
+			self.position = try container.decode(Double.self, forKey: .position)
+			self.color = try container.decode(PAL.Color.self, forKey: .color)
+		}
+
+		public func encode(to encoder: Encoder) throws {
+			var container = encoder.container(keyedBy: Self.CodingKeys.self)
+			try container.encode(self.position, forKey: .position)
+			try container.encode(self.color, forKey: .color)
+		}
+
+		public static func ==(lhs: Stop, rhs: Stop) -> Bool {
+			lhs.color == rhs.color &&
+			lhs.position == rhs.position
+		}
+
+		/// Compare two stops ignoring their ids
+		public func matchesColorAndPosition(of s2: Stop?) -> Bool {
+			guard let s2 = s2 else { return false }
+			return self.position == s2.position
+			&& self.color == s2.color
+		}
+	}
+}
+
+@available(macOS 10.15, *)
+extension PAL.Gradient.Stop: Identifiable { }
+
+// MARK: - Gradient transparency stop
+
+public extension PAL.Gradient {
+	/// A transparency stop
+	struct TransparencyStop: Equatable, Codable {
+		public let id = UUID()
+		/// The opacity value at the stop (0 ... 1)
+		public var value: Double
+		/// The position of the stop (0 ... 1)
+		public var position: Double
+		/// The midpoint for the stop (0 ... 1)
+		public var midpoint: Double
+
+		public init(position: Double, value: Double, midpoint: Double = 0.5) {
+			self.value = value.unitClamped
+			self.position = position.unitClamped
+			self.midpoint = midpoint.unitClamped
+		}
+
+		enum CodingKeys: CodingKey {
+			case value
+			case position
+			case midpoint
+		}
+
+		public init(from decoder: Decoder) throws {
+			let container = try decoder.container(keyedBy: Self.CodingKeys.self)
+			self.value = try container.decode(Double.self, forKey: .value)
+			self.position = try container.decode(Double.self, forKey: .position)
+			self.midpoint = try container.decode(Double.self, forKey: .midpoint)
+		}
+
+		public func encode(to encoder: Encoder) throws {
+			var container = encoder.container(keyedBy: Self.CodingKeys.self)
+			try container.encode(self.value, forKey: .value)
+			try container.encode(self.position, forKey: .position)
+			try container.encode(self.midpoint, forKey: .midpoint)
+		}
+
+		/// Equality
+		public static func ==(lhs: TransparencyStop, rhs: TransparencyStop) -> Bool {
+			lhs.value == rhs.value &&
+			lhs.position == rhs.position &&
+			lhs.midpoint == rhs.midpoint
+		}
+
+		/// Compare two stops ignoring their ids
+		public func matchesOpacityPositionAndMidpoint(of s2: TransparencyStop?) -> Bool {
+			guard let s2 = s2 else { return false }
+			return self.position == s2.position
+				&& self.midpoint == s2.midpoint
+				&& self.value == s2.value
+		}
+	}
+}
+
+@available(macOS 10.15, *)
+extension PAL.Gradient.TransparencyStop: Identifiable { }
+
+
+// MARK: - Integration
+
+public extension PAL.Gradient {
+	/// Create an evenly-spaced gradient from the global colors of a palette
+	@inlinable init(name: String? = nil, palette: PAL.Palette) {
+		self.init(name: name ?? palette.name, colors: palette.colors)
+	}
+
+	/// Create an evenly-spaced gradient from a color group
+	@inlinable init(name: String? = nil, group: PAL.Group) {
+		self.init(name: name, colors: group.colors)
+	}
+
+	/// Replace the colors in a gradient with the colors defined in the palette without modifying the positions
+	///
+	/// Throws `PAL.GradientError.mismatchColorCount` if the current stop count differs from the palette color count
+	func mapPalette(_ palette: PAL.Palette) throws -> PAL.Gradient {
+		let colors = palette.allColors()
+		guard colors.count == self.stops.count else {
+			throw PAL.GradientError.mismatchColorCount
+		}
+
+		return PAL.Gradient(
+			name: self.name,
+			stops:
+				zip(self.stops, colors)
+					.map { Stop(position: $0.0.position, color: $0.1) }
+		)
+	}
+}
+
+public extension PAL.Palette {
+	/// Returns an evenly-spaced gradient from the global colors of this palette
+	@inlinable func gradient(named name: String? = nil) -> PAL.Gradient {
+		PAL.Gradient(name: name, colors: self.colors)
+	}
+}
+
+public extension PAL.Gradient {
 	/// Expand gradient edges to the full 0.0 -> 1.0 bounds
 	///
 	/// Example :-
