@@ -54,32 +54,34 @@ extension PAL.Color {
 		return try PAL.Color(h: h, s: hsba.s, b: hsba.b, alpha: hsba.a)
 	}
 
+	/// The style of
+	public enum MonochromeStyle {
+		/// Modify the saturation
+		case saturation
+		/// Modify the brightness
+		case brightness
+	}
+
 	/// Returns a monochromatic collection of colors
 	/// - Parameters:
+	///   - style: The monochromatic style
 	///   - count: The number of colors to return (including the current color)
 	///   - step: The amount to reduce the saturation for each count (-1 ... 1). A positive value means positive saturation
 	/// - Returns: An array of monochromatic colors based on this color
-	public func monochromatic(count: UInt, step: Float32) throws -> [PAL.Color] {
+	public func monochromatic(style: MonochromeStyle, count: UInt, step: Float32) throws -> [PAL.Color] {
 		// Get the color's hue
 		let hsba = try hsb()
-
-		let maxDelta = Float32(count) * step
-		guard (0.0 ... 1.0).contains(hsba.s + maxDelta) else {
-			throw PAL.FunctionError.monochromaticSpanTooLarge
-		}
-
-		// Results always contain this color first
-		var results = [self]
-
-		var s = hsba.s + step
-
-		var count = count
-
-		// We want to step the saturation down towards 0
-		while s > 0 && count > 0 {
-			results.append(try PAL.Color(h: hsba.h, s: s, b: hsba.b, alpha: hsba.a))
-			s -= step
-			count -= 1
+		let dest = step * Float32(count - 1)
+		var results: [PAL.Color] = []
+		try stride(from: 0, through: dest, by: step).forEach { offset in
+			let color: PAL.Color
+			switch style {
+			case .saturation:
+				color = try PAL.Color(h: hsba.h, s: hsba.s + offset, b: hsba.b, alpha: hsba.a)
+			case .brightness:
+				color = try PAL.Color(h: hsba.h, s: hsba.s, b: hsba.b + offset, alpha: hsba.a)
+			}
+			results.append(color)
 		}
 
 		return results

@@ -50,14 +50,18 @@ class TestFilesContainer {
 	private let root: Subfolder
 	var rootFolder: URL { self.root.folder }
 	init(named name: String) throws {
-		let url = FileManager.default
+		let baseURL = FileManager.default
 			.temporaryDirectory
 			.appendingPathComponent(name)
-			.appendingPathComponent(Self.iso8601Formatter.string(from: Date()))
+		let url = baseURL.appendingPathComponent(Self.iso8601Formatter.string(from: Date()))
 		try? FileManager.default.removeItem(at: url)
 		try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
 		self.root = Subfolder(url)
 		Swift.print("TestContainer(\(name) - Generated files at: \(url)")
+
+		let latest = baseURL.appendingPathComponent("_latest")
+		try? FileManager.default.removeItem(at: latest)
+		try! FileManager.default.createSymbolicLink(at: latest, withDestinationURL: url)
 	}
 
 	func subfolder(with components: String...) throws -> Subfolder {
@@ -103,6 +107,16 @@ class TestFilesContainer {
 			let tempURL = self.folder.appendingPathComponent(file)
 			try string.write(to: tempURL, atomically: true, encoding: encoding)
 			return tempURL
+		}
+
+		func write(_ colors: [PAL.Color], coder: PAL_PaletteCoder, filename: String) throws {
+			try self.write(PAL.Palette(colors: colors), coder: coder, filename: filename)
+		}
+
+		func write(_ palette: PAL.Palette, coder: PAL_PaletteCoder, filename: String) throws {
+			let data = try coder.encode(palette)
+			let tempURL = self.folder.appendingPathComponent(filename)
+			try data.write(to: tempURL)
 		}
 	}
 }

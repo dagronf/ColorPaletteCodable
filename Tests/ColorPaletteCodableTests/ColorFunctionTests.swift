@@ -3,6 +3,8 @@ import XCTest
 
 final class ColorFunctionTests: XCTestCase {
 
+	let outputFolder = try! testResultsContainer.subfolder(with: "color-function")
+
 	func testComplementary() throws {
 		do {
 			let c1 = try PAL.Color(rf: 1.0, gf: 0, bf: 0)
@@ -17,6 +19,9 @@ final class ColorFunctionTests: XCTestCase {
 			#else
 			XCTAssertEqual(try comp1.rgbValues(), PAL.Color.RGB(r: 0, g: 1, b: 1))
 			#endif
+
+			let pal = PAL.Palette(colors: [c1, comp1])
+			try outputFolder.write(pal, coder: PAL.Coder.ASE(), filename: "complementary-test-1.ase")
 		}
 		do {
 			let c1 = try PAL.Color(rf: 1.0, gf: 0.5, bf: 0)
@@ -27,6 +32,9 @@ final class ColorFunctionTests: XCTestCase {
 			#else
 			XCTAssertEqual(try comp1.rgbValues(), PAL.Color.RGB(r: 0, g: 0.5, b: 1.0))
 			#endif
+
+			let pal = PAL.Palette(colors: [c1, comp1])
+			try outputFolder.write(pal, coder: PAL.Coder.ASE(), filename: "complementary-test-2.ase")
 		}
 
 		do {
@@ -39,14 +47,46 @@ final class ColorFunctionTests: XCTestCase {
 			#else
 			XCTAssertEqual(try comp1.rgbValues(), PAL.Color.RGB(r: 0.423, g: 0.749, b: 0.25))
 			#endif
+
+			let pal = PAL.Palette(colors: [c1, comp1])
+			try outputFolder.write(pal, coder: PAL.Coder.ASE(), filename: "complementary-test-3.ase")
 		}
 	}
 
 	func testAnalogousColors() throws {
-		let c1 = try PAL.Color(rf: 1.0, gf: 0, bf: 0)
-		let analogous = try c1.analogous(count: 3, stepSize: 30.0 / 360.0)
-		//let nsc = analogous.map { $0.nsColor }
-		XCTAssertEqual(analogous.count, 3)
+		do {
+			let c1 = try PAL.Color(rf: 1.0, gf: 0, bf: 0)
+			let analogous1 = try c1.analogous(count: 3, stepSize: 30.0 / 360.0)
+			XCTAssertEqual(analogous1.count, 3)
+			try outputFolder.write(analogous1, coder: PAL.Coder.ASE(), filename: "analogous-3step.ase")
+		}
+		do {
+			let c1 = try PAL.Color(rf: 1.0, gf: 0, bf: 0)
+			let analogous1 = try c1.analogous(count: 5, stepSize: 30.0 / 360.0)
+			XCTAssertEqual(analogous1.count, 5)
+			try outputFolder.write(analogous1, coder: PAL.Coder.ASE(), filename: "analogous-5step-1.ase")
+		}
+		do {
+			let c1 = try PAL.Color(rf: 1.0, gf: 0, bf: 0)
+			let analogous1 = try c1.analogous(count: 5, stepSize: 10.0 / 360.0)
+			XCTAssertEqual(analogous1.count, 5)
+			try outputFolder.write(analogous1, coder: PAL.Coder.ASE(), filename: "analogous-5step-2.ase")
+		}
+	}
+
+	func testMonochromaticColors() throws {
+		do {
+			let c1 = try PAL.Color(rf: 1.0, gf: 0, bf: 0)
+			let mono1 = try c1.monochromatic(style: .saturation, count: 4, step: -0.2)
+			XCTAssertEqual(mono1.count, 4)
+			try outputFolder.write(mono1, coder: PAL.Coder.RGB(), filename: "monochromatic-3step-0_1-sat.rgb")
+		}
+		do {
+			let c1 = try PAL.Color(rf: 1.0, gf: 0, bf: 0)
+			let mono1 = try c1.monochromatic(style: .brightness, count: 4, step: -0.2)
+			XCTAssertEqual(mono1.count, 4)
+			try outputFolder.write(mono1, coder: PAL.Coder.RGB(), filename: "monochromatic-3step-0_1-bri.rgb")
+		}
 	}
 
 	func testWhite() throws {
