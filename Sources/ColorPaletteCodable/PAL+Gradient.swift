@@ -257,9 +257,9 @@ public extension PAL.Gradient {
 				let tv = (stop - cseg.t1) / cseg.span
 				let rgb1 = try cseg.color1.rgbaComponents()
 				let rgb2 = try cseg.color2.rgbaComponents()
-				r = Float32(rgb1.0 + ((rgb2.0 - rgb1.0) * tv))
-				g = Float32(rgb1.1 + ((rgb2.1 - rgb1.1) * tv))
-				b = Float32(rgb1.2 + ((rgb2.2 - rgb1.2) * tv))
+				r = Float32(rgb1.r + ((rgb2.r - rgb1.r) * tv))
+				g = Float32(rgb1.g + ((rgb2.g - rgb1.g) * tv))
+				b = Float32(rgb1.b + ((rgb2.b - rgb1.b) * tv))
 			}
 
 			do {

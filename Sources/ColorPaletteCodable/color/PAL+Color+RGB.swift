@@ -171,6 +171,17 @@ public extension PAL.Color {
 	}
 }
 
+extension PAL.Color {
+	/// Return a CSS rgba definition for this color
+	/// - Returns: A string containing the CSS representation
+	public func css() throws -> String {
+		let rgba = try self.rgbaComponents()
+		let r = Int(rgba.r * 255).clamped(to: 0 ... 255)
+		let g = Int(rgba.g * 255).clamped(to: 0 ... 255)
+		let b = Int(rgba.b * 255).clamped(to: 0 ... 255)
+		return "rgba(\(r), \(g), \(b), \(rgba.a));"
+	}
+}
 
 // MARK: RGB compoments
 
@@ -182,23 +193,12 @@ internal extension PAL.Color {
 }
 
 public extension PAL.Color {
-	/// Color RGBA component container
-	typealias RGBAComponents = (r: Double, g: Double, b: Double, a: Double)
-
 	/// Returns the rgb values as a tuple for a color with colorspace RGB.
 	///
 	/// Throws `CommonError.mismatchedColorspace` if the colorspace is not RGB
 	@inlinable func rgbValues() throws -> PAL.Color.RGB {
 		if colorSpace == .RGB { return PAL.Color.RGB(r: _r, g: _g, b: _b, a: self.alpha) }
 		throw PAL.CommonError.mismatchedColorspace
-	}
-
-	/// RGBA representation (0 ... 1) for the color
-	///
-	/// Converts the colorspace as necessary
-	@inlinable func rgbaComponents() throws -> RGBAComponents {
-		let c = try self.converted(to: .RGB)
-		return (r: Double(c._r), g: Double(c._g), b: Double(c._b), a: Double(c.alpha))
 	}
 
 	/// The color's red component IF the colorspace is `.RGB`

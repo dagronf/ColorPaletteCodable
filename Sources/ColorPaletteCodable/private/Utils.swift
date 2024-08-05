@@ -35,3 +35,15 @@ import Foundation
 @inlinable func lerp<T: FloatingPoint>(_ v0: T, _ v1: T, t: T) -> T {
 	return v0 + (t * (v1 - v0))
 }
+
+/// Convert a palettized 0 ... 255 value to a 0 ... 1 double value
+@inlinable @inline(__always)
+func __unit<T: BinaryFloatingPoint>(_ value: UInt8) -> T {
+	(T(value) / 255.0).unitClamped()
+}
+
+/// Convert a Double unit value to a palettized 0 ... 255 value
+@inlinable @inline(__always)
+func __palettized<T: BinaryFloatingPoint>(_ value: T) -> UInt8 {
+	UInt8(value * 255).clamped(to: 0 ... 255)
+}
