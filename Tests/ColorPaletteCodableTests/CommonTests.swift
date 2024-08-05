@@ -274,4 +274,10 @@ final class CommonTests: XCTestCase {
 			XCTAssertEqual(s1, s11)
 		}
 	}
+
+	func testCSSColorGeneration() throws {
+		let color = try PAL.Color(r255: 50, g255: 216, b255: 164)
+		XCTAssertEqual("rgba(50, 216, 164, 1.0)", try color.css())
+		XCTAssertEqual("rgb(50, 216, 164)", try color.css(includeAlpha: false))
+	}
 }

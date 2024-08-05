@@ -174,12 +174,14 @@ public extension PAL.Color {
 extension PAL.Color {
 	/// Return a CSS rgba definition for this color
 	/// - Returns: A string containing the CSS representation
-	public func css() throws -> String {
-		let rgba = try self.rgbaComponents()
-		let r = Int(rgba.r * 255).clamped(to: 0 ... 255)
-		let g = Int(rgba.g * 255).clamped(to: 0 ... 255)
-		let b = Int(rgba.b * 255).clamped(to: 0 ... 255)
-		return "rgba(\(r), \(g), \(b), \(rgba.a));"
+	public func css(includeAlpha: Bool = true) throws -> String {
+		let rgba = try self.rgba255Components()
+		if includeAlpha {
+			return "rgba(\(rgba.r), \(rgba.g), \(rgba.b), \(rgba.a))"
+		}
+		else {
+			return "rgb(\(rgba.r), \(rgba.g), \(rgba.b))"
+		}
 	}
 }
 
