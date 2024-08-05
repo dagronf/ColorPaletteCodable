@@ -187,11 +187,21 @@ extension PAL.Color {
 
 // MARK: RGB compoments
 
-// Unsafe RGB retrieval. No checks or validation are performed. Do not use unless you are absolutely sure.
+// Unsafe RGB retrieval. No checks or validation are performed. Do not use unless you are absolutely sure
+// that this color is rgb colorspaced
 internal extension PAL.Color {
-	@inlinable var _r: Float32 { self.colorComponents[0] }
-	@inlinable var _g: Float32 { self.colorComponents[1] }
-	@inlinable var _b: Float32 { self.colorComponents[2] }
+	@inlinable @inline(__always) var _r: Float32 {
+		assert(self.colorSpace == .RGB && self.colorComponents.count == 3)
+		return self.colorComponents[0]
+	}
+	@inlinable @inline(__always) var _g: Float32 {
+		assert(self.colorSpace == .RGB && self.colorComponents.count == 3)
+		return self.colorComponents[1]
+	}
+	@inlinable @inline(__always) var _b: Float32 {
+		assert(self.colorSpace == .RGB && self.colorComponents.count == 3)
+		return self.colorComponents[2]
+	}
 }
 
 public extension PAL.Color {
