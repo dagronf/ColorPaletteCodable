@@ -49,4 +49,6 @@ public extension PAL.Color {
 	static let magenta = PAL.Color.cmyk(0.0, 1.0, 0.0, 0.0, 1.0)
 	/// CMYK yellow color
 	static let yellow  = PAL.Color.cmyk(0.0, 0.0, 1.0, 0.0, 1.0)
+	/// CMYK [key color](https://www.jukeboxprint.com/blog/understanding-K-in-CMYK)
+	static let key     = PAL.Color.cmyk(0.0, 0.0, 0.0, 1.0, 1.0)
 }
