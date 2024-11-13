@@ -170,7 +170,7 @@ public extension PAL.Palette {
 //	}
 }
 
-#if !os(Linux)
+#if !os(Linux) && !os(Windows)
 
 import UniformTypeIdentifiers
 

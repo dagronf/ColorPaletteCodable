@@ -4,7 +4,7 @@ import SwiftImageReadWrite
 
 #if swift(>=5.5)
 
-#if !os(Linux)
+#if !os(Linux) && !os(Windows)
 
 final class ImageImportTests: XCTestCase {
 	func testImage1ToPalette() throws {

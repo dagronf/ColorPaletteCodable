@@ -21,7 +21,7 @@ class GIMPPaletteTests: XCTestCase {
 		}
 	}
 
-	#if !os(Linux)
+	#if !os(Linux) && !os(Windows)
 	func testImage() throws {
 		let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: "atari-800xl-palette", withExtension: "gpl"))
 		let palette = try PAL.Palette.Decode(from: paletteURL)
