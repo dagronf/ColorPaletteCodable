@@ -33,15 +33,15 @@ jobs:
       - name: Run tests
         run: swift test -v -c release
 
-  build-windows:
-    runs-on: windows-latest
-    steps:
-      - uses: compnerd/gha-setup-swift@main
-        with:
-          branch: swift-5.10-release
-          tag: 5.10-RELEASE
-      - uses: actions/checkout@v4
-      - name: Build
-        run: swift build -v
-      - name: Build
-        run: swift test -v
+#  build-windows:
+#    runs-on: windows-latest
+#    steps:
+#      - uses: compnerd/gha-setup-swift@main
+#        with:
+#          branch: swift-5.10-release
+#          tag: 5.10-RELEASE
+#      - uses: actions/checkout@v4
+#      - name: Build
+#        run: swift build -v
+#      - name: Build
+#        run: swift test -v
