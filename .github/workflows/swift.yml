@@ -7,7 +7,7 @@ jobs:
     name: Unit tests on macOS
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build
         run: swift build -v -c release
       - name: Run tests
@@ -17,7 +17,7 @@ jobs:
     name: Unit tests on iOS
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run tests on iOS
         run: xcodebuild -scheme ColorPaletteCodable test -destination "platform=iOS Simulator,name=iPhone SE (3rd generation),OS=latest"
 
@@ -27,8 +27,21 @@ jobs:
     container:
       image: swift:latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build
         run: swift build -v -c release
       - name: Run tests
         run: swift test -v -c release
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: compnerd/gha-setup-swift@main
+        with:
+          branch: swift-5.10-release
+          tag: 5.10-RELEASE
+      - uses: actions/checkout@v4
+      - name: Build
+        run: swift build -v
+      - name: Build
+        run: swift test -v
