@@ -36,12 +36,14 @@ import UIKit
 #endif
 
 public extension PAL.Coder {
-	/// A coder that handles loading a palette from a PNG image (just the first row of the image)
-	struct PNG: PAL_PaletteCoder {
-		public let name = "PNG"
-		public let fileExtension = ["png"]
+	/// A coder that handles loading a palette from an image (just the first row of the image)
+	struct Image: PAL_PaletteCoder {
+		public let name = "Image"
+
+		/// Supported import image types
+		public let fileExtension = ["png", "jpeg", "jpg", "gif"]
+		/// When importing, the accuracy when determining identical colors
 		public let accuracy: Double
-		public let exportType: ExportType
 
 		/// The format to use when exporting a palette image
 		public enum ExportType {
@@ -51,25 +53,42 @@ public extension PAL.Coder {
 			case image(CGSize)
 		}
 
+		/// When exporting, the image format
+		public let exportType: ExportType
+		/// When exporting, the type of image to generate
+		public let exportImageType: SwiftImageReadWrite.ImageExportType
+
 		/// Create a PNG coder/decoder
 		/// - Parameters:
 		///   - accuracy: When decoding, the accuracy required when matching colors
 		///   - exportType: The type of export
-		public init(accuracy: Double = 0.001, exportType: ExportType = .swatch()) {
+		///   - exportImageType: When exporting, the type of image to generate
+		public init(
+			accuracy: Double = 0.001,
+			exportType: ExportType = .swatch(),
+			exportImageType: SwiftImageReadWrite.ImageExportType = .png()
+		) {
 			self.accuracy = accuracy
 			self.exportType = exportType
+			self.exportImageType = exportImageType
 		}
 	}
 }
 
-public extension PAL.Coder.PNG {
+public extension PAL.Coder.Image {
+	/// Decode a palette using the first row of a image
+	/// - Parameter inputStream: The image data
+	/// - Returns: A palette representing the unique colors in the image
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
 		let data = inputStream.readAllData()
 		return try __decode(data: data, accuracy: accuracy)
 	}
 }
 
-public extension PAL.Coder.PNG {
+public extension PAL.Coder.Image {
+	/// Export an image representation for the palette
+	/// - Parameter palette: The palette
+	/// - Returns: Raw image data
 	func encode(_ palette: PAL.Palette) throws -> Data {
 		let colors = palette.allColors()
 
@@ -81,11 +100,9 @@ public extension PAL.Coder.PNG {
 				return CGSize(width: sz.width / CGFloat(colors.count), height: sz.height)
 			}
 		}()
-		return try __encode(colors, swatchSize: swatchSize)
+		return try __encode(colors, swatchSize: swatchSize, exportImageType: exportImageType)
 	}
 }
-
-
 
 // MARK: - Generic image decode
 
@@ -128,12 +145,12 @@ private func __decode(data: Data, accuracy: Double) throws -> PAL.Palette {
 		let b: Double
 		let a: Double
 
-		func isMostlyEqualTo(p2: Pixel?, accuracy: Double = 0.001) -> Bool {
+		func isMostlyEqualTo(p2: Pixel?, accuracy: Double) -> Bool {
 			guard let p2 = p2 else { return false }
 			return abs(self.r - p2.r) <= accuracy
-			&& abs(self.g - p2.g) <= accuracy
-			&& abs(self.b - p2.b) <= accuracy
-			&& abs(self.a - p2.a) <= accuracy
+				&& abs(self.g - p2.g) <= accuracy
+				&& abs(self.b - p2.b) <= accuracy
+				&& abs(self.a - p2.a) <= accuracy
 		}
 	}
 
@@ -159,7 +176,7 @@ private func __decode(data: Data, accuracy: Double) throws -> PAL.Palette {
 	return PAL.Palette(colors: palcols)
 }
 
-private func __encode(_ colors: [PAL.Color], swatchSize: CGSize) throws -> Data {
+private func __encode(_ colors: [PAL.Color], swatchSize: CGSize, exportImageType: ImageExportType) throws -> Data {
 	guard !colors.isEmpty else { throw PAL.CommonError.cannotCreateImage }
 
 	let bi = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue).rawValue
@@ -195,7 +212,7 @@ private func __encode(_ colors: [PAL.Color], swatchSize: CGSize) throws -> Data 
 		throw PAL.CommonError.cannotCreateImage
 	}
 
-	return try cgImage.representation.png(scale: 1)
+	return try cgImage.imageData(for: exportImageType)
 }
 
 #endif

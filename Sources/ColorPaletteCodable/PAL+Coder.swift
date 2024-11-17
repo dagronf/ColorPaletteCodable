@@ -51,7 +51,7 @@ public extension PAL.Palette {
 			PAL.Coder.CorelPainter(),
 		]
 #if canImport(CoreGraphics)
-		coders.append(PAL.Coder.PNG())
+		coders.append(PAL.Coder.Image())
 #endif
 
 		return coders
