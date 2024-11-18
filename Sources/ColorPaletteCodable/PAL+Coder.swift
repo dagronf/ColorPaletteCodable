@@ -49,6 +49,7 @@ public extension PAL.Palette {
 			PAL.Coder.PaintNET(),
 			PAL.Coder.SVG(),
 			PAL.Coder.CorelPainter(),
+			PAL.Coder.AndroidColorsXML(),
 		]
 #if canImport(CoreGraphics)
 		coders.append(PAL.Coder.Image())
@@ -71,6 +72,7 @@ public extension PAL.Palette {
 		PAL.Coder.HEX(),
 		PAL.Coder.PaintNET(),
 		PAL.Coder.CorelPainter(),
+		PAL.Coder.AndroidColorsXML(),
 	]
 }
 
