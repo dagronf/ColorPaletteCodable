@@ -18,7 +18,7 @@ cd "${BASEDIR}"/../..
 echo ">>>> iOS build and test..."
 
 xcodebuild clean build archive -scheme "ColorPaletteCodable" -destination 'generic/platform=iOS' -quiet
-xcodebuild test -scheme "ColorPaletteCodable" -destination 'platform=iOS Simulator,name=iPhone 11 Pro Max' -quiet
+xcodebuild test -scheme "ColorPaletteCodable" -destination 'platform=iOS Simulator,name=iPhone SE (3rd generation)' -quiet
 
 echo "<<<< iOS build and test COMPLETE..."
 

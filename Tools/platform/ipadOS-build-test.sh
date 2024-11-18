@@ -17,7 +17,7 @@ cd "${BASEDIR}"/../..
 
 echo ">>>> ipadOS build and test..."
 
-xcodebuild test -scheme "ColorPaletteCodable" -destination 'platform=iOS Simulator,name=iPad Air' -quiet
+xcodebuild test -scheme "ColorPaletteCodable" -destination 'platform=iOS Simulator,OS=17.4,name=iPad Air (5th generation)' -quiet
 
 echo "<<<< ipadOS build and test COMPLETE..."
 

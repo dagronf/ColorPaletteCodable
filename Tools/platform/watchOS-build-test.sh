@@ -18,7 +18,7 @@ cd "${BASEDIR}"/../..
 echo ">>>> watchOS build and test..."
 
 xcodebuild clean build archive -scheme "ColorPaletteCodable" -destination 'generic/platform=watchOS' -quiet
-xcodebuild test -scheme "ColorPaletteCodable" -destination 'platform=watchOS Simulator,name=Apple Watch' -quiet
+xcodebuild test -scheme "ColorPaletteCodable" -destination 'platform=watchOS Simulator,name=Apple Watch SE (40mm) (2nd generation)' -quiet
 
 echo "<<<< watchOS build and test COMPLETE..."
 
