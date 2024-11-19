@@ -62,6 +62,34 @@ final class ImageImportTests: XCTestCase {
 			XCTAssertEqual(image.size, CGSize(width: 7, height: 1))
 		}
 	}
+
+	func testImage4() throws {
+		let p = try loadResourcePalette(named: "sunnyswamp-1x.png")
+		XCTAssertEqual(5, p.colors.count)
+		let cc = try p.colors.map { try $0.hexRGB(hashmark: true, uppercase: true) }
+		XCTAssertEqual(["#DBD1B4", "#D1AD82", "#98A681", "#6A9490", "#667580"], cc)
+
+		let imageData = try PAL.Coder.Image(exportType: .swatch(.init(width: 1, height: 1))).encode(p)
+		let image = try XCTUnwrap(PlatformImage(data: imageData))
+		XCTAssertEqual(image.size, CGSize(width: 5, height: 1))
+	}
+
+	func testImage5() throws {
+		let p = try loadResourcePalette(named: "sweetie-16-32x.png")
+		XCTAssertEqual(16, p.colors.count)
+		let cc = try p.colors.map { try $0.hexRGB(hashmark: true, uppercase: true) }
+
+		let expected = [
+			"#1A1C2C", "#5D275D", "#B13E53", "#EF7D57", "#FFCD75", "#A7F070", "#38B764", "#257179",
+			"#29366F", "#3B5DC9", "#41A6F6", "#73EFF7", "#F4F4F4", "#94B0C2", "#566C86", "#333C57"
+		]
+
+		XCTAssertEqual(expected, cc)
+
+		let imageData = try PAL.Coder.Image(exportType: .swatch(.init(width: 1, height: 1))).encode(p)
+		let image = try XCTUnwrap(PlatformImage(data: imageData))
+		XCTAssertEqual(image.size, CGSize(width: 16, height: 1))
+	}
 }
 
 #endif

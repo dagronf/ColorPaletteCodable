@@ -29,7 +29,7 @@ Supports the following :-
 * RGBA text files (`.rgba`)
 * GIMP palette files (`.gpl`)
 * Paint Shop Pro files (`.pal`, `.psppalette`)
-* PNG files (`.png`)
+* Image palette files (`.png`, `.jpg`, `.gif`) (unique colors in the first row of the image)
 * Microsoft RIFF palette files (`.pal`) ***(read only)***
 * SketchPalette files (`.sketchpalette`)
 * CorelDraw/Adobe Illustrator xml palette (`.xml`)
@@ -37,7 +37,6 @@ Supports the following :-
 * JSON encoded color files (`.jsoncolorpalette`) ***ColorPaletteCodable internal file format***
 * Hex Color Palette (text file with delimited hexadecimal color strings) (`.hex`)
 * Paint.NET palette files (`.txt`)
-* PNG palette files (`.png`)
 * SVG swatches (`.svg`) ***(write only)***
 * Basic CSV
 * Basic XML
@@ -94,10 +93,10 @@ Some features :-
 |`PAL.Coder.CSV`                | CSV (.csv)                                  |
 |`PAL.Coder.GIMP`               | GIMP palette files (.gpl)                   |
 |`PAL.Coder.HEX`                | Hex Color Palette (`.hex`)                  |
+|`PAL.Coder.Image`              | Image files (.png, .jpg, .gif)              |
 |`PAL.Coder.JSON`               | JSON encoded palette (.jsoncolorpalette)    |
 |`PAL.Coder.PaintNET`           | Paint.NET Palette (.txt)                    |
 |`PAL.Coder.PaintShopPro`       | Paint Shop Pro palette (.pal;.psppalette)   |
-|`PAL.Coder.PNG`                | PNG Image (.png)                            |
 |`PAL.Coder.RGBA`               | RGB(A) text files (.rgba)                   |
 |`PAL.Coder.RGB`                | RGB text files (.rgb)                       |
 |`PAL.Coder.RIFF`               | Microsoft RIFF palette (.pal)               |
@@ -176,10 +175,10 @@ let rawData = try encoder.encode(palette)
 | `PAL.Coder.CSV`              | Text                   |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.GIMP`             | Text                   |    ✅    |    ✅    |         ✅       |         ✅        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.HEX`              | Text                   |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.Image`            | Binary                 |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |        ❌           |
 | `PAL.Coder.JSON`             | JSON Text              |    ✅    |    ✅    |         ✅       |         ✅        |        ✅       |          ✅          |        ✅           |
 | `PAL.Coder.PaintNET`         | Text                   |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.PaintShopPro`     | Text                   |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
-| `PAL.Coder.PNG`              | Binary                 |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |        ❌           |
 | `PAL.Coder.RGB/A`            | Text                   |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.RIFF`             | Binary                 |    ✅    |    ❌    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.SketchPalette`    | XML                    |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
