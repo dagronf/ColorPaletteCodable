@@ -366,4 +366,57 @@ final class CommonTests: XCTestCase {
 			try colors.bucketedColor(at: 0.75.unitValue, interpolate: true)
 		)
 	}
+
+	func testInterpolateBetweenTwoColors() throws {
+
+		do {
+			let priceColors = try PAL.Color.interpolate(
+				firstColor: .red,
+				lastColor: .green,
+				count: 3
+			)
+
+			XCTAssertEqual(PAL.Color.red, priceColors[0])
+			XCTAssertEqual(try PAL.Color(rf: 0.5, gf: 0.5, bf: 0), priceColors[1])
+			XCTAssertEqual(PAL.Color.green, priceColors[2])
+			XCTAssertEqual(3, priceColors.count)
+		}
+
+		do {
+			let priceColors = try PAL.Color.interpolate(
+				firstColor: PAL.Color(rf: 1, gf: 0.5, bf: 1),
+				lastColor: PAL.Color(rf: 0, gf: 0.5, bf: 0.5),
+				count: 3
+			)
+
+			XCTAssertEqual(try PAL.Color(rf: 1, gf: 0.5, bf: 1), priceColors[0])
+			XCTAssertEqual(try PAL.Color(rf: 0.5, gf: 0.5, bf: 0.75), priceColors[1])
+			XCTAssertEqual(try PAL.Color(rf: 0, gf: 0.5, bf: 0.5), priceColors[2])
+			XCTAssertEqual(3, priceColors.count)
+		}
+
+		do {
+			XCTAssertThrowsError(try PAL.Colors.blackToWhite(count: 0))
+			let g = try PAL.Colors.blackToWhite(count: 1)
+			// Single count means only white
+			XCTAssertEqual([.white], g)
+		}
+
+		do {
+			let grays = try PAL.Colors.blackToWhite(count: 3)
+			XCTAssertEqual(3, grays.count)
+			XCTAssertEqual(try PAL.Color(rf: 0, gf: 0, bf: 0), grays[0])
+			XCTAssertEqual(try PAL.Color(rf: 0.5, gf: 0.5, bf: 0.5), grays[1])
+			XCTAssertEqual(try PAL.Color(rf: 1, gf: 1, bf: 1), grays[2])
+		}
+
+		do {
+			let c = try PAL.Colors.colorToClear(.green, count: 4)
+			XCTAssertEqual(4, c.count)
+			XCTAssertTrue(try PAL.Color(rf: 0, gf: 1, bf: 0, af: 1).isEqual(to: c[0], precision: 8))
+			XCTAssertTrue(try PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.666666666).isEqual(to: c[1], precision: 8))
+			XCTAssertTrue(try PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.333333333).isEqual(to: c[2], precision: 8))
+			XCTAssertTrue(try PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.0).isEqual(to: c[3], precision: 8))
+		}
+	}
 }

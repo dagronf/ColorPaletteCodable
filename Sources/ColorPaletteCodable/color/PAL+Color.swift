@@ -107,6 +107,26 @@ public extension PAL {
 			lhs.colorType == rhs.colorType &&
 			lhs.alpha == rhs.alpha
 		}
+
+		/// Equality with a precision
+		public func isEqual(to c1: PAL.Color, precision: UInt) -> Bool {
+			guard
+				self.colorComponents.count == c1.colorComponents.count,
+				self.colorSpace == c1.colorSpace,
+				self.name == c1.name,
+				self.colorType == c1.colorType,
+				self.alpha.isEqual(to: c1.alpha, precision: precision)
+			else {
+				return false
+			}
+
+			for index in 0 ..< self.colorComponents.count {
+				if self.colorComponents[index].isEqual(to: c1.colorComponents[index], precision: precision) == false {
+					return false
+				}
+			}
+			return true
+		}
 	}
 }
 

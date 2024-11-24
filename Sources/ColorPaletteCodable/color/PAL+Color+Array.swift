@@ -22,17 +22,6 @@
 import Foundation
 
 public extension Array where Element == PAL.Color {
-	/// Return a gradient containing these colors evenly spaced
-	/// - Parameters:
-	///   - name: The name for the gradient (optional)
-	/// - Returns: A new gradient
-	@inlinable
-	func gradient(named name: String? = nil) -> PAL.Gradient {
-		PAL.Gradient(name: name, colors: self)
-	}
-}
-
-public extension Array where Element == PAL.Color {
 	/// Returns a color for a time value mapped within an evenly spaced array of colors
 	/// - Parameters:
 	///   - t: The time value, 0.0 ... 1.0
@@ -57,11 +46,11 @@ public extension Array where Element == PAL.Color {
 
 		let tValue = t.value
 
-		if tValue.isEqualTo(0.0, precision: 8) {
+		if tValue.isEqual(to: 0.0, precision: 8) {
 			// Just return the first value (which will exist because we've checked earlier, hence the force unwrap)
 			return self.first!
 		}
-		else if tValue.isEqualTo(1.0, precision: 8) {
+		else if tValue.isEqual(to: 1.0, precision: 8) {
 			// Just return the last value (which will exist because we've checked earlier, hence the force unwrap)
 			return self.last!
 		}
@@ -90,12 +79,12 @@ public extension Array where Element == PAL.Color {
 		let tValue = t.value
 
 		// If t == 0, return the first value
-		if tValue.isEqualTo(0.0, precision: 8) {
+		if tValue.isEqual(to: 0.0, precision: 8) {
 			return self.first!
 		}
 
 		// If t == 1, return the last value
-		if tValue.isEqualTo(1.0, precision: 8) {
+		if tValue.isEqual(to: 1.0, precision: 8) {
 			return self.last!
 		}
 

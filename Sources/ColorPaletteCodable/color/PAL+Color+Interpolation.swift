@@ -61,15 +61,17 @@ public extension PAL.Color {
 	///   - lastColor: The second (ending) color for the palette
 	///   - count: Number of colors to generate
 	static func interpolate(firstColor: PAL.Color, lastColor: PAL.Color, count: Int) throws -> [PAL.Color] {
-		assert(count > 2)
+		if count == 0 { throw PAL.CommonError.tooFewColors }
+		if count == 1 { return [.white] }
+
 		let c1 = try firstColor.rgbaComponents()
 		let c2 = try lastColor.rgbaComponents()
 		let step = 1.0 / Double(count - 1)
 
-		let rdiff = (c1.r - c2.r) * step
-		let gdiff = (c1.g - c2.g) * step
-		let bdiff = (c1.b - c2.b) * step
-		let adiff = (c1.a - c2.a) * step
+		let rdiff = (c2.r - c1.r) * step
+		let gdiff = (c2.g - c1.g) * step
+		let bdiff = (c2.b - c1.b) * step
+		let adiff = (c2.a - c1.a) * step
 
 		return try (0 ..< count).map { index in
 			let index = Double(index)
