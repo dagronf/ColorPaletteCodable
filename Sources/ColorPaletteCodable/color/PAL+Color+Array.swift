@@ -21,20 +21,20 @@
 
 import Foundation
 
-extension Array where Element == PAL.Color {
+public extension Array where Element == PAL.Color {
 	/// Returns a color for a time value mapped within an evenly spaced array of colors
 	/// - Parameters:
 	///   - t: The time value, 0.0 ... 1.0
 	///   - interpolate: If true, returns the interpolated color. if false, returns the bucketed color.
 	/// - Returns: The color that falls within the time bucket
-	public func bucketedColor(at t: UnitValue<Double>, interpolate: Bool) throws -> PAL.Color {
+	func bucketedColor(at t: UnitValue<Double>, interpolate: Bool) throws -> PAL.Color {
 		interpolate ? try self.interpolatedColor(at: t) : try self.bucketedColor(at: t)
 	}
 
 	/// Returns a bucketed color for a time value mapped within an evenly spaced array of colors
 	/// - Parameter t: The time value, 0.0 ... 1.0
 	/// - Returns: The color that falls within the time bucket
-	public func bucketedColor(at t: UnitValue<Double>) throws -> PAL.Color {
+	func bucketedColor(at t: UnitValue<Double>) throws -> PAL.Color {
 		guard self.count > 0 else {
 			throw PAL.CommonError.tooFewColors
 		}
@@ -66,7 +66,7 @@ extension Array where Element == PAL.Color {
 	/// Returns an interpolated color for a time value mapped within an evenly spaced array of colors
 	/// - Parameter t: The time value, 0.0 ... 1.0
 	/// - Returns: The color that falls within the time bucket
-	public func interpolatedColor(at t: UnitValue<Double>) throws -> PAL.Color {
+	func interpolatedColor(at t: UnitValue<Double>) throws -> PAL.Color {
 		guard self.count > 0 else {
 			throw PAL.CommonError.tooFewColors
 		}
