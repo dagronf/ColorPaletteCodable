@@ -85,6 +85,18 @@ public extension PAL.Colors {
 	}
 }
 
+public extension PAL.Colors {
+	/// Returns an array of interpolated colors
+	/// - Parameter count: The number of colors
+	/// - Returns: An array of interpolated colors
+	@inlinable
+	func interpolatedColors(count: Int) throws -> PAL.Colors {
+		try stride(from: 0.0, through: 1.0, by: 1.0 / Double(count - 1)).map {
+			try self.interpolatedColor(at: $0.unitValue)
+		}
+	}
+}
+
 // MARK: - Gradient
 
 public extension PAL.Colors {

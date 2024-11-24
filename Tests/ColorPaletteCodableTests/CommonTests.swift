@@ -419,4 +419,25 @@ final class CommonTests: XCTestCase {
 			XCTAssertTrue(try PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.0).isEqual(to: c[3], precision: 8))
 		}
 	}
+
+	func testInterpolateColors() throws {
+		// Color array
+		let colors: [PAL.Color] = [
+			try PAL.Color(rf: 1, gf: 0, bf: 0),
+			try PAL.Color(rf: 1, gf: 1, bf: 0),
+			try PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.5),
+		]
+
+		let cs1 = try colors.interpolatedColors(count: 3)
+		XCTAssertEqual(try PAL.Color(rf: 1, gf: 0, bf: 0), cs1[0])
+		XCTAssertEqual(try PAL.Color(rf: 1, gf: 1, bf: 0), cs1[1])
+		XCTAssertEqual(try PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.5), cs1[2])
+
+		let cs2 = try colors.interpolatedColors(count: 5)
+		XCTAssertEqual(try PAL.Color(rf: 1, gf: 0, bf: 0), cs2[0])
+		XCTAssertEqual(try PAL.Color(rf: 1, gf: 0.5, bf: 0), cs2[1])
+		XCTAssertEqual(try PAL.Color(rf: 1, gf: 1, bf: 0), cs2[2])
+		XCTAssertEqual(try PAL.Color(rf: 0.5, gf: 1, bf: 0, af: 0.75), cs2[3])
+		XCTAssertEqual(try PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.5), cs2[4])
+	}
 }
