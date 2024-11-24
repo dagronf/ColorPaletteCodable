@@ -22,6 +22,17 @@
 import Foundation
 
 public extension Array where Element == PAL.Color {
+	/// Return a gradient containing these colors evenly spaced
+	/// - Parameters:
+	///   - name: The name for the gradient (optional)
+	/// - Returns: A new gradient
+	@inlinable
+	func gradient(named name: String? = nil) -> PAL.Gradient {
+		PAL.Gradient(name: name, colors: self)
+	}
+}
+
+public extension Array where Element == PAL.Color {
 	/// Returns a color for a time value mapped within an evenly spaced array of colors
 	/// - Parameters:
 	///   - t: The time value, 0.0 ... 1.0

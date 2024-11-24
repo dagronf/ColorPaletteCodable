@@ -282,4 +282,19 @@ class GradientTests: XCTestCase {
 			#endif
 		}
 	}
+
+	func testGradientCreationFromArray() throws {
+		let colors: [PAL.Color] = [
+			try PAL.Color(name: "r", r255: 255, g255: 0, b255: 0),
+			try PAL.Color(name: "g", r255: 0, g255: 255, b255: 0),
+			try PAL.Color(name: "b", r255: 0, g255: 0, b255: 255),
+		]
+		let g = colors.gradient()
+		XCTAssertNil(g.name)
+		XCTAssertEqual([0, 0.5, 1], g.stops.map { $0.position })
+		XCTAssertEqual(colors, g.stops.map { $0.color })
+
+		let g1 = colors.gradient(named: "g")
+		XCTAssertEqual("g", g1.name)
+	}
 }
