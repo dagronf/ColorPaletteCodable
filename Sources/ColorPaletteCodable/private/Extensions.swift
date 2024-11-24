@@ -141,3 +141,14 @@ extension Data {
 #endif
 	}
 }
+
+extension Double {
+	/// An equality check with a precision accuracy
+	/// - Parameters:
+	///   - value: The value to compare
+	///   - precision: The precision (accuracy) in decimal places (eg. 8 == 8 decimal places)
+	/// - Returns: True if mostly equal, false otherwise
+	func isEqualTo(_ value: Double, precision: UInt) -> Bool {
+		return abs(self - value) < pow(10, -Double(precision))
+	}
+}

@@ -280,4 +280,90 @@ final class CommonTests: XCTestCase {
 		XCTAssertEqual("rgba(50, 216, 164, 1.0)", try color.css())
 		XCTAssertEqual("rgb(50, 216, 164)", try color.css(includeAlpha: false))
 	}
+
+	func testBucketColor() throws {
+		// No colors, this should throw an error
+		XCTAssertThrowsError(try [PAL.Color]().bucketedColor(at: 0.unitValue))
+
+		let colors: [PAL.Color] = [
+			try PAL.Color(name: "r", r255: 255, g255: 0, b255: 0),
+			try PAL.Color(name: "g", r255: 0, g255: 255, b255: 0),
+			try PAL.Color(name: "b", r255: 0, g255: 0, b255: 255),
+		]
+		let p1 = PAL.Palette(colors: colors)
+
+		XCTAssertEqual("r", try p1.colors.bucketedColor(at: 0.unitValue).name)
+		XCTAssertEqual("r", try p1.colors.bucketedColor(at: 0.32.unitValue).name)
+
+		XCTAssertEqual("g", try p1.colors.bucketedColor(at: 0.34.unitValue).name)
+		XCTAssertEqual("g", try p1.colors.bucketedColor(at: 0.5.unitValue).name)
+		XCTAssertEqual("g", try p1.colors.bucketedColor(at: 0.65.unitValue).name)
+
+		XCTAssertEqual("b", try p1.colors.bucketedColor(at: 0.67.unitValue).name)
+		XCTAssertEqual("b", try p1.colors.bucketedColor(at: 1.unitValue).name)
+	}
+
+	func testLinearColor2() throws {
+		// No colors, this should throw an error
+		XCTAssertThrowsError(try [PAL.Color]().bucketedColor(at: 0.unitValue))
+
+		let colors: [PAL.Color] = [
+			try PAL.Color(name: "r", r255: 255, g255: 0, b255: 0),
+			try PAL.Color(name: "b", r255: 0, g255: 0, b255: 255),
+		]
+
+		XCTAssertEqual(colors[0], try colors.interpolatedColor(at: 0.unitValue))
+		XCTAssertEqual(colors[1], try colors.interpolatedColor(at: 1.unitValue))
+
+		XCTAssertEqual(
+			try PAL.Color(rf: 0.75, gf: 0, bf: 0.25),
+			try colors.interpolatedColor(at: 0.25.unitValue)
+		)
+
+		XCTAssertEqual(
+			try PAL.Color(rf: 0.5, gf: 0, bf: 0.5),
+			try colors.interpolatedColor(at: 0.5.unitValue)
+		)
+
+		XCTAssertEqual(
+			try PAL.Color(rf: 0.25, gf: 0, bf: 0.75),
+			try colors.interpolatedColor(at: 0.75.unitValue)
+		)
+	}
+
+	func testLinearColor3() throws {
+		// No colors, this should throw an error
+		XCTAssertThrowsError(try [PAL.Color]().bucketedColor(at: 0.unitValue))
+
+		// Single color, should just return the color
+		let color = try PAL.Color(r255: 255, g255: 255, b255: 0)
+		XCTAssertEqual(color, try [color].bucketedColor(at: 0.unitValue))
+		XCTAssertEqual(color, try [color].bucketedColor(at: 1.unitValue))
+
+		// Color array
+		let colors: [PAL.Color] = [
+			try PAL.Color(r255: 255, g255: 0, b255: 0),
+			try PAL.Color(r255: 0, g255: 255, b255: 0),
+			try PAL.Color(r255: 0, g255: 0, b255: 255),
+		]
+
+		XCTAssertEqual(colors[0], try colors.interpolatedColor(at: 0.unitValue))
+		XCTAssertEqual(colors[1], try colors.interpolatedColor(at: 0.5.unitValue))
+		XCTAssertEqual(colors[2], try colors.interpolatedColor(at: 1.unitValue))
+
+		XCTAssertEqual(
+			try PAL.Color(rf: 0.75, gf: 0.25, bf: 0.0),
+			try colors.bucketedColor(at: 0.125.unitValue, interpolate: true)
+		)
+
+		XCTAssertEqual(
+			try PAL.Color(rf: 0.5, gf: 0.5, bf: 0.0),
+			try colors.bucketedColor(at: 0.25.unitValue, interpolate: true)
+		)
+
+		XCTAssertEqual(
+			try PAL.Color(rf: 0.0, gf: 0.5, bf: 0.5),
+			try colors.bucketedColor(at: 0.75.unitValue, interpolate: true)
+		)
+	}
 }
