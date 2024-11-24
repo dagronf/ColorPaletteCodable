@@ -86,7 +86,7 @@ public extension PAL.Colors {
 }
 
 public extension PAL.Colors {
-	/// Returns an array of interpolated colors
+	/// Returns an array of interpolated colors for an array of equally spaced colors
 	/// - Parameter count: The number of colors
 	/// - Returns: An array of interpolated colors
 	@inlinable
