@@ -111,6 +111,25 @@ public extension PAL.Color {
 			colorType: colorType,
 			alpha: color.a)
 	}
+
+	/// Create a color object from an [a]rgb hex string
+	/// - Parameters:
+	///   - name: The color name
+	///   - argbHexString: The argb hex string
+	///   - colorType: The color type
+	///
+	/// Supported hex formats :-
+	/// - [#]FFFFFF   : RGB color
+	/// - [#]FFFFFFFF : ARGB color
+	init(name: String = "", argbHexString: String, colorType: PAL.ColorType = .normal) throws {
+		let color = try PAL.Color.RGB(argbHexString: argbHexString)
+		try self.init(
+			name: name,
+			colorSpace: .RGB,
+			colorComponents: [color.r, color.g, color.b],
+			colorType: colorType,
+			alpha: color.a)
+	}
 }
 
 public extension PAL.Color {

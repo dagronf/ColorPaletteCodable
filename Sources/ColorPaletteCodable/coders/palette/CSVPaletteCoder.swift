@@ -111,7 +111,7 @@ public extension PAL.Coder.CSV {
 
 		var results: String = ""
 		try cl.forEach { c in
-			results += try c.hexRGB(alpha: encodeAlpha, hashmark: true, uppercase: false)
+			results += try c.hexRGB(includeAlpha: encodeAlpha, hashmark: true, uppercase: false)
 			if c.name.count > 0 {
 				results += ", \(c.name)"
 			}

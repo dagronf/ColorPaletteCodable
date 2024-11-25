@@ -76,7 +76,7 @@ class AndroidColorsXMLTests: XCTestCase {
 			// Check including alpha during coding
 			let coder = PAL.Coder.AndroidColorsXML(includeAlphaDuringExport: true)
 			let data = try coder.encode(palette)
-			//try data.write(to: URL(fileURLWithPath: "/tmp/colors-a.xml"))
+			try data.write(to: URL(fileURLWithPath: "/tmp/colors-a.xml"))
 			let matchData = try loadResourceData(named: "android_basicrgbacolors.xml")
 			XCTAssertEqual(matchData, data)
 		}

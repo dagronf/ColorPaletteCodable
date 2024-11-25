@@ -77,6 +77,48 @@ public extension PAL.Color {
 			self.a = alpha
 		}
 
+		/// Create a color from an ARGB hex color string
+		/// - Parameter argbHexString: The hex string of the form `[#][AA]RRGGBB`
+		public init(argbHexString: String) throws {
+			var string = argbHexString.lowercased()
+			if argbHexString.hasPrefix("#") {
+				string = String(string.dropFirst())
+			}
+			switch string.count {
+			case 3:
+				string = "f" + string
+				fallthrough
+			case 4:
+				let chars = Array(string)
+				let red = chars[0]
+				let green = chars[1]
+				let blue = chars[2]
+				let alpha = chars[3]
+				string = "\(alpha)\(alpha)\(red)\(red)\(green)\(green)\(blue)\(blue)"
+			case 6:
+				string = "ff" + string
+			case 8:
+				break
+			default:
+				throw PAL.CommonError.invalidRGBHexString(argbHexString)
+			}
+
+			guard let rgba = Double("0x" + string)
+				.flatMap( {UInt32(exactly: $0) } )
+			else {
+				throw PAL.CommonError.invalidRGBHexString(argbHexString)
+			}
+			let alpha = Float32((rgba & 0xFF00_0000) >> 24) / 255.0
+			let red = Float32((rgba & 0x00FF_0000) >> 16) / 255.0
+			let green = Float32((rgba & 0x0000_FF00) >> 8) / 255.0
+			let blue = Float32((rgba & 0x0000_00FF) >> 0) / 255.0
+
+			self.r = red
+			self.g = green
+			self.b = blue
+			self.a = alpha
+		}
+
 		public static func == (lhs: PAL.Color.RGB, rhs: PAL.Color.RGB) -> Bool {
 			return
 				abs(lhs.r - rhs.r) < 0.005 &&

@@ -33,7 +33,7 @@ public extension PAL.Color {
 	///   - uppercase: If true, uppercases the string
 	/// - Returns: Hex encoded color
 	func hexRGB(hashmark: Bool, uppercase: Bool = false) throws -> String {
-		try self.hexRGB(alpha: false, hashmark: hashmark, uppercase: uppercase)
+		try self.hexRGB(includeAlpha: false, hashmark: hashmark, uppercase: uppercase)
 	}
 
 	/// Return a hex RGBA string (eg. "523b50") with an alpha component
@@ -42,7 +42,7 @@ public extension PAL.Color {
 	///   - uppercase: If true, uppercases the string
 	/// - Returns: Hex encoded color
 	func hexRGBA(hashmark: Bool, uppercase: Bool = false) throws -> String {
-		try self.hexRGB(alpha: true, hashmark: hashmark, uppercase: uppercase)
+		try self.hexRGB(includeAlpha: true, hashmark: hashmark, uppercase: uppercase)
 	}
 
 	/// Return a hex RGB string (eg. "523b50ff", "#523b50")
@@ -53,7 +53,7 @@ public extension PAL.Color {
 	/// - Returns: Hex encoded color
 	///
 	/// If the underlying colorspace is not RGB attempts conversion to RGB before failing
-	func hexRGB(alpha: Bool, hashmark: Bool, uppercase: Bool) throws -> String {
+	func hexRGB(includeAlpha: Bool, hashmark: Bool, uppercase: Bool) throws -> String {
 		let rgb = try self.converted(to: .RGB)
 		let r = rgb.colorComponents[0]
 		let g = rgb.colorComponents[1]
@@ -67,9 +67,37 @@ public extension PAL.Color {
 
 		var result = hashmark ? "#" : ""
 		result += String(format: uppercase ? "%02X%02X%02X" : "%02x%02x%02x", cr, cg, cb)
-		if alpha {
+		if includeAlpha {
 			result += String(format: uppercase ? "%02X" : "%02x", ca)
 		}
+		return result
+	}
+
+	/// Return a hex ARGB string (eg. "523b50ff", "#523b50")
+	/// - Parameters:
+	///   - alpha: If true, includes the alpha component
+	///   - hashmark: If true, includes a hash mark '#' at the start of the string
+	///   - uppercase: If true, uppercases the string
+	/// - Returns: Hex encoded color
+	///
+	/// If the underlying colorspace is not RGB attempts conversion to RGB before failing
+	func hexARGB(includeAlpha: Bool, hashmark: Bool, uppercase: Bool) throws -> String {
+		let rgb = try self.converted(to: .RGB)
+		let r = rgb.colorComponents[0]
+		let g = rgb.colorComponents[1]
+		let b = rgb.colorComponents[2]
+		let a = rgb.alpha
+
+		let cr = UInt8(r * 255).clamped(to: 0 ... 255)
+		let cg = UInt8(g * 255).clamped(to: 0 ... 255)
+		let cb = UInt8(b * 255).clamped(to: 0 ... 255)
+		let ca = UInt8(a * 255).clamped(to: 0 ... 255)
+
+		var result = hashmark ? "#" : ""
+		if includeAlpha {
+			result += String(format: uppercase ? "%02X" : "%02x", ca)
+		}
+		result += String(format: uppercase ? "%02X%02X%02X" : "%02x%02x%02x", cr, cg, cb)
 		return result
 	}
 }
