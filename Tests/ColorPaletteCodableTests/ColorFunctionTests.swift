@@ -39,7 +39,7 @@ final class ColorFunctionTests: XCTestCase {
 
 		do {
 			// https://www.color-hex.com/color/9440bf
-			let c1 = try PAL.Color(rgbHexString: "#9340BF")
+			let c1 = try PAL.Color(rgbaHexString: "#9340BF")
 			let comp1 = try c1.complementary()
 			XCTAssertEqual(comp1.colorSpace, .RGB)
 			#if os(macOS)

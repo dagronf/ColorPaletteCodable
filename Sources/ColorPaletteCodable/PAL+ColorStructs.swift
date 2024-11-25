@@ -37,9 +37,16 @@ public extension PAL.Color {
 		}
 
 		/// Create RGBA components from an RGB(A) hex string
-		public init(hexString: String) throws {
-			var string = hexString.lowercased()
-			if hexString.hasPrefix("#") {
+		/// - Parameter rgbaHexString: The hex string
+		///
+		/// Supported hex formats :-
+		/// - [#]FFF      : RGB color
+		/// - [#]FFFF     : RGBA color
+		/// - [#]FFFFFF   : RGB color
+		/// - [#]FFFFFFFF : RGBA color
+		public init(rgbaHexString: String) throws {
+			var string = rgbaHexString.lowercased()
+			if rgbaHexString.hasPrefix("#") {
 				string = String(string.dropFirst())
 			}
 			switch string.count {
@@ -58,13 +65,13 @@ public extension PAL.Color {
 			case 8:
 				break
 			default:
-				throw PAL.CommonError.invalidRGBHexString(hexString)
+				throw PAL.CommonError.invalidRGBHexString(rgbaHexString)
 			}
 
 			guard let rgba = Double("0x" + string)
 				.flatMap( {UInt32(exactly: $0) } )
 			else {
-				throw PAL.CommonError.invalidRGBHexString(hexString)
+				throw PAL.CommonError.invalidRGBHexString(rgbaHexString)
 			}
 			let red = Float32((rgba & 0xFF00_0000) >> 24) / 255.0
 			let green = Float32((rgba & 0x00FF_0000) >> 16) / 255.0
@@ -78,7 +85,13 @@ public extension PAL.Color {
 		}
 
 		/// Create a color from an ARGB hex color string
-		/// - Parameter argbHexString: The hex string of the form `[#][AA]RRGGBB`
+		/// - Parameter argbHexString: The hex string of the form `[#][AA]RRGGBB
+		///
+		/// Supported hex formats :-
+		/// - [#]FFF      : RGB color
+		/// - [#]FFFF     : ARGB color
+		/// - [#]FFFFFF   : RGB color
+		/// - [#]FFFFFFFF : ARGB color
 		public init(argbHexString: String) throws {
 			var string = argbHexString.lowercased()
 			if argbHexString.hasPrefix("#") {
@@ -103,15 +116,15 @@ public extension PAL.Color {
 				throw PAL.CommonError.invalidRGBHexString(argbHexString)
 			}
 
-			guard let rgba = Double("0x" + string)
+			guard let argb = Double("0x" + string)
 				.flatMap( {UInt32(exactly: $0) } )
 			else {
 				throw PAL.CommonError.invalidRGBHexString(argbHexString)
 			}
-			let alpha = Float32((rgba & 0xFF00_0000) >> 24) / 255.0
-			let red = Float32((rgba & 0x00FF_0000) >> 16) / 255.0
-			let green = Float32((rgba & 0x0000_FF00) >> 8) / 255.0
-			let blue = Float32((rgba & 0x0000_00FF) >> 0) / 255.0
+			let alpha = Float32((argb & 0xFF00_0000) >> 24) / 255.0
+			let red = Float32((argb & 0x00FF_0000) >> 16) / 255.0
+			let green = Float32((argb & 0x0000_FF00) >> 8) / 255.0
+			let blue = Float32((argb & 0x0000_00FF) >> 0) / 255.0
 
 			self.r = red
 			self.g = green

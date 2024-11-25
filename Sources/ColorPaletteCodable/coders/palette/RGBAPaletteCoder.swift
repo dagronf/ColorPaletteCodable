@@ -89,7 +89,7 @@ public extension PAL.Coder.RGBA {
 				let hex = l[match.captures[0]]
 				let name = l[match.captures[1]]
 
-				let color = try PAL.Color(name: String(name), rgbHexString: String(hex))
+				let color = try PAL.Color(name: String(name), rgbaHexString: String(hex))
 				palette.colors.append(color)
 			}
 		}

@@ -95,21 +95,26 @@ public extension PAL.Color {
 		try self.init(name: name, rf: color.r, gf: color.g, bf: color.b, af: color.a, colorType: colorType)
 	}
 
-	/// Create a color object from a rgb hex string (eg. "12E5B4" or "#12E5B4")
+	/// Create a color object from an rgb(a) hex string
+	/// - Parameters:
+	///   - name: The color name
+	///   - rgbaHexString: The argb hex string
+	///   - colorType: The color type
 	///
 	/// Supported hex formats :-
 	/// - [#]FFF      : RGB color
-	/// - [#]FFFF     : RGBA color
+	/// - [#]FFFF     : RGBA color (RRGGBB)
 	/// - [#]FFFFFF   : RGB color
-	/// - [#]FFFFFFFF : RGBA color
-	init(name: String = "", rgbHexString: String, colorType: PAL.ColorType = .normal) throws {
-		let color = try PAL.Color.RGB(hexString: rgbHexString)
+	/// - [#]FFFFFFFF : RGBA color (RRGGBBAA)
+	init(name: String = "", rgbaHexString: String, colorType: PAL.ColorType = .normal) throws {
+		let color = try PAL.Color.RGB(rgbaHexString: rgbaHexString)
 		try self.init(
 			name: name,
 			colorSpace: .RGB,
 			colorComponents: [color.r, color.g, color.b],
 			colorType: colorType,
-			alpha: color.a)
+			alpha: color.a
+		)
 	}
 
 	/// Create a color object from an [a]rgb hex string
@@ -119,8 +124,10 @@ public extension PAL.Color {
 	///   - colorType: The color type
 	///
 	/// Supported hex formats :-
+	/// - [#]FFF      : RGB color
+	/// - [#]FFFF     : ARGB color (ARGB)
 	/// - [#]FFFFFF   : RGB color
-	/// - [#]FFFFFFFF : ARGB color
+	/// - [#]FFFFFFFF : ARGB color (AARRGGBB)
 	init(name: String = "", argbHexString: String, colorType: PAL.ColorType = .normal) throws {
 		let color = try PAL.Color.RGB(argbHexString: argbHexString)
 		try self.init(
@@ -128,7 +135,8 @@ public extension PAL.Color {
 			colorSpace: .RGB,
 			colorComponents: [color.r, color.g, color.b],
 			colorType: colorType,
-			alpha: color.a)
+			alpha: color.a
+		)
 	}
 }
 

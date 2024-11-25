@@ -96,7 +96,7 @@ private struct SketchFile: Codable {
 			self.colors = colors
 		}
 		else if let hexColors = try? container.decode([String].self, forKey: .colors) {
-			let colors = try hexColors.compactMap { try PAL.Color(rgbHexString: $0) }
+			let colors = try hexColors.compactMap { try PAL.Color(rgbaHexString: $0) }
 				.compactMap { SketchColor(red: try $0.r(), green: try $0.g(), blue: try $0.b(), alpha: $0.alpha) }
 			self.colors = colors
 		}

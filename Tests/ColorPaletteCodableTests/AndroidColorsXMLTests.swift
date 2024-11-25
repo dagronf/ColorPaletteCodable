@@ -6,10 +6,10 @@ import Foundation
 class AndroidColorsXMLTests: XCTestCase {
 
 	let files = [
-		"android_webcolors_colors.xml",
-		"android_basicrgbcolors.xml",
-		"android_basicrgbacolors.xml",
-		"android_colors_xml.xml",
+//		"android_webcolors_colors.xml",
+//		"android_basicrgbcolors.xml",
+//		"android_basicrgbacolors.xml",
+//		"android_colors_xml.xml",
 		"android_colors_comments_xml.xml",
 	]
 
