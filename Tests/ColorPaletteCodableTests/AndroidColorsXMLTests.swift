@@ -6,10 +6,10 @@ import Foundation
 class AndroidColorsXMLTests: XCTestCase {
 
 	let files = [
-//		"android_webcolors_colors.xml",
-//		"android_basicrgbcolors.xml",
-//		"android_basicrgbacolors.xml",
-//		"android_colors_xml.xml",
+		"android_webcolors_colors.xml",
+		"android_basicrgbcolors.xml",
+		"android_basicrgbacolors.xml",
+		"android_colors_xml.xml",
 		"android_colors_comments_xml.xml",
 	]
 
@@ -76,9 +76,24 @@ class AndroidColorsXMLTests: XCTestCase {
 			// Check including alpha during coding
 			let coder = PAL.Coder.AndroidColorsXML(includeAlphaDuringExport: true)
 			let data = try coder.encode(palette)
-			try data.write(to: URL(fileURLWithPath: "/tmp/colors-a.xml"))
+			//try data.write(to: URL(fileURLWithPath: "/tmp/colors-a.xml"))
 			let matchData = try loadResourceData(named: "android_basicrgbacolors.xml")
 			XCTAssertEqual(matchData, data)
 		}
+	}
+
+	func testEncodeWeirdName() throws {
+		var palette = PAL.Palette()
+		let c1 = try PAL.Color(name: "Name is 😀", colorSpace: .RGB, colorComponents: [1, 0, 0])
+		palette.colors.append(c1)
+		let coder = PAL.Coder.AndroidColorsXML(includeAlphaDuringExport: false)
+		let data = try coder.encode(palette)
+		//try data.write(to: URL(fileURLWithPath: "/tmp/emoji-named.xml"))
+
+		let decoded = try coder.decode(from: data)
+		XCTAssertEqual(1, decoded.colors.count)
+		XCTAssertEqual("Name_is_😀", decoded.colors[0].name)
+		XCTAssertEqual(c1.colorComponents, decoded.colors[0].colorComponents)
+		XCTAssertEqual(c1.alpha, decoded.colors[0].alpha)
 	}
 }

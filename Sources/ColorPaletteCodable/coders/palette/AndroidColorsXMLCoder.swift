@@ -24,6 +24,8 @@
 
 //  A parser for the Android colors.xml file format
 
+//  https://developer.android.com/guide/topics/resources/more-resources#Color
+
 /*
  <?xml version="1.0" encoding="utf-8"?>
  <resources>
@@ -155,12 +157,13 @@ extension PAL.Coder.AndroidColorsXML {
 			let color = c.1
 
 			xml += "   <color"
-			if color.name.count > 0 {
-				xml += " name=\"\(color.name)\">"
-			}
-			else {
-				xml += " name=\"color_\(offset)\">"
-			}
+
+			// Create a unique name if one isn't supplied
+			var name = color.name.count > 0 ? color.name : "color_\(offset)"
+			// Remove spaces from the name
+			name = name.replacingOccurrences(of: " ", with: "_")
+
+			xml += " name=\"\(name)\">"
 
 			let hex = try color.hexARGB(includeAlpha: self.includeAlphaDuringExport, hashmark: true, uppercase: true)
 			xml += hex
