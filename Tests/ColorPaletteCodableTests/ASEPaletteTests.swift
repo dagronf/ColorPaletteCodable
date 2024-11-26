@@ -251,4 +251,16 @@ final class ASEPaletteTests: XCTestCase {
 			XCTAssertNoThrow(try PAL.Color(name: "c1", rgbaHexString: "1122FEaa"))
 		}
 	}
+
+	func testASEColorDarkColorsBug() throws {
+
+		let asePalette = try loadResourcePalette(named: "3M Scotchlite Serie 580_680.ase")
+		XCTAssertEqual(11, asePalette.colors.count)
+		let gplPalette = try loadResourcePalette(named: "3M Scotchlite Serie 580_680.gpl")
+		XCTAssertEqual(11, gplPalette.colors.count)
+
+		// convert the ase colors to rgb
+		let rgb = try asePalette.colors.map { try $0.converted(to: .RGB) }
+		XCTAssertEqual(11, rgb.count)
+	}
 }

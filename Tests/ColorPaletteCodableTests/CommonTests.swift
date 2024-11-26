@@ -268,4 +268,91 @@ final class CommonTests: XCTestCase {
 		XCTAssertEqual("rgba(50, 216, 164, 1.0)", try color.css())
 		XCTAssertEqual("rgb(50, 216, 164)", try color.css(includeAlpha: false))
 	}
+
+	func testDataParsing() throws {
+
+		do {
+			let data = Data([0xAE])
+			let parser = DataParser(data: data)
+
+			// Should not be able to seek beyond the end of the data
+			XCTAssertThrowsError(try parser.seek(1, .current))
+			XCTAssertThrowsError(try parser.seek(1, .end))
+			XCTAssertThrowsError(try parser.seek(1, .start))
+
+
+			let value: UInt8 = try parser.readUInt8()
+			XCTAssertEqual(0xAE, value)
+			XCTAssertFalse(parser.hasMoreData())
+
+			try parser.seekSet(0)
+			let value2: Int8 = try parser.readInt8()
+
+			// https://simonv.fr/TypesConvert/?integers
+			XCTAssertEqual(-82, value2)
+		}
+
+
+		do {
+			let data = Data([0x11, 0x22, 0x33, 0x44])
+			let parser = DataParser(data: data)
+			let value: UInt32 = try parser.readInteger(.big)
+			XCTAssertEqual(0x11223344, value)
+			XCTAssertFalse(parser.hasMoreData())
+			try parser.seekSet(0)
+			let value2: UInt32 = try parser.readInteger(.little)
+			XCTAssertEqual(0x44332211, value2)
+			XCTAssertFalse(parser.hasMoreData())
+			XCTAssertThrowsError(try parser.readByte())
+			
+			try parser.seekSet(2)
+			XCTAssertEqual(0x33, try parser.readByte())
+			XCTAssertEqual(0x44, try parser.readByte())
+			XCTAssertFalse(parser.hasMoreData())
+		}
+
+		do {
+			let data2 = Data([0x11, 0x22, 0x33, 0x44])
+			let parser2 = DataParser(data: data2)
+			XCTAssertEqual(0x11, try parser2.readByte())
+			XCTAssertEqual(0x22, try parser2.readByte())
+			XCTAssertEqual(0x33, try parser2.readByte())
+			XCTAssertEqual(0x44, try parser2.readByte())
+			XCTAssertFalse(parser2.hasMoreData())
+		}
+
+		do {
+			let data3 = Data([0x11, 0x22, 0x33, 0x44])
+			let parser3 = DataParser(data: data3)
+			let datar = try parser3.readData(count: 4)
+			XCTAssertEqual([0x11, 0x22, 0x33, 0x44], Array(datar))
+			XCTAssertFalse(parser3.hasMoreData())
+			XCTAssertThrowsError(try parser3.readByte())
+		}
+
+		do {
+			let data3 = Data([0x11, 0x22, 0x33, 0x44])
+			let parser3 = DataParser(data: data3)
+			let data1 = try parser3.readData(count: 2)
+			let data2 = try parser3.readData(count: 2)
+			XCTAssertFalse(parser3.hasMoreData())
+			XCTAssertThrowsError(try parser3.readByte())
+
+			XCTAssertEqual([0x11, 0x22], Array(data1))
+			XCTAssertEqual([0x33, 0x44], Array(data2))
+		}
+
+		do {
+			let data3 = Data([0x11, 0x22, 0x33, 0x44])
+			let parser3 = DataParser(data: data3)
+			let data1 = try parser3.readData(count: 1)
+			let data2 = try parser3.readToEndOfData()
+			XCTAssertFalse(parser3.hasMoreData())
+			XCTAssertThrowsError(try parser3.readByte())
+
+			XCTAssertEqual([0x11], Array(data1))
+			XCTAssertEqual([0x22, 0x33, 0x44], Array(data2))
+		}
+	}
+
 }

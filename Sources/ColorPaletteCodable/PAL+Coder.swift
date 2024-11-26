@@ -50,6 +50,7 @@ public extension PAL.Palette {
 			PAL.Coder.SVG(),
 			PAL.Coder.CorelPainter(),
 			PAL.Coder.AndroidColorsXML(),
+			PAL.Coder.CPL(),
 		]
 #if canImport(CoreGraphics)
 		coders.append(PAL.Coder.Image())

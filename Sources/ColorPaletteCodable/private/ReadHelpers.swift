@@ -102,6 +102,14 @@ internal func readZeroTerminatedUTF16String(_ inputStream: InputStream) throws -
 	return String(data: data, encoding: .utf16BigEndian) ?? ""
 }
 
+internal func readUTF16StringLE(_ inputStream: InputStream, length: Int) throws -> String {
+	let data = try readData(inputStream, size: length * 2)
+	if let str = String(data: data, encoding: .utf16LittleEndian) {
+		return str
+	}
+	throw PAL.CommonError.invalidString
+}
+
 internal func readPascalStyleUnicodeString(_ inputStream: InputStream) throws -> String {
 	// https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#UnicodeStringDefine
 	// A 4-byte length field, representing the number of UTF-16 code units in the string (not bytes).
@@ -139,3 +147,4 @@ internal func readFloat32(_ inputStream: InputStream) throws -> Float32 {
 	let rawValue: UInt32 = try readIntegerBigEndian(inputStream)
 	return Float32(bitPattern: rawValue)
 }
+

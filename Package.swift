@@ -26,7 +26,7 @@ let package = Package(
 			dependencies: [ 
 				"DSFRegex",
 				"SwiftImageReadWrite", 
-				"TinyCSV"
+				"TinyCSV",
 			],
 			resources: [
 				.copy("PrivacyInfo.xcprivacy"),

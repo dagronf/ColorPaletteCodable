@@ -34,6 +34,7 @@ Supports the following :-
 * SketchPalette files (`.sketchpalette`)
 * CorelDraw/Adobe Illustrator xml palette (`.xml`)
 * Corel swatches (`.txt`)
+* Corel Paint file format (`.cpl`) ***(read only)***
 * JSON encoded color files (`.jsoncolorpalette`) ***ColorPaletteCodable internal file format***
 * Hex Color Palette (text file with delimited hexadecimal color strings) (`.hex`)
 * Paint.NET palette files (`.txt`)
@@ -90,6 +91,7 @@ Some features :-
 |`PAL.Coder.BasicXML`           | Basic XML structure (.xml)                  |
 |`PAL.Coder.CLR`                | NSColorList (.clr) *(macOS only)*           |
 |`PAL.Coder.CorelPainter`       | CorelPainter Swatch (.txt)                  |
+|`PAL.Coder.CPL`                | Corel Paint (.cpl)                          |
 |`PAL.Coder.CSV`                | CSV (.csv)                                  |
 |`PAL.Coder.GIMP`               | GIMP palette files (.gpl)                   |
 |`PAL.Coder.HEX`                | Hex Color Palette (`.hex`)                  |
@@ -172,6 +174,7 @@ let rawData = try encoder.encode(palette)
 | `PAL.Coder.BasicXML`         | XML                    |    ✅    |    ✅    |         ✅       |         ✅        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.CLR`              | Binary<br>(macOS only) |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |        ✅           |
 | `PAL.Coder.CorelPainter`     | Text                   |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.CPL`              | Binary                 |    ✅    |    ❌    |         ✅       |         ✅        |        ❌       |          ✅          |        ✅           |
 | `PAL.Coder.CSV`              | Text                   |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.GIMP`             | Text                   |    ✅    |    ✅    |         ✅       |         ✅        |        ❌       |          ❌          |     RGB only        |
 | `PAL.Coder.HEX`              | Text                   |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
