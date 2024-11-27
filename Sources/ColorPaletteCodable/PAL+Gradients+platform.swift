@@ -47,7 +47,7 @@ public extension PAL.Gradient {
 		var cgcolors: [CGColor] = normalized.compactMap { $0.color.cgColor }
 		var positions: [CGFloat] = normalized.compactMap { CGFloat($0.position) }
 		guard cgcolors.count == positions.count else {
-			ASEPaletteLogger.log(.error, "Could not convert all colors in gradient to CGColors")
+			ColorPaletteLogger.log(.error, "Could not convert all colors in gradient to CGColors")
 			return nil
 		}
 

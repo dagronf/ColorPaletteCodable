@@ -68,7 +68,7 @@ public extension PAL.Gradients.Coder.GRD {
 				let color: PAL.Color
 				if co.colorspace == "rgb" {
 					guard co.components.count >= 3 else {
-						ASEPaletteLogger.log(.error, "GRD: rgb component count mismatch")
+						ColorPaletteLogger.log(.error, "GRD: rgb component count mismatch")
 						throw PAL.GradientError.unsupportedColorFormat
 					}
 					color = PAL.Color.rgb(
@@ -79,7 +79,7 @@ public extension PAL.Gradients.Coder.GRD {
 				}
 				else if co.colorspace == "hsb" {
 					guard co.components.count >= 3 else {
-						ASEPaletteLogger.log(.error, "GRD: hsb component count mismatch")
+						ColorPaletteLogger.log(.error, "GRD: hsb component count mismatch")
 						throw PAL.GradientError.unsupportedColorFormat
 					}
 					color = try PAL.Color(
@@ -90,7 +90,7 @@ public extension PAL.Gradients.Coder.GRD {
 				}
 				else if co.colorspace == "cmyk" {
 					guard co.components.count >= 4 else {
-						ASEPaletteLogger.log(.error, "GRD: cmyk component count mismatch")
+						ColorPaletteLogger.log(.error, "GRD: cmyk component count mismatch")
 						throw PAL.GradientError.unsupportedColorFormat
 					}
 					color = try PAL.Color(
@@ -102,7 +102,7 @@ public extension PAL.Gradients.Coder.GRD {
 				}
 				else if co.colorspace == "gray" {
 					guard co.components.count >= 1 else {
-						ASEPaletteLogger.log(.error, "GRD: gray component count mismatch")
+						ColorPaletteLogger.log(.error, "GRD: gray component count mismatch")
 						throw PAL.GradientError.unsupportedColorFormat
 					}
 					color = try PAL.Color(
@@ -114,7 +114,7 @@ public extension PAL.Gradients.Coder.GRD {
 				}
 				else if co.colorspace == "lab" {
 					guard co.components.count >= 3 else {
-						ASEPaletteLogger.log(.error, "GRD: lab component count mismatch")
+						ColorPaletteLogger.log(.error, "GRD: lab component count mismatch")
 						throw PAL.GradientError.unsupportedColorFormat
 					}
 					color = try PAL.Color(
@@ -126,7 +126,7 @@ public extension PAL.Gradients.Coder.GRD {
 				}
 				else {
 					// unknown?
-					ASEPaletteLogger.log(.error, "GRD: unknown color format '%@'", co.colorspace)
+					ColorPaletteLogger.log(.error, "GRD: unknown color format '%@'", co.colorspace)
 					throw PAL.GradientError.unsupportedColorFormat
 				}
 
@@ -239,7 +239,7 @@ private class GRD {
 		if type.1 == "CstS" {
 			if innerObjcValue.2 != 5 {
 				// There should be five components
-				ASEPaletteLogger.log(.error, "GRDCoder: Expected five components, got %@", innerObjcValue.2)
+				ColorPaletteLogger.log(.error, "GRDCoder: Expected five components, got %@", innerObjcValue.2)
 				throw GRDError.unsupportedFormat
 			}
 			return try parseCustomGradient(inputStream, gradientName: parseNm)
@@ -247,18 +247,18 @@ private class GRD {
 		else if type.1 == "ClNs" {
 			if innerObjcValue.2 != 9 {
 				// Nine components for noise?
-				ASEPaletteLogger.log(.error, "GRDCoder: Cannot parse noise gradient, aborting")
+				ColorPaletteLogger.log(.error, "GRDCoder: Cannot parse noise gradient, aborting")
 				throw GRDError.unsupportedFormat
 			}
 
 			// Read the noise gradient components, but just ignore it
-			ASEPaletteLogger.log(.info, "GRDCoder: Found noise gradient -- ignoring...")
+			ColorPaletteLogger.log(.info, "GRDCoder: Found noise gradient -- ignoring...")
 
 			try parseNoiseGradient(inputStream)
 			return nil
 		}
 		else {
-			ASEPaletteLogger.log(.error, "GRDCoder: Unsupported gradient type (%@)", type.1)
+			ColorPaletteLogger.log(.error, "GRDCoder: Unsupported gradient type (%@)", type.1)
 			throw GRDError.unsupportedGradientType(type.1)
 		}
 	}
@@ -267,7 +267,7 @@ private class GRD {
 	func parseTypedLong(_ inputStream: InputStream, expectedTag: String) throws -> UInt32 {
 		let type1 = try parseGrd5Typename(inputStream)
 		guard type1 == expectedTag else {
-			ASEPaletteLogger.log(.error, "GRDCoder: Expected %@ when trying to read long value", expectedTag)
+			ColorPaletteLogger.log(.error, "GRDCoder: Expected %@ when trying to read long value", expectedTag)
 			throw GRDError.invalidFormat
 		}
 		return try parseLong(inputStream)
@@ -309,12 +309,12 @@ private class GRD {
 	func parseBool(_ inputStream: InputStream, expectedType: String) throws -> Bool {
 		let bom = try parseGrd5Typename(inputStream)
 		guard bom == expectedType else {
-			ASEPaletteLogger.log(.error, "GRDCoder: Cannot read %@", expectedType)
+			ColorPaletteLogger.log(.error, "GRDCoder: Cannot read %@", expectedType)
 			throw GRDError.invalidFormat
 		}
 		let type = try parseType(inputStream)
 		guard type == "bool" else {
-			ASEPaletteLogger.log(.error, "GRDCoder: Cannot read bool")
+			ColorPaletteLogger.log(.error, "GRDCoder: Cannot read bool")
 			throw GRDError.invalidFormat
 		}
 
@@ -324,13 +324,13 @@ private class GRD {
 	func parseNm(_ inputStream: InputStream) throws -> String {
 		let nm = try parseGrd5Typename(inputStream)
 		guard nm == "Nm  " else {
-			ASEPaletteLogger.log(.error, "GRDCoder: Expected name (Nm  )")
+			ColorPaletteLogger.log(.error, "GRDCoder: Expected name (Nm  )")
 			throw GRDError.invalidFormat
 		}
 
 		let bom = try parseType(inputStream)
 		guard bom == "TEXT" else {
-			ASEPaletteLogger.log(.error, "GRDCoder: Expected text (TEXT)")
+			ColorPaletteLogger.log(.error, "GRDCoder: Expected text (TEXT)")
 			throw GRDError.invalidFormat
 		}
 
@@ -340,7 +340,7 @@ private class GRD {
 	func parseText(_ inputStream: InputStream) throws -> String {
 		let type = try parseGrd5Typename(inputStream)
 		guard type == "TEXT" else {
-			ASEPaletteLogger.log(.error, "GRDCoder: Expected text (TEXT)")
+			ColorPaletteLogger.log(.error, "GRDCoder: Expected text (TEXT)")
 			throw GRDError.invalidFormat
 		}
 		return try parseGrd5UCS2(inputStream)
@@ -397,7 +397,7 @@ private class GRD {
 		case "BckC": ct = .background
 		case "UsrS": ct = .userStop
 		default:
-			ASEPaletteLogger.log(.error, "GRDCoder: Unsupported color type (%@)", colorType)
+			ColorPaletteLogger.log(.error, "GRDCoder: Unsupported color type (%@)", colorType)
 			throw GRDError.invalidFormat
 		}
 		let location = try parseLctn(inputStream)
@@ -478,10 +478,10 @@ private class GRD {
 		case "LbCl":
 			color = try parseUserLAB(inputStream)
 		case "BkCl":
-			ASEPaletteLogger.log(.error, "GRDCoder: Book colors are not supported")
+			ColorPaletteLogger.log(.error, "GRDCoder: Book colors are not supported")
 			throw GRDError.unsupportedFormat
 		default:
-			ASEPaletteLogger.log(.error, "GRDCoder: Unsupported color type %@", colorType)
+			ColorPaletteLogger.log(.error, "GRDCoder: Unsupported color type %@", colorType)
 			throw GRDError.unsupportedFormat
 		}
 
@@ -676,7 +676,7 @@ extension GRD {
 				case 1: return ColorStop.ColorType.foreground
 				case 2: return ColorStop.ColorType.background
 				default:
-					ASEPaletteLogger.log(.error, "GRDCoder: Unsupported v3 color type (%@)", colorType)
+					ColorPaletteLogger.log(.error, "GRDCoder: Unsupported v3 color type (%@)", colorType)
 					throw GRDError.invalidFormat
 				}
 			}()

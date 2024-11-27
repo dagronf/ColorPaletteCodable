@@ -54,7 +54,7 @@ public extension PAL.Coder {
 
 public extension PAL.Coder.SVG {
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
-		ASEPaletteLogger.log(.error, "SVG Coder: decode() not implemented")
+		ColorPaletteLogger.log(.error, "SVG Coder: decode() not implemented")
 		throw PAL.CommonError.notImplemented
 	}
 }

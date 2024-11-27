@@ -127,7 +127,7 @@ public extension PAL.Coder.ACO {
 						colorComponents: [l0, a0, b0]
 					)
 				case .HSB:
-					ASEPaletteLogger.log(.error, "ACOPaletteCoder: Unsupported color space HSB")
+					ColorPaletteLogger.log(.error, "ACOPaletteCoder: Unsupported color space HSB")
 					throw PAL.CommonError.unsupportedColorSpace
 				}
 
@@ -138,7 +138,7 @@ public extension PAL.Coder.ACO {
 					v2Colors.append(color)
 				}
 				else {
-					ASEPaletteLogger.log(.error, "ACOPaletteCoder: Unexpected version $d", type)
+					ColorPaletteLogger.log(.error, "ACOPaletteCoder: Unexpected version $d", type)
 					throw PAL.CommonError.invalidVersion
 				}
 			}

@@ -64,7 +64,7 @@ public extension PAL.Gradients.Coder.GGR {
 	func decode(from inputStream: InputStream) throws -> PAL.Gradients {
 		// Load a string from the input stream
 		guard let decoded = String.decode(from: inputStream) else {
-			ASEPaletteLogger.log(.error, "GGRCoder: Unexpected text encoding")
+			ColorPaletteLogger.log(.error, "GGRCoder: Unexpected text encoding")
 			throw GimpGradientError.unexpectedTextEncoding
 		}
 		let content = decoded.text
@@ -72,19 +72,19 @@ public extension PAL.Gradients.Coder.GGR {
 		// Remove any blank lines from the input file
 		let lines = content.components(separatedBy: .newlines).filter { $0.count > 0 }
 		guard lines.count > 3 else {
-			ASEPaletteLogger.log(.error, "GGRCoder: Not enough data in file")
+			ColorPaletteLogger.log(.error, "GGRCoder: Not enough data in file")
 			throw GimpGradientError.notEnoughData
 		}
 
 		// Read the BOM
 		guard lines[0] == "GIMP Gradient" else {
-			ASEPaletteLogger.log(.error, "GGRCoder: Invalid file format (missing header)")
+			ColorPaletteLogger.log(.error, "GGRCoder: Invalid file format (missing header)")
 			throw GimpGradientError.missingBOM
 		}
 
 		// Read the name line
 		guard lines[1].hasPrefix("Name: ") else {
-			ASEPaletteLogger.log(.error, "GGRCoder: Invalid file format (missing name)")
+			ColorPaletteLogger.log(.error, "GGRCoder: Invalid file format (missing name)")
 			throw GimpGradientError.missingName
 		}
 		let name = lines[1].suffix(from: lines[1].index(lines[1].startIndex, offsetBy: 6))
@@ -94,7 +94,7 @@ public extension PAL.Gradients.Coder.GGR {
 			let stopCount = Int(lines[2]),
 			lines.count == stopCount + 3
 		else {
-			ASEPaletteLogger.log(.error, "GGRCoder: Invalid palette count")
+			ColorPaletteLogger.log(.error, "GGRCoder: Invalid palette count")
 			throw GimpGradientError.invalidCount
 		}
 
@@ -123,7 +123,7 @@ public extension PAL.Gradients.Coder.GGR {
 			}
 
 			if GimpGradientSegmentType != 0 {
-				ASEPaletteLogger.log(.error, "GGRCoder: Unsupported segment format (%d)", GimpGradientSegmentType)
+				ColorPaletteLogger.log(.error, "GGRCoder: Unsupported segment format (%d)", GimpGradientSegmentType)
 				throw GimpGradientError.unsupportedSegmentFormat
 			}
 
@@ -153,12 +153,12 @@ public extension PAL.Gradients.Coder.GGR {
 	func encode(_ gradients: PAL.Gradients) throws -> Data {
 		// GGR only supports a single gradient, so just grab the first one
 		guard let gradient = gradients.gradients.first else {
-			ASEPaletteLogger.log(.error, "GGRCoder: invalid utf8 data during write")
+			ColorPaletteLogger.log(.error, "GGRCoder: invalid utf8 data during write")
 			throw GimpGradientError.noGradients
 		}
 
 		if gradients.gradients.count > 1 {
-			ASEPaletteLogger.log(.info, "GGRCoder: Exporting first gradient only...")
+			ColorPaletteLogger.log(.info, "GGRCoder: Exporting first gradient only...")
 		}
 
 		// Make sure all positions are 0 -> 1, and are ordered from 0 to 1
@@ -206,7 +206,7 @@ public extension PAL.Gradients.Coder.GGR {
 		}
 
 		guard let data = result.data(using: .utf8) else {
-			ASEPaletteLogger.log(.error, "GGRCoder: invalid utf8 data during write")
+			ColorPaletteLogger.log(.error, "GGRCoder: invalid utf8 data during write")
 			throw GimpGradientError.invalidData
 		}
 

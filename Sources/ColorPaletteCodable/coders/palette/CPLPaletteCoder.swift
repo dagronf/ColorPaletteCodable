@@ -151,7 +151,7 @@ public extension PAL.Coder.CPL {
 				try file.seek(3, .current)
 			default:
 				// unknown type?  Try to recover
-				ASEPaletteLogger.log(.error, "CPL: Unsupported color type %d, attempting to recover...", model)
+				ColorPaletteLogger.log(.error, "CPL: Unsupported color type %d, attempting to recover...", model)
 				try file.seek(8, .current)
 			}
 
@@ -187,7 +187,7 @@ public extension PAL.Coder.CPL {
 					try file.seek(3, .current)
 				default:
 					// unknown type?  Try to recover
-					ASEPaletteLogger.log(.error, "CPL: Unsupported color type %d (2), attempting to recover...", model2)
+					ColorPaletteLogger.log(.error, "CPL: Unsupported color type %d (2), attempting to recover...", model2)
 					try file.seek(8, .current)
 				}
 			}
@@ -241,7 +241,7 @@ public extension PAL.Coder.CPL {
 	///
 	/// Currently not supported for Adobe Color Book
 	func encode(_ palette: PAL.Palette) throws -> Data {
-		ASEPaletteLogger.log(.error, "CPLCoder: encode() not implemented")
+		ColorPaletteLogger.log(.error, "CPLCoder: encode() not implemented")
 		throw PAL.CommonError.notImplemented
 	}
 }

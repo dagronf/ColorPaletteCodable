@@ -61,13 +61,13 @@ public extension PAL.Coder.ACB {
 
 		let bom = try readAsciiString(inputStream, length: 4)
 		if bom != "8BCB" {
-			ASEPaletteLogger.log(.error, "ACBCoder: Invalid palette file")
+			ColorPaletteLogger.log(.error, "ACBCoder: Invalid palette file")
 			throw PAL.CommonError.invalidBOM
 		}
 
 		let version: UInt16 = try readIntegerBigEndian(inputStream)
 		if version != 1 {
-			ASEPaletteLogger.log(.info, "ACB: Found untested version %d... decoder may not work", version)
+			ColorPaletteLogger.log(.info, "ACB: Found untested version %d... decoder may not work", version)
 		}
 
 		let _ /*identifier*/: UInt16 = try readIntegerBigEndian(inputStream)
@@ -85,7 +85,7 @@ public extension PAL.Coder.ACB {
 		let _ /*description*/ = try readPascalStyleUnicodeString(inputStream)
 
 		let colorCount: UInt16 = try readIntegerBigEndian(inputStream)
-		ASEPaletteLogger.log(.info, "ACBCoder: Expecting %d colors", colorCount)
+		ColorPaletteLogger.log(.info, "ACBCoder: Expecting %d colors", colorCount)
 
 		let _ /*pageSize*/: UInt16 = try readIntegerBigEndian(inputStream)
 		let _ /*pageSelectorOffset*/ : UInt16 = try readIntegerBigEndian(inputStream)
@@ -107,7 +107,7 @@ public extension PAL.Coder.ACB {
 			colorspace = .Gray
 			componentCount = 1
 		default:
-			ASEPaletteLogger.log(.error, "ACBCoder: Colorspace %d not supported", colorSpace)
+			ColorPaletteLogger.log(.error, "ACBCoder: Colorspace %d not supported", colorSpace)
 			throw PAL.CommonError.unsupportedColorSpace
 		}
 
@@ -169,7 +169,7 @@ public extension PAL.Coder.ACB {
 	///
 	/// Currently not supported for Adobe Color Book
 	func encode(_ palette: PAL.Palette) throws -> Data {
-		ASEPaletteLogger.log(.error, "ACBCoder: encode() not implemented")
+		ColorPaletteLogger.log(.error, "ACBCoder: encode() not implemented")
 		throw PAL.CommonError.notImplemented
 	}
 }

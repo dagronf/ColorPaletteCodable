@@ -39,7 +39,7 @@ public extension PAL.Coder.GIMP {
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
 		// Load a string from the input stream
 		guard let decoded = String.decode(from: inputStream) else {
-			ASEPaletteLogger.log(.error, "GGRCoder: Unexpected text encoding")
+			ColorPaletteLogger.log(.error, "GGRCoder: Unexpected text encoding")
 			throw PAL.CommonError.invalidFormat
 		}
 		let content = decoded.text
