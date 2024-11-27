@@ -81,30 +81,30 @@ Some features :-
 
 ### Available Coders
 
-| Type                          | Description                                 |
-|:------------------------------|:--------------------------------------------|
-|`PAL.Coder.ACB`                | Adobe Color Book (.acb)                     |
-|`PAL.Coder.ACO`                | Adobe Photoshop Color Swatch (.aco)         |
-|`PAL.Coder.ACT`                | Adobe Color Table (.act)                    |
-|`PAL.Coder.AndroidColorsXML`   | Android `color.xml` resources (.xml)        |
-|`PAL.Coder.ASE`                | Adobe Swatch Exchange (.ase)                |
-|`PAL.Coder.BasicXML`           | Basic XML structure (.xml)                  |
-|`PAL.Coder.CLR`                | NSColorList (.clr) *(macOS only)*           |
-|`PAL.Coder.CorelPainter`       | CorelPainter Swatch (.txt)                  |
-|`PAL.Coder.CPL`                | Corel Paint (.cpl)                          |
-|`PAL.Coder.CSV`                | CSV (.csv)                                  |
-|`PAL.Coder.GIMP`               | GIMP palette files (.gpl)                   |
-|`PAL.Coder.HEX`                | Hex Color Palette (`.hex`)                  |
-|`PAL.Coder.Image`              | Image files (.png, .jpg, .gif)              |
-|`PAL.Coder.JSON`               | JSON encoded palette (.jsoncolorpalette)    |
-|`PAL.Coder.PaintNET`           | Paint.NET Palette (.txt)                    |
-|`PAL.Coder.PaintShopPro`       | Paint Shop Pro palette (.pal;.psppalette)   |
-|`PAL.Coder.RGBA`               | RGB(A) text files (.rgba)                   |
-|`PAL.Coder.RGB`                | RGB text files (.rgb)                       |
-|`PAL.Coder.RIFF`               | Microsoft RIFF palette (.pal)               |
-|`PAL.Coder.SketchPalette`      | Sketch Palette (.sketchpalette)             |
-|`PAL.Coder.SVG`                | SVG image file (.svg)                       |
-|`PAL.Coder.XMLPalette`         | CorelDraw/Adobe Illustrator Palette (.xml)  |
+| Type                           | Description                                 |
+|:-------------------------------|:--------------------------------------------|
+|`PAL.Coder.ACB`                 | Adobe Color Book (.acb)                     |
+|`PAL.Coder.ACO`                 | Adobe Photoshop Color Swatch (.aco)         |
+|`PAL.Coder.ACT`                 | Adobe Color Table (.act)                    |
+|`PAL.Coder.AndroidColorsXML`    | Android `color.xml` resources (.xml)        |
+|`PAL.Coder.ASE`                 | Adobe Swatch Exchange (.ase)                |
+|`PAL.Coder.BasicXML`            | Basic XML structure (.xml)                  |
+|`PAL.Coder.CLR`                 | NSColorList (.clr) *(macOS only)*           |
+|`PAL.Coder.CorelPainter`        | CorelPainter Swatch (.txt)                  |
+|`PAL.Coder.CPL`                 | Corel Paint (.cpl)                          |
+|`PAL.Coder.CSV`                 | CSV (.csv)                                  |
+|`PAL.Coder.GIMP`                | GIMP palette files (.gpl)                   |
+|`PAL.Coder.HEX`                 | Hex Color Palette (`.hex`)                  |
+|`PAL.Coder.Image`               | Image files (.png, .jpg, .gif)              |
+|`PAL.Coder.JSON`                | JSON encoded palette (.jsoncolorpalette)    |
+|`PAL.Coder.PaintNET`            | Paint.NET Palette (.txt)                    |
+|`PAL.Coder.PaintShopPro`        | Paint Shop Pro palette (.pal;.psppalette)   |
+|`PAL.Coder.RGBA`                | RGB(A) text files (.rgba)                   |
+|`PAL.Coder.RGB`                 | RGB text files (.rgb)                       |
+|`PAL.Coder.RIFF`                | Microsoft RIFF palette (.pal)               |
+|`PAL.Coder.SketchPalette`       | Sketch Palette (.sketchpalette)             |
+|`PAL.Coder.SVG`                 | SVG image file (.svg)                       |
+|`PAL.Coder.CorelXMLPalette`     | CorelDraw/Adobe Illustrator Palette (.xml)  |
 
 Each coder defines `.encode` and `.decode`. Not all coders support both encode and decode.
 

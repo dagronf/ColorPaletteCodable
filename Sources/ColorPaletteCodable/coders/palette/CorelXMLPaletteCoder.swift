@@ -35,7 +35,7 @@ public extension PAL.Coder {
 	/// XML palette file for CorelDraw/Adobe Illustrator(?)
 	///
 	/// https://community.coreldraw.com/sdk/w/articles/177/creating-color-palettes
-	class XMLPalette: NSObject, PAL_PaletteCoder {
+	class CorelXMLPalette: NSObject, PAL_PaletteCoder {
 		public let name = "CorelDraw XML Palette"
 		public let fileExtension = ["xml"]
 		public override init() {
@@ -51,7 +51,7 @@ public extension PAL.Coder {
 	}
 }
 
-extension PAL.Coder.XMLPalette {
+extension PAL.Coder.CorelXMLPalette {
 	/// Create a palette from the contents of the input stream
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
@@ -76,7 +76,7 @@ extension PAL.Coder.XMLPalette {
 
 
 
-extension PAL.Coder.XMLPalette: XMLParserDelegate {
+extension PAL.Coder.CorelXMLPalette: XMLParserDelegate {
 
 	private class Colorspace {
 		init(name: String) { self.name = name }
@@ -180,7 +180,7 @@ extension PAL.Coder.XMLPalette: XMLParserDelegate {
 	}
 }
 
-extension PAL.Coder.XMLPalette {
+extension PAL.Coder.CorelXMLPalette {
 	public func encode(_ palette: PAL.Palette) throws -> Data {
 
 		var xml = "<?xml version=\"1.0\"?>\n"

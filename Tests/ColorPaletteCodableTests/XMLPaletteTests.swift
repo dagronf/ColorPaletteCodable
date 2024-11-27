@@ -17,7 +17,7 @@ class XMLPaletteTests: XCTestCase {
 		try files.forEach { item in
 			Swift.print("> Roundtripping: \(item)")
 			let palette = try loadResourcePalette(named: item)
-			let coder = PAL.Coder.XMLPalette()
+			let coder = PAL.Coder.CorelXMLPalette()
 			let data = try coder.encode(palette)
 
 			let rebuilt = try coder.decode(from: data)
