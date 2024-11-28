@@ -37,6 +37,9 @@ public extension PAL.Coder {
 
 // MARK: Decode
 
+// Known spot palette types
+private let __spotPaletteTypes: [UInt16] = [3, 8, 9, 10, 11, 16, 17, 18, 20, 21, 22, 23, 26, 27, 28, 29, 30, 31, 32, 35, 36, 37]
+
 public extension PAL.Coder.CPL {
 	/// Create a palette from the contents of the input stream
 	/// - Parameter inputStream: The input stream containing the encoded palette
@@ -102,7 +105,8 @@ public extension PAL.Coder.CPL {
 			// There are some other possible headers here, but we don't care about them.
 			// Given that CPL isn't really in use anymore just ignore them for now.
 
-			spot = [3,8,9,10,11,16,17,18,20,21,22,23,26,27,28,29,30,31,32,35,36,37].contains(paletteType)
+			// Check if we are a spot palette
+			spot = __spotPaletteTypes.contains(paletteType)
 
 			// Move to the colors definitions
 			try file.seekSet(colorsIndex)

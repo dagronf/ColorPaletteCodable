@@ -74,8 +74,6 @@ extension PAL.Coder.CorelXMLPalette {
 	}
 }
 
-
-
 extension PAL.Coder.CorelXMLPalette: XMLParserDelegate {
 
 	private class Colorspace {
