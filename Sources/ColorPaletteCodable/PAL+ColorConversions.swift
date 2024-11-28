@@ -100,6 +100,7 @@ internal struct NaiveColorSpaceConversion: PAL_ColorSpaceConvertible {
 			return PAL.Color.gray(name: color.name, gray, color.alpha, colorType: color.colorType)
 		}
 
+		ColorPaletteLogger.log(.error, "Unsupported color space conversion %@ -> %@", "\(color.colorSpace)", "\(colorspace)")
 		throw PAL.CommonError.cannotConvertColorSpace
 	}
 }

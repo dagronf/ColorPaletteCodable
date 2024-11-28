@@ -89,6 +89,6 @@ internal class BasicLogger {
 }
 
 // Logger
-let ASEPaletteLogger = BasicLogger()
+let ColorPaletteLogger = BasicLogger()
 
 #endif

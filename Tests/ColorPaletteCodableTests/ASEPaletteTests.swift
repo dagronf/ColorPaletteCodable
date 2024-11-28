@@ -252,8 +252,8 @@ final class ASEPaletteTests: XCTestCase {
 		}
 	}
 
+#if canImport(CoreGraphics)
 	func testASEColorDarkColorsBug() throws {
-
 		let asePalette = try loadResourcePalette(named: "3M Scotchlite Serie 580_680.ase")
 		XCTAssertEqual(11, asePalette.colors.count)
 		let gplPalette = try loadResourcePalette(named: "3M Scotchlite Serie 580_680.gpl")
@@ -263,4 +263,5 @@ final class ASEPaletteTests: XCTestCase {
 		let rgb = try asePalette.colors.map { try $0.converted(to: .RGB) }
 		XCTAssertEqual(11, rgb.count)
 	}
+#endif
 }
