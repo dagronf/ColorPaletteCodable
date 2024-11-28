@@ -116,7 +116,7 @@ extension PAL.Coder.AndroidColorsXML: XMLParserDelegate {
 		else {
 			self.currentElement = elementName
 			if elementName == "color" {
-				self.currentName = attributeDict["name"]
+				self.currentName = attributeDict["name"]?.xmlDecoded()
 			}
 		}
 	}
@@ -160,8 +160,8 @@ extension PAL.Coder.AndroidColorsXML {
 
 			// Create a unique name if one isn't supplied
 			var name = color.name.count > 0 ? color.name : "color_\(offset)"
-			// Remove spaces from the name
 			name = name.replacingOccurrences(of: " ", with: "_")
+			name = name.xmlEscaped()
 
 			xml += " name=\"\(name)\">"
 

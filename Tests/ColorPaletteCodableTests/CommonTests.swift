@@ -355,4 +355,14 @@ final class CommonTests: XCTestCase {
 		}
 	}
 
+	func testXMLStringEncoding() throws {
+		let unescapedString = #"This is a test & <example> "string" with 'special' characters."#
+		let enc = unescapedString.xmlEscaped()
+
+		let expected = "This is a test &amp; &lt;example&gt; &quot;string&quot; with &apos;special&apos; characters."
+		XCTAssertEqual(expected, enc)
+
+		let dec = enc.xmlDecoded()
+		XCTAssertEqual(unescapedString, dec)
+	}
 }

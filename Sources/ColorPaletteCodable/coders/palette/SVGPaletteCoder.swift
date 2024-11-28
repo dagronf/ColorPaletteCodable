@@ -95,7 +95,7 @@ public extension PAL.Coder.SVG {
 
 			if !group.name.isEmpty {
 				yOffset += self.swatchSize.height + 10
-				colors += "      <text x='5' y='\(yOffset._svg)' font-size='8' alignment-baseline='middle'>\(group.name)</text>\n\n"
+				colors += "      <text x='5' y='\(yOffset._svg)' font-size='8' alignment-baseline='middle'>\(group.name.xmlEscaped())</text>\n\n"
 			}
 
 			yOffset += 10

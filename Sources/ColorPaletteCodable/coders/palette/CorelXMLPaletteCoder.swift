@@ -84,13 +84,13 @@ extension PAL.Coder.CorelXMLPalette: XMLParserDelegate {
 
 	public func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
 		if elementName == "palette" {
-			self.palette.name = attributeDict["name"] ?? ""
+			self.palette.name = attributeDict["name"]?.xmlDecoded() ?? ""
 		}
 		else if elementName == "colorspaces" {
 			self.isInColorspaceSection = true
 		}
 		else if elementName == "cs" {
-			let name = attributeDict["name"] ?? ""
+			let name = attributeDict["name"]?.xmlDecoded() ?? ""
 			let cs = Colorspace(name: name.lowercased())
 			self.colorspaces.append(cs)
 		}
@@ -98,12 +98,12 @@ extension PAL.Coder.CorelXMLPalette: XMLParserDelegate {
 			self.isInColorsSection = true
 		}
 		else if elementName == "page" {
-			let name = attributeDict["name"] ?? ""
+			let name = attributeDict["name"]?.xmlDecoded() ?? ""
 			self.group = PAL.Group(name: name)
 		}
 		else if elementName == "color" {
 			let cs = attributeDict["cs"]?.lowercased()
-			let name = attributeDict["name"] ?? ""
+			let name = attributeDict["name"]?.xmlDecoded() ?? ""
 			let tints = attributeDict["tints"] ?? ""
 			let components = tints.components(separatedBy: ",").compactMap { Float32(String($0)) }
 
@@ -184,7 +184,7 @@ extension PAL.Coder.CorelXMLPalette {
 		var xml = "<?xml version=\"1.0\"?>\n"
 		xml += "<palette guid=\"\(UUID().uuidString)\""
 		if palette.name.count > 0 {
-			xml += " name=\"\(palette.name)\">"
+			xml += " name=\"\(palette.name.xmlEscaped())\">"
 		}
 		xml += "<colors>"
 
@@ -213,7 +213,7 @@ extension PAL.Coder.CorelXMLPalette {
 			result += "<color"
 
 			if color.name.isEmpty == false {
-				result += " name=\"\(color.name)\""
+				result += " name=\"\(color.name.xmlEscaped())\""
 			}
 
 			// Needs an explicit type for supporting older swift versions

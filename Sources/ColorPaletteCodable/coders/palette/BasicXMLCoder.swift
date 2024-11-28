@@ -82,10 +82,10 @@ extension PAL.Coder.BasicXML: XMLParserDelegate {
 
 	public func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
 		if elementName == "palette" {
-			self.palette.name = attributeDict["name"] ?? ""
+			self.palette.name = attributeDict["name"]?.xmlDecoded() ?? ""
 		}
 		else if elementName == "color" {
-			let name = attributeDict["name"] ?? ""
+			let name = attributeDict["name"]?.xmlDecoded() ?? ""
 			if let rgbHexString = attributeDict["hex"],
 				let color = try? PAL.Color.RGB(rgbaHexString: rgbHexString),
 				let c = try? PAL.Color(name: name, color: color)
@@ -119,14 +119,14 @@ extension PAL.Coder.BasicXML {
 		var xml = "<?xml version=\"1.0\"?>\n"
 		xml += "<palette"
 		if palette.name.count > 0 {
-			xml += " name=\"\(palette.name)\""
+			xml += " name=\"\(palette.name.xmlEscaped())\""
 		}
 		xml += ">\n"
 
 		try palette.allColors().forEach { c in
 			xml += "<color"
 			if c.name.count > 0 {
-				xml += " name=\"\(c.name)\" "
+				xml += " name=\"\(c.name.xmlEscaped())\" "
 			}
 
 			let rgb = try c.converted(to: .RGB)

@@ -37,4 +37,23 @@ extension String {
 
 	/// Trim the whitespace from a string
 	@inlinable func trim() -> String { self.trimmingCharacters(in: .whitespaces) }
+
+
+	/// Simple XML encoding for a string
+	func xmlEscaped() -> String {
+		self.replacingOccurrences(of: "&", with: "&amp;")
+			.replacingOccurrences(of: "<", with: "&lt;")
+			.replacingOccurrences(of: ">", with: "&gt;")
+			.replacingOccurrences(of: "\"", with: "&quot;")
+			.replacingOccurrences(of: "'", with: "&apos;")
+	}
+
+	/// Simple XML decoding
+	func xmlDecoded() -> String {
+		self.replacingOccurrences(of: "&amp;", with: "&")
+			.replacingOccurrences(of: "&lt;", with: "<")
+			.replacingOccurrences(of: "&gt;", with: ">")
+			.replacingOccurrences(of: "&quot;", with: "\"")
+			.replacingOccurrences(of: "&apos;", with: "'")
+	}
 }

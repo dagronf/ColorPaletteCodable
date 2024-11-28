@@ -82,7 +82,7 @@ extension PAL.Coder.OpenOfficePaletteCoder: XMLParserDelegate {
 			let name: String = attributeDict["draw:name"] ?? ""
 			if
 				let colorString: String = attributeDict["draw:color"],
-				let color = try? PAL.Color(name: name, argbHexString: colorString)
+				let color = try? PAL.Color(name: name.xmlDecoded(), argbHexString: colorString)
 			{
 				self.palette.colors.append(color)
 			}
@@ -109,7 +109,7 @@ public extension PAL.Coder.OpenOfficePaletteCoder {
 		palette.allColors().enumerated().forEach { item in
 			do {
 				let hex = try item.1.hexRGB(hashmark: true, uppercase: true)
-				xml += "<draw:color draw:name=\"\(item.1.name)\" draw:color=\"\(hex)\"/>\n"
+				xml += "<draw:color draw:name=\"\(item.1.name.xmlEscaped())\" draw:color=\"\(hex)\"/>\n"
 			}
 			catch {
 				ColorPaletteLogger.log(.error, "OpenOfficePaletteCoder: Cannot convert colorspace for color %d, skipping...", item.0)
