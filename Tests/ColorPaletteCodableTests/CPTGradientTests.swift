@@ -30,6 +30,9 @@ final class CPTGradientTests: XCTestCase {
 		XCTAssertEqual(1, gradients.count)
 		let g = try XCTUnwrap(gradients.gradients.first)
 		XCTAssertEqual(32, g.stops.count)
+
+		XCTAssertEqual("red", g.stops[26].color.name)
+		XCTAssertEqual("red", g.stops[27].color.name)
 	}
 
 	func testGradientFormat4() throws {
@@ -58,5 +61,15 @@ final class CPTGradientTests: XCTestCase {
 		XCTAssertEqual(1, gradients.count)
 		let g = try XCTUnwrap(gradients.gradients.first)
 		XCTAssertEqual(508, g.stops.count)
+	}
+
+	func testGradientFormat8() throws {
+		// Format uses x11 color names
+		let gradients = try loadResourceGradient(named: "dem3.cpt")
+		XCTAssertEqual(1, gradients.count)
+		let g = try XCTUnwrap(gradients.gradients.first)
+		XCTAssertEqual(12, g.stops.count)
+		XCTAssertEqual("MediumSeaGreen", g.stops[0].color.name)
+		XCTAssertEqual("ivory2", g.stops[10].color.name)
 	}
 }

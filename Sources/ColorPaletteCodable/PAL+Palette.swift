@@ -120,6 +120,17 @@ public extension PAL.Palette {
 		}
 		return PAL.Palette(name: self.name, colors: colors, groups: groups)
 	}
+
+	/// Find the first instance of a color by name within the palette
+	func color(named name: String, caseSensitive: Bool = false) -> PAL.Color? {
+		if caseSensitive {
+			return self.allColors().filter({ $0.name == name }).first
+		}
+		else {
+			let name = name.lowercased()
+			return self.allColors().filter({ $0.name.lowercased() == name }).first
+		}
+	}
 }
 
 // MARK: - Encoding/Decoding

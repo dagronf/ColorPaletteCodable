@@ -154,6 +154,21 @@ public extension PAL.Color {
 			alpha: alphaValue
 		)
 	}
+
+	/// Set the color name
+	/// - Parameter name: name description
+	func named(_ name: String) -> PAL.Color {
+		if let c = try? PAL.Color(
+			name: name,
+			colorSpace: self.colorSpace,
+			colorComponents: self.colorComponents,
+			colorType: self.colorType,
+			alpha: self.alpha
+		) {
+			return c
+		}
+		return self
+	}
 }
 
 public extension PAL.Color {

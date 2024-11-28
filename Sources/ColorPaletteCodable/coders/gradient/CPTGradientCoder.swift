@@ -125,32 +125,9 @@ public extension PAL.Gradients.Coder.CPT {
 //
 //		scanner.scanLocation = index
 
-		// scan for color names
+		// scan for known x11 color names
 		if let str = self.scanCharacters(scanner, .alphanumerics)?.lowercased() {
-			if str == "red" {
-				return try? PAL.Color(rf: 1, gf: 0, bf: 0)
-			}
-			if str == "green" {
-				return try? PAL.Color(rf: 0, gf: 1, bf: 0)
-			}
-			if str == "blue" {
-				return try? PAL.Color(rf: 0, gf: 0, bf: 1)
-			}
-			if str == "cyan" {
-				return try? PAL.Color(rf: 0, gf: 1, bf: 1)
-			}
-			if str == "magenta" {
-				return try? PAL.Color(rf: 1, gf: 0, bf: 1)
-			}
-			if str == "yellow" {
-				return try? PAL.Color(rf: 1, gf: 1, bf: 0)
-			}
-			if str == "black" {
-				return try? PAL.Color(rf: 0, gf: 0, bf: 0)
-			}
-			if str == "white" {
-				return try? PAL.Color(rf: 1, gf: 1, bf: 1)
-			}
+			return PAL.Palette.X11ColorPalette.color(named: str)
 		}
 
 		scanner.scanLocation = index
@@ -211,11 +188,11 @@ public extension PAL.Gradients.Coder.CPT {
 }
 
 public extension PAL.Gradients.Coder.CPT {
-	/// Encode the gradient using GGR format (GIMP Gradient)
+	/// Encode the gradient using CPT format (CPT Gradient)
 	/// - Parameter gradient: The gradient to encode
 	/// - Returns: encoded data
 	func encode(_ gradients: PAL.Gradients) throws -> Data {
-		fatalError()
+		throw PAL.CommonError.notImplemented
 	}
 }
 
