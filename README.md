@@ -28,6 +28,7 @@ Supports the following :-
 * RGB text files (`.rgb`)
 * RGBA text files (`.rgba`)
 * GIMP palette files (`.gpl`)
+* OpenOffice/LibreOffice palette files (`.soc`)
 * Paint Shop Pro files (`.pal`, `.psppalette`)
 * Image palette files (`.png`, `.jpg`, `.gif`) (unique colors in the first row of the image)
 * Microsoft RIFF palette files (`.pal`) ***(read only)***
@@ -81,30 +82,31 @@ Some features :-
 
 ### Available Coders
 
-| Type                           | Description                                 |
-|:-------------------------------|:--------------------------------------------|
-|`PAL.Coder.ACB`                 | Adobe Color Book (.acb)                     |
-|`PAL.Coder.ACO`                 | Adobe Photoshop Color Swatch (.aco)         |
-|`PAL.Coder.ACT`                 | Adobe Color Table (.act)                    |
-|`PAL.Coder.AndroidColorsXML`    | Android `color.xml` resources (.xml)        |
-|`PAL.Coder.ASE`                 | Adobe Swatch Exchange (.ase)                |
-|`PAL.Coder.BasicXML`            | Basic XML structure (.xml)                  |
-|`PAL.Coder.CLR`                 | NSColorList (.clr) *(macOS only)*           |
-|`PAL.Coder.CorelPainter`        | CorelPainter Swatch (.txt)                  |
-|`PAL.Coder.CPL`                 | Corel Paint (.cpl)                          |
-|`PAL.Coder.CSV`                 | CSV (.csv)                                  |
-|`PAL.Coder.GIMP`                | GIMP palette files (.gpl)                   |
-|`PAL.Coder.HEX`                 | Hex Color Palette (`.hex`)                  |
-|`PAL.Coder.Image`               | Image files (.png, .jpg, .gif)              |
-|`PAL.Coder.JSON`                | JSON encoded palette (.jsoncolorpalette)    |
-|`PAL.Coder.PaintNET`            | Paint.NET Palette (.txt)                    |
-|`PAL.Coder.PaintShopPro`        | Paint Shop Pro palette (.pal;.psppalette)   |
-|`PAL.Coder.RGBA`                | RGB(A) text files (.rgba)                   |
-|`PAL.Coder.RGB`                 | RGB text files (.rgb)                       |
-|`PAL.Coder.RIFF`                | Microsoft RIFF palette (.pal)               |
-|`PAL.Coder.SketchPalette`       | Sketch Palette (.sketchpalette)             |
-|`PAL.Coder.SVG`                 | SVG image file (.svg)                       |
-|`PAL.Coder.CorelXMLPalette`     | CorelDraw/Adobe Illustrator Palette (.xml)  |
+| Type                              | Description                                 |
+|:----------------------------------|:--------------------------------------------|
+|`PAL.Coder.ACB`                    | Adobe Color Book (.acb)                     |
+|`PAL.Coder.ACO`                    | Adobe Photoshop Color Swatch (.aco)         |
+|`PAL.Coder.ACT`                    | Adobe Color Table (.act)                    |
+|`PAL.Coder.AndroidColorsXML`       | Android `color.xml` resources (.xml)        |
+|`PAL.Coder.ASE`                    | Adobe Swatch Exchange (.ase)                |
+|`PAL.Coder.BasicXML`               | Basic XML structure (.xml)                  |
+|`PAL.Coder.CLR`                    | NSColorList (.clr) *(macOS only)*           |
+|`PAL.Coder.CorelPainter`           | CorelPainter Swatch (.txt)                  |
+|`PAL.Coder.CorelXMLPalette`        | CorelDraw/Adobe Illustrator Palette (.xml)  |
+|`PAL.Coder.CPL`                    | Corel Paint (.cpl)                          |
+|`PAL.Coder.CSV`                    | CSV (.csv)                                  |
+|`PAL.Coder.GIMP`                   | GIMP palette files (.gpl)                   |
+|`PAL.Coder.HEX`                    | Hex Color Palette (`.hex`)                  |
+|`PAL.Coder.Image`                  | Image files (.png, .jpg, .gif)              |
+|`PAL.Coder.JSON`                   | JSON encoded palette (.jsoncolorpalette)    |
+|`PAL.Coder.OpenOfficePaletteCoder` | OpenOffice Palette (.soc)                   |
+|`PAL.Coder.PaintNET`               | Paint.NET Palette (.txt)                    |
+|`PAL.Coder.PaintShopPro`           | Paint Shop Pro palette (.pal;.psppalette)   |
+|`PAL.Coder.RGBA`                   | RGB(A) text files (.rgba)                   |
+|`PAL.Coder.RGB`                    | RGB text files (.rgb)                       |
+|`PAL.Coder.RIFF`                   | Microsoft RIFF palette (.pal)               |
+|`PAL.Coder.SketchPalette`          | Sketch Palette (.sketchpalette)             |
+|`PAL.Coder.SVG`                    | SVG image file (.svg)                       |
 
 Each coder defines `.encode` and `.decode`. Not all coders support both encode and decode.
 
@@ -164,29 +166,30 @@ let rawData = try encoder.encode(palette)
 
 ### Palette format encoding/decoding limitations
 
-|                              | File Type              | Decode?  | Encode?  | Named<br>Colors? | Named<br>palette? | Color<br>Groups? | ColorType<br>Support? | Supports<br>Colorspaces? |
-|------------------------------|------------------------|:--------:|:--------:|:----------------:|:-----------------:|:----------------:|:--------------------:|:--------------------:|
-| `PAL.Coder.ACB`              | Binary                 |    ✅    |    ❌    |         ✅       |         ❌        |        ❌       |          ❌          |        ✅           |
-| `PAL.Coder.ACO`              | Binary                 |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |        ✅           |
-| `PAL.Coder.ACT`              | Binary                 |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
-| `PAL.Coder.AndroidColorsXML` | XML                    |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |     RGB only        |
-| `PAL.Coder.ASE`              | Binary                 |    ✅    |    ✅    |         ✅       |         ❌        |        ✅       |          ✅          |        ✅           |
-| `PAL.Coder.BasicXML`         | XML                    |    ✅    |    ✅    |         ✅       |         ✅        |        ❌       |          ❌          |     RGB only        |
-| `PAL.Coder.CLR`              | Binary<br>(macOS only) |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |        ✅           |
-| `PAL.Coder.CorelPainter`     | Text                   |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |     RGB only        |
-| `PAL.Coder.CPL`              | Binary                 |    ✅    |    ❌    |         ✅       |         ✅        |        ❌       |          ✅          |        ✅           |
-| `PAL.Coder.CSV`              | Text                   |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |     RGB only        |
-| `PAL.Coder.GIMP`             | Text                   |    ✅    |    ✅    |         ✅       |         ✅        |        ❌       |          ❌          |     RGB only        |
-| `PAL.Coder.HEX`              | Text                   |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
-| `PAL.Coder.Image`            | Binary                 |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |        ❌           |
-| `PAL.Coder.JSON`             | JSON Text              |    ✅    |    ✅    |         ✅       |         ✅        |        ✅       |          ✅          |        ✅           |
-| `PAL.Coder.PaintNET`         | Text                   |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
-| `PAL.Coder.PaintShopPro`     | Text                   |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
-| `PAL.Coder.RGB/A`            | Text                   |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |     RGB only        |
-| `PAL.Coder.RIFF`             | Binary                 |    ✅    |    ❌    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
-| `PAL.Coder.SketchPalette`    | XML                    |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
-| `PAL.Coder.SVG`              | SVG text               |    ❌    |    ✅    |         ❌       |         ✅        |        ✅       |          ❌          |     RGB only        |
-| `PAL.Coder.XMLPalette`       | XML                    |    ✅    |    ✅    |         ✅       |         ✅        |        ✅       |          ❌          |        ✅           |
+|                               | File Type              | Decode?  | Encode?  | Named<br>Colors? | Named<br>palette? | Color<br>Groups? | ColorType<br>Support? | Supports<br>Colorspaces? |
+|-------------------------------|------------------------|:--------:|:--------:|:----------------:|:-----------------:|:----------------:|:--------------------:|:--------------------:|
+| `PAL.Coder.ACB`               | Binary                 |    ✅    |    ❌    |         ✅       |         ❌        |        ❌       |          ❌          |        ✅           |
+| `PAL.Coder.ACO`               | Binary                 |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |        ✅           |
+| `PAL.Coder.ACT`               | Binary                 |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.AndroidColorsXML`  | XML                    |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.ASE`               | Binary                 |    ✅    |    ✅    |         ✅       |         ❌        |        ✅       |          ✅          |        ✅           |
+| `PAL.Coder.BasicXML`          | XML                    |    ✅    |    ✅    |         ✅       |         ✅        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.CLR`               | Binary<br>(macOS only) |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |        ✅           |
+| `PAL.Coder.CorelPainter`      | Text                   |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.CPL`               | Binary                 |    ✅    |    ❌    |         ✅       |         ✅        |        ❌       |          ✅          |        ✅           |
+| `PAL.Coder.CSV`               | Text                   |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.GIMP`              | Text                   |    ✅    |    ✅    |         ✅       |         ✅        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.HEX`               | Text                   |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.Image`             | Binary                 |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |        ❌           |
+| `PAL.Coder.JSON`              | JSON Text              |    ✅    |    ✅    |         ✅       |         ✅        |        ✅       |          ✅          |        ✅           |
+| `PAL.Coder.OpenOfficePalette` | XML                    |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |        ❌           |
+| `PAL.Coder.PaintNET`          | Text                   |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.PaintShopPro`      | Text                   |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.RGB/A`             | Text                   |    ✅    |    ✅    |         ✅       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.RIFF`              | Binary                 |    ✅    |    ❌    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.SketchPalette`     | XML                    |    ✅    |    ✅    |         ❌       |         ❌        |        ❌       |          ❌          |     RGB only        |
+| `PAL.Coder.SVG`               | SVG text               |    ❌    |    ✅    |         ❌       |         ✅        |        ✅       |          ❌          |     RGB only        |
+| `PAL.Coder.XMLPalette`        | XML                    |    ✅    |    ✅    |         ✅       |         ✅        |        ✅       |          ❌          |        ✅           |
 
 *(A ColorType represents the type of color (global/spot/normal))*
 

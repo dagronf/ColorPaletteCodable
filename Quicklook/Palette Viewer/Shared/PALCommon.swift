@@ -22,6 +22,7 @@ public let ExportablePaletteTypes: [String] = [
 	"public.dagronf.palette.rgb",
 	"public.dagronf.palette.rgba",
 	"public.svg-image",
+	"org.openoffice.palette",
 ]
 
 public let ExportablePaletteUTTypes: [UTType] = {

@@ -22,6 +22,8 @@
 				<string>public.dagronf.corel.pal</string>
 				<string>public.dagronf.corel.psppalette</string>
 				<string>public.dagronf.microsoft.riff.palette</string>
+				<string>org.openoffice.palette</string>
+				<string>public.dagronf.corel.cpl</string>
 			</array>
 			<key>QLThumbnailMinimumDimension</key>
 			<integer>0</integer>

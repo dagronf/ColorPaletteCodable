@@ -25,6 +25,7 @@
 				<string>public.dagronf.palette.rgb</string>
 				<string>public.dagronf.palette.rgba</string>
 				<string>public.dagronf.corel.cpl</string>
+				<string>org.openoffice.palette</string>
 			</array>
 			<key>QLSupportsSearchableItems</key>
 			<false/>

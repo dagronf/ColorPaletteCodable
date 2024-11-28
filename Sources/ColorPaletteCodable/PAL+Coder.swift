@@ -51,6 +51,7 @@ public extension PAL.Palette {
 			PAL.Coder.CorelPainter(),
 			PAL.Coder.AndroidColorsXML(),
 			PAL.Coder.CPL(),
+			PAL.Coder.OpenOfficePaletteCoder(),
 		]
 #if canImport(CoreGraphics)
 		coders.append(PAL.Coder.Image())
@@ -74,6 +75,7 @@ public extension PAL.Palette {
 		PAL.Coder.PaintNET(),
 		PAL.Coder.CorelPainter(),
 		PAL.Coder.AndroidColorsXML(),
+		PAL.Coder.OpenOfficePaletteCoder(),
 	]
 }
 
