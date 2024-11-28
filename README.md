@@ -230,7 +230,7 @@ vague documents [1](http://www.selapa.net/swatches/gradients/fileformats.php), [
 
 For some nice gradient files
 
-* [cptcity](http://soliton.vm.bytemark.co.uk/pub/cpt-city/index.html) has all of them :-)
+* [cptcity](http://seaviewsensing.com/pub/cpt-city/) has all of them :-)
 * [lospec](https://lospec.com/palette-list)
 
 cptcity also has a [nice converter](http://soliton.vm.bytemark.co.uk/pub/cptutils-online/select.html) for gradients to ggr

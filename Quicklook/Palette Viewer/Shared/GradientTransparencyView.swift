@@ -41,6 +41,8 @@ struct GradientTransparencyView: View {
 	let hasTransparency: Bool
 	
 	internal init(gradient: PAL.Gradient) {
+		let gradient = (try? gradient.normalized()) ?? gradient
+
 		self.gradient = gradient
 		self.flatGradient = try! gradient.removingTransparency()
 

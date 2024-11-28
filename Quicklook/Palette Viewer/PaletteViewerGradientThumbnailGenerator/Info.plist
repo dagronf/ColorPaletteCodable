@@ -12,6 +12,7 @@
 				<string>public.dagronf.gimp.ggr</string>
 				<string>com.adobe.grd</string>
 				<string>public.dagronf.corel.paintshoppro.pspgradient</string>
+				<string>public.dagronf.cpt</string>
 			</array>
 			<key>QLThumbnailMinimumDimension</key>
 			<integer>0</integer>

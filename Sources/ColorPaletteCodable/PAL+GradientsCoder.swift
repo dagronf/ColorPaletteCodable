@@ -33,6 +33,7 @@ private let AvailableGradientCoders: [PAL_GradientsCoder] = [
 	PAL.Gradients.Coder.GRD(),
 	PAL.Gradients.Coder.PSP(),
 	PAL.Gradients.Coder.SVG(),
+	PAL.Gradients.Coder.CPT()
 ]
 
 /// A gradient coder protocol

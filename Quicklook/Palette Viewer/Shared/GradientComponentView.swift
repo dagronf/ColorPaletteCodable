@@ -19,7 +19,7 @@ struct GradientComponentView: View {
 	let circleSize: Double = 12
 
 	internal init(gradient: PAL.Gradient) {
-		self.gradient = gradient
+		self.gradient = (try? gradient.normalized()) ?? gradient
 	}
 
 	var body: some View {

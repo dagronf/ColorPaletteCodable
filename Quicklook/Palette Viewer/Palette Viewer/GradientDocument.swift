@@ -76,6 +76,9 @@ class GradientDocument: NSDocument {
 		else if typeName == "public.dagronf.gimp.ggr" {
 			return try PAL.Gradients.Coder.GGR().encode(g)
 		}
+		else if typeName == "public.dagronf.cpt" {
+			return try PAL.Gradients.Coder.CPT().encode(g)
+		}
 
 		throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
 	}
