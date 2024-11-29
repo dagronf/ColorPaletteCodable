@@ -42,18 +42,42 @@ public extension PAL.Gradients.Coder {
 	}
 }
 
-//   0 152  10 114  50 253 215 243
-let _rgbEntry = try! DSFRegex(#"\s*([+-]?[0-9]*[.]?[0-9]+)\s*(\d*)\s*(\d*)\s*(\d*)\s*([+-]?[0-9]*[.]?[0-9]+)\s*(\d*)\s*(\d*)\s*(\d*)"#)
-
-// 0.00000	13/8/135	0.00392	16/7/136
-let _rgb2 = try! DSFRegex(#"\s*([+-]?[0-9]*[.]?[0-9]+)\s+([0-9]+)\/([0-9]+)\/([0-9]+)\s+(\d*\.\d+)\s+([0-9]+)\/([0-9]+)\/([0-9]+)"#)
-
-
 public extension PAL.Gradients.Coder.CPT {
+	/// Decode a gradient using the GIMP Gradient format
+	/// - Parameter inputStream: The input stream containing the data
+	/// - Returns: a gradient
+	func decode(from inputStream: InputStream) throws -> PAL.Gradients {
+		// Load a string from the input stream
+		guard let decoded = String.decode(from: inputStream) else {
+			ColorPaletteLogger.log(.error, "GGRCoder: Unexpected text encoding")
+			throw PAL.CommonError.invalidString
+		}
 
-//	func parseColorDefinition(_ str: String) -> PAL.Color? {
-//
-//	}
+		let content = decoded.text
+
+		// Remove any blank lines from the input file
+		let lines = content
+			.components(separatedBy: .newlines).filter { $0.count > 0 }
+			.filter { $0.first != "#" }
+
+		var stops: [PAL.Gradient.Stop] = []
+
+		for line in lines {
+			let attempt1 = scanLineFormat(line: line)
+			if attempt1.count > 0 {
+				stops.append(contentsOf: attempt1)
+				continue
+			}
+		}
+
+		// Make sure that the stops are normalized between 0 -> 1
+		// (CPT can have arbitrary upper and lower bounds)
+		let gradient = try PAL.Gradient(stops: stops).normalized()
+		return PAL.Gradients(gradients: [gradient])
+	}
+}
+
+private extension PAL.Gradients.Coder.CPT {
 
 	func scanCharacters(_ scanner: Scanner, _ cs: CharacterSet) -> String? {
 #if os(Linux)
@@ -153,37 +177,6 @@ public extension PAL.Gradients.Coder.CPT {
 		}
 
 		return result
-	}
-
-	/// Decode a gradient using the GIMP Gradient format
-	/// - Parameter inputStream: The input stream containing the data
-	/// - Returns: a gradient
-	func decode(from inputStream: InputStream) throws -> PAL.Gradients {
-		// Load a string from the input stream
-		guard let decoded = String.decode(from: inputStream) else {
-			ColorPaletteLogger.log(.error, "GGRCoder: Unexpected text encoding")
-			throw PAL.CommonError.invalidString
-		}
-
-		let content = decoded.text
-
-		// Remove any blank lines from the input file
-		let lines = content
-			.components(separatedBy: .newlines).filter { $0.count > 0 }
-			.filter { $0.first != "#" }
-
-		var stops: [PAL.Gradient.Stop] = []
-
-		for line in lines {
-			let attempt1 = scanLineFormat(line: line)
-			if attempt1.count > 0 {
-				stops.append(contentsOf: attempt1)
-				continue
-			}
-		}
-
-		let gradient = PAL.Gradient(stops: stops)
-		return PAL.Gradients(gradients: [gradient])
 	}
 }
 

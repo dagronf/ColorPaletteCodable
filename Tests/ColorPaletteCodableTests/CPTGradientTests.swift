@@ -72,4 +72,15 @@ final class CPTGradientTests: XCTestCase {
 		XCTAssertEqual("MediumSeaGreen", g.stops[0].color.name)
 		XCTAssertEqual("ivory2", g.stops[10].color.name)
 	}
+
+	func testCheckRemapGradientPositions() throws {
+		let gradients = try loadResourceGradient(named: "os250k-metres.cpt")
+		XCTAssertEqual(1, gradients.gradients.count)
+
+		let posns = gradients.gradients[0].stops.map { $0.position }
+		let xMin = try XCTUnwrap(posns.min())
+		let xMax = try XCTUnwrap(posns.max())
+		XCTAssertGreaterThanOrEqual(0, xMin)
+		XCTAssertLessThanOrEqual(1, xMax)
+	}
 }

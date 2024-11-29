@@ -1,0 +1,27 @@
+# Ordnace Survey 1:250000 map relief scale (metres)
+# 
+# Extracted from the file 250k-raster-legend.pdf
+# by J.J. Green 2011
+#
+# $Id: os250k-metres.cpt,v 1.1 2011/12/09 13:41:57 jjg Exp $
+#
+# Contains Ordnance Survey data (c) Crown copyright
+# and database right 2011
+#
+# Released under the Open Government Licence for
+# public sector information
+#
+# COLOR MODEL RGB
+0    255 255 255  61   255 255 255 
+61   255 254 238  183  255 254 238 
+183  255 252 221  305  255 252 221 
+305  255 234 195  427  255 234 195 
+427  255 216 168  610  255 216 168 
+610  255 199 146  914  255 199 146 
+914  255 186 139  1344 255 186 139 
+
+
+
+
+
+
