@@ -365,4 +365,16 @@ final class CommonTests: XCTestCase {
 		let dec = enc.xmlDecoded()
 		XCTAssertEqual(unescapedString, dec)
 	}
+
+	#if !os(Linux)
+	func testSwiftExport() throws {
+		let palette  = try loadResourcePalette(named: "Default.gpl")
+		let d = try PAL.Coder.SwiftCoder().encode(palette)
+		try d.write(to: URL(fileURLWithPath: "/tmp/palette.swift"))
+
+		let palette2 = try loadResourcePalette(named: "ADG3-CMYK.ase")
+		let d2 = try PAL.Coder.SwiftCoder().encode(palette2)
+		try d2.write(to: URL(fileURLWithPath: "/tmp/palette2.swift"))
+	}
+	#endif
 }

@@ -59,4 +59,15 @@ public extension PAL.Image {
 	}
 }
 
+public extension PAL.Palette {
+	/// Create a palette from an array of UIColor
+	/// - Parameters:
+	///   - colors: The colors
+	///   - name: The palette name
+	init(_ colors: [UIColor], name: String = "") throws {
+		guard colors.count > 0 else { throw PAL.CommonError.tooFewColors }
+		self.colors = try colors.map { try PAL.Color(color: $0) }
+	}
+}
+
 #endif
