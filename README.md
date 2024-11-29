@@ -49,6 +49,7 @@ Supports the following :-
 * GIMP gradient (`.ggr`)
 * Built-in JSON format gradient (`.jsongradient`)
 * Basic Adobe gradient (`.grd`) ***(read only)***
+* CPT gradient (`.cpt`) ***(read only)***
 * Basic Paint Shop Pro gradient (`.pspgradient`) ***(read only)***
 * SVG Gradient file (`.svg`) ***(write only)***
 
@@ -212,6 +213,7 @@ gradients within the same file.
 
 | Type                       | Description                                       | Decode? | Encode? |
 |:---------------------------|:--------------------------------------------------|:-------:|:-------:|
+|`PAL.Gradients.Coder.CPT`   | CPT gradient file (.cpt)                          |    ✅   |   ❌   |
 |`PAL.Gradients.Coder.JSON`  | Built-in JSON format (.jsongradient)              |    ✅   |   ✅   |
 |`PAL.Gradients.Coder.GGR`   | GIMP gradient file (.ggr)                         |    ✅   |   ✅   |
 |`PAL.Gradients.Coder.GRD`   | Basic Adobe Photoshop gradient file (.grd)        |    ✅   |   ❌   |
@@ -233,7 +235,7 @@ For some nice gradient files
 * [cptcity](http://seaviewsensing.com/pub/cpt-city/) has all of them :-)
 * [lospec](https://lospec.com/palette-list)
 
-cptcity also has a [nice converter](http://soliton.vm.bytemark.co.uk/pub/cptutils-online/select.html) for gradients to ggr
+cptcity also has a [nice converter](http://seaviewsensing.com/pub/cptutils-online/convert/select.html) for gradients to ggr
 
 ### Examples
 
