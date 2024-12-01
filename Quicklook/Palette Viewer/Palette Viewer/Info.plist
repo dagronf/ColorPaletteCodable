@@ -366,7 +366,21 @@
 				<string>org.openoffice.palette</string>
 			</array>
 			<key>NSDocumentClass</key>
-			<string>$(PRODUCT_MODULE_NAME).Docume</string>
+			<string>$(PRODUCT_MODULE_NAME).Document</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>ColorPaletteCodable Binary Palette</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.dagronf.colorpalette.dcp</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>$(PRODUCT_MODULE_NAME).Document</string>
 		</dict>
 	</array>
 	<key>UTExportedTypeDeclarations</key>
@@ -782,6 +796,25 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>soc</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>OpenOffice Palette</string>
+			<key>UTTypeIcons</key>
+			<dict/>
+			<key>UTTypeIdentifier</key>
+			<string>public.dagronf.colorpalette.dcp</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>dcp</string>
 				</array>
 			</dict>
 		</dict>

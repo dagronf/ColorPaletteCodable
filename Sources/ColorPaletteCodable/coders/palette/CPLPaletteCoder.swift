@@ -128,22 +128,22 @@ public extension PAL.Coder.CPL {
 			switch model {
 			case 2:  // CMYK percentages
 				try file.seek(4, .current)
-				let cmyk = try file.readArray(count: 4)
+				let cmyk = try file.readBytes(count: 4)
 				colorspace = .CMYK
 				colorComponents = [Double(cmyk[0]) / 100.0, Double(cmyk[1]) / 100.0, Double(cmyk[2]) / 100.0, Double(cmyk[3]) / 100.0]
 			case 3, 17: // CMYK fractions
 				try file.seek(4, .current)
-				let cmyk = try file.readArray(count: 4)
+				let cmyk = try file.readBytes(count: 4)
 				colorspace = .CMYK
 				colorComponents = [Double(cmyk[0]) / 255.0, Double(cmyk[1]) / 255.0, Double(cmyk[2]) / 255.0, Double(cmyk[3]) / 255.0]
 			case 4:  // CMY fractions
 				try file.seek(4, .current)
-				let cmyk = try file.readArray(count: 4)
+				let cmyk = try file.readBytes(count: 4)
 				colorspace = .CMYK
 				colorComponents = [Double(cmyk[0]) / 255.0, Double(cmyk[1]) / 255.0, Double(cmyk[2]) / 255.0]
 			case 5, 21:	// BGR fractions
 				try file.seek(4, .current)
-				let bgr = try file.readArray(count: 3)
+				let bgr = try file.readBytes(count: 3)
 				colorComponents = [Double(bgr[2]) / 255.0, Double(bgr[1]) / 255.0, Double(bgr[0]) / 255.0]
 				colorspace = .RGB
 				try file.seek(1, .current)
@@ -164,22 +164,22 @@ public extension PAL.Coder.CPL {
 				switch model2 {
 				case 2:  // CMYK percentages
 					try file.seek(4, .current)
-					let cmyk = try file.readArray(count: 4)
+					let cmyk = try file.readBytes(count: 4)
 					colorspace2 = .CMYK
 					colorComponents2 = [Double(cmyk[0]) / 100, Double(cmyk[1]) / 100, Double(cmyk[2]) / 100, Double(cmyk[3]) / 100]
 				case 3, 17: // CMYK fractions
 					try file.seek(4, .current)
-					let cmyk = try file.readArray(count: 4)
+					let cmyk = try file.readBytes(count: 4)
 					colorspace2 = .CMYK
 					colorComponents2 = [Double(cmyk[0]) / 255, Double(cmyk[1]) / 255, Double(cmyk[2]) / 255, Double(cmyk[3]) / 255]
 				case 4:  // CMY fractions
 					try file.seek(4, .current)
-					let cmyk = try file.readArray(count: 4)
+					let cmyk = try file.readBytes(count: 4)
 					colorspace2 = .CMYK
 					colorComponents2 = [Double(cmyk[0]) / 255, Double(cmyk[1]) / 255, Double(cmyk[2]) / 255]
 				case 5, 21:	// BGR fractions
 					try file.seek(4, .current)
-					let bgr = try file.readArray(count: 3)
+					let bgr = try file.readBytes(count: 3)
 					colorComponents2 = [Double(bgr[2]) / 255, Double(bgr[1]) / 255, Double(bgr[0]) / 255]
 					colorspace2 = .RGB
 					try file.seek(1, .current)
