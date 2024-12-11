@@ -47,6 +47,7 @@ Supports the following :-
 ## Supported gradient formats
 
 * GIMP gradient (`.ggr`)
+* GNUPlot color map (`.gpf`)
 * Built-in JSON format gradient (`.jsongradient`)
 * Basic Adobe gradient (`.grd`) ***(read only)***
 * CPT gradient (`.cpt`) ***(read only)***

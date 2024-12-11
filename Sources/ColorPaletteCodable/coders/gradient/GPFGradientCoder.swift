@@ -22,12 +22,12 @@
 //  SOFTWARE.
 //
 
-// GNUPlot gradient definition
+// GNUPlot color map definition
 
 import Foundation
 
 public extension PAL.Gradients.Coder {
-	/// GIMP gradient encoder/decoder
+	/// GNUPlot color map encoder/decoder
 	///
 	/// ```
 	/// # Gnuplot colour map
@@ -98,7 +98,7 @@ public extension PAL.Gradients.Coder.GPF {
 
 private let _defaultDoubleFormatter = NumberFormatter {
 	$0.minimumFractionDigits = 1
-	$0.maximumFractionDigits = 3
+	$0.maximumFractionDigits = 5
 }
 
 public extension PAL.Gradients.Coder.GPF {
@@ -115,7 +115,7 @@ public extension PAL.Gradients.Coder.GPF {
 		var result = """
 		# Gnuplot colour map
 		# Generated with ColorPaletteCodable
-
+		
 		"""
 
 		for stop in gradient.stops {

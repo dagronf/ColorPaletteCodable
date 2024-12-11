@@ -79,6 +79,9 @@ class GradientDocument: NSDocument {
 		else if typeName == "public.dagronf.cpt" {
 			return try PAL.Gradients.Coder.CPT().encode(g)
 		}
+		else if typeName == "public.dagronf.gnuplot.gpf" {
+			return try PAL.Gradients.Coder.GPF().encode(g)
+		}
 
 		throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
 	}

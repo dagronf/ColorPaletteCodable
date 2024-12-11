@@ -35,6 +35,7 @@ public let ExportableGradientTypes: [String] = [
 	"public.dagronf.jsoncolorgradient",
 	"public.dagronf.gimp.ggr",
 	"public.svg-image",
+	"public.dagronf.gnuplot.gpf",
 ]
 
 public let ExportableGradientUTTypes: [UTType] = {
