@@ -216,10 +216,12 @@ gradients within the same file.
 |`PAL.Gradients.Coder.CPT`   | CPT gradient file (.cpt)                          |    ✅   |   ❌   |
 |`PAL.Gradients.Coder.JSON`  | Built-in JSON format (.jsongradient)              |    ✅   |   ✅   |
 |`PAL.Gradients.Coder.GGR`   | GIMP gradient file (.ggr)                         |    ✅   |   ✅   |
+|`PAL.Gradients.Coder.GPF`   | GNUPlot color palette file (.gpf)                 |    ✅   |   ✅   |
 |`PAL.Gradients.Coder.GRD`   | Basic Adobe Photoshop gradient file (.grd)        |    ✅   |   ❌   |
 |`PAL.Gradients.Coder.PSP`   | Basic Paint Shop Pro gradient file (.pspgradient) |    ✅   |   ❌   |
 |`PAL.Gradients.Coder.SVG`   | SVG file (.svg)                                   |    ❌   |   ✅   |
 
+* `.gpf` only supports rgb
 * `.ggr` support doesn't respect segment blending functions other than linear (always imported as linear)
 * `.ggr` support doesn't allow for segment coloring functions other than rgb (throws an error)
 * `.grd` support is _very_ basic at this point. There's no formal document for it, and I built this using very 

@@ -10,6 +10,7 @@
 			<false/>
 			<key>QLSupportedContentTypes</key>
 			<array>
+				<string>public.dagronf.gnuplot.gpf</string>
 				<string>public.dagronf.jsoncolorgradient</string>
 				<string>public.dagronf.gimp.ggr</string>
 				<string>com.adobe.grd</string>

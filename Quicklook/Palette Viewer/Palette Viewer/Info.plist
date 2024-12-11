@@ -300,6 +300,20 @@
 		</dict>
 		<dict>
 			<key>CFBundleTypeName</key>
+			<string>GNUPlot Color Palette</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.dagronf.gnuplot.gpf</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>$(PRODUCT_MODULE_NAME).GradientDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
 			<string>Adobe Photoshop Gradient</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
@@ -534,6 +548,25 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>pspgradient</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.plain-text</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>GNUPlot Color Palette</string>
+			<key>UTTypeIcons</key>
+			<dict/>
+			<key>UTTypeIdentifier</key>
+			<string>public.dagronf.gnuplot.gpf</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>gpf</string>
 				</array>
 			</dict>
 		</dict>

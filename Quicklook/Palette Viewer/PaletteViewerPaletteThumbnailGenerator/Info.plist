@@ -8,6 +8,7 @@
 		<dict>
 			<key>QLSupportedContentTypes</key>
 			<array>
+				<string>public.dagronf.gnuplot.gpf</string>
 				<string>public.dagronf.colorpalette</string>
 				<string>public.dagronf.gimp.gpl</string>
 				<string>com.apple.color-file</string>
