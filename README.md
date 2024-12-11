@@ -96,6 +96,7 @@ Some features :-
 |`PAL.Coder.CorelXMLPalette`        | CorelDraw/Adobe Illustrator Palette (.xml)  |
 |`PAL.Coder.CPL`                    | Corel Paint (.cpl)                          |
 |`PAL.Coder.CSV`                    | CSV (.csv)                                  |
+|`PAL.Coder.DCP`                    | DCP binary palette format (.dcp)            |
 |`PAL.Coder.GIMP`                   | GIMP palette files (.gpl)                   |
 |`PAL.Coder.HEX`                    | Hex Color Palette (`.hex`)                  |
 |`PAL.Coder.Image`                  | Image files (.png, .jpg, .gif)              |
