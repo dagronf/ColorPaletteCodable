@@ -108,7 +108,8 @@ extension PAL.Coder.ASE {
 		let version1: UInt16 = try readIntegerBigEndian(inputStream)
 		if version0 != 1 || version1 != 0 {
 			// Unknown version?
-			throw PAL.CommonError.invalidVersion
+			//throw PAL.CommonError.invalidVersion
+			ColorPaletteLogger.log(.error, "ASECoder: Untested ASE version %d.%d - attempting load...", version0, version1)
 		}
 		
 		// Read the number of blocks contained within the ase file

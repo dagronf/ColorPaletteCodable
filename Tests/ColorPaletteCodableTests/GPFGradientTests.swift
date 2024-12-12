@@ -27,8 +27,16 @@ final class GPFGradientTests: XCTestCase {
 			XCTAssertEqual(item.expectedCount, g.colors.count)
 
 			let enc = try PAL.Gradients.Coder.GPF().encode(gradients)
+
 			let decoded = try PAL.Gradients.Coder.GPF().decode(from: enc)
-			XCTAssertEqual(item.expectedCount, decoded.gradients.first?.colors.count)
+			let decodedGradient = try XCTUnwrap(decoded.gradients.first)
+			XCTAssertEqual(item.expectedCount, decodedGradient.colors.count)
+
+			let map = zip(g.stops, decodedGradient.stops)
+			map.forEach { (a, b) in
+				XCTAssertEqual(a.position, b.position, accuracy: 0.0001)
+				XCTAssertTrue(a.color.isEqual(to: b.color, precision: 4))
+			}
 		}
 	}
 }
