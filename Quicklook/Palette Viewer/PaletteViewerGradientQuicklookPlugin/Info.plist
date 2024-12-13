@@ -16,6 +16,7 @@
 				<string>com.adobe.grd</string>
 				<string>public.dagronf.corel.paintshoppro.pspgradient</string>
 				<string>public.dagronf.cpt</string>
+				<string>public.dagronf.colorpalette.gradients</string>
 			</array>
 			<key>QLSupportsSearchableItems</key>
 			<false/>

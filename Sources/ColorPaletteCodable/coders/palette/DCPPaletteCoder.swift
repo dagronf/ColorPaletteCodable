@@ -83,58 +83,7 @@ public extension PAL.Coder.DCP {
 
 			// The groups colors
 			let colors = try (0 ..< expectedColorCount).map { _ in
-				// Read a color identifer tag
-				guard try parser.readByte() == colorIdentifier__ else { throw PAL.CommonError.invalidBOM }
-
-				// Read the group name (uint16 length + utf16 string)
-				let colorName = try parser.readPascalStringUTF16(.little)
-
-				let colorspaceID = try parser.readUInt8()
-
-				let colorSpace: PAL.ColorSpace
-				let components: [Float32]
-
-				switch colorspaceID {
-				case 1:
-					// CMYK
-					colorSpace = .CMYK
-					components = try (0 ..< 4).map { _ in try parser.readFloat32(.little) }
-				case 2:
-					// RGB
-					colorSpace = .RGB
-					components = try (0 ..< 3).map { _ in try parser.readFloat32(.little) }
-				case 3:
-					// LAB
-					colorSpace = .LAB
-					components = try (0 ..< 3).map { _ in try parser.readFloat32(.little) }
-				case 4:
-					// Gray
-					colorSpace = .Gray
-					components = [ try parser.readFloat32(.little) ]
-				default:
-					throw PAL.CommonError.invalidFormat
-				}
-
-				// Alpha component
-				let alpha = try parser.readFloat32(.little)
-				// Color type
-				let type = try parser.readUInt8()
-				let colorType: PAL.ColorType = try {
-					switch type {
-					case 1: return .global
-					case 2: return .spot
-					case 3: return .normal
-					default: throw PAL.CommonError.invalidFormat
-					}
-				}()
-
-				return try PAL.Color(
-					name: colorName,
-					colorSpace: colorSpace,
-					colorComponents: components,
-					colorType: colorType,
-					alpha: alpha
-				)
+				try parser.readColor()
 			}
 
 			return PAL.Group(name: groupName, colors: colors)
@@ -178,38 +127,102 @@ public extension PAL.Coder.DCP {
 			try file.writeUInt16(UInt16(group.colors.count), .little)
 
 			try group.colors.forEach { color in
-				// Write a color identifer tag
-				try file.writeByte(colorIdentifier__)
-
-				// Color name
-				try file.writePascalStringUTF16(color.name, .little)
-
-				// Write the colorspace identifier
-				switch color.colorSpace {
-				case .CMYK: try file.writeUInt8(1)
-				case .RGB: try file.writeUInt8(2)
-				case .LAB: try file.writeUInt8(3)
-				case .Gray: try file.writeUInt8(4)
-				}
-
-				// Write the color components
-				try color.colorComponents.forEach { c in
-					try file.writeFloat32(c, .little)
-				}
-
-				// Color alpha
-				try file.writeFloat32(color.alpha, .little)
-
-				// Color type
-				switch color.colorType {
-				case .global: try file.writeUInt8(1)
-				case .spot: try file.writeUInt8(2)
-				case .normal: try file.writeUInt8(3)
-				}
+				// The color
+				try file.writeColor(color)
 			}
 		}
 
 		return file.storage
+	}
+}
+
+extension DataWriter {
+	func writeColor(_ color: PAL.Color) throws {
+		// Write a color identifer tag
+		try self.writeByte(colorIdentifier__)
+
+		// Color name
+		try self.writePascalStringUTF16(color.name, .little)
+
+		// Write the colorspace identifier
+		switch color.colorSpace {
+		case .CMYK: try self.writeUInt8(1)
+		case .RGB: try self.writeUInt8(2)
+		case .LAB: try self.writeUInt8(3)
+		case .Gray: try self.writeUInt8(4)
+		}
+
+		// Write the color components
+		try color.colorComponents.forEach { c in
+			try self.writeFloat32(c, .little)
+		}
+
+		// Color alpha
+		try self.writeFloat32(color.alpha, .little)
+
+		// Color type
+		switch color.colorType {
+		case .global: try self.writeUInt8(1)
+		case .spot: try self.writeUInt8(2)
+		case .normal: try self.writeUInt8(3)
+		}
+	}
+}
+
+extension DataParser {
+	func readColor() throws -> PAL.Color {
+		// Read a color identifer tag
+		guard try self.readByte() == colorIdentifier__ else { throw PAL.CommonError.invalidBOM }
+
+		// Read the group name (uint16 length + utf16 string)
+		let colorName = try self.readPascalStringUTF16(.little)
+
+		let colorspaceID = try self.readUInt8()
+
+		let colorSpace: PAL.ColorSpace
+		let components: [Float32]
+
+		switch colorspaceID {
+		case 1:
+			// CMYK
+			colorSpace = .CMYK
+			components = try (0 ..< 4).map { _ in try self.readFloat32(.little) }
+		case 2:
+			// RGB
+			colorSpace = .RGB
+			components = try (0 ..< 3).map { _ in try self.readFloat32(.little) }
+		case 3:
+			// LAB
+			colorSpace = .LAB
+			components = try (0 ..< 3).map { _ in try self.readFloat32(.little) }
+		case 4:
+			// Gray
+			colorSpace = .Gray
+			components = [ try self.readFloat32(.little) ]
+		default:
+			throw PAL.CommonError.invalidFormat
+		}
+
+		// Alpha component
+		let alpha = try self.readFloat32(.little)
+		// Color type
+		let type = try self.readUInt8()
+		let colorType: PAL.ColorType = try {
+			switch type {
+			case 1: return .global
+			case 2: return .spot
+			case 3: return .normal
+			default: throw PAL.CommonError.invalidFormat
+			}
+		}()
+
+		return try PAL.Color(
+			name: colorName,
+			colorSpace: colorSpace,
+			colorComponents: components,
+			colorType: colorType,
+			alpha: alpha
+		)
 	}
 }
 

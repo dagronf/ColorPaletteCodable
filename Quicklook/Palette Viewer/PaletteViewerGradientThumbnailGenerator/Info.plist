@@ -13,6 +13,8 @@
 				<string>com.adobe.grd</string>
 				<string>public.dagronf.corel.paintshoppro.pspgradient</string>
 				<string>public.dagronf.cpt</string>
+				<string>public.dagronf.colorpalette.gradients</string>
+				<string>public.dagronf.gnuplot.gpf</string>
 			</array>
 			<key>QLThumbnailMinimumDimension</key>
 			<integer>0</integer>

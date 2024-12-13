@@ -342,6 +342,20 @@
 		</dict>
 		<dict>
 			<key>CFBundleTypeName</key>
+			<string>ColorPaletteCodable Binary Gradients</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.dagronf.colorpalette.gradients</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>$(PRODUCT_MODULE_NAME).GradientDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
 			<string>Portable Network Graphics file (PNG)</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
@@ -848,6 +862,25 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>dcp</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>ColorPaletteCoder Binary Gradients</string>
+			<key>UTTypeIcons</key>
+			<dict/>
+			<key>UTTypeIdentifier</key>
+			<string>public.dagronf.colorpalette.gradients</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>dcg</string>
 				</array>
 			</dict>
 		</dict>

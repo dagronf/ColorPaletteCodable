@@ -239,7 +239,12 @@ public extension DataWriter {
 	///   - byteOrder: The byte order to apply when writing
 	/// - Returns: The number of bytes written
 	@discardableResult
-	func writePascalStringUTF16(_ string: String, _ byteOrder: Endianness) throws -> Int {
+	func writePascalStringUTF16(_ string: String?, _ byteOrder: Endianness) throws -> Int {
+		// If the string is empty, write length = 0
+		guard let string = string else {
+			return try self.writeUInt16(0, byteOrder)
+		}
+
 		guard let utf16NameBytes = string.data(using: .utf16LittleEndian) else {
 			throw PAL.CommonError.invalidUnicodeFormatString
 		}

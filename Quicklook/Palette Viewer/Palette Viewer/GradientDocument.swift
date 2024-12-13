@@ -73,6 +73,9 @@ class GradientDocument: NSDocument {
 		if typeName == "public.dagronf.jsoncolorgradient" {
 			return try PAL.Gradients.Coder.JSON().encode(g)
 		}
+		else if typeName == "public.dagronf.colorpalette.dcp" {
+			return try PAL.Gradients.Coder.DCG().encode(g)
+		}
 		else if typeName == "public.dagronf.gimp.ggr" {
 			return try PAL.Gradients.Coder.GGR().encode(g)
 		}
