@@ -14,7 +14,7 @@ let ase_resources = [
 	"sw-colors-name-ede-ase.ase",
 	"zenit-241.ase",
 	"color-cubes.ase",
-	"ADG3-CMYK.ase",
+	"ADG3-CMYK.ase"
 ]
 
 final class ASEPaletteTests: XCTestCase {
@@ -250,6 +250,11 @@ final class ASEPaletteTests: XCTestCase {
 			XCTAssertNoThrow(try PAL.Color(name: "c1", rgbaHexString: "#1122FEaa"))
 			XCTAssertNoThrow(try PAL.Color(name: "c1", rgbaHexString: "1122FEaa"))
 		}
+	}
+
+	func testOlderASE() throws {
+		let asePalette = try loadResourcePalette(named: "unsupported_version.ase")
+		XCTAssertEqual(3, asePalette.colors.count)
 	}
 
 #if canImport(CoreGraphics)

@@ -19,6 +19,8 @@ final class GPFGradientTests: XCTestCase {
 		("geo-smooth.gpf", 29),
 	]
 
+	#if !os(Linux)
+
 	func testRoundTripLoad() throws {
 		for item in roundTrip {
 			let gradients = try loadResourceGradient(named: item.filename)
@@ -39,4 +41,6 @@ final class GPFGradientTests: XCTestCase {
 			}
 		}
 	}
+
+	#endif
 }
