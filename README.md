@@ -342,6 +342,15 @@ The CorelDraw/Adobe Illustrator `.xml` file format is (somewhat) defined [here](
 * [https://github.com/abought/grd_to_cmap/blob/master/grd_reader.py](https://github.com/abought/grd_to_cmap/blob/master/grd_reader.py)
 * [https://github.com/tonton-pixel/json-photoshop-scripting/tree/master/Documentation/Photoshop-Gradients-File-Format#descriptor](https://github.com/tonton-pixel/json-photoshop-scripting/tree/master/Documentation/Photoshop-Gradients-File-Format#descriptor)
 
+### Temperature references
+
+* Based on Neil Bartlett's implementation of Mitchell Charity's color temperature work
+* Original data and calculations by Mitchell Charity [http://www.vendian.org/mncharity/dir3/blackbody/](http://www.vendian.org/mncharity/dir3/blackbody/)
+
+
+- [https://tannerhelland.com/2012/09/18/convert-temperature-rgb-algorithm-code.html](https://tannerhelland.com/2012/09/18/convert-temperature-rgb-algorithm-code.html)
+- [https://andi-siess.de/rgb-to-color-temperature/](https://andi-siess.de/rgb-to-color-temperature/)
+
 ## License
 
 ```
