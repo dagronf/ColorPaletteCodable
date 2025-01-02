@@ -164,7 +164,7 @@ public extension PAL.Gradients.Coder.DCG {
 			// Number of stops
 			let numStops = try parser.readUInt16(.little)
 
-			let stops = try (0 ..< numStops).map { _ in
+			let stops: [PAL.Gradient.Stop] = try (0 ..< numStops).map { _ in
 				// Stop identifier
 				guard try parser.readUInt8() == stopIdentifier__ else {
 					throw PAL.CommonError.invalidFormat
@@ -193,7 +193,7 @@ public extension PAL.Gradients.Coder.DCG {
 			// Number of transparency stops
 			let numTransparencyStops = try parser.readUInt16(.little)
 
-			let transparencyStops = try (0 ..< numTransparencyStops).map { _ in
+			let transparencyStops: [PAL.Gradient.TransparencyStop] = try (0 ..< numTransparencyStops).map { _ in
 				// Transparency stop identifier
 				guard try parser.readUInt8() == transparencyStopIdentifier__ else {
 					throw PAL.CommonError.invalidFormat

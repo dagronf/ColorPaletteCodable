@@ -71,7 +71,7 @@ public extension PAL.Coder.DCP {
 		let expectedGroupCount = try parser.readUInt16(.little)
 
 		// Read in the groups
-		let groups = try (0 ..< expectedGroupCount).map { _ in
+		let groups: [PAL.Group] = try (0 ..< expectedGroupCount).map { _ in
 			// Read a group identifer tag
 			guard try parser.readByte() == groupIdentifier__ else { throw PAL.CommonError.invalidBOM }
 

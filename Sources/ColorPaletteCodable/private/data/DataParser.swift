@@ -186,7 +186,14 @@ public extension DataParser {
 	/// - Returns: The integer value
 	func readInteger<T: FixedWidthInteger>(_ byteOrder: Endianness) throws -> T {
 		let data = try self.readData(count: MemoryLayout<T>.size)
+		
+#if swift(>=5.7)
 		let value = data.withUnsafeBytes { $0.loadUnaligned(as: T.self) }
+#else
+		let value = data.reversed().reduce(0) { soFar, byte in
+			return soFar << 8 | T(byte)
+		}
+#endif
 		return byteOrder == .big ? value.bigEndian : value.littleEndian
 	}
 

@@ -71,7 +71,7 @@ public extension PAL.Coder.CPL {
 
 			// Read in headers if we can
 			let headerCount: Int32 = try file.readInteger(.little)
-			let headers = try (0 ..< headerCount).map { _ in
+			let headers: [(hid: Int32, offset: Int)] = try (0 ..< headerCount).map { _ in
 				let hid: Int32 = try file.readInteger(.little)
 				let offset: Int32 = try file.readInteger(.little)
 				return (hid: hid, offset: Int(offset))
