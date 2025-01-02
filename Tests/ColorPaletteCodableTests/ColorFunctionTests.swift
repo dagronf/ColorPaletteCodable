@@ -139,4 +139,59 @@ final class ColorFunctionTests: XCTestCase {
 //		Swift.print(i1)
 //		#endif
 	}
+
+	func testOkLab() throws {
+
+		let c1 = Vec3<Float32>(0, 0, 1)
+		let c2 = Vec3<Float32>(1, 1, 0)
+
+		let x1 = OkLab.mix(c1, c2, t: 0)
+		XCTAssertEqual(c1.x, x1.x, accuracy: 0.00001)
+		XCTAssertEqual(c1.y, x1.y, accuracy: 0.00001)
+		XCTAssertEqual(c1.z, x1.z, accuracy: 0.00001)
+
+		let x2 = OkLab.mix(c1, c2, t: 1)
+		XCTAssertEqual(c2.x, x2.x, accuracy: 0.00001)
+		XCTAssertEqual(c2.y, x2.y, accuracy: 0.00001)
+		XCTAssertEqual(c2.z, x2.z, accuracy: 0.00001)
+
+		let x3 = OkLab.mix(c1, c2, t: 0.5)
+		XCTAssertEqual(0.42255, x3.x, accuracy: 0.00001)
+		XCTAssertEqual(0.67237, x3.y, accuracy: 0.00001)
+		XCTAssertEqual(0.78054, x3.z, accuracy: 0.00001)
+
+		do {
+			// oklab mixing
+			let p1 = try OkLab.palette(x1, x2, steps: 10)
+			try outputFolder.write(p1, coder: PAL.Coder.GIMP(), filename: "oklab-mixing-basic.gpl")
+
+#if canImport(CoreGraphics)
+			// Simple srgb linear interpolation
+			let p2 = try PAL.Palette(
+				firstColor: CGColor(srgbRed: 0, green: 0, blue: 1, alpha: 1),
+				lastColor: CGColor(srgbRed: 1, green: 1, blue: 0, alpha: 1),
+				count: 10
+			)
+			try outputFolder.write(p2, coder: PAL.Coder.GIMP(), filename: "oklab-srgb-mixing.gpl")
+#endif
+		}
+
+		do {
+			// Map two PAL colors to a palette mixing with OkLab
+			let c1 = PAL.Color.blue
+			let c2 = PAL.Color.yellow
+			let p1 = try OkLab.palette(c1, c2, steps: 10)
+			try outputFolder.write(p1, coder: PAL.Coder.GIMP(), filename: "oklab-pal-color-mixing.gpl")
+		}
+
+		do {
+			let c1 = try PAL.Color(r255: 185, g255: 27, b255: 77)
+			let c2 = try PAL.Color(r255: 9, g255: 247, b255: 177)
+			let p1 = try OkLab.palette(c1, c2, steps: 20)
+			try outputFolder.write(p1, coder: PAL.Coder.GIMP(), filename: "oklab-mix-palette-oklab.gpl")
+
+			let p2 = try PAL.Palette(firstColor: c1, lastColor: c2, count: 20)
+			try outputFolder.write(p2, coder: PAL.Coder.GIMP(), filename: "oklab-mix-palette-rgb.gpl")
+		}
+	}
 }
