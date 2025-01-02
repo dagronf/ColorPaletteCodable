@@ -91,56 +91,34 @@ internal func HSB_to_RGB<T: BinaryFloatingPoint>(_ HSV: (h: T, s: T, b: T)) -> (
 	}
 }
 
+//func HSV_to_RGB<T: BinaryFloatingPoint>(h: T, s: T, v: T) -> (r: T, g: T, b: T) {
+//	let h = (h >= 0 && h <= 360) ? h : h.truncatingRemainder(dividingBy: 360)
+//	let s = min(max(s, 0), 1)
+//	let v = min(max(v, 0), 1)
+//
+//	if s == 0 {
+//		// If saturation is 0, the color is a shade of gray
+//		return (r: v, g: v, b: v)
+//	}
+//
+//	let i = Int(h * 6)
+//	let f = h * 6 - T(i)
+//	let p = v * (1 - s)
+//	let q = v * (1 - f * s)
+//	let t = v * (1 - (1 - f) * s)
+//
+//	switch i % 6 {
+//	case 0: return (r: v, g: t, b: p)
+//	case 1: return (r: q, g: v, b: p)
+//	case 2: return (r: p, g: v, b: t)
+//	case 3: return (r: p, g: q, b: v)
+//	case 4: return (r: t, g: p, b: v)
+//	case 5: return (r: v, g: p, b: q)
+//	default: return (r: v, g: t, b: p)
+//	}
+//}
 
-/*
-
- HSVType RGB_to_HSV( RGBType RGB )
-	  {
-	  // RGB are each on [0, 1]. S and V are returned on [0, 1] and H is
-	  // returned on [0, 1]. Exception: H is returned UNDEFINED if S==0.
-	  float R = RGB.R, G = RGB.G, B = RGB.B, v, x, f;
-	  int i;
-	  HSVType HSV;
-	  //x = fminx(R, G, B);
-	  x = fminf(R, G);
-	  x = fminf(x, B);
-	  //v = fmaxf(R, G, B);
-	  v = fmaxf(R, G);
-	  v = fmaxf(v, B);
-	  if(v == x) RETURN_HSV(UNDEFINED, 0, v);
-	  f = (R == x) ? G - B : ((G == x) ? B - R : R - G);
-	  i = (R == x) ? 3 : ((G == x) ? 5 : 1);
-	  RETURN_HSV(((i - f /(v - x))/6), (v - x)/v, v);
-	  }
-
-RGBType HSV_to_RGB( HSVType HSV )
-	 {
-	 // H is given on [0, 1] or UNDEFINED. S and V are given on [0, 1].
-	 // RGB are each returned on [0, 1].
-	 float h = HSV.H * 6, s = HSV.S, v = HSV.V, m, n, f;
-	 int i;
-	 RGBType RGB;
-	 if (h == 0) h=.01;
-	 if(h == UNDEFINED) RETURN_RGB(v, v, v);
-	 i = floorf(h);
-	 f = h - i;
-	 if(!(i & 1)) f = 1 - f; // if i is even
-	 m = v * (1 - s);
-	 n = v * (1 - s * f);
-	 switch (i)
-		  {
-		  case 6:
-		  case 0: RETURN_RGB(v, n, m);
-		  case 1: RETURN_RGB(n, v, m);
-		  case 2: RETURN_RGB(m, v, n);
-		  case 3: RETURN_RGB(m, n, v);
-		  case 4: RETURN_RGB(n, m, v);
-		  case 5: RETURN_RGB(v, m, n);
-		  }
-	 RETURN_RGB(0, 0, 0);
-	 }
-*/
-
+// MARK: CoreGraphics routines
 
 #if canImport(CoreGraphics)
 import CoreGraphics

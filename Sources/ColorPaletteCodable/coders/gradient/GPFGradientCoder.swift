@@ -73,19 +73,12 @@ public extension PAL.Gradients.Coder.GPF {
 
 		let gradientStops: [PAL.Gradient.Stop] = lines.compactMap { line in
 			let scanner = Scanner(string: line)
-
-			var p: Float = 0
-			var r: Float = 0
-			var g: Float = 0
-			var b: Float = 0
-
 			var result: PAL.Gradient.Stop? = nil
-
 			if
-				scanner.scanFloat(&p),
-				scanner.scanFloat(&r),
-				scanner.scanFloat(&g),
-				scanner.scanFloat(&b),
+				let p = scanner._scanFloat(),
+				let r = scanner._scanFloat(),
+				let g = scanner._scanFloat(),
+				let b = scanner._scanFloat(),
 				let color = try? PAL.Color(rf: Float32(r), gf: Float32(g), bf: Float32(b))
 			{
 				result = PAL.Gradient.Stop(position: Double(p), color: color)
