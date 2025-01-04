@@ -48,9 +48,9 @@ Supports the following :-
 
 * GIMP gradient (`.ggr`)
 * GNUPlot color map (`.gpf`)
+* CPT gradient (`.cpt`)
 * Built-in JSON format gradient (`.jsongradient`)
 * Basic Adobe gradient (`.grd`) ***(read only)***
-* CPT gradient (`.cpt`) ***(read only)***
 * Basic Paint Shop Pro gradient (`.pspgradient`) ***(read only)***
 * SVG Gradient file (`.svg`) ***(write only)***
 
@@ -215,7 +215,7 @@ gradients within the same file.
 
 | Type                       | Description                                       | Decode? | Encode? |
 |:---------------------------|:--------------------------------------------------|:-------:|:-------:|
-|`PAL.Gradients.Coder.CPT`   | CPT gradient file (.cpt)                          |    ✅   |   ❌   |
+|`PAL.Gradients.Coder.CPT`   | CPT gradient file (.cpt)                          |    ✅   |   ✅   |
 |`PAL.Gradients.Coder.JSON`  | Built-in JSON format (.jsongradient)              |    ✅   |   ✅   |
 |`PAL.Gradients.Coder.GGR`   | GIMP gradient file (.ggr)                         |    ✅   |   ✅   |
 |`PAL.Gradients.Coder.GPF`   | GNUPlot color palette file (.gpf)                 |    ✅   |   ✅   |

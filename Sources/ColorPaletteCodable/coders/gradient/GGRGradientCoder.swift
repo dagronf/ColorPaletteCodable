@@ -153,7 +153,7 @@ public extension PAL.Gradients.Coder.GGR {
 	func encode(_ gradients: PAL.Gradients) throws -> Data {
 		// GGR only supports a single gradient, so just grab the first one
 		guard let gradient = gradients.gradients.first else {
-			ColorPaletteLogger.log(.error, "GGRCoder: invalid utf8 data during write")
+			ColorPaletteLogger.log(.error, "GGRCoder: No gradients to export")
 			throw GimpGradientError.noGradients
 		}
 

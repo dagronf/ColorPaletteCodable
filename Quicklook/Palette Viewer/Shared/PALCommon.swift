@@ -36,6 +36,7 @@ public let ExportableGradientTypes: [String] = [
 	"public.dagronf.gimp.ggr",
 	"public.svg-image",
 	"public.dagronf.gnuplot.gpf",
+	"public.dagronf.cpt",
 ]
 
 public let ExportableGradientUTTypes: [UTType] = {

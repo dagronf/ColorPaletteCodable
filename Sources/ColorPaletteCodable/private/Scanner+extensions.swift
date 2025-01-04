@@ -21,6 +21,8 @@
 
 import Foundation
 
+// MARK: Warning wrappers
+
 extension Scanner {
 	/// Scan characters in a character set
 	func _scanCharacters(in cs: CharacterSet) -> String? {
@@ -55,7 +57,6 @@ extension Scanner {
 #endif
 	}
 
-
 	/// Scan an integer
 	func _scanInt() -> Int? {
 		#if os(Linux)
@@ -74,6 +75,14 @@ extension Scanner {
 		#endif
 	}
 
+	/// Scan for an integer within the expected range of values
+	func _scanInt(in expectedRange: ClosedRange<Int>) -> Int? {
+		if let value = self._scanInt(), expectedRange.contains(value) {
+			return value
+		}
+		return nil
+	}
+
 	/// Scan a double value
 	func _scanDouble() -> Double? {
 		#if os(Linux)
@@ -89,6 +98,49 @@ extension Scanner {
 			}
 			return nil
 		}
+		#endif
+	}
+
+	/// Scan for a double value within the expected range of values
+	func _scanDouble(in expectedRange: ClosedRange<Double>) -> Double? {
+		if let value = self._scanDouble(), expectedRange.contains(value) {
+			return value
+		}
+		return nil
+	}
+}
+
+// MARK: - Tagging and rewinding
+
+internal extension Scanner {
+
+	#if os(macOS)
+	typealias LocationType = Int
+	#else
+	typealias LocationType = String.Index
+	#endif
+
+	/// A location within current scanner
+	struct Location {
+		fileprivate let index: LocationType
+		fileprivate init(index: LocationType) {
+			self.index = index
+		}
+	}
+
+	func tagLocation() -> Location {
+		#if os(macOS)
+		return Location(index: self.scanLocation)
+		#else
+		return Location(index: self.currentIndex)
+		#endif
+	}
+
+	func resetLocation(_ loc: Location) {
+		#if os(macOS)
+		self.scanLocation = loc.index
+		#else
+		self.currentIndex = loc.index
 		#endif
 	}
 }

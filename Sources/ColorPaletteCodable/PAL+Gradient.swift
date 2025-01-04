@@ -35,6 +35,10 @@ public extension PAL {
 		case mismatchColorCount
 		/// The gradient colorspace is not supported
 		case unsupportedColorFormat
+		/// No gradients
+		case noGradients
+		/// Unable to convert to utf8 data
+		case invalidStringData
 	}
 }
 

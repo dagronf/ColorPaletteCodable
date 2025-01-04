@@ -739,7 +739,7 @@
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
-				<string>public.data</string>
+				<string>public.text</string>
 			</array>
 			<key>UTTypeDescription</key>
 			<string>GIMP Gradient</string>
@@ -758,7 +758,7 @@
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
-				<string>public.data</string>
+				<string>public.text</string>
 			</array>
 			<key>UTTypeDescription</key>
 			<string>CPT Gradient</string>
