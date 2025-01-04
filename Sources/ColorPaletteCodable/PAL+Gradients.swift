@@ -40,6 +40,11 @@ public extension PAL {
 			self.gradients = gradients
 		}
 
+		/// Create with a single gradient
+		@inlinable public init(gradient: Gradient) {
+			self.gradients = [gradient]
+		}
+
 		/// Return a palette containing all the gradients as mapped color groups
 		public var palette: PAL.Palette {
 			let grs = gradients.map { gradient in

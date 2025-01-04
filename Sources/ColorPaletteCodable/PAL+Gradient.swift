@@ -399,6 +399,36 @@ public extension PAL.Gradient {
 		}
 		return scaled
 	}
+
+	/// Create a new gradient by merging identical neighbouring stops into a single stop
+	///
+	/// Some gradient format types represent the gradient as an array of 'gradient segments'
+	/// So, for example red-blue-green gradient ends up as
+	///
+	/// ```
+	/// 0.0   255 0 0   0.5   0 255 0
+	/// 0.5   0 255 0   1.0   0 0 255
+	/// ```
+	///
+	/// As such, during import this is detected as 4 stops, with the middle two stops
+	/// being identical. This function removes the duplicated stop(s)
+	func mergeIdenticalNeighbouringStops() throws -> PAL.Gradient {
+		guard self.stops.count > 1 else {
+			// No stops, or only a single stop
+			return self
+		}
+
+		var prev = self.stops[0]
+		var merged: [PAL.Gradient.Stop] = [prev]
+
+		for item in self.stops.dropFirst() {
+			if prev.matchesColorAndPosition(of: item) == false {
+				prev = item
+				merged.append(item)
+			}
+		}
+		return PAL.Gradient(stops: merged)
+	}
 }
 
 

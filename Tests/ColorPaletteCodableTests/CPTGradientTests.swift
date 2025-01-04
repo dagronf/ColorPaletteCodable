@@ -83,4 +83,54 @@ final class CPTGradientTests: XCTestCase {
 		XCTAssertGreaterThanOrEqual(0, xMin)
 		XCTAssertLessThanOrEqual(1, xMax)
 	}
+
+	func testBasicImportExportAndStopMerging() throws {
+
+		let g1 = PAL.Gradient(
+			name: "first",
+			colors: [
+				PAL.Color.red,
+				PAL.Color.green,
+				PAL.Color.blue
+			],
+			positions: [-1000, 0, 1000]
+		)
+
+		let c = PAL.Gradients.Coder.CPT()
+
+		let data = try c.encode(PAL.Gradients(gradient: g1))
+		//try data.write(to: URL(fileURLWithPath: "/tmp/output.cpt"))
+
+		let decoded = try c.decode(from: data)
+		XCTAssertEqual(1, decoded.gradients.count)
+		let dg1 = try XCTUnwrap(decoded.gradients.first)
+
+		// There will be four stops now, from two segments (-1000 -> 0, 0 -> 1000)
+		XCTAssertEqual(4, dg1.stops.count)
+
+		XCTAssertEqual(-1000, dg1.stops[0].position, accuracy: 0.000001)
+		XCTAssertTrue(PAL.Color.red.isEqual(to: dg1.stops[0].color, precision: 6))
+		XCTAssertEqual(0, dg1.stops[1].position, accuracy: 0.000001)
+		XCTAssertTrue(PAL.Color.green.isEqual(to: dg1.stops[1].color, precision: 6))
+		XCTAssertEqual(0, dg1.stops[2].position, accuracy: 0.000001)
+		XCTAssertTrue(PAL.Color.green.isEqual(to: dg1.stops[2].color, precision: 6))
+		XCTAssertEqual(1000, dg1.stops[3].position, accuracy: 0.000001)
+		XCTAssertTrue(PAL.Color.blue.isEqual(to: dg1.stops[3].color, precision: 6))
+
+		let merged = try dg1.mergeIdenticalNeighbouringStops()
+
+		XCTAssertEqual(3, merged.stops.count)
+
+		// red p=-1000
+		XCTAssertEqual(-1000, merged.stops[0].position, accuracy: 0.000001)
+		XCTAssertTrue(PAL.Color.red.isEqual(to: merged.stops[0].color, precision: 6))
+
+		// green p=0
+		XCTAssertEqual(0, merged.stops[1].position, accuracy: 0.000001)
+		XCTAssertTrue(PAL.Color.green.isEqual(to: merged.stops[1].color, precision: 6))
+
+		// blue p=1000
+		XCTAssertEqual(1000, merged.stops[2].position, accuracy: 0.000001)
+		XCTAssertTrue(PAL.Color.blue.isEqual(to: merged.stops[2].color, precision: 6))
+	}
 }

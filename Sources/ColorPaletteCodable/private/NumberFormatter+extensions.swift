@@ -37,6 +37,29 @@ extension NumberFormatter {
 		self.init()
 		builder(self)
 	}
+
+	/// Create a NumberFormatter with basic settings
+	/// - Parameters:
+	///   - minimumFractionDigits: minimum fractional digits
+	///   - maximumFractionDigits: maximum fractional digits
+	///   - numberStyle: The number style
+	///   - decimalSeparator: The decimal separator character
+	convenience init(
+		minimumFractionDigits: Int = 0,
+		maximumFractionDigits: Int = 20,
+		numberStyle: NumberFormatter.Style? = nil,
+		decimalSeparator: String? = nil
+	) {
+		self.init()
+		self.minimumFractionDigits = minimumFractionDigits
+		self.maximumFractionDigits = maximumFractionDigits
+		if let numberStyle = numberStyle {
+			self.numberStyle = numberStyle
+		}
+		if let decimalSeparator = decimalSeparator {
+			self.decimalSeparator = decimalSeparator
+		}
+	}
 }
 
 extension NumberFormatter {
