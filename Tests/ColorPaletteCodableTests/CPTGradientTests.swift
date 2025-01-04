@@ -99,7 +99,7 @@ final class CPTGradientTests: XCTestCase {
 		let c = PAL.Gradients.Coder.CPT()
 
 		let data = try c.encode(PAL.Gradients(gradient: g1))
-		//try data.write(to: URL(fileURLWithPath: "/tmp/output.cpt"))
+		try data.write(to: URL(fileURLWithPath: "/tmp/output.cpt"))
 
 		let decoded = try c.decode(from: data)
 		XCTAssertEqual(1, decoded.gradients.count)
@@ -132,5 +132,24 @@ final class CPTGradientTests: XCTestCase {
 		// blue p=1000
 		XCTAssertEqual(1000, merged.stops[2].position, accuracy: 0.000001)
 		XCTAssertTrue(PAL.Color.blue.isEqual(to: merged.stops[2].color, precision: 6))
+	}
+
+	func testAttemptGrayscaleLoad() throws {
+		let gradients = try loadResourceGradient(named: "gray.cpt")
+		XCTAssertEqual(1, gradients.count)
+		let g = try XCTUnwrap(gradients.gradients.first)
+		XCTAssertEqual(4, g.stops.count)
+
+		XCTAssertEqual(0, g.stops[0].position, accuracy: 0.000001)
+		XCTAssertTrue(try PAL.Color(white255: 10).isEqual(to: g.stops[0].color, precision: 6))
+
+		XCTAssertEqual(0.5, g.stops[1].position, accuracy: 0.000001)
+		XCTAssertTrue(try PAL.Color(white255: 40).isEqual(to: g.stops[1].color, precision: 6))
+
+		XCTAssertEqual(0.5, g.stops[2].position, accuracy: 0.000001)
+		XCTAssertTrue(try PAL.Color(white255: 60).isEqual(to: g.stops[2].color, precision: 6))
+
+		XCTAssertEqual(1, g.stops[3].position, accuracy: 0.000001)
+		XCTAssertTrue(try PAL.Color(white255: 90).isEqual(to: g.stops[3].color, precision: 6))
 	}
 }
