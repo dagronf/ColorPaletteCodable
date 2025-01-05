@@ -3,6 +3,8 @@ import XCTest
 
 import Foundation
 
+let gradientTestsFolder = try! testResultsContainer.subfolder(with: "gradient-tests")
+
 class GradientTests: XCTestCase {
 	func testBasic() throws {
 		let gradient = PAL.Gradient(
@@ -202,7 +204,7 @@ class GradientTests: XCTestCase {
 	}
 
 	func testFlattenTransparencyStops() throws {
-		let outputFolder = try! testResultsContainer.subfolder(with: "TransparencyStopFlattening")
+		let outputFolder = try! gradientTestsFolder.subfolder(with: "transparency-stop-flattening")
 		do {
 			let gradient = PAL.Gradient(
 				stops: [
@@ -297,4 +299,63 @@ class GradientTests: XCTestCase {
 		let g1 = colors.gradient(named: "g")
 		XCTAssertEqual("g", g1.name)
 	}
+
+	let peekingFolder = try! gradientTestsFolder.subfolder(with: "gradient-color-peeking")
+
+	func testGradientPeekColor() throws {
+		let gcolors: [PAL.Color] = [
+			try PAL.Color(name: "r", r255: 255, g255: 0, b255: 0),
+			try PAL.Color(name: "g", r255: 0, g255: 255, b255: 0),
+			try PAL.Color(name: "b", r255: 0, g255: 0, b255: 255),
+		]
+		let g = gcolors.gradient()
+
+#if !os(Linux)
+		let gr = try XCTUnwrap(g.thumbnailImage(size: CGSize(width: 300, height: 300)))
+		let d1 = try gr.representation.png()
+		try peekingFolder.write(d1, to: "rgb-gradient-image.png")
+#endif
+
+		let colors = try g.colors(count: 11)
+		XCTAssertEqual(11, colors.count)
+
+#if !os(Linux)
+		let pal = PAL.Palette(colors: colors)
+		let ima = try XCTUnwrap(pal.thumbnailImage(size: CGSize(width: 300, height: 50), dimension: CGSize(width: 12, height: 12)))
+		let d2 = try ima.representation.png()
+		try peekingFolder.write(d2, to: "rgb-palette-peeked.png")
+#endif
+
+		do {
+			let colors = try g.colors(at: [0.unitValue, 0.3.unitValue, 0.9.unitValue, 1.0.unitValue])
+			XCTAssertEqual(4, colors.count)
+	#if !os(Linux)
+			let pal = PAL.Palette(colors: colors)
+			let ima = try XCTUnwrap(pal.thumbnailImage(size: CGSize(width: 300, height: 50), dimension: CGSize(width: 12, height: 12)))
+			let d2 = try ima.representation.png()
+			try peekingFolder.write(d2, to: "rgb-palette-color-ts.png")
+	#endif
+		}
+	}
+
+#if !os(Linux)
+	func testGradientPeekColor2() throws {
+		let gradients = try loadResourceGradient(named: "dem3.cpt")
+
+		let g = try XCTUnwrap(gradients.gradients.first)
+		let gr = try XCTUnwrap(g.thumbnailImage(size: CGSize(width: 300, height: 300)))
+		let d1 = try gr.representation.png()
+		try peekingFolder.write(d1, to: "dem3.png")
+
+		let colors = try g.colors(count: 11)
+		XCTAssertEqual(11, colors.count)
+
+		let pal = PAL.Palette(colors: colors)
+
+		let ima = try XCTUnwrap(pal.thumbnailImage(size: CGSize(width: 300, height: 50), dimension: CGSize(width: 12, height: 12)))
+		let d2 = try ima.representation.png()
+		try peekingFolder.write(d2, to: "dem3-peeked.png")
+	}
+#endif
+
 }

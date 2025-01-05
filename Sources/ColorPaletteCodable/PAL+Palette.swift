@@ -61,6 +61,14 @@ public extension PAL {
 			lhs.groups == rhs.groups
 		}
 	}
+
+	/// Palette color groups
+	enum ColorGrouping {
+		/// Colors at the global level within the palette
+		case global
+		/// Colors within a palette group
+		case group(Int)
+	}
 }
 
 @available(macOS 10.15, *)
@@ -131,6 +139,21 @@ public extension PAL.Palette {
 			return self.allColors().filter({ $0.name.lowercased() == name }).first
 		}
 	}
+
+	/// Return an array of colors for the specified palette group type
+	/// - Parameter groupType: The color grouping
+	/// - Returns: Color array
+	func colors(for groupType: PAL.ColorGrouping) throws -> [PAL.Color] {
+		switch groupType {
+		case .global:
+			return self.colors
+		case .group(let offset):
+			guard offset >= 0, offset < self.groups.count else {
+				throw PAL.CommonError.indexOutOfRange
+			}
+			return self.groups[offset].colors
+		}
+	}
 }
 
 // MARK: - Encoding/Decoding
@@ -160,5 +183,27 @@ public extension PAL.Palette {
 		if !self.groups.isEmpty {
 			try container.encode(groups, forKey: .groups)
 		}
+	}
+}
+
+// MARK: - Bucketting and interpolated colors
+
+public extension PAL.Palette {
+	/// Returns a bucketed color for a time value mapped within an evenly spaced array of colors
+	/// - Parameters:
+	///   - t: The time within the palette
+	///   - type: The palette colors to operate on
+	/// - Returns: Bucketed color
+	@inlinable func bucketedColor(at t: UnitValue<Double>, in type: PAL.ColorGrouping = .global) throws -> PAL.Color {
+		try self.colors(for: type).bucketedColor(at: t)
+	}
+
+	/// Returns an interpolated color for a time value mapped within an evenly spaced array of colors
+	/// - Parameters:
+	///   - t: The time within the palette
+	///   - type: The palette colors to operate on
+	/// - Returns: Interpolated color
+	@inlinable func interpolatedColor(at t: UnitValue<Double>, in type: PAL.ColorGrouping = .global) throws -> PAL.Color {
+		try self.colors(for: type).bucketedColor(at: t, interpolate: true)
 	}
 }

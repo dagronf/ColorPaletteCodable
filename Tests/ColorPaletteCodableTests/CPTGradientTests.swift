@@ -99,7 +99,7 @@ final class CPTGradientTests: XCTestCase {
 		let c = PAL.Gradients.Coder.CPT()
 
 		let data = try c.encode(PAL.Gradients(gradient: g1))
-		try data.write(to: URL(fileURLWithPath: "/tmp/output.cpt"))
+		//try data.write(to: URL(fileURLWithPath: "/tmp/output.cpt"))
 
 		let decoded = try c.decode(from: data)
 		XCTAssertEqual(1, decoded.gradients.count)
