@@ -148,7 +148,7 @@ public extension PAL.Gradients.Coder.GGR {
 
 public extension PAL.Gradients.Coder.GGR {
 	/// Encode the gradient using GGR format (GIMP Gradient)
-	/// - Parameter gradient: The gradient to encode
+	/// - Parameter gradients: The gradients to encode
 	/// - Returns: encoded data
 	func encode(_ gradients: PAL.Gradients) throws -> Data {
 		// GGR only supports a single gradient, so just grab the first one

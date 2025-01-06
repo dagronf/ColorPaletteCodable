@@ -67,7 +67,8 @@ public extension PAL.Color {
 	///   - m: The magenta component (0.0 ... 1.0)
 	///   - y: The yellow component (0.0 ... 1.0)
 	///   - k: The black component (0.0 ... 1.0)
-	///   - a: The alpha component (0.0 ... 1.0)
+	///   - alpha: The alpha component (0.0 ... 1.0)
+	///   - colorType: The type of color
 	/// - Returns: A color
 	static func cmyk(
 		name: String = "",

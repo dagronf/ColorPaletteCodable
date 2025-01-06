@@ -110,7 +110,7 @@ public extension PAL {
 		/// Create an evenly spaced gradient from an array of colors with spacing between 0 -> 1
 		/// - Parameters:
 		///   - name: The name for the gradient (optional)
-		///   - stops: The colors to evenly space within the gradient
+		///   - colors: The colors to evenly space within the gradient
 		@inlinable public init(name: String? = nil, colors: [PAL.Color]) {
 			let div = 1.0 / Double(colors.count - 1)
 			let stops = (0 ..< colors.count).map { Stop(position: Double($0) * div, color: colors[$0]) }

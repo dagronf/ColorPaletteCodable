@@ -176,7 +176,7 @@ private let _positionFormatter = NumberFormatter(minimumFractionDigits: 0, maxim
 
 public extension PAL.Gradients.Coder.CPT {
 	/// Encode the gradient using CPT format (CPT Gradient)
-	/// - Parameter gradient: The gradient to encode
+	/// - Parameter gradients: The gradients to encode
 	/// - Returns: encoded data
 	func encode(_ gradients: PAL.Gradients) throws -> Data {
 

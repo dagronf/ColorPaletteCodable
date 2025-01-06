@@ -43,7 +43,7 @@ public extension PAL.Gradients.Coder {
 		}
 
 		/// Encode the gradient using the default JSON format
-		/// - Parameter gradient: The gradient to encode
+		/// - Parameter gradients: The gradients to encode
 		/// - Returns: encoded data
 		public func encode(_ gradients: PAL.Gradients) throws -> Data {
 			try JSONEncoder().encode(gradients)

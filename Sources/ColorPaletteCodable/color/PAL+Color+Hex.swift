@@ -47,7 +47,7 @@ public extension PAL.Color {
 
 	/// Return a hex RGB string (eg. "523b50ff", "#523b50")
 	/// - Parameters:
-	///   - alpha: If true, includes the alpha component
+	///   - includeAlpha: If true, includes the alpha component
 	///   - hashmark: If true, includes a hash mark '#' at the start of the string
 	///   - uppercase: If true, uppercases the string
 	/// - Returns: Hex encoded color
@@ -75,7 +75,7 @@ public extension PAL.Color {
 
 	/// Return a hex ARGB string (eg. "523b50ff", "#523b50")
 	/// - Parameters:
-	///   - alpha: If true, includes the alpha component
+	///   - includeAlpha: If true, includes the alpha component
 	///   - hashmark: If true, includes a hash mark '#' at the start of the string
 	///   - uppercase: If true, uppercases the string
 	/// - Returns: Hex encoded color

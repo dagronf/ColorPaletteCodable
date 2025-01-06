@@ -36,9 +36,9 @@ public extension PAL.Color {
 	/// Create a color using fractional hsb values
 	/// - Parameters:
 	///   - name: The color name
-	///   - h: The hue (0 ... 360)
-	///   - s: Saturation (0.0 ... 100.0)
-	///   - b: Brightness (0.0 ... 100.0)
+	///   - h360: The hue (0 ... 360)
+	///   - s100: Saturation (0.0 ... 100.0)
+	///   - b100: Brightness (0.0 ... 100.0)
 	///   - alpha: The alpha component (0.0 ... 1.0)
 	///   - colorType: The color type
 	init(

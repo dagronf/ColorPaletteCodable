@@ -26,7 +26,7 @@ public extension PAL.Color {
 	/// - Parameters:
 	///   - color2: The color to compare against
 	///   - t: The fractional distance between the two colors (0 ... 1)
-	///   - named: The name for the generated color, or nil for no name
+	///   - name: The name for the generated color, or nil for no name
 	/// - Returns: The midpoint color
 	func midpoint(_ color2: PAL.Color, t: UnitValue<Double>, named name: String? = nil) throws -> PAL.Color {
 		if self.colorSpace == color2.colorSpace {
@@ -89,6 +89,7 @@ public extension PAL.Color {
 	/// Returns a color for a time value mapped within an evenly spaced array of colors
 	/// - Parameters:
 	///   - t: The time value, 0.0 ... 1.0
+	///   - colors: The array of colors to interpolate from
 	///   - interpolate: If true, returns the interpolated color. if false, returns the bucketed color.
 	/// - Returns: The color that falls within the time bucket
 	@inlinable

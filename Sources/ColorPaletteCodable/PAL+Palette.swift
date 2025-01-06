@@ -82,8 +82,8 @@ public extension PAL.Palette {
 	/// Create a palette by mixing between two colors
 	/// - Parameters:
 	///   - name: The palette name
-	///   - first: The first (starting) color for the palette
-	///   - last: The second (ending) color for the palette
+	///   - firstColor: The first (starting) color for the palette
+	///   - lastColor: The second (ending) color for the palette
 	///   - count: Number of colors to generate
 	init(named name: String? = nil, firstColor: PAL.Color, lastColor: PAL.Color, count: Int) throws {
 		self.init(

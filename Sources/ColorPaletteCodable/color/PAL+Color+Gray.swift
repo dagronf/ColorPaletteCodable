@@ -46,8 +46,8 @@ public extension PAL.Color {
 	/// Create a gray color
 	/// - Parameters:
 	///   - name: The color name
-	///   - white: white component (0 ... 255)
-	///   - alpha: alpha component (0 ... 255)
+	///   - white255: white component (0 ... 255)
+	///   - alpha255: alpha component (0 ... 255)
 	///   - colorType: The type of color
 	init(name: String = "", white255: UInt8, alpha255: UInt8 = 255, colorType: PAL.ColorType = .global) throws {
 		try self.init(
@@ -64,7 +64,8 @@ public extension PAL.Color {
 	/// - Parameters:
 	///   - name: The name for the color
 	///   - white: The blackness component (0.0 ... 1.0)
-	///   - a: The alpha component (0.0 ... 1.0)
+	///   - alpha: The alpha component (0.0 ... 1.0)
+	///   - colorType: The type of color
 	/// - Returns: A color
 	static func gray(
 		name: String = "",

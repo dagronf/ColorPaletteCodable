@@ -177,7 +177,9 @@ import SwiftUI
 @available(macOS 12, macCatalyst 15.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
 public extension PAL.Gradient {
 	/// Returns a SwiftUI Gradient representation of the gradient object
-	/// - Parameter reversed: Reverse the order of the colors and positions in the gradient.
+	/// - Parameters:
+	///   - reversed: Reverse the order of the colors and positions in the gradient.
+	///   - removeTransparency: If true, removes transparency information
 	/// - Returns: A gradient
 	func SwiftUIGradient(reversed: Bool = false, removeTransparency: Bool = false) -> SwiftUI.Gradient? {
 		guard let normalized = try? self.normalized().sorted.stops else { return nil }

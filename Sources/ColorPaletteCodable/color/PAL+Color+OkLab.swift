@@ -72,7 +72,7 @@ public extension OkLab {
 	///   - name: The gradient name
 	///   - c1: First color
 	///   - c2: Second color
-	///   - count: The number of stops to include in the gradient
+	///   - stopCount: The number of stops to include in the gradient
 	/// - Returns: A gradient
 	static func gradient(name: String = "", _ c1: PAL.Color, _ c2: PAL.Color, stopCount: Int) throws -> PAL.Gradient {
 		assert(stopCount > 1)

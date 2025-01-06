@@ -56,7 +56,7 @@ public extension DataWriter {
 	}
 
 	/// Write bytes
-	/// - Parameter data: Data to write
+	/// - Parameter bytes: Bytes to write
 	/// - Returns: The number of bytes written
 	@discardableResult
 	func writeBytes(_ bytes: [UInt8]) throws -> Int {

@@ -118,9 +118,9 @@ public extension PAL.Gradients {
 		return try coder.decode(from: data)
 	}
 
-	/// Encode the specified gradient using the specified coder
+	/// Encode the specified gradients using the specified coder
 	/// - Parameters:
-	///   - palette: The palette to encode
+	///   - gradients: The gradients to encode
 	///   - fileExtension: The coder to use for the encoded data
 	/// - Returns: The encoded data
 	static func Encode(_ gradients: PAL.Gradients, fileExtension: String) throws -> Data {

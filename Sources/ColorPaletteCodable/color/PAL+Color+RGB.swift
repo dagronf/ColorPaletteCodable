@@ -60,10 +60,10 @@ public extension PAL.Color {
 	/// Create a color object from 0 ... 1 component values
 	/// - Parameters:
 	///   - name: The color name
-	///   - r: Red component (0 ... 1)
-	///   - g: Green component (0 ... 1)
-	///   - b: Blue component (0 ... 1)
-	///   - a: Alpha component (0 ... 1)
+	///   - rf: Red component (0 ... 1)
+	///   - gf: Green component (0 ... 1)
+	///   - bf: Blue component (0 ... 1)
+	///   - af: Alpha component (0 ... 1)
 	///   - colorType: The type of color
 	init(
 		name: String = "",
@@ -147,14 +147,15 @@ public extension PAL.Color {
 	///   - r: The red component (0.0 ... 1.0)
 	///   - g: The green component (0.0 ... 1.0)
 	///   - b: The blue component (0.0 ... 1.0)
-	///   - a: The alpha component (0.0 ... 1.0)
+	///   - alpha: The alpha component (0.0 ... 1.0)
+	///   - colorType: The type of color
 	/// - Returns: A color
 	static func rgb(
 		name: String = "",
 		_ r: Float32,
 		_ g: Float32,
 		_ b: Float32,
-		_ a: Float32 = 1,
+		_ alpha: Float32 = 1,
 		colorType: PAL.ColorType = .global
 	) -> PAL.Color {
 		// We know that the color has the correct components here
@@ -163,7 +164,7 @@ public extension PAL.Color {
 			colorSpace: .RGB,
 			colorComponents: [r.unitClamped, g.unitClamped, b.unitClamped],
 			colorType: colorType,
-			alpha: a.unitClamped
+			alpha: alpha.unitClamped
 		)
 	}
 
@@ -173,7 +174,8 @@ public extension PAL.Color {
 	///   - r: The red component (0 ... 255)
 	///   - g: The green component (0 ... 255)
 	///   - b: The blue component (0 ... 255)
-	///   - a: The alpha component (0 ... 255)
+	///   - alpha: The alpha component (0 ... 255)
+	///   - colorType: The type of color
 	/// - Returns: A color
 	static func rgb255(
 		name: String = "",
