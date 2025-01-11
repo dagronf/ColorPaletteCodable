@@ -141,9 +141,17 @@ extension BinaryFloatingPoint {
 	///   - value: The value to compare
 	///   - precision: The precision (accuracy) in decimal places (eg. 8 == 8 decimal places)
 	/// - Returns: True if mostly equal, false otherwise
-	func isEqual(to value: Self, precision: UInt) -> Bool {
-		let s = abs(self - value)
+	@inlinable func isEqual(to value: Self, precision: UInt) -> Bool {
 		let p = Self(pow(10, -Double(precision)))
-		return s < p
+		return self.isEqual(to: value, accuracy: p)
+	}
+
+	/// An equality check with an accuracy
+	/// - Parameters:
+	///   - value: The value to compare
+	///   - precision: The accuracy to check
+	/// - Returns: True if mostly equal, false otherwise
+	@inlinable func isEqual(to value: Self, accuracy: Self) -> Bool {
+		abs(self - value) < accuracy
 	}
 }
