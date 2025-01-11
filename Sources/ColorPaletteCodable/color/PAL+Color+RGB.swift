@@ -130,6 +130,27 @@ public extension PAL.Color {
 			alpha: color.a
 		)
 	}
+
+	/// Converts a raw UInt32 into an ARGB NSColor
+	/// - Parameters:
+	///   - name: The color name
+	///   - colorValue: an color value
+	init(name: String = "", _ colorValue: UInt32, colorByteFormat: PAL.ColorByteFormat) throws {
+		let c0 = UInt8(truncatingIfNeeded: colorValue >> 24)
+		let c1 = UInt8(truncatingIfNeeded: colorValue >> 16)
+		let c2 = UInt8(truncatingIfNeeded: colorValue >> 8)
+		let c3 = UInt8(truncatingIfNeeded: colorValue)
+		switch colorByteFormat {
+		case .argb:
+			try self.init(name: name, r255: c1, g255: c2, b255: c3, a255: c0, colorType: .global)
+		case .rgba:
+			try self.init(name: name, r255: c0, g255: c1, b255: c2, a255: c3, colorType: .global)
+		case .abgr:
+			try self.init(name: name, r255: c3, g255: c2, b255: c1, a255: c0, colorType: .global)
+		case .bgra:
+			try self.init(name: name, r255: c2, g255: c1, b255: c0, a255: c3, colorType: .global)
+		}
+	}
 }
 
 public extension PAL.Color {
@@ -256,5 +277,26 @@ public extension PAL.Color {
 	@inlinable func b() throws -> Float32 {
 		if colorSpace == .RGB { return _b }
 		throw PAL.CommonError.mismatchedColorspace
+	}
+}
+
+
+public extension PAL.Color {
+	/// Create a UInt32 representation of this color
+	/// - Parameter colorByteFormat: The output format for the color
+	/// - Returns: UInt32 representation for this RGB color
+	func asRGBUInt32(colorByteFormat: PAL.ColorByteFormat) throws -> UInt32 {
+		let rgba = try self.rgba255Components()
+		let rgba32 = (r: UInt32(rgba.r), g: UInt32(rgba.g), b: UInt32(rgba.b), a: UInt32(rgba.a))
+		switch colorByteFormat {
+		case .argb:
+			return (rgba32.a << 24) + (rgba32.r << 16) + (rgba32.g << 8) + rgba32.b
+		case .rgba:
+			return (rgba32.r << 24) + (rgba32.g << 16) + (rgba32.b << 8) + rgba32.a
+		case .abgr:
+			return (rgba32.a << 24) + (rgba32.b << 16) + (rgba32.g << 8) + rgba32.r
+		case .bgra:
+			return (rgba32.b << 24) + (rgba32.g << 16) + (rgba32.r << 8) + rgba32.a
+		}
 	}
 }
