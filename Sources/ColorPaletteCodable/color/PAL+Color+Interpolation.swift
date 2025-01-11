@@ -117,3 +117,40 @@ public extension PAL.Color {
 		try colors.interpolatedColor(at: t)
 	}
 }
+
+public extension PAL.Color {
+	/// Returns a color that is the result of THIS color applied on top of `backgroundColor`
+	/// taking into account transparencies
+	///
+	/// [Wikipedia Entry defining the algorithm](https://en.wikipedia.org/wiki/Alpha_compositing)
+	///   (Refer to the section "Analytical derivation of the over operator" for derivation of these formulas)
+	///
+	/// [Stack Overflow implementation here](https://stackoverflow.com/questions/726549/algorithm-for-additive-color-mixing-for-rgb-values)
+	func applyOnTopOf(_ backgroundColor: PAL.Color) throws -> PAL.Color {
+		if self.alpha.isEqual(to: 0.0, accuracy: 1e-6) {
+			// The foreground color is opaque.
+			return self
+		}
+
+		if self.alpha.isEqual(to: 1.0, accuracy: 1e-6) {
+			// Foreground is completely clear
+			return backgroundColor
+		}
+
+		let fg = try self.rgbaComponents()
+		let bg = try backgroundColor.rgbaComponents()
+
+		let rA = 1.0 - ((1.0 - fg.a) * (1.0 - bg.a))
+
+		if rA.isEqual(to: 0.0, accuracy: 1e-6) {
+			// Result is fully transparent
+			return .clear
+		}
+
+		let rR = (fg.r * fg.a / rA) + (bg.r * bg.a * (1 - fg.a) / rA)
+		let rG = (fg.g * fg.a / rA) + (bg.g * bg.a * (1 - fg.a) / rA)
+		let rB = (fg.b * fg.a / rA) + (bg.b * bg.a * (1 - fg.a) / rA)
+
+		return try PAL.Color(rf: Float32(rR), gf: Float32(rG), bf: Float32(rB), af: Float32(rA))
+	}
+}

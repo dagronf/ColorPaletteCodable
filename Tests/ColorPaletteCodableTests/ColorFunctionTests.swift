@@ -194,4 +194,52 @@ final class ColorFunctionTests: XCTestCase {
 			try outputFolder.write(p2, coder: PAL.Coder.GIMP(), filename: "oklab-mix-palette-rgb.gpl")
 		}
 	}
+
+	func testApplyOnTopOf() throws {
+		let c1 = try PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.5)
+		let c2 = try PAL.Color(rf: 1, gf: 0, bf: 0, af: 0.5)
+
+		let c3 = try c2.applyOnTopOf(c1)
+		Swift.print(c3)
+		XCTAssertEqual(0.66666, c3.colorComponents[0], accuracy: 0.00001)
+		XCTAssertEqual(0.33333, c3.colorComponents[1], accuracy: 0.00001)
+		XCTAssertEqual(0.00000, c3.colorComponents[2], accuracy: 0.00001)
+		XCTAssertEqual(0.75, c3.alpha, accuracy: 0.00001)
+	}
+
+	func testAdjustBrightness() throws {
+
+		let c1 = try PAL.Color(rf: 0.5, gf: 0, bf: 0)
+
+		do {
+			let colors = try stride(from: 0.0, through: -1.0, by: -0.1).map {
+				try c1.adjustBrightness(by: $0)
+			}
+
+			let p = PAL.Palette(colors: colors)
+			try outputFolder.write(p, coder: PAL.Coder.GIMP(), filename: "darken-testing.gpl")
+		}
+
+		do {
+			let colors = try stride(from: 0.0, through: 1.0, by: 0.1).map {
+				try c1.adjustBrightness(by: $0)
+			}
+
+			let p = PAL.Palette(colors: colors)
+			try outputFolder.write(p, coder: PAL.Coder.GIMP(), filename: "lighter-testing.gpl")
+		}
+	}
+
+	func testContrastingTextColor() throws {
+		do {
+			let c1 = PAL.Color.yellow
+			let c11 = try c1.contrastingTextColor()
+			XCTAssertEqual(c11, .black)
+		}
+		do {
+			let c1 = try PAL.Color(r255: 0, g255: 0, b255: 100)
+			let c11 = try c1.contrastingTextColor()
+			XCTAssertEqual(c11, .white)
+		}
+	}
 }

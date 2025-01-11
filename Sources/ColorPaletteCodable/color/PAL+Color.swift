@@ -41,6 +41,12 @@ public extension PAL {
 		public let alpha: Float32
 
 		/// Create a color object
+		/// - Parameters:
+		///   - name: The color's name
+		///   - colorSpace: The expected colorspace for the color components
+		///   - colorComponents: The color components
+		///   - colorType: The color type
+		///   - alpha: The alpha value for the color
 		public init(name: String, colorSpace: PAL.ColorSpace, colorComponents: [Float32], colorType: ColorType = .global, alpha: Float32 = 1) throws {
 			self.name = name
 			self.colorSpace = colorSpace
@@ -211,7 +217,7 @@ public extension PAL.Color {
 	/// Convert the color object to a new color object with the specified colorspace
 	/// - Parameter colorspace: The colorspace to convert to
 	/// - Returns: A new color with the specified namespace
-	func converted(to colorspace: PAL.ColorSpace) throws -> PAL.Color {
+	@inlinable func converted(to colorspace: PAL.ColorSpace) throws -> PAL.Color {
 		if self.colorSpace == colorspace { return self }
 		return try PAL_ColorSpaceConverter.convert(color: self, to: colorspace)
 	}

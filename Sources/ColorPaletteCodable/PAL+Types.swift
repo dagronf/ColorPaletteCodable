@@ -48,6 +48,14 @@ public extension PAL {
 			self.height = height
 		}
 	}
+
+	/// Byte ordering for RGB
+	enum ColorByteFormat {
+		case argb
+		case rgba
+		case abgr
+		case bgra
+	}
 }
 
 #if canImport(UIKit)

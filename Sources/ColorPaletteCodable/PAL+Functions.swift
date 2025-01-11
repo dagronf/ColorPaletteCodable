@@ -108,3 +108,93 @@ extension PAL.Color {
 		return colors
 	}
 }
+
+// MARK: - Luminance and contrast
+
+public extension PAL.Color {
+	/// Get the color's luminance value
+	///
+	/// Formula from WCAG 2.0: https://www.w3.org/TR/WCAG20/#relativeluminancedef
+	func luminance() throws -> Float32 {
+		// Get RGB components
+		let rgba = try self.rgbaComponents()
+
+		// Calculate relative luminance using sRGB coefficients
+		// Formula from WCAG 2.0: https://www.w3.org/TR/WCAG20/#relativeluminancedef
+		let ar = (rgba.r <= 0.03928) ? (rgba.r / 12.92) : pow((rgba.r + 0.055) / 1.055, 2.4)
+		let ag = (rgba.g <= 0.03928) ? (rgba.g / 12.92) : pow((rgba.g + 0.055) / 1.055, 2.4)
+		let ab = (rgba.b <= 0.03928) ? (rgba.b / 12.92) : pow((rgba.b + 0.055) / 1.055, 2.4)
+
+		return Float32((0.2126 * ar) + (0.7152 * ag) + (0.0722 * ab))
+	}
+
+	/// Calculates the contrast ratio between this color and the given color
+	/// - Parameter otherColor: The color to check against
+	/// - Returns: A fractional contrast ratio
+	func contrastRatio(with otherColor: PAL.Color) throws -> Float32 {
+		let l1 = try self.luminance()
+		let l2 = try otherColor.luminance()
+
+		// Calculate contrast ratio using WCAG 2.0 formula
+		let lighterLuminance = max(l1, l2)
+		let darkerLuminance = min(l1, l2)
+		return (lighterLuminance + 0.05) / (darkerLuminance + 0.05)
+	}
+
+	/// Returns either black or white, whichever provides better contrast with this color
+	///
+	/// According to the Web Content Accessibility Guidelines (WCAG), which provide recommendations
+	/// for text legibility, the luminance threshold that separates light and dark backgrounds is
+	/// approximately 0.179.
+	///
+	/// This is a commonly used value in accessibility testing tools and frameworks.
+	@inlinable func contrastingTextColor() throws -> PAL.Color {
+		try self.luminance() > 0.179 ? .black : .white
+	}
+}
+
+// MARK: - Adjust brightness
+
+public extension PAL.Color {
+	/// Adjusts the brightness of a color by the given fraction
+	/// - Parameters:
+	///   - fraction: The amount to modify the color (-1.0 ... 1.0)
+	///     - Positive values lighten the color (up to 1.0)
+	///     - Negative values darken the color (up to -1.0)
+	///   - useSameColorspace: If true, converts the resulting color into the original color space if needed
+	/// - Returns: A darker representation of this color
+	func adjustBrightness(by fraction: Float32, useSameColorspace: Bool = false) throws -> PAL.Color {
+		if fraction.isEqual(to: 0, accuracy: 1e-6) {
+			return self
+		}
+		let rgbColor = try self.converted(to: .RGB)
+		let hsb = try rgbColor.hsb()
+
+		let fraction = fraction.clamped(to: -1.0 ... 1.0)
+		let newBrightness = hsb.b * (1.0 + fraction)
+
+		let darker = try PAL.Color(h: hsb.h, s: hsb.s, b: newBrightness.unitClamped, alpha: hsb.a)
+		if useSameColorspace {
+			return try darker.converted(to: self.colorSpace)
+		}
+		return darker
+	}
+
+	/// Darken a color
+	/// - Parameters:
+	///   - fraction: The fractional amount to darken the color (0.0 ... 1.0)
+	///   - useSameColorspace: If true, converts the resulting color into the original color space if needed
+	/// - Returns: A color
+	@inlinable func darker(by fraction: Float32, useSameColorspace: Bool = false) throws -> PAL.Color {
+		try self.adjustBrightness(by: -1.0 * fraction.unitClamped, useSameColorspace: useSameColorspace)
+	}
+
+	/// Lighten a color
+	/// - Parameters:
+	///   - fraction: The fractional amount to lighten the color (0.0 ... 1.0)
+	///   - useSameColorspace: If true, converts the resulting color into the original color space if needed
+	/// - Returns: A color
+	@inlinable func lighter(by fraction: Float32, useSameColorspace: Bool = false) throws -> PAL.Color {
+		try self.adjustBrightness(by: fraction.unitClamped, useSameColorspace: useSameColorspace)
+	}
+}

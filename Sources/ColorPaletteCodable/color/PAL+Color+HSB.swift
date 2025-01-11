@@ -141,11 +141,7 @@ public extension PAL.Color {
 extension PAL.Color {
 	/// Get the hsb values for the color
 	public func hsb() throws -> PAL.Color.HSB {
-		var c = self
-		if c.colorSpace != .RGB {
-			// Convert to RGB
-			c = try self.converted(to: .RGB)
-		}
+		let c = try self.converted(to: .RGB)
 
 		var h: CGFloat = 0
 		var s: CGFloat = 0

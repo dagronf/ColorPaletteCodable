@@ -82,13 +82,3 @@ public extension PAL.Color {
 internal extension PAL.Color {
 	@inlinable var _l: Float32 { colorComponents[0] }
 }
-
-public extension PAL.Color {
-	/// The color's luminance component IF the colorspace is .Gray
-	///
-	/// Throws `PAL.CommonError.mismatchedColorspace` if the colorspace isn't `.Gray`
-	@inlinable func luminance() throws -> Float32 {
-		if colorSpace == .Gray { return _l }
-		throw PAL.CommonError.mismatchedColorspace
-	}
-}
