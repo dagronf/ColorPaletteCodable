@@ -39,7 +39,7 @@ public extension PAL.Color {
 				r: __palettized(self.r),
 				g: __palettized(self.g),
 				b: __palettized(self.b),
-				a: self.a.unitClamped()
+				a: __palettized(self.a)
 			)
 		}
 	}
@@ -49,8 +49,8 @@ public extension PAL.Color {
 		let r: UInt8
 		let g: UInt8
 		let b: UInt8
-		let a: Double
-		@usableFromInline init(r: UInt8, g: UInt8, b: UInt8, a: Double) {
+		let a: UInt8
+		@usableFromInline init(r: UInt8, g: UInt8, b: UInt8, a: UInt8) {
 			self.r = r
 			self.g = g
 			self.b = b
@@ -58,7 +58,7 @@ public extension PAL.Color {
 		}
 		/// Map from (0 ... 255) -> (0 ... 1) components
 		@usableFromInline func swap() -> RGBAComponents {
-			RGBAComponents(r: __unit(self.r), g: __unit(self.g), b: __unit(self.b), a: self.a.unitClamped())
+			RGBAComponents(r: __unit(self.r), g: __unit(self.g), b: __unit(self.b), a: __unit(self.a))
 		}
 	}
 }
@@ -75,6 +75,6 @@ public extension PAL.Color {
 	/// Returns the RGBA255 components
 	@inlinable func rgba255Components() throws -> RGBA255Components {
 		let c = try self.converted(to: .RGB)
-		return .init(r: __palettized(c._r), g: __palettized(c._g), b: __palettized(c._b), a: Double(c.alpha))
+		return .init(r: __palettized(c._r), g: __palettized(c._g), b: __palettized(c._b), a: __palettized(c.alpha))
 	}
 }

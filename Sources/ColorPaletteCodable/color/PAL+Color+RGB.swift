@@ -135,11 +135,11 @@ public extension PAL.Color {
 	/// - Parameters:
 	///   - name: The color name
 	///   - colorValue: an color value
-	init(name: String = "", _ colorValue: UInt32, colorByteFormat: PAL.ColorByteFormat) throws {
-		let c0 = UInt8(truncatingIfNeeded: colorValue >> 24)
-		let c1 = UInt8(truncatingIfNeeded: colorValue >> 16)
-		let c2 = UInt8(truncatingIfNeeded: colorValue >> 8)
-		let c3 = UInt8(truncatingIfNeeded: colorValue)
+	init(name: String = "", _ uint32ColorValue: UInt32, colorByteFormat: PAL.ColorByteFormat) throws {
+		let c0 = UInt8(truncatingIfNeeded: (uint32ColorValue >> 24) & 0xFF)
+		let c1 = UInt8(truncatingIfNeeded: (uint32ColorValue >> 16) & 0xFF)
+		let c2 = UInt8(truncatingIfNeeded: (uint32ColorValue >> 8) & 0xFF)
+		let c3 = UInt8(truncatingIfNeeded: uint32ColorValue & 0xFF)
 		switch colorByteFormat {
 		case .argb:
 			try self.init(name: name, r255: c1, g255: c2, b255: c3, a255: c0, colorType: .global)
@@ -219,7 +219,7 @@ extension PAL.Color {
 	public func css(includeAlpha: Bool = true) throws -> String {
 		let rgba = try self.rgba255Components()
 		if includeAlpha {
-			return "rgba(\(rgba.r), \(rgba.g), \(rgba.b), \(rgba.a))"
+			return "rgba(\(rgba.r), \(rgba.g), \(rgba.b), \(Double(rgba.a) / 255.0))"
 		}
 		else {
 			return "rgb(\(rgba.r), \(rgba.g), \(rgba.b))"
@@ -287,7 +287,12 @@ public extension PAL.Color {
 	/// - Returns: UInt32 representation for this RGB color
 	func asRGBUInt32(colorByteFormat: PAL.ColorByteFormat) throws -> UInt32 {
 		let rgba = try self.rgba255Components()
-		let rgba32 = (r: UInt32(rgba.r), g: UInt32(rgba.g), b: UInt32(rgba.b), a: UInt32(rgba.a))
+		let rgba32 = (
+			r: UInt32(rgba.r) & 0xFF,
+			g: UInt32(rgba.g) & 0xFF,
+			b: UInt32(rgba.b) & 0xFF,
+			a: UInt32(rgba.a) & 0xFF
+		)
 		switch colorByteFormat {
 		case .argb:
 			return (rgba32.a << 24) + (rgba32.r << 16) + (rgba32.g << 8) + rgba32.b

@@ -131,6 +131,10 @@ public extension PAL.Color {
 	/// Calculates the contrast ratio between this color and the given color
 	/// - Parameter otherColor: The color to check against
 	/// - Returns: A fractional contrast ratio
+	///
+	/// WCAG Contrast Guidelines
+	/// * Normal text: At least 4.5:1 contrast ratio.
+	/// * Large text (18pt or larger, or 14pt bold): At least 3:1 contrast ratio.
 	func contrastRatio(with otherColor: PAL.Color) throws -> Float32 {
 		let l1 = try self.luminance()
 		let l2 = try otherColor.luminance()

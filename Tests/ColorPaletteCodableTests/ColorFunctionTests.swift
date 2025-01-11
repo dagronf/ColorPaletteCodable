@@ -242,4 +242,18 @@ final class ColorFunctionTests: XCTestCase {
 			XCTAssertEqual(c11, .white)
 		}
 	}
+
+	func testUInt32() throws {
+		let u1: UInt32 = 0x80FF5733
+		let c1 = try PAL.Color(u1, colorByteFormat: .argb)
+		XCTAssertEqual(.RGB, c1.colorSpace)
+
+		XCTAssertEqual(1, c1.colorComponents[0], accuracy: 0.00001)
+		XCTAssertEqual(0.3411764706, c1.colorComponents[1], accuracy: 0.00001)
+		XCTAssertEqual(0.2, c1.colorComponents[2], accuracy: 0.00001)
+		XCTAssertEqual(0.5, c1.alpha, accuracy: 0.002)
+
+		let u2 = try c1.asRGBUInt32(colorByteFormat: .argb)
+		XCTAssertEqual(u1, u2)
+	}
 }
