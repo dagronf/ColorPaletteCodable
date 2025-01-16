@@ -358,4 +358,34 @@ class GradientTests: XCTestCase {
 	}
 #endif
 
+	let hueGradient = try! gradientTestsFolder.subfolder(with: "hue-gradient-tests")
+
+	func testHueGradient() throws {
+		do {
+			let g1 = try PAL.Gradient(hueRange: 0.0 ... 1.0, stopCount: 11)
+			let gs1 = PAL.Gradients(gradient: g1)
+			let ps1 = try PAL.Gradients.Coder.GGR().encode(gs1)
+			try hueGradient.write(ps1, to: "hue-gradient-0-1-11.ggr")
+		}
+		do {
+			let g1 = try PAL.Gradient(hueRange: 0.0 ... 1.0, stopCount: 101)
+			let gs1 = PAL.Gradients(gradient: g1)
+			let ps1 = try PAL.Gradients.Coder.GGR().encode(gs1)
+			try hueGradient.write(ps1, to: "hue-gradient-0-1-101.ggr")
+		}
+
+		do {
+			let g1 = try PAL.Gradient(hueRange: 0.0 ... 1.0, stopCount: 3)
+			let gs1 = PAL.Gradients(gradient: g1)
+			let ps1 = try PAL.Gradients.Coder.GGR().encode(gs1)
+			try hueGradient.write(ps1, to: "hue-gradient-0-1-3.ggr")
+		}
+
+		do {
+			let g1 = try PAL.Gradient(hueRange: 0.1 ... 0.47, stopCount: 8)
+			let gs1 = PAL.Gradients(gradient: g1)
+			let ps1 = try PAL.Gradients.Coder.GGR().encode(gs1)
+			try hueGradient.write(ps1, to: "hue-gradient-orange2green-8.ggr")
+		}
+	}
 }

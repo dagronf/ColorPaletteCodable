@@ -128,6 +128,28 @@ public extension PAL {
 		@inlinable public init(name: String? = nil, colorPositions: [(position: Double, color: PAL.Color)]) {
 			self.init(name: name, stops: colorPositions.map { Stop(position: $0.position, color: $0.color) })
 		}
+
+		/// Create a fake hue gradient from a hue range using incremental stops
+		/// - Parameters:
+		///   - hueRange: The hue range (0.0 ... 1.0)
+		///   - stopCount: The number of stops to include in the gradient
+		///   - saturation: The saturation
+		///   - brightness: The brightness
+		init(hueRange: ClosedRange<Float32>, stopCount: Int, saturation: Float32 = 1.0, brightness: Float32 = 1.0) throws {
+			precondition(stopCount > 1)
+			let hueStart = hueRange.lowerBound.unitClamped
+			let hueEnd = hueRange.upperBound.unitClamped
+			let saturation = saturation.unitClamped
+			let brightness = brightness.unitClamped
+			
+			let step = 1.0 / Float32(stopCount - 1)
+			
+			let colors = try stride(from: 0.0, through: 1.0, by: step).map { (s: Float32) in
+				let h = lerp(hueStart, hueEnd, t: s)
+				return try PAL.Color(h: h, s: saturation, b: brightness)
+			}
+			self.init(colors: colors)
+		}
 	}
 }
 
