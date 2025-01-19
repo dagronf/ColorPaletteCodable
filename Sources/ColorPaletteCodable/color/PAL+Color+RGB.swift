@@ -87,10 +87,11 @@ public extension PAL.Color {
 		try self.init(name: name, rf: color.r, gf: color.g, bf: color.b, af: color.a, colorType: colorType)
 	}
 
-	/// Create a color object from an rgb(a) hex string
+	/// Create a color object from a hex string
 	/// - Parameters:
 	///   - name: The color name
-	///   - rgbaHexString: The argb hex string
+	///   - hexString: The hex color representation
+	///   - hexRGBFormat: The expected hex color format
 	///   - colorType: The color type
 	///
 	/// Supported hex formats :-
@@ -98,8 +99,8 @@ public extension PAL.Color {
 	/// - [#]FFFF     : RGBA color (RRGGBB)
 	/// - [#]FFFFFF   : RGB color
 	/// - [#]FFFFFFFF : RGBA color (RRGGBBAA)
-	init(name: String = "", rgbaHexString: String, colorType: PAL.ColorType = .normal) throws {
-		let color = try PAL.Color.RGB(rgbaHexString: rgbaHexString)
+	init(name: String = "", hexString: String, hexRGBFormat: PAL.ColorByteFormat, colorType: PAL.ColorType = .normal) throws {
+		let color = try PAL.Color.RGB(hexString: hexString, hexRGBFormat: hexRGBFormat)
 		try self.init(
 			name: name,
 			colorSpace: .RGB,
@@ -116,40 +117,36 @@ public extension PAL.Color {
 	///   - colorType: The color type
 	///
 	/// Supported hex formats :-
-	/// - [#]FFF      : RGB color
-	/// - [#]FFFF     : ARGB color (ARGB)
-	/// - [#]FFFFFF   : RGB color
-	/// - [#]FFFFFFFF : ARGB color (AARRGGBB)
-	init(name: String = "", argbHexString: String, colorType: PAL.ColorType = .normal) throws {
-		let color = try PAL.Color.RGB(argbHexString: argbHexString)
-		try self.init(
-			name: name,
-			colorSpace: .RGB,
-			colorComponents: [color.r, color.g, color.b],
-			colorType: colorType,
-			alpha: color.a
-		)
+	/// - [#]FFF      : RGB color  (RGB)
+	/// - [#]FFFF     : RGBA color (RGBA)
+	/// - [#]FFFFFF   : RGB color  (RRGGBB)
+	/// - [#]FFFFFFFF : RGBA color (RRGGBBAA)
+	@inlinable init(name: String = "", rgbaHexString: String, colorType: PAL.ColorType = .normal) throws {
+		try self.init(name: name, hexString: rgbaHexString, hexRGBFormat: .rgba, colorType: colorType)
 	}
 
-	/// Converts a raw UInt32 into an ARGB NSColor
+	/// Create a color object from an [a]rgb hex string
+	/// - Parameters:
+	///   - name: The color name
+	///   - argbHexString: The argb hex string
+	///   - colorType: The color type
+	///
+	/// Supported hex formats :-
+	/// - [#]FFF      : RGB color  (RGB)
+	/// - [#]FFFF     : ARGB color (ARGB)
+	/// - [#]FFFFFF   : RGB color  (RRGGBB)
+	/// - [#]FFFFFFFF : ARGB color (AARRGGBB)
+	@inlinable init(name: String = "", argbHexString: String, colorType: PAL.ColorType = .normal) throws {
+		try self.init(name: name, hexString: argbHexString, hexRGBFormat: .argb, colorType: colorType)
+	}
+
+	/// Converts a raw UInt32 into an RGBA NSColor
 	/// - Parameters:
 	///   - name: The color name
 	///   - colorValue: an color value
 	init(name: String = "", _ uint32ColorValue: UInt32, colorByteFormat: PAL.ColorByteFormat) throws {
-		let c0 = UInt8(truncatingIfNeeded: (uint32ColorValue >> 24) & 0xFF)
-		let c1 = UInt8(truncatingIfNeeded: (uint32ColorValue >> 16) & 0xFF)
-		let c2 = UInt8(truncatingIfNeeded: (uint32ColorValue >> 8) & 0xFF)
-		let c3 = UInt8(truncatingIfNeeded: uint32ColorValue & 0xFF)
-		switch colorByteFormat {
-		case .argb:
-			try self.init(name: name, r255: c1, g255: c2, b255: c3, a255: c0, colorType: .global)
-		case .rgba:
-			try self.init(name: name, r255: c0, g255: c1, b255: c2, a255: c3, colorType: .global)
-		case .abgr:
-			try self.init(name: name, r255: c3, g255: c2, b255: c1, a255: c0, colorType: .global)
-		case .bgra:
-			try self.init(name: name, r255: c2, g255: c1, b255: c0, a255: c3, colorType: .global)
-		}
+		let c = extractRGBA(uint32ColorValue, colorByteFormat: colorByteFormat)
+		try self.init(name: name, r255: c.r, g255: c.g, b255: c.b, a255: c.a, colorType: .global)
 	}
 }
 

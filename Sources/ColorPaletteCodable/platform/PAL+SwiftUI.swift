@@ -35,7 +35,10 @@ public extension PAL.Color {
 		guard let cgColor = color.cgColor else { throw PAL.CommonError.unsupportedCGColorType }
 		try self.init(cgColor: cgColor, name: name, colorType: colorType)
 	}
+}
 
+@available(macOS 10.15, iOS 14.0, tvOS 14.0, watchOS 8.0, *)
+public extension PAL.Color {
 	/// Extract a SwiftUI color from this color
 	@inlinable var SwiftUIColor: Color? {
 		guard let cgColor = self.cgColor else { return nil }

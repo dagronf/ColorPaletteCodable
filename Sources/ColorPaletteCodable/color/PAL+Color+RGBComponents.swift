@@ -36,10 +36,10 @@ public extension PAL.Color {
 		/// Map from (0 ... 1) -> (0 ... 255) components
 		@usableFromInline func swap() -> RGBA255Components {
 			RGBA255Components(
-				r: __palettized(self.r),
-				g: __palettized(self.g),
-				b: __palettized(self.b),
-				a: __palettized(self.a)
+				r: _f2u(self.r),
+				g: _f2u(self.g),
+				b: _f2u(self.b),
+				a: _f2u(self.a)
 			)
 		}
 	}
@@ -58,7 +58,7 @@ public extension PAL.Color {
 		}
 		/// Map from (0 ... 255) -> (0 ... 1) components
 		@usableFromInline func swap() -> RGBAComponents {
-			RGBAComponents(r: __unit(self.r), g: __unit(self.g), b: __unit(self.b), a: __unit(self.a))
+			RGBAComponents(r: _u2f(self.r), g: _u2f(self.g), b: _u2f(self.b), a: _u2f(self.a))
 		}
 	}
 }
@@ -75,6 +75,6 @@ public extension PAL.Color {
 	/// Returns the RGBA255 components
 	@inlinable func rgba255Components() throws -> RGBA255Components {
 		let c = try self.converted(to: .RGB)
-		return .init(r: __palettized(c._r), g: __palettized(c._g), b: __palettized(c._b), a: __palettized(c.alpha))
+		return .init(r: _f2u(c._r), g: _f2u(c._g), b: _f2u(c._b), a: _f2u(c.alpha))
 	}
 }

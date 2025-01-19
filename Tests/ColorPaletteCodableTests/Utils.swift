@@ -35,7 +35,6 @@ func loadResourceData(named name: String) throws -> Data {
 	return try Data(contentsOf: dataURL)
 }
 
-
 class TestFilesContainer {
 
 	// Note:  DateFormatter is thread safe

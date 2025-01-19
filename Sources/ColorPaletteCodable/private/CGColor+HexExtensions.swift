@@ -17,12 +17,10 @@
 //  OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-// CoreGraphics extensions for ASEPalette.Color
-
 #if canImport(CoreGraphics)
 
-import CoreGraphics
 import Foundation
+import CoreGraphics
 
 extension CGColor {
 	/// Returns a lowercased hex RGB (no alpha) string representation of this color (eg "#ff6512")

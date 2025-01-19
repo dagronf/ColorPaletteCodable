@@ -29,100 +29,41 @@ public extension PAL.Color {
 			self.a = a.clamped(to: 0.0 ... 1.0)
 		}
 
-		/// Create RGBA components from an RGB(A) hex string
-		/// - Parameter rgbaHexString: The hex string
+		/// Create from a hex formatted color string
+		///  - Parameters:
+		///   - hexString: The rgba hex string
+		///   - hexRGBFormat: The expected rgba format
 		///
 		/// Supported hex formats :-
-		/// - [#]FFF      : RGB color
-		/// - [#]FFFF     : RGBA color
-		/// - [#]FFFFFF   : RGB color
-		/// - [#]FFFFFFFF : RGBA color
-		public init(rgbaHexString: String) throws {
-			var string = rgbaHexString.lowercased()
-			if rgbaHexString.hasPrefix("#") {
-				string = String(string.dropFirst())
+		/// - [#]FFF      : RGB color  (RGB)
+		/// - [#]FFFF     : RGBA color (RGBA)
+		/// - [#]FFFFFF   : RGB color  (RRGGBB)
+		/// - [#]FFFFFFFF : RGBA color (RRGGBBAA)
+		///
+		/// Returns black color if the hex string is invalid
+		public init(hexString: String, hexRGBFormat: PAL.ColorByteFormat) throws {
+			guard let c = extractHexRGBA(hexString: hexString, hexRGBFormat: hexRGBFormat) else {
+				throw PAL.CommonError.invalidRGBHexString(hexString)
 			}
-			switch string.count {
-			case 3:
-				string += "f"
-				fallthrough
-			case 4:
-				let chars = Array(string)
-				let red = chars[0]
-				let green = chars[1]
-				let blue = chars[2]
-				let alpha = chars[3]
-				string = "\(red)\(red)\(green)\(green)\(blue)\(blue)\(alpha)\(alpha)"
-			case 6:
-				string += "ff"
-			case 8:
-				break
-			default:
-				throw PAL.CommonError.invalidRGBHexString(rgbaHexString)
-			}
-
-			guard let rgba = Double("0x" + string)
-				.flatMap( {UInt32(exactly: $0) } )
-			else {
-				throw PAL.CommonError.invalidRGBHexString(rgbaHexString)
-			}
-			let red = Float32((rgba & 0xFF00_0000) >> 24) / 255.0
-			let green = Float32((rgba & 0x00FF_0000) >> 16) / 255.0
-			let blue = Float32((rgba & 0x0000_FF00) >> 8) / 255.0
-			let alpha = Float32((rgba & 0x0000_00FF) >> 0) / 255.0
-
-			self.r = red
-			self.g = green
-			self.b = blue
-			self.a = alpha
+			self.r = Float32(c.r) / 255.0
+			self.g = Float32(c.g) / 255.0
+			self.b = Float32(c.b) / 255.0
+			self.a = Float32(c.a) / 255.0
 		}
 
-		/// Create a color from an ARGB hex color string
-		/// - Parameter argbHexString: The hex string of the form `[#][AA]RRGGBB
+		/// Create from a hex RGBA formatted color string
+		///  - Parameters:
+		///   - rgbaHexString: The rgba hex string
 		///
 		/// Supported hex formats :-
-		/// - [#]FFF      : RGB color
-		/// - [#]FFFF     : ARGB color
-		/// - [#]FFFFFF   : RGB color
-		/// - [#]FFFFFFFF : ARGB color
-		public init(argbHexString: String) throws {
-			var string = argbHexString.lowercased()
-			if argbHexString.hasPrefix("#") {
-				string = String(string.dropFirst())
-			}
-			switch string.count {
-			case 3:
-				string = "f" + string
-				fallthrough
-			case 4:
-				let chars = Array(string)
-				let red = chars[0]
-				let green = chars[1]
-				let blue = chars[2]
-				let alpha = chars[3]
-				string = "\(alpha)\(alpha)\(red)\(red)\(green)\(green)\(blue)\(blue)"
-			case 6:
-				string = "ff" + string
-			case 8:
-				break
-			default:
-				throw PAL.CommonError.invalidRGBHexString(argbHexString)
-			}
-
-			guard let argb = Double("0x" + string)
-				.flatMap( {UInt32(exactly: $0) } )
-			else {
-				throw PAL.CommonError.invalidRGBHexString(argbHexString)
-			}
-			let alpha = Float32((argb & 0xFF00_0000) >> 24) / 255.0
-			let red = Float32((argb & 0x00FF_0000) >> 16) / 255.0
-			let green = Float32((argb & 0x0000_FF00) >> 8) / 255.0
-			let blue = Float32((argb & 0x0000_00FF) >> 0) / 255.0
-
-			self.r = red
-			self.g = green
-			self.b = blue
-			self.a = alpha
+		/// - [#]FFF      : RGB color  (RGB)
+		/// - [#]FFFF     : RGBA color (RGBA)
+		/// - [#]FFFFFF   : RGB color  (RRGGBB)
+		/// - [#]FFFFFFFF : RGBA color (RRGGBBAA)
+		///
+		/// Returns black color if the hex string is invalid
+		public init(rgbaHexString: String) throws {
+			try self.init(hexString: rgbaHexString, hexRGBFormat: .rgba)
 		}
 
 		public static func == (lhs: PAL.Color.RGB, rhs: PAL.Color.RGB) -> Bool {
