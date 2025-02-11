@@ -111,3 +111,36 @@ func extractRGBA(
 		return (r: c2, g: c1, b: c0, a: c3)
 	}
 }
+
+/// Convert RGBA components to a UInt32 value
+/// - Parameters:
+///   - r255: red component
+///   - g255: green component
+///   - b255: blue component
+///   - a255: alpha component
+///   - colorByteFormat: The output byte format
+/// - Returns: UInt32 encoded color value
+func convertToUInt32(r255: UInt8, g255: UInt8, b255: UInt8, a255: UInt8, colorByteFormat: PAL.ColorByteFormat) -> UInt32 {
+	switch colorByteFormat {
+	case .argb:
+		return (UInt32(a255) << 24 & 0xFF00_0000) + (UInt32(r255) << 16 & 0x00FF_0000) + (UInt32(g255) << 8 & 0x0000_FF00) + (UInt32(b255) & 0x0000_00FF)
+	case .rgba:
+		return (UInt32(r255) << 24 & 0xFF00_0000) + (UInt32(g255) << 16 & 0x00FF_0000) + (UInt32(b255) << 8 & 0x0000_FF00) + (UInt32(a255) & 0x0000_00FF)
+	case .abgr:
+		return (UInt32(a255) << 24 & 0xFF00_0000) + (UInt32(b255) << 16 & 0x00FF_0000) + (UInt32(g255) << 8 & 0x0000_FF00) + (UInt32(r255) & 0x0000_00FF)
+	case .bgra:
+		return (UInt32(b255) << 24 & 0xFF00_0000) + (UInt32(g255) << 16 & 0x00FF_0000) + (UInt32(r255) << 8 & 0x0000_FF00) + (UInt32(a255) & 0x0000_00FF)
+	}
+}
+
+/// Convert RGBA components to a UInt32 value
+/// - Parameters:
+///   - r255: red component
+///   - g255: green component
+///   - b255: blue component
+///   - a255: alpha component
+///   - colorByteFormat: The output byte format
+/// - Returns: UInt32 encoded color value
+func convertToUInt32(rf: Float32, gf: Float32, bf: Float32, af: Float32, colorByteFormat: PAL.ColorByteFormat) -> UInt32 {
+	convertToUInt32(r255: _f2p(rf), g255: _f2p(gf), b255: _f2p(bf), a255: _f2p(af), colorByteFormat: colorByteFormat)
+}

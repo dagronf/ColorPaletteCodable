@@ -30,11 +30,11 @@ import Foundation
 }
 
 /// Convert a palettized 0 ... 255 value to a 0 ... 1 double value
-@inlinable func _u2f<T: BinaryFloatingPoint>(_ value: UInt8) -> T {
+@inlinable func _p2f<T: BinaryFloatingPoint>(_ value: UInt8) -> T {
 	return T(value) / 255.0
 }
 
 /// Convert a Double unit value to a palettized 0 ... 255 value
-@inlinable func _f2u<T: BinaryFloatingPoint>(_ value: T) -> UInt8 {
+@inlinable func _f2p<T: BinaryFloatingPoint>(_ value: T) -> UInt8 {
 	return UInt8((value * 255).clamped(to: 0 ... 255))
 }
