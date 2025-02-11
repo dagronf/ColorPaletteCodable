@@ -98,4 +98,43 @@ private extension PAL.Image {
 	}
 }
 
+extension PAL.Color {
+	/// Generate a color swatch for this color
+	/// - Parameters:
+	///   - dimension: The dimensions for the swatch
+	///   - cornerRadius: The corner radius for the swatch
+	/// - Returns: An image swatch
+	func swatch(_ dimension: Int, cornerRadius: CGFloat = 0) throws -> CGImage {
+		let colorSpace = CGColorSpaceCreateDeviceRGB()
+		let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
+		guard
+			let cgc = self.cgColor,
+			let bitmapContext = CGContext(
+			data: nil,
+			width: dimension,
+			height: dimension,
+			bitsPerComponent: 8,
+			bytesPerRow: 0,
+			space: colorSpace,
+			bitmapInfo: bitmapInfo.rawValue
+		)
+		else {
+			throw PAL.CommonError.cannotCreateImage
+		}
+
+		bitmapContext.savingGState { context in
+			let rect = CGRect(origin: .zero, size: CGSize(width: dimension, height: dimension))
+			let path = CGPath(roundedRect: rect, cornerWidth: cornerRadius, cornerHeight: cornerRadius, transform: nil)
+			context.addPath(path)
+			context.setFillColor(cgc)
+			context.fillPath()
+		}
+
+		guard let image = bitmapContext.makeImage() else {
+			throw PAL.CommonError.cannotCreateImage
+		}
+		return image
+	}
+}
+
 #endif
