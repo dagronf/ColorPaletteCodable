@@ -20,6 +20,34 @@
 import Foundation
 
 public extension PAL.Color {
+	/// The components for a color with the CGColorSpace.CMYK colorspace
+	struct CMYK: Equatable {
+		public init(c: Float32, m: Float32, y: Float32, k: Float32, a: Float32 = 1.0) {
+			self.c = c.clamped(to: 0.0 ... 1.0)
+			self.m = m.clamped(to: 0.0 ... 1.0)
+			self.y = y.clamped(to: 0.0 ... 1.0)
+			self.k = k.clamped(to: 0.0 ... 1.0)
+			self.a = a.clamped(to: 0.0 ... 1.0)
+		}
+
+		public static func == (lhs: PAL.Color.CMYK, rhs: PAL.Color.CMYK) -> Bool {
+			return
+				abs(lhs.c - rhs.c) < 0.005 &&
+				abs(lhs.m - rhs.m) < 0.005 &&
+				abs(lhs.y - rhs.y) < 0.005 &&
+				abs(lhs.k - rhs.k) < 0.005 &&
+				abs(lhs.a - rhs.a) < 0.005
+		}
+
+		public let c: Float32
+		public let m: Float32
+		public let y: Float32
+		public let k: Float32
+		public let a: Float32
+	}
+}
+
+public extension PAL.Color {
 	/// Create a color object from cmyk component values
 	/// - Parameters:
 	///   - name: The color name

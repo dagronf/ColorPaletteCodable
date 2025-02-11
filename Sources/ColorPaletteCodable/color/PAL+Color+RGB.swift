@@ -20,6 +20,83 @@
 import Foundation
 
 public extension PAL.Color {
+	/// The components for a color with a CGColorSpace.RGB colorspace
+	struct RGB: Equatable {
+		public init(r: Float32, g: Float32, b: Float32, a: Float32 = 1.0) {
+			self.r = r.clamped(to: 0.0 ... 1.0)
+			self.g = g.clamped(to: 0.0 ... 1.0)
+			self.b = b.clamped(to: 0.0 ... 1.0)
+			self.a = a.clamped(to: 0.0 ... 1.0)
+		}
+
+		/// Create using rgba in the 0 ... 255 range
+		/// - Parameters:
+		///   - r255: Red component
+		///   - g255: Green component
+		///   - b255: Blue component
+		///   - a255: Alpha component
+		public init(r255: UInt8, g255: UInt8, b255: UInt8, a255: UInt8 = 255) {
+			self.r = (Float32(r255) / 255).clamped(to: 0.0 ... 1.0)
+			self.g = (Float32(g255) / 255).clamped(to: 0.0 ... 1.0)
+			self.b = (Float32(b255) / 255).clamped(to: 0.0 ... 1.0)
+			self.a = (Float32(a255) / 255).clamped(to: 0.0 ... 1.0)
+		}
+
+		/// Create from a hex formatted color string
+		///  - Parameters:
+		///   - hexString: The rgba hex string
+		///   - hexRGBFormat: The expected rgba format
+		///
+		/// Supported hex formats :-
+		/// - [#]FFF      : RGB color  (RGB)
+		/// - [#]FFFF     : RGBA color (RGBA)
+		/// - [#]FFFFFF   : RGB color  (RRGGBB)
+		/// - [#]FFFFFFFF : RGBA color (RRGGBBAA)
+		///
+		/// Returns black color if the hex string is invalid
+		public init(hexString: String, hexRGBFormat: PAL.ColorByteFormat) throws {
+			guard let c = extractHexRGBA(hexString: hexString, hexRGBFormat: hexRGBFormat) else {
+				throw PAL.CommonError.invalidRGBHexString(hexString)
+			}
+			self.r = Float32(c.r) / 255.0
+			self.g = Float32(c.g) / 255.0
+			self.b = Float32(c.b) / 255.0
+			self.a = Float32(c.a) / 255.0
+		}
+
+		/// Create from a hex RGBA formatted color string
+		///  - Parameters:
+		///   - rgbaHexString: The rgba hex string
+		///
+		/// Supported hex formats :-
+		/// - [#]FFF      : RGB color  (RGB)
+		/// - [#]FFFF     : RGBA color (RGBA)
+		/// - [#]FFFFFF   : RGB color  (RRGGBB)
+		/// - [#]FFFFFFFF : RGBA color (RRGGBBAA)
+		///
+		/// Returns black color if the hex string is invalid
+		public init(rgbaHexString: String) throws {
+			try self.init(hexString: rgbaHexString, hexRGBFormat: .rgba)
+		}
+
+		public static func == (lhs: PAL.Color.RGB, rhs: PAL.Color.RGB) -> Bool {
+			return
+				abs(lhs.r - rhs.r) < 0.005 &&
+				abs(lhs.g - rhs.g) < 0.005 &&
+				abs(lhs.b - rhs.b) < 0.005 &&
+				abs(lhs.a - rhs.a) < 0.005
+		}
+
+		public let r: Float32
+		public let g: Float32
+		public let b: Float32
+		public let a: Float32
+	}
+}
+
+// MARK: - Conversions and helpers
+
+public extension PAL.Color {
 	/// Create a color object from 0 -> 255 component values
 	/// - Parameters:
 	///   - name: The color name
@@ -244,6 +321,13 @@ internal extension PAL.Color {
 }
 
 public extension PAL.Color {
+	/// Returns the RGB components for this color
+	/// - Returns: RGB components
+	func rgb() throws -> PAL.Color.RGB {
+		let c = try self.converted(to: .RGB)
+		return PAL.Color.RGB(r: c._r, g: c._g, b: c._b, a: c.alpha)
+	}
+
 	/// Returns the rgb values as a tuple for a color with colorspace RGB.
 	///
 	/// Throws `CommonError.mismatchedColorspace` if the colorspace is not RGB
