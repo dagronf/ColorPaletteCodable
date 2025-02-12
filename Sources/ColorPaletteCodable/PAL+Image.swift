@@ -98,7 +98,7 @@ private extension PAL.Image {
 	}
 }
 
-extension PAL.Color {
+public extension PAL.Color {
 	/// Generate a color swatch for this color
 	/// - Parameters:
 	///   - dimension: The dimensions for the swatch
