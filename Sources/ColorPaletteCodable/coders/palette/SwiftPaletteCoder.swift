@@ -19,8 +19,6 @@
 
 import Foundation
 
-#if !os(Linux)
-
 public extension PAL.Coder {
 
 	struct SwiftCoder: PAL_PaletteCoder {
@@ -83,5 +81,3 @@ public extension PAL.Coder.SwiftCoder {
 		return data
 	}
 }
-
-#endif
