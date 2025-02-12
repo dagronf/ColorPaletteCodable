@@ -33,9 +33,14 @@ extension PAL {
 	}
 }
 
-extension PAL.Color {
+/// Map the provided value within a 0 ... 360 range, wrapping if needed
+@inlinable func h360(_ value: Float32) -> Float32 {
+	let e = value.truncatingRemainder(dividingBy: 360)
+	return e < 0 ? e + 360 : e
+}
 
-	/// Returns the complementary color
+extension PAL.Color {
+	/// Returns the complementary color for this color
 	public func complementary() throws -> PAL.Color {
 		// Get the color's hue
 		let hsba = try hsb()
@@ -47,7 +52,7 @@ extension PAL.Color {
 		return try PAL.Color(h: h, s: hsba.s, b: hsba.b, alpha: hsba.a)
 	}
 
-	/// The style of
+	/// The style of monochromacity
 	public enum MonochromeStyle {
 		/// Modify the saturation
 		case saturation
@@ -76,8 +81,26 @@ extension PAL.Color {
 			}
 			results.append(color)
 		}
-
 		return results
+	}
+
+	/// Returns variations of the same hue with evenly spaced saturation stepping
+	/// - Parameters:
+	///   - count: The number of monochromatic colors to return
+	/// - Returns: Array of colors
+	public func monochromatic(count: UInt = 4) throws -> [PAL.Color] {
+		assert(count > 1)
+		let count = Float32(count)
+
+		let hsb = try self.hsb()
+		let h = hsb.h360
+		let s = max(0.005, hsb.s100)
+		let b = hsb.b100
+
+		// Calculate 4 monochromatic colors
+		return try stride(from: s, to: 0, by: -s / count).map {
+			return try PAL.Color(h360: h, s100: $0, b100: b)
+		}
 	}
 
 	/// Returns an analogous color scheme based on this color
@@ -87,7 +110,7 @@ extension PAL.Color {
 	/// - Returns: An array of analogous colors
 	///
 	/// https://www.w3schools.com/colors/colors_analogous.asp
-	func analogous(count: Int = 6, stepSize: Double = 0.1) throws -> [PAL.Color] {
+	public func analogous(count: Int, stepSize: Double) throws -> [PAL.Color] {
 		assert(stepSize > 0)
 		assert(stepSize < 1)
 		assert(count > 1)
@@ -106,6 +129,202 @@ extension PAL.Color {
 			))
 		}
 		return colors
+	}
+
+	/// Returns 3 analogous colors based on this color
+	/// - Returns: An array of analogous colors
+	///
+	/// [https://www.w3schools.com/colors/colors_analogous.asp](https://www.w3schools.com/colors/colors_analogous.asp)
+	public func analogous() throws -> [PAL.Color] {
+		let hsl = try self.hsl()
+		let h = hsl.h360
+		let s = hsl.s100
+		let l = hsl.l100
+
+		// Calculate the 3 triadic colors
+		let colors = [
+			(h360(h - 30), s, l),
+			(h, s, l),
+			(h360(h + 30), s, l),
+		]
+
+		// Ensure the hue is wrapped correctly (between 0 and 360 degrees)
+		return try colors.map { (h: Float32, s: Float32, l: Float32) in
+			return try PAL.Color(h360: h360(h), s100: s, l100: l)
+		}
+	}
+
+	/// Return the three triadic colors based on this color
+	/// - Returns: The three triadic colors for this color
+	///
+	/// Triadic schemes are made up of hues equally spaced around the color wheel.
+	///
+	/// [https://www.w3schools.com/colors/colors_triadic.asp](https://www.w3schools.com/colors/colors_triadic.asp)
+	public func triadic() throws -> [PAL.Color] {
+		let hsl = try self.hsl()
+		let h = hsl.h360
+		let s = hsl.s100
+		let l = hsl.l100
+
+		// Calculate the 3 triadic colors
+		let colors = [
+			(h, s, l),
+			(h360(h + 120.0), s, l),
+			(h360(h + 240.0), s, l),
+		]
+
+		// Ensure the hue is wrapped correctly (between 0 and 360 degrees)
+		return try colors.map { (h: Float32, s: Float32, l: Float32) in
+			try PAL.Color(h360: h, s100: s, l100: l)
+		}
+	}
+
+	/// Calculate the four tetradic (rectangular) colors for this color
+	/// - Returns: Four tetradic colors
+	///
+	/// A tetradic (or double-complementary) scheme involves four colors forming two complementary pairs.
+	/// There are a couple of common approaches, but a standard tetradic relationship often starts with one
+	/// hue and then includes its complement, plus another pair of complementary hues 90° away from each.
+	///
+	/// https://customstickers.com/en-ca/community/blog/how-to-calculate-complementary-triadic-and-tetradic-colors-from-a-hex-code
+	public func tetradic() throws -> [PAL.Color] {
+		let hsl = try self.hsl()
+		let h = hsl.h360
+		let s = hsl.s100
+		let l = hsl.l100
+
+		let offset: Float32 = 30
+
+		// Calculate the 4 tetradic colors
+		let colors = [
+			(h, s, l),
+			(h360(h - offset), s, l),
+			(h360(h + 180.0), s, l),
+			(h360(h + 180.0 - offset), s, l)
+		]
+
+		// Ensure the hue is wrapped correctly (between 0 and 360 degrees)
+		return try colors.map { (h: Float32, s: Float32, l: Float32) in
+			try PAL.Color(h360: h, s100: s, l100: l)
+		}
+	}
+
+	/// Return the split complementary colors for this color
+	/// - Returns: plit complementary colors
+	///
+	/// https://colorkit.co/split-complementary-colors/
+	/// https://www.w3schools.com/colors/colors_compound.asp
+	/// https://www.color-meanings.com/split-complementary-colors/
+	public func splitComplementary() throws -> [PAL.Color] {
+		let hsl = try self.hsl()
+		let h = hsl.h360
+		let s = hsl.s100
+		let l = hsl.l100
+
+		let offset: Float32 = 30
+		let colors = [
+			(h, s, l),
+			(h360(h + 180.0 - offset), s, l),
+			(h360(h + 180.0 + offset), s, l),
+		]
+
+		// Ensure the hue is wrapped correctly (between 0 and 360 degrees)
+		return try colors.map { (h: Float32, s: Float32, l: Float32) in
+			try PAL.Color(h360: h, s100: s, l100: l)
+		}
+	}
+
+	/// Square color schemes consist of four colors spaced evenly around the color wheel
+	/// - Returns: Square colors
+	///
+	/// https://www.colorsexplained.com/square-colors/
+	/// https://www.colorsexplained.com/color-harmony/
+	public func square() throws -> [PAL.Color] {
+		let hsl = try self.hsl()
+		let h = hsl.h360
+		let s = hsl.s100
+		let l = hsl.l100
+
+		// Calculate the 4 'square' colors
+		let colors = [
+			(h360(h), s, l),
+			(h360(h + 90.0), s, l),
+			(h360(h + 180.0), s, l),
+			(h360(h + 270.0), s, l),
+		]
+
+		// Ensure the hue is wrapped correctly (between 0 and 360 degrees)
+		return try colors.map { (h: Float32, s: Float32, l: Float32) in
+			try PAL.Color(h360: h, s100: s, l100: l)
+		}
+	}
+
+	/// Returns harmonious colors for this color
+	/// - Parameter count: The number of harmonious colors
+	/// - Returns: colors
+	///
+	/// https://www.colorsexplained.com/color-harmony/
+	public func harmonious(count: Int = 12) throws -> [PAL.Color] {
+		let hsl = try self.hsl()
+		let h = Float32(hsl.h360)
+		let s = Float32(hsl.s100)
+		let l = Float32(hsl.l100)
+		return try stride(from: 0, to: 360, by: 360 / Float32(count)).map {
+			try PAL.Color(h360: h360(h + $0), s100: s, l100: l)
+		}
+	}
+}
+
+// MARK: - Tinting and shading
+
+public extension PAL.Color {
+	/// Returns a shaded representation of this color
+	/// - Returns: Shaded color
+	///
+	/// According to color theory, shades are created by adding black pigment to any hue
+	func shaded(shadeFactor: Float32) throws -> PAL.Color {
+		let shadeFactor = shadeFactor.clamped(to: 0.0 ... 1.0)
+		let hsl = try self.hsl()
+		return try PAL.Color(h: hsl.h, s: hsl.s, l: hsl.l / shadeFactor)
+	}
+
+	/// Returns shaded versions of this color
+	/// - Parameter count: The number of variations
+	/// - Returns: Color shades
+	///
+	/// According to color theory, shades are created by adding black pigment to any hue
+	func shade(count: Int = 4) throws -> [PAL.Color] {
+		let rgb = try self.rgb()
+		let step = 1.0 / Float32(count)
+		return try stride(from: 1.0, to: 0.0, by: -step).map {
+			try PAL.Color(rf: rgb.r * $0, gf: rgb.g * $0, bf: rgb.b * $0)
+		}
+	}
+
+	/// Returns a tinted version of this color
+	/// - Parameter amount: The fractional tint amount
+	/// - Returns: Tinted color
+	///
+	/// Tints are created by adding white to any hue, according to color theory.
+	/// This lightens and desaturates the hue, creating a subtler and lighter color than the original hue.
+	func tinted(shadeFactor: Float32) throws -> PAL.Color {
+		let shadeFactor = shadeFactor.clamped(to: 0.0 ... 1.0)
+		let hsl = try self.hsl()
+		return try PAL.Color(h: hsl.h, s: hsl.s, l: hsl.h + ((1.0 - hsl.h) / shadeFactor))
+	}
+
+	/// Returns tinted versions of this color
+	/// - Parameter count: The number of evenly spaced tinted color
+	/// - Returns: Tinted colors
+	///
+	/// Tints are created by adding white to any hue, according to color theory.
+	/// This lightens and desaturates the hue, creating a subtler and lighter color than the original hue.
+	func tint(count: Int = 4) throws -> [PAL.Color] {
+		let hsl = try self.hsl()
+		let step = (1.0 - min(0.999, hsl.l)) / Float32(count)
+		return try stride(from: hsl.l, to: 0.999, by: step).map {
+			try PAL.Color(h: hsl.h, s: hsl.s, l: $0)
+		}
 	}
 }
 
