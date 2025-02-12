@@ -12,102 +12,102 @@
    <defs>
       <linearGradient id="gradient-fill-0" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
          <stop offset="0.0" stop-color="#fffdff" stop-opacity="1.0" />
-         <stop offset="0.41658391261171795" stop-color="#ffb35b" stop-opacity="1.0" />
-         <stop offset="0.6277390438247012" stop-color="#ffbf75" stop-opacity="1.0" />
-         <stop offset="0.6476593625498008" stop-color="#ffc077" stop-opacity="0.0" />
-         <stop offset="0.6618525896414342" stop-color="#ffc079" stop-opacity="1.0" />
+         <stop offset="0.41658391261171795" stop-color="#ffa449" stop-opacity="1.0" />
+         <stop offset="0.6277390438247012" stop-color="#ffb86e" stop-opacity="1.0" />
+         <stop offset="0.6476593625498008" stop-color="#ffba71" stop-opacity="0.0" />
+         <stop offset="0.6618525896414342" stop-color="#ffbc73" stop-opacity="1.0" />
          <stop offset="0.7733366434955313" stop-color="#ffc787" stop-opacity="1.0" />
          <stop offset="0.9489541832669323" stop-color="#392c1e" stop-opacity="1.0" />
          <stop offset="1.0" stop-color="#000000" stop-opacity="0.0" />
       </linearGradient>
       <linearGradient id="gradient-fill-1" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
          <stop offset="0.0" stop-color="#fffdff" stop-opacity="1.0" />
-         <stop offset="0.41658391261171795" stop-color="#ff635b" stop-opacity="1.0" />
-         <stop offset="0.6277390438247012" stop-color="#ff847f" stop-opacity="1.0" />
-         <stop offset="0.6476593625498008" stop-color="#ff8783" stop-opacity="0.0" />
-         <stop offset="0.6618525896414342" stop-color="#ff8a85" stop-opacity="1.0" />
-         <stop offset="0.7733366434955313" stop-color="#ff9b98" stop-opacity="1.0" />
-         <stop offset="0.9489541832669323" stop-color="#392322" stop-opacity="1.0" />
+         <stop offset="0.41658391261171795" stop-color="#ff494a" stop-opacity="1.0" />
+         <stop offset="0.6277390438247012" stop-color="#ff6e6e" stop-opacity="1.0" />
+         <stop offset="0.6476593625498008" stop-color="#ff7171" stop-opacity="0.0" />
+         <stop offset="0.6618525896414342" stop-color="#ff7373" stop-opacity="1.0" />
+         <stop offset="0.7733366434955313" stop-color="#ff8787" stop-opacity="1.0" />
+         <stop offset="0.9489541832669323" stop-color="#391e1e" stop-opacity="1.0" />
          <stop offset="1.0" stop-color="#000000" stop-opacity="0.0" />
       </linearGradient>
       <linearGradient id="gradient-fill-2" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
          <stop offset="0.0" stop-color="#fffdff" stop-opacity="1.0" />
-         <stop offset="0.41658391261171795" stop-color="#ff69d3" stop-opacity="1.0" />
-         <stop offset="0.6277390438247012" stop-color="#ff88d8" stop-opacity="1.0" />
-         <stop offset="0.6476593625498008" stop-color="#ff8bd8" stop-opacity="0.0" />
-         <stop offset="0.6618525896414342" stop-color="#ff8dd9" stop-opacity="1.0" />
-         <stop offset="0.7733366434955313" stop-color="#ff9edb" stop-opacity="1.0" />
-         <stop offset="0.9489541832669323" stop-color="#392331" stop-opacity="1.0" />
+         <stop offset="0.41658391261171795" stop-color="#ff49c9" stop-opacity="1.0" />
+         <stop offset="0.6277390438247012" stop-color="#ff6ecf" stop-opacity="1.0" />
+         <stop offset="0.6476593625498008" stop-color="#ff71cf" stop-opacity="0.0" />
+         <stop offset="0.6618525896414342" stop-color="#ff73d0" stop-opacity="1.0" />
+         <stop offset="0.7733366434955313" stop-color="#ff87d3" stop-opacity="1.0" />
+         <stop offset="0.9489541832669323" stop-color="#391e2f" stop-opacity="1.0" />
          <stop offset="1.0" stop-color="#000000" stop-opacity="0.0" />
       </linearGradient>
       <linearGradient id="gradient-fill-3" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
          <stop offset="0.0" stop-color="#fffdff" stop-opacity="1.0" />
-         <stop offset="0.41658391261171795" stop-color="#e06bff" stop-opacity="1.0" />
-         <stop offset="0.6277390438247012" stop-color="#ea8aff" stop-opacity="1.0" />
-         <stop offset="0.6476593625498008" stop-color="#eb8dff" stop-opacity="0.0" />
-         <stop offset="0.6618525896414342" stop-color="#ec8fff" stop-opacity="1.0" />
-         <stop offset="0.7733366434955313" stop-color="#f29fff" stop-opacity="1.0" />
-         <stop offset="0.9489541832669323" stop-color="#362439" stop-opacity="1.0" />
+         <stop offset="0.41658391261171795" stop-color="#d649ff" stop-opacity="1.0" />
+         <stop offset="0.6277390438247012" stop-color="#e36eff" stop-opacity="1.0" />
+         <stop offset="0.6476593625498008" stop-color="#e471ff" stop-opacity="0.0" />
+         <stop offset="0.6618525896414342" stop-color="#e573ff" stop-opacity="1.0" />
+         <stop offset="0.7733366434955313" stop-color="#ec87ff" stop-opacity="1.0" />
+         <stop offset="0.9489541832669323" stop-color="#351e39" stop-opacity="1.0" />
          <stop offset="1.0" stop-color="#000000" stop-opacity="0.0" />
       </linearGradient>
       <linearGradient id="gradient-fill-4" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
          <stop offset="0.0" stop-color="#fffdff" stop-opacity="1.0" />
-         <stop offset="0.41658391261171795" stop-color="#8068ff" stop-opacity="1.0" />
-         <stop offset="0.6277390438247012" stop-color="#aa88ff" stop-opacity="1.0" />
-         <stop offset="0.6476593625498008" stop-color="#ae8bff" stop-opacity="0.0" />
-         <stop offset="0.6618525896414342" stop-color="#b18dff" stop-opacity="1.0" />
-         <stop offset="0.7733366434955313" stop-color="#c79eff" stop-opacity="1.0" />
-         <stop offset="0.9489541832669323" stop-color="#2c2339" stop-opacity="1.0" />
+         <stop offset="0.41658391261171795" stop-color="#6c49ff" stop-opacity="1.0" />
+         <stop offset="0.6277390438247012" stop-color="#9a6eff" stop-opacity="1.0" />
+         <stop offset="0.6476593625498008" stop-color="#9e71ff" stop-opacity="0.0" />
+         <stop offset="0.6618525896414342" stop-color="#a173ff" stop-opacity="1.0" />
+         <stop offset="0.7733366434955313" stop-color="#b987ff" stop-opacity="1.0" />
+         <stop offset="0.9489541832669323" stop-color="#291e39" stop-opacity="1.0" />
          <stop offset="1.0" stop-color="#000000" stop-opacity="0.0" />
       </linearGradient>
       <linearGradient id="gradient-fill-5" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
          <stop offset="0.0" stop-color="#fffdff" stop-opacity="1.0" />
-         <stop offset="0.41658391261171795" stop-color="#5a9bff" stop-opacity="1.0" />
-         <stop offset="0.6277390438247012" stop-color="#7fa2ff" stop-opacity="1.0" />
-         <stop offset="0.6476593625498008" stop-color="#82a3ff" stop-opacity="0.0" />
-         <stop offset="0.6618525896414342" stop-color="#85a3ff" stop-opacity="1.0" />
-         <stop offset="0.7733366434955313" stop-color="#98a7ff" stop-opacity="1.0" />
-         <stop offset="0.9489541832669323" stop-color="#222539" stop-opacity="1.0" />
+         <stop offset="0.41658391261171795" stop-color="#4985ff" stop-opacity="1.0" />
+         <stop offset="0.6277390438247012" stop-color="#6e8dff" stop-opacity="1.0" />
+         <stop offset="0.6476593625498008" stop-color="#718dff" stop-opacity="0.0" />
+         <stop offset="0.6618525896414342" stop-color="#738eff" stop-opacity="1.0" />
+         <stop offset="0.7733366434955313" stop-color="#8792ff" stop-opacity="1.0" />
+         <stop offset="0.9489541832669323" stop-color="#1e2039" stop-opacity="1.0" />
          <stop offset="1.0" stop-color="#000000" stop-opacity="0.0" />
       </linearGradient>
       <linearGradient id="gradient-fill-6" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
          <stop offset="0.0" stop-color="#fffdff" stop-opacity="1.0" />
-         <stop offset="0.41658391261171795" stop-color="#53f1ff" stop-opacity="1.0" />
-         <stop offset="0.6277390438247012" stop-color="#7bebff" stop-opacity="1.0" />
-         <stop offset="0.6476593625498008" stop-color="#7eeaff" stop-opacity="0.0" />
-         <stop offset="0.6618525896414342" stop-color="#81eaff" stop-opacity="1.0" />
-         <stop offset="0.7733366434955313" stop-color="#96e6ff" stop-opacity="1.0" />
-         <stop offset="0.9489541832669323" stop-color="#213339" stop-opacity="1.0" />
+         <stop offset="0.41658391261171795" stop-color="#49f0ff" stop-opacity="1.0" />
+         <stop offset="0.6277390438247012" stop-color="#6ee7ff" stop-opacity="1.0" />
+         <stop offset="0.6476593625498008" stop-color="#71e6ff" stop-opacity="0.0" />
+         <stop offset="0.6618525896414342" stop-color="#73e5ff" stop-opacity="1.0" />
+         <stop offset="0.7733366434955313" stop-color="#87e1ff" stop-opacity="1.0" />
+         <stop offset="0.9489541832669323" stop-color="#1e3239" stop-opacity="1.0" />
          <stop offset="1.0" stop-color="#000000" stop-opacity="0.0" />
       </linearGradient>
       <linearGradient id="gradient-fill-7" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
          <stop offset="0.0" stop-color="#fffdff" stop-opacity="1.0" />
-         <stop offset="0.41335650446871897" stop-color="#52fbc5" stop-opacity="1.0" />
-         <stop offset="0.6277390438247012" stop-color="#7afcd9" stop-opacity="1.0" />
-         <stop offset="0.6476593625498008" stop-color="#7dfcdb" stop-opacity="0.0" />
-         <stop offset="0.6618525896414342" stop-color="#80fcdc" stop-opacity="1.0" />
-         <stop offset="0.7733366434955313" stop-color="#95fce7" stop-opacity="1.0" />
-         <stop offset="0.9489541832669323" stop-color="#213834" stop-opacity="1.0" />
+         <stop offset="0.41335650446871897" stop-color="#49ffb8" stop-opacity="1.0" />
+         <stop offset="0.6277390438247012" stop-color="#6effd0" stop-opacity="1.0" />
+         <stop offset="0.6476593625498008" stop-color="#71ffd3" stop-opacity="0.0" />
+         <stop offset="0.6618525896414342" stop-color="#74ffd4" stop-opacity="1.0" />
+         <stop offset="0.7733366434955313" stop-color="#87ffe1" stop-opacity="1.0" />
+         <stop offset="0.9489541832669323" stop-color="#1e3932" stop-opacity="1.0" />
          <stop offset="1.0" stop-color="#000000" stop-opacity="0.0" />
       </linearGradient>
       <linearGradient id="gradient-fill-8" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
          <stop offset="0.0" stop-color="#fffdff" stop-opacity="1.0" />
-         <stop offset="0.41335650446871897" stop-color="#61f95b" stop-opacity="1.0" />
-         <stop offset="0.6277390438247012" stop-color="#80fa87" stop-opacity="1.0" />
-         <stop offset="0.6476593625498008" stop-color="#82fa8b" stop-opacity="0.0" />
-         <stop offset="0.6618525896414342" stop-color="#85fa8e" stop-opacity="1.0" />
-         <stop offset="0.7733366434955313" stop-color="#94fba5" stop-opacity="1.0" />
-         <stop offset="0.9489541832669323" stop-color="#213825" stop-opacity="1.0" />
+         <stop offset="0.41335650446871897" stop-color="#56ff49" stop-opacity="1.0" />
+         <stop offset="0.6277390438247012" stop-color="#73ff76" stop-opacity="1.0" />
+         <stop offset="0.6476593625498008" stop-color="#76ff7a" stop-opacity="0.0" />
+         <stop offset="0.6618525896414342" stop-color="#78ff7d" stop-opacity="1.0" />
+         <stop offset="0.7733366434955313" stop-color="#87ff95" stop-opacity="1.0" />
+         <stop offset="0.9489541832669323" stop-color="#1e3921" stop-opacity="1.0" />
          <stop offset="1.0" stop-color="#000000" stop-opacity="0.0" />
       </linearGradient>
       <linearGradient id="gradient-fill-9" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
          <stop offset="0.0" stop-color="#fffdff" stop-opacity="1.0" />
-         <stop offset="0.41335650446871897" stop-color="#fdfb5b" stop-opacity="1.0" />
-         <stop offset="0.6277390438247012" stop-color="#fef87f" stop-opacity="1.0" />
-         <stop offset="0.6476593625498008" stop-color="#fef883" stop-opacity="0.0" />
-         <stop offset="0.6618525896414342" stop-color="#fef885" stop-opacity="1.0" />
-         <stop offset="0.7733366434955313" stop-color="#fff798" stop-opacity="1.0" />
-         <stop offset="0.9489541832669323" stop-color="#393722" stop-opacity="1.0" />
+         <stop offset="0.41335650446871897" stop-color="#fcff49" stop-opacity="1.0" />
+         <stop offset="0.6277390438247012" stop-color="#fefa6e" stop-opacity="1.0" />
+         <stop offset="0.6476593625498008" stop-color="#fefa71" stop-opacity="0.0" />
+         <stop offset="0.6618525896414342" stop-color="#fefa74" stop-opacity="1.0" />
+         <stop offset="0.7733366434955313" stop-color="#fff787" stop-opacity="1.0" />
+         <stop offset="0.9489541832669323" stop-color="#39371e" stop-opacity="1.0" />
          <stop offset="1.0" stop-color="#000000" stop-opacity="0.0" />
       </linearGradient>
    </defs>

@@ -36,7 +36,7 @@ public extension PAL.Color {
 			b255: rgb.b,
 			a255: rgb.a,
 			format: format,
-			includeHashmark: hashmark,
+			hashmark: hashmark,
 			uppercase: uppercase
 		)
 	}

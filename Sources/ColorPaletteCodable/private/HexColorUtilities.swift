@@ -171,10 +171,10 @@ func hexRGBString(
 	b255: UInt8,
 	a255: UInt8 = 255,
 	format: PAL.ColorByteFormat,
-	includeHashmark: Bool,
+	hashmark: Bool,
 	uppercase: Bool
 ) -> String {
-	var result = includeHashmark ? "#" : ""
+	var result = hashmark ? "#" : ""
 	switch format {
 	case .rgb:
 		result += String(format: uppercase ? "%02X%02X%02X" : "%02x%02x%02x", r255, g255, b255)
@@ -208,7 +208,7 @@ func hexRGBString<T: BinaryFloatingPoint>(
 	bf: T,
 	af: T = 1.0,
 	format: PAL.ColorByteFormat,
-	includeHashmark: Bool = false,
+	hashmark: Bool = false,
 	uppercase: Bool
 ) -> String {
 	hexRGBString(
@@ -217,7 +217,7 @@ func hexRGBString<T: BinaryFloatingPoint>(
 		b255: _f2p(bf),
 		a255: _f2p(af),
 		format: format,
-		includeHashmark: includeHashmark,
+		hashmark: hashmark,
 		uppercase: uppercase
 	)
 }

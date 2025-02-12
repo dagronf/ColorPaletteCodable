@@ -192,7 +192,7 @@ final class CommonTests: XCTestCase {
 			let v1 = c.brightnessComponent
 
 			// convert to hsb using routine
-			let hsb1 = RGB_to_HSB(RGB: (r: r1, g: g1, b: b1))
+			let hsb1 = RGB_to_HSB(r: r1, g: g1, b: b1)
 
 			// Verify our routine matches the NSColor routines
 			XCTAssertEqual(h1, hsb1.h, accuracy: 0.00001)
@@ -200,7 +200,7 @@ final class CommonTests: XCTestCase {
 			XCTAssertEqual(v1, hsb1.b, accuracy: 0.00001)
 
 			// Verify our routine reverses correctly
-			let rgb2 = HSB_to_RGB((h: h1, s: s1, b: v1))
+			let rgb2 = HSB_to_RGB(h: h1, s: s1, b: v1)
 			XCTAssertEqual(r1, rgb2.r, accuracy: 0.00001)
 			XCTAssertEqual(g1, rgb2.g, accuracy: 0.00001)
 			XCTAssertEqual(b1, rgb2.b, accuracy: 0.00001)
@@ -492,15 +492,60 @@ final class CommonTests: XCTestCase {
 		}
 	}
 
-	#if !os(Linux)
+	func testConvertRGB2HSL() throws {
+		let mapped = [
+			(PAL.Color.RGB(r255: 255, g255: 0, b255: 0), PAL.Color.HSL(h: 0, s: 1.0, l: 0.5, a: 1.0)),
+			(PAL.Color.RGB(r255: 187, g255: 67, b255: 180), PAL.Color.HSL(h: 0.84305, s: 0.47244, l: 0.49803, a: 1.0)),
+			(PAL.Color.RGB(r255: 157, g255: 166, b255: 190), PAL.Color.HSL(h360: 223, s100: 20, l100: 68, a: 1.0))
+		]
+
+		mapped.forEach {
+			// Convert rgb -> hsl
+			let hsl = $0.hsl()
+			XCTAssertEqual(hsl, $1)
+
+			// Convert back hsl -> rgb
+			let convertBack = hsl.rgb()
+			XCTAssertEqual($0, convertBack)
+		}
+	}
+
+	let functionTestsFolder = try! testResultsContainer.subfolder(with: "function-tests")
+
+	func testCalculateTetradicColors() throws {
+		do {
+			let red = PAL.Color.red
+			let tetradic = try red.tetradic()
+			XCTAssertEqual(tetradic.count, 4)
+			XCTAssertEqual(try tetradic[0].rgb(), PAL.Color.RGB(r: 1.0, g: 0.0, b: 0.0))
+			XCTAssertEqual(try tetradic[1].rgb(), PAL.Color.RGB(r: 1.0, g: 0.0, b: 0.5))
+			XCTAssertEqual(try tetradic[2].rgb(), PAL.Color.RGB(r: 0.0, g: 1.0, b: 1.0))
+			XCTAssertEqual(try tetradic[3].rgb(), PAL.Color.RGB(r: 0.0, g: 1.0, b: 0.5))
+			try functionTestsFolder.write(tetradic, coder: PAL.Coder.GIMP(), filename: "red-tetradic.gpl")
+		}
+		do {
+			let green = PAL.Color.green
+			let tetradic = try green.tetradic()
+			XCTAssertEqual(tetradic.count, 4)
+			XCTAssertEqual(try tetradic[0].rgb(), PAL.Color.RGB(r: 0.0, g: 1.0, b: 0.0))
+			XCTAssertEqual(try tetradic[1].rgb(), PAL.Color.RGB(r: 0.5, g: 1.0, b: 0.0))
+			XCTAssertEqual(try tetradic[2].rgb(), PAL.Color.RGB(r: 1.0, g: 0.0, b: 1.0))
+			XCTAssertEqual(try tetradic[3].rgb(), PAL.Color.RGB(r: 0.5, g: 0.0, b: 1.0))
+			try functionTestsFolder.write(tetradic, coder: PAL.Coder.GIMP(), filename: "green-tetradic.gpl")
+		}
+	}
+
+	func testRGB2HSB() throws {
+		XCTAssertEqual(PAL.Color.RGB(r: 1, g: 0, b: 0).hsb(), PAL.Color.HSB(h: 1, s: 1, b: 1))
+		XCTAssertEqual(PAL.Color.RGB(r: 0, g: 1, b: 0).hsb(), PAL.Color.HSB(h: 0.33333333, s: 1, b: 1))
+		XCTAssertEqual(PAL.Color.RGB(r255: 39, g255: 0, b255: 102).hsb(), PAL.Color.HSB(h360: 263, s100: 100, b100: 40))
+	}
+
 	func testSwiftExport() throws {
 		let palette  = try loadResourcePalette(named: "Default.gpl")
-		let d = try PAL.Coder.SwiftCoder().encode(palette)
-		try d.write(to: URL(fileURLWithPath: "/tmp/palette.swift"))
+		try functionTestsFolder.write(palette, coder: PAL.Coder.SwiftCoder(), filename: "default.swift")
 
 		let palette2 = try loadResourcePalette(named: "ADG3-CMYK.ase")
-		let d2 = try PAL.Coder.SwiftCoder().encode(palette2)
-		try d2.write(to: URL(fileURLWithPath: "/tmp/palette2.swift"))
+		try functionTestsFolder.write(palette2, coder: PAL.Coder.SwiftCoder(), filename: "ADG3-CMYK.swift")
 	}
-	#endif
 }
