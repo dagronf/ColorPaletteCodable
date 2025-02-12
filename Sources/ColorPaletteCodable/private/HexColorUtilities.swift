@@ -165,6 +165,23 @@ func convertToUInt32(rf: Float32, gf: Float32, bf: Float32, af: Float32, colorBy
 
 // MARK: - Hex string representations
 
+
+// Format strings
+private let _fmt3  = "%02x%02x%02x"
+private let _fmt3u = "%02X%02X%02X"
+private let _fmt4  = "%02x%02x%02x%02x"
+private let _fmt4u = "%02X%02X%02X%02X"
+
+/// Generate a hex string representation
+/// - Parameters:
+///   - r255: red component
+///   - g255: green component
+///   - b255: blue component
+///   - a255: alpha component
+///   - format: color format
+///   - hashmark: If true, includes a hashmark at the beginning
+///   - uppercase: If true, uses uppercase characters
+/// - Returns: A hex representation
 func hexRGBString(
 	r255: UInt8,
 	g255: UInt8,
@@ -177,17 +194,17 @@ func hexRGBString(
 	var result = hashmark ? "#" : ""
 	switch format {
 	case .rgb:
-		result += String(format: uppercase ? "%02X%02X%02X" : "%02x%02x%02x", r255, g255, b255)
+		result += String(format: uppercase ? _fmt3u : _fmt3, r255, g255, b255)
 	case .bgr:
-		result += String(format: uppercase ? "%02X%02X%02X" : "%02x%02x%02x", b255, g255, r255)
+		result += String(format: uppercase ? _fmt3u : _fmt3, b255, g255, r255)
 	case .argb:
-		result += String(format: uppercase ? "%02X%02X%02X%02X" : "%02x%02x%02x%02x", a255, r255, g255, b255)
+		result += String(format: uppercase ? _fmt4u : _fmt4, a255, r255, g255, b255)
 	case .rgba:
-		result += String(format: uppercase ? "%02X%02X%02X%02X" : "%02x%02x%02x%02x", r255, g255, b255, a255)
+		result += String(format: uppercase ? _fmt4u : _fmt4, r255, g255, b255, a255)
 	case .abgr:
-		result += String(format: uppercase ? "%02X%02X%02X%02X" : "%02x%02x%02x%02x", a255, b255, g255, r255)
+		result += String(format: uppercase ? _fmt4u : _fmt4, a255, b255, g255, r255)
 	case .bgra:
-		result += String(format: uppercase ? "%02X%02X%02X%02X" : "%02x%02x%02x%02x", b255, g255, r255, a255)
+		result += String(format: uppercase ? _fmt4u : _fmt4, b255, g255, r255, a255)
 	}
 	return result
 }

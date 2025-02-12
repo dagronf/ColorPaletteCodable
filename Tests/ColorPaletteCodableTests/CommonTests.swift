@@ -474,6 +474,9 @@ final class CommonTests: XCTestCase {
 			let u11 = convertToUInt32(r255: c1.r, g255: c1.g, b255: c1.b, a255: c1.a, colorByteFormat: .rgba)
 			XCTAssertEqual(u11, u1)
 
+			let u12 = convertToUInt32(r255: c1.r, g255: c1.g, b255: c1.b, a255: c1.a, colorByteFormat: .rgb)
+			XCTAssertEqual(u12, 0x00BB1122)
+
 			let c2 = extractRGBA(u1, colorByteFormat: .argb)
 			XCTAssertEqual(c2.r, 0x11)
 			XCTAssertEqual(c2.g, 0x22)
@@ -489,6 +492,9 @@ final class CommonTests: XCTestCase {
 			XCTAssertEqual(c3.a, 0xFE)
 			let u33 = convertToUInt32(r255: c1.r, g255: c1.g, b255: c1.b, a255: c1.a, colorByteFormat: .rgba)
 			XCTAssertEqual(u33, u1)
+
+			let u44 = convertToUInt32(r255: c3.r, g255: c3.g, b255: c3.b, a255: c3.a, colorByteFormat: .bgr)
+			XCTAssertEqual(u44, 0x00BB1122)
 		}
 	}
 
