@@ -24,14 +24,14 @@ import Foundation
 /// Convert RGB to HSB values
 ///
 /// https://web.archive.org/web/20120717202441/http://www.cocoabuilder.com/archive/cocoa/198570-here-is-code-to-convert-rgb-hsb.html
-internal func RGB_to_HSB<T: BinaryFloatingPoint>(RGB: (r: T, g: T, b: T)) -> (h: T, s: T, b: T) {
+internal func RGB_to_HSB<T: BinaryFloatingPoint>(r: T, g: T, b: T) -> (h: T, s: T, b: T) {
 
 	// RGB are each on [0, 1]. S and V are returned on [0, 1] and H is
 	// returned on [0, 1]. Exception: H is returned UNDEFINED if S==0.
 
-	let R = RGB.r
-	let G = RGB.g
-	let B = RGB.b
+	let R = r
+	let G = g
+	let B = b
 
 	let x: T = min(R, G, B)
 	let v: T = max(R, G, B)
@@ -49,11 +49,11 @@ internal func RGB_to_HSB<T: BinaryFloatingPoint>(RGB: (r: T, g: T, b: T)) -> (h:
 /// Convert HSB to RGB values
 ///
 /// https://web.archive.org/web/20120717202441/http://www.cocoabuilder.com/archive/cocoa/198570-here-is-code-to-convert-rgb-hsb.html
-internal func HSB_to_RGB<T: BinaryFloatingPoint>(_ HSV: (h: T, s: T, b: T)) -> (r: T, g: T, b: T) {
+internal func HSB_to_RGB<T: BinaryFloatingPoint>(h: T, s: T, b: T) -> (r: T, g: T, b: T) {
 
-	let H = HSV.h
-	let s = HSV.s
-	let v = HSV.b
+	let H = h
+	let s = s
+	let v = b
 
 	// H is given on [0, 1] or UNDEFINED. S and V are given on [0, 1].
 	// RGB are each returned on [0, 1].
@@ -133,7 +133,7 @@ extension CGColor {
 			return nil
 		}
 
-		let hsb = RGB_to_HSB(RGB: (r: rgb[0], g: rgb[1], b: rgb[2]))
+		let hsb = RGB_to_HSB(r: rgb[0], g: rgb[1], b: rgb[2])
 		return (h: hsb.h, s: hsb.s, b: hsb.b)
 	}
 
@@ -142,7 +142,7 @@ extension CGColor {
 		let h = max(0, min(1, h))
 		let s = max(0, min(1, s))
 		let b = max(0, min(1, b))
-		let rgb = HSB_to_RGB((h: h, s: s, b: b))
+		let rgb = HSB_to_RGB(h: h, s: s, b: b)
 		let components: [CGFloat] = [rgb.r, rgb.g, rgb.b, 1.0]
 		return CGColor(colorSpace: DefaultHueConversionColorspace, components: components)
 	}

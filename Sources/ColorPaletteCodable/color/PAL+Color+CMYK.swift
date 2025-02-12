@@ -116,6 +116,12 @@ internal extension PAL.Color {
 
 public extension PAL.Color {
 	/// Returns the cmyk values as a tuple for a color with colorspace CMYK
+	@inlinable func cmyk() throws -> PAL.Color.CMYK {
+		let c = try self.converted(to: .CMYK)
+		return PAL.Color.CMYK(c: c._c, m: c._m, y: c._y, k: c._k, a: self.alpha)
+	}
+
+	/// Returns the cmyk values as a tuple for a color with colorspace CMYK
 	///
 	/// Throws `CommonError.mismatchedColorspace` if the colorspace is not CMYK
 	@inlinable func cmykValues() throws -> PAL.Color.CMYK {
