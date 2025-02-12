@@ -160,7 +160,8 @@ extension PAL.Coder.AndroidColorsXML {
 
 			xml += " name=\"\(name)\">"
 
-			let hex = try color.hexARGB(includeAlpha: self.includeAlphaDuringExport, hashmark: true, uppercase: true)
+			let format: PAL.ColorByteFormat = self.includeAlphaDuringExport ? .argb : .rgb
+			let hex = try color.hexString(format: format, hashmark: true, uppercase: true)
 			xml += hex
 			xml += "</color>\n"
 		}

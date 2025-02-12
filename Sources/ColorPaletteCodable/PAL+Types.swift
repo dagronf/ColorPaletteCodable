@@ -51,6 +51,8 @@ public extension PAL {
 
 	/// Byte ordering for RGB
 	enum ColorByteFormat {
+		case rgb
+		case bgr
 		case argb
 		case rgba
 		case abgr

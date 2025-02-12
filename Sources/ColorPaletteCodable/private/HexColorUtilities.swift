@@ -65,6 +65,14 @@ func extractHexRGBA(
 	}
 
 	switch (hexRGBFormat, hasAlpha) {
+	case (.rgb, true): fallthrough
+	case (.rgb, false):
+		return (r: UInt8(c0), g: UInt8(c1), b: UInt8(c2), a: 255)
+
+	case (.bgr, true): fallthrough
+	case (.bgr, false):
+		return (r: UInt8(c2), g: UInt8(c1), b: UInt8(c0), a: 255)
+
 	case (.rgba, true):
 		return (r: UInt8(c0), g: UInt8(c1), b: UInt8(c2), a: UInt8(c3))
 	case (.rgba, false):
@@ -109,6 +117,11 @@ func extractRGBA(
 		return (r: c3, g: c2, b: c1, a: c0)
 	case .bgra:
 		return (r: c2, g: c1, b: c0, a: c3)
+
+	case .rgb:
+		return (r: c1, g: c2, b: c3, a: 255)
+	case .bgr:
+		return (r: c3, g: c2, b: c1, a: 255)
 	}
 }
 
@@ -130,6 +143,11 @@ func convertToUInt32(r255: UInt8, g255: UInt8, b255: UInt8, a255: UInt8, colorBy
 		return (UInt32(a255) << 24 & 0xFF00_0000) + (UInt32(b255) << 16 & 0x00FF_0000) + (UInt32(g255) << 8 & 0x0000_FF00) + (UInt32(r255) & 0x0000_00FF)
 	case .bgra:
 		return (UInt32(b255) << 24 & 0xFF00_0000) + (UInt32(g255) << 16 & 0x00FF_0000) + (UInt32(r255) << 8 & 0x0000_FF00) + (UInt32(a255) & 0x0000_00FF)
+
+	case .rgb:
+		return (UInt32(0) << 24 & 0xFF00_0000) + (UInt32(r255) << 16 & 0x00FF_0000) + (UInt32(g255) << 8 & 0x0000_FF00) + (UInt32(b255) & 0x0000_00FF)
+	case .bgr:
+		return (UInt32(0) << 24 & 0xFF00_0000) + (UInt32(b255) << 16 & 0x00FF_0000) + (UInt32(g255) << 8 & 0x0000_FF00) + (UInt32(r255) & 0x0000_00FF)
 	}
 }
 
@@ -143,4 +161,63 @@ func convertToUInt32(r255: UInt8, g255: UInt8, b255: UInt8, a255: UInt8, colorBy
 /// - Returns: UInt32 encoded color value
 func convertToUInt32(rf: Float32, gf: Float32, bf: Float32, af: Float32, colorByteFormat: PAL.ColorByteFormat) -> UInt32 {
 	convertToUInt32(r255: _f2p(rf), g255: _f2p(gf), b255: _f2p(bf), a255: _f2p(af), colorByteFormat: colorByteFormat)
+}
+
+// MARK: - Hex string representations
+
+func hexRGBString(
+	r255: UInt8,
+	g255: UInt8,
+	b255: UInt8,
+	a255: UInt8 = 255,
+	format: PAL.ColorByteFormat,
+	includeHashmark: Bool,
+	uppercase: Bool
+) -> String {
+	var result = includeHashmark ? "#" : ""
+	switch format {
+	case .rgb:
+		result += String(format: uppercase ? "%02X%02X%02X" : "%02x%02x%02x", r255, g255, b255)
+	case .bgr:
+		result += String(format: uppercase ? "%02X%02X%02X" : "%02x%02x%02x", b255, g255, r255)
+	case .argb:
+		result += String(format: uppercase ? "%02X%02X%02X%02X" : "%02x%02x%02x%02x", a255, r255, g255, b255)
+	case .rgba:
+		result += String(format: uppercase ? "%02X%02X%02X%02X" : "%02x%02x%02x%02x", r255, g255, b255, a255)
+	case .abgr:
+		result += String(format: uppercase ? "%02X%02X%02X%02X" : "%02x%02x%02x%02x", a255, b255, g255, r255)
+	case .bgra:
+		result += String(format: uppercase ? "%02X%02X%02X%02X" : "%02x%02x%02x%02x", b255, g255, r255, a255)
+	}
+	return result
+}
+
+/// Returns a hex RGBA color representation
+/// - Parameters:
+///   - rf: red component (clamped to 0 ... 1)
+///   - gf: green component (clamped to 0 ... 1)
+///   - bf: blue component (clamped to 0 ... 1)
+///   - af: alpha component (clamped to 0 ... 1)
+///   - colorByteFormat: The byte order format (eg. RGB, BGR)
+///   - includeHashmark: If true, start with a hash mark
+///   - uppercase: Use uppercase characters
+/// - Returns: A string
+func hexRGBString<T: BinaryFloatingPoint>(
+	rf: T,
+	gf: T,
+	bf: T,
+	af: T = 1.0,
+	format: PAL.ColorByteFormat,
+	includeHashmark: Bool = false,
+	uppercase: Bool
+) -> String {
+	hexRGBString(
+		r255: _f2p(rf),
+		g255: _f2p(gf),
+		b255: _f2p(bf),
+		a255: _f2p(af),
+		format: format,
+		includeHashmark: includeHashmark,
+		uppercase: uppercase
+	)
 }

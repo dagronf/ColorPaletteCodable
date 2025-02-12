@@ -364,25 +364,10 @@ public extension PAL.Color {
 
 public extension PAL.Color {
 	/// Create a UInt32 representation of this color
-	/// - Parameter colorByteFormat: The output format for the color
+	/// - Parameter format: The output format for the color
 	/// - Returns: UInt32 representation for this RGB color
-	func asRGBUInt32(colorByteFormat: PAL.ColorByteFormat) throws -> UInt32 {
+	func asUInt32(format: PAL.ColorByteFormat) throws -> UInt32 {
 		let rgba = try self.rgba255Components()
-		let rgba32 = (
-			r: UInt32(rgba.r) & 0xFF,
-			g: UInt32(rgba.g) & 0xFF,
-			b: UInt32(rgba.b) & 0xFF,
-			a: UInt32(rgba.a) & 0xFF
-		)
-		switch colorByteFormat {
-		case .argb:
-			return (rgba32.a << 24) + (rgba32.r << 16) + (rgba32.g << 8) + rgba32.b
-		case .rgba:
-			return (rgba32.r << 24) + (rgba32.g << 16) + (rgba32.b << 8) + rgba32.a
-		case .abgr:
-			return (rgba32.a << 24) + (rgba32.b << 16) + (rgba32.g << 8) + rgba32.r
-		case .bgra:
-			return (rgba32.b << 24) + (rgba32.g << 16) + (rgba32.r << 8) + rgba32.a
-		}
+		return convertToUInt32(r255: rgba.r, g255: rgba.g, b255: rgba.b, a255: rgba.a, colorByteFormat: format)
 	}
 }

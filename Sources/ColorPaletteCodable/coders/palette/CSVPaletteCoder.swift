@@ -52,11 +52,11 @@ public extension PAL.Coder {
 
 		/// Create a CSV Coder
 		/// - Parameter encodeAlpha: When encoding, include the alpha component
-		public init(encodeAlpha: Bool = false) {
-			self.encodeAlpha = encodeAlpha
+		public init(hexFormat: PAL.ColorByteFormat = .rgb) {
+			self.hexFormat = hexFormat
 		}
 
-		let encodeAlpha: Bool
+		let hexFormat: PAL.ColorByteFormat
 	}
 }
 
@@ -104,7 +104,7 @@ public extension PAL.Coder.CSV {
 
 		var results: String = ""
 		try cl.forEach { c in
-			results += try c.hexRGB(includeAlpha: encodeAlpha, hashmark: true, uppercase: false)
+			results += try c.hexString(format: self.hexFormat, hashmark: true, uppercase: false)
 			if c.name.count > 0 {
 				results += ", \(c.name)"
 			}

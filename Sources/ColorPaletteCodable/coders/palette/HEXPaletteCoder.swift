@@ -94,7 +94,8 @@ public extension PAL.Coder.HEX {
 		var content = ""
 		try rgbColors.forEach { color in
 			// If there's an alpha component, make sure we add it
-			let hex = try color.hexRGB(includeAlpha: color.alpha < 1.0, hashmark: true, uppercase: false)
+			let format: PAL.ColorByteFormat = (color.alpha < 1.0) ? .rgba : .rgb
+			let hex = try color.hexString(format: format, hashmark: true, uppercase: false)
 			content += "\(hex)\n"
 		}
 

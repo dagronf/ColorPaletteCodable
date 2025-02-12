@@ -20,77 +20,42 @@
 import Foundation
 
 public extension PAL.Color {
-	/// Return a hex RGB string (eg. "523b50", "#523b50") without an alpha component
-	/// - Parameters:
-	///   - hashmark: If true, includes a hash mark '#' at the start of the string
-	///   - uppercase: If true, uppercases the string
-	/// - Returns: Hex encoded color
-	func hexRGB(hashmark: Bool, uppercase: Bool = false) throws -> String {
-		try self.hexRGB(includeAlpha: false, hashmark: hashmark, uppercase: uppercase)
-	}
-
-	/// Return a hex RGBA string (eg. "523b50") with an alpha component
-	/// - Parameters:
-	///   - hashmark: If true, includes a hash mark '#' at the start of the string
-	///   - uppercase: If true, uppercases the string
-	/// - Returns: Hex encoded color
-	func hexRGBA(hashmark: Bool, uppercase: Bool = false) throws -> String {
-		try self.hexRGB(includeAlpha: true, hashmark: hashmark, uppercase: uppercase)
-	}
-
 	/// Return a hex RGB string (eg. "523b50ff", "#523b50")
 	/// - Parameters:
-	///   - includeAlpha: If true, includes the alpha component
+	///   - format: The format for the hex string
 	///   - hashmark: If true, includes a hash mark '#' at the start of the string
 	///   - uppercase: If true, uppercases the string
 	/// - Returns: Hex encoded color
 	///
 	/// If the underlying colorspace is not RGB attempts conversion to RGB before failing
-	func hexRGB(includeAlpha: Bool, hashmark: Bool, uppercase: Bool) throws -> String {
-		let rgb = try self.converted(to: .RGB)
-		let r = rgb.colorComponents[0]
-		let g = rgb.colorComponents[1]
-		let b = rgb.colorComponents[2]
-		let a = rgb.alpha
-
-		let cr = UInt8(r * 255).clamped(to: 0 ... 255)
-		let cg = UInt8(g * 255).clamped(to: 0 ... 255)
-		let cb = UInt8(b * 255).clamped(to: 0 ... 255)
-		let ca = UInt8(a * 255).clamped(to: 0 ... 255)
-
-		var result = hashmark ? "#" : ""
-		result += String(format: uppercase ? "%02X%02X%02X" : "%02x%02x%02x", cr, cg, cb)
-		if includeAlpha {
-			result += String(format: uppercase ? "%02X" : "%02x", ca)
-		}
-		return result
+	func hexString(format: PAL.ColorByteFormat, hashmark: Bool, uppercase: Bool) throws -> String {
+		let rgb = try self.rgba255Components()
+		return ColorPaletteCodable.hexRGBString(
+			r255: rgb.r,
+			g255: rgb.g,
+			b255: rgb.b,
+			a255: rgb.a,
+			format: format,
+			includeHashmark: hashmark,
+			uppercase: uppercase
+		)
 	}
 
-	/// Return a hex ARGB string (eg. "523b50ff", "#523b50")
+	/// Return a hex RGB string (eg. "523b50", "#523B50")
 	/// - Parameters:
-	///   - includeAlpha: If true, includes the alpha component
-	///   - hashmark: If true, includes a hash mark '#' at the start of the string
-	///   - uppercase: If true, uppercases the string
-	/// - Returns: Hex encoded color
-	///
-	/// If the underlying colorspace is not RGB attempts conversion to RGB before failing
-	func hexARGB(includeAlpha: Bool, hashmark: Bool, uppercase: Bool) throws -> String {
-		let rgb = try self.converted(to: .RGB)
-		let r = rgb.colorComponents[0]
-		let g = rgb.colorComponents[1]
-		let b = rgb.colorComponents[2]
-		let a = rgb.alpha
+	///   - hashmark: If true, includes a hashmark at the beginning
+	///   - uppercase: If true, uses uppercase characters
+	/// - Returns: hex string
+	@inlinable func hexRGB(hashmark: Bool, uppercase: Bool = false) throws -> String {
+		try self.hexString(format: .rgb, hashmark: hashmark, uppercase: uppercase)
+	}
 
-		let cr = UInt8(r * 255).clamped(to: 0 ... 255)
-		let cg = UInt8(g * 255).clamped(to: 0 ... 255)
-		let cb = UInt8(b * 255).clamped(to: 0 ... 255)
-		let ca = UInt8(a * 255).clamped(to: 0 ... 255)
-
-		var result = hashmark ? "#" : ""
-		if includeAlpha {
-			result += String(format: uppercase ? "%02X" : "%02x", ca)
-		}
-		result += String(format: uppercase ? "%02X%02X%02X" : "%02x%02x%02x", cr, cg, cb)
-		return result
+	/// Return a hex RGBA string (eg. "523b50ff", "#523B50FF")
+	/// - Parameters:
+	///   - hashmark: If true, includes a hashmark at the beginning
+	///   - uppercase: If true, uses uppercase characters
+	/// - Returns: hex string
+	@inlinable func hexRGBA(hashmark: Bool, uppercase: Bool = false) throws -> String {
+		try self.hexString(format: .rgba, hashmark: hashmark, uppercase: uppercase)
 	}
 }
