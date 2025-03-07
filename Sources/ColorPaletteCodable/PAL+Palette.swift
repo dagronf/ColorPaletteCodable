@@ -84,6 +84,18 @@ public extension PAL.Palette {
 			colors: try PAL.Color.interpolate(firstColor: firstColor, lastColor: lastColor, count: count)
 		)
 	}
+
+	/// Return a palette containing random RGB colors
+	/// - Parameters:
+	///   - count: The number of random colors
+	///   - colorType: The color type for all colors
+	/// - Returns: A palette
+	static func randomRGB(_ count: Int, colorType: PAL.ColorType = .global) throws -> PAL.Palette {
+		assert(count > 0)
+		return try PAL.Palette(
+			colors: (0 ..< count).map { _ in try PAL.Color.random() }
+		)
+	}
 }
 
 // MARK: - Conveniences

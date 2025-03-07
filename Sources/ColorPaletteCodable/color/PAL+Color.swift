@@ -47,7 +47,13 @@ public extension PAL {
 		///   - colorComponents: The color components
 		///   - colorType: The color type
 		///   - alpha: The alpha value for the color
-		public init(name: String, colorSpace: PAL.ColorSpace, colorComponents: [Float32], colorType: ColorType = .global, alpha: Float32 = 1) throws {
+		public init(
+			name: String,
+			colorSpace: PAL.ColorSpace,
+			colorComponents: [Float32],
+			colorType: ColorType = .global,
+			alpha: Float32 = 1
+		) throws {
 			self.name = name
 			self.colorSpace = colorSpace
 
@@ -132,6 +138,45 @@ public extension PAL {
 				}
 			}
 			return true
+		}
+
+		/// Generate a random RGB color
+		/// - Parameters:
+		///   - name: color name
+		///   - colorType: The color type
+		/// - Returns: A random color in the RGB colorspace
+		public static func random(
+			named name: String = "",
+			colorspace: PAL.ColorSpace = .RGB,
+			colorType: PAL.ColorType = .global
+		) throws -> PAL.Color {
+			switch colorspace {
+			case .CMYK:
+				try PAL.Color(
+					name: name,
+					cf: Float32.random(in: 0...1),
+					mf: Float32.random(in: 0...1),
+					yf: Float32.random(in: 0...1),
+					kf: Float32.random(in: 0...1),
+					colorType: colorType
+				)
+			case .RGB:
+				try PAL.Color(
+					name: name,
+					rf: Float32.random(in: 0...1),
+					gf: Float32.random(in: 0...1),
+					bf: Float32.random(in: 0...1),
+					colorType: colorType
+				)
+			case .Gray:
+				try PAL.Color(
+					name: name,
+					white: Float32.random(in: 0...1),
+					colorType: colorType
+				)
+			default:
+				throw PAL.CommonError.unsupportedColorSpace
+			}
 		}
 	}
 }

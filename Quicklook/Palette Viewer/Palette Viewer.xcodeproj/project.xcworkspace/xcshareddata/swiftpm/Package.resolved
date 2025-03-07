@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/dagronf/DSFAppearanceManager",
         "state": {
           "branch": null,
-          "revision": "e9add5fdf05fe50950d105c77963b7373ddb5ad4",
-          "version": "3.5.1"
+          "revision": "fd459c8060d46d17b780a80ac43db83b444e2e13",
+          "version": "3.6.2"
         }
       },
       {
@@ -33,12 +33,12 @@
         "repositoryURL": "https://github.com/dagronf/SwiftImageReadWrite",
         "state": {
           "branch": null,
-          "revision": "f4ac49b459967c6a63d9dc6e416ca866d16da673",
-          "version": "1.7.1"
+          "revision": "42ace2412279f18bc264bc306e96b51c36e12a33",
+          "version": "1.9.2"
         }
       },
       {
-        "package": "SwiftUIFlowLayout",
+        "package": "swiftui-flow-layout",
         "repositoryURL": "https://github.com/globulus/swiftui-flow-layout",
         "state": {
           "branch": null,
@@ -51,8 +51,8 @@
         "repositoryURL": "https://github.com/dagronf/TinyCSV",
         "state": {
           "branch": null,
-          "revision": "a354f61664eef13236f20c4eb5400b50a8844d5a",
-          "version": "1.0.0"
+          "revision": "a27a0baa6766e44eb27a2a8c6b2e15541056b3de",
+          "version": "1.2.0"
         }
       }
     ]
