@@ -59,5 +59,46 @@ public extension PAL {
 }
 
 public extension PAL.Gradients {
-	struct Coder { }
+	struct Coder {
+		// Hide the init
+		private init() {}
+	}
+}
+
+// MARK: - Import/export
+
+public extension PAL.Gradients {
+	/// Load a local gradient file
+	/// - Parameters:
+	///   - fileURL: The fileURL for the gradients file
+	///   - coder: [optional] Override the default gradients coder
+	init(_ fileURL: URL, usingCoder coder: PAL_GradientsCoder? = nil) throws {
+		let g = try PAL.LoadGradient(fileURL, usingCoder: coder)
+		self.gradients = g.gradients
+	}
+
+	/// Load a gradient from raw data
+	/// - Parameters:
+	///   - data: The gradient data
+	///   - coder: The gradient coder to use when decoding
+	init(_ data: Data, usingCoder coder: PAL_GradientsCoder) throws {
+		let g = try coder.decode(from: data)
+		self.gradients = g.gradients
+	}
+
+	/// Load a gradient from raw data
+	/// - Parameters:
+	///   - data: The gradient data
+	///   - fileExtension: The gradient file's extension (eg. "ggr")
+	init(_ data: Data, fileExtension: String) throws {
+		let g = try PAL.Gradients.Decode(from: data, fileExtension: fileExtension)
+		self.gradients = g.gradients
+	}
+
+	/// Export the gradient
+	/// - Parameter coder: The gradient coder to use
+	/// - Returns: raw gradient format data
+	func export(using coder: PAL_GradientsCoder) throws -> Data {
+		return try coder.encode(self)
+	}
 }

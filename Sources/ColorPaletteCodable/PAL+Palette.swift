@@ -105,6 +105,50 @@ public extension PAL.Palette {
 	}
 }
 
+// MARK: - Import/export
+
+public extension PAL.Palette {
+	/// Load a palette from a local file
+	/// - Parameters:
+	///   - fileURL: The fileURL for the palette file
+	///   - coder: [optional] Override the default palette coder
+	init(_ fileURL: URL, usingCoder coder: PAL_PaletteCoder? = nil) throws {
+		let palette = try PAL.Palette.Decode(from: fileURL, usingCoder: coder)
+		self.name = palette.name
+		self.colors = palette.colors
+		self.groups = palette.groups
+	}
+
+	/// Load a palette from raw data
+	/// - Parameters:
+	///   - data: The raw palette data
+	///   - coder: The palette coder to use when decoding
+	init(_ data: Data, usingCoder coder: PAL_PaletteCoder) throws {
+		let palette = try coder.decode(from: data)
+		self.name = palette.name
+		self.colors = palette.colors
+		self.groups = palette.groups
+	}
+
+	/// Load a palette from raw data
+	/// - Parameters:
+	///   - data: The gradient data
+	///   - fileExtension: The gradient format's extension (eg. "ase")
+	init(_ data: Data, fileExtension: String) throws {
+		let palette = try PAL.Palette.Decode(from: data, fileExtension: fileExtension)
+		self.name = palette.name
+		self.colors = palette.colors
+		self.groups = palette.groups
+	}
+
+	/// Export the palette
+	/// - Parameter coder: The palette coder to use
+	/// - Returns: raw palette format data
+	func export(using coder: PAL_PaletteCoder) throws -> Data {
+		return try coder.encode(self)
+	}
+}
+
 // MARK: - Conveniences
 
 public extension PAL.Palette {

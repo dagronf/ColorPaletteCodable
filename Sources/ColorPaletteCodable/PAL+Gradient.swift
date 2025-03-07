@@ -42,7 +42,7 @@ public extension PAL {
 // MARK: - Single gradient
 
 public extension PAL {
-	/// A gradient
+	/// A gradient object represents a single gradient within a gradient file
 	struct Gradient: Equatable, Codable {
 		/// The gradient's unique identifier
 		public let id = UUID()
@@ -150,6 +150,17 @@ public extension PAL {
 			}
 			self.init(colors: colors)
 		}
+	}
+}
+
+// MARK: Export
+
+public extension PAL.Gradient {
+	/// Export this gradient
+	/// - Parameter coder: The coder to use when exporting the gradient
+	/// - Returns: raw gradient data
+	func export(using coder: PAL_GradientsCoder) throws -> Data {
+		try PAL.Gradients(gradient: self).export(using: coder)
 	}
 }
 
