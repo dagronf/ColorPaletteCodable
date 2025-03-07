@@ -52,16 +52,16 @@ public extension PAL.Color {
 	/// - Parameters:
 	///   - name: The color name
 	///   - cf: Cyan component (0.0 ... 1.0)
-	///   - yf: Yellow component (0.0 ... 1.0)
 	///   - mf: Magenta component (0.0 ... 1.0)
+	///   - yf: Yellow component (0.0 ... 1.0)
 	///   - kf: Black component (0.0 ... 1.0)
 	///   - af: Alpha component (0.0 ... 1.0)
 	///   - colorType: The type of color
 	init(
 		name: String = "",
 		cf: Float32,
-		yf: Float32,
 		mf: Float32,
+		yf: Float32,
 		kf: Float32,
 		af: Float32 = 1.0,
 		colorType: PAL.ColorType = .global
@@ -71,8 +71,8 @@ public extension PAL.Color {
 			colorSpace: .CMYK,
 			colorComponents: [
 				cf.unitClamped,
-				yf.unitClamped,
 				mf.unitClamped,
+				yf.unitClamped,
 				kf.unitClamped
 			],
 			colorType: colorType,
@@ -100,7 +100,7 @@ public extension PAL.Color {
 		colorType: PAL.ColorType = .global
 	) -> PAL.Color {
 		// We know that the color has the correct components here
-		try! PAL.Color(name: name, cf: c, yf: m, mf: y, kf: k, af: alpha, colorType: colorType)
+		try! PAL.Color(name: name, cf: c, mf: m, yf: y, kf: k, af: alpha, colorType: colorType)
 	}
 }
 
