@@ -144,7 +144,7 @@ public extension PAL {
 			
 			let step = 1.0 / Float32(stopCount - 1)
 			
-			let colors = try stride(from: 0.0, through: 1.0, by: step).map { (s: Float32) in
+			let colors: [PAL.Color] = try stride(from: 0.0, through: 1.0, by: step).map { (s: Float32) in
 				let h = lerp(hueStart, hueEnd, t: s)
 				return try PAL.Color(h: h, s: saturation, b: brightness)
 			}

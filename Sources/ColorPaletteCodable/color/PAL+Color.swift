@@ -152,7 +152,7 @@ public extension PAL {
 		) throws -> PAL.Color {
 			switch colorspace {
 			case .CMYK:
-				try PAL.Color(
+				return try PAL.Color(
 					name: name,
 					cf: Float32.random(in: 0...1),
 					mf: Float32.random(in: 0...1),
@@ -161,7 +161,7 @@ public extension PAL {
 					colorType: colorType
 				)
 			case .RGB:
-				try PAL.Color(
+				return try PAL.Color(
 					name: name,
 					rf: Float32.random(in: 0...1),
 					gf: Float32.random(in: 0...1),
@@ -169,7 +169,7 @@ public extension PAL {
 					colorType: colorType
 				)
 			case .Gray:
-				try PAL.Color(
+				return try PAL.Color(
 					name: name,
 					white: Float32.random(in: 0...1),
 					colorType: colorType
