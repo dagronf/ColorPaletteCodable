@@ -51,7 +51,7 @@ public extension PAL.Coder {
 		public let fileExtension = ["csv"]
 
 		/// Create a CSV Coder
-		/// - Parameter encodeAlpha: When encoding, include the alpha component
+		/// - Parameter hexFormat: The format to use when encoding/decoding CSV color values
 		public init(hexFormat: PAL.ColorByteFormat = .rgb) {
 			self.hexFormat = hexFormat
 		}

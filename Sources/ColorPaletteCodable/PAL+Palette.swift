@@ -85,15 +85,22 @@ public extension PAL.Palette {
 		)
 	}
 
-	/// Return a palette containing random RGB colors
+	/// Return a palette containing random colors
 	/// - Parameters:
 	///   - count: The number of random colors
+	///   - colorSpace: The colorspace when generating the color
 	///   - colorType: The color type for all colors
 	/// - Returns: A palette
-	static func randomRGB(_ count: Int, colorType: PAL.ColorType = .global) throws -> PAL.Palette {
+	static func random(
+		_ count: Int,
+		colorSpace: PAL.ColorSpace = .RGB,
+		colorType: PAL.ColorType = .global
+	) throws -> PAL.Palette {
 		assert(count > 0)
 		return try PAL.Palette(
-			colors: (0 ..< count).map { _ in try PAL.Color.random() }
+			colors: (0 ..< count).map { _ in
+				try PAL.Color.random(colorSpace: colorSpace, colorType: colorType)
+			}
 		)
 	}
 }

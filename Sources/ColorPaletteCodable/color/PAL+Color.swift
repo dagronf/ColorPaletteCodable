@@ -140,17 +140,18 @@ public extension PAL {
 			return true
 		}
 
-		/// Generate a random RGB color
+		/// Generate a random color
 		/// - Parameters:
 		///   - name: color name
+		///   - colorSpace: The colorspace when generating the color
 		///   - colorType: The color type
 		/// - Returns: A random color in the RGB colorspace
 		public static func random(
 			named name: String = "",
-			colorspace: PAL.ColorSpace = .RGB,
+			colorSpace: PAL.ColorSpace = .RGB,
 			colorType: PAL.ColorType = .global
 		) throws -> PAL.Color {
-			switch colorspace {
+			switch colorSpace {
 			case .CMYK:
 				return try PAL.Color(
 					name: name,

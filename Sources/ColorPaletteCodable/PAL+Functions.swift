@@ -302,7 +302,7 @@ public extension PAL.Color {
 	}
 
 	/// Returns a tinted version of this color
-	/// - Parameter amount: The fractional tint amount
+	/// - Parameter shadeFactor: The fractional tint amount
 	/// - Returns: Tinted color
 	///
 	/// Tints are created by adding white to any hue, according to color theory.

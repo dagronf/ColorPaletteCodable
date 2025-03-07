@@ -554,4 +554,24 @@ final class CommonTests: XCTestCase {
 		let palette2 = try loadResourcePalette(named: "ADG3-CMYK.ase")
 		try functionTestsFolder.write(palette2, coder: PAL.Coder.SwiftCoder(), filename: "ADG3-CMYK.swift")
 	}
+
+	func testRandomColorGeneration() throws {
+
+		let rgb1 = try PAL.Color.random()
+		XCTAssertEqual(rgb1.colorSpace, .RGB)
+		let cmyk1 = try PAL.Color.random(colorSpace: .CMYK)
+		XCTAssertEqual(cmyk1.colorSpace, .CMYK)
+		let gray1 = try PAL.Color.random(colorSpace: .Gray)
+		XCTAssertEqual(gray1.colorSpace, .Gray)
+
+		let colors12 = try PAL.Palette.random(12)
+		XCTAssertEqual(colors12.colors.count, 12)
+		XCTAssertEqual(colors12.colors[0].colorSpace, .RGB)
+		XCTAssertEqual(colors12.colors[11].colorSpace, .RGB)
+
+		let colors8 = try PAL.Palette.random(8, colorSpace: .Gray)
+		XCTAssertEqual(colors8.colors.count, 8)
+		XCTAssertEqual(colors8.colors[0].colorSpace, .Gray)
+		XCTAssertEqual(colors8.colors[7].colorSpace, .Gray)
+	}
 }
