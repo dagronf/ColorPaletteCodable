@@ -69,6 +69,13 @@ public extension PAL_GradientsCoder {
 		inputStream.open()
 		return try decode(from: inputStream)
 	}
+
+	/// Encode a single gradient
+	/// - Parameter gradient: The gradient to encode
+	/// - Returns: Encoded data
+	@inlinable func encode(_ gradient: PAL.Gradient) throws -> Data {
+		try self.encode(PAL.Gradients(gradient: gradient))
+	}
 }
 
 // MARK: - Gradient extension
