@@ -47,7 +47,7 @@ struct GradientTransparencyView: View {
 		self.flatGradient = try! gradient.removingTransparency()
 
 		// The transparency gradient, mapped to red
-		self.mappedTransparency = try! gradient.createTransparencyGradient(try! PAL.Color(cgColor: NSColor.systemRed.cgColor))
+		self.mappedTransparency = try! gradient.createTransparencyGradient(try! PAL.Color(color: NSColor.systemRed))
 		self.hasTransparency = gradient.hasTransparency
 	}
 	
