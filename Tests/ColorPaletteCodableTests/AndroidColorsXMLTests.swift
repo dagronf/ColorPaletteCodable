@@ -11,6 +11,7 @@ class AndroidColorsXMLTests: XCTestCase {
 		"android_basicrgbacolors.xml",
 		"android_colors_xml.xml",
 		"android_colors_comments_xml.xml",
+		"android_material_colors.xml",
 	]
 
 	func testAllRoundTrip() throws {
@@ -95,5 +96,14 @@ class AndroidColorsXMLTests: XCTestCase {
 		XCTAssertEqual("Name_is_😀", decoded.colors[0].name)
 		XCTAssertEqual(c1.colorComponents, decoded.colors[0].colorComponents)
 		XCTAssertEqual(c1.alpha, decoded.colors[0].alpha)
+	}
+
+	func testMaterialColors() throws {
+		let palette = try loadResourcePalette(named: "android_material_colors.xml")
+		XCTAssertEqual(285, palette.colors.count)
+
+		let dp900 = try XCTUnwrap(palette.color(named: "deep_purple_900"))
+		let str = try dp900.hexString(format: .argb, hashmark: true, uppercase: true)
+		XCTAssertEqual("#FF311B92", str)
 	}
 }
