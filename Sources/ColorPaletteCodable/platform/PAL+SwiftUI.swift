@@ -32,8 +32,14 @@ public extension PAL.Color {
 	///   - color: The SwiftUI color
 	///   - colorType: The color type
 	init(name: String = "", _ color: SwiftUI.Color, colorType: PAL.ColorType = .global) throws {
-		guard let cgColor = color.cgColor else { throw PAL.CommonError.unsupportedCGColorType }
-		try self.init(cgColor: cgColor, name: name, colorType: colorType)
+		#if os(macOS)
+		// Convert via NSColor
+		let rawColor = NSColor(color).cgColor
+		#else
+		// Convert via UIColor
+		let rawColor = UIColor(color).cgColor
+		#endif
+		try self.init(name: name, cgColor: rawColor, colorType: colorType)
 	}
 }
 
