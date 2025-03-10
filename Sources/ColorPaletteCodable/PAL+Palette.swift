@@ -74,6 +74,7 @@ extension PAL.Palette: Hashable {
 public extension PAL.Palette {
 	/// Create a palette by interpolating between two colors
 	/// - Parameters:
+	///   - name: The palette's name
 	///   - startColor: The first (starting) color for the palette
 	///   - endColor: The second (ending) color for the palette
 	///   - count: Number of colors to generate

@@ -22,11 +22,11 @@ import Foundation
 public extension PAL.Color {
 	/// The components for an HSL color
 	struct HSL: Equatable {
-		public init(h: Float32, s: Float32, l: Float32, a: Float32 = 1.0) {
-			self.h = h.unitClamped
-			self.s = s.unitClamped
-			self.l = l.unitClamped
-			self.a = a.unitClamped
+		public init(hf: Float32, sf: Float32, lf: Float32, af: Float32 = 1.0) {
+			self.h = hf.unitClamped
+			self.s = sf.unitClamped
+			self.l = lf.unitClamped
+			self.a = af.unitClamped
 		}
 
 		public init(h360: Int, s100: Int, l100: Int, a: Float32 = 1.0) {
@@ -68,21 +68,39 @@ public extension PAL.Color {
 	func hsl() throws -> PAL.Color.HSL {
 		let c = try self.converted(to: .RGB)
 		let hsl = rgb2hsl(r: c._r, g: c._g, b: c._b, a: c.alpha)
-		return PAL.Color.HSL(h: hsl.h, s: hsl.s, l: hsl.l, a: hsl.a)
+		return PAL.Color.HSL(hf: hsl.h, sf: hsl.s, lf: hsl.l, af: hsl.a)
 	}
 
-	init(hf: Float32, sf: Float32, lf: Float32, af: Float32 = 1.0) {
-		let p = PAL.Color.HSL(h: hf, s: sf, l: lf, a: af)
+	/// Create a color with an HSL value
+	/// - Parameters:
+	///   - name: Color's name
+	///   - hf: Hue value (clamped to 0 ... 1)
+	///   - sf: Saturation value (clamped to 0 ... 1)
+	///   - lf: Luminance value (clamped to 0 ... 1)
+	///   - af: Alpha value (clamped to 0 ... 1)
+	init(name: String = "", hf: Float32, sf: Float32, lf: Float32, af: Float32 = 1.0) {
+		let p = PAL.Color.HSL(hf: hf, sf: sf, lf: lf, af: af)
 		let rgb = p.rgb()
-		self.init(rf: rgb.r, gf: rgb.g, bf: rgb.b, af: rgb.a)
+		self.init(name: name, rf: rgb.r, gf: rgb.g, bf: rgb.b, af: rgb.a)
 	}
 
-	@inlinable init(h360: Float32, s100: Float32, l100: Float32, a: Float32 = 1.0) {
-		self.init(hf: h360 / 360.0, sf: s100 / 100, lf: l100 / 100, af: a.clamped(to: 0.0 ... 1.0))
+	/// Create a color with an HSL value
+	/// - Parameters:
+	///   - name: Color's name
+	///   - h360: Hue value (clamped to 0 ... 360)
+	///   - s100: Saturation value (clamped to 0 ... 100)
+	///   - l100: Luminance value (clamped to 0 ... 1100)
+	///   - af: Alpha value (clamped to 0 ... 1)
+	@inlinable init(name: String = "", h360: Float32, s100: Float32, l100: Float32, af: Float32 = 1.0) {
+		self.init(name: name, hf: h360 / 360.0, sf: s100 / 100, lf: l100 / 100, af: af.clamped(to: 0.0 ... 1.0))
 	}
 
-	init(_ color: PAL.Color.HSL) {
-		self.init(hf: color.h, sf: color.s, lf: color.l, af: color.a)
+	/// Create a color with an HSL value
+	/// - Parameters:
+	///   - name: The color's name
+	///   - color: The HSL color
+	init(name: String = "", _ color: PAL.Color.HSL) {
+		self.init(name: name, hf: color.h, sf: color.s, lf: color.l, af: color.a)
 	}
 }
 
@@ -98,7 +116,7 @@ extension PAL.Color.RGB {
 	/// Convert HSL to RGB
 	public func hsl() -> PAL.Color.HSL {
 		let hsl = rgb2hsl(r: self.r, g: self.g, b: self.b, a: self.a)
-		return PAL.Color.HSL(h: hsl.h, s: hsl.s, l: hsl.l, a: hsl.a)
+		return PAL.Color.HSL(hf: hsl.h, sf: hsl.s, lf: hsl.l, af: hsl.a)
 	}
 }
 

@@ -245,28 +245,21 @@ public extension PAL.Color {
 	/// Create a color from RGB components
 	/// - Parameters:
 	///   - name: The name for the color
-	///   - r: The red component (0.0 ... 1.0)
-	///   - g: The green component (0.0 ... 1.0)
-	///   - b: The blue component (0.0 ... 1.0)
-	///   - alpha: The alpha component (0.0 ... 1.0)
+	///   - rf: The red component (0.0 ... 1.0)
+	///   - gf: The green component (0.0 ... 1.0)
+	///   - bf: The blue component (0.0 ... 1.0)
+	///   - af: The alpha component (0.0 ... 1.0)
 	///   - colorType: The type of color
 	/// - Returns: A color
 	static func rgb(
 		name: String = "",
-		_ r: Float32,
-		_ g: Float32,
-		_ b: Float32,
-		_ alpha: Float32 = 1,
+		_ rf: Float32,
+		_ gf: Float32,
+		_ bf: Float32,
+		_ af: Float32 = 1,
 		colorType: PAL.ColorType = .global
 	) -> PAL.Color {
-		// We know that the color has the correct components here
-		return try! PAL.Color(
-			name: name,
-			colorSpace: .RGB,
-			colorComponents: [r.unitClamped, g.unitClamped, b.unitClamped],
-			colorType: colorType,
-			alpha: alpha.unitClamped
-		)
+		PAL.Color(name: name, rf: rf, gf: gf, bf: bf, af: af, colorType: colorType)
 	}
 
 	/// Create a color from RGB components

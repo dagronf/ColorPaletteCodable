@@ -54,7 +54,7 @@ internal struct CoreGraphicsColorSpaceConversion: PAL_ColorSpaceConvertible {
 		if let cg = color.cgColor,
 			let conv = cg.converted(to: colorspace.cgColorSpace, intent: .defaultIntent, options: nil)
 		{
-			return try PAL.Color(cgColor: conv, name: color.name, colorType: color.colorType)
+			return try PAL.Color(name: color.name, cgColor: conv, colorType: color.colorType)
 		}
 		throw PAL.CommonError.cannotConvertColorSpace
 	}

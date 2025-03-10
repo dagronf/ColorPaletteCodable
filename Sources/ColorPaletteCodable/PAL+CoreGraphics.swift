@@ -83,12 +83,12 @@ public extension PAL.Gradient {
 public extension PAL.Color {
 	/// Create a Color object from a CGColor
 	/// - Parameters:
-	///   - cgColor: The cgColor to add to the palette.
 	///   - name: The color's name (optional)
+	///   - cgColor: The cgColor to add to the palette.
 	///   - colorType: The type of color (global, normal, spot) (optional)
 	///
 	/// Throws an error if the CGColor cannot be represented as a PAL.Color object
-	init(cgColor: CGColor, name: String = "", colorType: PAL.ColorType = .global) throws {
+	init(name: String = "", cgColor: CGColor, colorType: PAL.ColorType = .global) throws {
 		self.name = name
 		self.colorType = colorType
 

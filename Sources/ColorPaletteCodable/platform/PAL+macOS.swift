@@ -25,10 +25,14 @@ import AppKit
 
 public extension PAL.Color {
 	/// Create a color from an NSColor instance
+	/// - Parameters:
+	///   - name: The color's name
+	///   - color: The NSColor instance
+	///   - colorType: The color's type
 	///
 	/// Throws an error if the CGColor cannot be represented as a PAL.Color object
-	init(color: NSColor, name: String = "", colorType: PAL.ColorType = .global) throws {
-		try self.init(cgColor: color.cgColor, name: name, colorType: colorType)
+	init(name: String = "", color: NSColor, colorType: PAL.ColorType = .global) throws {
+		try self.init(name: name, cgColor: color.cgColor, colorType: colorType)
 	}
 	
 	/// Returns an NSColor representation of this color

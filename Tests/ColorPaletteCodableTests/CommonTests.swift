@@ -500,8 +500,8 @@ final class CommonTests: XCTestCase {
 
 	func testConvertRGB2HSL() throws {
 		let mapped = [
-			(PAL.Color.RGB(r255: 255, g255: 0, b255: 0), PAL.Color.HSL(h: 0, s: 1.0, l: 0.5, a: 1.0)),
-			(PAL.Color.RGB(r255: 187, g255: 67, b255: 180), PAL.Color.HSL(h: 0.84305, s: 0.47244, l: 0.49803, a: 1.0)),
+			(PAL.Color.RGB(r255: 255, g255: 0, b255: 0), PAL.Color.HSL(hf: 0, sf: 1.0, lf: 0.5, af: 1.0)),
+			(PAL.Color.RGB(r255: 187, g255: 67, b255: 180), PAL.Color.HSL(hf: 0.84305, sf: 0.47244, lf: 0.49803, af: 1.0)),
 			(PAL.Color.RGB(r255: 157, g255: 166, b255: 190), PAL.Color.HSL(h360: 223, s100: 20, l100: 68, a: 1.0))
 		]
 

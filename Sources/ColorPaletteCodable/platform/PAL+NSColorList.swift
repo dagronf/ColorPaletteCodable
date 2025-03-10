@@ -32,7 +32,7 @@ public extension PAL.Palette {
 		var colors: [PAL.Color] = []
 		try names.forEach { name in
 			if let color = colorList.color(withKey: name) {
-				colors.append(try PAL.Color(cgColor: color.cgColor, name: name))
+				colors.append(try PAL.Color(name: name, cgColor: color.cgColor))
 			}
 		}
 		self.colors = colors

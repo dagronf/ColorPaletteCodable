@@ -136,9 +136,9 @@ catch {
 ```swift
 // Build a palette
 var palette = PAL.Palette()
-let c1 = try PAL.Color.rgb(name: "red",   1, 0, 0)
-let c2 = try PAL.Color.rgb(name: "green", 0, 1, 0)
-let c3 = try PAL.Color.rgb(name: "blue",  0, 0, 1)
+let c1 = PAL.Color.rgb(name: "red",   1, 0, 0)
+let c2 = PAL.Color.rgb(name: "green", 0, 1, 0)
+let c3 = PAL.Color.rgb(name: "blue",  0, 0, 1)
 palette.colors.append(contentsOf: [c1, c2, c3])
 
 // Generate a simple image from the colors
