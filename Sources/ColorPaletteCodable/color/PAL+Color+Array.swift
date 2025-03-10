@@ -107,3 +107,19 @@ public extension Array where Element == PAL.Color {
 		return try y1.midpoint(y2, t: UnitValue(newT))
 	}
 }
+
+// MARK: - Color conversions
+
+public extension Array where Element == PAL.Color {
+	/// Convert all colors in the array to a consistent colorspace
+	/// - Returns: An array of colors in the specified colorspace
+	func converted(to colorspace: PAL.ColorSpace) throws -> [PAL.Color] {
+		try self.map { try $0.converted(to: colorspace) }
+	}
+
+	/// Convert all colors to rgb
+	/// - Returns: An array of rgb colors
+	func rgb() throws -> [PAL.Color.RGB] {
+		try self.map { try $0.rgb() }
+	}
+}

@@ -98,7 +98,8 @@ class TestFilesContainer {
 			return tempURL
 		}
 
-		@discardableResult func write(
+		@discardableResult
+		func write(
 			_ string: String,
 			to file: String,
 			encoding: String.Encoding = .utf8
@@ -108,20 +109,25 @@ class TestFilesContainer {
 			return tempURL
 		}
 
-		func write(_ colors: [PAL.Color], coder: PAL_PaletteCoder, filename: String) throws {
+		@discardableResult
+		func write(_ colors: [PAL.Color], coder: PAL_PaletteCoder, filename: String) throws -> URL {
 			try self.write(PAL.Palette(colors: colors), coder: coder, filename: filename)
 		}
 
-		func write(_ palette: PAL.Palette, coder: PAL_PaletteCoder, filename: String) throws {
+		@discardableResult
+		func write(_ palette: PAL.Palette, coder: PAL_PaletteCoder, filename: String) throws -> URL {
 			let data = try coder.encode(palette)
 			let tempURL = self.folder.appendingPathComponent(filename)
 			try data.write(to: tempURL)
+			return tempURL
 		}
 
-		func write(_ gradient: PAL.Gradient, coder: PAL_GradientsCoder, filename: String) throws {
+		@discardableResult
+		func write(_ gradient: PAL.Gradient, coder: PAL_GradientsCoder, filename: String) throws -> URL {
 			let data = try coder.encode(gradient)
 			let tempURL = self.folder.appendingPathComponent(filename)
 			try data.write(to: tempURL)
+			return tempURL
 		}
 	}
 }

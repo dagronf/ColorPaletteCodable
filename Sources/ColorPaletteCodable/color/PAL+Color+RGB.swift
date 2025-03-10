@@ -151,7 +151,15 @@ public extension PAL.Color {
 		///   - uppercase: If true, uppercases the output string
 		/// - Returns: A string
 		func hexString(format: PAL.ColorByteFormat, hashmark: Bool, uppercase: Bool) -> String {
-			hexRGBString(rf: self.rf, gf: self.gf, bf: self.bf, format: format, hashmark: hashmark, uppercase: uppercase)
+			hexRGBString(
+				rf: self.rf,
+				gf: self.gf,
+				bf: self.bf,
+				af: self.af,
+				format: format,
+				hashmark: hashmark,
+				uppercase: uppercase
+			)
 		}
 
 		public static func == (lhs: PAL.Color.RGB, rhs: PAL.Color.RGB) -> Bool {

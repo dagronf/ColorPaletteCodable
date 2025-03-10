@@ -188,8 +188,8 @@ internal func hexRGBString(
 	b255: UInt8,
 	a255: UInt8 = 255,
 	format: PAL.ColorByteFormat,
-	hashmark: Bool,
-	uppercase: Bool
+	hashmark: Bool = true,
+	uppercase: Bool = false
 ) -> String {
 	var result = hashmark ? "#" : ""
 	switch format {
@@ -225,8 +225,8 @@ internal func hexRGBString<T: BinaryFloatingPoint>(
 	bf: T,
 	af: T = 1.0,
 	format: PAL.ColorByteFormat,
-	hashmark: Bool = false,
-	uppercase: Bool
+	hashmark: Bool = true,
+	uppercase: Bool = false
 ) -> String {
 	hexRGBString(
 		r255: _f2p(rf),
