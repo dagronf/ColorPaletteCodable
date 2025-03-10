@@ -9,9 +9,9 @@ final class PaintNETPaletteTests: XCTestCase {
 		XCTAssertEqual("#000000ff", try palette.colors[0].hexRGBA(hashmark: true))
 		XCTAssertEqual("#ff0000ff", try palette.colors[1].hexRGBA(hashmark: true))
 		XCTAssertEqual("#0000ffff", try palette.colors[2].hexRGBA(hashmark: true))
-		XCTAssertEqual(PAL.Color.RGB(r: 0, g: 0, b: 0, a: 1), try palette.colors[0].rgbValues())
-		XCTAssertEqual(PAL.Color.RGB(r: 1, g: 0, b: 0, a: 1), try palette.colors[1].rgbValues())
-		XCTAssertEqual(PAL.Color.RGB(r: 0, g: 0, b: 1, a: 1), try palette.colors[2].rgbValues())
+		XCTAssertEqual(PAL.Color.RGB(rf: 0, gf: 0, bf: 0, af: 1), try palette.colors[0].rgb())
+		XCTAssertEqual(PAL.Color.RGB(rf: 1, gf: 0, bf: 0, af: 1), try palette.colors[1].rgb())
+		XCTAssertEqual(PAL.Color.RGB(rf: 0, gf: 0, bf: 1, af: 1), try palette.colors[2].rgb())
 
 		let data = try PAL.Coder.PaintNET().encode(palette)
 		let palette2 = try PAL.Coder.PaintNET().decode(from: data)

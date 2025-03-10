@@ -39,14 +39,7 @@ extension Color {
 			self = .clear
 			return
 		}
-
-		self.init(
-			.sRGB,
-			red: Double(c.r) / 255.0,
-			green: Double(c.g) / 255.0,
-			blue: Double(c.b) / 255.0,
-			opacity: Double(c.a) / 255.0
-		)
+		self.init(.sRGB, red: Double(c.rf), green: Double(c.gf), blue: Double(c.bf), opacity: Double(c.af))
 	}
 
 	/// Create a color from a hex RGBA string

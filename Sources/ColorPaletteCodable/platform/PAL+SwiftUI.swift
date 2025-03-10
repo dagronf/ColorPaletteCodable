@@ -39,7 +39,7 @@ public extension PAL.Color {
 		// Convert via UIColor
 		let rawColor = UIColor(color).cgColor
 		#endif
-		try self.init(name: name, cgColor: rawColor, colorType: colorType)
+		try self.init(name: name, color: rawColor, colorType: colorType)
 	}
 }
 

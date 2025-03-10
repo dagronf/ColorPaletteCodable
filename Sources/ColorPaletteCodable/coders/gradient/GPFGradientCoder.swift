@@ -108,12 +108,12 @@ public extension PAL.Gradients.Coder.GPF {
 
 		for stop in gradient.stops {
 			let position = stop.position
-			let c = try stop.color.rgbaComponents()
+			let c = try stop.color.rgb()
 			guard
 				let ps = _defaultDoubleFormatter.string(for: position),
-				let rs = _defaultDoubleFormatter.string(for: c.r),
-				let gs = _defaultDoubleFormatter.string(for: c.g),
-				let bs = _defaultDoubleFormatter.string(for: c.b)
+				let rs = _defaultDoubleFormatter.string(for: c.rf),
+				let gs = _defaultDoubleFormatter.string(for: c.gf),
+				let bs = _defaultDoubleFormatter.string(for: c.bf)
 			else {
 				ColorPaletteLogger.log(.error, "GPFCoder: cannot generate")
 				throw PAL.CommonError.unknownBlockType

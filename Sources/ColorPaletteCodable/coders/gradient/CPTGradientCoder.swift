@@ -214,10 +214,10 @@ public extension PAL.Gradients.Coder.CPT {
 			// Position
 			let ps = _positionFormatter.string(for: stop.position)!
 			// Color
-			let rgb = try stop.color.converted(to: .RGB).rgba255Components()
+			let rgb = try stop.color.rgb()
 
 			// Encoded color
-			let ec = "\(ps)\t\(rgb.r)/\(rgb.g)/\(rgb.b)"
+			let ec = "\(ps)\t\(rgb.r255)/\(rgb.g255)/\(rgb.b255)"
 
 			// Write
 			result += ec

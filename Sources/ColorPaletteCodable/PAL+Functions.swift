@@ -293,7 +293,7 @@ public extension PAL.Color {
 		let rgb = try self.rgb()
 		let step = 1.0 / Float32(count)
 		return stride(from: 1.0, to: 0.0, by: -step).map {
-			PAL.Color(rf: rgb.r * $0, gf: rgb.g * $0, bf: rgb.b * $0)
+			PAL.Color(rf: rgb.rf * $0, gf: rgb.gf * $0, bf: rgb.bf * $0)
 		}
 	}
 
@@ -332,13 +332,13 @@ public extension PAL.Color {
 	/// Formula from WCAG 2.0: https://www.w3.org/TR/WCAG20/#relativeluminancedef
 	func luminance() throws -> Float32 {
 		// Get RGB components
-		let rgba = try self.rgbaComponents()
+		let rgba = try self.rgb()
 
 		// Calculate relative luminance using sRGB coefficients
 		// Formula from WCAG 2.0: https://www.w3.org/TR/WCAG20/#relativeluminancedef
-		let ar = (rgba.r <= 0.03928) ? (rgba.r / 12.92) : pow((rgba.r + 0.055) / 1.055, 2.4)
-		let ag = (rgba.g <= 0.03928) ? (rgba.g / 12.92) : pow((rgba.g + 0.055) / 1.055, 2.4)
-		let ab = (rgba.b <= 0.03928) ? (rgba.b / 12.92) : pow((rgba.b + 0.055) / 1.055, 2.4)
+		let ar = (rgba.rf <= 0.03928) ? (rgba.rf / 12.92) : pow((rgba.rf + 0.055) / 1.055, 2.4)
+		let ag = (rgba.gf <= 0.03928) ? (rgba.gf / 12.92) : pow((rgba.gf + 0.055) / 1.055, 2.4)
+		let ab = (rgba.bf <= 0.03928) ? (rgba.bf / 12.92) : pow((rgba.bf + 0.055) / 1.055, 2.4)
 
 		return Float32((0.2126 * ar) + (0.7152 * ag) + (0.0722 * ab))
 	}

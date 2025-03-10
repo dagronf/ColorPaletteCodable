@@ -47,7 +47,7 @@ public extension PAL.Coder.SwiftCoder {
 		func mapColors(_ group: PAL.Group, offset: Int) throws -> String {
 			let mapped = try group.colors
 				.compactMap { try $0.converted(to: .RGB) }
-				.map { try $0.rgbValues() }
+				.map { try $0.rgb() }
 			if mapped.count == 0 { return "" }
 
 			var result = "   // Group (\(group.name))\n"
@@ -57,10 +57,10 @@ public extension PAL.Coder.SwiftCoder {
 					result += "\n     "
 				}
 
-				let rs = formatter_.string(for: item.1.r)!
-				let gs = formatter_.string(for: item.1.g)!
-				let bs = formatter_.string(for: item.1.b)!
-				let aas = formatter_.string(for: item.1.a)!
+				let rs = formatter_.string(for: item.1.rf)!
+				let gs = formatter_.string(for: item.1.gf)!
+				let bs = formatter_.string(for: item.1.bf)!
+				let aas = formatter_.string(for: item.1.af)!
 				result += " #colorLiteral(red: \(rs), green: \(gs), blue: \(bs), alpha: \(aas)),"
 			}
 			result += "\n   ]\n\n"

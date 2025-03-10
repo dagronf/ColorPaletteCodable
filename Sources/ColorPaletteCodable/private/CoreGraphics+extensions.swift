@@ -33,21 +33,18 @@ extension CGContext {
 }
 
 extension CGColor {
-	/// RGBA components container
-	typealias RGBAComponents = (r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat)
-
 	/// Returns the RGBA components for this color
 	///
 	/// Throws an error if the color cannot be represented in the sRGB colorspace
-	func rgbaComponents() throws -> RGBAComponents {
+	func rgb() throws -> PAL.Color.RGB {
 		guard
 			let c1 = self.converted(to: PAL.ColorSpace.RGB.cgColorSpace, intent: .defaultIntent, options: nil),
-			let c1c = c1.components,
+			let c1c = c1.components?.map({ Float32($0) }),
 			c1c.count == 4
 		else {
 			throw PAL.CommonError.cannotConvertColorSpace
 		}
-		return RGBAComponents(r: c1c[0], g: c1c[1], b: c1c[2], a: c1c[3])
+		return PAL.Color.RGB(rf: c1c[0], gf: c1c[1], bf: c1c[2], af: c1c[3])
 	}
 }
 

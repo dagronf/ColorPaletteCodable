@@ -133,11 +133,8 @@ SPACING 1
 		let colors = palette.allColors()
 
 		try colors.forEach { c in
-			let c1 = try c.rgbValues()
-			let r: UInt8 = UInt8(c1.r * 255.0)
-			let g: UInt8 = UInt8(c1.g * 255.0)
-			let b: UInt8 = UInt8(c1.b * 255.0)
-			result += "R: \(r), G:\(g), B:\(b)  HV:0.00, SV:0.00, VV:0.00"
+			let c1 = try c.rgb()
+			result += "R: \(c1.r255), G:\(c1.g255), B:\(c1.b255)  HV:0.00, SV:0.00, VV:0.00"
 			if !c.name.isEmpty {
 				result += "  \(c.name)"
 			}

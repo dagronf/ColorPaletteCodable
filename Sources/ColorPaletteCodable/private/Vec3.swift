@@ -66,8 +66,8 @@ internal extension PAL.Color {
 	/// Return an Vec3 representation of this color. Throws an error if the color is not RGB colorspace
 	/// - Returns: SIMD3 representation
 	func rgbValuesVec3() throws -> Vec3<Float32> {
-		let rgb = try self.rgbaComponents()
-		return Vec3<Float32>(Float32(rgb.r), Float32(rgb.g), Float32(rgb.b))
+		let rgb = try self.rgb()
+		return Vec3<Float32>(rgb.rf, rgb.gf, rgb.bf)
 	}
 }
 
@@ -75,12 +75,12 @@ internal extension PAL.Color.RGB {
 	/// Create an RGB color from a vector of values
 	/// - Parameter value: rgb values
 	init(_ value: Vec3<Float32>) {
-		self.r = value.x
-		self.g = value.y
-		self.b = value.z
-		self.a = 1.0
+		self.rf = value.x
+		self.gf = value.y
+		self.bf = value.z
+		self.af = 1.0
 	}
 
 	/// A simple representation of the RGB values
-	var vec3: Vec3<Float32> { Vec3<Float32>(self.r, self.g, self.b) }
+	var vec3: Vec3<Float32> { Vec3<Float32>(self.rf, self.gf, self.bf) }
 }

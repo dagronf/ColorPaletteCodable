@@ -64,7 +64,7 @@ public extension PAL.Gradients.Coder.GRD {
 						ColorPaletteLogger.log(.error, "GRD: rgb component count mismatch")
 						throw PAL.GradientError.unsupportedColorFormat
 					}
-					color = PAL.Color.rgb(
+					color = rgbf(
 						Float32(co.components[0]),   // normalized 0 -> 1
 						Float32(co.components[1]),   // normalized 0 -> 1
 						Float32(co.components[2])    // normalized 0 -> 1

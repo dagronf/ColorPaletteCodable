@@ -33,22 +33,22 @@ public extension PAL.Colors {
 		if count == 0 { throw PAL.CommonError.tooFewColors }
 		if count == 1 { return [.white] }
 
-		let c1 = try firstColor.rgbaComponents()
-		let c2 = try lastColor.rgbaComponents()
-		let step = 1.0 / Double(count - 1)
+		let c1 = try firstColor.rgb()
+		let c2 = try lastColor.rgb()
+		let step = 1.0 / Float32(count - 1)
 
-		let rdiff = (c2.r - c1.r) * step
-		let gdiff = (c2.g - c1.g) * step
-		let bdiff = (c2.b - c1.b) * step
-		let adiff = (c2.a - c1.a) * step
+		let rdiff = (c2.rf - c1.rf) * step
+		let gdiff = (c2.gf - c1.gf) * step
+		let bdiff = (c2.bf - c1.bf) * step
+		let adiff = (c2.af - c1.af) * step
 
 		return (0 ..< count).map { index in
-			let index = Double(index)
+			let index = Float32(index)
 			return PAL.Color(
-				rf: Float32(c1.r + (index * rdiff)),
-				gf: Float32(c1.g + (index * gdiff)),
-				bf: Float32(c1.b + (index * bdiff)),
-				af: Float32(c1.a + (index * adiff))
+				rf: c1.rf + (index * rdiff),
+				gf: c1.gf + (index * gdiff),
+				bf: c1.bf + (index * bdiff),
+				af: c1.af + (index * adiff)
 			)
 		}
 	}
@@ -61,12 +61,12 @@ public extension PAL.Colors {
 		let a1: Double = Double(c0.alpha)
 		let a2: Double = 0.0
 		let step = (a2 - a1) / Double(count - 1)
-		let comps = try c0.rgbaComponents()
+		let comps = try c0.rgb()
 		return stride(from: a1, through: a2, by: step).map { value in
 			PAL.Color(
-				rf: Float32(comps.r),
-				gf: Float32(comps.g),
-				bf: Float32(comps.b),
+				rf: Float32(comps.rf),
+				gf: Float32(comps.gf),
+				bf: Float32(comps.bf),
 				af: Float32(value)
 			)
 		}
@@ -89,10 +89,9 @@ public extension PAL.Colors {
 	/// Returns an array of interpolated colors for an array of equally spaced colors
 	/// - Parameter count: The number of colors
 	/// - Returns: An array of interpolated colors
-	@inlinable
 	func interpolatedColors(count: Int) throws -> PAL.Colors {
 		try stride(from: 0.0, through: 1.0, by: 1.0 / Double(count - 1)).map {
-			try self.interpolatedColor(at: $0.unitValue)
+			try self.interpolatedColor(at: UnitValue($0))
 		}
 	}
 }

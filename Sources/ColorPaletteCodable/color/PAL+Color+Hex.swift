@@ -43,12 +43,12 @@ public extension PAL.Color {
 	///
 	/// If the underlying colorspace is not RGB attempts conversion to RGB before failing
 	func hexString(format: PAL.ColorByteFormat, hashmark: Bool, uppercase: Bool) throws -> String {
-		let rgb = try self.rgba255Components()
+		let rgb = try self.rgb()
 		return ColorPaletteCodable.hexRGBString(
-			r255: rgb.r,
-			g255: rgb.g,
-			b255: rgb.b,
-			a255: rgb.a,
+			r255: rgb.r255,
+			g255: rgb.g255,
+			b255: rgb.b255,
+			a255: rgb.a255,
 			format: format,
 			hashmark: hashmark,
 			uppercase: uppercase

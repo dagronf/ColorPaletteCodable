@@ -85,11 +85,10 @@ extension PAL.Coder.ACT {
 		try (0 ..< 256).forEach { index in
 			if index < maxColors {
 				// All colors in the ACT table are RGB
-				let c = try flattenedColors[index].converted(to: .RGB)
-				let cc = try c.rgbValues()
-				outputData.append(UInt8(cc.r * 255.0))
-				outputData.append(UInt8(cc.g * 255.0))
-				outputData.append(UInt8(cc.b * 255.0))
+				let c = try flattenedColors[index].rgb()
+				outputData.append(c.r255)
+				outputData.append(c.g255)
+				outputData.append(c.b255)
 			}
 			else {
 				outputData.append(0)

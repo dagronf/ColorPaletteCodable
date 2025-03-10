@@ -220,9 +220,9 @@ public extension PAL.Gradient {
 	/// - Parameter baseColor: The base color for the gradient
 	/// - Returns: A new gradient
 	func createTransparencyGradient(_ baseColor: PAL.Color) throws -> PAL.Gradient {
-		let base = try baseColor.rgbaComponents()
+		let base = try baseColor.rgb()
 		let stops: [Stop] = self.transparencyMap.map {
-			let color = PAL.Color.rgb(Float32(base.r), Float32(base.g), Float32(base.b), Float32($0.value))
+			let color = rgbf(base.rf, base.gf, base.bf, Float32($0.value))
 			return Stop(position: $0.position, color: color)
 		}
 		return PAL.Gradient(stops: stops)
@@ -324,12 +324,12 @@ public extension PAL.Gradient {
 
 			do {
 				// Find the color percentage within this segment using lerp
-				let tv = (stop - cseg.t1) / cseg.span
-				let rgb1 = try cseg.color1.rgbaComponents()
-				let rgb2 = try cseg.color2.rgbaComponents()
-				r = Float32(rgb1.r + ((rgb2.r - rgb1.r) * tv))
-				g = Float32(rgb1.g + ((rgb2.g - rgb1.g) * tv))
-				b = Float32(rgb1.b + ((rgb2.b - rgb1.b) * tv))
+				let tv = Float32((stop - cseg.t1) / cseg.span)
+				let rgb1 = try cseg.color1.rgb()
+				let rgb2 = try cseg.color2.rgb()
+				r = Float32(rgb1.rf + ((rgb2.rf - rgb1.rf) * tv))
+				g = Float32(rgb1.gf + ((rgb2.gf - rgb1.gf) * tv))
+				b = Float32(rgb1.bf + ((rgb2.bf - rgb1.bf) * tv))
 			}
 
 			do {

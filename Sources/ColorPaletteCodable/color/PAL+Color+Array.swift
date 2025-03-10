@@ -101,7 +101,7 @@ public extension Array where Element == PAL.Color {
 		let y2 = self[which + 1]
 
 		// The new t value is the current t value fractionally between x1 and x2
-		let newT = (tValue - x1) / (x2 - x1)
+		let newT = Double(tValue - x1) / (x2 - x1)
 
 		// Linearly interpolate between the two colors at the new time value
 		return try y1.midpoint(y2, t: UnitValue(newT))

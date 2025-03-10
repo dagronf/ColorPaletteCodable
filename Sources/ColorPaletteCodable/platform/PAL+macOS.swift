@@ -32,7 +32,7 @@ public extension PAL.Color {
 	///
 	/// Throws an error if the CGColor cannot be represented as a PAL.Color object
 	init(name: String = "", color: NSColor, colorType: PAL.ColorType = .global) throws {
-		try self.init(name: name, cgColor: color.cgColor, colorType: colorType)
+		try self.init(name: name, color: color.cgColor, colorType: colorType)
 	}
 	
 	/// Returns an NSColor representation of this color

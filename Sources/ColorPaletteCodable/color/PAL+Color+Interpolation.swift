@@ -44,15 +44,15 @@ public extension PAL.Color {
 			)
 		}
 
-		let c1 = try self.rgbaComponents()
-		let c2 = try color2.rgbaComponents()
-		let t = t.value
+		let c1 = try self.rgb()
+		let c2 = try color2.rgb()
+		let t = Float32(t.value)
 		return PAL.Color(
 			name: name ?? "",
-			rf: Float32(lerp(c1.r, c2.r, t: t)),
-			gf: Float32(lerp(c1.g, c2.g, t: t)),
-			bf: Float32(lerp(c1.b, c2.b, t: t)),
-			af: Float32(lerp(c1.a, c2.a, t: t))
+			rf: Float32(lerp(c1.rf, c2.rf, t: t)),
+			gf: Float32(lerp(c1.gf, c2.gf, t: t)),
+			bf: Float32(lerp(c1.bf, c2.bf, t: t)),
+			af: Float32(lerp(c1.af, c2.af, t: t))
 		)
 	}
 
@@ -91,22 +91,22 @@ public extension PAL.Color {
 			return try OkLab.palette(startColor, endColor, steps: count).colors
 		}
 
-		let c1 = try startColor.rgbaComponents()
-		let c2 = try endColor.rgbaComponents()
-		let step = 1.0 / Double(count - 1)
+		let c1 = try startColor.rgb()
+		let c2 = try endColor.rgb()
+		let step = 1.0 / Float32(count - 1)
 
-		let rdiff = (c2.r - c1.r) * step
-		let gdiff = (c2.g - c1.g) * step
-		let bdiff = (c2.b - c1.b) * step
-		let adiff = (c2.a - c1.a) * step
+		let rdiff = (c2.rf - c1.rf) * step
+		let gdiff = (c2.gf - c1.gf) * step
+		let bdiff = (c2.bf - c1.bf) * step
+		let adiff = (c2.af - c1.af) * step
 
 		return (0 ..< count).map { index in
-			let index = Double(index)
+			let index = Float32(index)
 			return PAL.Color(
-				rf: Float32(c1.r + (index * rdiff)),
-				gf: Float32(c1.g + (index * gdiff)),
-				bf: Float32(c1.b + (index * bdiff)),
-				af: Float32(c1.a + (index * adiff))
+				rf: Float32(c1.rf + (index * rdiff)),
+				gf: Float32(c1.gf + (index * gdiff)),
+				bf: Float32(c1.bf + (index * bdiff)),
+				af: Float32(c1.af + (index * adiff))
 			)
 		}
 	}
@@ -164,19 +164,19 @@ public extension PAL.Color {
 			return backgroundColor
 		}
 
-		let fg = try self.rgbaComponents()
-		let bg = try backgroundColor.rgbaComponents()
+		let fg = try self.rgb()
+		let bg = try backgroundColor.rgb()
 
-		let rA = 1.0 - ((1.0 - fg.a) * (1.0 - bg.a))
+		let rA = 1.0 - ((1.0 - fg.af) * (1.0 - bg.af))
 
 		if rA.isEqual(to: 0.0, accuracy: 1e-6) {
 			// Result is fully transparent
 			return .clear
 		}
 
-		let rR = (fg.r * fg.a / rA) + (bg.r * bg.a * (1 - fg.a) / rA)
-		let rG = (fg.g * fg.a / rA) + (bg.g * bg.a * (1 - fg.a) / rA)
-		let rB = (fg.b * fg.a / rA) + (bg.b * bg.a * (1 - fg.a) / rA)
+		let rR = (fg.rf * fg.af / rA) + (bg.rf * bg.af * (1 - fg.af) / rA)
+		let rG = (fg.gf * fg.af / rA) + (bg.gf * bg.af * (1 - fg.af) / rA)
+		let rB = (fg.bf * fg.af / rA) + (bg.bf * bg.af * (1 - fg.af) / rA)
 
 		return PAL.Color(rf: Float32(rR), gf: Float32(rG), bf: Float32(rB), af: Float32(rA))
 	}

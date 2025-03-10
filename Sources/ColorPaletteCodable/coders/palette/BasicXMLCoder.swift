@@ -122,16 +122,11 @@ extension PAL.Coder.BasicXML {
 				xml += " name=\"\(c.name.xmlEscaped())\" "
 			}
 
-			let rgb = try c.converted(to: .RGB)
-			let r = UInt8(try rgb.r() * 255.0)
-			let g = UInt8(try rgb.g() * 255.0)
-			let b = UInt8(try rgb.b() * 255.0)
-			let a = UInt8(rgb.alpha * 255.0)
+			let rgb = try c.rgb()
+			let hex = rgb.hexString(format: .rgba, hashmark: false, uppercase: false)
 
-			let hex = try rgb.hexRGBA(hashmark: false)
 			xml += "hex=\"\(hex)\" "
-
-			xml += "r=\"\(r)\" g=\"\(g)\" b=\"\(b)\" a=\"\(a)\""
+			xml += "r=\"\(rgb.r255)\" g=\"\(rgb.g255)\" b=\"\(rgb.b255)\" a=\"\(rgb.a255)\""
 			xml += " />\n"
 		}
 

@@ -120,7 +120,7 @@ public extension PAL.Gradients.Coder.GGR {
 				throw GimpGradientError.unsupportedSegmentFormat
 			}
 
-			let sc = PAL.Color.rgb(r0, g0, b0, a0)
+			let sc = rgbf(r0, g0, b0, a0)
 			let s1 = PAL.Gradient.Stop(position: startPoint, color: sc)
 
 			// Given that GGR format works on gradient segments (eg. 0.0 -> 0.2, 0.2 -> 1.0), the end point of the
@@ -130,7 +130,7 @@ public extension PAL.Gradients.Coder.GGR {
 				stops.append(s1)
 			}
 
-			let ec = PAL.Color.rgb(r1, g1, b1, a1)
+			let ec = rgbf(r1, g1, b1, a1)
 			let e1 = PAL.Gradient.Stop(position: endPoint, color: ec)
 			stops.append(e1)
 		}
@@ -174,23 +174,23 @@ public extension PAL.Gradients.Coder.GGR {
 			let mp = ((ep - sp) / 2.0) + sp
 			let mps = String(format: "%0.5f", mp)
 
-			let lc = try left.color.rgbValues()
-			let rc = try right.color.rgbValues()
+			let lc = try left.color.rgb()
+			let rc = try right.color.rgb()
 
 			// position
 			result += "\(sps) \(mps) \(eps) "
 
 			// left color
-			let lcrs = String(format: "%0.5f", lc.r)
-			let lcgs = String(format: "%0.5f", lc.g)
-			let lcbs = String(format: "%0.5f", lc.b)
+			let lcrs = String(format: "%0.5f", lc.rf)
+			let lcgs = String(format: "%0.5f", lc.gf)
+			let lcbs = String(format: "%0.5f", lc.bf)
 			let lcas = String(format: "%0.5f", left.color.alpha)
 			result += "\(lcrs) \(lcgs) \(lcbs) \(lcas) "
 
 			// right color
-			let rcrs = String(format: "%0.5f", rc.r)
-			let rcgs = String(format: "%0.5f", rc.g)
-			let rcbs = String(format: "%0.5f", rc.b)
+			let rcrs = String(format: "%0.5f", rc.rf)
+			let rcgs = String(format: "%0.5f", rc.gf)
+			let rcbs = String(format: "%0.5f", rc.bf)
 			let rcas = String(format: "%0.5f", right.color.alpha)
 			result += "\(rcrs) \(rcgs) \(rcbs) \(rcas) "
 

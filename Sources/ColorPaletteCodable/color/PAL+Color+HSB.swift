@@ -25,21 +25,77 @@ import AppKit
 import UIKit
 #endif
 
+// MARK: - Global creators
+
+/// Create a color from fractional HSB values
+/// - Parameters:
+///   - name: The color name
+///   - hf: The hue (0.0 ... 1.0)      / 0 ... 360 /
+///   - sf: Saturation (0.0 ... 1.0)   / 0 ... 100 /
+///   - bf: Brightness (0.0 ... 1.0)   / 0 ... 100 /
+///   - af: The alpha component (0.0 ... 1.0)
+///   - colorType: The type of color
+/// - Returns: A new color
+public func hsbf(
+	_ hf: Float32,
+	_ sf: Float32,
+	_ bf: Float32,
+	_ af: Float32 = 1.0,
+	name: String = "",
+	colorType: PAL.ColorType = .global
+) -> PAL.Color {
+	PAL.Color(name: name, hf: hf, sf: sf, bf: bf, af: af, colorType: colorType)
+}
+
+/// Create a color from HSB values
+/// - Parameters:
+///   - h360: The hue (0.0 ... 360.0)   /0 ... 360/
+///   - s100: Saturation (0.0 ... 100.0)
+///   - b100: Brightness (0.0 ... 100.0)
+///   - alpha: The alpha component (0.0 ... 1.0)
+///   - name: The color name
+///   - colorType: The type of color
+/// - Returns: A new color
+public func hsb360(
+	_ h360: Float32,
+	_ s100: Float32,
+	_ b100: Float32,
+	_ alpha: Float32 = 1.0,
+	name: String = "",
+	colorType: PAL.ColorType = .global
+) -> PAL.Color {
+	PAL.Color(name: name, h360: h360, s100: s100, b100: b100, alpha: alpha, colorType: colorType)
+}
+
+// MARK: - Basic HSB structure
+
 public extension PAL.Color {
 	/// The components for an HSB color
 	struct HSB: Equatable {
-		public init(h: Float32, s: Float32, b: Float32, a: Float32 = 1.0) {
-			self.h = h.clamped(to: 0...1)
-			self.s = s.clamped(to: 0...1)
-			self.b = b.clamped(to: 0...1)
-			self.a = a.clamped(to: 0...1)
+		/// Create a color with an HSB value
+		/// - Parameters:
+		///   - hf: Hue value (clamped to 0 ... 1)
+		///   - sf: Saturation value (clamped to 0 ... 1)
+		///   - bf: Brightness value (clamped to 0 ... 1)
+		///   - af: Alpha value (clamped to 0 ... 1)
+		public init(hf: Float32, sf: Float32, bf: Float32, af: Float32 = 1.0) {
+			self.h = hf.unitClamped
+			self.s = sf.unitClamped
+			self.b = bf.unitClamped
+			self.a = af.unitClamped
 		}
 
-		public init(h360: Float32, s100: Float32, b100: Float32, a: Float32 = 1.0) {
-			self.h = (h360 / 360.0).clamped(to: 0...1)
-			self.s = (s100 / 100.0).clamped(to: 0...1)
-			self.b = (b100 / 100.0).clamped(to: 0...1)
-			self.a = a.clamped(to: 0...1)
+		/// Create a color with an HSB value
+		/// - Parameters:
+		///   - h360: Hue value (clamped to 0 ... 360)
+		///   - s100: Saturation value (clamped to 0 ... 100)
+		///   - b100: Brightness value (clamped to 0 ... 1100)
+		///   - af: Alpha value (clamped to 0 ... 1)
+		public init(h360: Float32, s100: Float32, b100: Float32, af: Float32 = 1.0) {
+			self.h = (h360 / 360.0).unitClamped
+			self.s = (s100 / 100.0).unitClamped
+			self.b = (b100 / 100.0).unitClamped
+			self.a = af.unitClamped
 		}
 
 		public static func == (lhs: PAL.Color.HSB, rhs: PAL.Color.HSB) -> Bool {
@@ -67,7 +123,7 @@ public extension PAL.Color {
 	}
 }
 
-// MARK: - Conversions and helpers
+// MARK: - Color HSB support
 
 public extension PAL.Color {
 	/// Create a color using fractional hsb values
@@ -117,47 +173,6 @@ public extension PAL.Color {
 	@inlinable init(name: String = "", _ color: PAL.Color.HSB, colorType: PAL.ColorType = .global) {
 		self.init(name: name, hf: color.h, sf: color.s, bf: color.b, af: color.a, colorType: colorType)
 	}
-
-	/// Create a color from HSB values
-	/// - Parameters:
-	///   - name: The color name
-	///   - h360: The hue (0.0 ... 360.0)   /0 ... 360/
-	///   - s100: Saturation (0.0 ... 100.0)
-	///   - b100: Brightness (0.0 ... 100.0)
-	///   - alpha: The alpha component (0.0 ... 1.0)
-	///   - colorType: The type of color
-	/// - Returns: A new color
-	static func hsb360(
-		name: String = "",
-		_ h360: Float32,
-		_ s100: Float32,
-		_ b100: Float32,
-		_ alpha: Float32 = 1.0,
-		colorType: PAL.ColorType = .global
-	) -> PAL.Color {
-		// We know that the color has the correct components here
-		PAL.Color.hsb(name: name, h360 / 360.0, s100 / 100.0, b100 / 100.0, alpha, colorType: colorType)
-	}
-
-	/// Create a color from fractional HSB values
-	/// - Parameters:
-	///   - name: The color name
-	///   - hf: The hue (0.0 ... 1.0)      / 0 ... 360 /
-	///   - sf: Saturation (0.0 ... 1.0)   / 0 ... 100 /
-	///   - bf: Brightness (0.0 ... 1.0)   / 0 ... 100 /
-	///   - af: The alpha component (0.0 ... 1.0)
-	///   - colorType: The type of color
-	/// - Returns: A new color
-	static func hsb(
-		name: String = "",
-		_ hf: Float32,
-		_ sf: Float32,
-		_ bf: Float32,
-		_ af: Float32 = 1.0,
-		colorType: PAL.ColorType = .global
-	) -> PAL.Color {
-		PAL.Color(hf: hf, sf: sf, bf: bf, af: af)
-	}
 }
 
 extension PAL.Color {
@@ -165,7 +180,7 @@ extension PAL.Color {
 	public func hsb() throws -> PAL.Color.HSB {
 		let c = try self.converted(to: .RGB)
 		let hsb = rgb2hsb(r: c._r, g: c._g, b: c._b, a: c.alpha)
-		return PAL.Color.HSB(h: hsb.h, s: hsb.s, b: hsb.b, a: hsb.a)
+		return PAL.Color.HSB(hf: hsb.h, sf: hsb.s, bf: hsb.b, af: hsb.a)
 	}
 }
 
@@ -173,8 +188,8 @@ extension PAL.Color.RGB {
 	/// Return this color as a Hue-Saturation-Brightness color
 	/// - Returns: HSB color
 	public func hsb() -> PAL.Color.HSB {
-		let hsb = RGB_to_HSB(r: self.r, g: self.g, b: self.b)
-		return PAL.Color.HSB(h: hsb.h, s: hsb.s, b: hsb.b, a: self.a)
+		let hsb = RGB_to_HSB(r: self.rf, g: self.gf, b: self.bf)
+		return PAL.Color.HSB(hf: hsb.h, sf: hsb.s, bf: hsb.b, af: self.af)
 	}
 }
 

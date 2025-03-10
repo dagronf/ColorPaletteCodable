@@ -11,7 +11,7 @@ final class ColorFunctionTests: XCTestCase {
 			let comp1 = try c1.complementary()
 			XCTAssertEqual(comp1.colorSpace, .RGB)
 
-			XCTAssertEqual(try comp1.rgbValues(), PAL.Color.RGB(r: 0, g: 1, b: 1))
+			XCTAssertEqual(try comp1.rgb(), PAL.Color.RGB(rf: 0, gf: 1, bf: 1))
 
 			let pal = PAL.Palette(colors: [c1, comp1])
 			try outputFolder.write(pal, coder: PAL.Coder.ASE(), filename: "complementary-test-1.ase")
@@ -20,7 +20,7 @@ final class ColorFunctionTests: XCTestCase {
 			let c1 = PAL.Color(rf: 1.0, gf: 0.5, bf: 0)
 			let comp1 = try c1.complementary()
 			XCTAssertEqual(comp1.colorSpace, .RGB)
-			XCTAssertEqual(try comp1.rgbValues(), PAL.Color.RGB(r: 0, g: 0.5, b: 1.0))
+			XCTAssertEqual(try comp1.rgb(), PAL.Color.RGB(rf: 0, gf: 0.5, bf: 1.0))
 
 			let pal = PAL.Palette(colors: [c1, comp1])
 			try outputFolder.write(pal, coder: PAL.Coder.ASE(), filename: "complementary-test-2.ase")
@@ -31,7 +31,7 @@ final class ColorFunctionTests: XCTestCase {
 			let c1 = try PAL.Color(rgbaHexString: "#9340BF")
 			let comp1 = try c1.complementary()
 			XCTAssertEqual(comp1.colorSpace, .RGB)
-			XCTAssertEqual(try comp1.rgbValues(), PAL.Color.RGB(r: 0.423, g: 0.749, b: 0.25))
+			XCTAssertEqual(try comp1.rgb(), PAL.Color.RGB(rf: 0.423, gf: 0.749, bf: 0.25))
 
 			let pal = PAL.Palette(colors: [c1, comp1])
 			try outputFolder.write(pal, coder: PAL.Coder.ASE(), filename: "complementary-test-3.ase")
@@ -88,12 +88,12 @@ final class ColorFunctionTests: XCTestCase {
 
 	func testPaletteConversion() throws {
 		
-		let c1 = PAL.Color.cmyk(name: "1", 0, 1, 1, 0)
-		let c2 = PAL.Color.cmyk(name: "2", 0, 0.6, 1, 0)
-		let c3 = PAL.Color.cmyk(name: "3", 0, 0.3, 1, 0)
-		let c4 = PAL.Color.cmyk(name: "4", 0, 0.05, 1, 0)
-		let c5 = PAL.Color.cmyk(name: "5", 0.05, 1, 0, 0)
-		let c6 = PAL.Color.gray(name: "6g", 0.3)
+		let c1 = cmykf(0, 1, 1, 0, name: "1")
+		let c2 = cmykf(0, 0.6, 1, 0, name: "2")
+		let c3 = cmykf(0, 0.3, 1, 0, name: "3")
+		let c4 = cmykf(0, 0.05, 1, 0, name: "4")
+		let c5 = cmykf(0.05, 1, 0, 0, name: "5")
+		let c6 = grayf(0.3, name: "6g")
 
 		var palette = PAL.Palette(name: "fish", colors: [c1, c2, c3])
 		palette.groups.append(PAL.Group(colors: [c4, c5, c6]))
@@ -113,16 +113,11 @@ final class ColorFunctionTests: XCTestCase {
 	}
 
 	func testHSB() throws {
-		let c1 = PAL.Color.hsb360(120, 100, 100)
+		let c1 = hsb360(120, 100, 100)
 
 		XCTAssertEqual(0, c1._r, accuracy: 0.05)
 		XCTAssertEqual(1, c1._g, accuracy: 0.05)
 		XCTAssertEqual(0, c1._b, accuracy: 0.05)
-
-//		#if canImport(CoreGraphics)
-//		let i1 = try XCTUnwrap(c1.cgColor)
-//		Swift.print(i1)
-//		#endif
 	}
 
 	func testOkLab() throws {

@@ -23,28 +23,28 @@ import Foundation
 
 public extension PAL.Color {
 	/// RGB Black color
-	static let black = PAL.Color.rgb(0.0, 0.0, 0.0, 1.0)
+	static let black = rgbf(0.0, 0.0, 0.0, 1.0)
 	/// RGB Clear color
-	static let clear = PAL.Color.rgb(0.0, 0.0, 0.0, 0.0)
+	static let clear = rgbf(0.0, 0.0, 0.0, 0.0)
 	/// RGB White color
-	static let white = PAL.Color.rgb(1.0, 1.0, 1.0, 1.0)
+	static let white = rgbf(1.0, 1.0, 1.0, 1.0)
 
 	/// RGB Red color
-	static let red   = PAL.Color.rgb(1.0, 0.0, 0.0, 1.0)
+	static let red   = rgbf(1.0, 0.0, 0.0, 1.0)
 	/// RGB Green color
-	static let green = PAL.Color.rgb(0.0, 1.0, 0.0, 1.0)
+	static let green = rgbf(0.0, 1.0, 0.0, 1.0)
 	/// RGB Blue color
-	static let blue  = PAL.Color.rgb(0.0, 0.0, 1.0, 1.0)
+	static let blue  = rgbf(0.0, 0.0, 1.0, 1.0)
 
 	/// CMYK cyan color
-	static let cyan    = PAL.Color.cmyk(1.0, 0.0, 0.0, 0.0, 1.0)
+	static let cyan    = cmykf(1.0, 0.0, 0.0, 0.0, 1.0)
 	/// CMYK magenta color
-	static let magenta = PAL.Color.cmyk(0.0, 1.0, 0.0, 0.0, 1.0)
+	static let magenta = cmykf(0.0, 1.0, 0.0, 0.0, 1.0)
 	/// CMYK yellow color
-	static let yellow  = PAL.Color.cmyk(0.0, 0.0, 1.0, 0.0, 1.0)
+	static let yellow  = cmykf(0.0, 0.0, 1.0, 0.0, 1.0)
 	/// CMYK [key color](https://www.jukeboxprint.com/blog/understanding-K-in-CMYK)
-	static let key     = PAL.Color.cmyk(0.0, 0.0, 0.0, 1.0, 1.0)
+	static let key     = cmykf(0.0, 0.0, 0.0, 1.0, 1.0)
 
 	/// Basic pink color
-	static let pink    = PAL.Color.rgb(1, 0.251, 0.505)
+	static let pink    = rgbf(1, 0.251, 0.505)
 }

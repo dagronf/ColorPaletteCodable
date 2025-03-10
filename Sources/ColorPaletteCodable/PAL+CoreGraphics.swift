@@ -50,7 +50,7 @@ public extension PAL.Palette {
 	///
 	/// Throws an error if any of the `CGColor`s cannot be represented as a PAL.Color object
 	@inlinable init(named name: String? = nil, cgColors: [CGColor]) throws {
-		let c = try cgColors.map { try PAL.Color(cgColor: $0) }
+		let c = try cgColors.map { try PAL.Color(color: $0) }
 		self.init(colors: c)
 	}
 
@@ -61,8 +61,8 @@ public extension PAL.Palette {
 	///   - endColor: The second (ending) color for the palette
 	///   - count: Number of colors to generate
 	init(named name: String? = nil, startColor: CGColor, endColor: CGColor, count: Int) throws {
-		let c1 = try PAL.Color(cgColor: startColor)
-		let c2 = try PAL.Color(cgColor: endColor)
+		let c1 = try PAL.Color(color: startColor)
+		let c2 = try PAL.Color(color: endColor)
 		try self.init(startColor: c1, endColor: c2, count: count)
 	}
 }
@@ -75,7 +75,7 @@ public extension PAL.Gradient {
 	///
 	/// Throws an error if any of the `CGColor`s cannot be represented as a PAL.Color object
 	@inlinable init(named name: String? = nil, cgColors: [CGColor]) throws {
-		let c = try cgColors.map { try PAL.Color(cgColor: $0) }
+		let c = try cgColors.map { try PAL.Color(color: $0) }
 		self.init(name: name, colors: c)
 	}
 }
@@ -84,18 +84,18 @@ public extension PAL.Color {
 	/// Create a Color object from a CGColor
 	/// - Parameters:
 	///   - name: The color's name (optional)
-	///   - cgColor: The cgColor to add to the palette.
+	///   - color: The cgColor to add to the palette.
 	///   - colorType: The type of color (global, normal, spot) (optional)
 	///
 	/// Throws an error if the CGColor cannot be represented as a PAL.Color object
-	init(name: String = "", cgColor: CGColor, colorType: PAL.ColorType = .global) throws {
+	init(name: String = "", color: CGColor, colorType: PAL.ColorType = .global) throws {
 		self.name = name
 		self.colorType = colorType
 
 		var model: PAL.ColorSpace?
-		var convertedColor: CGColor = cgColor
+		var convertedColor: CGColor = color
 
-		if let cs = cgColor.colorSpace {
+		if let cs = color.colorSpace {
 			if cs.name == PAL.ColorSpace.CMYK.cgColorSpace.name {
 				model = .CMYK
 			}
@@ -112,7 +112,7 @@ public extension PAL.Color {
 
 		if model == nil {
 			// If we can't figure out the model, fall back to Core Graphics to attempt to convert the color to RGB
-			guard let conv = cgColor.converted(to: PAL.ColorSpace.RGB.cgColorSpace, intent: .defaultIntent, options: nil) else {
+			guard let conv = color.converted(to: PAL.ColorSpace.RGB.cgColorSpace, intent: .defaultIntent, options: nil) else {
 				throw PAL.CommonError.unsupportedCGColorType
 			}
 			convertedColor = conv
@@ -125,7 +125,7 @@ public extension PAL.Color {
 
 		// The last component in CG components is the alpha, so we need to drop it (as .ase doesn't use alpha)
 		self.colorComponents = comp.dropLast().map { Float32($0) }
-		self.alpha = Float32(cgColor.alpha)
+		self.alpha = Float32(color.alpha)
 		self.colorSpace = cs
 	}
 

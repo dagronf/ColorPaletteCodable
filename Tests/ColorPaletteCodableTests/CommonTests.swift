@@ -7,7 +7,7 @@ final class CommonTests: XCTestCase {
 
 	func testSimpleColorspaceConversion() throws {
 
-		let rgb = PAL.Color.rgb(1, 0, 0)
+		let rgb = rgbf(1, 0, 0)
 
 		let cmyk = try rgb.converted(to: .CMYK)
 		XCTAssertEqual(cmyk.colorSpace, .CMYK)
@@ -88,9 +88,9 @@ final class CommonTests: XCTestCase {
 	}
 
 	func testColors() throws {
-		let c1 = PAL.Color.rgb(1, 0, 0, 0.5)
-		let c2 = PAL.Color.cmyk(1, 1, 0, 0, 0.5)
-		let c3 = PAL.Color.gray(0.5)
+		let c1 = rgbf(1, 0, 0, 0.5)
+		let c2 = cmykf(1, 1, 0, 0, 0.5)
+		let c3 = grayf(0.5)
 
 		XCTAssertEqual(c1.colorSpace, .RGB)
 		XCTAssertEqual(c2.colorSpace, .CMYK)
@@ -115,43 +115,44 @@ final class CommonTests: XCTestCase {
 
 	func testCMKYRBGNaiveConversions() throws {
 
-		let c1 = NaiveConversions.RGB2CMYK(PAL.Color.RGB(r: 139.0 / 255.0, g: 0, b: 22.0 / 255.0))
-		XCTAssertEqual(c1, PAL.Color.CMYK(c: 0, m: 1, y: 0.84, k: 0.45))
+		let c1 = NaiveConversions.RGB2CMYK(PAL.Color.RGB(rf: 139.0 / 255.0, gf: 0, bf: 22.0 / 255.0))
+		XCTAssertEqual(c1, PAL.Color.CMYK(cf: 0, mf: 1, yf: 0.84, kf: 0.45))
 
-		let r1 = NaiveConversions.CMYK2RGB(PAL.Color.CMYK(c: 0, m: 1, y: 0.84, k: 0.45))
-		XCTAssertEqual(r1.r, 139.0 / 255.0, accuracy: 0.01)
-		XCTAssertEqual(r1.g, 0, accuracy: 0.01)
-		XCTAssertEqual(r1.b, 22.0 / 255.0, accuracy: 0.01)
+		let r1 = NaiveConversions.CMYK2RGB(PAL.Color.CMYK(cf: 0, mf: 1, yf: 0.84, kf: 0.45))
+		XCTAssertEqual(r1.rf, 139.0 / 255.0, accuracy: 0.01)
+		XCTAssertEqual(r1.gf, 0, accuracy: 0.01)
+		XCTAssertEqual(r1.bf, 22.0 / 255.0, accuracy: 0.01)
 
-		let c2 = NaiveConversions.RGB2CMYK(PAL.Color.RGB(r: 110 / 255.0, g: 195 / 255.0, b: 201 / 255.0))
+		let c2 = NaiveConversions.RGB2CMYK(PAL.Color.RGB(rf: 110 / 255.0, gf: 195 / 255.0, bf: 201 / 255.0))
 		XCTAssertEqual(c2.c, 0.45, accuracy: 0.01)
 		XCTAssertEqual(c2.m, 0.03, accuracy: 0.01)
 		XCTAssertEqual(c2.y, 0.0, accuracy: 0.01)
 		XCTAssertEqual(c2.k, 0.21, accuracy: 0.01)
 
-		let r2 = NaiveConversions.CMYK2RGB(PAL.Color.CMYK(c: 0.45, m: 0.03, y: 0.0, k: 0.21))
-		XCTAssertEqual(r2.r, 110 / 255.0, accuracy: 0.01)
-		XCTAssertEqual(r2.g, 195 / 255.0, accuracy: 0.01)
-		XCTAssertEqual(r2.b, 201 / 255.0, accuracy: 0.01)
+		let r2 = NaiveConversions.CMYK2RGB(PAL.Color.CMYK(cf: 0.45, mf: 0.03, yf: 0.0, kf: 0.21))
+		XCTAssertEqual(r2.rf, 110 / 255.0, accuracy: 0.01)
+		XCTAssertEqual(r2.gf, 195 / 255.0, accuracy: 0.01)
+		XCTAssertEqual(r2.bf, 201 / 255.0, accuracy: 0.01)
 
-		let c3 = NaiveConversions.RGB2CMYK(PAL.Color.RGB(r: 0, g: 0, b: 1))
+		let c3 = NaiveConversions.RGB2CMYK(PAL.Color.RGB(rf: 0, gf: 0, bf: 1))
 		XCTAssertEqual(c3.c, 1, accuracy: 0.01)
 		XCTAssertEqual(c3.m, 1, accuracy: 0.01)
 		XCTAssertEqual(c3.y, 0, accuracy: 0.01)
 		XCTAssertEqual(c3.k, 0, accuracy: 0.01)
 
-		let r3 = NaiveConversions.CMYK2RGB(PAL.Color.CMYK(c: 1, m: 1, y: 0, k: 0))
-		XCTAssertEqual(r3.r, 0, accuracy: 0.01)
-		XCTAssertEqual(r3.g, 0, accuracy: 0.01)
-		XCTAssertEqual(r3.b, 1, accuracy: 0.01)
+		let r3 = NaiveConversions.CMYK2RGB(PAL.Color.CMYK(cf: 1, mf: 1, yf: 0, kf: 0))
+		XCTAssertEqual(r3.rf, 0, accuracy: 0.01)
+		XCTAssertEqual(r3.gf, 0, accuracy: 0.01)
+		XCTAssertEqual(r3.bf, 1, accuracy: 0.01)
 	}
 
 	func testDefaultColors() throws {
 		let r1 = PAL.Color.red
 		XCTAssertEqual(r1.colorSpace, .RGB)
-		XCTAssertEqual(try r1.r(), 1, accuracy: 0.001)
-		XCTAssertEqual(try r1.g(), 0, accuracy: 0.001)
-		XCTAssertEqual(try r1.b(), 0, accuracy: 0.001)
+		let rc = try r1.rgb()
+		XCTAssertEqual(rc.rf, 1, accuracy: 0.001)
+		XCTAssertEqual(rc.gf, 0, accuracy: 0.001)
+		XCTAssertEqual(rc.bf, 0, accuracy: 0.001)
 		XCTAssertEqual(r1.alpha, 1, accuracy: 0.001)
 
 		#if canImport(CoreGraphics)
@@ -168,11 +169,11 @@ final class CommonTests: XCTestCase {
 		XCTAssertEqual(c1.alpha, 1, accuracy: 0.001)
 
 		#if canImport(CoreGraphics)
-		let cr = try c1.converted(to: .RGB)
-		XCTAssertEqual(cr.colorSpace, .RGB)
-		XCTAssertEqual(try cr.r(), 0, accuracy: 0.001)
-		XCTAssertEqual(try cr.g(), 0.640, accuracy: 0.001)
-		XCTAssertEqual(try cr.b(), 0.855, accuracy: 0.001)
+		XCTAssertEqual(PAL.ColorSpace.CMYK, c1.colorSpace)
+		let cr = try c1.rgb()
+		XCTAssertEqual(cr.rf, 0, accuracy: 0.001)
+		XCTAssertEqual(cr.gf, 0.640, accuracy: 0.001)
+		XCTAssertEqual(cr.bf, 0.855, accuracy: 0.001)
 		#endif
 	}
 
@@ -502,7 +503,7 @@ final class CommonTests: XCTestCase {
 		let mapped = [
 			(PAL.Color.RGB(r255: 255, g255: 0, b255: 0), PAL.Color.HSL(hf: 0, sf: 1.0, lf: 0.5, af: 1.0)),
 			(PAL.Color.RGB(r255: 187, g255: 67, b255: 180), PAL.Color.HSL(hf: 0.84305, sf: 0.47244, lf: 0.49803, af: 1.0)),
-			(PAL.Color.RGB(r255: 157, g255: 166, b255: 190), PAL.Color.HSL(h360: 223, s100: 20, l100: 68, a: 1.0))
+			(PAL.Color.RGB(r255: 157, g255: 166, b255: 190), PAL.Color.HSL(h360: 223, s100: 20, l100: 68, af: 1.0))
 		]
 
 		mapped.forEach {
@@ -523,27 +524,27 @@ final class CommonTests: XCTestCase {
 			let red = PAL.Color.red
 			let tetradic = try red.tetradic()
 			XCTAssertEqual(tetradic.count, 4)
-			XCTAssertEqual(try tetradic[0].rgb(), PAL.Color.RGB(r: 1.0, g: 0.0, b: 0.0))
-			XCTAssertEqual(try tetradic[1].rgb(), PAL.Color.RGB(r: 1.0, g: 0.0, b: 0.5))
-			XCTAssertEqual(try tetradic[2].rgb(), PAL.Color.RGB(r: 0.0, g: 1.0, b: 1.0))
-			XCTAssertEqual(try tetradic[3].rgb(), PAL.Color.RGB(r: 0.0, g: 1.0, b: 0.5))
+			XCTAssertEqual(try tetradic[0].rgb(), PAL.Color.RGB(rf: 1.0, gf: 0.0, bf: 0.0))
+			XCTAssertEqual(try tetradic[1].rgb(), PAL.Color.RGB(rf: 1.0, gf: 0.0, bf: 0.5))
+			XCTAssertEqual(try tetradic[2].rgb(), PAL.Color.RGB(rf: 0.0, gf: 1.0, bf: 1.0))
+			XCTAssertEqual(try tetradic[3].rgb(), PAL.Color.RGB(rf: 0.0, gf: 1.0, bf: 0.5))
 			try functionTestsFolder.write(tetradic, coder: PAL.Coder.GIMP(), filename: "red-tetradic.gpl")
 		}
 		do {
 			let green = PAL.Color.green
 			let tetradic = try green.tetradic()
 			XCTAssertEqual(tetradic.count, 4)
-			XCTAssertEqual(try tetradic[0].rgb(), PAL.Color.RGB(r: 0.0, g: 1.0, b: 0.0))
-			XCTAssertEqual(try tetradic[1].rgb(), PAL.Color.RGB(r: 0.5, g: 1.0, b: 0.0))
-			XCTAssertEqual(try tetradic[2].rgb(), PAL.Color.RGB(r: 1.0, g: 0.0, b: 1.0))
-			XCTAssertEqual(try tetradic[3].rgb(), PAL.Color.RGB(r: 0.5, g: 0.0, b: 1.0))
+			XCTAssertEqual(try tetradic[0].rgb(), PAL.Color.RGB(rf: 0.0, gf: 1.0, bf: 0.0))
+			XCTAssertEqual(try tetradic[1].rgb(), PAL.Color.RGB(rf: 0.5, gf: 1.0, bf: 0.0))
+			XCTAssertEqual(try tetradic[2].rgb(), PAL.Color.RGB(rf: 1.0, gf: 0.0, bf: 1.0))
+			XCTAssertEqual(try tetradic[3].rgb(), PAL.Color.RGB(rf: 0.5, gf: 0.0, bf: 1.0))
 			try functionTestsFolder.write(tetradic, coder: PAL.Coder.GIMP(), filename: "green-tetradic.gpl")
 		}
 	}
 
 	func testRGB2HSB() throws {
-		XCTAssertEqual(PAL.Color.RGB(r: 1, g: 0, b: 0).hsb(), PAL.Color.HSB(h: 1, s: 1, b: 1))
-		XCTAssertEqual(PAL.Color.RGB(r: 0, g: 1, b: 0).hsb(), PAL.Color.HSB(h: 0.33333333, s: 1, b: 1))
+		XCTAssertEqual(PAL.Color.RGB(rf: 1, gf: 0, bf: 0).hsb(), PAL.Color.HSB(hf: 1, sf: 1, bf: 1))
+		XCTAssertEqual(PAL.Color.RGB(rf: 0, gf: 1, bf: 0).hsb(), PAL.Color.HSB(hf: 0.33333333, sf: 1, bf: 1))
 		XCTAssertEqual(PAL.Color.RGB(r255: 39, g255: 0, b255: 102).hsb(), PAL.Color.HSB(h360: 263, s100: 100, b100: 40))
 	}
 

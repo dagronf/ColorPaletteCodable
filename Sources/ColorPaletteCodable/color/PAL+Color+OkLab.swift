@@ -58,8 +58,8 @@ public extension OkLab {
 	/// - Returns: A palette
 	static func palette(name: String = "", _ c1: PAL.Color, _ c2: PAL.Color, steps: Int) throws -> PAL.Palette {
 		assert(steps > 1)
-		let cr1 = try c1.converted(to: .RGB).rgbValues().vec3
-		let cr2 = try c2.converted(to: .RGB).rgbValues().vec3
+		let cr1 = try c1.rgb().vec3  // converted(to: .RGB).rgbValues().vec3
+		let cr2 = try c2.rgb().vec3  //.converted(to: .RGB).rgbValues().vec3
 		return OkLab.palette(name: name, cr1, cr2, steps: steps)
 	}
 }

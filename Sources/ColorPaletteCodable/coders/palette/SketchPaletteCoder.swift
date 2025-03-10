@@ -50,8 +50,8 @@ extension PAL.Coder.SketchPalette {
 
 		// Always write colors as RGBA for this format
 		let colors = try flattenedColors
-			.map { try $0.converted(to: .RGB) }
-			.map { SketchColor(red: try $0.r(), green: try $0.g(), blue: try $0.b(), alpha: $0.alpha) }
+			.map { try $0.rgb() }
+			.map { SketchColor(red: $0.rf, green: $0.gf, blue: $0.bf, alpha: $0.af) }
 
 		let file = SketchFile(
 			compatibleVersion: "1.4",
@@ -91,8 +91,8 @@ private struct SketchFile: Codable {
 			self.colors = colors
 		}
 		else if let hexColors = try? container.decode([String].self, forKey: .colors) {
-			let colors = try hexColors.compactMap { try PAL.Color(rgbaHexString: $0) }
-				.compactMap { SketchColor(red: try $0.r(), green: try $0.g(), blue: try $0.b(), alpha: $0.alpha) }
+			let colors = try hexColors.compactMap { try PAL.Color(rgbaHexString: $0).rgb() }
+				.compactMap { SketchColor(red: $0.rf, green: $0.gf, blue: $0.bf, alpha: $0.af) }
 			self.colors = colors
 		}
 		else {

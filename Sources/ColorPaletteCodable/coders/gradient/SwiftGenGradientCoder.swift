@@ -54,9 +54,10 @@ public extension PAL.Gradients.Coder.SwiftGen {
 			let gradient = item.element
 			// Make sure stops are arranged 0 ... 1, and sorted from 0 ... 1
 			let comps: [([Double], Double)] = try gradient.normalized().sorted.stops.map {
-				let components = try $0.color.rgbaComponents()
+				let components = try $0.color.rgb()
 				let position = $0.position
-				return ([components.r, components.b, components.b, components.a], position)
+				let comps = [components.rf, components.bf, components.bf, components.af].map { Double($0) }
+				return (comps, position)
 			}
 
 			result += "// Gradient stops definition"
@@ -124,12 +125,12 @@ public extension PAL.Gradients.Coder.SwiftUIGen {
 				let color = stop.color
 
 				// SwiftUI colors are easier in RGB
-				let rgba = try color.rgbaComponents()
+				let rgba = try color.rgb()
 
-				let rs  = floatFormatter.string(for: rgba.r)!
-				let gs  = floatFormatter.string(for: rgba.g)!
-				let bs  = floatFormatter.string(for: rgba.b)!
-				let aas = floatFormatter.string(for: rgba.a)!
+				let rs  = floatFormatter.string(for: rgba.rf)!
+				let gs  = floatFormatter.string(for: rgba.gf)!
+				let bs  = floatFormatter.string(for: rgba.bf)!
+				let aas = floatFormatter.string(for: rgba.af)!
 				let locs = floatFormatter.string(for: stop.position)!
 
 				let colorString = "Color(red: \(rs), green: \(gs), blue: \(bs), opacity: \(aas))"

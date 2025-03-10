@@ -54,7 +54,7 @@ internal struct CoreGraphicsColorSpaceConversion: PAL_ColorSpaceConvertible {
 		if let cg = color.cgColor,
 			let conv = cg.converted(to: colorspace.cgColorSpace, intent: .defaultIntent, options: nil)
 		{
-			return try PAL.Color(name: color.name, cgColor: conv, colorType: color.colorType)
+			return try PAL.Color(name: color.name, color: conv, colorType: color.colorType)
 		}
 		throw PAL.CommonError.cannotConvertColorSpace
 	}
@@ -69,28 +69,28 @@ internal struct NaiveColorSpaceConversion: PAL_ColorSpaceConvertible {
 		if color.colorSpace == colorspace { return color }
 
 		if color.colorSpace == .CMYK, colorspace == .RGB {
-			let rgb = NaiveConversions.CMYK2RGB(try color.cmykValues())
-			return PAL.Color.rgb(name: color.name, rgb.r, rgb.g, rgb.b, color.alpha, colorType: color.colorType)
+			let rgb = NaiveConversions.CMYK2RGB(try color.cmyk())
+			return rgbf(rgb.rf, rgb.gf, rgb.bf, color.alpha, name: color.name, colorType: color.colorType)
 		}
 		if color.colorSpace == .RGB, colorspace == .CMYK {
-			let cmyk = NaiveConversions.RGB2CMYK(try color.rgbValues())
-			return PAL.Color.cmyk(name: color.name, cmyk.c, cmyk.m, cmyk.y, cmyk.k, color.alpha, colorType: color.colorType)
+			let cmyk = NaiveConversions.RGB2CMYK(try color.rgb())
+			return cmykf(cmyk.c, cmyk.m, cmyk.y, cmyk.k, color.alpha, name: color.name, colorType: color.colorType)
 		}
 		if color.colorSpace == .Gray, colorspace == .RGB {
 			let rgb = NaiveConversions.Gray2RGB(l: color.colorComponents[0])
-			return PAL.Color.rgb(name: color.name, rgb.r, rgb.g, rgb.b, color.alpha, colorType: color.colorType)
+			return rgbf(rgb.rf, rgb.gf, rgb.bf, color.alpha, name: color.name, colorType: color.colorType)
 		}
 		if color.colorSpace == .RGB, colorspace == .Gray {
-			let gray = NaiveConversions.RGB2Gray(try color.rgbValues())
-			return PAL.Color.gray(name: color.name, gray, color.alpha, colorType: color.colorType)
+			let gray = NaiveConversions.RGB2Gray(try color.rgb())
+			return grayf(gray, color.alpha, name: color.name, colorType: color.colorType)
 		}
 		if color.colorSpace == .Gray, colorspace == .CMYK {
 			let cmyk = NaiveConversions.Gray2CMYK(l: color.colorComponents[0])
-			return PAL.Color.cmyk(name: color.name, cmyk.c, cmyk.m, cmyk.y, cmyk.k, color.alpha, colorType: color.colorType)
+			return cmykf(cmyk.c, cmyk.m, cmyk.y, cmyk.k, color.alpha, name: color.name, colorType: color.colorType)
 		}
 		if color.colorSpace == .CMYK, colorspace == .Gray {
-			let gray = NaiveConversions.CMYK2Gray(try color.cmykValues())
-			return PAL.Color.gray(name: color.name, gray, color.alpha, colorType: color.colorType)
+			let gray = NaiveConversions.CMYK2Gray(try color.cmyk())
+			return grayf(gray, color.alpha, name: color.name, colorType: color.colorType)
 		}
 
 		ColorPaletteLogger.log(.error, "Unsupported color space conversion %@ -> %@", "\(color.colorSpace)", "\(colorspace)")
@@ -106,16 +106,16 @@ internal struct NaiveConversions {
 		let r = (1 - value.c) * (1 - value.k)
 		let g = (1 - value.m) * (1 - value.k)
 		let b = (1 - value.y) * (1 - value.k)
-		return PAL.Color.RGB(r: r, g: g, b: b)
+		return PAL.Color.RGB(rf: r, gf: g, bf: b)
 	}
 
 	/// Incredibly naive implementation for RGB to CMYK.
 	static func RGB2CMYK(_ value: PAL.Color.RGB) -> PAL.Color.CMYK {
-		let k = 1 - max(max(value.r, value.g), value.b)
-		let c = (1 - value.r - k) / (1.0 - k)
-		let m = (1 - value.g - k) / (1.0 - k)
-		let y = (1 - value.b - k) / (1.0 - k)
-		return PAL.Color.CMYK(c: c, m: m, y: y, k: k, a: value.a)
+		let k = 1 - max(max(value.rf, value.gf), value.bf)
+		let c = (1 - value.rf - k) / (1.0 - k)
+		let m = (1 - value.gf - k) / (1.0 - k)
+		let y = (1 - value.bf - k) / (1.0 - k)
+		return PAL.Color.CMYK(cf: c, mf: m, yf: y, kf: k, af: value.af)
 	}
 
 	static func CMYK2Gray(_ value: PAL.Color.CMYK) -> Float32 {
@@ -128,11 +128,11 @@ internal struct NaiveConversions {
 	}
 
 	static func RGB2Gray(_ value: PAL.Color.RGB) -> Float32 {
-		return 0.299 * value.r + 0.587 * value.g + 0.114 * value.b
+		return 0.299 * value.rf + 0.587 * value.gf + 0.114 * value.bf
 	}
 
 	static func Gray2RGB(l: Float32) -> PAL.Color.RGB {
-		return PAL.Color.RGB(r: l, g: l, b: l)
+		return PAL.Color.RGB(rf: l, gf: l, bf: l)
 	}
 
 	// I cannot verify these, so I'm going to ignore them for the moment

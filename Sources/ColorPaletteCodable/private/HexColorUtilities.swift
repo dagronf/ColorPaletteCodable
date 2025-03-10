@@ -23,7 +23,7 @@ import Foundation
 /// - Parameters:
 ///   - rgbaHexString: The rgba hex string
 ///   - format: The expected rgba format
-/// - Returns: Individual color components, or nil if the hex string is invalid
+/// - Returns: RGB components or nil if the hex string is invalid
 ///
 /// Supported hex formats :-
 /// - [#]FFF      : RGB color  (RGB)
@@ -33,7 +33,7 @@ import Foundation
 func extractHexRGBA(
 	hexString: String,
 	format: PAL.ColorByteFormat
-) -> (r: UInt8, g: UInt8, b: UInt8, a: UInt8)? {
+) -> PAL.Color.RGB? {
 	var hex = hexString
 		.lowercased()
 		.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
@@ -67,31 +67,31 @@ func extractHexRGBA(
 	switch (format, hasAlpha) {
 	case (.rgb, true): fallthrough
 	case (.rgb, false):
-		return (r: UInt8(c0), g: UInt8(c1), b: UInt8(c2), a: 255)
+		return PAL.Color.RGB(r255: UInt8(c0), g255: UInt8(c1), b255: UInt8(c2), a255: 255)
 
 	case (.bgr, true): fallthrough
 	case (.bgr, false):
-		return (r: UInt8(c2), g: UInt8(c1), b: UInt8(c0), a: 255)
+		return PAL.Color.RGB(r255: UInt8(c2), g255: UInt8(c1), b255: UInt8(c0), a255: 255)
 
 	case (.rgba, true):
-		return (r: UInt8(c0), g: UInt8(c1), b: UInt8(c2), a: UInt8(c3))
+		return PAL.Color.RGB(r255: UInt8(c0), g255: UInt8(c1), b255: UInt8(c2), a255: UInt8(c3))
 	case (.rgba, false):
-		return (r: UInt8(c0), g: UInt8(c1), b: UInt8(c2), a: 255)
+		return PAL.Color.RGB(r255: UInt8(c0), g255: UInt8(c1), b255: UInt8(c2), a255: 255)
 
 	case (.argb, true):
-		return (r: UInt8(c1), g: UInt8(c2), b: UInt8(c3), a: UInt8(c0))
+		return PAL.Color.RGB(r255: UInt8(c1), g255: UInt8(c2), b255: UInt8(c3), a255: UInt8(c0))
 	case (.argb, false):
-		return (r: UInt8(c0), g: UInt8(c1), b: UInt8(c2), a: 255)
+		return PAL.Color.RGB(r255: UInt8(c0), g255: UInt8(c1), b255: UInt8(c2), a255: 255)
 
 	case (.bgra, true):
-		return (r: UInt8(c2), g: UInt8(c1), b: UInt8(c0), a: UInt8(c3))
+		return PAL.Color.RGB(r255: UInt8(c2), g255: UInt8(c1), b255: UInt8(c0), a255: UInt8(c3))
 	case (.bgra, false):
-		return (r: UInt8(c2), g: UInt8(c1), b: UInt8(c0), a: 255)
+		return PAL.Color.RGB(r255: UInt8(c2), g255: UInt8(c1), b255: UInt8(c0), a255: 255)
 
 	case (.abgr, true):
-		return (r: UInt8(c3), g: UInt8(c2), b: UInt8(c1), a: UInt8(c0))
+		return PAL.Color.RGB(r255: UInt8(c3), g255: UInt8(c2), b255: UInt8(c1), a255: UInt8(c0))
 	case (.abgr, false):
-		return (r: UInt8(c2), g: UInt8(c1), b: UInt8(c0), a: 255)
+		return PAL.Color.RGB(r255: UInt8(c2), g255: UInt8(c1), b255: UInt8(c0), a255: 255)
 	}
 }
 
