@@ -70,13 +70,20 @@ public extension OkLab {
 	/// Create a gradient using colors mapped to the OkLab color space
 	/// - Parameters:
 	///   - name: The gradient name
-	///   - c1: First color
-	///   - c2: Second color
+	///   - startColor: Starting color for the gradient
+	///   - endColor: Ending color for the gradient
 	///   - stopCount: The number of stops to include in the gradient
+	///   - useOkLab: If true, use OkLab colorspace when generating colors
 	/// - Returns: A gradient
-	static func gradient(name: String = "", _ c1: PAL.Color, _ c2: PAL.Color, stopCount: Int) throws -> PAL.Gradient {
+	static func gradient(
+		name: String = "",
+		_ startColor: PAL.Color,
+		_ endColor: PAL.Color,
+		stopCount: Int,
+		useOkLab: Bool = false
+	) throws -> PAL.Gradient {
 		assert(stopCount > 1)
-		let pal = try PAL.Palette(firstColor: c1, lastColor: c2, count: stopCount)
+		let pal = try PAL.Palette(startColor: startColor, endColor: endColor, count: stopCount, useOkLab: useOkLab)
 		return PAL.Gradient(name: name, palette: pal)
 	}
 }

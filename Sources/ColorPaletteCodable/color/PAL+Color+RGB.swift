@@ -112,18 +112,12 @@ public extension PAL.Color {
 		b255: UInt8,
 		a255: UInt8 = 255,
 		colorType: PAL.ColorType = .global
-	) throws {
-		try self.init(
-			name: name,
-			colorSpace: .RGB,
-			colorComponents: [
-				Float32(r255.clamped(to: 0 ... 255)) / 255.0,
-				Float32(g255.clamped(to: 0 ... 255)) / 255.0,
-				Float32(b255.clamped(to: 0 ... 255)) / 255.0
-			],
-			colorType: colorType,
-			alpha: Float32(a255.clamped(to: 0 ... 255)) / 255.0
-		)
+	) {
+		self.name = name
+		self.colorSpace = .RGB
+		self.colorComponents = [Float32(r255) / 255.0, Float32(g255) / 255.0, Float32(b255) / 255.0]
+		self.alpha = Float32(a255) / 255.0
+		self.colorType = colorType
 	}
 
 	/// Create a color object from 0 ... 1 component values

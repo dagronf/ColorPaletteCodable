@@ -117,5 +117,11 @@ class TestFilesContainer {
 			let tempURL = self.folder.appendingPathComponent(filename)
 			try data.write(to: tempURL)
 		}
+
+		func write(_ gradient: PAL.Gradient, coder: PAL_GradientsCoder, filename: String) throws {
+			let data = try coder.encode(gradient)
+			let tempURL = self.folder.appendingPathComponent(filename)
+			try data.write(to: tempURL)
+		}
 	}
 }

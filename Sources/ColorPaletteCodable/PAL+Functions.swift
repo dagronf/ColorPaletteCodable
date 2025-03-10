@@ -282,10 +282,10 @@ public extension PAL.Color {
 	/// - Returns: Shaded color
 	///
 	/// According to color theory, shades are created by adding black pigment to any hue
-	func shaded(shadeFactor: Float32) throws -> PAL.Color {
-		let shadeFactor = shadeFactor.clamped(to: 0.0 ... 1.0)
+	func shade(fraction: Float32) throws -> PAL.Color {
+		let fraction = fraction.clamped(to: 0.0 ... 1.0)
 		let hsl = try self.hsl()
-		return try PAL.Color(h: hsl.h, s: hsl.s, l: hsl.l / shadeFactor)
+		return try PAL.Color(h: hsl.h, s: hsl.s, l: hsl.l * fraction)
 	}
 
 	/// Returns shaded versions of this color
@@ -293,7 +293,7 @@ public extension PAL.Color {
 	/// - Returns: Color shades
 	///
 	/// According to color theory, shades are created by adding black pigment to any hue
-	func shade(count: Int = 4) throws -> [PAL.Color] {
+	func shade(count: Int) throws -> [PAL.Color] {
 		let rgb = try self.rgb()
 		let step = 1.0 / Float32(count)
 		return try stride(from: 1.0, to: 0.0, by: -step).map {
@@ -307,10 +307,10 @@ public extension PAL.Color {
 	///
 	/// Tints are created by adding white to any hue, according to color theory.
 	/// This lightens and desaturates the hue, creating a subtler and lighter color than the original hue.
-	func tinted(shadeFactor: Float32) throws -> PAL.Color {
-		let shadeFactor = shadeFactor.clamped(to: 0.0 ... 1.0)
+	func tint(fraction: Float32) throws -> PAL.Color {
+		let fraction = fraction.clamped(to: 0.0 ... 1.0)
 		let hsl = try self.hsl()
-		return try PAL.Color(h: hsl.h, s: hsl.s, l: hsl.h + ((1.0 - hsl.h) / shadeFactor))
+		return try PAL.Color(h: hsl.h, s: hsl.s, l: hsl.l + ((1.0 - hsl.l) * fraction))
 	}
 
 	/// Returns tinted versions of this color
@@ -319,7 +319,7 @@ public extension PAL.Color {
 	///
 	/// Tints are created by adding white to any hue, according to color theory.
 	/// This lightens and desaturates the hue, creating a subtler and lighter color than the original hue.
-	func tint(count: Int = 4) throws -> [PAL.Color] {
+	func tint(count: Int) throws -> [PAL.Color] {
 		let hsl = try self.hsl()
 		let step = (1.0 - min(0.999, hsl.l)) / Float32(count)
 		return try stride(from: hsl.l, to: 0.999, by: step).map {

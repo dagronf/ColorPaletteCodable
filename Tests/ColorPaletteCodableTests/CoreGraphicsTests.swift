@@ -91,8 +91,8 @@ final class CoreGraphicsTests: XCTestCase {
 	func testGenerateMixingPalette() throws {
 		do {
 			let palette = try PAL.Palette(
-				firstColor: CGColor(red: 1, green: 0, blue: 0, alpha: 1),
-				lastColor: CGColor(red: 0.5, green: 0, blue: 0.5, alpha: 1),
+				startColor: CGColor(red: 1, green: 0, blue: 0, alpha: 1),
+				endColor: CGColor(red: 0.5, green: 0, blue: 0.5, alpha: 1),
 				count: 8
 			)
 			let image = try XCTUnwrap(palette.thumbnailImage(size: CGSize(width: 80, height: 80)))
@@ -100,8 +100,8 @@ final class CoreGraphicsTests: XCTestCase {
 		}
 		do {
 			let palette = try PAL.Palette(
-				firstColor: CGColor(red: 1, green: 0, blue: 0, alpha: 1),
-				lastColor: CGColor(red: 1, green: 1, blue: 0, alpha: 1),
+				startColor: CGColor(red: 1, green: 0, blue: 0, alpha: 1),
+				endColor: CGColor(red: 1, green: 1, blue: 0, alpha: 1),
 				count: 32
 			)
 			let image = try XCTUnwrap(palette.thumbnailImage(size: CGSize(width: 80, height: 80)))

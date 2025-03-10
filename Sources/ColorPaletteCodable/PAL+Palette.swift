@@ -72,17 +72,26 @@ extension PAL.Palette: Hashable {
 }
 
 public extension PAL.Palette {
-	/// Create a palette by mixing between two colors
+	/// Create a palette by interpolating between two colors
 	/// - Parameters:
-	///   - name: The palette name
-	///   - firstColor: The first (starting) color for the palette
-	///   - lastColor: The second (ending) color for the palette
+	///   - startColor: The first (starting) color for the palette
+	///   - endColor: The second (ending) color for the palette
 	///   - count: Number of colors to generate
-	init(named name: String? = nil, firstColor: PAL.Color, lastColor: PAL.Color, count: Int) throws {
-		self.init(
-			name: name ?? "",
-			colors: try PAL.Color.interpolate(firstColor: firstColor, lastColor: lastColor, count: count)
+	///   - useOkLab: If true, use OkLab colorspace when generating colors
+	init(
+		named name: String = "",
+		startColor: PAL.Color,
+		endColor: PAL.Color,
+		count: Int,
+		useOkLab: Bool = false
+	) throws {
+		let colors = try PAL.Color.interpolate(
+			startColor: startColor,
+			endColor: endColor,
+			count: count,
+			useOkLab: useOkLab
 		)
+		self.init(name: name, colors: colors)
 	}
 
 	/// Return a palette containing random colors

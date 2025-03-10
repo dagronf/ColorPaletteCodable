@@ -57,13 +57,13 @@ public extension PAL.Palette {
 	/// Create a palette by mixing between two colors
 	/// - Parameters:
 	///   - name: The palette name
-	///   - firstColor: The first (starting) color for the palette
-	///   - lastColor: The second (ending) color for the palette
+	///   - startColor: The first (starting) color for the palette
+	///   - endColor: The second (ending) color for the palette
 	///   - count: Number of colors to generate
-	init(named name: String? = nil, firstColor: CGColor, lastColor: CGColor, count: Int) throws {
-		let c1 = try PAL.Color(cgColor: firstColor)
-		let c2 = try PAL.Color(cgColor: lastColor)
-		try self.init(firstColor: c1, lastColor: c2, count: count)
+	init(named name: String? = nil, startColor: CGColor, endColor: CGColor, count: Int) throws {
+		let c1 = try PAL.Color(cgColor: startColor)
+		let c2 = try PAL.Color(cgColor: endColor)
+		try self.init(startColor: c1, endColor: c2, count: count)
 	}
 }
 

@@ -21,6 +21,8 @@
 
 import Foundation
 
+// MARK: - Mixing, Blending and color midpoints
+
 public extension PAL.Color {
 	/// Returns a midpoint color between this color and another color
 	/// - Parameters:
@@ -53,19 +55,44 @@ public extension PAL.Color {
 			af: Float32(lerp(c1.a, c2.a, t: t))
 		)
 	}
+
+	/// Returns a new color by blending this color with another color in the OkLab colorspace
+	/// - Parameters:
+	///   - color2: The color to compare against
+	///   - t: The fractional distance between the two colors (0 ... 1)
+	///   - name: The name for the generated color, or nil for no name
+	/// - Returns: The midpoint color
+	@inlinable @inline(__always)
+	func blending(with color2: PAL.Color, t: UnitValue<Double>, named name: String = "") throws -> PAL.Color {
+		try OkLab.mix(name: name, self, color2, t: Float32(t.value))
+	}
 }
+
+// MARK: - Interpolating colors
 
 public extension PAL.Color {
 	/// Create a color array by interpolating between two colors
-	///   - firstColor: The first (starting) color for the palette
-	///   - lastColor: The second (ending) color for the palette
+	/// - Parameters:
+	///   - startColor: The first (starting) color for the palette
+	///   - endColor: The second (ending) color for the palette
 	///   - count: Number of colors to generate
-	static func interpolate(firstColor: PAL.Color, lastColor: PAL.Color, count: Int) throws -> [PAL.Color] {
+	///   - useOkLab: If true, use OkLab colorspace when generating colors
+	/// - Returns: An array of interpolated colors
+	static func interpolate(
+		startColor: PAL.Color,
+		endColor: PAL.Color,
+		count: Int,
+		useOkLab: Bool = false
+	) throws -> [PAL.Color] {
 		if count == 0 { throw PAL.CommonError.tooFewColors }
 		if count == 1 { return [.white] }
 
-		let c1 = try firstColor.rgbaComponents()
-		let c2 = try lastColor.rgbaComponents()
+		if useOkLab {
+			return try OkLab.palette(startColor, endColor, steps: count).colors
+		}
+
+		let c1 = try startColor.rgbaComponents()
+		let c2 = try endColor.rgbaComponents()
 		let step = 1.0 / Double(count - 1)
 
 		let rdiff = (c2.r - c1.r) * step

@@ -153,8 +153,8 @@ final class ColorFunctionTests: XCTestCase {
 #if canImport(CoreGraphics)
 			// Simple srgb linear interpolation
 			let p2 = try PAL.Palette(
-				firstColor: CGColor(srgbRed: 0, green: 0, blue: 1, alpha: 1),
-				lastColor: CGColor(srgbRed: 1, green: 1, blue: 0, alpha: 1),
+				startColor: CGColor(srgbRed: 0, green: 0, blue: 1, alpha: 1),
+				endColor: CGColor(srgbRed: 1, green: 1, blue: 0, alpha: 1),
 				count: 10
 			)
 			try outputFolder.write(p2, coder: PAL.Coder.GIMP(), filename: "oklab-srgb-mixing.gpl")
@@ -175,7 +175,7 @@ final class ColorFunctionTests: XCTestCase {
 			let p1 = try OkLab.palette(c1, c2, steps: 20)
 			try outputFolder.write(p1, coder: PAL.Coder.GIMP(), filename: "oklab-mix-palette-oklab.gpl")
 
-			let p2 = try PAL.Palette(firstColor: c1, lastColor: c2, count: 20)
+			let p2 = try PAL.Palette(startColor: c1, endColor: c2, count: 20)
 			try outputFolder.write(p2, coder: PAL.Coder.GIMP(), filename: "oklab-mix-palette-rgb.gpl")
 		}
 	}

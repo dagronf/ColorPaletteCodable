@@ -3,13 +3,7 @@ import XCTest
 
 final class InterpolationTests: XCTestCase {
 
-	override func setUpWithError() throws {
-		// Put setup code here. This method is called before the invocation of each test method in the class.
-	}
-
-	override func tearDownWithError() throws {
-		// Put teardown code here. This method is called after the invocation of each test method in the class.
-	}
+	let outputFolder = try! testResultsContainer.subfolder(with: "palette-interpolation")
 
 	func testMidpoint() throws {
 		let c1 = PAL.Color.rgb(1, 0, 0, 0.2)
@@ -120,8 +114,8 @@ final class InterpolationTests: XCTestCase {
 
 		do {
 			let priceColors = try PAL.Color.interpolate(
-				firstColor: .red,
-				lastColor: .green,
+				startColor: .red,
+				endColor: .green,
 				count: 3
 			)
 
@@ -133,8 +127,8 @@ final class InterpolationTests: XCTestCase {
 
 		do {
 			let priceColors = try PAL.Color.interpolate(
-				firstColor: PAL.Color(rf: 1, gf: 0.5, bf: 1),
-				lastColor: PAL.Color(rf: 0, gf: 0.5, bf: 0.5),
+				startColor: PAL.Color(rf: 1, gf: 0.5, bf: 1),
+				endColor: PAL.Color(rf: 0, gf: 0.5, bf: 0.5),
 				count: 3
 			)
 
@@ -188,5 +182,64 @@ final class InterpolationTests: XCTestCase {
 		XCTAssertEqual(try PAL.Color(rf: 1, gf: 1, bf: 0), cs2[2])
 		XCTAssertEqual(try PAL.Color(rf: 0.5, gf: 1, bf: 0, af: 0.75), cs2[3])
 		XCTAssertEqual(try PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.5), cs2[4])
+	}
+
+
+	func testInterpolationWithOkLab() throws {
+		let startColor = PAL.Color.white
+		let endColor = PAL.Color.blue
+
+		let p1 = try PAL.Palette(startColor: startColor, endColor: endColor, count: 11, useOkLab: false)
+		let p2 = try PAL.Palette(startColor: startColor, endColor: endColor, count: 11, useOkLab: true)
+
+		// Simple srgb linear interpolation
+		try outputFolder.write(p1, coder: PAL.Coder.GIMP(), filename: "palette-mixing-test.gpl")
+		try outputFolder.write(p2, coder: PAL.Coder.GIMP(), filename: "palette-mixing-test-oklab.gpl")
+	}
+
+	func testGradientInterpolationWithOkLab() throws {
+		let startColor = PAL.Color.pink
+		let endColor = PAL.Color.blue
+
+		let p1 = try PAL.Palette(startColor: startColor, endColor: endColor, count: 11, useOkLab: false)
+		let p2 = try PAL.Palette(startColor: startColor, endColor: endColor, count: 11, useOkLab: true)
+
+		let g1 = PAL.Gradient(palette: p1)
+		let g2 = PAL.Gradient(palette: p2)
+
+		// Simple srgb linear interpolation
+		try outputFolder.write(g1, coder: PAL.Gradients.Coder.GGR(), filename: "gradient-mixing-test.ggr")
+		try outputFolder.write(g2, coder: PAL.Gradients.Coder.GGR(), filename: "gradient-mixing-test-oklab.ggr")
+	}
+
+	func testShading() throws {
+		do {
+			let startColor = PAL.Color.pink
+			let p1 = PAL.Palette(colors: try startColor.shade(count: 10))
+			let p2 = PAL.Palette(colors: try startColor.tint(count: 10))
+			try outputFolder.write(p1, coder: PAL.Coder.GIMP(), filename: "shading-test-pink-shaded.gpl")
+			try outputFolder.write(p2, coder: PAL.Coder.GIMP(), filename: "shading-test-pink-tinted.gpl")
+		}
+		do {
+			let startColor = PAL.Color.blue
+			let p1 = PAL.Palette(colors: try startColor.shade(count: 10))
+			let p2 = PAL.Palette(colors: try startColor.tint(count: 10))
+			try outputFolder.write(p1, coder: PAL.Coder.GIMP(), filename: "shading-test-blue-shaded.gpl")
+			try outputFolder.write(p2, coder: PAL.Coder.GIMP(), filename: "shading-test-blue-tinted.gpl")
+		}
+		do {
+			let c1 = PAL.Color.pink
+			let s1 = try c1.shade(fraction: 0.5)
+			let s2 = try c1.tint(fraction: 0.5)
+			let p1 = PAL.Palette(colors: [s1, c1, s2])
+			try outputFolder.write(p1, coder: PAL.Coder.GIMP(), filename: "pink-shade-tint-0.5.gpl")
+		}
+		do {
+			let c1 = PAL.Color.yellow
+			let s1 = try c1.shade(fraction: 0.5)
+			let s2 = try c1.tint(fraction: 0.5)
+			let p1 = PAL.Palette(colors: [s1, c1, s2])
+			try outputFolder.write(p1, coder: PAL.Coder.RGBA(), filename: "yellow-shade-tint-0.5.rgb")
+		}
 	}
 }
