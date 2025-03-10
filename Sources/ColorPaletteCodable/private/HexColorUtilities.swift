@@ -22,7 +22,7 @@ import Foundation
 /// Extract RGBA components from a hex formatted color string
 /// - Parameters:
 ///   - rgbaHexString: The rgba hex string
-///   - hexRGBFormat: The expected rgba format
+///   - format: The expected rgba format
 /// - Returns: Individual color components, or nil if the hex string is invalid
 ///
 /// Supported hex formats :-
@@ -32,7 +32,7 @@ import Foundation
 /// - [#]FFFFFFFF : RGBA color (RRGGBBAA)
 func extractHexRGBA(
 	hexString: String,
-	hexRGBFormat: PAL.ColorByteFormat
+	format: PAL.ColorByteFormat
 ) -> (r: UInt8, g: UInt8, b: UInt8, a: UInt8)? {
 	var hex = hexString
 		.lowercased()
@@ -64,7 +64,7 @@ func extractHexRGBA(
 		return nil
 	}
 
-	switch (hexRGBFormat, hasAlpha) {
+	switch (format, hasAlpha) {
 	case (.rgb, true): fallthrough
 	case (.rgb, false):
 		return (r: UInt8(c0), g: UInt8(c1), b: UInt8(c2), a: 255)

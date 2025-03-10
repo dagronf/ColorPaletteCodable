@@ -25,7 +25,7 @@ import SwiftUI
 extension Color {
 	/// Create a color from a hex string
 	///   - hex: The hex string
-	///   - hexRGBFormat: The expected rgba format
+	///   - format: The expected rgba format
 	///
 	/// Supported hex formats :-
 	/// - [#]FFF      : RGB color
@@ -34,8 +34,8 @@ extension Color {
 	/// - [#]FFFFFFFF : RGBA color (RRGGBBAA)
 	///
 	/// Returns clear color if the hex string is invalid
-	init(hex: String, hexRGBFormat: PAL.ColorByteFormat = .rgba) {
-		guard let c = extractHexRGBA(hexString: hex, hexRGBFormat: hexRGBFormat) else {
+	init(hex: String, format: PAL.ColorByteFormat = .rgba) {
+		guard let c = extractHexRGBA(hexString: hex, format: format) else {
 			self = .clear
 			return
 		}
@@ -51,16 +51,14 @@ extension Color {
 
 	/// Create a color from a hex RGBA string
 	///   - hex: The rgba hex string
-	///   - hexRGBFormat: The expected rgba format
 	///
 	/// Supported hex formats :-
 	/// - [#]FFF      : RGB color
 	/// - [#]FFFF     : RGBA color (RRGGBB)
 	/// - [#]FFFFFF   : RGB color
 	/// - [#]FFFFFFFF : RGBA color (RRGGBBAA)
-	///
 	init(rgbaHexString: String) {
-		self.init(hex: rgbaHexString, hexRGBFormat: .argb)
+		self.init(hex: rgbaHexString, format: .argb)
 	}
 }
 
