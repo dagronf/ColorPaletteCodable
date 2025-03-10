@@ -7,7 +7,7 @@ final class ColorFunctionTests: XCTestCase {
 
 	func testComplementary() throws {
 		do {
-			let c1 = try PAL.Color(rf: 1.0, gf: 0, bf: 0)
+			let c1 = PAL.Color(rf: 1.0, gf: 0, bf: 0)
 			let comp1 = try c1.complementary()
 			XCTAssertEqual(comp1.colorSpace, .RGB)
 
@@ -17,7 +17,7 @@ final class ColorFunctionTests: XCTestCase {
 			try outputFolder.write(pal, coder: PAL.Coder.ASE(), filename: "complementary-test-1.ase")
 		}
 		do {
-			let c1 = try PAL.Color(rf: 1.0, gf: 0.5, bf: 0)
+			let c1 = PAL.Color(rf: 1.0, gf: 0.5, bf: 0)
 			let comp1 = try c1.complementary()
 			XCTAssertEqual(comp1.colorSpace, .RGB)
 			XCTAssertEqual(try comp1.rgbValues(), PAL.Color.RGB(r: 0, g: 0.5, b: 1.0))
@@ -40,19 +40,19 @@ final class ColorFunctionTests: XCTestCase {
 
 	func testAnalogousColors() throws {
 		do {
-			let c1 = try PAL.Color(rf: 1.0, gf: 0, bf: 0)
+			let c1 = PAL.Color(rf: 1.0, gf: 0, bf: 0)
 			let analogous1 = try c1.analogous(count: 3, stepSize: 30.0 / 360.0)
 			XCTAssertEqual(analogous1.count, 3)
 			try outputFolder.write(analogous1, coder: PAL.Coder.ASE(), filename: "analogous-3step.ase")
 		}
 		do {
-			let c1 = try PAL.Color(rf: 1.0, gf: 0, bf: 0)
+			let c1 = PAL.Color(rf: 1.0, gf: 0, bf: 0)
 			let analogous1 = try c1.analogous(count: 5, stepSize: 30.0 / 360.0)
 			XCTAssertEqual(analogous1.count, 5)
 			try outputFolder.write(analogous1, coder: PAL.Coder.ASE(), filename: "analogous-5step-1.ase")
 		}
 		do {
-			let c1 = try PAL.Color(rf: 1.0, gf: 0, bf: 0)
+			let c1 = PAL.Color(rf: 1.0, gf: 0, bf: 0)
 			let analogous1 = try c1.analogous(count: 5, stepSize: 10.0 / 360.0)
 			XCTAssertEqual(analogous1.count, 5)
 			try outputFolder.write(analogous1, coder: PAL.Coder.ASE(), filename: "analogous-5step-2.ase")
@@ -61,13 +61,13 @@ final class ColorFunctionTests: XCTestCase {
 
 	func testMonochromaticColors() throws {
 		do {
-			let c1 = try PAL.Color(rf: 1.0, gf: 0, bf: 0)
+			let c1 = PAL.Color(rf: 1.0, gf: 0, bf: 0)
 			let mono1 = try c1.monochromatic(style: .saturation, count: 4, step: -0.2)
 			XCTAssertEqual(mono1.count, 4)
 			try outputFolder.write(mono1, coder: PAL.Coder.RGB(), filename: "monochromatic-3step-0_1-sat.rgb")
 		}
 		do {
-			let c1 = try PAL.Color(rf: 1.0, gf: 0, bf: 0)
+			let c1 = PAL.Color(rf: 1.0, gf: 0, bf: 0)
 			let mono1 = try c1.monochromatic(style: .brightness, count: 4, step: -0.2)
 			XCTAssertEqual(mono1.count, 4)
 			try outputFolder.write(mono1, coder: PAL.Coder.RGB(), filename: "monochromatic-3step-0_1-bri.rgb")
@@ -75,7 +75,7 @@ final class ColorFunctionTests: XCTestCase {
 	}
 
 	func testWhite() throws {
-		let c1 = try PAL.Color(white: 0.5)
+		let c1 = PAL.Color(white: 0.5)
 		XCTAssertEqual(.Gray, c1.colorSpace)
 		XCTAssertEqual(1, c1.colorComponents.count)
 		XCTAssertEqual(0.5, c1.colorComponents[0])
@@ -147,7 +147,7 @@ final class ColorFunctionTests: XCTestCase {
 
 		do {
 			// oklab mixing
-			let p1 = try OkLab.palette(x1, x2, steps: 10)
+			let p1 = OkLab.palette(x1, x2, steps: 10)
 			try outputFolder.write(p1, coder: PAL.Coder.GIMP(), filename: "oklab-mixing-basic.gpl")
 
 #if canImport(CoreGraphics)
@@ -170,8 +170,8 @@ final class ColorFunctionTests: XCTestCase {
 		}
 
 		do {
-			let c1 = try PAL.Color(r255: 185, g255: 27, b255: 77)
-			let c2 = try PAL.Color(r255: 9, g255: 247, b255: 177)
+			let c1 = PAL.Color(r255: 185, g255: 27, b255: 77)
+			let c2 = PAL.Color(r255: 9, g255: 247, b255: 177)
 			let p1 = try OkLab.palette(c1, c2, steps: 20)
 			try outputFolder.write(p1, coder: PAL.Coder.GIMP(), filename: "oklab-mix-palette-oklab.gpl")
 
@@ -181,8 +181,8 @@ final class ColorFunctionTests: XCTestCase {
 	}
 
 	func testApplyOnTopOf() throws {
-		let c1 = try PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.5)
-		let c2 = try PAL.Color(rf: 1, gf: 0, bf: 0, af: 0.5)
+		let c1 = PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.5)
+		let c2 = PAL.Color(rf: 1, gf: 0, bf: 0, af: 0.5)
 
 		let c3 = try c2.applyOnTopOf(c1)
 		Swift.print(c3)
@@ -194,7 +194,7 @@ final class ColorFunctionTests: XCTestCase {
 
 	func testAdjustBrightness() throws {
 
-		let c1 = try PAL.Color(rf: 0.5, gf: 0, bf: 0)
+		let c1 = PAL.Color(rf: 0.5, gf: 0, bf: 0)
 
 		do {
 			let colors = try stride(from: 0.0, through: -1.0, by: -0.1).map {
@@ -222,7 +222,7 @@ final class ColorFunctionTests: XCTestCase {
 			XCTAssertEqual(c11, .black)
 		}
 		do {
-			let c1 = try PAL.Color(r255: 0, g255: 0, b255: 100)
+			let c1 = PAL.Color(r255: 0, g255: 0, b255: 100)
 			let c11 = try c1.contrastingTextColor()
 			XCTAssertEqual(c11, .white)
 		}
@@ -230,7 +230,7 @@ final class ColorFunctionTests: XCTestCase {
 
 	func testUInt32() throws {
 		let u1: UInt32 = 0x80FF5733
-		let c1 = try PAL.Color(u1, colorByteFormat: .argb)
+		let c1 = PAL.Color(u1, format: .argb)
 		XCTAssertEqual(.RGB, c1.colorSpace)
 
 		XCTAssertEqual(1, c1.colorComponents[0], accuracy: 0.00001)

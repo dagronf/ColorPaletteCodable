@@ -42,7 +42,7 @@ public extension OkLab {
 	static func mix(name: String = "", _ c1: PAL.Color, _ c2: PAL.Color, t: Float32) throws -> PAL.Color {
 		let cr1 = try c1.converted(to: .RGB).rgbValuesVec3()
 		let cr2 = try c2.converted(to: .RGB).rgbValuesVec3()
-		return try PAL.Color(name: name, sRGB: OkLab.mix(cr1, cr2, t: t.unitClamped))
+		return PAL.Color(name: name, sRGB: OkLab.mix(cr1, cr2, t: t.unitClamped))
 	}
 }
 
@@ -60,7 +60,7 @@ public extension OkLab {
 		assert(steps > 1)
 		let cr1 = try c1.converted(to: .RGB).rgbValues().vec3
 		let cr2 = try c2.converted(to: .RGB).rgbValues().vec3
-		return try OkLab.palette(name: name, cr1, cr2, steps: steps)
+		return OkLab.palette(name: name, cr1, cr2, steps: steps)
 	}
 }
 

@@ -98,17 +98,17 @@ func extractHexRGBA(
 /// Extract an RGBA color from a UInt32 value
 /// - Parameters:
 ///   - uint32ColorValue: The value to convert
-///   - colorByteFormat: The expected byte format
+///   - format: The expected byte format
 /// - Returns: Individual color components, or nil if the hex string is invalid
-func extractRGBA(
+internal func extractRGBA(
 	_ uint32ColorValue: UInt32,
-	colorByteFormat: PAL.ColorByteFormat
+	format: PAL.ColorByteFormat
 ) -> (r: UInt8, g: UInt8, b: UInt8, a: UInt8) {
 	let c0 = UInt8(truncatingIfNeeded: (uint32ColorValue >> 24) & 0xFF)
 	let c1 = UInt8(truncatingIfNeeded: (uint32ColorValue >> 16) & 0xFF)
 	let c2 = UInt8(truncatingIfNeeded: (uint32ColorValue >> 8) & 0xFF)
 	let c3 = UInt8(truncatingIfNeeded: uint32ColorValue & 0xFF)
-	switch colorByteFormat {
+	switch format {
 	case .argb:
 		return (r: c1, g: c2, b: c3, a: c0)
 	case .rgba:
@@ -133,7 +133,7 @@ func extractRGBA(
 ///   - a255: alpha component
 ///   - colorByteFormat: The output byte format
 /// - Returns: UInt32 encoded color value
-func convertToUInt32(r255: UInt8, g255: UInt8, b255: UInt8, a255: UInt8, colorByteFormat: PAL.ColorByteFormat) -> UInt32 {
+internal func convertToUInt32(r255: UInt8, g255: UInt8, b255: UInt8, a255: UInt8, colorByteFormat: PAL.ColorByteFormat) -> UInt32 {
 	switch colorByteFormat {
 	case .argb:
 		return (UInt32(a255) << 24 & 0xFF00_0000) + (UInt32(r255) << 16 & 0x00FF_0000) + (UInt32(g255) << 8 & 0x0000_FF00) + (UInt32(b255) & 0x0000_00FF)
@@ -159,7 +159,7 @@ func convertToUInt32(r255: UInt8, g255: UInt8, b255: UInt8, a255: UInt8, colorBy
 ///   - a255: alpha component
 ///   - colorByteFormat: The output byte format
 /// - Returns: UInt32 encoded color value
-func convertToUInt32(rf: Float32, gf: Float32, bf: Float32, af: Float32, colorByteFormat: PAL.ColorByteFormat) -> UInt32 {
+internal func convertToUInt32(rf: Float32, gf: Float32, bf: Float32, af: Float32, colorByteFormat: PAL.ColorByteFormat) -> UInt32 {
 	convertToUInt32(r255: _f2p(rf), g255: _f2p(gf), b255: _f2p(bf), a255: _f2p(af), colorByteFormat: colorByteFormat)
 }
 
@@ -182,7 +182,7 @@ private let _fmt4u = "%02X%02X%02X%02X"
 ///   - hashmark: If true, includes a hashmark at the beginning
 ///   - uppercase: If true, uses uppercase characters
 /// - Returns: A hex representation
-func hexRGBString(
+internal func hexRGBString(
 	r255: UInt8,
 	g255: UInt8,
 	b255: UInt8,
@@ -219,7 +219,7 @@ func hexRGBString(
 ///   - includeHashmark: If true, start with a hash mark
 ///   - uppercase: Use uppercase characters
 /// - Returns: A string
-func hexRGBString<T: BinaryFloatingPoint>(
+internal func hexRGBString<T: BinaryFloatingPoint>(
 	rf: T,
 	gf: T,
 	bf: T,

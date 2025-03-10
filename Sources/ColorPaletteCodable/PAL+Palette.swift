@@ -104,11 +104,11 @@ public extension PAL.Palette {
 		_ count: Int,
 		colorSpace: PAL.ColorSpace = .RGB,
 		colorType: PAL.ColorType = .global
-	) throws -> PAL.Palette {
+	) -> PAL.Palette {
 		assert(count > 0)
-		return try PAL.Palette(
+		return PAL.Palette(
 			colors: (0 ..< count).map { _ in
-				try PAL.Color.random(colorSpace: colorSpace, colorType: colorType)
+				PAL.Color.random(colorSpace: colorSpace, colorType: colorType)
 			}
 		)
 	}

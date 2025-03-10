@@ -42,9 +42,9 @@ public extension PAL.Colors {
 		let bdiff = (c2.b - c1.b) * step
 		let adiff = (c2.a - c1.a) * step
 
-		return try (0 ..< count).map { index in
+		return (0 ..< count).map { index in
 			let index = Double(index)
-			return try PAL.Color(
+			return PAL.Color(
 				rf: Float32(c1.r + (index * rdiff)),
 				gf: Float32(c1.g + (index * gdiff)),
 				bf: Float32(c1.b + (index * bdiff)),
@@ -62,8 +62,8 @@ public extension PAL.Colors {
 		let a2: Double = 0.0
 		let step = (a2 - a1) / Double(count - 1)
 		let comps = try c0.rgbaComponents()
-		return try stride(from: a1, through: a2, by: step).map { value in
-			try PAL.Color(
+		return stride(from: a1, through: a2, by: step).map { value in
+			PAL.Color(
 				rf: Float32(comps.r),
 				gf: Float32(comps.g),
 				bf: Float32(comps.b),

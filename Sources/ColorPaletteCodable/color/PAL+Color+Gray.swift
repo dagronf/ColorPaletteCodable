@@ -26,13 +26,12 @@ public extension PAL.Color {
 	///   - white: white component (0.0 ... 1.0)
 	///   - alpha: The alpha component (0.0 ... 1.0)
 	///   - colorType: The type of color
-	init(name: String = "", white: Float32, alpha: Float32 = 1.0, colorType: PAL.ColorType = .global) throws {
-		try self.init(
-			name: name,
-			colorSpace: .Gray,
-			colorComponents: [white.clamped(to: 0 ... 1)],
-			alpha: alpha.clamped(to: 0 ... 1)
-		)
+	init(name: String = "", white: Float32, alpha: Float32 = 1.0, colorType: PAL.ColorType = .global) {
+		self.name = name
+		self.colorSpace = .Gray
+		self.colorComponents = [white.unitClamped]
+		self.alpha = alpha.unitClamped
+		self.colorType = colorType
 	}
 
 	/// Create a gray color
@@ -41,8 +40,8 @@ public extension PAL.Color {
 	///   - white255: white component (0 ... 255)
 	///   - alpha255: alpha component (0 ... 255)
 	///   - colorType: The type of color
-	init(name: String = "", white255: UInt8, alpha255: UInt8 = 255, colorType: PAL.ColorType = .global) throws {
-		try self.init(
+	init(name: String = "", white255: UInt8, alpha255: UInt8 = 255, colorType: PAL.ColorType = .global) {
+		self.init(
 			name: name,
 			white: Float32(white255) / 255.0,
 			alpha: Float32(alpha255) / 255.0,
@@ -65,14 +64,7 @@ public extension PAL.Color {
 		_ alpha: Float32 = 1,
 		colorType: PAL.ColorType = .global
 	) -> PAL.Color {
-		// We know that the color has the correct components here
-		try! PAL.Color(
-			name: name,
-			colorSpace: .Gray,
-			colorComponents: [white.unitClamped],
-			colorType: colorType,
-			alpha: alpha.unitClamped
-		)
+		PAL.Color(name: name, white: white, alpha: alpha, colorType: colorType)
 	}
 }
 

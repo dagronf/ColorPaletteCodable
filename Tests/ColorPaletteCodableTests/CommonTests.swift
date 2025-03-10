@@ -208,14 +208,14 @@ final class CommonTests: XCTestCase {
 			#endif
 		}
 		do {
-			let color = try PAL.Color(r255: 0, g255: 255, b255: 0)
+			let color = PAL.Color(r255: 0, g255: 255, b255: 0)
 			let hsb1 = try color.hsb()
 			XCTAssertEqual(hsb1.h, Float32(0.3333), accuracy: 0.0001)
 			XCTAssertEqual(hsb1.s, Float32(1))
 			XCTAssertEqual(hsb1.b, Float32(1))
 		}
 		do {
-			let color = try PAL.Color(r255: 50, g255: 216, b255: 164)
+			let color = PAL.Color(r255: 50, g255: 216, b255: 164)
 			let hsb1 = try color.hsb()
 			XCTAssertEqual(hsb1.h, Float32(161.2 / 360.0), accuracy: 0.0001)	// 0...360
 			XCTAssertEqual(hsb1.s, Float32(76.85 / 100.0), accuracy: 0.0001)	// 0...100
@@ -264,7 +264,7 @@ final class CommonTests: XCTestCase {
 	}
 
 	func testCSSColorGeneration() throws {
-		let color = try PAL.Color(r255: 50, g255: 216, b255: 164)
+		let color = PAL.Color(r255: 50, g255: 216, b255: 164)
 		XCTAssertEqual("rgba(50, 216, 164, 1.0)", try color.css())
 		XCTAssertEqual("rgb(50, 216, 164)", try color.css(includeAlpha: false))
 	}
@@ -466,7 +466,7 @@ final class CommonTests: XCTestCase {
 	func testUIntConversion() throws {
 		do {
 			let u1: UInt32 = 0xBB1122FE
-			let c1 = extractRGBA(u1, colorByteFormat: .rgba)
+			let c1 = extractRGBA(u1, format: .rgba)
 			XCTAssertEqual(c1.r, 0xBB)
 			XCTAssertEqual(c1.g, 0x11)
 			XCTAssertEqual(c1.b, 0x22)
@@ -477,7 +477,7 @@ final class CommonTests: XCTestCase {
 			let u12 = convertToUInt32(r255: c1.r, g255: c1.g, b255: c1.b, a255: c1.a, colorByteFormat: .rgb)
 			XCTAssertEqual(u12, 0x00BB1122)
 
-			let c2 = extractRGBA(u1, colorByteFormat: .argb)
+			let c2 = extractRGBA(u1, format: .argb)
 			XCTAssertEqual(c2.r, 0x11)
 			XCTAssertEqual(c2.g, 0x22)
 			XCTAssertEqual(c2.b, 0xFE)
@@ -485,7 +485,7 @@ final class CommonTests: XCTestCase {
 			let u22 = convertToUInt32(r255: c1.r, g255: c1.g, b255: c1.b, a255: c1.a, colorByteFormat: .rgba)
 			XCTAssertEqual(u22, u1)
 
-			let c3 = extractRGBA(u1, colorByteFormat: .bgra)
+			let c3 = extractRGBA(u1, format: .bgra)
 			XCTAssertEqual(c3.r, 0x22)
 			XCTAssertEqual(c3.g, 0x11)
 			XCTAssertEqual(c3.b, 0xBB)
@@ -557,19 +557,19 @@ final class CommonTests: XCTestCase {
 
 	func testRandomColorGeneration() throws {
 
-		let rgb1 = try PAL.Color.random()
+		let rgb1 = PAL.Color.random()
 		XCTAssertEqual(rgb1.colorSpace, .RGB)
-		let cmyk1 = try PAL.Color.random(colorSpace: .CMYK)
+		let cmyk1 = PAL.Color.random(colorSpace: .CMYK)
 		XCTAssertEqual(cmyk1.colorSpace, .CMYK)
-		let gray1 = try PAL.Color.random(colorSpace: .Gray)
+		let gray1 = PAL.Color.random(colorSpace: .Gray)
 		XCTAssertEqual(gray1.colorSpace, .Gray)
 
-		let colors12 = try PAL.Palette.random(12)
+		let colors12 = PAL.Palette.random(12)
 		XCTAssertEqual(colors12.colors.count, 12)
 		XCTAssertEqual(colors12.colors[0].colorSpace, .RGB)
 		XCTAssertEqual(colors12.colors[11].colorSpace, .RGB)
 
-		let colors8 = try PAL.Palette.random(8, colorSpace: .Gray)
+		let colors8 = PAL.Palette.random(8, colorSpace: .Gray)
 		XCTAssertEqual(colors8.colors.count, 8)
 		XCTAssertEqual(colors8.colors[0].colorSpace, .Gray)
 		XCTAssertEqual(colors8.colors[7].colorSpace, .Gray)

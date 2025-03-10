@@ -23,16 +23,16 @@ public extension PAL.Color {
 	/// The components for an HSL color
 	struct HSL: Equatable {
 		public init(h: Float32, s: Float32, l: Float32, a: Float32 = 1.0) {
-			self.h = h.clamped(to: 0...1)
-			self.s = s.clamped(to: 0...1)
-			self.l = l.clamped(to: 0...1)
-			self.a = a.clamped(to: 0...1)
+			self.h = h.unitClamped
+			self.s = s.unitClamped
+			self.l = l.unitClamped
+			self.a = a.unitClamped
 		}
 
 		public init(h360: Int, s100: Int, l100: Int, a: Float32 = 1.0) {
-			self.h = (Float32(h360) / 360.0).clamped(to: 0...1)
-			self.s = (Float32(s100) / 100.0).clamped(to: 0...1)
-			self.l = (Float32(l100) / 100.0).clamped(to: 0...1)
+			self.h = (Float32(h360) / 360.0).unitClamped
+			self.s = (Float32(s100) / 100.0).unitClamped
+			self.l = (Float32(l100) / 100.0).unitClamped
 			self.a = a.clamped(to: 0...1)
 		}
 
@@ -71,18 +71,18 @@ public extension PAL.Color {
 		return PAL.Color.HSL(h: hsl.h, s: hsl.s, l: hsl.l, a: hsl.a)
 	}
 
-	init(h: Float32, s: Float32, l: Float32, a: Float32 = 1.0) throws {
-		let p = PAL.Color.HSL(h: h, s: s, l: l, a: a)
+	init(hf: Float32, sf: Float32, lf: Float32, af: Float32 = 1.0) {
+		let p = PAL.Color.HSL(h: hf, s: sf, l: lf, a: af)
 		let rgb = p.rgb()
-		try self.init(rf: rgb.r, gf: rgb.g, bf: rgb.b, af: rgb.a)
+		self.init(rf: rgb.r, gf: rgb.g, bf: rgb.b, af: rgb.a)
 	}
 
-	@inlinable init(h360: Float32, s100: Float32, l100: Float32, a: Float32 = 1.0) throws {
-		try self.init(h: h360 / 360.0, s: s100 / 100, l: l100 / 100, a: a.clamped(to: 0.0 ... 1.0))
+	@inlinable init(h360: Float32, s100: Float32, l100: Float32, a: Float32 = 1.0) {
+		self.init(hf: h360 / 360.0, sf: s100 / 100, lf: l100 / 100, af: a.clamped(to: 0.0 ... 1.0))
 	}
 
-	init(_ color: PAL.Color.HSL) throws {
-		try self.init(h: color.h, s: color.s, l: color.l, a: color.a)
+	init(_ color: PAL.Color.HSL) {
+		self.init(hf: color.h, sf: color.s, lf: color.l, af: color.a)
 	}
 }
 

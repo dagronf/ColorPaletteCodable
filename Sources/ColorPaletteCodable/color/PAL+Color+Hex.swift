@@ -26,7 +26,7 @@ public extension PAL.Color {
 	///   - format: The expected color byte ordering for the value
 	///   - name: The color's name
 	init(name: String = "", _ hexValue: UInt32, format: PAL.ColorByteFormat) {
-		let c = extractRGBA(hexValue, colorByteFormat: format)
+		let c = extractRGBA(hexValue, format: format)
 		self.name = name
 		self.colorSpace = .RGB
 		self.colorComponents = [Float32(c.r) / 255.0, Float32(c.g) / 255.0, Float32(c.b) / 255.0]

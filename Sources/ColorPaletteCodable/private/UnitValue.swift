@@ -68,7 +68,7 @@ extension BinaryFloatingPoint {
 	@inlinable public var unitValue: UnitValue<Self> { UnitValue(self) }
 
 	/// Return a clamped representation
-	@inlinable public var unitClamped: Self { max(0, min(1, self)) }
+	@inlinable @inline(__always) public var unitClamped: Self { max(0, min(1, self)) }
 
 	/// Create by rotating the specified value into the range 0 ... 1
 	public func wrappingToUnitValue() -> Self {

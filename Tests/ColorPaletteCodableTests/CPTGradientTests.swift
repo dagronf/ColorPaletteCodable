@@ -141,15 +141,15 @@ final class CPTGradientTests: XCTestCase {
 		XCTAssertEqual(4, g.stops.count)
 
 		XCTAssertEqual(0, g.stops[0].position, accuracy: 0.000001)
-		XCTAssertTrue(try PAL.Color(white255: 10).isEqual(to: g.stops[0].color, precision: 6))
+		XCTAssertTrue(PAL.Color(white255: 10).isEqual(to: g.stops[0].color, precision: 6))
 
 		XCTAssertEqual(0.5, g.stops[1].position, accuracy: 0.000001)
-		XCTAssertTrue(try PAL.Color(white255: 40).isEqual(to: g.stops[1].color, precision: 6))
+		XCTAssertTrue(PAL.Color(white255: 40).isEqual(to: g.stops[1].color, precision: 6))
 
 		XCTAssertEqual(0.5, g.stops[2].position, accuracy: 0.000001)
-		XCTAssertTrue(try PAL.Color(white255: 60).isEqual(to: g.stops[2].color, precision: 6))
+		XCTAssertTrue(PAL.Color(white255: 60).isEqual(to: g.stops[2].color, precision: 6))
 
 		XCTAssertEqual(1, g.stops[3].position, accuracy: 0.000001)
-		XCTAssertTrue(try PAL.Color(white255: 90).isEqual(to: g.stops[3].color, precision: 6))
+		XCTAssertTrue(PAL.Color(white255: 90).isEqual(to: g.stops[3].color, precision: 6))
 	}
 }

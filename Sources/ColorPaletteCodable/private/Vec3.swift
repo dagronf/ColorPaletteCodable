@@ -59,17 +59,15 @@ internal extension PAL.Color {
 	/// - Parameters:
 	///   - name: The color name
 	///   - sRGB: The components values
-	init(name: String = "", sRGB: Vec3<Float32>) throws {
-		try self.init(name: name, rf: sRGB.x, gf: sRGB.y, bf: sRGB.z)
+	init(name: String = "", sRGB: Vec3<Float32>) {
+		self.init(name: name, rf: sRGB.x, gf: sRGB.y, bf: sRGB.z)
 	}
 
 	/// Return an Vec3 representation of this color. Throws an error if the color is not RGB colorspace
 	/// - Returns: SIMD3 representation
 	func rgbValuesVec3() throws -> Vec3<Float32> {
-		guard colorSpace == .RGB else {
-			throw PAL.CommonError.mismatchedColorspace
-		}
-		return Vec3<Float32>(self._r, self._g, self._b)
+		let rgb = try self.rgbaComponents()
+		return Vec3<Float32>(Float32(rgb.r), Float32(rgb.g), Float32(rgb.b))
 	}
 }
 

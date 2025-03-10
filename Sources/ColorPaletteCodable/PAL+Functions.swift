@@ -49,7 +49,7 @@ extension PAL.Color {
 		let h = (hsba.h - 0.5).wrappingToUnitValue()
 
 		// Create a new color using the new hue
-		return try PAL.Color(h: h, s: hsba.s, b: hsba.b, alpha: hsba.a)
+		return PAL.Color(hf: h, sf: hsba.s, bf: hsba.b, af: hsba.a)
 	}
 
 	/// The style of monochromacity
@@ -71,13 +71,13 @@ extension PAL.Color {
 		let hsba = try hsb()
 		let dest = step * Float32(count - 1)
 		var results: [PAL.Color] = []
-		try stride(from: 0, through: dest, by: step).forEach { offset in
+		stride(from: 0, through: dest, by: step).forEach { offset in
 			let color: PAL.Color
 			switch style {
 			case .saturation:
-				color = try PAL.Color(h: hsba.h, s: hsba.s + offset, b: hsba.b, alpha: hsba.a)
+				color = PAL.Color(hf: hsba.h, sf: hsba.s + offset, bf: hsba.b, af: hsba.a)
 			case .brightness:
-				color = try PAL.Color(h: hsba.h, s: hsba.s, b: hsba.b + offset, alpha: hsba.a)
+				color = PAL.Color(hf: hsba.h, sf: hsba.s, bf: hsba.b + offset, af: hsba.a)
 			}
 			results.append(color)
 		}
@@ -98,8 +98,8 @@ extension PAL.Color {
 		let b = hsb.b100
 
 		// Calculate 4 monochromatic colors
-		return try stride(from: s, to: 0, by: -s / count).map {
-			return try PAL.Color(h360: h, s100: $0, b100: b)
+		return stride(from: s, to: 0, by: -s / count).map {
+			PAL.Color(h360: h, s100: $0, b100: b)
 		}
 	}
 
@@ -119,14 +119,10 @@ extension PAL.Color {
 		let offset = totalSweep / 2.0
 		let hStart = (Double(hsba.h) - offset).wrappingToUnitValue()
 		var colors = [PAL.Color]()
-		try (0 ..< count).forEach { index in
+		(0 ..< count).forEach { index in
 			let pos = (hStart + (Double(index) * stepSize)).wrappingToUnitValue()
-			colors.append(try PAL.Color(
-				h: Float32(pos),
-				s: hsba.s,
-				b: hsba.b,
-				alpha: hsba.a
-			))
+			let c = PAL.Color(hf: Float32(pos), sf: hsba.s, bf: hsba.b, af: hsba.a)
+			colors.append(c)
 		}
 		return colors
 	}
@@ -149,8 +145,8 @@ extension PAL.Color {
 		]
 
 		// Ensure the hue is wrapped correctly (between 0 and 360 degrees)
-		return try colors.map { (h: Float32, s: Float32, l: Float32) in
-			return try PAL.Color(h360: h360(h), s100: s, l100: l)
+		return colors.map { (h: Float32, s: Float32, l: Float32) in
+			PAL.Color(h360: h360(h), s100: s, l100: l)
 		}
 	}
 
@@ -174,8 +170,8 @@ extension PAL.Color {
 		]
 
 		// Ensure the hue is wrapped correctly (between 0 and 360 degrees)
-		return try colors.map { (h: Float32, s: Float32, l: Float32) in
-			try PAL.Color(h360: h, s100: s, l100: l)
+		return colors.map { (h: Float32, s: Float32, l: Float32) in
+			PAL.Color(h360: h, s100: s, l100: l)
 		}
 	}
 
@@ -204,8 +200,8 @@ extension PAL.Color {
 		]
 
 		// Ensure the hue is wrapped correctly (between 0 and 360 degrees)
-		return try colors.map { (h: Float32, s: Float32, l: Float32) in
-			try PAL.Color(h360: h, s100: s, l100: l)
+		return colors.map { (h: Float32, s: Float32, l: Float32) in
+			PAL.Color(h360: h, s100: s, l100: l)
 		}
 	}
 
@@ -229,8 +225,8 @@ extension PAL.Color {
 		]
 
 		// Ensure the hue is wrapped correctly (between 0 and 360 degrees)
-		return try colors.map { (h: Float32, s: Float32, l: Float32) in
-			try PAL.Color(h360: h, s100: s, l100: l)
+		return colors.map { (h: Float32, s: Float32, l: Float32) in
+			PAL.Color(h360: h, s100: s, l100: l)
 		}
 	}
 
@@ -254,8 +250,8 @@ extension PAL.Color {
 		]
 
 		// Ensure the hue is wrapped correctly (between 0 and 360 degrees)
-		return try colors.map { (h: Float32, s: Float32, l: Float32) in
-			try PAL.Color(h360: h, s100: s, l100: l)
+		return colors.map { (h: Float32, s: Float32, l: Float32) in
+			PAL.Color(h360: h, s100: s, l100: l)
 		}
 	}
 
@@ -269,8 +265,8 @@ extension PAL.Color {
 		let h = Float32(hsl.h360)
 		let s = Float32(hsl.s100)
 		let l = Float32(hsl.l100)
-		return try stride(from: 0, to: 360, by: 360 / Float32(count)).map {
-			try PAL.Color(h360: h360(h + $0), s100: s, l100: l)
+		return stride(from: 0, to: 360, by: 360 / Float32(count)).map {
+			PAL.Color(h360: h360(h + $0), s100: s, l100: l)
 		}
 	}
 }
@@ -285,7 +281,7 @@ public extension PAL.Color {
 	func shade(fraction: Float32) throws -> PAL.Color {
 		let fraction = fraction.clamped(to: 0.0 ... 1.0)
 		let hsl = try self.hsl()
-		return try PAL.Color(h: hsl.h, s: hsl.s, l: hsl.l * fraction)
+		return PAL.Color(hf: hsl.h, sf: hsl.s, lf: hsl.l * fraction)
 	}
 
 	/// Returns shaded versions of this color
@@ -296,8 +292,8 @@ public extension PAL.Color {
 	func shade(count: Int) throws -> [PAL.Color] {
 		let rgb = try self.rgb()
 		let step = 1.0 / Float32(count)
-		return try stride(from: 1.0, to: 0.0, by: -step).map {
-			try PAL.Color(rf: rgb.r * $0, gf: rgb.g * $0, bf: rgb.b * $0)
+		return stride(from: 1.0, to: 0.0, by: -step).map {
+			PAL.Color(rf: rgb.r * $0, gf: rgb.g * $0, bf: rgb.b * $0)
 		}
 	}
 
@@ -310,7 +306,7 @@ public extension PAL.Color {
 	func tint(fraction: Float32) throws -> PAL.Color {
 		let fraction = fraction.clamped(to: 0.0 ... 1.0)
 		let hsl = try self.hsl()
-		return try PAL.Color(h: hsl.h, s: hsl.s, l: hsl.l + ((1.0 - hsl.l) * fraction))
+		return PAL.Color(hf: hsl.h, sf: hsl.s, lf: hsl.l + ((1.0 - hsl.l) * fraction))
 	}
 
 	/// Returns tinted versions of this color
@@ -322,8 +318,8 @@ public extension PAL.Color {
 	func tint(count: Int) throws -> [PAL.Color] {
 		let hsl = try self.hsl()
 		let step = (1.0 - min(0.999, hsl.l)) / Float32(count)
-		return try stride(from: hsl.l, to: 0.999, by: step).map {
-			try PAL.Color(h: hsl.h, s: hsl.s, l: $0)
+		return stride(from: hsl.l, to: 0.999, by: step).map {
+			PAL.Color(hf: hsl.h, sf: hsl.s, lf: $0)
 		}
 	}
 }
@@ -396,7 +392,7 @@ public extension PAL.Color {
 		let fraction = fraction.clamped(to: -1.0 ... 1.0)
 		let newBrightness = hsb.b * (1.0 + fraction)
 
-		let darker = try PAL.Color(h: hsb.h, s: hsb.s, b: newBrightness.unitClamped, alpha: hsb.a)
+		let darker = PAL.Color(hf: hsb.h, sf: hsb.s, bf: newBrightness.unitClamped, af: hsb.a)
 		if useSameColorspace {
 			return try darker.converted(to: self.colorSpace)
 		}

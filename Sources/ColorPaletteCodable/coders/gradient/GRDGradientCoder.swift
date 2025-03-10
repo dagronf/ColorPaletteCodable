@@ -75,10 +75,10 @@ public extension PAL.Gradients.Coder.GRD {
 						ColorPaletteLogger.log(.error, "GRD: hsb component count mismatch")
 						throw PAL.GradientError.unsupportedColorFormat
 					}
-					color = try PAL.Color(
-						h: Float32(co.components[0] / 360.0),
-						s: Float32(co.components[1] / 100.0),
-						b: Float32(co.components[2] / 100.0)
+					color = PAL.Color(
+						hf: Float32(co.components[0] / 360.0),
+						sf: Float32(co.components[1] / 100.0),
+						bf: Float32(co.components[2] / 100.0)
 					)
 				}
 				else if co.colorspace == "cmyk" {

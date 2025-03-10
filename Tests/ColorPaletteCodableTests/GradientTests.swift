@@ -287,9 +287,9 @@ class GradientTests: XCTestCase {
 
 	func testGradientCreationFromArray() throws {
 		let colors: [PAL.Color] = [
-			try PAL.Color(name: "r", r255: 255, g255: 0, b255: 0),
-			try PAL.Color(name: "g", r255: 0, g255: 255, b255: 0),
-			try PAL.Color(name: "b", r255: 0, g255: 0, b255: 255),
+			PAL.Color(name: "r", r255: 255, g255: 0, b255: 0),
+			PAL.Color(name: "g", r255: 0, g255: 255, b255: 0),
+			PAL.Color(name: "b", r255: 0, g255: 0, b255: 255),
 		]
 		let g = colors.gradient()
 		XCTAssertNil(g.name)
@@ -304,9 +304,9 @@ class GradientTests: XCTestCase {
 
 	func testGradientPeekColor() throws {
 		let gcolors: [PAL.Color] = [
-			try PAL.Color(name: "r", r255: 255, g255: 0, b255: 0),
-			try PAL.Color(name: "g", r255: 0, g255: 255, b255: 0),
-			try PAL.Color(name: "b", r255: 0, g255: 0, b255: 255),
+			PAL.Color(name: "r", r255: 255, g255: 0, b255: 0),
+			PAL.Color(name: "g", r255: 0, g255: 255, b255: 0),
+			PAL.Color(name: "b", r255: 0, g255: 0, b255: 255),
 		]
 		let g = gcolors.gradient()
 
@@ -362,27 +362,27 @@ class GradientTests: XCTestCase {
 
 	func testHueGradient() throws {
 		do {
-			let g1 = try PAL.Gradient(hueRange: 0.0 ... 1.0, stopCount: 11)
+			let g1 = PAL.Gradient(hueRange: 0.0 ... 1.0, stopCount: 11)
 			let gs1 = PAL.Gradients(gradient: g1)
 			let ps1 = try PAL.Gradients.Coder.GGR().encode(gs1)
 			try hueGradient.write(ps1, to: "hue-gradient-0-1-11.ggr")
 		}
 		do {
-			let g1 = try PAL.Gradient(hueRange: 0.0 ... 1.0, stopCount: 101)
+			let g1 = PAL.Gradient(hueRange: 0.0 ... 1.0, stopCount: 101)
 			let gs1 = PAL.Gradients(gradient: g1)
 			let ps1 = try PAL.Gradients.Coder.GGR().encode(gs1)
 			try hueGradient.write(ps1, to: "hue-gradient-0-1-101.ggr")
 		}
 
 		do {
-			let g1 = try PAL.Gradient(hueRange: 0.0 ... 1.0, stopCount: 3)
+			let g1 = PAL.Gradient(hueRange: 0.0 ... 1.0, stopCount: 3)
 			let gs1 = PAL.Gradients(gradient: g1)
 			let ps1 = try PAL.Gradients.Coder.GGR().encode(gs1)
 			try hueGradient.write(ps1, to: "hue-gradient-0-1-3.ggr")
 		}
 
 		do {
-			let g1 = try PAL.Gradient(hueRange: 0.1 ... 0.47, stopCount: 8)
+			let g1 = PAL.Gradient(hueRange: 0.1 ... 0.47, stopCount: 8)
 			let gs1 = PAL.Gradients(gradient: g1)
 			let ps1 = try PAL.Gradients.Coder.GGR().encode(gs1)
 			try hueGradient.write(ps1, to: "hue-gradient-orange2green-8.ggr")

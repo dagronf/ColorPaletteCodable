@@ -48,10 +48,10 @@ extension OkLab {
 		_ c1: Vec3<Float32>,
 		_ c2: Vec3<Float32>,
 		steps: Int
-	) throws -> PAL.Palette {
+	) -> PAL.Palette {
 		assert(steps > 1)
-		let colors = try stride(from: 0, through: 1, by: 1.0 / (Float32(steps) - 1)).map {
-			try PAL.Color(sRGB: OkLab.mix(c1, c2, t: $0))
+		let colors = stride(from: 0, through: 1, by: 1.0 / (Float32(steps) - 1)).map {
+			PAL.Color(sRGB: OkLab.mix(c1, c2, t: $0))
 		}
 		return PAL.Palette(name: name, colors: colors)
 	}

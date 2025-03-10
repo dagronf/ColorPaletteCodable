@@ -140,10 +140,8 @@ private extension PAL.Gradients.Coder.CPT {
 		scanner.resetLocation(tag)
 
 		// A simple grayscale value maybe?
-		if let gr1 = scanner._scanInt(in: 0 ... 255),
-			let color = try? PAL.Color(white255: UInt8(gr1))
-		{
-			return color
+		if let gr1 = scanner._scanInt(in: 0 ... 255) {
+			return PAL.Color(white255: UInt8(gr1))
 		}
 
 		// Reset back to the start of the color section

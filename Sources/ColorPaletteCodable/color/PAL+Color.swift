@@ -56,7 +56,6 @@ public extension PAL {
 		) throws {
 			self.name = name
 			self.colorSpace = colorSpace
-
 			self.colorComponents = colorComponents
 			self.colorType = colorType
 			self.alpha = alpha
@@ -150,10 +149,10 @@ public extension PAL {
 			named name: String = "",
 			colorSpace: PAL.ColorSpace = .RGB,
 			colorType: PAL.ColorType = .global
-		) throws -> PAL.Color {
+		) -> PAL.Color {
 			switch colorSpace {
 			case .CMYK:
-				return try PAL.Color(
+				return PAL.Color(
 					name: name,
 					cf: Float32.random(in: 0...1),
 					mf: Float32.random(in: 0...1),
@@ -162,7 +161,7 @@ public extension PAL {
 					colorType: colorType
 				)
 			case .RGB:
-				return try PAL.Color(
+				return PAL.Color(
 					name: name,
 					rf: Float32.random(in: 0...1),
 					gf: Float32.random(in: 0...1),
@@ -170,13 +169,14 @@ public extension PAL {
 					colorType: colorType
 				)
 			case .Gray:
-				return try PAL.Color(
+				return PAL.Color(
 					name: name,
 					white: Float32.random(in: 0...1),
 					colorType: colorType
 				)
-			default:
-				throw PAL.CommonError.unsupportedColorSpace
+			case .LAB:
+				// MARK: - TODO: Support random LAB values maybe?
+				fatalError()
 			}
 		}
 	}

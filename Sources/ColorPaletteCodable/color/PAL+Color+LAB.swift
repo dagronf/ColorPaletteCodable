@@ -22,11 +22,11 @@ import Foundation
 public extension PAL.Color {
 	/// The components for a color with the CGColorSpace.LAB colorspace
 	struct LAB: Equatable {
-		public init(l: Float32, a: Float32, b: Float32, alpha: Float32 = 1.0) {
-			self.l = l.clamped(to: 0 ... 100)
-			self.a = a.clamped(to: -128.0 ... 128.0)
-			self.b = b.clamped(to: -128.0 ... 128.0)
-			self.alpha = a.clamped(to: 0.0 ... 1.0)
+		public init(l100: Float32, a128: Float32, b128: Float32, af: Float32 = 1.0) {
+			self.l = l100.clamped(to: 0 ... 100)
+			self.a = a128.clamped(to: -128.0 ... 128.0)
+			self.b = b128.clamped(to: -128.0 ... 128.0)
+			self.alpha = af.clamped(to: 0.0 ... 1.0)
 		}
 
 		public static func == (lhs: PAL.Color.LAB, rhs: PAL.Color.LAB) -> Bool {

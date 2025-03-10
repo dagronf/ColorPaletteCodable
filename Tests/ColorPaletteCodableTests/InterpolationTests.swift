@@ -24,9 +24,9 @@ final class InterpolationTests: XCTestCase {
 		XCTAssertEqual(PAL.Color.red, try [PAL.Color.red].bucketedColor(at: 0.unitValue))
 
 		let colors: [PAL.Color] = [
-			try PAL.Color(name: "r", r255: 255, g255: 0, b255: 0),
-			try PAL.Color(name: "g", r255: 0, g255: 255, b255: 0),
-			try PAL.Color(name: "b", r255: 0, g255: 0, b255: 255),
+			PAL.Color(name: "r", r255: 255, g255: 0, b255: 0),
+			PAL.Color(name: "g", r255: 0, g255: 255, b255: 0),
+			PAL.Color(name: "b", r255: 0, g255: 0, b255: 255),
 		]
 		let p1 = PAL.Palette(colors: colors)
 
@@ -48,25 +48,25 @@ final class InterpolationTests: XCTestCase {
 		XCTAssertEqual(PAL.Color.red, try [PAL.Color.red].interpolatedColor(at: 0.unitValue))
 
 		let colors: [PAL.Color] = [
-			try PAL.Color(name: "r", r255: 255, g255: 0, b255: 0),
-			try PAL.Color(name: "b", r255: 0, g255: 0, b255: 255),
+			PAL.Color(name: "r", r255: 255, g255: 0, b255: 0),
+			PAL.Color(name: "b", r255: 0, g255: 0, b255: 255),
 		]
 
 		XCTAssertEqual(colors[0], try colors.interpolatedColor(at: 0.unitValue))
 		XCTAssertEqual(colors[1], try colors.interpolatedColor(at: 1.unitValue))
 
 		XCTAssertEqual(
-			try PAL.Color(rf: 0.75, gf: 0, bf: 0.25),
+			PAL.Color(rf: 0.75, gf: 0, bf: 0.25),
 			try colors.interpolatedColor(at: 0.25.unitValue)
 		)
 
 		XCTAssertEqual(
-			try PAL.Color(rf: 0.5, gf: 0, bf: 0.5),
+			PAL.Color(rf: 0.5, gf: 0, bf: 0.5),
 			try colors.interpolatedColor(at: 0.5.unitValue)
 		)
 
 		XCTAssertEqual(
-			try PAL.Color(rf: 0.25, gf: 0, bf: 0.75),
+			PAL.Color(rf: 0.25, gf: 0, bf: 0.75),
 			try colors.interpolatedColor(at: 0.75.unitValue)
 		)
 	}
@@ -79,15 +79,15 @@ final class InterpolationTests: XCTestCase {
 		XCTAssertEqual(t1, try [t1].interpolatedColor(at: 1.unitValue))
 
 		// Single color, should just return the color
-		let color = try PAL.Color(r255: 255, g255: 255, b255: 0)
+		let color = PAL.Color(r255: 255, g255: 255, b255: 0)
 		XCTAssertEqual(color, try [color].bucketedColor(at: 0.unitValue))
 		XCTAssertEqual(color, try [color].bucketedColor(at: 1.unitValue))
 
 		// Color array
 		let colors: [PAL.Color] = [
-			try PAL.Color(r255: 255, g255: 0, b255: 0),
-			try PAL.Color(r255: 0, g255: 255, b255: 0),
-			try PAL.Color(r255: 0, g255: 0, b255: 255),
+			PAL.Color(r255: 255, g255: 0, b255: 0),
+			PAL.Color(r255: 0, g255: 255, b255: 0),
+			PAL.Color(r255: 0, g255: 0, b255: 255),
 		]
 
 		XCTAssertEqual(colors[0], try colors.interpolatedColor(at: 0.unitValue))
@@ -95,17 +95,17 @@ final class InterpolationTests: XCTestCase {
 		XCTAssertEqual(colors[2], try colors.interpolatedColor(at: 1.unitValue))
 
 		XCTAssertEqual(
-			try PAL.Color(rf: 0.75, gf: 0.25, bf: 0.0),
+			PAL.Color(rf: 0.75, gf: 0.25, bf: 0.0),
 			try colors.bucketedColor(at: 0.125.unitValue, interpolate: true)
 		)
 
 		XCTAssertEqual(
-			try PAL.Color(rf: 0.5, gf: 0.5, bf: 0.0),
+			PAL.Color(rf: 0.5, gf: 0.5, bf: 0.0),
 			try colors.bucketedColor(at: 0.25.unitValue, interpolate: true)
 		)
 
 		XCTAssertEqual(
-			try PAL.Color(rf: 0.0, gf: 0.5, bf: 0.5),
+			PAL.Color(rf: 0.0, gf: 0.5, bf: 0.5),
 			try colors.bucketedColor(at: 0.75.unitValue, interpolate: true)
 		)
 	}
@@ -120,7 +120,7 @@ final class InterpolationTests: XCTestCase {
 			)
 
 			XCTAssertEqual(PAL.Color.red, priceColors[0])
-			XCTAssertEqual(try PAL.Color(rf: 0.5, gf: 0.5, bf: 0), priceColors[1])
+			XCTAssertEqual(PAL.Color(rf: 0.5, gf: 0.5, bf: 0), priceColors[1])
 			XCTAssertEqual(PAL.Color.green, priceColors[2])
 			XCTAssertEqual(3, priceColors.count)
 		}
@@ -132,9 +132,9 @@ final class InterpolationTests: XCTestCase {
 				count: 3
 			)
 
-			XCTAssertEqual(try PAL.Color(rf: 1, gf: 0.5, bf: 1), priceColors[0])
-			XCTAssertEqual(try PAL.Color(rf: 0.5, gf: 0.5, bf: 0.75), priceColors[1])
-			XCTAssertEqual(try PAL.Color(rf: 0, gf: 0.5, bf: 0.5), priceColors[2])
+			XCTAssertEqual(PAL.Color(rf: 1, gf: 0.5, bf: 1), priceColors[0])
+			XCTAssertEqual(PAL.Color(rf: 0.5, gf: 0.5, bf: 0.75), priceColors[1])
+			XCTAssertEqual(PAL.Color(rf: 0, gf: 0.5, bf: 0.5), priceColors[2])
 			XCTAssertEqual(3, priceColors.count)
 		}
 
@@ -148,40 +148,40 @@ final class InterpolationTests: XCTestCase {
 		do {
 			let grays = try PAL.Colors.blackToWhite(count: 3)
 			XCTAssertEqual(3, grays.count)
-			XCTAssertEqual(try PAL.Color(rf: 0, gf: 0, bf: 0), grays[0])
-			XCTAssertEqual(try PAL.Color(rf: 0.5, gf: 0.5, bf: 0.5), grays[1])
-			XCTAssertEqual(try PAL.Color(rf: 1, gf: 1, bf: 1), grays[2])
+			XCTAssertEqual(PAL.Color(rf: 0, gf: 0, bf: 0), grays[0])
+			XCTAssertEqual(PAL.Color(rf: 0.5, gf: 0.5, bf: 0.5), grays[1])
+			XCTAssertEqual(PAL.Color(rf: 1, gf: 1, bf: 1), grays[2])
 		}
 
 		do {
 			let c = try PAL.Colors.colorToClear(.green, count: 4)
 			XCTAssertEqual(4, c.count)
-			XCTAssertTrue(try PAL.Color(rf: 0, gf: 1, bf: 0, af: 1).isEqual(to: c[0], precision: 8))
-			XCTAssertTrue(try PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.666666666).isEqual(to: c[1], precision: 8))
-			XCTAssertTrue(try PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.333333333).isEqual(to: c[2], precision: 8))
-			XCTAssertTrue(try PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.0).isEqual(to: c[3], precision: 8))
+			XCTAssertTrue(PAL.Color(rf: 0, gf: 1, bf: 0, af: 1).isEqual(to: c[0], precision: 8))
+			XCTAssertTrue(PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.666666666).isEqual(to: c[1], precision: 8))
+			XCTAssertTrue(PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.333333333).isEqual(to: c[2], precision: 8))
+			XCTAssertTrue(PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.0).isEqual(to: c[3], precision: 8))
 		}
 	}
 
 	func testInterpolateColors() throws {
 		// Color array
 		let colors: [PAL.Color] = [
-			try PAL.Color(rf: 1, gf: 0, bf: 0),
-			try PAL.Color(rf: 1, gf: 1, bf: 0),
-			try PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.5),
+			PAL.Color(rf: 1, gf: 0, bf: 0),
+			PAL.Color(rf: 1, gf: 1, bf: 0),
+			PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.5),
 		]
 
 		let cs1 = try colors.interpolatedColors(count: 3)
-		XCTAssertEqual(try PAL.Color(rf: 1, gf: 0, bf: 0), cs1[0])
-		XCTAssertEqual(try PAL.Color(rf: 1, gf: 1, bf: 0), cs1[1])
-		XCTAssertEqual(try PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.5), cs1[2])
+		XCTAssertEqual(PAL.Color(rf: 1, gf: 0, bf: 0), cs1[0])
+		XCTAssertEqual(PAL.Color(rf: 1, gf: 1, bf: 0), cs1[1])
+		XCTAssertEqual(PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.5), cs1[2])
 
 		let cs2 = try colors.interpolatedColors(count: 5)
-		XCTAssertEqual(try PAL.Color(rf: 1, gf: 0, bf: 0), cs2[0])
-		XCTAssertEqual(try PAL.Color(rf: 1, gf: 0.5, bf: 0), cs2[1])
-		XCTAssertEqual(try PAL.Color(rf: 1, gf: 1, bf: 0), cs2[2])
-		XCTAssertEqual(try PAL.Color(rf: 0.5, gf: 1, bf: 0, af: 0.75), cs2[3])
-		XCTAssertEqual(try PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.5), cs2[4])
+		XCTAssertEqual(PAL.Color(rf: 1, gf: 0, bf: 0), cs2[0])
+		XCTAssertEqual(PAL.Color(rf: 1, gf: 0.5, bf: 0), cs2[1])
+		XCTAssertEqual(PAL.Color(rf: 1, gf: 1, bf: 0), cs2[2])
+		XCTAssertEqual(PAL.Color(rf: 0.5, gf: 1, bf: 0, af: 0.75), cs2[3])
+		XCTAssertEqual(PAL.Color(rf: 0, gf: 1, bf: 0, af: 0.5), cs2[4])
 	}
 
 

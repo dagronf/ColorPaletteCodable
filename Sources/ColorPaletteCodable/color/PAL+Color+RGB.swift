@@ -23,10 +23,10 @@ public extension PAL.Color {
 	/// The components for a color with a CGColorSpace.RGB colorspace
 	struct RGB: Equatable {
 		public init(r: Float32, g: Float32, b: Float32, a: Float32 = 1.0) {
-			self.r = r.clamped(to: 0.0 ... 1.0)
-			self.g = g.clamped(to: 0.0 ... 1.0)
-			self.b = b.clamped(to: 0.0 ... 1.0)
-			self.a = a.clamped(to: 0.0 ... 1.0)
+			self.r = r.unitClamped
+			self.g = g.unitClamped
+			self.b = b.unitClamped
+			self.a = a.unitClamped
 		}
 
 		/// Create using rgba in the 0 ... 255 range
@@ -36,10 +36,10 @@ public extension PAL.Color {
 		///   - b255: Blue component
 		///   - a255: Alpha component
 		public init(r255: UInt8, g255: UInt8, b255: UInt8, a255: UInt8 = 255) {
-			self.r = (Float32(r255) / 255).clamped(to: 0.0 ... 1.0)
-			self.g = (Float32(g255) / 255).clamped(to: 0.0 ... 1.0)
-			self.b = (Float32(b255) / 255).clamped(to: 0.0 ... 1.0)
-			self.a = (Float32(a255) / 255).clamped(to: 0.0 ... 1.0)
+			self.r = (Float32(r255) / 255).unitClamped
+			self.g = (Float32(g255) / 255).unitClamped
+			self.b = (Float32(b255) / 255).unitClamped
+			self.a = (Float32(a255) / 255).unitClamped
 		}
 
 		/// Create from a hex formatted color string
@@ -58,10 +58,10 @@ public extension PAL.Color {
 			guard let c = extractHexRGBA(hexString: hexString, hexRGBFormat: hexRGBFormat) else {
 				throw PAL.CommonError.invalidRGBHexString(hexString)
 			}
-			self.r = Float32(c.r) / 255.0
-			self.g = Float32(c.g) / 255.0
-			self.b = Float32(c.b) / 255.0
-			self.a = Float32(c.a) / 255.0
+			self.r = (Float32(c.r) / 255.0).unitClamped
+			self.g = (Float32(c.g) / 255.0).unitClamped
+			self.b = (Float32(c.b) / 255.0).unitClamped
+			self.a = (Float32(c.a) / 255.0).unitClamped
 		}
 
 		/// Create from a hex RGBA formatted color string
@@ -113,10 +113,15 @@ public extension PAL.Color {
 		a255: UInt8 = 255,
 		colorType: PAL.ColorType = .global
 	) {
+		let rf = (Float32(r255) / 255.0).unitClamped
+		let gf = (Float32(g255) / 255.0).unitClamped
+		let bf = (Float32(b255) / 255.0).unitClamped
+		let af = (Float32(a255) / 255.0).unitClamped
+
 		self.name = name
 		self.colorSpace = .RGB
-		self.colorComponents = [Float32(r255) / 255.0, Float32(g255) / 255.0, Float32(b255) / 255.0]
-		self.alpha = Float32(a255) / 255.0
+		self.colorComponents = [rf, gf, bf]
+		self.alpha = af
 		self.colorType = colorType
 	}
 
@@ -135,18 +140,12 @@ public extension PAL.Color {
 		bf: Float32,
 		af: Float32 = 1.0,
 		colorType: PAL.ColorType = .global
-	) throws {
-		try self.init(
-			name: name,
-			colorSpace: .RGB,
-			colorComponents: [
-				rf.clamped(to: 0.0 ... 1.0),
-				gf.clamped(to: 0.0 ... 1.0),
-				bf.clamped(to: 0.0 ... 1.0)
-			],
-			colorType: colorType,
-			alpha: af.clamped(to: 0.0 ... 1.0)
-		)
+	) {
+		self.name = name
+		self.colorSpace = .RGB
+		self.colorComponents = [rf.unitClamped, gf.unitClamped, bf.unitClamped]
+		self.alpha = af.unitClamped
+		self.colorType = colorType
 	}
 
 	/// Create a color using an RGB color object
@@ -154,8 +153,8 @@ public extension PAL.Color {
 	///   - name: The color name
 	///   - color: The color components
 	///   - colorType: The type of color
-	init(name: String = "", color: PAL.Color.RGB, colorType: PAL.ColorType = .global) throws {
-		try self.init(name: name, rf: color.r, gf: color.g, bf: color.b, af: color.a, colorType: colorType)
+	init(name: String = "", color: PAL.Color.RGB, colorType: PAL.ColorType = .global) {
+		self.init(name: name, rf: color.r, gf: color.g, bf: color.b, af: color.a, colorType: colorType)
 	}
 
 	/// Create a color object from a hex string
@@ -170,7 +169,12 @@ public extension PAL.Color {
 	/// - [#]FFFF     : RGBA color (RRGGBB)
 	/// - [#]FFFFFF   : RGB color
 	/// - [#]FFFFFFFF : RGBA color (RRGGBBAA)
-	init(name: String = "", hexString: String, hexRGBFormat: PAL.ColorByteFormat, colorType: PAL.ColorType = .normal) throws {
+	init(
+		name: String = "",
+		hexString: String,
+		hexRGBFormat: PAL.ColorByteFormat,
+		colorType: PAL.ColorType = .normal
+	) throws {
 		let color = try PAL.Color.RGB(hexString: hexString, hexRGBFormat: hexRGBFormat)
 		try self.init(
 			name: name,
@@ -215,10 +219,25 @@ public extension PAL.Color {
 	/// - Parameters:
 	///   - name: The color name
 	///   - uint32ColorValue: a 32-bit (4 byte) color value
-	///   - colorByteFormat: The byte ordering when decoding the color value
-	init(name: String = "", _ uint32ColorValue: UInt32, colorByteFormat: PAL.ColorByteFormat) throws {
-		let c = extractRGBA(uint32ColorValue, colorByteFormat: colorByteFormat)
-		self.init(name: name, r255: c.r, g255: c.g, b255: c.b, a255: c.a, colorType: .global)
+	///   - format: The byte ordering when decoding the color value
+	///   - colorType: The color type
+	init(
+		name: String = "",
+		_ uint32ColorValue: UInt32,
+		format: PAL.ColorByteFormat,
+		colorType: PAL.ColorType = .normal
+	) {
+		let c = extractRGBA(uint32ColorValue, format: format)
+		let rf = (Float32(c.r) / 255.0).unitClamped
+		let gf = (Float32(c.g) / 255.0).unitClamped
+		let bf = (Float32(c.b) / 255.0).unitClamped
+		let af = (Float32(c.a) / 255.0).unitClamped
+
+		self.name = name
+		self.colorSpace = .RGB
+		self.colorComponents = [rf, gf, bf]
+		self.alpha = af
+		self.colorType = colorType
 	}
 }
 
@@ -253,32 +272,21 @@ public extension PAL.Color {
 	/// Create a color from RGB components
 	/// - Parameters:
 	///   - name: The name for the color
-	///   - r: The red component (0 ... 255)
-	///   - g: The green component (0 ... 255)
-	///   - b: The blue component (0 ... 255)
-	///   - alpha: The alpha component (0 ... 255)
+	///   - r255: The red component (0 ... 255)
+	///   - g255: The green component (0 ... 255)
+	///   - b255: The blue component (0 ... 255)
+	///   - a255: The alpha component (0 ... 255)
 	///   - colorType: The type of color
 	/// - Returns: A color
 	static func rgb255(
 		name: String = "",
-		_ r: UInt8,
-		_ g: UInt8,
-		_ b: UInt8,
-		_ alpha: UInt8 = 255,
-		colorType: PAL.ColorType = .global
+		_ r255: UInt8,
+		_ g255: UInt8,
+		_ b255: UInt8,
+		_ a255: UInt8 = 255,
+		colorType: PAL.ColorType = .normal
 	) -> PAL.Color {
-		// We know that the color has the correct components here
-		return try! PAL.Color(
-			name: name,
-			colorSpace: .RGB,
-			colorComponents: [
-				(Float32(r) / 255.0).unitClamped,
-				(Float32(g) / 255.0).unitClamped,
-				(Float32(b) / 255.0).unitClamped
-			],
-			colorType: colorType,
-			alpha: (Float32(alpha) / 255.0).unitClamped
-		)
+		PAL.Color(name: name, r255: r255, g255: g255, b255: b255, a255: a255, colorType: colorType)
 	}
 }
 

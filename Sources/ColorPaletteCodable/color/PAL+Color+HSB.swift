@@ -73,26 +73,21 @@ public extension PAL.Color {
 	/// Create a color using fractional hsb values
 	/// - Parameters:
 	///   - name: The color name
-	///   - h: The hue (0.0 ... 1.0)      / 0 ... 360 /
-	///   - s: Saturation (0.0 ... 1.0)   / 0 ... 100 /
-	///   - b: Brightness (0.0 ... 1.0)   / 0 ... 100 /
-	///   - alpha: The alpha component (0.0 ... 1.0)
+	///   - hf: The hue (0.0 ... 1.0)      / 0 ... 360 /
+	///   - sf: Saturation (0.0 ... 1.0)   / 0 ... 100 /
+	///   - bf: Brightness (0.0 ... 1.0)   / 0 ... 100 /
+	///   - af: The alpha component (0.0 ... 1.0)
 	///   - colorType: The color type
 	init(
 		name: String = "",
-		h: Float32,
-		s: Float32,
-		b: Float32,
-		alpha: Float32 = 1.0,
+		hf: Float32,
+		sf: Float32,
+		bf: Float32,
+		af: Float32 = 1.0,
 		colorType: PAL.ColorType = .global
-	) throws {
-		let h = h.clamped(to: 0...1)
-		let s = s.clamped(to: 0...1)
-		let b = b.clamped(to: 0...1)
-		let a = alpha.clamped(to: 0...1)
-
-		let hsb = hsb2rgb(h: h, s: s, b: b, a: a)
-		try self.init(name: name, rf: hsb.r, gf: hsb.g, bf: hsb.b, af: hsb.a, colorType: colorType)
+	) {
+		let hsb = hsb2rgb(h: hf.unitClamped, s: sf.unitClamped, b: bf.unitClamped, a: af.unitClamped)
+		self.init(name: name, rf: hsb.r, gf: hsb.g, bf: hsb.b, af: hsb.a, colorType: colorType)
 	}
 
 	/// Create a color using fractional hsb values
@@ -110,15 +105,8 @@ public extension PAL.Color {
 		b100: Float32,
 		alpha: Float32 = 1.0,
 		colorType: PAL.ColorType = .global
-	) throws {
-		try self.init(
-			name: name,
-			h: h360 / 360.0,
-			s: s100 / 100.0,
-			b: b100 / 100.0,
-			alpha: alpha,
-			colorType: colorType
-		)
+	) {
+		self.init(name: name, hf: h360 / 360.0, sf: s100 / 100.0, bf: b100 / 100.0, af: alpha, colorType: colorType)
 	}
 
 	/// Create a color using hsb values
@@ -126,8 +114,8 @@ public extension PAL.Color {
 	///   - name: The color name
 	///   - color: The HSB color
 	///   - colorType: The color type
-	@inlinable init(name: String = "", _ color: PAL.Color.HSB, colorType: PAL.ColorType = .global) throws {
-		try self.init(name: name, h: color.h, s: color.s, b: color.b, alpha: color.a, colorType: colorType)
+	@inlinable init(name: String = "", _ color: PAL.Color.HSB, colorType: PAL.ColorType = .global) {
+		self.init(name: name, hf: color.h, sf: color.s, bf: color.b, af: color.a, colorType: colorType)
 	}
 
 	/// Create a color from HSB values
@@ -154,22 +142,21 @@ public extension PAL.Color {
 	/// Create a color from fractional HSB values
 	/// - Parameters:
 	///   - name: The color name
-	///   - h: The hue (0.0 ... 1.0)      / 0 ... 360 /
-	///   - s: Saturation (0.0 ... 1.0)   / 0 ... 100 /
-	///   - b: Brightness (0.0 ... 1.0)   / 0 ... 100 /
-	///   - alpha: The alpha component (0.0 ... 1.0)
+	///   - hf: The hue (0.0 ... 1.0)      / 0 ... 360 /
+	///   - sf: Saturation (0.0 ... 1.0)   / 0 ... 100 /
+	///   - bf: Brightness (0.0 ... 1.0)   / 0 ... 100 /
+	///   - af: The alpha component (0.0 ... 1.0)
 	///   - colorType: The type of color
 	/// - Returns: A new color
 	static func hsb(
 		name: String = "",
-		_ h: Float32,
-		_ s: Float32,
-		_ b: Float32,
-		_ alpha: Float32 = 1.0,
+		_ hf: Float32,
+		_ sf: Float32,
+		_ bf: Float32,
+		_ af: Float32 = 1.0,
 		colorType: PAL.ColorType = .global
 	) -> PAL.Color {
-		// We know that the color has the correct components here
-		try! PAL.Color(h: h, s: s, b: b, alpha: alpha)
+		PAL.Color(hf: hf, sf: sf, bf: bf, af: af)
 	}
 }
 

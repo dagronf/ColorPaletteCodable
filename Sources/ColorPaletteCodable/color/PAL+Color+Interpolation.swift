@@ -47,7 +47,7 @@ public extension PAL.Color {
 		let c1 = try self.rgbaComponents()
 		let c2 = try color2.rgbaComponents()
 		let t = t.value
-		return try PAL.Color(
+		return PAL.Color(
 			name: name ?? "",
 			rf: Float32(lerp(c1.r, c2.r, t: t)),
 			gf: Float32(lerp(c1.g, c2.g, t: t)),
@@ -100,9 +100,9 @@ public extension PAL.Color {
 		let bdiff = (c2.b - c1.b) * step
 		let adiff = (c2.a - c1.a) * step
 
-		return try (0 ..< count).map { index in
+		return (0 ..< count).map { index in
 			let index = Double(index)
-			return try PAL.Color(
+			return PAL.Color(
 				rf: Float32(c1.r + (index * rdiff)),
 				gf: Float32(c1.g + (index * gdiff)),
 				bf: Float32(c1.b + (index * bdiff)),
@@ -178,6 +178,6 @@ public extension PAL.Color {
 		let rG = (fg.g * fg.a / rA) + (bg.g * bg.a * (1 - fg.a) / rA)
 		let rB = (fg.b * fg.a / rA) + (bg.b * bg.a * (1 - fg.a) / rA)
 
-		return try PAL.Color(rf: Float32(rR), gf: Float32(rG), bf: Float32(rB), af: Float32(rA))
+		return PAL.Color(rf: Float32(rR), gf: Float32(rG), bf: Float32(rB), af: Float32(rA))
 	}
 }

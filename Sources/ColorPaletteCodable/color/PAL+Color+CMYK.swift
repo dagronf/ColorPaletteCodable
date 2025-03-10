@@ -65,42 +65,34 @@ public extension PAL.Color {
 		kf: Float32,
 		af: Float32 = 1.0,
 		colorType: PAL.ColorType = .global
-	) throws {
-		try self.init(
-			name: name,
-			colorSpace: .CMYK,
-			colorComponents: [
-				cf.unitClamped,
-				mf.unitClamped,
-				yf.unitClamped,
-				kf.unitClamped
-			],
-			colorType: colorType,
-			alpha: af.unitClamped
-		)
+	) {
+		self.name = name
+		self.colorSpace = .CMYK
+		self.colorComponents = [cf.unitClamped, mf.unitClamped, yf.unitClamped, kf.unitClamped]
+		self.alpha = af.unitClamped
+		self.colorType = colorType
 	}
 
 	/// Create a color from CMYK components
 	/// - Parameters:
 	///   - name: The name for the color
-	///   - c: The cyan component (0.0 ... 1.0)
-	///   - m: The magenta component (0.0 ... 1.0)
-	///   - y: The yellow component (0.0 ... 1.0)
-	///   - k: The black component (0.0 ... 1.0)
-	///   - alpha: The alpha component (0.0 ... 1.0)
+	///   - cf: The cyan component (0.0 ... 1.0)
+	///   - mf: The magenta component (0.0 ... 1.0)
+	///   - yf: The yellow component (0.0 ... 1.0)
+	///   - kf: The black component (0.0 ... 1.0)
+	///   - af: The alpha component (0.0 ... 1.0)
 	///   - colorType: The type of color
 	/// - Returns: A color
 	static func cmyk(
 		name: String = "",
-		_ c: Float32,
-		_ m: Float32,
-		_ y: Float32,
-		_ k: Float32,
-		_ alpha: Float32 = 1,
+		_ cf: Float32,
+		_ mf: Float32,
+		_ yf: Float32,
+		_ kf: Float32,
+		_ af: Float32 = 1,
 		colorType: PAL.ColorType = .global
 	) -> PAL.Color {
-		// We know that the color has the correct components here
-		try! PAL.Color(name: name, cf: c, mf: m, yf: y, kf: k, af: alpha, colorType: colorType)
+		PAL.Color(name: name, cf: cf, mf: mf, yf: yf, kf: kf, af: af, colorType: colorType)
 	}
 }
 

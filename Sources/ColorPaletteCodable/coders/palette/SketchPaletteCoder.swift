@@ -38,7 +38,9 @@ extension PAL.Coder.SketchPalette {
 		let data = inputStream.readAllData()
 		let sketchFile = try JSONDecoder().decode(SketchFile.self, from: data)
 		var palette = PAL.Palette()
-		palette.colors = sketchFile.colors.compactMap { try? PAL.Color(rf: $0.red, gf: $0.green, bf: $0.blue, af: $0.alpha) }
+		palette.colors = sketchFile.colors.compactMap {
+			PAL.Color(rf: $0.red, gf: $0.green, bf: $0.blue, af: $0.alpha)
+		}
 		return palette
 	}
 

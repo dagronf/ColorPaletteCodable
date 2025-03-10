@@ -135,8 +135,8 @@ public extension PAL {
 		///   - stopCount: The number of stops to include in the gradient
 		///   - saturation: The saturation
 		///   - brightness: The brightness
-		init(hueRange: ClosedRange<Float32>, stopCount: Int, saturation: Float32 = 1.0, brightness: Float32 = 1.0) throws {
-			precondition(stopCount > 1)
+		init(hueRange: ClosedRange<Float32>, stopCount: Int, saturation: Float32 = 1.0, brightness: Float32 = 1.0) {
+			assert(stopCount > 1)
 			let hueStart = hueRange.lowerBound.unitClamped
 			let hueEnd = hueRange.upperBound.unitClamped
 			let saturation = saturation.unitClamped
@@ -144,9 +144,9 @@ public extension PAL {
 			
 			let step = 1.0 / Float32(stopCount - 1)
 			
-			let colors: [PAL.Color] = try stride(from: 0.0, through: 1.0, by: step).map { (s: Float32) in
+			let colors: [PAL.Color] = stride(from: 0.0, through: 1.0, by: step).map { (s: Float32) in
 				let h = lerp(hueStart, hueEnd, t: s)
-				return try PAL.Color(h: h, s: saturation, b: brightness)
+				return PAL.Color(hf: h, sf: saturation, bf: brightness)
 			}
 			self.init(colors: colors)
 		}
@@ -340,7 +340,7 @@ public extension PAL.Gradient {
 				a = Float32(tt1 + ((tt2 - tt1) * tv))
 			}
 
-			let cv = try PAL.Color(rf: r, gf: g, bf: b, af: a)
+			let cv = PAL.Color(rf: r, gf: g, bf: b, af: a)
 			mappedColorStops.append(cv)
 		}
 
