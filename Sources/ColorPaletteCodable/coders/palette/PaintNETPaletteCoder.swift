@@ -95,7 +95,7 @@ public extension PAL.Coder.PaintNET {
 			guard let ga = Double("0x" + gh).flatMap( { UInt32(exactly: $0) } ) else { continue }
 			guard let ba = Double("0x" + bh).flatMap( { UInt32(exactly: $0) } ) else { continue }
 
-			let color = try PAL.Color(r255: UInt8(ra), g255: UInt8(ga), b255: UInt8(ba), a255: UInt8(aa))
+			let color = PAL.Color(r255: UInt8(ra), g255: UInt8(ga), b255: UInt8(ba), a255: UInt8(aa))
 			palette.colors.append(color)
 		}
 		return palette

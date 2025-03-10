@@ -218,7 +218,7 @@ public extension PAL.Color {
 	///   - colorByteFormat: The byte ordering when decoding the color value
 	init(name: String = "", _ uint32ColorValue: UInt32, colorByteFormat: PAL.ColorByteFormat) throws {
 		let c = extractRGBA(uint32ColorValue, colorByteFormat: colorByteFormat)
-		try self.init(name: name, r255: c.r, g255: c.g, b255: c.b, a255: c.a, colorType: .global)
+		self.init(name: name, r255: c.r, g255: c.g, b255: c.b, a255: c.a, colorType: .global)
 	}
 }
 

@@ -98,7 +98,7 @@ private extension PAL.Gradients.Coder.CPT {
 			let g1 = scanner._scanInt(in: 0 ... 255),
 			let b1 = scanner._scanInt(in: 0 ... 255)
 		{
-			return try? PAL.Color(r255: UInt8(r1), g255: UInt8(g1), b255: UInt8(b1))
+			return PAL.Color(r255: UInt8(r1), g255: UInt8(g1), b255: UInt8(b1))
 		}
 
 		// Reset back to the start of the color section
@@ -112,7 +112,7 @@ private extension PAL.Gradients.Coder.CPT {
 			let _ = scanner._scanCharacters(in: _rgbSeparator),
 			let b1 = scanner._scanInt(in: 0 ... 255)
 		{
-			return try? PAL.Color(r255: UInt8(r1), g255: UInt8(g1), b255: UInt8(b1))
+			return PAL.Color(r255: UInt8(r1), g255: UInt8(g1), b255: UInt8(b1))
 		}
 
 		// Reset back to the start of the color section

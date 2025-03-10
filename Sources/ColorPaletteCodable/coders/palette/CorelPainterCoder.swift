@@ -90,7 +90,7 @@ public extension PAL.Coder.CorelPainter {
 			let l = line.trimmingCharacters(in: CharacterSet.whitespaces)
 			let searchResult = Self.regex.matches(for: l)
 
-			try? searchResult.forEach { match in
+			searchResult.forEach { match in
 				let red = l[match.captures[0]]
 				let green = l[match.captures[1]]
 				let blue = l[match.captures[2]]
@@ -105,7 +105,7 @@ public extension PAL.Coder.CorelPainter {
 					let b = UInt8(blue)
 				{
 					let name = String(name).trimmingCharacters(in: .whitespaces)
-					let color = try PAL.Color(name: name, r255: r, g255: g, b255: b, a255: 255, colorType: .normal)
+					let color = PAL.Color(name: name, r255: r, g255: g, b255: b, a255: 255, colorType: .normal)
 					palette.colors.append(color)
 				}
 			}

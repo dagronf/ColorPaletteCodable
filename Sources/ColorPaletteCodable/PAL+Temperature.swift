@@ -27,7 +27,7 @@ public extension PAL.Color {
 	///   - colorType: The type of color
 	init(name: String = "", kelvinTemperature: Float32, colorType: PAL.ColorType = .global) throws {
 		let k = try kelvinToRGB(kelvinTemperature)
-		try self.init(name: name, r255: k.r, g255: k.g, b255: k.b)
+		self.init(name: name, r255: k.r, g255: k.g, b255: k.b)
 	}
 }
 
