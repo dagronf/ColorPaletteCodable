@@ -119,14 +119,14 @@ extension PAL.Coder.BasicXML {
 		try palette.allColors().forEach { c in
 			xml += "<color"
 			if c.name.count > 0 {
-				xml += " name=\"\(c.name.xmlEscaped())\" "
+				xml += " name=\"\(c.name.xmlEscaped())\""
 			}
 
 			let rgb = try c.rgb()
 			let hex = rgb.hexString(format: .rgba, hashmark: false, uppercase: false)
 
-			xml += "hex=\"\(hex)\" "
-			xml += "r=\"\(rgb.r255)\" g=\"\(rgb.g255)\" b=\"\(rgb.b255)\" a=\"\(rgb.a255)\""
+			xml += " hex=\"\(hex)\""
+			xml += " r=\"\(rgb.r255)\" g=\"\(rgb.g255)\" b=\"\(rgb.b255)\" a=\"\(rgb.a255)\""
 			xml += " />\n"
 		}
 
