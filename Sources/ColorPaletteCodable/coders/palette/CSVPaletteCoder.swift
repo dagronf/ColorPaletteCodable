@@ -85,7 +85,7 @@ extension PAL.Coder.CSV {
 				}
 				else if record.count > 1 {
 					// First is color, second is name
-					return try PAL.Color(name: record[1].trim(), hexString: record[0].trim(), format: .rgba)
+					return try PAL.Color(hexString: record[0].trim(), format: .rgba, name: record[1].trim())
 				}
 				return nil
 			}

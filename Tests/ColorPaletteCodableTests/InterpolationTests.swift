@@ -24,9 +24,9 @@ final class InterpolationTests: XCTestCase {
 		XCTAssertEqual(PAL.Color.red, try [PAL.Color.red].bucketedColor(at: 0.unitValue))
 
 		let colors: [PAL.Color] = [
-			PAL.Color(name: "r", r255: 255, g255: 0, b255: 0),
-			PAL.Color(name: "g", r255: 0, g255: 255, b255: 0),
-			PAL.Color(name: "b", r255: 0, g255: 0, b255: 255),
+			PAL.Color(r255: 255, g255: 0, b255: 0, name: "r"),
+			PAL.Color(r255: 0, g255: 255, b255: 0, name: "g"),
+			PAL.Color(r255: 0, g255: 0, b255: 255, name: "b"),
 		]
 		let p1 = PAL.Palette(colors: colors)
 
@@ -48,8 +48,8 @@ final class InterpolationTests: XCTestCase {
 		XCTAssertEqual(PAL.Color.red, try [PAL.Color.red].interpolatedColor(at: 0.unitValue))
 
 		let colors: [PAL.Color] = [
-			PAL.Color(name: "r", r255: 255, g255: 0, b255: 0),
-			PAL.Color(name: "b", r255: 0, g255: 0, b255: 255),
+			PAL.Color(r255: 255, g255: 0, b255: 0, name: "r"),
+			PAL.Color(r255: 0, g255: 0, b255: 255, name: "b"),
 		]
 
 		XCTAssertEqual(colors[0], try colors.interpolatedColor(at: 0.unitValue))

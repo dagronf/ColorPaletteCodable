@@ -92,21 +92,25 @@ public extension PAL.Coder.ACO {
 
 				switch cs {
 				case .RGB:
-					color = try PAL.Color(name: name, colorSpace: .RGB, colorComponents: [Float32(c0) / 65535.0, Float32(c1) / 65535.0, Float32(c2) / 65535.0])
+					color = try PAL.Color(
+						colorSpace: .RGB,
+						colorComponents: [Float32(c0) / 65535.0, Float32(c1) / 65535.0, Float32(c2) / 65535.0],
+						name: name
+					)
 				case .CMYK:
 					color = try PAL.Color(
-						name: name,
 						colorSpace: .CMYK,
 						colorComponents: [
 							Float32(65535 - c0) / 65535.0,
 							Float32(65535 - c1) / 65535.0,
 							Float32(65535 - c2) / 65535.0,
 							Float32(65535 - c3) / 65535.0,
-						]
+						],
+						name: name
 					)
 				case .Grayscale:
 					assert(c0 <= 10000)
-					color = try PAL.Color(name: name, colorSpace: .Gray, colorComponents: [Float32(c0) / 10000])
+					color = try PAL.Color(colorSpace: .Gray, colorComponents: [Float32(c0) / 10000], name: name)
 
 				case .LAB:
 					// Lightness is a 16-bit value from 0...10000
@@ -115,9 +119,9 @@ public extension PAL.Coder.ACO {
 					let a0 = Float(c1) / 100.0
 					let b0 = Float(c2) / 100.0
 					color = try PAL.Color(
-						name: name,
 						colorSpace: .LAB,
-						colorComponents: [l0, a0, b0]
+						colorComponents: [l0, a0, b0],
+						name: name
 					)
 				case .HSB:
 					ColorPaletteLogger.log(.error, "ACOPaletteCoder: Unsupported color space HSB")

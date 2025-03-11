@@ -178,7 +178,7 @@ public extension PAL.Gradients.Coder.DCG {
 			// Check we've read the right number
 			assert(stops.count == numStops)
 
-			var gradient = PAL.Gradient(name: name, stops: stops)
+			var gradient = PAL.Gradient(stops: stops, name: name)
 
 			// transparency stops header
 			guard try parser.readUInt16(.little) == transparencyStopsHeader__ else {

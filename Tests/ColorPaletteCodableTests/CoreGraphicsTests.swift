@@ -29,7 +29,7 @@ final class CoreGraphicsTests: XCTestCase {
 
 		do {
 			let cmyk = CGColor(genericCMYKCyan: 1, magenta: 1, yellow: 0.5, black: 0.2, alpha: 1)
-			let cc1 = try PAL.Color(name: "cmyk", color: cmyk, colorType: .global)
+			let cc1 = try PAL.Color(color: cmyk, name: "cmyk", colorType: .global)
 
 			var p = PAL.Palette()
 			p.colors.append(cc1)

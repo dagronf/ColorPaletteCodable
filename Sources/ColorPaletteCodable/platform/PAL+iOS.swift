@@ -40,7 +40,7 @@ public extension UIColor {
 	///   - colorType: The color's type
 	/// - Returns: A PAL.Color representation of the image
 	@inlinable func palColor(name: String = "", colorType: PAL.ColorType = .global) throws -> PAL.Color {
-		try PAL.Color(name: name, color: self, colorType: colorType)
+		try PAL.Color(color: self, name: name, colorType: colorType)
 	}
 }
 
@@ -48,8 +48,8 @@ public extension PAL.Color {
 	/// Create a color from an UIColor instance
 	///
 	/// Throws an error if the UIColor cannot be represented as a PAL.Color object
-	init(name: String = "", color: UIColor, colorType: PAL.ColorType = .global) throws {
-		try self.init(name: name, color: color.cgColor, colorType: colorType)
+	init(color: UIColor, name: String = "", colorType: PAL.ColorType = .global) throws {
+		try self.init(color: color.cgColor, name: name, colorType: colorType)
 	}
 
 	/// Returns a UIColor representation of this color

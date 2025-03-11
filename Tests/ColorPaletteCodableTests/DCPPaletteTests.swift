@@ -17,9 +17,9 @@ final class DCPPaletteTests: XCTestCase {
 		let c = PAL.Coder.DCP()
 
 		var palette = PAL.Palette()
-		let c1 = try PAL.Color(name: "red", colorSpace: .RGB, colorComponents: [1, 0, 0])
-		let c2 = try PAL.Color(name: "green", colorSpace: .RGB, colorComponents: [0, 1, 0])
-		let c3 = try PAL.Color(name: "blue", colorSpace: .RGB, colorComponents: [0, 0, 1])
+		let c1 = try PAL.Color(colorSpace: .RGB, colorComponents: [1, 0, 0], name: "red")
+		let c2 = try PAL.Color(colorSpace: .RGB, colorComponents: [0, 1, 0], name: "green")
+		let c3 = try PAL.Color(colorSpace: .RGB, colorComponents: [0, 0, 1], name: "blue")
 		palette.colors.append(contentsOf: [c1, c2, c3])
 
 		let d = try c.encode(palette)
@@ -34,9 +34,9 @@ final class DCPPaletteTests: XCTestCase {
 
 		var palette = PAL.Palette()
 		palette.name = "🫥 Spooky stuff パレット"
-		let c1 = try PAL.Color(name: "red 🔴", colorSpace: .RGB, colorComponents: [1, 0, 0], colorType: .global, alpha: 0.5)
-		let c2 = try PAL.Color(name: "green 🧩", colorSpace: .RGB, colorComponents: [0, 1, 0], colorType: .spot, alpha: 0.98)
-		let c3 = try PAL.Color(name: "blue 🐋", colorSpace: .RGB, colorComponents: [0, 0, 1], colorType: .normal, alpha: 0.12)
+		let c1 = try PAL.Color(colorSpace: .RGB, colorComponents: [1, 0, 0], alpha: 0.5, name: "red 🔴", colorType: .global)
+		let c2 = try PAL.Color(colorSpace: .RGB, colorComponents: [0, 1, 0], alpha: 0.98, name: "green 🧩", colorType: .spot)
+		let c3 = try PAL.Color(colorSpace: .RGB, colorComponents: [0, 0, 1], alpha: 0.12, name: "blue 🐋", colorType: .normal)
 		palette.colors.append(contentsOf: [c1, c2, c3])
 
 		let data = try c.encode(palette)

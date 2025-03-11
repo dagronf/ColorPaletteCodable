@@ -37,7 +37,7 @@ public func hslf(
 	name: String = "",
 	colorType: PAL.ColorType = .global
 ) -> PAL.Color {
-	PAL.Color(name: name, hf: hf, sf: sf, lf: lf, af: af, colorType: colorType)
+	PAL.Color(hf: hf, sf: sf, lf: lf, af: af, name: name, colorType: colorType)
 }
 
 /// Create a color with an HSL value
@@ -56,7 +56,7 @@ public func hslf360(
 	name: String = "",
 	colorType: PAL.ColorType = .global
 ) -> PAL.Color {
-	PAL.Color(name: name, h360: h360, s100: s100, l100: l100, af: af, colorType: colorType)
+	PAL.Color(h360: h360, s100: s100, l100: l100, af: af, name: name, colorType: colorType)
 }
 
 // MARK: - Basic HSL structure
@@ -120,64 +120,64 @@ public extension PAL.Color {
 public extension PAL.Color {
 	/// Create a color with an HSL value
 	/// - Parameters:
-	///   - name: Color's name
 	///   - hf: Hue value (clamped to 0 ... 1)
 	///   - sf: Saturation value (clamped to 0 ... 1)
 	///   - lf: Luminance value (clamped to 0 ... 1)
 	///   - af: Alpha value (clamped to 0 ... 1)
+	///   - name: Color's name
 	///   - colorType: The color type
 	init(
-		name: String = "",
 		hf: Float32,
 		sf: Float32,
 		lf: Float32,
 		af: Float32 = 1.0,
+		name: String = "",
 		colorType: PAL.ColorType = .global
 	) {
 		let rgb = hsl2rgb(h: hf, s: sf, l: lf, a: af)
 		self.init(
-			name: name,
 			rf: rgb.r,
 			gf: rgb.g,
 			bf: rgb.b,
 			af: rgb.a,
+			name: name,
 			colorType: colorType
 		)
 	}
 
 	/// Create a color with an HSL value
 	/// - Parameters:
-	///   - name: Color's name
 	///   - h360: Hue value (clamped to 0 ... 360)
 	///   - s100: Saturation value (clamped to 0 ... 100)
 	///   - l100: Luminance value (clamped to 0 ... 100)
 	///   - af: Alpha value (clamped to 0 ... 1)
+	///   - name: Color's name
 	///   - colorType: The color type
 	@inlinable init(
-		name: String = "",
 		h360: Float32,
 		s100: Float32,
 		l100: Float32,
 		af: Float32 = 1.0,
+		name: String = "",
 		colorType: PAL.ColorType = .global
 	) {
 		self.init(
-			name: name,
 			hf: h360 / 360.0,
 			sf: s100 / 100,
 			lf: l100 / 100,
 			af: af.clamped(to: 0.0 ... 1.0),
+			name: name,
 			colorType: colorType
 		)
 	}
 
 	/// Create a color with an HSL value
 	/// - Parameters:
-	///   - name: The color's name
 	///   - color: The HSL color
+	///   - name: The color's name
 	///   - colorType: The color type
-	init(name: String = "", _ color: PAL.Color.HSL, colorType: PAL.ColorType = .global) {
-		self.init(name: name, hf: color.hf, sf: color.sf, lf: color.lf, af: color.af)
+	init(_ color: PAL.Color.HSL, name: String = "", colorType: PAL.ColorType = .global) {
+		self.init(hf: color.hf, sf: color.sf, lf: color.lf, af: color.af, name: name, colorType: colorType)
 	}
 
 	/// Convert this color to HSL

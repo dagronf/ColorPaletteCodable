@@ -8,12 +8,12 @@ let gradientTestsFolder = try! testResultsContainer.subfolder(with: "gradient-te
 class GradientTests: XCTestCase {
 	func testBasic() throws {
 		let gradient = PAL.Gradient(
-			name: "first",
 			colors: [
 				try PAL.Color(hexString: "#FFFFFFFF", format: .rgba),
 				try PAL.Color(hexString: "#444444FF", format: .rgba),
 				try PAL.Color(hexString: "#000000FF", format: .rgba)
-			]
+			],
+			name: "first"
 		)
 
 		XCTAssertEqual("first", gradient.name)
@@ -287,9 +287,9 @@ class GradientTests: XCTestCase {
 
 	func testGradientCreationFromArray() throws {
 		let colors: [PAL.Color] = [
-			PAL.Color(name: "r", r255: 255, g255: 0, b255: 0),
-			PAL.Color(name: "g", r255: 0, g255: 255, b255: 0),
-			PAL.Color(name: "b", r255: 0, g255: 0, b255: 255),
+			PAL.Color(r255: 255, g255: 0, b255: 0, name: "r"),
+			PAL.Color(r255: 0, g255: 255, b255: 0, name: "g"),
+			PAL.Color(r255: 0, g255: 0, b255: 255, name: "b"),
 		]
 		let g = colors.gradient()
 		XCTAssertNil(g.name)
@@ -304,9 +304,9 @@ class GradientTests: XCTestCase {
 
 	func testGradientPeekColor() throws {
 		let gcolors: [PAL.Color] = [
-			PAL.Color(name: "r", r255: 255, g255: 0, b255: 0),
-			PAL.Color(name: "g", r255: 0, g255: 255, b255: 0),
-			PAL.Color(name: "b", r255: 0, g255: 0, b255: 255),
+			PAL.Color(r255: 255, g255: 0, b255: 0, name: "r"),
+			PAL.Color(r255: 0, g255: 255, b255: 0, name: "g"),
+			PAL.Color(r255: 0, g255: 0, b255: 255, name: "b"),
 		]
 		let g = gcolors.gradient()
 

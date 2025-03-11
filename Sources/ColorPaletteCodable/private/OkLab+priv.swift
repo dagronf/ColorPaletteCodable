@@ -38,22 +38,22 @@ extension OkLab {
 
 	/// Create a palette by mixing two sRGB colors evenly in steps
 	/// - Parameters:
-	///   - name: The gradient name
 	///   - c1: First color
 	///   - c2: Second color
+	///   - name: The gradient name
 	///   - steps: The number of palette entries to create (including start and end colors)
 	/// - Returns: A palette
 	internal static func palette(
-		name: String = "",
 		_ c1: Vec3<Float32>,
 		_ c2: Vec3<Float32>,
-		steps: Int
+		steps: Int,
+		name: String = ""
 	) -> PAL.Palette {
 		assert(steps > 1)
 		let colors = stride(from: 0, through: 1, by: 1.0 / (Float32(steps) - 1)).map {
 			PAL.Color(sRGB: OkLab.mix(c1, c2, t: $0))
 		}
-		return PAL.Palette(name: name, colors: colors)
+		return PAL.Palette(colors: colors, name: name)
 	}
 }
 

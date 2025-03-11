@@ -6,7 +6,6 @@ import SwiftUI
 #endif
 
 private let __display = PAL.Palette(
-	name: "My Colors",
 	colors: [
 		rgbf(1.0, 0, 0),
 		rgbf(0, 1.0, 0),
@@ -16,15 +15,14 @@ private let __display = PAL.Palette(
 		cmykf(0, 1, 0, 0),
 		cmykf(0, 0, 1, 0),
 		cmykf(0, 0, 0, 1),
-
 	],
 	groups: [
-		PAL.Group(name: "one", colors: [
+		PAL.Group(colors: [
 			rgbf(0, 0, 1.0),
 			rgbf(0, 1.0, 0),
 			rgbf(1.0, 0, 0),
-		]),
-		PAL.Group(name: "two is the second one", colors: [
+		], name: "one"),
+		PAL.Group(colors: [
 			rgbf(0.5, 0, 1),
 			rgbf(0, 0.8, 0.3),
 			rgbf(0.1, 0.3, 1.0),
@@ -32,8 +30,9 @@ private let __display = PAL.Palette(
 			rgb255(153, 000, 000),
 			rgb255(102, 085, 085),
 			rgb255(221, 017, 017),
-		]),
-	]
+		], name: "two is the second one"),
+	],
+	name: "My Colors"
 )
 
 class ImageTests: XCTestCase {

@@ -34,7 +34,7 @@ public func grayf(
 	name: String = "",
 	colorType: PAL.ColorType = .global
 ) -> PAL.Color {
-	PAL.Color(name: name, white: white, alpha: alpha, colorType: colorType)
+	PAL.Color(white: white, alpha: alpha, name: name, colorType: colorType)
 }
 
 /// Create a color from gray components
@@ -50,7 +50,7 @@ public func gray255(
 	name: String = "",
 	colorType: PAL.ColorType = .global
 ) -> PAL.Color {
-	PAL.Color(name: name, white255: white, alpha255: alpha, colorType: colorType)
+	PAL.Color(white255: white, alpha255: alpha, name: name, colorType: colorType)
 }
 
 // MARK: - Basic gray structure
@@ -82,11 +82,11 @@ public extension PAL.Color {
 public extension PAL.Color {
 	/// Create a gray color
 	/// - Parameters:
-	///   - name: The color name
 	///   - white: white component (0.0 ... 1.0)
 	///   - alpha: The alpha component (0.0 ... 1.0)
+	///   - name: The color name
 	///   - colorType: The type of color
-	init(name: String = "", white: Float32, alpha: Float32 = 1.0, colorType: PAL.ColorType = .global) {
+	init(white: Float32, alpha: Float32 = 1.0, name: String = "", colorType: PAL.ColorType = .global) {
 		self.name = name
 		self.colorSpace = .Gray
 		self.colorComponents = [white.unitClamped]
@@ -96,26 +96,26 @@ public extension PAL.Color {
 
 	/// Create a gray color
 	/// - Parameters:
-	///   - name: The color name
 	///   - white255: white component (0 ... 255)
 	///   - alpha255: alpha component (0 ... 255)
+	///   - name: The color name
 	///   - colorType: The type of color
-	init(name: String = "", white255: UInt8, alpha255: UInt8 = 255, colorType: PAL.ColorType = .global) {
+	init(white255: UInt8, alpha255: UInt8 = 255, name: String = "", colorType: PAL.ColorType = .global) {
 		self.init(
-			name: name,
 			white: Float32(white255) / 255.0,
 			alpha: Float32(alpha255) / 255.0,
+			name: name,
 			colorType: colorType
 		)
 	}
 
 	/// Create a gray color
 	/// - Parameters:
-	///   - name: The color name
 	///   - color: The color components
+	///   - name: The color name
 	///   - colorType: The type of color
-	init(name: String = "", color: PAL.Color.Gray, colorType: PAL.ColorType = .global) {
-		self.init(name: name, white: color.grayf, alpha: color.af, colorType: colorType)
+	init(color: PAL.Color.Gray, name: String = "", colorType: PAL.ColorType = .global) {
+		self.init(white: color.grayf, alpha: color.af, name: name, colorType: colorType)
 	}
 
 	/// Returns the gray components for this color

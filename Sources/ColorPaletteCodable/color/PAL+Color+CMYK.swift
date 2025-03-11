@@ -40,7 +40,7 @@ public func cmykf(
 	name: String = "",
 	colorType: PAL.ColorType = .global
 ) -> PAL.Color {
-	PAL.Color(name: name, cf: cf, mf: mf, yf: yf, kf: kf, af: af, colorType: colorType)
+	PAL.Color(cf: cf, mf: mf, yf: yf, kf: kf, af: af, name: name, colorType: colorType)
 }
 
 // MARK: - Basic CMYK structure
@@ -90,20 +90,20 @@ public extension PAL.Color {
 public extension PAL.Color {
 	/// Create a color object from cmyk component values
 	/// - Parameters:
-	///   - name: The color name
 	///   - cf: Cyan component (0.0 ... 1.0)
 	///   - mf: Magenta component (0.0 ... 1.0)
 	///   - yf: Yellow component (0.0 ... 1.0)
 	///   - kf: Black component (0.0 ... 1.0)
 	///   - af: Alpha component (0.0 ... 1.0)
+	///   - name: The color name
 	///   - colorType: The type of color
 	init(
-		name: String = "",
 		cf: Float32,
 		mf: Float32,
 		yf: Float32,
 		kf: Float32,
 		af: Float32 = 1.0,
+		name: String = "",
 		colorType: PAL.ColorType = .global
 	) {
 		self.name = name
@@ -115,11 +115,11 @@ public extension PAL.Color {
 
 	/// Create a cmyk color
 	/// - Parameters:
-	///   - name: The color name
 	///   - color: The color components
+	///   - name: The color name
 	///   - colorType: The type of color
-	init(name: String = "", color: PAL.Color.CMYK, colorType: PAL.ColorType = .global) {
-		self.init(name: name, cf: color.cf, mf: color.mf, yf: color.yf, kf: color.kf, af: color.af, colorType: colorType)
+	init(color: PAL.Color.CMYK, name: String = "", colorType: PAL.ColorType = .global) {
+		self.init(cf: color.cf, mf: color.mf, yf: color.yf, kf: color.kf, af: color.af, name: name, colorType: colorType)
 	}
 }
 

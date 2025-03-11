@@ -57,10 +57,10 @@ func lerp<T: FloatingPoint>(_ v0: Vec3<T>, _ v1: Vec3<T>, t: T) -> Vec3<T> {
 internal extension PAL.Color {
 	/// Create an RGB color from the content of a Vec3
 	/// - Parameters:
-	///   - name: The color name
 	///   - sRGB: The components values
-	init(name: String = "", sRGB: Vec3<Float32>) {
-		self.init(name: name, rf: sRGB.x, gf: sRGB.y, bf: sRGB.z)
+	///   - name: The color name
+	init(sRGB: Vec3<Float32>, name: String = "") {
+		self.init(rf: sRGB.x, gf: sRGB.y, bf: sRGB.z, name: name)
 	}
 
 	/// Return an Vec3 representation of this color. Throws an error if the color is not RGB colorspace

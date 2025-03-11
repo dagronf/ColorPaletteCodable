@@ -34,15 +34,15 @@ public struct OkLab { }
 public extension OkLab {
 	/// Create a color by mixing two colors in the OkLab colorspace
 	/// - Parameters:
-	///   - name: The color name
 	///   - c1: First color
 	///   - c2: Second color
 	///   - t: The fractional distance between the two colors
+	///   - name: The color name
 	/// - Returns: Interpolated color
-	static func mix(name: String = "", _ c1: PAL.Color, _ c2: PAL.Color, t: Float32) throws -> PAL.Color {
+	static func mix(_ c1: PAL.Color, _ c2: PAL.Color, t: Float32, name: String = "") throws -> PAL.Color {
 		let cr1 = try c1.converted(to: .RGB).rgbValuesVec3()
 		let cr2 = try c2.converted(to: .RGB).rgbValuesVec3()
-		return PAL.Color(name: name, sRGB: OkLab.mix(cr1, cr2, t: t.unitClamped))
+		return PAL.Color(sRGB: OkLab.mix(cr1, cr2, t: t.unitClamped), name: name)
 	}
 }
 
@@ -51,16 +51,16 @@ public extension OkLab {
 public extension OkLab {
 	/// Create a palette by mixing two colors evenly in steps
 	/// - Parameters:
-	///   - name: The color name
 	///   - c1: First color
 	///   - c2: Second color
 	///   - steps: The number of palette entries to create (including start and end colors)
+	///   - name: The color name
 	/// - Returns: A palette
-	static func palette(name: String = "", _ c1: PAL.Color, _ c2: PAL.Color, steps: Int) throws -> PAL.Palette {
+	static func palette(_ c1: PAL.Color, _ c2: PAL.Color, steps: Int, name: String = "") throws -> PAL.Palette {
 		assert(steps > 1)
 		let cr1 = try c1.rgb().vec3  // converted(to: .RGB).rgbValues().vec3
 		let cr2 = try c2.rgb().vec3  //.converted(to: .RGB).rgbValues().vec3
-		return OkLab.palette(name: name, cr1, cr2, steps: steps)
+		return OkLab.palette(cr1, cr2, steps: steps, name: name)
 	}
 }
 
@@ -69,21 +69,21 @@ public extension OkLab {
 public extension OkLab {
 	/// Create a gradient using colors mapped to the OkLab color space
 	/// - Parameters:
-	///   - name: The gradient name
 	///   - startColor: Starting color for the gradient
 	///   - endColor: Ending color for the gradient
 	///   - stopCount: The number of stops to include in the gradient
 	///   - useOkLab: If true, use OkLab colorspace when generating colors
+	///   - name: The gradient name
 	/// - Returns: A gradient
 	static func gradient(
-		name: String = "",
 		_ startColor: PAL.Color,
 		_ endColor: PAL.Color,
 		stopCount: Int,
-		useOkLab: Bool = false
+		useOkLab: Bool = false,
+		name: String = ""
 	) throws -> PAL.Gradient {
 		assert(stopCount > 1)
 		let pal = try PAL.Palette(startColor: startColor, endColor: endColor, count: stopCount, useOkLab: useOkLab)
-		return PAL.Gradient(name: name, palette: pal)
+		return PAL.Gradient(palette: pal, name: name)
 	}
 }

@@ -42,17 +42,17 @@ public extension PAL {
 
 		/// Create a color object
 		/// - Parameters:
-		///   - name: The color's name
 		///   - colorSpace: The expected colorspace for the color components
-		///   - colorComponents: The color components
-		///   - colorType: The color type
+		///   - colorComponents: The color components (each in the range 0.0 ... 1.0)
 		///   - alpha: The alpha value for the color
+		///   - name: The color's name
+		///   - colorType: The color type
 		public init(
-			name: String,
 			colorSpace: PAL.ColorSpace,
 			colorComponents: [Float32],
-			colorType: ColorType = .global,
-			alpha: Float32 = 1
+			alpha: Float32 = 1,
+			name: String = "",
+			colorType: ColorType = .global
 		) throws {
 			self.name = name
 			self.colorSpace = colorSpace
@@ -141,37 +141,37 @@ public extension PAL {
 
 		/// Generate a random color
 		/// - Parameters:
-		///   - name: color name
 		///   - colorSpace: The colorspace when generating the color
+		///   - name: color name
 		///   - colorType: The color type
 		/// - Returns: A random color in the RGB colorspace
 		public static func random(
-			named name: String = "",
 			colorSpace: PAL.ColorSpace = .RGB,
+			name: String = "",
 			colorType: PAL.ColorType = .global
 		) -> PAL.Color {
 			switch colorSpace {
 			case .CMYK:
 				return PAL.Color(
-					name: name,
 					cf: Float32.random(in: 0...1),
 					mf: Float32.random(in: 0...1),
 					yf: Float32.random(in: 0...1),
 					kf: Float32.random(in: 0...1),
+					name: name,
 					colorType: colorType
 				)
 			case .RGB:
 				return PAL.Color(
-					name: name,
 					rf: Float32.random(in: 0...1),
 					gf: Float32.random(in: 0...1),
 					bf: Float32.random(in: 0...1),
+					name: name,
 					colorType: colorType
 				)
 			case .Gray:
 				return PAL.Color(
-					name: name,
 					white: Float32.random(in: 0...1),
+					name: name,
 					colorType: colorType
 				)
 			case .LAB:
@@ -199,11 +199,11 @@ public extension PAL.Color {
 	/// Return a copy of this color with the specified alpha value
 	func withAlpha(_ alphaValue: Float32) throws -> PAL.Color {
 		return try PAL.Color(
-			name: self.name,
 			colorSpace: self.colorSpace,
 			colorComponents: self.colorComponents,
-			colorType: self.colorType,
-			alpha: alphaValue
+			alpha: alphaValue,
+			name: self.name,
+			colorType: self.colorType
 		)
 	}
 
@@ -211,11 +211,11 @@ public extension PAL.Color {
 	/// - Parameter name: name description
 	func named(_ name: String) -> PAL.Color {
 		if let c = try? PAL.Color(
-			name: name,
 			colorSpace: self.colorSpace,
 			colorComponents: self.colorComponents,
-			colorType: self.colorType,
-			alpha: self.alpha
+			alpha: self.alpha,
+			name: name,
+			colorType: self.colorType
 		) {
 			return c
 		}

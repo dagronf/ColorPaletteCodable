@@ -103,18 +103,18 @@ extension PAL.Coder.CorelXMLPalette: XMLParserDelegate {
 			let color: PAL.Color? = {
 				switch cs {
 				case "cmyk":
-					return try? PAL.Color(name: name, colorSpace: .CMYK, colorComponents: components)
+					return try? PAL.Color(colorSpace: .CMYK, colorComponents: components, name: name)
 				case "rgb":
-					return try? PAL.Color(name: name, colorSpace: .RGB, colorComponents: components)
+					return try? PAL.Color(colorSpace: .RGB, colorComponents: components, name: name)
 				case "lab":
 					// convert the components to the CGColorSpace.lab ranges
 					let l = (components[0] * 100.0)           // Range 0 -> 100
 					let a = (components[1] * 256.0) - 128.0   // Range -128 -> 128
 					let b = (components[2] * 256.0) - 128.0   // Range -128 -> 128
 					let map = [l, a, b]
-					return try? PAL.Color(name: name, colorSpace: .LAB, colorComponents: map)
+					return try? PAL.Color(colorSpace: .LAB, colorComponents: map, name: name)
 				case "gray":
-					return try? PAL.Color(name: name, colorSpace: .Gray, colorComponents: components)
+					return try? PAL.Color(colorSpace: .Gray, colorComponents: components, name: name)
 				default:
 					if isInColorsSection {
 						if let c = self.colorspaces.first(where: { $0.name == cs }) {
@@ -124,11 +124,11 @@ extension PAL.Coder.CorelXMLPalette: XMLParserDelegate {
 							// about setting the channel which I just can't wrap my head around)
 							if let color = c.colors.first {
 								let m = try? PAL.Color(
-									name: name,
 									colorSpace: color.colorSpace,
 									colorComponents: color.colorComponents,
-									colorType: color.colorType,
-									alpha: color.alpha
+									alpha: color.alpha,
+									name: name,
+									colorType: color.colorType
 								)
 								return m ?? .clear
 							}

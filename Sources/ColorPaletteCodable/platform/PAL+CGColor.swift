@@ -42,6 +42,6 @@ public extension CGColor {
 	///   - colorType: The color's type
 	/// - Returns: A PAL.Color representation of the image
 	@inlinable func palColor(name: String = "", colorType: PAL.ColorType = .global) throws -> PAL.Color {
-		try PAL.Color(name: name, color: self, colorType: colorType)
+		try PAL.Color(color: self, name: name, colorType: colorType)
 	}
 }

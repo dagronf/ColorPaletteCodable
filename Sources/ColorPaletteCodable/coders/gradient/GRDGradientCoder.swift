@@ -87,7 +87,6 @@ public extension PAL.Gradients.Coder.GRD {
 						throw PAL.GradientError.unsupportedColorFormat
 					}
 					color = try PAL.Color(
-						name: "",
 						colorSpace: .CMYK,
 						colorComponents: co.components.map { Float32($0 / 100.0) },
 						alpha: 1
@@ -99,7 +98,6 @@ public extension PAL.Gradients.Coder.GRD {
 						throw PAL.GradientError.unsupportedColorFormat
 					}
 					color = try PAL.Color(
-						name: "",
 						colorSpace: .Gray,
 						colorComponents: co.components.map { Float32($0 / 100.0) },
 						alpha: 1
@@ -111,7 +109,6 @@ public extension PAL.Gradients.Coder.GRD {
 						throw PAL.GradientError.unsupportedColorFormat
 					}
 					color = try PAL.Color(
-						name: "",
 						colorSpace: .LAB,
 						colorComponents: co.components.map { Float32($0) },
 						alpha: 1

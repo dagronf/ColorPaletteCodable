@@ -105,6 +105,6 @@ public extension PAL.Colors {
 	/// - Returns: A new gradient
 	@inlinable
 	func gradient(named name: String? = nil) -> PAL.Gradient {
-		PAL.Gradient(name: name, colors: self)
+		PAL.Gradient(colors: self, name: name)
 	}
 }

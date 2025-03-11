@@ -38,7 +38,7 @@ public func rgbf(
 	name: String = "",
 	colorType: PAL.ColorType = .global
 ) -> PAL.Color {
-	PAL.Color(name: name, rf: rf, gf: gf, bf: bf, af: af, colorType: colorType)
+	PAL.Color(rf: rf, gf: gf, bf: bf, af: af, name: name, colorType: colorType)
 }
 
 /// Create a color from RGB components
@@ -58,7 +58,7 @@ public func rgb255(
 	name: String = "",
 	colorType: PAL.ColorType = .normal
 ) -> PAL.Color {
-	PAL.Color(name: name, r255: r255, g255: g255, b255: b255, a255: a255, colorType: colorType)
+	PAL.Color(r255: r255, g255: g255, b255: b255, a255: a255, name: name, colorType: colorType)
 }
 
 /// Create a color from an RGB[A] hex color format string
@@ -74,7 +74,7 @@ public func rgb(
 	name: String = "",
 	colorType: PAL.ColorType = .normal
 ) throws -> PAL.Color {
-	try PAL.Color(name: name, hexString: hexString, format: format, colorType: colorType)
+	try PAL.Color(hexString: hexString, format: format, name: name, colorType: colorType)
 }
 
 // MARK: - Basic RGB structure
@@ -179,18 +179,18 @@ extension PAL.Color.RGB: Equatable {
 public extension PAL.Color {
 	/// Create a color object from 0 ... 1 component values
 	/// - Parameters:
-	///   - name: The color name
 	///   - rf: Red component (clamped to 0 ... 1)
 	///   - gf: Green component (clamped to 0 ... 1)
 	///   - bf: Blue component (clamped to 0 ... 1)
 	///   - af: Alpha component (clamped to 0 ... 1)
+	///   - name: The color name
 	///   - colorType: The type of color
 	init(
-		name: String = "",
 		rf: Float32,
 		gf: Float32,
 		bf: Float32,
 		af: Float32 = 1.0,
+		name: String = "",
 		colorType: PAL.ColorType = .global
 	) {
 		self.name = name
@@ -202,18 +202,18 @@ public extension PAL.Color {
 
 	/// Create a color object from 0 -> 255 component values
 	/// - Parameters:
-	///   - name: The color name
 	///   - r255: Red component (0 ... 255)
 	///   - g255: Green component (0 ... 255)
 	///   - b255: Blue component (0 ... 255)
 	///   - a255: Alpha component (0 ... 255)
+	///   - name: The color name
 	///   - colorType: The type of color
 	init(
-		name: String = "",
 		r255: UInt8,
 		g255: UInt8,
 		b255: UInt8,
 		a255: UInt8 = 255,
+		name: String = "",
 		colorType: PAL.ColorType = .global
 	) {
 		let rf = (Float32(r255) / 255.0).unitClamped
@@ -233,8 +233,8 @@ public extension PAL.Color {
 	///   - name: The color name
 	///   - color: The color components
 	///   - colorType: The type of color
-	init(name: String = "", color: PAL.Color.RGB, colorType: PAL.ColorType = .global) {
-		self.init(name: name, rf: color.rf, gf: color.gf, bf: color.bf, af: color.af, colorType: colorType)
+	init(color: PAL.Color.RGB, name: String = "", colorType: PAL.ColorType = .global) {
+		self.init(rf: color.rf, gf: color.gf, bf: color.bf, af: color.af, name: name, colorType: colorType)
 	}
 
 	/// Create an RGB(A) color object from a hex string
@@ -249,40 +249,15 @@ public extension PAL.Color {
 	/// - [#]ABCD     : RGBA color (RRGGBB)
 	/// - [#]AABBCC   : RGB color
 	/// - [#]AABBCCDD : RGBA color (RRGGBBAA)
-	init(name: String = "", hexString: String, format: PAL.ColorByteFormat, colorType: PAL.ColorType = .normal) throws {
+	init(hexString: String, format: PAL.ColorByteFormat, name: String = "", colorType: PAL.ColorType = .normal) throws {
 		let color = try PAL.Color.RGB(hexString, format: format)
 		try self.init(
-			name: name,
 			colorSpace: .RGB,
 			colorComponents: [color.rf, color.gf, color.bf],
-			colorType: colorType,
-			alpha: color.af
+			alpha: color.af,
+			name: name,
+			colorType: colorType
 		)
-	}
-
-	/// Converts a raw UInt32 into an RGBA NSColor
-	/// - Parameters:
-	///   - name: The color name
-	///   - uint32ColorValue: a 32-bit (4 byte) color value
-	///   - format: The byte ordering when decoding the color value
-	///   - colorType: The color type
-	init(
-		name: String = "",
-		_ uint32ColorValue: UInt32,
-		format: PAL.ColorByteFormat,
-		colorType: PAL.ColorType = .normal
-	) {
-		let c = extractRGBA(uint32ColorValue, format: format)
-		let rf = (Float32(c.r) / 255.0).unitClamped
-		let gf = (Float32(c.g) / 255.0).unitClamped
-		let bf = (Float32(c.b) / 255.0).unitClamped
-		let af = (Float32(c.a) / 255.0).unitClamped
-
-		self.name = name
-		self.colorSpace = .RGB
-		self.colorComponents = [rf, gf, bf]
-		self.alpha = af
-		self.colorType = colorType
 	}
 }
 
@@ -292,7 +267,7 @@ extension PAL.Color {
 	public func css(includeAlpha: Bool = true) throws -> String {
 		let rgba = try self.rgb()
 		if includeAlpha {
-			return "rgba(\(rgba.r255), \(rgba.g255), \(rgba.b255), \(Double(rgba.a255) / 255.0))"
+			return "rgba(\(rgba.r255), \(rgba.g255), \(rgba.b255), \(rgba.af))"
 		}
 		else {
 			return "rgb(\(rgba.r255), \(rgba.g255), \(rgba.b255))"

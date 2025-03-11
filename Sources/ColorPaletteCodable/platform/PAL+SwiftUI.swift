@@ -28,10 +28,10 @@ import SwiftUI
 public extension PAL.Color {
 	/// Create a color from a SwiftUI Color
 	/// - Parameters:
-	///   - name: The color's name
 	///   - color: The SwiftUI color
+	///   - name: The color's name
 	///   - colorType: The color type
-	init(name: String = "", _ color: SwiftUI.Color, colorType: PAL.ColorType = .global) throws {
+	init(_ color: SwiftUI.Color, name: String = "", colorType: PAL.ColorType = .global) throws {
 		#if os(macOS)
 		// Convert via NSColor
 		let rawColor = NSColor(color).cgColor
@@ -39,7 +39,7 @@ public extension PAL.Color {
 		// Convert via UIColor
 		let rawColor = UIColor(color).cgColor
 		#endif
-		try self.init(name: name, color: rawColor, colorType: colorType)
+		try self.init(color: rawColor, name: name, colorType: colorType)
 	}
 }
 

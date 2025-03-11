@@ -135,7 +135,7 @@ public extension PAL.Gradients.Coder.GGR {
 			stops.append(e1)
 		}
 
-		return PAL.Gradients(gradients: [PAL.Gradient(name: String(name), stops: stops)])
+		return PAL.Gradients(gradient: PAL.Gradient(stops: stops, name: String(name)))
 	}
 }
 

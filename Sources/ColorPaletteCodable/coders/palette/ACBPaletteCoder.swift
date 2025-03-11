@@ -147,7 +147,7 @@ public extension PAL.Coder.ACB {
 				]
 			}
 
-			let color = try PAL.Color(name: colorName, colorSpace: colorspace, colorComponents: components, alpha: 1)
+			let color = try PAL.Color(colorSpace: colorspace, colorComponents: components, alpha: 1, name: colorName)
 			result.colors.append(color)
 		}
 

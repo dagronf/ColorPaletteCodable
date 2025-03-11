@@ -82,7 +82,7 @@ extension PAL.Coder.BasicXML: XMLParserDelegate {
 			if let rgbHexString = attributeDict["hex"],
 				let color = try? PAL.Color.RGB(rgbHexString, format: .rgba)
 			{
-				let c = PAL.Color(name: name, color: color)
+				let c = PAL.Color(color: color, name: name)
 				self.palette.colors.append(c)
 			}
 			else if
@@ -99,7 +99,7 @@ extension PAL.Coder.BasicXML: XMLParserDelegate {
 					return 255
 				}()
 
-				let cc = PAL.Color(name: name, r255: r, g255: g, b255: b, a255: a)
+				let cc = PAL.Color(r255: r, g255: g, b255: b, a255: a, name: name)
 				self.palette.colors.append(cc)
 			}
 		}

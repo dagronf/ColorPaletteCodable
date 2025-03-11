@@ -22,15 +22,16 @@ import Foundation
 public extension PAL.Color {
 	/// Create a color from a UInt32 value
 	/// - Parameters:
-	///   - hexValue: The color value
+	///   - uint32ColorValue: The color value
 	///   - format: The expected color byte ordering for the value
 	///   - name: The color's name
-	init(name: String = "", _ hexValue: UInt32, format: PAL.ColorByteFormat) {
-		let c = extractRGBA(hexValue, format: format)
+	///   - colorType: The color's type
+	init(_ uint32ColorValue: UInt32, format: PAL.ColorByteFormat, name: String = "", colorType: PAL.ColorType = .global) {
+		let c = extractRGBA(uint32ColorValue, format: format)
 		self.name = name
 		self.colorSpace = .RGB
 		self.colorComponents = [Float32(c.r) / 255.0, Float32(c.g) / 255.0, Float32(c.b) / 255.0]
-		self.colorType = .global
+		self.colorType = colorType
 		self.alpha = Float32(c.a) / 255.0
 	}
 

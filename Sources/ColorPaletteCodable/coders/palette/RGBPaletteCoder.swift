@@ -70,7 +70,7 @@ public extension PAL.Coder.RGB {
 				let hex = l[match.captures[0]]
 				let name = l[match.captures[1]]
 				
-				let color = try PAL.Color(name: String(name), hexString: String(hex), format: .rgba).withAlpha(1.0)
+				let color = try PAL.Color(hexString: String(hex), format: .rgb, name: String(name))
 				palette.colors.append(color)
 			}
 		}

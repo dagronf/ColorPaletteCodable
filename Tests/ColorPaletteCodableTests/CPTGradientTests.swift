@@ -87,13 +87,13 @@ final class CPTGradientTests: XCTestCase {
 	func testBasicImportExportAndStopMerging() throws {
 
 		let g1 = PAL.Gradient(
-			name: "first",
 			colors: [
 				PAL.Color.red,
 				PAL.Color.green,
 				PAL.Color.blue
 			],
-			positions: [-1000, 0, 1000]
+			positions: [-1000, 0, 1000],
+			name: "first"
 		)
 
 		let c = PAL.Gradients.Coder.CPT()

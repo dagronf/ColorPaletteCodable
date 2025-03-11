@@ -132,9 +132,9 @@ final class ASEPaletteTests: XCTestCase {
 		let paletteCoder = try XCTUnwrap(PAL.Palette.firstCoder(for: "ase"))
 		
 		var palette = PAL.Palette()
-		let c1 = try PAL.Color(name: "red", colorSpace: .RGB, colorComponents: [1, 0, 0])
-		let c2 = try PAL.Color(name: "green", colorSpace: .RGB, colorComponents: [0, 1, 0])
-		let c3 = try PAL.Color(name: "blue", colorSpace: .RGB, colorComponents: [0, 0, 1])
+		let c1 = try PAL.Color(colorSpace: .RGB, colorComponents: [1, 0, 0], name: "red")
+		let c2 = try PAL.Color(colorSpace: .RGB, colorComponents: [0, 1, 0], name: "green")
+		let c3 = try PAL.Color(colorSpace: .RGB, colorComponents: [0, 0, 1], name: "blue")
 		palette.colors.append(contentsOf: [c1, c2, c3])
 		
 		let rawData = try paletteCoder.encode(palette)
@@ -152,11 +152,11 @@ final class ASEPaletteTests: XCTestCase {
 		let paletteCoder = PAL.Coder.ASE()
 		
 		var palette = PAL.Palette()
-		let c1 = try PAL.Color(name: "red", colorSpace: PAL.ColorSpace.RGB, colorComponents: [1, 0, 0])
-		let c2 = try PAL.Color(name: "green", colorSpace: PAL.ColorSpace.RGB, colorComponents: [0, 1, 0])
-		let c3 = try PAL.Color(name: "blue", colorSpace: PAL.ColorSpace.RGB, colorComponents: [0, 0, 1])
-		
-		let grp = PAL.Group(name: "rgb", colors: [c1, c2, c3])
+		let c1 = try PAL.Color(colorSpace: PAL.ColorSpace.RGB, colorComponents: [1, 0, 0], name: "red")
+		let c2 = try PAL.Color(colorSpace: PAL.ColorSpace.RGB, colorComponents: [0, 1, 0], name: "green")
+		let c3 = try PAL.Color(colorSpace: PAL.ColorSpace.RGB, colorComponents: [0, 0, 1], name: "blue")
+
+		let grp = PAL.Group(colors: [c1, c2, c3], name: "rgb")
 		palette.groups.append(grp)
 		
 		let rawData = try paletteCoder.encode(palette)
@@ -210,7 +210,7 @@ final class ASEPaletteTests: XCTestCase {
 	
 	func testColorInit() throws {
 		do {
-			let c1 = try PAL.Color(name: "c1", hexString: "1122FE", format: .rgba)
+			let c1 = try PAL.Color(hexString: "1122FE", format: .rgba, name: "c1")
 			XCTAssertEqual(c1.colorSpace, .RGB)
 			XCTAssertEqual(c1.colorComponents.count, 3)
 			XCTAssertEqual(c1.colorComponents[0], 0.06666, accuracy: 0.00001)
@@ -219,7 +219,7 @@ final class ASEPaletteTests: XCTestCase {
 		}
 		
 		do {
-			let c1 = try PAL.Color(name: "c1", hexString: "#54efaa11", format: .rgba)
+			let c1 = try PAL.Color(hexString: "#54efaa11", format: .rgba, name: "c1")
 			XCTAssertEqual(c1.colorSpace, .RGB)
 			XCTAssertEqual(c1.colorComponents.count, 3) // alpha is stripped
 			XCTAssertEqual(c1.colorComponents[0], 0.32941, accuracy: 0.00001)
@@ -230,25 +230,25 @@ final class ASEPaletteTests: XCTestCase {
 	
 	func testColorInitHexInvalid() throws {
 		do {
-			XCTAssertThrowsError(try PAL.Color(name: "c1", hexString: "1122F", format: .rgba))
-			XCTAssertThrowsError(try PAL.Color(name: "c1", hexString: "1122FEE", format: .rgba))
-			XCTAssertThrowsError(try PAL.Color(name: "c1", hexString: "#1SS122F", format: .rgba))
+			XCTAssertThrowsError(try PAL.Color(hexString: "1122F", format: .rgba, name: "c1"))
+			XCTAssertThrowsError(try PAL.Color(hexString: "1122FEE", format: .rgba, name: "c1"))
+			XCTAssertThrowsError(try PAL.Color(hexString: "#1SS122F", format: .rgba, name: "c1"))
 
-			XCTAssertNoThrow(try PAL.Color(name: "c1", hexString: "#1122FE", format: .rgba))
-			XCTAssertNoThrow(try PAL.Color(name: "c1", hexString: "1122FE", format: .rgba))
-			XCTAssertNoThrow(try PAL.Color(name: "c1", hexString: "#5e34", format: .rgba))
-			XCTAssertNoThrow(try PAL.Color(name: "c1", hexString: "5e34", format: .rgba))
+			XCTAssertNoThrow(try PAL.Color(hexString: "#1122FE", format: .rgba, name: "c1"))
+			XCTAssertNoThrow(try PAL.Color(hexString: "1122FE", format: .rgba, name: "c1"))
+			XCTAssertNoThrow(try PAL.Color(hexString: "#5e34", format: .rgba, name: "c1"))
+			XCTAssertNoThrow(try PAL.Color(hexString: "5e34", format: .rgba, name: "c1"))
 		}
 		
 		do {
-			XCTAssertThrowsError(try PAL.Color(name: "c1", hexString: "1122F", format: .rgba))
-			XCTAssertThrowsError(try PAL.Color(name: "c1", hexString: "#1SS122Faa", format: .rgba))
-			XCTAssertThrowsError(try PAL.Color(name: "c1", hexString: "E1122FE23", format: .rgba))
+			XCTAssertThrowsError(try PAL.Color(hexString: "1122F", format: .rgba, name: "c1"))
+			XCTAssertThrowsError(try PAL.Color(hexString: "#1SS122Faa", format: .rgba, name: "c1"))
+			XCTAssertThrowsError(try PAL.Color(hexString: "E1122FE23", format: .rgba, name: "c1"))
 
-			XCTAssertNoThrow(try PAL.Color(name: "c1", hexString: "#1122FE23", format: .rgba))
-			XCTAssertNoThrow(try PAL.Color(name: "c1", hexString: "1122FE32", format: .rgba))
-			XCTAssertNoThrow(try PAL.Color(name: "c1", hexString: "#1122FEaa", format: .rgba))
-			XCTAssertNoThrow(try PAL.Color(name: "c1", hexString: "1122FEaa", format: .rgba))
+			XCTAssertNoThrow(try PAL.Color(hexString: "#1122FE23", format: .rgba, name: "c1"))
+			XCTAssertNoThrow(try PAL.Color(hexString: "1122FE32", format: .rgba, name: "c1"))
+			XCTAssertNoThrow(try PAL.Color(hexString: "#1122FEaa", format: .rgba, name: "c1"))
+			XCTAssertNoThrow(try PAL.Color(hexString: "1122FEaa", format: .rgba, name: "c1"))
 		}
 	}
 

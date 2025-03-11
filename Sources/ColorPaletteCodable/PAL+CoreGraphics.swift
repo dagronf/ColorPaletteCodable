@@ -45,25 +45,25 @@ private let _colorspacelinearGray = CGColorSpace(name: CGColorSpace.linearGray)!
 public extension PAL.Palette {
 	/// Create a palette from an array of CGColors
 	/// - Parameters:
-	///   - name: The palette name
 	///   - cgColors: The initial colors for the palette
+	///   - name: The palette name
 	///
 	/// Throws an error if any of the `CGColor`s cannot be represented as a PAL.Color object
-	@inlinable init(named name: String? = nil, cgColors: [CGColor]) throws {
+	@inlinable init(cgColors: [CGColor], name: String? = nil) throws {
 		let c = try cgColors.map { try PAL.Color(color: $0) }
 		self.init(colors: c)
 	}
 
 	/// Create a palette by mixing between two colors
 	/// - Parameters:
-	///   - name: The palette name
 	///   - startColor: The first (starting) color for the palette
 	///   - endColor: The second (ending) color for the palette
 	///   - count: Number of colors to generate
-	init(named name: String? = nil, startColor: CGColor, endColor: CGColor, count: Int) throws {
+	///   - name: The palette name
+	init(startColor: CGColor, endColor: CGColor, count: Int, name: String? = nil) throws {
 		let c1 = try PAL.Color(color: startColor)
 		let c2 = try PAL.Color(color: endColor)
-		try self.init(startColor: c1, endColor: c2, count: count)
+		try self.init(startColor: c1, endColor: c2, count: count, name: name ?? "")
 	}
 }
 
@@ -74,21 +74,21 @@ public extension PAL.Gradient {
 	///   - cgColors: The initial colors for the gradient
 	///
 	/// Throws an error if any of the `CGColor`s cannot be represented as a PAL.Color object
-	@inlinable init(named name: String? = nil, cgColors: [CGColor]) throws {
+	@inlinable init(cgColors: [CGColor], name: String? = nil) throws {
 		let c = try cgColors.map { try PAL.Color(color: $0) }
-		self.init(name: name, colors: c)
+		self.init(colors: c, name: name)
 	}
 }
 
 public extension PAL.Color {
 	/// Create a Color object from a CGColor
 	/// - Parameters:
-	///   - name: The color's name (optional)
 	///   - color: The cgColor to add to the palette.
-	///   - colorType: The type of color (global, normal, spot) (optional)
+	///   - name: The color's name
+	///   - colorType: The type of color (global, normal, spot)
 	///
 	/// Throws an error if the CGColor cannot be represented as a PAL.Color object
-	init(name: String = "", color: CGColor, colorType: PAL.ColorType = .global) throws {
+	init(color: CGColor, name: String = "", colorType: PAL.ColorType = .global) throws {
 		self.name = name
 		self.colorType = colorType
 

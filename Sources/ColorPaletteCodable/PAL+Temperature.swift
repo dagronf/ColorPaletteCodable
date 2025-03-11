@@ -22,38 +22,38 @@ import Foundation
 public extension PAL.Color {
 	/// Create a color from a kelvin temperature
 	/// - Parameters:
-	///   - name: The color name
 	///   - kelvinTemperature: kelvin temperature value (1000.0 ... 40000.0)
+	///   - name: The color name
 	///   - colorType: The type of color
-	init(name: String = "", kelvinTemperature: Float32, colorType: PAL.ColorType = .global) throws {
+	init(kelvinTemperature: Float32, name: String = "", colorType: PAL.ColorType = .global) throws {
 		let k = try kelvinToRGB(kelvinTemperature)
-		self.init(name: name, r255: k.r, g255: k.g, b255: k.b)
+		self.init(r255: k.r, g255: k.g, b255: k.b, name: name)
 	}
 }
 
 public extension PAL.Palette {
 	/// Create a palette containing a range of kelvin colors
 	/// - Parameters:
-	///   - name: The palette name
 	///   - kelvinRange: The range of kelvin temperatures
 	///   - count: The number of colors in the palette
-	init(named name: String = "", kelvinRange: ClosedRange<Float32>, count: Int) throws {
+	///   - name: The palette name
+	init(kelvinRange: ClosedRange<Float32>, count: Int, name: String = "") throws {
 		let step = ((kelvinRange.upperBound - kelvinRange.lowerBound) / (Float32(count) - 1.0))
 		let colors = try stride(from: kelvinRange.lowerBound, through: kelvinRange.upperBound, by: step).map {
 			try PAL.Color(kelvinTemperature: $0)
 		}
-		self.init(name: name, colors: colors)
+		self.init(colors: colors, name: name)
 	}
 }
 
 public extension PAL.Gradient {
 	/// Create a gradient containing a range of kelvin colors
 	/// - Parameters:
-	///   - name: The gradient name
 	///   - kelvinRange: The range of kelvin temperatures
 	///   - count: The number of gradient stops
-	init(named name: String = "", kelvinRange: ClosedRange<Float32>, count: Int) throws {
-		let palette = try PAL.Palette(named: name, kelvinRange: kelvinRange, count: count)
-		self.init(name: name, palette: palette)
+	///   - name: The gradient name
+	init(kelvinRange: ClosedRange<Float32>, count: Int, name: String = "") throws {
+		let palette = try PAL.Palette(kelvinRange: kelvinRange, count: count, name: name)
+		self.init(palette: palette, name: name)
 	}
 }

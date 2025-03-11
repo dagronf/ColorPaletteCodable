@@ -84,8 +84,7 @@ public extension PAL.Coder.PaintShopPro {
 				let re = max(0, min(1, Float32(rv) / 255.0))
 				let ge = max(0, min(1, Float32(gv) / 255.0))
 				let be = max(0, min(1, Float32(bv) / 255.0))
-
-				let c = try PAL.Color(name: "", colorSpace: .RGB, colorComponents: [re, ge, be], alpha: 1.0)
+				let c = PAL.Color(rf: re, gf: ge, bf: be)
 				palette.colors.append(c)
 			}
 		}

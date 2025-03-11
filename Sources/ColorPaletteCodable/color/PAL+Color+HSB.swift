@@ -44,7 +44,7 @@ public func hsbf(
 	name: String = "",
 	colorType: PAL.ColorType = .global
 ) -> PAL.Color {
-	PAL.Color(name: name, hf: hf, sf: sf, bf: bf, af: af, colorType: colorType)
+	PAL.Color(hf: hf, sf: sf, bf: bf, af: af, name: name, colorType: colorType)
 }
 
 /// Create a color from HSB values
@@ -64,7 +64,7 @@ public func hsb360(
 	name: String = "",
 	colorType: PAL.ColorType = .global
 ) -> PAL.Color {
-	PAL.Color(name: name, h360: h360, s100: s100, b100: b100, alpha: alpha, colorType: colorType)
+	PAL.Color(h360: h360, s100: s100, b100: b100, alpha: alpha, name: name, colorType: colorType)
 }
 
 // MARK: - Basic HSB structure
@@ -128,50 +128,50 @@ public extension PAL.Color {
 public extension PAL.Color {
 	/// Create a color using fractional hsb values
 	/// - Parameters:
-	///   - name: The color name
 	///   - hf: The hue (0.0 ... 1.0)      / 0 ... 360 /
 	///   - sf: Saturation (0.0 ... 1.0)   / 0 ... 100 /
 	///   - bf: Brightness (0.0 ... 1.0)   / 0 ... 100 /
 	///   - af: The alpha component (0.0 ... 1.0)
+	///   - name: The color name
 	///   - colorType: The color type
 	init(
-		name: String = "",
 		hf: Float32,
 		sf: Float32,
 		bf: Float32,
 		af: Float32 = 1.0,
+		name: String = "",
 		colorType: PAL.ColorType = .global
 	) {
 		let hsb = hsb2rgb(h: hf.unitClamped, s: sf.unitClamped, b: bf.unitClamped, a: af.unitClamped)
-		self.init(name: name, rf: hsb.r, gf: hsb.g, bf: hsb.b, af: hsb.a, colorType: colorType)
+		self.init(rf: hsb.r, gf: hsb.g, bf: hsb.b, af: hsb.a, name: name, colorType: colorType)
 	}
 
 	/// Create a color using fractional hsb values
 	/// - Parameters:
-	///   - name: The color name
 	///   - h360: The hue (0 ... 360)
 	///   - s100: Saturation (0.0 ... 100.0)
 	///   - b100: Brightness (0.0 ... 100.0)
 	///   - alpha: The alpha component (0.0 ... 1.0)
+	///   - name: The color name
 	///   - colorType: The color type
 	init(
-		name: String = "",
 		h360: Float32,
 		s100: Float32,
 		b100: Float32,
 		alpha: Float32 = 1.0,
+		name: String = "",
 		colorType: PAL.ColorType = .global
 	) {
-		self.init(name: name, hf: h360 / 360.0, sf: s100 / 100.0, bf: b100 / 100.0, af: alpha, colorType: colorType)
+		self.init(hf: h360 / 360.0, sf: s100 / 100.0, bf: b100 / 100.0, af: alpha, name: name, colorType: colorType)
 	}
 
 	/// Create a color using hsb values
 	/// - Parameters:
-	///   - name: The color name
 	///   - color: The HSB color
+	///   - name: The color name
 	///   - colorType: The color type
-	@inlinable init(name: String = "", _ color: PAL.Color.HSB, colorType: PAL.ColorType = .global) {
-		self.init(name: name, hf: color.h, sf: color.s, bf: color.b, af: color.a, colorType: colorType)
+	@inlinable init(_ color: PAL.Color.HSB, name: String = "", colorType: PAL.ColorType = .global) {
+		self.init(hf: color.h, sf: color.s, bf: color.b, af: color.a, name: name, colorType: colorType)
 	}
 }
 

@@ -79,7 +79,7 @@ public extension PAL.Coder.DCP {
 				try parser.readColor()
 			}
 
-			return PAL.Group(name: groupName, colors: colors)
+			return PAL.Group(colors: colors, name: groupName)
 		}
 
 		// First group is always the 'global' colors, even if there are none
@@ -210,11 +210,11 @@ extension DataParser {
 		}()
 
 		return try PAL.Color(
-			name: colorName,
 			colorSpace: colorSpace,
 			colorComponents: components,
-			colorType: colorType,
-			alpha: alpha
+			alpha: alpha,
+			name: colorName,
+			colorType: colorType
 		)
 	}
 }

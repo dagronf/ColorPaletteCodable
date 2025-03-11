@@ -32,7 +32,7 @@ public extension PAL.Palette {
 		var colors: [PAL.Color] = []
 		try names.forEach { name in
 			if let color = colorList.color(withKey: name) {
-				colors.append(try PAL.Color(name: name, color: color.cgColor))
+				colors.append(try PAL.Color(color: color.cgColor, name: name))
 			}
 		}
 		self.colors = colors
@@ -43,7 +43,7 @@ public extension PAL.Palette {
 	/// Note that a palette may have duplicate color names, so a unique index will be added to each
 	/// `NSColorList` color name to ensure that all colors are exported.
 	@inlinable func colorListFromAllColors() -> NSColorList {
-		return Self.colorList(from: self.allColors(), named: self.name)
+		return Self.colorList(from: self.allColors(), name: self.name)
 	}
 
 	/// Returns an `NSColorList` from the global colors of the palette
@@ -51,7 +51,7 @@ public extension PAL.Palette {
 	/// Note that a palette may have duplicate color names, so a unique index will be added to each
 	/// `NSColorList` color name to ensure that all colors are exported.
 	@inlinable func colorListFromGlobalColors() -> NSColorList {
-		return Self.colorList(from: self.colors, named: self.name)
+		return Self.colorList(from: self.colors, name: self.name)
 	}
 
 	/// Returns an `NSColorList` from an array of colors
@@ -62,7 +62,7 @@ public extension PAL.Palette {
 	///
 	/// Note that the colors may have duplicate color names, so a unique index will be added to each additional duplicate
 	/// `NSColorList` color name to ensure that all colors are exported.
-	static func colorList(from colors: [PAL.Color], named name: NSColorList.Name = "") -> NSColorList {
+	static func colorList(from colors: [PAL.Color], name: NSColorList.Name = "") -> NSColorList {
 		var foundNames: [String] = []
 		let result = NSColorList(name: name)
 		colors.enumerated().forEach { iter in
@@ -83,7 +83,7 @@ public extension PAL.Group {
 	/// Note that a group can have duplicate color names, so a unique index will be added to each
 	/// `NSColorList` color name to ensure that all colors are exported.
 	@inlinable var nsColorList: NSColorList {
-		return PAL.Palette.colorList(from: self.colors, named: self.name)
+		return PAL.Palette.colorList(from: self.colors, name: self.name)
 	}
 }
 

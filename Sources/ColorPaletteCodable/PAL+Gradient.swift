@@ -75,26 +75,26 @@ public extension PAL {
 
 		/// Return a palette containing the colors in the order of the color stops
 		@inlinable public var palette: PAL.Palette {
-			PAL.Palette(name: self.name ?? "", colors: self.sorted.colors)
+			PAL.Palette(colors: self.sorted.colors, name: self.name ?? "")
 		}
 
 		// MARK: Creation
 
 		/// Create a gradient from an array of gradient stops
 		/// - Parameters:
-		///   - name: The name for the gradient (optional)
 		///   - stops: The stops for the gradient
-		public init(name: String? = nil, stops: [PAL.Gradient.Stop]) {
+		///   - name: The name for the gradient (optional)
+		public init(stops: [PAL.Gradient.Stop], name: String? = nil) {
 			self.name = name
 			self.stops = stops
 		}
 
 		/// Create a gradient
 		/// - Parameters:
-		///   - name: The gradient name
 		///   - stops: The color stops within the gradient
 		///   - transparencyStops: The transparency stops within the gradient
-		public init(name: String? = nil, stops: [PAL.Gradient.Stop], transparencyStops: [PAL.Gradient.TransparencyStop]?) {
+		///   - name: The gradient name
+		public init(stops: [PAL.Gradient.Stop], transparencyStops: [PAL.Gradient.TransparencyStop]?, name: String? = nil) {
 			self.name = name
 			self.stops = stops
 			self.transparencyStops = transparencyStops
@@ -102,31 +102,34 @@ public extension PAL {
 
 		/// Create an evenly spaced gradient from an array of colors with spacing between 0 -> 1
 		/// - Parameters:
-		///   - name: The name for the gradient (optional)
 		///   - colors: The colors to evenly space within the gradient
-		@inlinable public init(name: String? = nil, colors: [PAL.Color]) {
+		///   - name: The name for the gradient (optional)
+		@inlinable public init(colors: [PAL.Color], name: String? = nil) {
 			let div = 1.0 / Double(colors.count - 1)
 			let stops = (0 ..< colors.count).map { Stop(position: Double($0) * div, color: colors[$0]) }
-			self.init(name: name, stops: stops)
+			self.init(stops: stops, name: name)
 		}
 
 		/// Create a gradient from colors and positions
 		/// - Parameters:
-		///   - name: The name for the gradient (optional)
 		///   - colors: An array of colors to add to the gradient
 		///   - positions: The corresponding array of positions for the colors
-		@inlinable public init(name: String? = nil, colors: [PAL.Color], positions: [Double]) {
+		///   - name: The name for the gradient (optional)
+		@inlinable public init(colors: [PAL.Color], positions: [Double], name: String? = nil) {
 			assert(colors.count == positions.count)
 			let stops = zip(positions, colors).map { Stop(position: $0.0, color: $0.1) }
-			self.init(name: name, stops: stops)
+			self.init(stops: stops, name: name)
 		}
 
 		/// Create a gradient from an array of position:color tuples
 		/// - Parameters:
-		///   - name: The name for the gradient (optional)
 		///   - colorPositions: An array of position:color tuples
-		@inlinable public init(name: String? = nil, colorPositions: [(position: Double, color: PAL.Color)]) {
-			self.init(name: name, stops: colorPositions.map { Stop(position: $0.position, color: $0.color) })
+		///   - name: The name for the gradient
+		@inlinable public init(colorPositions: [(position: Double, color: PAL.Color)], name: String? = nil) {
+			self.init(
+				stops: colorPositions.map { Stop(position: $0.position, color: $0.color) },
+				name: name
+			)
 		}
 
 		/// Create a fake hue gradient from a hue range using incremental stops
@@ -135,7 +138,14 @@ public extension PAL {
 		///   - stopCount: The number of stops to include in the gradient
 		///   - saturation: The saturation
 		///   - brightness: The brightness
-		init(hueRange: ClosedRange<Float32>, stopCount: Int, saturation: Float32 = 1.0, brightness: Float32 = 1.0) {
+		///   - name: The name for the gradient
+		init(
+			hueRange: ClosedRange<Float32>,
+			stopCount: Int,
+			saturation: Float32 = 1.0,
+			brightness: Float32 = 1.0,
+			name: String? = nil
+		) {
 			assert(stopCount > 1)
 			let hueStart = hueRange.lowerBound.unitClamped
 			let hueEnd = hueRange.upperBound.unitClamped
@@ -148,7 +158,7 @@ public extension PAL {
 				let h = lerp(hueStart, hueEnd, t: s)
 				return PAL.Color(hf: h, sf: saturation, bf: brightness)
 			}
-			self.init(colors: colors)
+			self.init(colors: colors, name: name)
 		}
 	}
 }
@@ -388,9 +398,9 @@ public extension PAL.Gradient {
 	/// Return a gradient with the stops and transparency sorted ascending by position
 	@inlinable var sorted: PAL.Gradient {
 		PAL.Gradient(
-			name: self.name,
 			stops: self.stops.sorted { a, b in a.position < b.position },
-			transparencyStops: self.transparencyStops?.sorted(by: { a, b in a.position < b.position })
+			transparencyStops: self.transparencyStops?.sorted(by: { a, b in a.position < b.position }),
+			name: self.name
 		)
 	}
 }
@@ -411,7 +421,7 @@ public extension PAL.Gradient {
 	/// * If the min position and max position are the same (ie. no normalization can be performed), throws `PAL.GradientError.minMaxValuesEqual`
 	func normalized() throws -> PAL.Gradient {
 		if self.stops.count == 0 {
-			return PAL.Gradient(name: self.name, colors: [])
+			return PAL.Gradient(colors: [], name: self.name)
 		}
 
 		// Get the min/max and range values
@@ -435,7 +445,7 @@ public extension PAL.Gradient {
 			let scaled = shifted / range
 			return Stop(position: scaled, color: $0.color)
 		}
-		return PAL.Gradient(name: self.name, stops: scaled)
+		return PAL.Gradient(stops: scaled, name: self.name)
 	}
 
 	/// Map the transparency stops in the gradient to a 0 ... 1 range
@@ -613,13 +623,16 @@ extension PAL.Gradient.TransparencyStop: Identifiable { }
 
 public extension PAL.Gradient {
 	/// Create an evenly-spaced gradient from the global colors of a palette
-	@inlinable init(name: String? = nil, palette: PAL.Palette) {
-		self.init(name: name ?? palette.name, colors: palette.colors)
+	/// - Parameters:
+	///   - palette: The palette to convert to a gradient
+	///   - name: The gradient name
+	@inlinable init(palette: PAL.Palette, name: String? = nil) {
+		self.init(colors: palette.colors, name: name ?? palette.name)
 	}
 
 	/// Create an evenly-spaced gradient from a color group
-	@inlinable init(name: String? = nil, group: PAL.Group) {
-		self.init(name: name, colors: group.colors)
+	@inlinable init(group: PAL.Group, name: String? = nil) {
+		self.init(colors: group.colors, name: name)
 	}
 
 	/// Replace the colors in a gradient with the colors defined in the palette without modifying the positions
@@ -632,18 +645,20 @@ public extension PAL.Gradient {
 		}
 
 		return PAL.Gradient(
-			name: self.name,
 			stops:
 				zip(self.stops, colors)
-					.map { Stop(position: $0.0.position, color: $0.1) }
+					.map { Stop(position: $0.0.position, color: $0.1) },
+			name: self.name
 		)
 	}
 }
 
 public extension PAL.Palette {
 	/// Returns an evenly-spaced gradient from the global colors of this palette
-	@inlinable func gradient(named name: String? = nil) -> PAL.Gradient {
-		PAL.Gradient(name: name, colors: self.colors)
+	/// - Parameter name: The gradient name
+	/// - Returns: A gradient
+	@inlinable func gradient(name: String? = nil) -> PAL.Gradient {
+		PAL.Gradient(colors: self.colors, name: name)
 	}
 }
 

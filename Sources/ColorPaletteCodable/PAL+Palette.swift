@@ -38,10 +38,10 @@ public extension PAL {
 
 		/// Create a palette
 		/// - Parameters:
-		///   - name: The palette name
 		///   - colors: The global colors
 		///   - groups: The palettes groups
-		public init(name: String = "", colors: [PAL.Color], groups: [PAL.Group] = []) {
+		///   - name: The palette name
+		public init(colors: [PAL.Color], groups: [PAL.Group] = [], name: String = "") {
 			self.name = name
 			self.colors = colors
 			self.groups = groups
@@ -74,17 +74,17 @@ extension PAL.Palette: Hashable {
 public extension PAL.Palette {
 	/// Create a palette by interpolating between two colors
 	/// - Parameters:
-	///   - name: The palette's name
 	///   - startColor: The first (starting) color for the palette
 	///   - endColor: The second (ending) color for the palette
 	///   - count: Number of colors to generate
 	///   - useOkLab: If true, use OkLab colorspace when generating colors
+	///   - name: The palette's name
 	init(
-		named name: String = "",
 		startColor: PAL.Color,
 		endColor: PAL.Color,
 		count: Int,
-		useOkLab: Bool = false
+		useOkLab: Bool = false,
+		name: String = ""
 	) throws {
 		let colors = try PAL.Color.interpolate(
 			startColor: startColor,
@@ -92,7 +92,7 @@ public extension PAL.Palette {
 			count: count,
 			useOkLab: useOkLab
 		)
-		self.init(name: name, colors: colors)
+		self.init(colors: colors, name: name)
 	}
 
 	/// Return a palette containing random colors
@@ -164,7 +164,7 @@ public extension PAL.Palette {
 public extension PAL.Palette {
 	/// Returns all the groups for the palette. Global colors are represented in a group called 'global'
 	@inlinable var allGroups: [PAL.Group] {
-		return [PAL.Group(name: "global", colors: self.colors)] + self.groups
+		return [PAL.Group(colors: self.colors, name: "global")] + self.groups
 	}
 
 	/// Returns all the colors in the palette as a flat array of colors (all group information is lost)
@@ -189,10 +189,10 @@ public extension PAL.Palette {
 			let colors = try group.colors.map { color in
 				return try color.converted(to: colorspace)
 			}
-			let group = PAL.Group(name: group.name, colors: colors)
+			let group = PAL.Group(colors: colors, name: group.name)
 			groups.append(group)
 		}
-		return PAL.Palette(name: self.name, colors: colors, groups: groups)
+		return PAL.Palette(colors: colors, groups: groups, name: self.name)
 	}
 
 	/// Find the first instance of a color by name within the palette

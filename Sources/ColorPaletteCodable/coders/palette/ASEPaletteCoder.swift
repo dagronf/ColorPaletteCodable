@@ -204,7 +204,12 @@ extension PAL.Coder.ASE {
 			throw PAL.CommonError.unknownColorType(Int(colorTypeValue))
 		}
 		
-		let color = try PAL.Color(name: name, colorSpace: colorspace, colorComponents: colors, colorType: colorType.asColorType())
+		let color = try PAL.Color(
+			colorSpace: colorspace,
+			colorComponents: colors,
+			name: name,
+			colorType: colorType.asColorType()
+		)
 		if let _ = currentGroup {
 			currentGroup?.colors.append(color)
 		}

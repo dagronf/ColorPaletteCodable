@@ -154,12 +154,12 @@ class GradientFormatTests: XCTestCase {
 		}
 		do {
 			let gradient = PAL.Gradient(
-				name: "alphablurry!",
 				colorPositions: [
 					(position: 0.0, color: try PAL.Color.blue.withAlpha(0.1)),
 					(position: 0.2, color: PAL.Color.white),
 					(position: 1.0, color: try PAL.Color.green.withAlpha(0.8)),
-				]
+				],
+				name: "alphablurry!"
 			)
 
 #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)

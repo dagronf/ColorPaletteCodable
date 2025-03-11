@@ -37,10 +37,10 @@ public extension PAL.Color {
 				lerp(i.0, i.1, t: Float32(t.value))
 			}
 			return try PAL.Color(
-				name: name ?? "",
 				colorSpace: self.colorSpace,
 				colorComponents: cs,
-				alpha: lerp(self.alpha, color2.alpha, t: Float32(t.value))
+				alpha: lerp(self.alpha, color2.alpha, t: Float32(t.value)),
+				name: name ?? ""
 			)
 		}
 
@@ -48,11 +48,11 @@ public extension PAL.Color {
 		let c2 = try color2.rgb()
 		let t = Float32(t.value)
 		return PAL.Color(
-			name: name ?? "",
 			rf: Float32(lerp(c1.rf, c2.rf, t: t)),
 			gf: Float32(lerp(c1.gf, c2.gf, t: t)),
 			bf: Float32(lerp(c1.bf, c2.bf, t: t)),
-			af: Float32(lerp(c1.af, c2.af, t: t))
+			af: Float32(lerp(c1.af, c2.af, t: t)),
+			name: name ?? ""
 		)
 	}
 
@@ -64,7 +64,7 @@ public extension PAL.Color {
 	/// - Returns: The midpoint color
 	@inlinable @inline(__always)
 	func blending(with color2: PAL.Color, t: UnitValue<Double>, named name: String = "") throws -> PAL.Color {
-		try OkLab.mix(name: name, self, color2, t: Float32(t.value))
+		try OkLab.mix(self, color2, t: Float32(t.value), name: name)
 	}
 }
 

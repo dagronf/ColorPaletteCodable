@@ -95,7 +95,7 @@ final class ColorFunctionTests: XCTestCase {
 		let c5 = cmykf(0.05, 1, 0, 0, name: "5")
 		let c6 = grayf(0.3, name: "6g")
 
-		var palette = PAL.Palette(name: "fish", colors: [c1, c2, c3])
+		var palette = PAL.Palette(colors: [c1, c2, c3], name: "fish")
 		palette.groups.append(PAL.Group(colors: [c4, c5, c6]))
 		//let im = try XCTUnwrap(palette.thumbnailImage(size: CGSize(width: 120, height: 120)))
 

@@ -41,7 +41,7 @@ public extension PAL {
 		/// Return a palette containing all the gradients as mapped color groups
 		public var palette: PAL.Palette {
 			let grs = gradients.map { gradient in
-				PAL.Group(name: gradient.name ?? "", colors: gradient.sorted.colors)
+				PAL.Group(colors: gradient.sorted.colors, name: gradient.name ?? "")
 			}
 			return PAL.Palette(colors: [], groups: grs)
 		}

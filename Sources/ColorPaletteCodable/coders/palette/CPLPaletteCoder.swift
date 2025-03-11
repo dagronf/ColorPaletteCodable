@@ -202,9 +202,9 @@ public extension PAL.Coder.CPL {
 
 			if let colorspace = colorspace, let colorComponents = colorComponents {
 				let readColor = try PAL.Color(
-					name: colorName,
 					colorSpace: colorspace,
 					colorComponents: colorComponents.map { Float32($0) },
+					name: colorName,
 					colorType: spot ? .spot : .normal
 				)
 				result.colors.append(readColor)
@@ -212,9 +212,9 @@ public extension PAL.Coder.CPL {
 
 			if let colorspace = colorspace2, let colorComponents = colorComponents2 {
 				let readColor = try PAL.Color(
-					name: colorName,
 					colorSpace: colorspace,
 					colorComponents: colorComponents.map { Float32($0) },
+					name: colorName,
 					colorType: spot ? .spot : .normal
 				)
 				result.colors.append(readColor)

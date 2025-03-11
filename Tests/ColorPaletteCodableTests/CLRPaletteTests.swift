@@ -37,9 +37,9 @@ final class CLRPaletteTests: XCTestCase {
 		let coder = PAL.Coder.CLR()
 		
 		var palette = PAL.Palette()
-		let c1 = try PAL.Color(name: "red", colorSpace: PAL.ColorSpace.RGB, colorComponents: [1, 0, 0])
-		let c2 = try PAL.Color(name: "green", colorSpace: PAL.ColorSpace.RGB, colorComponents: [0, 1, 0])
-		let c3 = try PAL.Color(name: "blue", colorSpace: PAL.ColorSpace.RGB, colorComponents: [0, 0, 1])
+		let c1 = try PAL.Color(colorSpace: PAL.ColorSpace.RGB, colorComponents: [1, 0, 0], name: "red")
+		let c2 = try PAL.Color(colorSpace: PAL.ColorSpace.RGB, colorComponents: [0, 1, 0], name: "green")
+		let c3 = try PAL.Color(colorSpace: PAL.ColorSpace.RGB, colorComponents: [0, 0, 1], name: "blue")
 		palette.colors.append(contentsOf: [c1, c2, c3])
 		
 		// Encode

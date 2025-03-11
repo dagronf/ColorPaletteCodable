@@ -59,9 +59,9 @@ class AndroidColorsXMLTests: XCTestCase {
 
 	func testEncode() throws {
 		var palette = PAL.Palette()
-		let c1 = try PAL.Color(name: "red", colorSpace: .RGB, colorComponents: [1, 0, 0])
-		let c2 = try PAL.Color(name: "green", colorSpace: .RGB, colorComponents: [0, 1, 0])
-		let c3 = try PAL.Color(name: "blue", colorSpace: .RGB, colorComponents: [0, 0, 1])
+		let c1 = try PAL.Color(colorSpace: .RGB, colorComponents: [1, 0, 0], name: "red")
+		let c2 = try PAL.Color(colorSpace: .RGB, colorComponents: [0, 1, 0], name: "green")
+		let c3 = try PAL.Color(colorSpace: .RGB, colorComponents: [0, 0, 1], name: "blue")
 		palette.colors.append(contentsOf: [c1, c2, c3])
 
 		do {
@@ -85,7 +85,7 @@ class AndroidColorsXMLTests: XCTestCase {
 
 	func testEncodeWeirdName() throws {
 		var palette = PAL.Palette()
-		let c1 = try PAL.Color(name: "Name is 😀", colorSpace: .RGB, colorComponents: [1, 0, 0])
+		let c1 = try PAL.Color(colorSpace: .RGB, colorComponents: [1, 0, 0], name: "Name is 😀")
 		palette.colors.append(c1)
 		let coder = PAL.Coder.AndroidColorsXML(includeAlphaDuringExport: false)
 		let data = try coder.encode(palette)
