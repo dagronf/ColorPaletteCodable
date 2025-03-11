@@ -433,19 +433,35 @@ public extension PAL.Gradient {
 			throw PAL.GradientError.cannotNormalize
 		}
 
-		// Sort the stops
-		let sorted = stops.sorted { a, b in a.position < b.position }
+		//
+		// Sort the stops and normalize to 0 -> 1
+		//
+		let sorted = self.stops
+			.sorted { a, b in a.position < b.position }
+			.map {
+				let position = $0.position
+				// Shift value to zero point
+				let shifted = position - minVal
+				// Scale to fit the range
+				let scaled = shifted / range
+				return Stop(position: scaled, color: $0.color)
+			}
 
-		// Map the stops into a 0 -> 1 range
-		let scaled: [Stop] = sorted.map {
-			let position = $0.position
-			// Shift value to zero point
-			let shifted = position - minVal
-			// Scale to fit the range
-			let scaled = shifted / range
-			return Stop(position: scaled, color: $0.color)
-		}
-		return PAL.Gradient(stops: scaled, name: self.name)
+		//
+		// Sort the transparency stops and normalize
+		//
+		let ts = self.transparencyStops?
+			.sorted { a, b in a.position < b.position }
+			.map {
+				let position = $0.position
+				// Shift value to zero point
+				let shifted = position - minVal
+				// Scale to fit the range
+				let scaled = shifted / range
+				return TransparencyStop(position: scaled, value: $0.value, midpoint: $0.midpoint)
+			}
+
+		return PAL.Gradient(stops: sorted, transparencyStops: ts, name: self.name)
 	}
 
 	/// Map the transparency stops in the gradient to a 0 ... 1 range
@@ -569,7 +585,7 @@ public extension PAL.Gradient {
 		public var value: Double
 		/// The position of the stop (0 ... 1)
 		public var position: Double
-		/// The midpoint for the stop (0 ... 1)
+		/// The midpoint for the stop (0 ... 1). This represents the t value between this stop and the next one.
 		public var midpoint: Double
 
 		public init(position: Double, value: Double, midpoint: Double = 0.5) {
