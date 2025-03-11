@@ -26,7 +26,7 @@ private let _defaultComponentsFormatter = NumberFormatter {
 
 public extension PAL {
 	/// A color in the palette
-	struct Color: Equatable, CustomStringConvertible, Codable {
+	struct Color: Equatable, CustomStringConvertible {
 		public let id = UUID()
 		/// The color name
 		public let name: String
@@ -223,7 +223,9 @@ public extension PAL.Color {
 	}
 }
 
-public extension PAL.Color {
+// MARK: - Encode/Decoded
+
+extension PAL.Color: Codable {
 	internal enum CodingKeys: String, CodingKey {
 		case name
 		case colorSpace
@@ -232,7 +234,7 @@ public extension PAL.Color {
 		case alpha
 	}
 
-	init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.name = try container.decodeIfPresent(String.self, forKey: .name) ?? ""
 		self.colorSpace = try container.decode(PAL.ColorSpace.self, forKey: .colorSpace)
@@ -244,7 +246,7 @@ public extension PAL.Color {
 		try self.checkValidity()
 	}
 
-	func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		// Make sure our content is valid
 		try self.checkValidity()
 
@@ -257,7 +259,7 @@ public extension PAL.Color {
 	}
 }
 
-// MARK: Colorspace converter
+// MARK: - Colorspace conversion
 
 public extension PAL.Color {
 	/// Convert the color object to a new color object with the specified colorspace

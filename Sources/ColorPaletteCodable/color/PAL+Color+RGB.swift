@@ -88,8 +88,14 @@ public func rgba(
 // MARK: - Basic RGB structure
 
 public extension PAL.Color {
-	/// The components for a color with a CGColorSpace.RGB colorspace
+	/// RGBA color components
 	struct RGB: Equatable {
+		/// Create using rgba in the 0.0 ... 1.0 range
+		/// - Parameters:
+		///   - rf: Red component
+		///   - gf: Green component
+		///   - bf: Blue component
+		///   - af: Alpha component
 		public init(rf: Float32, gf: Float32, bf: Float32, af: Float32 = 1.0) {
 			self.rf = rf.unitClamped
 			self.gf = gf.unitClamped
@@ -170,13 +176,21 @@ public extension PAL.Color {
 				abs(lhs.af - rhs.af) < 0.005
 		}
 
+		/// Red component (0.0 ... 1.0)
 		public let rf: Float32
+		/// Red component (0 ... 255)
 		public var r255: UInt8 { UInt8(self.rf * 255.0) }
+		/// Green component (0.0 ... 1.0)
 		public let gf: Float32
+		/// Green component (0 ... 255)
 		public var g255: UInt8 { UInt8(self.gf * 255.0) }
+		/// Blue component (0.0 ... 1.0)
 		public let bf: Float32
+		/// Blue component (0 ... 255)
 		public var b255: UInt8 { UInt8(self.bf * 255.0) }
+		/// Alpha component (0.0 ... 1.0)
 		public let af: Float32
+		/// Alpha component (0 ... 255)
 		public var a255: UInt8 { UInt8(self.af * 255.0) }
 	}
 }

@@ -124,10 +124,10 @@ final class CommonTests: XCTestCase {
 		XCTAssertEqual(r1.bf, 22.0 / 255.0, accuracy: 0.01)
 
 		let c2 = NaiveConversions.RGB2CMYK(PAL.Color.RGB(rf: 110 / 255.0, gf: 195 / 255.0, bf: 201 / 255.0))
-		XCTAssertEqual(c2.c, 0.45, accuracy: 0.01)
-		XCTAssertEqual(c2.m, 0.03, accuracy: 0.01)
-		XCTAssertEqual(c2.y, 0.0, accuracy: 0.01)
-		XCTAssertEqual(c2.k, 0.21, accuracy: 0.01)
+		XCTAssertEqual(c2.cf, 0.45, accuracy: 0.01)
+		XCTAssertEqual(c2.mf, 0.03, accuracy: 0.01)
+		XCTAssertEqual(c2.yf, 0.0, accuracy: 0.01)
+		XCTAssertEqual(c2.kf, 0.21, accuracy: 0.01)
 
 		let r2 = NaiveConversions.CMYK2RGB(PAL.Color.CMYK(cf: 0.45, mf: 0.03, yf: 0.0, kf: 0.21))
 		XCTAssertEqual(r2.rf, 110 / 255.0, accuracy: 0.01)
@@ -135,10 +135,10 @@ final class CommonTests: XCTestCase {
 		XCTAssertEqual(r2.bf, 201 / 255.0, accuracy: 0.01)
 
 		let c3 = NaiveConversions.RGB2CMYK(PAL.Color.RGB(rf: 0, gf: 0, bf: 1))
-		XCTAssertEqual(c3.c, 1, accuracy: 0.01)
-		XCTAssertEqual(c3.m, 1, accuracy: 0.01)
-		XCTAssertEqual(c3.y, 0, accuracy: 0.01)
-		XCTAssertEqual(c3.k, 0, accuracy: 0.01)
+		XCTAssertEqual(c3.cf, 1, accuracy: 0.01)
+		XCTAssertEqual(c3.mf, 1, accuracy: 0.01)
+		XCTAssertEqual(c3.yf, 0, accuracy: 0.01)
+		XCTAssertEqual(c3.kf, 0, accuracy: 0.01)
 
 		let r3 = NaiveConversions.CMYK2RGB(PAL.Color.CMYK(cf: 1, mf: 1, yf: 0, kf: 0))
 		XCTAssertEqual(r3.rf, 0, accuracy: 0.01)

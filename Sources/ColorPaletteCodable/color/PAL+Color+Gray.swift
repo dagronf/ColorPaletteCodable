@@ -56,15 +56,23 @@ public func gray255(
 // MARK: - Basic gray structure
 
 public extension PAL.Color {
-	/// The components for a color with a CGColorSpace.RGB colorspace
+	/// Grau color components
 	struct Gray: Equatable {
+		/// Create
+		/// - Parameters:
+		///   - grayf: Gray component (0.0 ... 1.0)
+		///   - af: Alpha component (0.0 ... 1.0)
 		public init(grayf: Float32, af: Float32 = 1.0) {
 			self.grayf = grayf
 			self.af = af
 		}
+		/// Gray component (0.0 ... 1.0)
 		public let grayf: Float32
+		/// Gray component (0 ... 255)
 		public var grey255: UInt8 { UInt8(self.grayf * 255.0) }
+		/// Alpha component (0.0 ... 1.0)
 		public let af: Float32
+		/// Alpha component (0 ... 255)
 		public var a255: UInt8 { UInt8(self.af * 255.0) }
 	}
 }

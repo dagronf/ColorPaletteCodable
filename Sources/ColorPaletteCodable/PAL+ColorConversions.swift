@@ -74,7 +74,7 @@ internal struct NaiveColorSpaceConversion: PAL_ColorSpaceConvertible {
 		}
 		if color.colorSpace == .RGB, colorspace == .CMYK {
 			let cmyk = NaiveConversions.RGB2CMYK(try color.rgb())
-			return cmykf(cmyk.c, cmyk.m, cmyk.y, cmyk.k, color.alpha, name: color.name, colorType: color.colorType)
+			return cmykf(cmyk.cf, cmyk.mf, cmyk.yf, cmyk.kf, color.alpha, name: color.name, colorType: color.colorType)
 		}
 		if color.colorSpace == .Gray, colorspace == .RGB {
 			let rgb = NaiveConversions.Gray2RGB(l: color.colorComponents[0])
@@ -86,7 +86,7 @@ internal struct NaiveColorSpaceConversion: PAL_ColorSpaceConvertible {
 		}
 		if color.colorSpace == .Gray, colorspace == .CMYK {
 			let cmyk = NaiveConversions.Gray2CMYK(l: color.colorComponents[0])
-			return cmykf(cmyk.c, cmyk.m, cmyk.y, cmyk.k, color.alpha, name: color.name, colorType: color.colorType)
+			return cmykf(cmyk.cf, cmyk.mf, cmyk.yf, cmyk.kf, color.alpha, name: color.name, colorType: color.colorType)
 		}
 		if color.colorSpace == .CMYK, colorspace == .Gray {
 			let gray = NaiveConversions.CMYK2Gray(try color.cmyk())
@@ -103,9 +103,9 @@ internal struct NaiveColorSpaceConversion: PAL_ColorSpaceConvertible {
 internal struct NaiveConversions {
 	/// Incredibly naive implementation for CMYK to RGB.
 	static func CMYK2RGB(_ value: PAL.Color.CMYK) -> PAL.Color.RGB {
-		let r = (1 - value.c) * (1 - value.k)
-		let g = (1 - value.m) * (1 - value.k)
-		let b = (1 - value.y) * (1 - value.k)
+		let r = (1 - value.cf) * (1 - value.kf)
+		let g = (1 - value.mf) * (1 - value.kf)
+		let b = (1 - value.yf) * (1 - value.kf)
 		return PAL.Color.RGB(rf: r, gf: g, bf: b)
 	}
 

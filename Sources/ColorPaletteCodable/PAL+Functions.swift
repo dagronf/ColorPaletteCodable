@@ -281,7 +281,7 @@ public extension PAL.Color {
 	func shade(fraction: Float32) throws -> PAL.Color {
 		let fraction = fraction.clamped(to: 0.0 ... 1.0)
 		let hsl = try self.hsl()
-		return PAL.Color(hf: hsl.h, sf: hsl.s, lf: hsl.l * fraction)
+		return PAL.Color(hf: hsl.hf, sf: hsl.sf, lf: hsl.lf * fraction)
 	}
 
 	/// Returns shaded versions of this color
@@ -306,7 +306,7 @@ public extension PAL.Color {
 	func tint(fraction: Float32) throws -> PAL.Color {
 		let fraction = fraction.clamped(to: 0.0 ... 1.0)
 		let hsl = try self.hsl()
-		return PAL.Color(hf: hsl.h, sf: hsl.s, lf: hsl.l + ((1.0 - hsl.l) * fraction))
+		return PAL.Color(hf: hsl.hf, sf: hsl.sf, lf: hsl.lf + ((1.0 - hsl.lf) * fraction))
 	}
 
 	/// Returns tinted versions of this color
@@ -317,9 +317,9 @@ public extension PAL.Color {
 	/// This lightens and desaturates the hue, creating a subtler and lighter color than the original hue.
 	func tint(count: Int) throws -> [PAL.Color] {
 		let hsl = try self.hsl()
-		let step = (1.0 - min(0.999, hsl.l)) / Float32(count)
-		return stride(from: hsl.l, to: 0.999, by: step).map {
-			PAL.Color(hf: hsl.h, sf: hsl.s, lf: $0)
+		let step = (1.0 - min(0.999, hsl.lf)) / Float32(count)
+		return stride(from: hsl.lf, to: 0.999, by: step).map {
+			PAL.Color(hf: hsl.hf, sf: hsl.sf, lf: $0)
 		}
 	}
 }

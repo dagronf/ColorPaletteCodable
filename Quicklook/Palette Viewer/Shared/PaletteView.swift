@@ -82,24 +82,24 @@ let _display: PAL.Palette = {
 	PAL.Palette(
 		name: "These are my colors, and they are mosly nice.",
 		colors: [
-			PAL.Color.rgb(1.0, 0, 0),
-			PAL.Color.rgb(0, 1.0, 0),
-			PAL.Color.rgb(0, 0, 1.0),
+			rgbf(1.0, 0, 0),
+			rgbf(0, 1.0, 0),
+			rgbf(0, 0, 1.0),
 		],
 		groups: [
 			PAL.Group(name: "one", colors: [
-				PAL.Color.rgb(0, 0, 1.0),
-				PAL.Color.rgb(0, 1.0, 0),
-				PAL.Color.rgb(1.0, 0, 0),
+				rgbf(0, 0, 1.0),
+				rgbf(0, 1.0, 0),
+				rgbf(1.0, 0, 0),
 			]),
 			PAL.Group(name: "two is the second one", colors: [
-				PAL.Color.rgb(0.5, 0, 1),
-				PAL.Color.rgb(0, 0.8, 0.3),
-				PAL.Color.rgb(0.1, 0.3, 1.0),
-				PAL.Color.rgb(0, 0, 0),
-				PAL.Color.rgb(153 / 255.0, 0, 0),
-				PAL.Color.rgb(102 / 255.0, 085 / 255.0, 085 / 255.0),
-				PAL.Color.rgb(221 / 255.0, 017 / 255.0, 017 / 255.0),
+				rgbf(0.5, 0, 1),
+				rgbf(0, 0.8, 0.3),
+				rgbf(0.1, 0.3, 1.0),
+				rgbf(0, 0, 0),
+				rgbf(153 / 255.0, 0, 0),
+				rgbf(102 / 255.0, 085 / 255.0, 085 / 255.0),
+				rgbf(221 / 255.0, 017 / 255.0, 017 / 255.0),
 			]),
 		]
 	)

@@ -46,30 +46,42 @@ public func cmykf(
 // MARK: - Basic CMYK structure
 
 public extension PAL.Color {
-	/// The components for a color with the CGColorSpace.CMYK colorspace
+	/// CMYK color components
 	struct CMYK: Equatable {
+		/// Create CMYK color components
+		/// - Parameters:
+		///   - cf: Cyan component (0.0 ... 1.0)
+		///   - mf: Magenta component (0.0 ... 1.0)
+		///   - yf: Yellow component (0.0 ... 1.0)
+		///   - kf: Key (black) component (0.0 ... 1.0)
+		///   - af: Alpha component (0.0 ... 1.0)
 		public init(cf: Float32, mf: Float32, yf: Float32, kf: Float32, af: Float32 = 1.0) {
-			self.c = cf.clamped(to: 0.0 ... 1.0)
-			self.m = mf.clamped(to: 0.0 ... 1.0)
-			self.y = yf.clamped(to: 0.0 ... 1.0)
-			self.k = kf.clamped(to: 0.0 ... 1.0)
-			self.a = af.clamped(to: 0.0 ... 1.0)
+			self.cf = cf.clamped(to: 0.0 ... 1.0)
+			self.mf = mf.clamped(to: 0.0 ... 1.0)
+			self.yf = yf.clamped(to: 0.0 ... 1.0)
+			self.kf = kf.clamped(to: 0.0 ... 1.0)
+			self.af = af.clamped(to: 0.0 ... 1.0)
 		}
 
 		public static func == (lhs: PAL.Color.CMYK, rhs: PAL.Color.CMYK) -> Bool {
 			return
-				abs(lhs.c - rhs.c) < 0.005 &&
-				abs(lhs.m - rhs.m) < 0.005 &&
-				abs(lhs.y - rhs.y) < 0.005 &&
-				abs(lhs.k - rhs.k) < 0.005 &&
-				abs(lhs.a - rhs.a) < 0.005
+				abs(lhs.cf - rhs.cf) < 0.005 &&
+				abs(lhs.mf - rhs.mf) < 0.005 &&
+				abs(lhs.yf - rhs.yf) < 0.005 &&
+				abs(lhs.kf - rhs.kf) < 0.005 &&
+				abs(lhs.af - rhs.af) < 0.005
 		}
 
-		public let c: Float32
-		public let m: Float32
-		public let y: Float32
-		public let k: Float32
-		public let a: Float32
+		/// Cyan component (0.0 ... 1.0)
+		public let cf: Float32
+		/// Magenta component (0.0 ... 1.0)
+		public let mf: Float32
+		/// Yellow component (0.0 ... 1.0)
+		public let yf: Float32
+		/// Key (black) component (0.0 ... 1.0)
+		public let kf: Float32
+		/// Alpha component (0.0 ... 1.0)
+		public let af: Float32
 	}
 }
 
@@ -107,7 +119,7 @@ public extension PAL.Color {
 	///   - color: The color components
 	///   - colorType: The type of color
 	init(name: String = "", color: PAL.Color.CMYK, colorType: PAL.ColorType = .global) {
-		self.init(name: name, cf: color.c, mf: color.m, yf: color.y, kf: color.k, af: color.a, colorType: colorType)
+		self.init(name: name, cf: color.cf, mf: color.mf, yf: color.yf, kf: color.kf, af: color.af, colorType: colorType)
 	}
 }
 
