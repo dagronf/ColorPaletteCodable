@@ -81,10 +81,13 @@ struct GradientsView: View {
 }
 
 struct SingleGradient_Previews: PreviewProvider {
-	static let gradient1 = PAL.Gradient(name: "Simple", colorPositions: [
-		(position: 0.0, color: PAL.Color.red),
-		(position: 1.0, color: PAL.Color.white),
-	])
+	static let gradient1 = PAL.Gradient(
+		colorPositions: [
+			(position: 0.0, color: PAL.Color.red),
+			(position: 1.0, color: PAL.Color.white),
+		],
+		name: "Simple"
+	)
 	static var previews: some View {
 		GradientSwatchView(gradient: Self.gradient1, cornerRadius: 16, selectedGradient: .constant(nil))
 			.padding(20)
@@ -94,16 +97,21 @@ struct SingleGradient_Previews: PreviewProvider {
 struct MultipleGradients_Previews: PreviewProvider {
 
 	static let dummy: PAL.Gradients = {
-		let gradient1 = PAL.Gradient(name: "Simple", colorPositions: [
-			(position: 0.0, color: PAL.Color.red),
-			(position: 1.0, color: PAL.Color.white),
-		])
-		let gradient2 = PAL.Gradient(name: "Parrot!", colorPositions: [
-			(position: 0.0, color: PAL.Color.blue),
-			(position: 0.5, color: PAL.Color.green),
-			(position: 0.75, color: PAL.Color.yellow),
-			(position: 1.0, color: PAL.Color.black),
-		])
+		let gradient1 = PAL.Gradient(
+			colorPositions: [
+				(position: 0.0, color: PAL.Color.red),
+				(position: 1.0, color: PAL.Color.white),
+			],
+			name: "Simple")
+		let gradient2 = PAL.Gradient(
+			colorPositions: [
+				(position: 0.0, color: PAL.Color.blue),
+				(position: 0.5, color: PAL.Color.green),
+				(position: 0.75, color: PAL.Color.yellow),
+				(position: 1.0, color: PAL.Color.black),
+			],
+			name: "Parrot!"
+		)
 		return PAL.Gradients(gradients: [gradient1, gradient2])
 	}()
 

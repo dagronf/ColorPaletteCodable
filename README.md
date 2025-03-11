@@ -283,6 +283,19 @@ let coder = PAL.Gradients.Coder.GRD()
 let gradient2 = try coder.decode(from: i)
 ```
 
+## Color
+
+This library supports `RGB`, `CMYK`, `LAB`, `Gray`
+
+```swift
+/// Create an RGB color
+let rgb1 = rgbf(1.0, 1.0, 0.5, 0.2, name: "Lemon Curd")
+/// Create a gray color
+let gray1 = grayf(0.2, 1.0, name: "Dark Gray")
+```
+
+
+
 ## Palette Viewer
 
 Palette Viewer allows you to view the contents of all supported palette and gradient files

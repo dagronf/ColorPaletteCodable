@@ -143,7 +143,6 @@ struct GradientEditor: View {
 struct GradientEditor_Previews: PreviewProvider {
 
 	static let gr1 = PAL.Gradient(
-		name: "Simple",
 		stops: [
 			PAL.Gradient.Stop(position: 0.0, color: PAL.Color.red),
 			PAL.Gradient.Stop(position: 0.7, color: PAL.Color.green),
@@ -154,7 +153,8 @@ struct GradientEditor_Previews: PreviewProvider {
 			PAL.Gradient.TransparencyStop(position: 0.2, value: 0.1),
 			PAL.Gradient.TransparencyStop(position: 0.3, value: 0.3),
 			PAL.Gradient.TransparencyStop(position: 1, value: 1),
-		]
+		],
+		name: "Simple"
 	)
 
 	static var previews: some View {

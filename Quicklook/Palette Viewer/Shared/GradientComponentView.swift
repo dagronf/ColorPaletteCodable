@@ -81,12 +81,15 @@ struct GradientComponentView: View {
 
 struct GradientComponent_Previews: PreviewProvider {
 	static let gradient1: PAL.Gradient = {
-		var g = PAL.Gradient(name: "Simple", colorPositions: [
-			(position: 0.0, color: try! PAL.Color.green.withAlpha(0.5)),
-			(position: 0.4, color: PAL.Color.yellow),
-			(position: 0.7, color: PAL.Color.blue),
-			(position: 1.0, color: PAL.Color.white),
-		])
+		var g = PAL.Gradient(
+			colorPositions: [
+				(position: 0.0, color: try! PAL.Color.green.withAlpha(0.5)),
+				(position: 0.4, color: PAL.Color.yellow),
+				(position: 0.7, color: PAL.Color.blue),
+				(position: 1.0, color: PAL.Color.white),
+			],
+			name: "Simple"
+		)
 		g.transparencyStops = [
 			PAL.Gradient.TransparencyStop(position: 0, value: 1, midpoint: 0.5),
 			PAL.Gradient.TransparencyStop(position: 0.5, value: 0, midpoint: 0.5),

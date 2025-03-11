@@ -107,7 +107,6 @@ struct GradientsInteractorView: View {
 
 private let dummy: PAL.Gradients = {
 	let gradient1 = PAL.Gradient(
-		name: "Simple",
 		stops: [
 			PAL.Gradient.Stop(position: 0.0, color: PAL.Color.red),
 			PAL.Gradient.Stop(position: 1.0, color: PAL.Color.white),
@@ -116,19 +115,19 @@ private let dummy: PAL.Gradients = {
 			PAL.Gradient.TransparencyStop(position: 0, value: 1),
 			PAL.Gradient.TransparencyStop(position: 0.3, value: 0.3),
 			PAL.Gradient.TransparencyStop(position: 1, value: 1),
-		]
+		],
+		name: "Simple"
 	)
 
-//	let gradient1 = PAL.Gradient(name: "Simple", colorPositions: [
-//		(position: 0.0, color: PAL.Color.red),
-//		(position: 1.0, color: PAL.Color.white),
-//	])
-	let gradient2 = PAL.Gradient(name: "Parrot!", colorPositions: [
-		(position: 0.0, color: PAL.Color.blue),
-		(position: 0.5, color: PAL.Color.green),
-		(position: 0.75, color: PAL.Color.yellow),
-		(position: 1.0, color: PAL.Color.black),
-	])
+	let gradient2 = PAL.Gradient(
+		colorPositions: [
+			(position: 0.0, color: PAL.Color.blue),
+			(position: 0.5, color: PAL.Color.green),
+			(position: 0.75, color: PAL.Color.yellow),
+			(position: 1.0, color: PAL.Color.black),
+		],
+		name: "Parrot!"
+	)
 	return PAL.Gradients(gradients: [gradient1, gradient2])
 }()
 

@@ -57,7 +57,8 @@ public extension PAL.Color {
 	
 	/// Returns an NSColor representation of this color
 	@inlinable var nsColor: NSColor? {
-		return self.cgColor.unwrapping { NSColor(cgColor: $0) }
+		guard let c = self.cgColor else { return nil }
+		return NSColor(cgColor: c)
 	}
 }
 

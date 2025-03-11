@@ -875,7 +875,7 @@
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
-			<string>public.dagronf.colorpalette.gradients</string>
+			<string>public.dagronf.colorpalette.gradient.dcg</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>

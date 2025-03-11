@@ -144,10 +144,13 @@ struct GradientSwatchView: View {
 }
 
 struct GradientSwatchView_Previews: PreviewProvider {
-	static let gradient1 = PAL.Gradient(name: "Simple", colorPositions: [
-		(position: 0.0, color: PAL.Color.red),
-		(position: 1.0, color: PAL.Color.white),
-	])
+	static let gradient1 = PAL.Gradient(
+		colorPositions: [
+			(position: 0.0, color: PAL.Color.red),
+			(position: 1.0, color: PAL.Color.white),
+		],
+		name: "Simple"
+	)
 	static let gradient2 = PAL.Gradient(
 		stops: [
 			PAL.Gradient.Stop(position: 0, color: .red),

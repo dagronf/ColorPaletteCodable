@@ -50,8 +50,7 @@ struct GradientTransparencyView: View {
 		self.mappedTransparency = try! gradient.createTransparencyGradient(try! PAL.Color(color: NSColor.systemRed))
 		self.hasTransparency = gradient.hasTransparency
 	}
-	
-	
+
 	var body: some View {
 		VStack(spacing: 8) {
 			if gradient.hasTransparency, let m = mappedTransparency {
@@ -98,27 +97,35 @@ struct GradientTransparencyView: View {
 
 struct GradientTransparency_Previews: PreviewProvider {
 	static let gradient1: PAL.Gradient = {
-		var g = PAL.Gradient(name: "Simple", colorPositions: [
-			(position: 0.0, color: PAL.Color.green),
-			(position: 0.4, color: PAL.Color.yellow),
-			(position: 0.7, color: PAL.Color.blue),
-			(position: 1.0, color: PAL.Color.white),
-		])
+		var g = PAL.Gradient(
+			colorPositions: [
+				(position: 0.0, color: PAL.Color.green),
+				(position: 0.4, color: PAL.Color.yellow),
+				(position: 0.7, color: PAL.Color.blue),
+				(position: 1.0, color: PAL.Color.white),
+			],
+			name: "Simple"
+		)
 		g.transparencyStops = [
 			PAL.Gradient.TransparencyStop(position: 0, value: 1, midpoint: 0.5),
 			PAL.Gradient.TransparencyStop(position: 0.5, value: 0, midpoint: 0.5),
 			PAL.Gradient.TransparencyStop(position: 1, value: 1, midpoint: 0.5)
 		]
+
+		PAL.Gradients.Coder.GGR()
+
 		return g
 	}()
 	static let gradient2: PAL.Gradient = {
-		var g = PAL.Gradient(name: "Simple", colorPositions: [
-			(position: 0.0, color: PAL.Color.green),
-			(position: 0.4, color: PAL.Color.yellow),
-			(position: 0.7, color: PAL.Color.blue),
-			(position: 1.0, color: PAL.Color.white),
-		])
-		return g
+		PAL.Gradient(
+			colorPositions: [
+				(position: 0.0, color: PAL.Color.green),
+				(position: 0.4, color: PAL.Color.yellow),
+				(position: 0.7, color: PAL.Color.blue),
+				(position: 1.0, color: PAL.Color.white),
+			],
+			name: "Simple"
+		)
 	}()
 	static var previews: some View {
 		VStack {

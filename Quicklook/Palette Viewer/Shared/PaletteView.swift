@@ -80,19 +80,22 @@ struct GroupingView: View {
 
 let _display: PAL.Palette = {
 	PAL.Palette(
-		name: "These are my colors, and they are mosly nice.",
 		colors: [
 			rgbf(1.0, 0, 0),
 			rgbf(0, 1.0, 0),
 			rgbf(0, 0, 1.0),
 		],
 		groups: [
-			PAL.Group(name: "one", colors: [
-				rgbf(0, 0, 1.0),
-				rgbf(0, 1.0, 0),
-				rgbf(1.0, 0, 0),
-			]),
-			PAL.Group(name: "two is the second one", colors: [
+			PAL.Group(
+				colors: [
+					rgbf(0, 0, 1.0),
+					rgbf(0, 1.0, 0),
+					rgbf(1.0, 0, 0),
+				],
+				name: "one"
+			),
+			PAL.Group(
+				colors: [
 				rgbf(0.5, 0, 1),
 				rgbf(0, 0.8, 0.3),
 				rgbf(0.1, 0.3, 1.0),
@@ -100,8 +103,11 @@ let _display: PAL.Palette = {
 				rgbf(153 / 255.0, 0, 0),
 				rgbf(102 / 255.0, 085 / 255.0, 085 / 255.0),
 				rgbf(221 / 255.0, 017 / 255.0, 017 / 255.0),
-			]),
-		]
+				],
+				name: "two is the second one"
+			),
+		],
+		name: "These are my colors, and they are mosly nice."
 	)
 }()
 
