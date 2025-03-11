@@ -23,6 +23,26 @@
 
 import AppKit
 
+public extension NSColor {
+	/// Create an NSColor from a hex formatted string
+	/// - Parameters:
+	///   - hexString: The hex string
+	///   - format: The expected color ordering
+	convenience init(hexString: String, format: PAL.ColorByteFormat) throws {
+		let rgb = try PAL.Color.RGB(hexString, format: format)
+		self.init(srgbRed: CGFloat(rgb.rf), green: CGFloat(rgb.gf), blue: CGFloat(rgb.bf), alpha: CGFloat(rgb.af))
+	}
+
+	/// Create a PAL.Color from an NSColor
+	/// - Parameters:
+	///   - name: The color's name
+	///   - colorType: The color's type
+	/// - Returns: A PAL.Color representation of the image
+	@inlinable func palColor(name: String = "", colorType: PAL.ColorType = .global) throws -> PAL.Color {
+		try PAL.Color(name: name, color: self, colorType: colorType)
+	}
+}
+
 public extension PAL.Color {
 	/// Create a color from an NSColor instance
 	/// - Parameters:

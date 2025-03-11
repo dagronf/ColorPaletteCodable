@@ -131,7 +131,7 @@ extension PAL.Coder.AndroidColorsXML: XMLParserDelegate {
 		if self.isInsideResourcesBlock, self.currentElement == "color" {
 			let colorString = string.trimmingCharacters(in: .whitespacesAndNewlines)
 			let colorName = self.currentName ?? "color_\(self.palette.colors.count)"
-			if let color = try? PAL.Color(name: colorName, argbHexString: colorString) {
+			if let color = try? PAL.Color(name: colorName, hexString: colorString, format: .argb) {
 				self.palette.colors.append(color)
 			}
 		}
@@ -161,7 +161,7 @@ extension PAL.Coder.AndroidColorsXML {
 			xml += " name=\"\(name)\">"
 
 			let format: PAL.ColorByteFormat = self.includeAlphaDuringExport ? .argb : .rgb
-			let hex = try color.hexString(format: format, hashmark: true, uppercase: true)
+			let hex = try color.hexString(format, hashmark: true, uppercase: true)
 			xml += hex
 			xml += "</color>\n"
 		}

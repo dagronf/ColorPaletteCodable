@@ -58,8 +58,8 @@ public extension PAL.Coder.HEX {
 				}
 				else {
 					if current.isEmpty == false {
-						// Attempt convert to hex
-						if let color = try? PAL.Color(rgbaHexString: current) {
+						// Attempt convert from RGB[A] hex
+						if let color = try? PAL.Color(hexString: current, format: .rgba) {
 							palette.colors.append(color)
 						}
 						current = ""
@@ -68,8 +68,8 @@ public extension PAL.Coder.HEX {
 			}
 
 			if current.isEmpty == false {
-				// Attempt convert to hex
-				if let color = try? PAL.Color(rgbaHexString: current) {
+				// Attempt convert from hex
+				if let color = try? PAL.Color(hexString: current, format: .rgba) {
 					palette.colors.append(color)
 				}
 			}
@@ -95,7 +95,7 @@ public extension PAL.Coder.HEX {
 		try rgbColors.forEach { color in
 			// If there's an alpha component, make sure we add it
 			let format: PAL.ColorByteFormat = (color.alpha < 1.0) ? .rgba : .rgb
-			let hex = try color.hexString(format: format, hashmark: true, uppercase: false)
+			let hex = try color.hexString(format, hashmark: true, uppercase: false)
 			content += "\(hex)\n"
 		}
 

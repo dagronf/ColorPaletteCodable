@@ -8,7 +8,8 @@ class OpenOfficePaletteTests: XCTestCase {
 	let files = [
 		("libreoffice.soc", 32),
 		("standard.soc", 120),
-		("freecolour-hlc.soc", 1032)
+		("freecolour-hlc.soc", 1032),
+		("scribus.soc", 546)
 	]
 
 	func testAllRoundTrip() throws {

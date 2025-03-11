@@ -103,7 +103,7 @@ class AndroidColorsXMLTests: XCTestCase {
 		XCTAssertEqual(285, palette.colors.count)
 
 		let dp900 = try XCTUnwrap(palette.color(named: "deep_purple_900"))
-		let str = try dp900.hexString(format: .argb, hashmark: true, uppercase: true)
+		let str = try dp900.hexString(.argb, hashmark: true, uppercase: true)
 		XCTAssertEqual("#FF311B92", str)
 	}
 }

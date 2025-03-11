@@ -30,10 +30,7 @@ import Foundation
 /// - [#]FFFF     : RGBA color (RGBA)
 /// - [#]FFFFFF   : RGB color  (RRGGBB)
 /// - [#]FFFFFFFF : RGBA color (RRGGBBAA)
-func extractHexRGBA(
-	hexString: String,
-	format: PAL.ColorByteFormat
-) -> PAL.Color.RGB? {
+func extractHexRGBA(hexString: String, format: PAL.ColorByteFormat) -> PAL.Color.RGB? {
 	var hex = hexString
 		.lowercased()
 		.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)

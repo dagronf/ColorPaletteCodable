@@ -53,9 +53,9 @@ final class CoreGraphicsTests: XCTestCase {
 		do {
 			let gradient = PAL.Gradient(
 				colors: [
-					try PAL.Color(rgbaHexString: "#FFFFFF"),
-					try PAL.Color(rgbaHexString: "#121212"),
-					try PAL.Color(rgbaHexString: "#444444")
+					try PAL.Color(hexString: "#FFFFFF", format: .rgba),
+					try PAL.Color(hexString: "#121212", format: .rgba),
+					try PAL.Color(hexString: "#444444", format: .rgba)
 				],
 				positions: [60, 45, 30]
 			)

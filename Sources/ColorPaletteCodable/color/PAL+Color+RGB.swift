@@ -64,7 +64,7 @@ public func rgb255(
 /// Create a color from an RGB[A] hex color format string
 /// - Parameters:
 ///   - hexString: The hex-encoded color string
-///   - format: The expected format for the incoming hex string (eg. `.rgb`, `.argb`)
+///   - format: The expected format for the incoming hex string (eg. `.rgb`, `.bgr`)
 ///   - name: The color name
 ///   - colorType: The color type
 /// - Returns: A color representing the hex string
@@ -77,19 +77,11 @@ public func rgb(
 	try PAL.Color(name: name, hexString: hexString, format: format, colorType: colorType)
 }
 
-public func rgba(
-	_ hexString: String,
-	name: String = "",
-	colorType: PAL.ColorType = .normal
-) throws -> PAL.Color {
-	try PAL.Color(name: name, hexString: hexString, format: .rgba, colorType: colorType)
-}
-
 // MARK: - Basic RGB structure
 
 public extension PAL.Color {
 	/// RGBA color components
-	struct RGB: Equatable {
+	struct RGB {
 		/// Create using rgba in the 0.0 ... 1.0 range
 		/// - Parameters:
 		///   - rf: Red component
@@ -116,7 +108,7 @@ public extension PAL.Color {
 			self.af = (Float32(a255) / 255).unitClamped
 		}
 
-		/// Create from a hex formatted color string
+		/// Create and RGB[A] color from a hex formatted color string
 		///  - Parameters:
 		///   - hexString: The rgba hex string
 		///   - format: The expected rgba format
@@ -128,26 +120,11 @@ public extension PAL.Color {
 		/// - [#]FFFFFFFF : RGBA color (RRGGBBAA)
 		///
 		/// Returns black color if the hex string is invalid
-		public init(hexString: String, format: PAL.ColorByteFormat) throws {
+		public init(_ hexString: String, format: PAL.ColorByteFormat) throws {
 			guard let c = extractHexRGBA(hexString: hexString, format: format) else {
 				throw PAL.CommonError.invalidRGBHexString(hexString)
 			}
 			self = c
-		}
-
-		/// Create from a hex RGBA formatted color string
-		///  - Parameters:
-		///   - rgbaHexString: The rgba hex string
-		///
-		/// Supported hex formats :-
-		/// - [#]FFF      : RGB color  (RGB)
-		/// - [#]FFFF     : RGBA color (RGBA)
-		/// - [#]FFFFFF   : RGB color  (RRGGBB)
-		/// - [#]FFFFFFFF : RGBA color (RRGGBBAA)
-		///
-		/// Returns black color if the hex string is invalid
-		public init(rgbaHexString: String) throws {
-			try self.init(hexString: rgbaHexString, format: .rgba)
 		}
 
 		/// Return a hex string representation of this rgb color
@@ -156,7 +133,7 @@ public extension PAL.Color {
 		///   - hashmark: If true, includes a hashnark (`#`) at the beginning*
 		///   - uppercase: If true, uppercases the output string
 		/// - Returns: A string
-		func hexString(format: PAL.ColorByteFormat, hashmark: Bool, uppercase: Bool) -> String {
+		public func hexString(format: PAL.ColorByteFormat, hashmark: Bool, uppercase: Bool) -> String {
 			hexRGBString(
 				rf: self.rf,
 				gf: self.gf,
@@ -166,14 +143,6 @@ public extension PAL.Color {
 				hashmark: hashmark,
 				uppercase: uppercase
 			)
-		}
-
-		public static func == (lhs: PAL.Color.RGB, rhs: PAL.Color.RGB) -> Bool {
-			return
-				abs(lhs.rf - rhs.rf) < 0.005 &&
-				abs(lhs.gf - rhs.gf) < 0.005 &&
-				abs(lhs.bf - rhs.bf) < 0.005 &&
-				abs(lhs.af - rhs.af) < 0.005
 		}
 
 		/// Red component (0.0 ... 1.0)
@@ -195,9 +164,42 @@ public extension PAL.Color {
 	}
 }
 
+extension PAL.Color.RGB: Equatable {
+	public static func == (lhs: PAL.Color.RGB, rhs: PAL.Color.RGB) -> Bool {
+		return
+			abs(lhs.rf - rhs.rf) < 0.005 &&
+			abs(lhs.gf - rhs.gf) < 0.005 &&
+			abs(lhs.bf - rhs.bf) < 0.005 &&
+			abs(lhs.af - rhs.af) < 0.005
+	}
+}
+
 // MARK: - Color RGB support
 
 public extension PAL.Color {
+	/// Create a color object from 0 ... 1 component values
+	/// - Parameters:
+	///   - name: The color name
+	///   - rf: Red component (clamped to 0 ... 1)
+	///   - gf: Green component (clamped to 0 ... 1)
+	///   - bf: Blue component (clamped to 0 ... 1)
+	///   - af: Alpha component (clamped to 0 ... 1)
+	///   - colorType: The type of color
+	init(
+		name: String = "",
+		rf: Float32,
+		gf: Float32,
+		bf: Float32,
+		af: Float32 = 1.0,
+		colorType: PAL.ColorType = .global
+	) {
+		self.name = name
+		self.colorSpace = .RGB
+		self.colorComponents = [rf.unitClamped, gf.unitClamped, bf.unitClamped]
+		self.alpha = af.unitClamped
+		self.colorType = colorType
+	}
+
 	/// Create a color object from 0 -> 255 component values
 	/// - Parameters:
 	///   - name: The color name
@@ -226,29 +228,6 @@ public extension PAL.Color {
 		self.colorType = colorType
 	}
 
-	/// Create a color object from 0 ... 1 component values
-	/// - Parameters:
-	///   - name: The color name
-	///   - rf: Red component (clamped to 0 ... 1)
-	///   - gf: Green component (clamped to 0 ... 1)
-	///   - bf: Blue component (clamped to 0 ... 1)
-	///   - af: Alpha component (clamped to 0 ... 1)
-	///   - colorType: The type of color
-	init(
-		name: String = "",
-		rf: Float32,
-		gf: Float32,
-		bf: Float32,
-		af: Float32 = 1.0,
-		colorType: PAL.ColorType = .global
-	) {
-		self.name = name
-		self.colorSpace = .RGB
-		self.colorComponents = [rf.unitClamped, gf.unitClamped, bf.unitClamped]
-		self.alpha = af.unitClamped
-		self.colorType = colorType
-	}
-
 	/// Create a color using an RGB color object
 	/// - Parameters:
 	///   - name: The color name
@@ -271,7 +250,7 @@ public extension PAL.Color {
 	/// - [#]AABBCC   : RGB color
 	/// - [#]AABBCCDD : RGBA color (RRGGBBAA)
 	init(name: String = "", hexString: String, format: PAL.ColorByteFormat, colorType: PAL.ColorType = .normal) throws {
-		let color = try PAL.Color.RGB(hexString: hexString, format: format)
+		let color = try PAL.Color.RGB(hexString, format: format)
 		try self.init(
 			name: name,
 			colorSpace: .RGB,
@@ -279,36 +258,6 @@ public extension PAL.Color {
 			colorType: colorType,
 			alpha: color.af
 		)
-	}
-
-	/// Create a color object from an rgb[a] hex string
-	/// - Parameters:
-	///   - name: The color name
-	///   - rgbaHexString: The rgba hex string
-	///   - colorType: The color type
-	///
-	/// Supported hex formats :-
-	/// - [#]FFF      : RGB color  (RGB)
-	/// - [#]FFFF     : RGBA color (RGBA)
-	/// - [#]FFFFFF   : RGB color  (RRGGBB)
-	/// - [#]FFFFFFFF : RGBA color (RRGGBBAA)
-	@inlinable init(name: String = "", rgbaHexString: String, colorType: PAL.ColorType = .normal) throws {
-		try self.init(name: name, hexString: rgbaHexString, format: .rgba, colorType: colorType)
-	}
-
-	/// Create a color object from an [a]rgb hex string
-	/// - Parameters:
-	///   - name: The color name
-	///   - argbHexString: The argb hex string
-	///   - colorType: The color type
-	///
-	/// Supported hex formats :-
-	/// - [#]FFF      : RGB color  (RGB)
-	/// - [#]FFFF     : ARGB color (ARGB)
-	/// - [#]FFFFFF   : RGB color  (RRGGBB)
-	/// - [#]FFFFFFFF : ARGB color (AARRGGBB)
-	@inlinable init(name: String = "", argbHexString: String, colorType: PAL.ColorType = .normal) throws {
-		try self.init(name: name, hexString: argbHexString, format: .argb, colorType: colorType)
 	}
 
 	/// Converts a raw UInt32 into an RGBA NSColor

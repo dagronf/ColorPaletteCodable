@@ -24,11 +24,31 @@
 import Foundation
 import UIKit
 
+public extension UIColor {
+	/// Create a UIColor from a hex formatted string
+	/// - Parameters:
+	///   - hexString: The hex string
+	///   - format: The expected color ordering
+	convenience init(hexString: String, format: PAL.ColorByteFormat) throws {
+		let rgb = try PAL.Color.RGB(hexString, format: format)
+		self.init(red: CGFloat(rgb.rf), green: CGFloat(rgb.gf), blue: CGFloat(rgb.bf), alpha: CGFloat(rgb.af))
+	}
+
+	/// Create a PAL.Color from a UIColor
+	/// - Parameters:
+	///   - name: The color's name
+	///   - colorType: The color's type
+	/// - Returns: A PAL.Color representation of the image
+	@inlinable func palColor(name: String = "", colorType: PAL.ColorType = .global) throws -> PAL.Color {
+		try PAL.Color(name: name, color: self, colorType: colorType)
+	}
+}
+
 public extension PAL.Color {
 	/// Create a color from an UIColor instance
 	///
-	/// Throws an error if the CGColor cannot be represented as a PAL.Color object
-	init(color: UIColor, name: String = "", colorType: PAL.ColorType = .global) throws {
+	/// Throws an error if the UIColor cannot be represented as a PAL.Color object
+	init(name: String = "", color: UIColor, colorType: PAL.ColorType = .global) throws {
 		try self.init(name: name, color: color.cgColor, colorType: colorType)
 	}
 

@@ -42,7 +42,7 @@ public extension PAL.Color {
 	/// - Returns: Hex encoded color
 	///
 	/// If the underlying colorspace is not RGB attempts conversion to RGB before failing
-	func hexString(format: PAL.ColorByteFormat, hashmark: Bool, uppercase: Bool) throws -> String {
+	func hexString(_ format: PAL.ColorByteFormat, hashmark: Bool, uppercase: Bool) throws -> String {
 		let rgb = try self.rgb()
 		return ColorPaletteCodable.hexRGBString(
 			r255: rgb.r255,
@@ -61,7 +61,7 @@ public extension PAL.Color {
 	///   - uppercase: If true, uses uppercase characters
 	/// - Returns: hex string
 	@inlinable func hexRGB(hashmark: Bool, uppercase: Bool = false) throws -> String {
-		try self.hexString(format: .rgb, hashmark: hashmark, uppercase: uppercase)
+		try self.hexString(.rgb, hashmark: hashmark, uppercase: uppercase)
 	}
 
 	/// Return a hex RGBA string (eg. "523b50ff", "#523B50FF")
@@ -70,6 +70,6 @@ public extension PAL.Color {
 	///   - uppercase: If true, uses uppercase characters
 	/// - Returns: hex string
 	@inlinable func hexRGBA(hashmark: Bool, uppercase: Bool = false) throws -> String {
-		try self.hexString(format: .rgba, hashmark: hashmark, uppercase: uppercase)
+		try self.hexString(.rgba, hashmark: hashmark, uppercase: uppercase)
 	}
 }

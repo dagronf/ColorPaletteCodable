@@ -10,9 +10,9 @@ class GradientTests: XCTestCase {
 		let gradient = PAL.Gradient(
 			name: "first",
 			colors: [
-				try PAL.Color(rgbaHexString: "#FFFFFFFF"),
-				try PAL.Color(rgbaHexString: "#444444FF"),
-				try PAL.Color(rgbaHexString: "#000000FF")
+				try PAL.Color(hexString: "#FFFFFFFF", format: .rgba),
+				try PAL.Color(hexString: "#444444FF", format: .rgba),
+				try PAL.Color(hexString: "#000000FF", format: .rgba)
 			]
 		)
 
@@ -47,9 +47,9 @@ class GradientTests: XCTestCase {
 	func testBasicWithNoName() throws {
 		let gradient = PAL.Gradient(
 			colors: [
-				try PAL.Color(rgbaHexString: "#FFFFFFFF"),
-				try PAL.Color(rgbaHexString: "#444444FF"),
-				try PAL.Color(rgbaHexString: "#000000FF")
+				try PAL.Color(hexString: "#FFFFFFFF", format: .rgba),
+				try PAL.Color(hexString: "#444444FF", format: .rgba),
+				try PAL.Color(hexString: "#000000FF", format: .rgba)
 			]
 		)
 
@@ -86,9 +86,9 @@ class GradientTests: XCTestCase {
 	func testUnordered() throws {
 		let gradient = PAL.Gradient(
 			colors: [
-				try PAL.Color(rgbaHexString: "#FFFFFF"),
-				try PAL.Color(rgbaHexString: "#444444"),
-				try PAL.Color(rgbaHexString: "#000000")
+				try PAL.Color(hexString: "#FFFFFF", format: .rgba),
+				try PAL.Color(hexString: "#444444", format: .rgba),
+				try PAL.Color(hexString: "#000000", format: .rgba)
 			],
 			positions: [0.2, 1, 0]
 		).sorted
@@ -107,10 +107,10 @@ class GradientTests: XCTestCase {
 	func testUnnormalized() throws {
 		let gradient = PAL.Gradient(
 			colors: [
-				try PAL.Color(rgbaHexString: "#FFFFFF"),
-				try PAL.Color(rgbaHexString: "#121212"),
-				try PAL.Color(rgbaHexString: "#444444"),
-				try PAL.Color(rgbaHexString: "#000000")
+				try PAL.Color(hexString: "#FFFFFF", format: .rgba),
+				try PAL.Color(hexString: "#121212", format: .rgba),
+				try PAL.Color(hexString: "#444444", format: .rgba),
+				try PAL.Color(hexString: "#000000", format: .rgba)
 			],
 			positions: [100, 0, 5, 85]
 		)
@@ -135,9 +135,9 @@ class GradientTests: XCTestCase {
 	func testUnnormalizedNonZeroed() throws {
 		let gradient = PAL.Gradient(
 			colors: [
-				try PAL.Color(rgbaHexString: "#FFFFFF"),
-				try PAL.Color(rgbaHexString: "#121212"),
-				try PAL.Color(rgbaHexString: "#444444")
+				try PAL.Color(hexString: "#FFFFFF", format: .rgba),
+				try PAL.Color(hexString: "#121212", format: .rgba),
+				try PAL.Color(hexString: "#444444", format: .rgba)
 			],
 			positions: [60, 45, 30]
 		)
@@ -161,8 +161,8 @@ class GradientTests: XCTestCase {
 
 	func testDumbAssertion() throws {
 		let gradient = PAL.Gradient(colorPositions: [
-			(20, try PAL.Color(rgbaHexString: "#FFFFFF")),
-			(20, try PAL.Color(rgbaHexString: "#000000")),
+			(20, try PAL.Color(hexString: "#FFFFFF", format: .rgba)),
+			(20, try PAL.Color(hexString: "#000000", format: .rgba)),
 		])
 
 		XCTAssertThrowsError(try gradient.normalized())

@@ -369,14 +369,14 @@ final class CommonTests: XCTestCase {
 
 	func testHexDecode() throws {
 		do {
-			let c1 = try PAL.Color(rgbaHexString: "B0C4DEFF")
+			let c1 = try PAL.Color(hexString: "B0C4DEFF", format: .rgba)
 			XCTAssertEqual(_p2f(0xB0), c1.colorComponents[0], accuracy: 0.000001)
 			XCTAssertEqual(_p2f(0xC4), c1.colorComponents[1], accuracy: 0.000001)
 			XCTAssertEqual(_p2f(0xDE), c1.colorComponents[2], accuracy: 0.000001)
 			XCTAssertEqual(1.0, c1.alpha, accuracy: 0.000001)
 		}
 		do {
-			let c1 = try PAL.Color(argbHexString: "B0C4DEFF")
+			let c1 = try PAL.Color(hexString: "B0C4DEFF", format: .argb)
 			XCTAssertEqual(_p2f(0xC4), c1.colorComponents[0], accuracy: 0.000001)
 			XCTAssertEqual(_p2f(0xDE), c1.colorComponents[1], accuracy: 0.000001)
 			XCTAssertEqual(_p2f(0xFF), c1.colorComponents[2], accuracy: 0.000001)
@@ -384,7 +384,7 @@ final class CommonTests: XCTestCase {
 		}
 
 		do {
-			let c1 = try PAL.Color(argbHexString: "#FFFFF0")
+			let c1 = try PAL.Color(hexString: "#FFFFF0", format: .argb)
 			XCTAssertEqual(1.0, c1.colorComponents[0], accuracy: 0.000001)
 			XCTAssertEqual(1.0, c1.colorComponents[1], accuracy: 0.000001)
 			XCTAssertEqual(_p2f(0xF0), c1.colorComponents[2], accuracy: 0.000001)
@@ -392,7 +392,7 @@ final class CommonTests: XCTestCase {
 		}
 
 		do {
-			let c2 = try PAL.Color(name: "c2", rgbaHexString: "#1122FE")
+			let c2 = try PAL.Color(name: "c2", hexString: "#1122FE", format: .rgba)
 			XCTAssertEqual(c2.colorSpace, .RGB)
 			XCTAssertEqual(c2.colorComponents.count, 3)
 			XCTAssertEqual(c2.colorComponents[0], _p2f(0x11), accuracy: 0.00001)
@@ -401,7 +401,7 @@ final class CommonTests: XCTestCase {
 		}
 
 		do {
-			let c3 = try PAL.Color(name: "c3", rgbaHexString: "0x1122FE")
+			let c3 = try PAL.Color(name: "c3", hexString: "0x1122FE", format: .rgba)
 			XCTAssertEqual(c3.colorSpace, .RGB)
 			XCTAssertEqual(c3.colorComponents.count, 3)
 			XCTAssertEqual(c3.colorComponents[0], _p2f(0x11), accuracy: 0.00001)
@@ -410,7 +410,7 @@ final class CommonTests: XCTestCase {
 		}
 
 		do {
-			let c1 = try PAL.Color(name: "c1", argbHexString: "0x1122FE")
+			let c1 = try PAL.Color(name: "c1", hexString: "0x1122FE", format: .rgba)
 			XCTAssertEqual(c1.colorSpace, .RGB)
 			XCTAssertEqual(c1.colorComponents.count, 3)
 			XCTAssertEqual(c1.colorComponents[0], _p2f(0x11), accuracy: 0.00001)
@@ -418,7 +418,7 @@ final class CommonTests: XCTestCase {
 			XCTAssertEqual(c1.colorComponents[2], _p2f(0xFE), accuracy: 0.00001)
 			XCTAssertEqual(c1.alpha, 1.0, accuracy: 0.00001)
 
-			let c2 = try PAL.Color(name: "c2", argbHexString: "0xBB1122FE")
+			let c2 = try PAL.Color(name: "c2", hexString: "0xBB1122FE", format: .argb)
 			XCTAssertEqual(c2.colorSpace, .RGB)
 			XCTAssertEqual(c2.colorComponents.count, 3)
 			XCTAssertEqual(c2.colorComponents[0], _p2f(0x11), accuracy: 0.00001)
@@ -577,32 +577,32 @@ final class CommonTests: XCTestCase {
 
 	func testHexExport() throws {
 		let c1 = PAL.Color(0xAABBCCDD, format: .rgba)
-		XCTAssertEqual(try c1.hexString(format: .rgb, hashmark: true, uppercase: false), "#aabbcc")
-		XCTAssertEqual(try c1.hexString(format: .bgr, hashmark: true, uppercase: false), "#ccbbaa")
-		XCTAssertEqual(try c1.hexString(format: .rgba, hashmark: true, uppercase: false), "#aabbccdd")
-		XCTAssertEqual(try c1.hexString(format: .argb, hashmark: true, uppercase: false), "#ddaabbcc")
-		XCTAssertEqual(try c1.hexString(format: .bgra, hashmark: true, uppercase: false), "#ccbbaadd")
-		XCTAssertEqual(try c1.hexString(format: .abgr, hashmark: true, uppercase: false), "#ddccbbaa")
+		XCTAssertEqual(try c1.hexString(.rgb, hashmark: true, uppercase: false), "#aabbcc")
+		XCTAssertEqual(try c1.hexString(.bgr, hashmark: true, uppercase: false), "#ccbbaa")
+		XCTAssertEqual(try c1.hexString(.rgba, hashmark: true, uppercase: false), "#aabbccdd")
+		XCTAssertEqual(try c1.hexString(.argb, hashmark: true, uppercase: false), "#ddaabbcc")
+		XCTAssertEqual(try c1.hexString(.bgra, hashmark: true, uppercase: false), "#ccbbaadd")
+		XCTAssertEqual(try c1.hexString(.abgr, hashmark: true, uppercase: false), "#ddccbbaa")
 
-		XCTAssertEqual(try c1.hexString(format: .rgb, hashmark: false, uppercase: false), "aabbcc")
-		XCTAssertEqual(try c1.hexString(format: .bgr, hashmark: false, uppercase: false), "ccbbaa")
-		XCTAssertEqual(try c1.hexString(format: .rgba, hashmark: false, uppercase: false), "aabbccdd")
-		XCTAssertEqual(try c1.hexString(format: .argb, hashmark: false, uppercase: false), "ddaabbcc")
-		XCTAssertEqual(try c1.hexString(format: .bgra, hashmark: false, uppercase: false), "ccbbaadd")
-		XCTAssertEqual(try c1.hexString(format: .abgr, hashmark: false, uppercase: false), "ddccbbaa")
+		XCTAssertEqual(try c1.hexString(.rgb, hashmark: false, uppercase: false), "aabbcc")
+		XCTAssertEqual(try c1.hexString(.bgr, hashmark: false, uppercase: false), "ccbbaa")
+		XCTAssertEqual(try c1.hexString(.rgba, hashmark: false, uppercase: false), "aabbccdd")
+		XCTAssertEqual(try c1.hexString(.argb, hashmark: false, uppercase: false), "ddaabbcc")
+		XCTAssertEqual(try c1.hexString(.bgra, hashmark: false, uppercase: false), "ccbbaadd")
+		XCTAssertEqual(try c1.hexString(.abgr, hashmark: false, uppercase: false), "ddccbbaa")
 
-		XCTAssertEqual(try c1.hexString(format: .rgb, hashmark: true, uppercase: true), "#AABBCC")
-		XCTAssertEqual(try c1.hexString(format: .bgr, hashmark: true, uppercase: true), "#CCBBAA")
-		XCTAssertEqual(try c1.hexString(format: .rgba, hashmark: true, uppercase: true), "#AABBCCDD")
-		XCTAssertEqual(try c1.hexString(format: .argb, hashmark: true, uppercase: true), "#DDAABBCC")
-		XCTAssertEqual(try c1.hexString(format: .bgra, hashmark: true, uppercase: true), "#CCBBAADD")
-		XCTAssertEqual(try c1.hexString(format: .abgr, hashmark: true, uppercase: true), "#DDCCBBAA")
+		XCTAssertEqual(try c1.hexString(.rgb, hashmark: true, uppercase: true), "#AABBCC")
+		XCTAssertEqual(try c1.hexString(.bgr, hashmark: true, uppercase: true), "#CCBBAA")
+		XCTAssertEqual(try c1.hexString(.rgba, hashmark: true, uppercase: true), "#AABBCCDD")
+		XCTAssertEqual(try c1.hexString(.argb, hashmark: true, uppercase: true), "#DDAABBCC")
+		XCTAssertEqual(try c1.hexString(.bgra, hashmark: true, uppercase: true), "#CCBBAADD")
+		XCTAssertEqual(try c1.hexString(.abgr, hashmark: true, uppercase: true), "#DDCCBBAA")
 
-		XCTAssertEqual(try c1.hexString(format: .rgb, hashmark: false, uppercase: true), "AABBCC")
-		XCTAssertEqual(try c1.hexString(format: .bgr, hashmark: false, uppercase: true), "CCBBAA")
-		XCTAssertEqual(try c1.hexString(format: .rgba, hashmark: false, uppercase: true), "AABBCCDD")
-		XCTAssertEqual(try c1.hexString(format: .argb, hashmark: false, uppercase: true), "DDAABBCC")
-		XCTAssertEqual(try c1.hexString(format: .bgra, hashmark: false, uppercase: true), "CCBBAADD")
-		XCTAssertEqual(try c1.hexString(format: .abgr, hashmark: false, uppercase: true), "DDCCBBAA")
+		XCTAssertEqual(try c1.hexString(.rgb, hashmark: false, uppercase: true), "AABBCC")
+		XCTAssertEqual(try c1.hexString(.bgr, hashmark: false, uppercase: true), "CCBBAA")
+		XCTAssertEqual(try c1.hexString(.rgba, hashmark: false, uppercase: true), "AABBCCDD")
+		XCTAssertEqual(try c1.hexString(.argb, hashmark: false, uppercase: true), "DDAABBCC")
+		XCTAssertEqual(try c1.hexString(.bgra, hashmark: false, uppercase: true), "CCBBAADD")
+		XCTAssertEqual(try c1.hexString(.abgr, hashmark: false, uppercase: true), "DDCCBBAA")
 	}
 }

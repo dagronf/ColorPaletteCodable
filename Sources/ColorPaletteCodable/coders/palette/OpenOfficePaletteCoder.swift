@@ -72,12 +72,18 @@ public extension PAL.Coder.OpenOfficePaletteCoder {
 }
 
 extension PAL.Coder.OpenOfficePaletteCoder: XMLParserDelegate {
-	public func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
+	public func parser(
+		_ parser: XMLParser,
+		didStartElement elementName: String,
+		namespaceURI: String?,
+		qualifiedName qName: String?,
+		attributes attributeDict: [String : String] = [:]
+	) {
 		if elementName == "draw:color" {
 			let name: String = attributeDict["draw:name"] ?? ""
 			if
 				let colorString: String = attributeDict["draw:color"],
-				let color = try? PAL.Color(name: name.xmlDecoded(), argbHexString: colorString)
+				let color = try? PAL.Color(name: name.xmlDecoded(), hexString: colorString, format: .argb)
 			{
 				self.palette.colors.append(color)
 			}
@@ -86,7 +92,6 @@ extension PAL.Coder.OpenOfficePaletteCoder: XMLParserDelegate {
 }
 
 // MARK: - Encoding
-
 
 public extension PAL.Coder.OpenOfficePaletteCoder {
 	/// Encode the palette
@@ -103,7 +108,7 @@ public extension PAL.Coder.OpenOfficePaletteCoder {
 
 		palette.allColors().enumerated().forEach { item in
 			do {
-				let hex = try item.1.hexRGB(hashmark: true, uppercase: true)
+				let hex = try item.1.hexString(.rgb, hashmark: true, uppercase: true)
 				xml += "<draw:color draw:name=\"\(item.1.name.xmlEscaped())\" draw:color=\"\(hex)\"/>\n"
 			}
 			catch {

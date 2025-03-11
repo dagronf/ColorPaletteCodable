@@ -250,9 +250,9 @@ cptcity also has a [nice converter](http://seaviewsensing.com/pub/cptutils-onlin
 ```swift
 let gradient = PAL.Gradient(
    colorPositions: [
-      (0.0, try PAL.Color(rgbHexString: "#FFFFFF")),
-      (0.5, try PAL.Color(rgbHexString: "#444444")),
-      (1.0, try PAL.Color(rgbHexString: "#000000"))
+      (0.0, try PAL.Color(hexString: "#FFFFFF", format: .rgb)),
+      (0.5, try PAL.Color(hexString: "#444444", format: .rgb)),
+      (1.0, try PAL.Color(hexString: "#000000", format: .rgb))
    ]
 )
 

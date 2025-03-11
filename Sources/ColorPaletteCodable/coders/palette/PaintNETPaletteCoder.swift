@@ -119,7 +119,7 @@ public extension PAL.Coder.PaintNET {
 		try rgbColors.forEach { color in
 			// Format is :-
 			//   AARRGGBB eg. FF404040
-			content += try color.hexString(format: .argb, hashmark: false, uppercase: true)
+			content += try color.hexString(.argb, hashmark: false, uppercase: true)
 			content += "\n"
 		}
 
