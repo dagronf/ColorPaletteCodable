@@ -79,10 +79,10 @@ public extension PAL.Color {
 		///   - bf: Brightness value (clamped to 0 ... 1)
 		///   - af: Alpha value (clamped to 0 ... 1)
 		public init(hf: Float32, sf: Float32, bf: Float32, af: Float32 = 1.0) {
-			self.h = hf.unitClamped
-			self.s = sf.unitClamped
-			self.b = bf.unitClamped
-			self.a = af.unitClamped
+			self.hf = hf.unitClamped
+			self.sf = sf.unitClamped
+			self.bf = bf.unitClamped
+			self.af = af.unitClamped
 		}
 
 		/// Create a color with an HSB value
@@ -92,34 +92,34 @@ public extension PAL.Color {
 		///   - b100: Brightness value (clamped to 0 ... 1100)
 		///   - af: Alpha value (clamped to 0 ... 1)
 		public init(h360: Float32, s100: Float32, b100: Float32, af: Float32 = 1.0) {
-			self.h = (h360 / 360.0).unitClamped
-			self.s = (s100 / 100.0).unitClamped
-			self.b = (b100 / 100.0).unitClamped
-			self.a = af.unitClamped
+			self.hf = (h360 / 360.0).unitClamped
+			self.sf = (s100 / 100.0).unitClamped
+			self.bf = (b100 / 100.0).unitClamped
+			self.af = af.unitClamped
 		}
 
 		public static func == (lhs: PAL.Color.HSB, rhs: PAL.Color.HSB) -> Bool {
 			return
-				abs(lhs.h - rhs.h) < 0.005 &&
-				abs(lhs.s - rhs.s) < 0.005 &&
-				abs(lhs.b - rhs.b) < 0.005 &&
-				abs(lhs.a - rhs.a) < 0.005
+				abs(lhs.hf - rhs.hf) < 0.005 &&
+				abs(lhs.sf - rhs.sf) < 0.005 &&
+				abs(lhs.bf - rhs.bf) < 0.005 &&
+				abs(lhs.af - rhs.af) < 0.005
 		}
 
 		/// Hue value as a value in the range 0 ... 1
-		public let h: Float32
+		public let hf: Float32
 		/// Hue value as a value in the range 0 ... 360
-		public var h360: Float32 { (h * 360.0).clamped(to: 0 ... 360) }
+		public var h360: Float32 { (hf * 360.0).clamped(to: 0 ... 360) }
 		/// Saturation value as a value in the range 0 ... 1
-		public let s: Float32
+		public let sf: Float32
 		/// Saturation value as a value in the range 0 ... 100
-		public var s100: Float32 { (s * 100.0).clamped(to: 0 ... 100) }
+		public var s100: Float32 { (sf * 100.0).clamped(to: 0 ... 100) }
 		/// Brightness value as a value in the range 0 ... 1
-		public let b: Float32
+		public let bf: Float32
 		/// Brightness value as a value in the range 0 ... 100
-		public var b100: Float32 { (b * 100.0).clamped(to: 0 ... 100) }
+		public var b100: Float32 { (bf * 100.0).clamped(to: 0 ... 100) }
 		/// Alpha value as a value in the range 0 ... 1
-		public let a: Float32
+		public let af: Float32
 	}
 }
 
@@ -171,7 +171,7 @@ public extension PAL.Color {
 	///   - name: The color name
 	///   - colorType: The color type
 	@inlinable init(_ color: PAL.Color.HSB, name: String = "", colorType: PAL.ColorType = .global) {
-		self.init(hf: color.h, sf: color.s, bf: color.b, af: color.a, name: name, colorType: colorType)
+		self.init(hf: color.hf, sf: color.sf, bf: color.bf, af: color.af, name: name, colorType: colorType)
 	}
 }
 

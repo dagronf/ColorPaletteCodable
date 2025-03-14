@@ -63,7 +63,9 @@ public extension PAL.Coder {
 			super.init()
 		}
 
-		private let includeAlphaDuringExport: Bool
+		/// Export alpha when exporting?
+		public var includeAlphaDuringExport: Bool
+
 		private var palette = PAL.Palette()
 		private var currentElement = ""
 		private var currentName: String?

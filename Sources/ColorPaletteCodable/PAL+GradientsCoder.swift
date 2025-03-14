@@ -19,17 +19,37 @@
 
 import Foundation
 
+public extension PAL {
+	/// Supported gradient formats
+	enum GradientCoderFormat: CaseIterable {
+		case json
+		case dcg
+		case ggr
+		case grd
+		case psp
+		case svg
+		case cpt
+		case gpf
+
+		/// Create a new coder based on the format
+		public var coder: PAL_GradientsCoder {
+			switch self {
+			case .json: return PAL.Gradients.Coder.JSON()
+			case .dcg:  return PAL.Gradients.Coder.DCG()
+			case .ggr:  return PAL.Gradients.Coder.GGR()
+			case .grd:  return PAL.Gradients.Coder.GRD()
+			case .psp:  return PAL.Gradients.Coder.PSP()
+			case .svg:  return PAL.Gradients.Coder.SVG()
+			case .cpt:  return PAL.Gradients.Coder.CPT()
+			case .gpf:  return PAL.Gradients.Coder.GPF()
+			}
+		}
+	}
+}
+
 /// The built-in supported coders
-private let AvailableGradientCoders: [PAL_GradientsCoder] = [
-	PAL.Gradients.Coder.JSON(),
-	PAL.Gradients.Coder.GGR(),
-	PAL.Gradients.Coder.GRD(),
-	PAL.Gradients.Coder.PSP(),
-	PAL.Gradients.Coder.SVG(),
-	PAL.Gradients.Coder.CPT(),
-	PAL.Gradients.Coder.GPF(),
-	PAL.Gradients.Coder.DCG(),
-]
+private let AvailableGradientCoders: [PAL_GradientsCoder] =
+	PAL.GradientCoderFormat.allCases.map { $0.coder }
 
 /// A gradient coder protocol
 public protocol PAL_GradientsCoder {
@@ -82,7 +102,7 @@ public extension PAL_GradientsCoder {
 
 public extension PAL.Gradients {
 
-	/// Returns a gradient coder for the specified fileExtension
+	/// Returns a gradient coder that supports the specified fileExtension
 	static func coder(for fileExtension: String) -> PAL_GradientsCoder? {
 		let lext = fileExtension.lowercased()
 		return AvailableGradientCoders.first(where: { $0.fileExtension == lext })
@@ -116,6 +136,15 @@ public extension PAL.Gradients {
 			throw PAL.CommonError.unsupportedCoderType
 		}
 		return try coder.decode(from: data)
+	}
+
+	/// Decode a gradient from the contents of a fileURL
+	/// - Parameters:
+	///   - data: The data
+	///   - format: The expected gradients type for the data
+	/// - Returns: A gradient
+	@inlinable static func Decode(from data: Data, format: PAL.GradientCoderFormat) throws -> PAL.Gradients {
+		try format.coder.decode(from: data)
 	}
 
 	/// Encode the specified gradients using the specified coder

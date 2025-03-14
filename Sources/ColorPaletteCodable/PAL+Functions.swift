@@ -46,10 +46,10 @@ extension PAL.Color {
 		let hsba = try hsb()
 
 		// Rotate the hue to the other side of the color wheel
-		let h = (hsba.h - 0.5).wrappingToUnitValue()
+		let h = (hsba.hf - 0.5).wrappingToUnitValue()
 
 		// Create a new color using the new hue
-		return PAL.Color(hf: h, sf: hsba.s, bf: hsba.b, af: hsba.a)
+		return PAL.Color(hf: h, sf: hsba.sf, bf: hsba.bf, af: hsba.af)
 	}
 
 	/// The style of monochromacity
@@ -75,9 +75,9 @@ extension PAL.Color {
 			let color: PAL.Color
 			switch style {
 			case .saturation:
-				color = PAL.Color(hf: hsba.h, sf: hsba.s + offset, bf: hsba.b, af: hsba.a)
+				color = PAL.Color(hf: hsba.hf, sf: hsba.sf + offset, bf: hsba.bf, af: hsba.af)
 			case .brightness:
-				color = PAL.Color(hf: hsba.h, sf: hsba.s, bf: hsba.b + offset, af: hsba.a)
+				color = PAL.Color(hf: hsba.hf, sf: hsba.sf, bf: hsba.bf + offset, af: hsba.af)
 			}
 			results.append(color)
 		}
@@ -117,11 +117,11 @@ extension PAL.Color {
 		let hsba = try hsb()
 		let totalSweep = Double(count - 1) * stepSize
 		let offset = totalSweep / 2.0
-		let hStart = (Double(hsba.h) - offset).wrappingToUnitValue()
+		let hStart = (Double(hsba.hf) - offset).wrappingToUnitValue()
 		var colors = [PAL.Color]()
 		(0 ..< count).forEach { index in
 			let pos = (hStart + (Double(index) * stepSize)).wrappingToUnitValue()
-			let c = PAL.Color(hf: Float32(pos), sf: hsba.s, bf: hsba.b, af: hsba.a)
+			let c = PAL.Color(hf: Float32(pos), sf: hsba.sf, bf: hsba.bf, af: hsba.af)
 			colors.append(c)
 		}
 		return colors
@@ -390,9 +390,9 @@ public extension PAL.Color {
 		let hsb = try rgbColor.hsb()
 
 		let fraction = fraction.clamped(to: -1.0 ... 1.0)
-		let newBrightness = hsb.b * (1.0 + fraction)
+		let newBrightness = hsb.bf * (1.0 + fraction)
 
-		let darker = PAL.Color(hf: hsb.h, sf: hsb.s, bf: newBrightness.unitClamped, af: hsb.a)
+		let darker = PAL.Color(hf: hsb.hf, sf: hsb.sf, bf: newBrightness.unitClamped, af: hsb.af)
 		if useSameColorspace {
 			return try darker.converted(to: self.colorSpace)
 		}

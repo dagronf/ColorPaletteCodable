@@ -6,6 +6,45 @@ import Foundation
 let gradientTestsFolder = try! testResultsContainer.subfolder(with: "gradient-tests")
 
 class GradientTests: XCTestCase {
+
+	func testDoco() throws {
+		/// Load gradients from a file, (using the fileURL to determine the gradients type)
+		let fileURL = try resourceURL(for: "37_waves.cpt")
+		let gradients = try PAL.Gradients(fileURL)
+		XCTAssertEqual(1, gradients.count)
+		XCTAssertEqual(1, gradients.gradients.count)
+		XCTAssertEqual(508, gradients.gradients[0].stops.count)
+
+		/// Load gradients by specifying the type
+		let data = try dataURL(for: "37_waves.cpt")
+		let gradients2 = try PAL.Gradients(data, format: .cpt)
+		XCTAssertEqual(1, gradients2.count)
+		XCTAssertEqual(1, gradients2.gradients.count)
+		XCTAssertEqual(508, gradients2.gradients[0].stops.count)
+
+		/// Save a gradient file
+		let fileData = try gradients.export(format: .dcg)
+		let decoded = try PAL.Gradients(fileData, fileExtension: "dcg")
+		XCTAssertEqual(1, decoded.count)
+		XCTAssertEqual(1, decoded.gradients.count)
+		XCTAssertEqual(508, decoded.gradients[0].stops.count)
+
+		/// Save a gradient file
+		let fileData2 = try gradients.export(format: .dcg)
+		let decoded2 = try PAL.Gradients(fileData2, format: .dcg)
+		XCTAssertEqual(1, decoded2.count)
+		XCTAssertEqual(1, decoded2.gradients.count)
+		XCTAssertEqual(508, decoded2.gradients[0].stops.count)
+
+		do {
+			let coder = PAL.Gradients.Coder.CPT()
+			let gradients2 = try coder.decode(from: fileURL)
+			XCTAssertEqual(1, gradients2.count)
+			XCTAssertEqual(1, gradients2.gradients.count)
+			XCTAssertEqual(508, gradients2.gradients[0].stops.count)
+		}
+	}
+
 	func testBasic() throws {
 		let gradient = PAL.Gradient(
 			colors: [

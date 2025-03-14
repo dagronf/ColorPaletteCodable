@@ -65,17 +65,29 @@ public extension PAL.Gradients {
 	}
 }
 
-// MARK: - Import/export
+// MARK: - Load from file/data
 
 public extension PAL.Gradients {
+
+	// MARK: Create from file URL
+
 	/// Load a local gradient file
 	/// - Parameters:
-	///   - fileURL: The fileURL for the gradients file
+	///   - fileURL: The local fileURL for the gradients file
 	///   - coder: [optional] Override the default gradients coder
 	init(_ fileURL: URL, usingCoder coder: PAL_GradientsCoder? = nil) throws {
-		let g = try PAL.LoadGradient(fileURL, usingCoder: coder)
-		self.gradients = g.gradients
+		self.gradients = try PAL.Gradients.Decode(from: fileURL, usingCoder: coder).gradients
 	}
+
+	/// Load a local gradient file
+	/// - Parameters:
+	///   - fileURL: The local fileURL for the gradients file
+	///   - format: The file's gradient format
+	@inlinable init(_ fileURL: URL, format: PAL.GradientCoderFormat) throws {
+		try self.init(fileURL, usingCoder: format.coder)
+	}
+
+	// MARK: Create from data
 
 	/// Load a gradient from raw data
 	/// - Parameters:
@@ -89,16 +101,45 @@ public extension PAL.Gradients {
 	/// Load a gradient from raw data
 	/// - Parameters:
 	///   - data: The gradient data
+	///   - format: The file's gradient format
+	init(_ data: Data, format: PAL.GradientCoderFormat) throws {
+		try self.init(data, usingCoder: format.coder)
+	}
+
+	/// Load a gradient from raw data
+	/// - Parameters:
+	///   - data: The gradient data
 	///   - fileExtension: The gradient file's extension (eg. "ggr")
 	init(_ data: Data, fileExtension: String) throws {
 		let g = try PAL.Gradients.Decode(from: data, fileExtension: fileExtension)
 		self.gradients = g.gradients
 	}
+}
 
+// MARK: - Export formatted gradients data
+
+public extension PAL.Gradients {
 	/// Export the gradient
 	/// - Parameter coder: The gradient coder to use
 	/// - Returns: raw gradient format data
-	func export(using coder: PAL_GradientsCoder) throws -> Data {
+	@inlinable func export(using coder: PAL_GradientsCoder) throws -> Data {
 		return try coder.encode(self)
+	}
+
+	/// Export the gradient
+	/// - Parameter format: The gradient format
+	/// - Returns: raw gradient format data
+	@inlinable func export(format: PAL.GradientCoderFormat) throws -> Data {
+		try self.export(using: format.coder)
+	}
+
+	/// Export the gradient
+	/// - Parameter fileExtension: The file extension representing the coder type
+	/// - Returns: raw gradient format data
+	func export(fileExtension: String) throws -> Data {
+		guard let coder = PAL.Gradients.coder(for: fileExtension) else {
+			throw PAL.CommonError.unsupportedCoderType
+		}
+		return try self.export(using: coder)
 	}
 }

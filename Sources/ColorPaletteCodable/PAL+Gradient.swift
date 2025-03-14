@@ -139,7 +139,7 @@ public extension PAL {
 		///   - saturation: The saturation
 		///   - brightness: The brightness
 		///   - name: The name for the gradient
-		init(
+		public init(
 			hueRange: ClosedRange<Float32>,
 			stopCount: Int,
 			saturation: Float32 = 1.0,
@@ -163,7 +163,7 @@ public extension PAL {
 	}
 }
 
-// MARK: Export
+// MARK: - Export formatted gradients data
 
 public extension PAL.Gradient {
 	/// Export this gradient
@@ -171,6 +171,13 @@ public extension PAL.Gradient {
 	/// - Returns: raw gradient data
 	func export(using coder: PAL_GradientsCoder) throws -> Data {
 		try PAL.Gradients(gradient: self).export(using: coder)
+	}
+
+	/// Export this gradient
+	/// - Parameter format: The file format to use when saving
+	/// - Returns: raw gradient data
+	func export(format: PAL.GradientCoderFormat) throws -> Data {
+		try self.export(using: format.coder)
 	}
 }
 
@@ -436,7 +443,7 @@ public extension PAL.Gradient {
 		//
 		// Sort the stops and normalize to 0 -> 1
 		//
-		let sorted = self.stops
+		let sorted: [PAL.Gradient.Stop] = self.stops
 			.sorted { a, b in a.position < b.position }
 			.map {
 				let position = $0.position
@@ -450,7 +457,7 @@ public extension PAL.Gradient {
 		//
 		// Sort the transparency stops and normalize
 		//
-		let ts = self.transparencyStops?
+		let ts: [PAL.Gradient.TransparencyStop]? = self.transparencyStops?
 			.sorted { a, b in a.position < b.position }
 			.map {
 				let position = $0.position

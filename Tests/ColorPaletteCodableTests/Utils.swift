@@ -11,10 +11,16 @@ func resourceURL(for name: String) throws -> URL {
 	return try XCTUnwrap(Bundle.module.url(forResource: name, withExtension: extn))
 }
 
+/// Return the data for the fileURL's content
+func dataURL(for name: String) throws -> Data {
+	let fileURL = try resourceURL(for: name)
+	return try Data(contentsOf: fileURL)
+}
+
 /// Load a palette from the resources
 func loadResourcePalette(named name: String) throws -> PAL.Palette {
 	let paletteURL = try resourceURL(for: name)
-	return try PAL.LoadPalette(paletteURL)
+	return try PAL.Palette(paletteURL)
 }
 
 /// Load a palette from the resources, forcing the use of a specific coder
@@ -26,7 +32,7 @@ func loadResourcePalette(named name: String, using coder: PAL_PaletteCoder) thro
 /// Load a gradient from the resources
 func loadResourceGradient(named name: String) throws -> PAL.Gradients {
 	let gradientURL = try resourceURL(for: name)
-	return try PAL.LoadGradient(gradientURL)
+	return try PAL.Gradients(gradientURL)
 }
 
 /// Load data from a resource file

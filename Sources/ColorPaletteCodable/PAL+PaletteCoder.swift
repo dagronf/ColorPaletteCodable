@@ -19,40 +19,76 @@
 
 import Foundation
 
+public extension PAL {
+	/// Supported palette formats
+	enum PaletteCoderType: CaseIterable {
+		case acb           // Adobe Color Book
+		case aco           // Adobe Photoshop Swatch
+		case act           // Adobe Color Tables
+		case androidXML    // Android XML Palette file
+		case ase           // Adobe Swatch Exchange
+		case basicXML      // Basic XML palette format
+		case clr           // macOS NSColorList
+		case corelPainter  // Corel Painter Swatches
+		case corelDraw     // CorelDraw XML
+		case corelPalette  // Corel Palette
+		case csv           // CSV Palette
+		case dcp           // ColorPaletteCodable binary format
+		case gimp          // GIMP gpl format
+		case hexRGBA       // Hex RGBA coded files
+		#if canImport(CoreGraphics)
+		case image         // image-based palette coder
+		#endif
+		case json          // ColorPaletteCodable binary format
+		case openOffice    // OpenOffice palette format (.soc)
+		case paintNET      // Paint.NET palette file (.txt)
+		case paintShopPro  // Paint Shop Pro palette (.pal, .psppalette)
+		case rgba          // RGBA encoded text files (.rgba, .txt)
+		case rgb           // RGB encoded text files (.rgb, .txt)
+		case riff          // Microsoft RIFF palette (.pal))
+		case sketch        // Sketch palette file (.sketchpalette)
+		case svg           // Scalable Vector Grapihcs palette (.svg)
+		case swift         // (export only) Swift source file (.swift)
+
+		/// Create a new coder based on the format
+		public var coder: PAL_PaletteCoder {
+			switch self {
+			case .acb          : return PAL.Coder.ACB()
+			case .aco          : return PAL.Coder.ACO()
+			case .act          : return PAL.Coder.ACT()
+			case .androidXML   : return PAL.Coder.AndroidColorsXML()
+			case .ase          : return PAL.Coder.ASE()
+			case .basicXML     : return PAL.Coder.BasicXML()
+			case .clr          : return PAL.Coder.CLR()
+			case .corelPainter : return PAL.Coder.CorelPainter()
+			case .corelDraw    : return PAL.Coder.CorelXMLPalette()
+			case .corelPalette : return PAL.Coder.CPL()
+			case .csv          : return PAL.Coder.CSV()
+			case .dcp          : return PAL.Coder.DCP()
+			case .gimp         : return PAL.Coder.GIMP()
+			case .hexRGBA      : return PAL.Coder.HEX()
+			#if canImport(CoreGraphics)
+			case .image        : return PAL.Coder.Image()
+			#endif
+			case .json         : return PAL.Coder.JSON()
+			case .openOffice   : return PAL.Coder.OpenOfficePaletteCoder()
+			case .paintNET     : return PAL.Coder.PaintNET()
+			case .paintShopPro : return PAL.Coder.PaintShopPro()
+			case .rgba         : return PAL.Coder.RGBA()
+			case .rgb          : return PAL.Coder.RGB()
+			case .riff         : return PAL.Coder.RIFF()
+			case .sketch       : return PAL.Coder.SketchPalette()
+			case .svg          : return PAL.Coder.SVG()
+			case .swift        : return PAL.Coder.SwiftCoder()
+			}
+		}
+	}
+}
+
 public extension PAL.Palette {
 	/// All coders
-	static let AvailableCoders: [PAL_PaletteCoder] = {
-		var coders: [PAL_PaletteCoder] = [
-			PAL.Coder.ACB(),
-			PAL.Coder.ACO(),
-			PAL.Coder.ASE(),
-			PAL.Coder.CLR(),
-			PAL.Coder.RGB(),
-			PAL.Coder.RGBA(),
-			PAL.Coder.CSV(),
-			PAL.Coder.JSON(),
-			PAL.Coder.GIMP(),
-			PAL.Coder.PaintShopPro(),
-			PAL.Coder.ACT(),
-			PAL.Coder.RIFF(),
-			PAL.Coder.SketchPalette(),
-			PAL.Coder.CorelXMLPalette(),
-			PAL.Coder.BasicXML(),
-			PAL.Coder.HEX(),
-			PAL.Coder.PaintNET(),
-			PAL.Coder.SVG(),
-			PAL.Coder.CorelPainter(),
-			PAL.Coder.AndroidColorsXML(),
-			PAL.Coder.CPL(),
-			PAL.Coder.OpenOfficePaletteCoder(),
-			PAL.Coder.DCP(),
-		]
-#if canImport(CoreGraphics)
-		coders.append(PAL.Coder.Image())
-#endif
-
-		return coders
-	}()
+	static let AvailableCoders: [PAL_PaletteCoder] =
+		PAL.PaletteCoderType.allCases.map { $0.coder }
 
 	/// All text-based coders
 	static let TextBasedCoders: [PAL_PaletteCoder] = [

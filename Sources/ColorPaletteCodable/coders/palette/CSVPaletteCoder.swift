@@ -56,7 +56,8 @@ public extension PAL.Coder {
 			self.hexFormat = hexFormat
 		}
 
-		let hexFormat: PAL.ColorByteFormat
+		/// The exporting hex format
+		public var hexFormat: PAL.ColorByteFormat
 	}
 }
 

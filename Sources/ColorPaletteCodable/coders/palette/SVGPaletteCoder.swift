@@ -24,9 +24,9 @@ public extension PAL.Coder {
 	struct SVG: PAL_PaletteCoder {
 		public let name = "SVG"
 		public let fileExtension = ["svg"]
-		public let swatchSize: PAL.Size
-		public let maxExportWidth: Double
-		public let edgeInset: PAL.EdgeInsets
+		public var swatchSize: PAL.Size
+		public var maxExportWidth: Double
+		public var edgeInset: PAL.EdgeInsets
 
 		/// Create a SVG coder/decoder
 		/// - Parameters:

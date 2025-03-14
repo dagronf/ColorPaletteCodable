@@ -41,6 +41,17 @@ public extension NSColor {
 	@inlinable func palColor(name: String = "", colorType: PAL.ColorType = .global) throws -> PAL.Color {
 		try PAL.Color(color: self, name: name, colorType: colorType)
 	}
+
+	/// Return the HSB components for this color
+	/// - Returns: HSB representation of this color
+	func hsb() -> PAL.Color.HSB {
+		var h: CGFloat = 0.0
+		var s: CGFloat = 0.0
+		var b: CGFloat = 0.0
+		var a: CGFloat = 0.0
+		self.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
+		return PAL.Color.HSB(hf: Float32(h), sf: Float32(s), bf: Float32(b), af: Float32(a))
+	}
 }
 
 public extension PAL.Color {

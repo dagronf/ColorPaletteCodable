@@ -47,9 +47,9 @@ public extension PAL.Coder {
 		}
 
 		/// When exporting, the image format
-		public let exportType: ExportType
+		public var exportType: ExportType
 		/// When exporting, the type of image to generate
-		public let exportImageType: SwiftImageReadWrite.ImageExportType
+		public var exportImageType: SwiftImageReadWrite.ImageExportType
 
 		/// Create a PNG coder/decoder
 		/// - Parameters:

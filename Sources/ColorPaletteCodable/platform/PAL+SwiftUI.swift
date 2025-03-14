@@ -41,6 +41,14 @@ public extension PAL.Color {
 		#endif
 		try self.init(color: rawColor, name: name, colorType: colorType)
 	}
+
+	/// Change the color
+	/// - Parameter color: <#color description#>
+	public mutating func setColor(_ color: Color) {
+		if let e = try? PAL.Color(color).rgb() {
+			self.setRGB(rf: e.rf, gf: e.gf, bf: e.bf, af: e.af)
+		}
+	}
 }
 
 @available(macOS 10.15, iOS 14.0, tvOS 14.0, watchOS 8.0, *)
@@ -116,6 +124,17 @@ public extension PAL.Palette {
 			}
 		}
 		return Gradient(stops: stops)
+	}
+}
+
+@available(macOS 11, iOS 14.0, tvOS 14.0, watchOS 8.0, *)
+public extension Color {
+	func palColor() throws -> PAL.Color {
+		#if os(macOS)
+		try PAL.Color(color: NSColor(self))
+		#else
+		try PAL.Color(color: UIColor(self))
+		#endif
 	}
 }
 

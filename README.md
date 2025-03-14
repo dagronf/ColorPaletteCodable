@@ -202,6 +202,28 @@ The library defines `PAL.Gradients` which defines a collection of colors with po
 that can be used when using a gradient.  Certain gradient types (eg. `.grd`) support multiple 
 gradients within the same file.
 
+
+### TL; DR - Show me how?
+
+```Swift
+/// Load gradients from a file, (using the fileURL to determine the gradients type)
+let fileURL = /* some gradient fileURL */
+let gradients = try PAL.Gradients(fileURL)
+
+/// Load gradients from raw data, assuming the format is cpt
+let gradients2 = try PAL.Gradients(data, format: .cpt)
+
+/// Save a gradient file using a file extension
+let fileData = try gradients2.export(gradients, fileExtension: "dcg")
+
+/// Save a gradient file using a file extension
+let fileData2 = try gradients2.export(gradients, format: .dcg)
+
+/// Use a specific coder to load a gradient with parameters
+let coder = PAL.Gradients.Coder.DCG()
+let gradients2 = try coder.decode()
+```
+
 ## Gradient API
 
 | Type                   | Description                            | 
@@ -256,36 +278,30 @@ let gradient = PAL.Gradient(
    ]
 )
 
-// Create a gradients container
-let gradients = PAL.Gradients(gradients: [gradient])
-
 // Create the appropriate coder
 let coder = PAL.Gradients.Coder.GGR()
 
 // Encode the gradient using the GIMP gradient encoder
-let data = try coder.encode(gradients)
+let data = try coder.encode(gradient)
 
-// Decode a gradient from data
-let decoded = try PAL.Gradients.Decode(
-   from: data,
-   fileExtension: PAL.Gradients.Coder.GGR.fileExtension
-)
+// Decode a gradient from raw data
+let decoded = try PAL.Gradients(data, format: .ggr)
 ```
 
 #### Load a gradient
 
 ```swift
 // Load a gradient from a file, inferring the type from the file's extension
-let gradient1 = try PAL.Gradients.Decode(from: fileURL)
+let gradient1 = try PAL.Gradients(fileURL)
 
 // Load a specific gradient format from a file
-let coder = PAL.Gradients.Coder.GRD()
+let coder = PAL.Gradients(fileURL, format: .grd)
 let gradient2 = try coder.decode(from: i)
 ```
 
 ## Color
 
-This library supports `RGB`, `CMYK`, `LAB`, `Gray`
+This library supports `RGB`, `CMYK`, `LAB` and `Gray` colorspaces
 
 ```swift
 /// Create an RGB color

@@ -115,9 +115,12 @@ public extension PAL.Palette {
 	}
 }
 
-// MARK: - Import/export
+// MARK: - Import
 
 public extension PAL.Palette {
+
+	// MARK: Create from file URL
+
 	/// Load a palette from a local file
 	/// - Parameters:
 	///   - fileURL: The fileURL for the palette file
@@ -128,6 +131,16 @@ public extension PAL.Palette {
 		self.colors = palette.colors
 		self.groups = palette.groups
 	}
+
+	/// Load a palette from a local file
+	/// - Parameters:
+	///   - fileURL: The fileURL for the palette file
+	///   - format: The format for the palette file
+	init(_ fileURL: URL, format: PAL.PaletteCoderType) throws {
+		try self.init(fileURL, usingCoder: format.coder)
+	}
+
+	// MARK: Create from data
 
 	/// Load a palette from raw data
 	/// - Parameters:
@@ -145,17 +158,37 @@ public extension PAL.Palette {
 	///   - data: The gradient data
 	///   - fileExtension: The gradient format's extension (eg. "ase")
 	init(_ data: Data, fileExtension: String) throws {
-		let palette = try PAL.Palette.Decode(from: data, fileExtension: fileExtension)
-		self.name = palette.name
-		self.colors = palette.colors
-		self.groups = palette.groups
+		guard let coder = PAL.Palette.coder(for: fileExtension).first else {
+			throw PAL.CommonError.unsupportedPaletteType
+		}
+		try self.init(data, usingCoder: coder)
 	}
 
+	/// Load a palette from data
+	/// - Parameters:
+	///   - data: The gradient data
+	///   - format: The format for the palette file
+	init(_ data: Data, format: PAL.PaletteCoderType) throws {
+		try self.init(data, usingCoder: format.coder)
+	}
+}
+
+// MARK: - Export
+
+
+public extension PAL.Palette {
 	/// Export the palette
 	/// - Parameter coder: The palette coder to use
 	/// - Returns: raw palette format data
 	func export(using coder: PAL_PaletteCoder) throws -> Data {
-		return try coder.encode(self)
+		try coder.encode(self)
+	}
+
+	/// Export the palette
+	/// - Parameter format: The format for the palette file
+	/// - Returns: raw palette format data
+	func export(format: PAL.PaletteCoderType) throws -> Data {
+		try self.export(using: format.coder)
 	}
 }
 

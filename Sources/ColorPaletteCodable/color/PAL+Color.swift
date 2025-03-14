@@ -29,16 +29,17 @@ public extension PAL {
 	struct Color: Equatable, CustomStringConvertible {
 		public let id = UUID()
 		/// The color name
-		public let name: String
-		/// The colorspace model for the color
-		public let colorSpace: PAL.ColorSpace
-		/// The components of the color
-		public let colorComponents: [Float32]
+		public var name: String
 		/// The type of color (global, spot, normal)
-		public let colorType: ColorType
+		public var colorType: ColorType
+
+		/// The colorspace model for the color
+		public internal(set) var colorSpace: PAL.ColorSpace
+		/// The components of the color
+		public internal(set) var colorComponents: [Float32]
 
 		/// The color's alpha component
-		public let alpha: Float32
+		public var alpha: Float32
 
 		/// Create a color object
 		/// - Parameters:
@@ -190,6 +191,31 @@ extension PAL.Color: Hashable {
 }
 
 public extension PAL.Color {
+	private init(
+		noVerifyWithColorspace colorSpace: PAL.ColorSpace,
+		colorComponents: [Float32],
+		alpha: Float32,
+		name: String,
+		colorType: PAL.ColorType
+	) {
+		self.name = name
+		self.colorSpace = colorSpace
+		self.colorComponents = colorComponents
+		self.colorType = colorType
+		self.alpha = alpha
+	}
+
+	/// Make a unique copy of this color
+	func uniqueCopy() -> PAL.Color {
+		PAL.Color(
+			noVerifyWithColorspace: self.colorSpace,
+			colorComponents: self.colorComponents,
+			alpha: self.alpha,
+			name: self.name,
+			colorType: self.colorType
+		)
+	}
+
 	/// Returns a copy of this color without transparency
 	func removingTransparency() throws -> PAL.Color {
 		if self.isValid == false { return PAL.Color.black }
@@ -270,3 +296,19 @@ public extension PAL.Color {
 		return try PAL_ColorSpaceConverter.convert(color: self, to: colorspace)
 	}
 }
+
+// MARK: - Modification
+
+public extension PAL.Color {
+	public mutating func setRGB(rf: Float32, gf: Float32, bf: Float32, af: Float32) {
+		self.colorSpace = .RGB
+		self.colorComponents = [rf.unitClamped, gf.unitClamped, bf.unitClamped]
+		self.alpha = af.unitClamped
+	}
+	public mutating func setGray(whitef: Float32, af: Float32) {
+		self.colorSpace = .Gray
+		self.colorComponents = [whitef.unitClamped]
+		self.alpha = af.unitClamped
+	}
+}
+
