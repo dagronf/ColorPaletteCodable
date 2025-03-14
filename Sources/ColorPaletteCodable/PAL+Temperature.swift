@@ -25,7 +25,7 @@ public extension PAL.Color {
 	///   - kelvinTemperature: kelvin temperature value (1000.0 ... 40000.0)
 	///   - name: The color name
 	///   - colorType: The type of color
-	init(kelvinTemperature: Float32, name: String = "", colorType: PAL.ColorType = .global) throws {
+	init(kelvinTemperature: Double, name: String = "", colorType: PAL.ColorType = .global) throws {
 		let k = try kelvinToRGB(kelvinTemperature)
 		self.init(r255: k.r, g255: k.g, b255: k.b, name: name)
 	}
@@ -37,8 +37,8 @@ public extension PAL.Palette {
 	///   - kelvinRange: The range of kelvin temperatures
 	///   - count: The number of colors in the palette
 	///   - name: The palette name
-	init(kelvinRange: ClosedRange<Float32>, count: Int, name: String = "") throws {
-		let step = ((kelvinRange.upperBound - kelvinRange.lowerBound) / (Float32(count) - 1.0))
+	init(kelvinRange: ClosedRange<Double>, count: Int, name: String = "") throws {
+		let step = ((kelvinRange.upperBound - kelvinRange.lowerBound) / (Double(count) - 1.0))
 		let colors = try stride(from: kelvinRange.lowerBound, through: kelvinRange.upperBound, by: step).map {
 			try PAL.Color(kelvinTemperature: $0)
 		}
@@ -52,7 +52,7 @@ public extension PAL.Gradient {
 	///   - kelvinRange: The range of kelvin temperatures
 	///   - count: The number of gradient stops
 	///   - name: The gradient name
-	init(kelvinRange: ClosedRange<Float32>, count: Int, name: String = "") throws {
+	init(kelvinRange: ClosedRange<Double>, count: Int, name: String = "") throws {
 		let palette = try PAL.Palette(kelvinRange: kelvinRange, count: count, name: name)
 		self.init(palette: palette, name: name)
 	}

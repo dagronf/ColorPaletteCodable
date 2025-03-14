@@ -198,6 +198,20 @@ public extension DataWriter {
 		try self.writeInteger(value.bitPattern, byteOrder)
 	}
 
+	/// Write an array of float32 values to the storage using the IEEE 754 specification
+	/// - Parameters:
+	///   - values: The values to write
+	///   - byteOrder: The byte order to apply when writing
+	/// - Returns: The number of bytes written
+	@discardableResult
+	func writeFloat32(_ values: [Float32], _ byteOrder: Endianness) throws -> Int {
+		var writtenCount: Int = 0
+		try values.forEach { value in
+			writtenCount += try self.writeInteger(value.bitPattern, byteOrder)
+		}
+		return writtenCount
+	}
+
 	/// Write a float64 (Double) value to the storage using the IEEE 754 specification
 	/// - Parameters:
 	///   - value: The value to write

@@ -118,20 +118,20 @@ internal struct NaiveConversions {
 		return PAL.Color.CMYK(cf: c, mf: m, yf: y, kf: k, af: value.af)
 	}
 
-	static func CMYK2Gray(_ value: PAL.Color.CMYK) -> Float32 {
+	static func CMYK2Gray(_ value: PAL.Color.CMYK) -> Double {
 		let rgb = CMYK2RGB(value)
 		return RGB2Gray(rgb)
 	}
 
-	static func Gray2CMYK(l: Float32) -> PAL.Color.CMYK {
+	static func Gray2CMYK(l: Double) -> PAL.Color.CMYK {
 		return RGB2CMYK(Gray2RGB(l: l))
 	}
 
-	static func RGB2Gray(_ value: PAL.Color.RGB) -> Float32 {
+	static func RGB2Gray(_ value: PAL.Color.RGB) -> Double {
 		return 0.299 * value.rf + 0.587 * value.gf + 0.114 * value.bf
 	}
 
-	static func Gray2RGB(l: Float32) -> PAL.Color.RGB {
+	static func Gray2RGB(l: Double) -> PAL.Color.RGB {
 		return PAL.Color.RGB(rf: l, gf: l, bf: l)
 	}
 

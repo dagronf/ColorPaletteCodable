@@ -74,9 +74,9 @@ public extension PAL.Coder.GIMP {
 
 				let sv = ss.trimmingCharacters(in: .whitespacesAndNewlines)
 
-				let re = max(0, min(1, Float32(rv) / 255.0))
-				let ge = max(0, min(1, Float32(gv) / 255.0))
-				let be = max(0, min(1, Float32(bv) / 255.0))
+				let re = max(0, min(1, Double(rv) / 255.0))
+				let ge = max(0, min(1, Double(gv) / 255.0))
+				let be = max(0, min(1, Double(bv) / 255.0))
 
 				let c = try PAL.Color(colorSpace: .RGB, colorComponents: [re, ge, be], name: sv)
 				palette.colors.append(c)

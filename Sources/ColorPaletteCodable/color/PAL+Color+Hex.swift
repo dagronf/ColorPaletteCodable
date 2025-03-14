@@ -30,9 +30,9 @@ public extension PAL.Color {
 		let c = extractRGBA(uint32ColorValue, format: format)
 		self.name = name
 		self.colorSpace = .RGB
-		self.colorComponents = [Float32(c.r) / 255.0, Float32(c.g) / 255.0, Float32(c.b) / 255.0]
+		self.colorComponents = [Double(c.r) / 255.0, Double(c.g) / 255.0, Double(c.b) / 255.0]
 		self.colorType = colorType
-		self.alpha = Float32(c.a) / 255.0
+		self.alpha = Double(c.a) / 255.0
 	}
 
 	/// Return a hex RGB string (eg. "523b50ff", "#523b50")

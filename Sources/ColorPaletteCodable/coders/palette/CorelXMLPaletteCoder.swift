@@ -98,7 +98,7 @@ extension PAL.Coder.CorelXMLPalette: XMLParserDelegate {
 			let cs = attributeDict["cs"]?.lowercased()
 			let name = attributeDict["name"]?.xmlDecoded() ?? ""
 			let tints = attributeDict["tints"] ?? ""
-			let components = tints.components(separatedBy: ",").compactMap { Float32(String($0)) }
+			let components = tints.components(separatedBy: ",").compactMap { Double(String($0)) }
 
 			let color: PAL.Color? = {
 				switch cs {
@@ -210,7 +210,7 @@ extension PAL.Coder.CorelXMLPalette {
 			}
 
 			// Needs an explicit type for supporting older swift versions
-			let colorspaceInfo: (String, [Float32]) = try {
+			let colorspaceInfo: (String, [Double]) = try {
 				switch color.colorSpace {
 				case .CMYK: return ("CMYK", color.colorComponents)
 				case .RGB: return ("RGB", color.colorComponents)

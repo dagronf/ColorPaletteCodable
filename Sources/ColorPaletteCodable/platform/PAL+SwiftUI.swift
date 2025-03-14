@@ -44,7 +44,7 @@ public extension PAL.Color {
 
 	/// Change the color
 	/// - Parameter color: <#color description#>
-	public mutating func setColor(_ color: Color) {
+	mutating func setColor(_ color: Color) {
 		if let e = try? PAL.Color(color).rgb() {
 			self.setRGB(rf: e.rf, gf: e.gf, bf: e.bf, af: e.af)
 		}

@@ -140,10 +140,10 @@ public extension PAL {
 		///   - brightness: The brightness
 		///   - name: The name for the gradient
 		public init(
-			hueRange: ClosedRange<Float32>,
+			hueRange: ClosedRange<Double>,
 			stopCount: Int,
-			saturation: Float32 = 1.0,
-			brightness: Float32 = 1.0,
+			saturation: Double = 1.0,
+			brightness: Double = 1.0,
 			name: String? = nil
 		) {
 			assert(stopCount > 1)
@@ -152,9 +152,9 @@ public extension PAL {
 			let saturation = saturation.unitClamped
 			let brightness = brightness.unitClamped
 			
-			let step = 1.0 / Float32(stopCount - 1)
-			
-			let colors: [PAL.Color] = stride(from: 0.0, through: 1.0, by: step).map { (s: Float32) in
+			let step = 1.0 / Double(stopCount - 1)
+
+			let colors: [PAL.Color] = stride(from: 0.0, through: 1.0, by: step).map { (s: Double) in
 				let h = lerp(hueStart, hueEnd, t: s)
 				return PAL.Color(hf: h, sf: saturation, bf: brightness)
 			}
@@ -239,7 +239,7 @@ public extension PAL.Gradient {
 	func createTransparencyGradient(_ baseColor: PAL.Color) throws -> PAL.Gradient {
 		let base = try baseColor.rgb()
 		let stops: [Stop] = self.transparencyMap.map {
-			let color = rgbf(base.rf, base.gf, base.bf, Float32($0.value))
+			let color = rgbf(base.rf, base.gf, base.bf, $0.value)
 			return Stop(position: $0.position, color: color)
 		}
 		return PAL.Gradient(stops: stops)
@@ -326,10 +326,10 @@ public extension PAL.Gradient {
 		var mappedColorStops: [PAL.Color] = []
 
 		for stop in g_stops {
-			var r: Float32 = 0.0
-			var g: Float32 = 0.0
-			var b: Float32 = 0.0
-			var a: Float32 = 0.0
+			var r: Double = 0.0
+			var g: Double = 0.0
+			var b: Double = 0.0
+			var a: Double = 0.0
 
 			guard
 				let cseg = csegments.first(where: { $0.contains(stop) }),
@@ -341,12 +341,12 @@ public extension PAL.Gradient {
 
 			do {
 				// Find the color percentage within this segment using lerp
-				let tv = Float32((stop - cseg.t1) / cseg.span)
+				let tv = Double((stop - cseg.t1) / cseg.span)
 				let rgb1 = try cseg.color1.rgb()
 				let rgb2 = try cseg.color2.rgb()
-				r = Float32(rgb1.rf + ((rgb2.rf - rgb1.rf) * tv))
-				g = Float32(rgb1.gf + ((rgb2.gf - rgb1.gf) * tv))
-				b = Float32(rgb1.bf + ((rgb2.bf - rgb1.bf) * tv))
+				r = Double(rgb1.rf + ((rgb2.rf - rgb1.rf) * tv))
+				g = Double(rgb1.gf + ((rgb2.gf - rgb1.gf) * tv))
+				b = Double(rgb1.bf + ((rgb2.bf - rgb1.bf) * tv))
 			}
 
 			do {
@@ -354,7 +354,7 @@ public extension PAL.Gradient {
 				let tv = (stop - tseg.t1) / tseg.span
 				let tt1 = tseg.value1
 				let tt2 = tseg.value2
-				a = Float32(tt1 + ((tt2 - tt1) * tv))
+				a = Double(tt1 + ((tt2 - tt1) * tv))
 			}
 
 			let cv = PAL.Color(rf: r, gf: g, bf: b, af: a)

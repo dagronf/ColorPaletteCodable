@@ -37,10 +37,10 @@ import UIKit
 ///   - colorType: The type of color
 /// - Returns: A new color
 public func hsbf(
-	_ hf: Float32,
-	_ sf: Float32,
-	_ bf: Float32,
-	_ af: Float32 = 1.0,
+	_ hf: Double,
+	_ sf: Double,
+	_ bf: Double,
+	_ af: Double = 1.0,
 	name: String = "",
 	colorType: PAL.ColorType = .global
 ) -> PAL.Color {
@@ -57,10 +57,10 @@ public func hsbf(
 ///   - colorType: The type of color
 /// - Returns: A new color
 public func hsb360(
-	_ h360: Float32,
-	_ s100: Float32,
-	_ b100: Float32,
-	_ alpha: Float32 = 1.0,
+	_ h360: Double,
+	_ s100: Double,
+	_ b100: Double,
+	_ alpha: Double = 1.0,
 	name: String = "",
 	colorType: PAL.ColorType = .global
 ) -> PAL.Color {
@@ -78,7 +78,7 @@ public extension PAL.Color {
 		///   - sf: Saturation value (clamped to 0 ... 1)
 		///   - bf: Brightness value (clamped to 0 ... 1)
 		///   - af: Alpha value (clamped to 0 ... 1)
-		public init(hf: Float32, sf: Float32, bf: Float32, af: Float32 = 1.0) {
+		public init(hf: Double, sf: Double, bf: Double, af: Double = 1.0) {
 			self.hf = hf.unitClamped
 			self.sf = sf.unitClamped
 			self.bf = bf.unitClamped
@@ -91,7 +91,7 @@ public extension PAL.Color {
 		///   - s100: Saturation value (clamped to 0 ... 100)
 		///   - b100: Brightness value (clamped to 0 ... 1100)
 		///   - af: Alpha value (clamped to 0 ... 1)
-		public init(h360: Float32, s100: Float32, b100: Float32, af: Float32 = 1.0) {
+		public init(h360: Double, s100: Double, b100: Double, af: Double = 1.0) {
 			self.hf = (h360 / 360.0).unitClamped
 			self.sf = (s100 / 100.0).unitClamped
 			self.bf = (b100 / 100.0).unitClamped
@@ -107,19 +107,19 @@ public extension PAL.Color {
 		}
 
 		/// Hue value as a value in the range 0 ... 1
-		public let hf: Float32
+		public let hf: Double
 		/// Hue value as a value in the range 0 ... 360
-		public var h360: Float32 { (hf * 360.0).clamped(to: 0 ... 360) }
+		public var h360: Double { (hf * 360.0).clamped(to: 0 ... 360) }
 		/// Saturation value as a value in the range 0 ... 1
-		public let sf: Float32
+		public let sf: Double
 		/// Saturation value as a value in the range 0 ... 100
-		public var s100: Float32 { (sf * 100.0).clamped(to: 0 ... 100) }
+		public var s100: Double { (sf * 100.0).clamped(to: 0 ... 100) }
 		/// Brightness value as a value in the range 0 ... 1
-		public let bf: Float32
+		public let bf: Double
 		/// Brightness value as a value in the range 0 ... 100
-		public var b100: Float32 { (bf * 100.0).clamped(to: 0 ... 100) }
+		public var b100: Double { (bf * 100.0).clamped(to: 0 ... 100) }
 		/// Alpha value as a value in the range 0 ... 1
-		public let af: Float32
+		public let af: Double
 	}
 }
 
@@ -135,10 +135,10 @@ public extension PAL.Color {
 	///   - name: The color name
 	///   - colorType: The color type
 	init(
-		hf: Float32,
-		sf: Float32,
-		bf: Float32,
-		af: Float32 = 1.0,
+		hf: Double,
+		sf: Double,
+		bf: Double,
+		af: Double = 1.0,
 		name: String = "",
 		colorType: PAL.ColorType = .global
 	) {
@@ -155,10 +155,10 @@ public extension PAL.Color {
 	///   - name: The color name
 	///   - colorType: The color type
 	init(
-		h360: Float32,
-		s100: Float32,
-		b100: Float32,
-		alpha: Float32 = 1.0,
+		h360: Double,
+		s100: Double,
+		b100: Double,
+		alpha: Double = 1.0,
 		name: String = "",
 		colorType: PAL.ColorType = .global
 	) {
@@ -195,7 +195,7 @@ extension PAL.Color.RGB {
 
 // MARK: - Private implementations
 
-private func rgb2hsb(r: Float32, g: Float32, b: Float32, a: Float32) -> (h: Float32, s: Float32, b: Float32, a: Float32) {
+private func rgb2hsb(r: Double, g: Double, b: Double, a: Double) -> (h: Double, s: Double, b: Double, a: Double) {
 
 	var hh: CGFloat = 0
 	var hs: CGFloat = 0
@@ -216,10 +216,10 @@ private func rgb2hsb(r: Float32, g: Float32, b: Float32, a: Float32) -> (h: Floa
 	ha = CGFloat(a)
 	#endif
 
-	return (Float32(hh), Float32(hs), Float32(hb), Float32(ha))
+	return (Double(hh), Double(hs), Double(hb), Double(ha))
 }
 
-private func hsb2rgb(h: Float32, s: Float32, b: Float32, a: Float32) -> (r: Float32, g: Float32, b: Float32, a: Float32) {
+private func hsb2rgb(h: Double, s: Double, b: Double, a: Double) -> (r: Double, g: Double, b: Double, a: Double) {
 	var rr: CGFloat = 0
 	var rg: CGFloat = 0
 	var rb: CGFloat = 0
@@ -228,12 +228,12 @@ private func hsb2rgb(h: Float32, s: Float32, b: Float32, a: Float32) -> (r: Floa
 	// Use AppKit
 	let c = NSColor(calibratedHue: CGFloat(h), saturation: CGFloat(s), brightness: CGFloat(b), alpha: CGFloat(a))
 	c.getRed(&rr, green: &rg, blue: &rb, alpha: &ra)
-	return (Float32(rr), Float32(rg), Float32(rb), Float32(ra))
+	return (Double(rr), Double(rg), Double(rb), Double(ra))
 #elseif os(iOS) || os(tvOS) || os(watchOS)
 	// Use UIKit
 	let c = UIColor(hue: CGFloat(h), saturation: CGFloat(s), brightness: CGFloat(b), alpha: CGFloat(a))
 	c.getRed(&rr, green: &rg, blue: &rb, alpha: &ra)
-	return (Float32(rr), Float32(rg), Float32(rb), Float32(ra))
+	return (Double(rr), Double(rg), Double(rb), Double(ra))
 #else
 	// Use routine
 	let rgb = HSB_to_RGB(h: h, s: s, b: b)

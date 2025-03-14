@@ -143,9 +143,9 @@ final class ASEPaletteTests: XCTestCase {
 		let p2 = try paletteCoder.decode(from: rawData)
 		XCTAssertEqual(3, p2.colors.count)
 		
-		XCTAssertEqual(p2.colors[0].colorComponents, [Float32(1.0), Float32(0.0), Float32(0.0)])
-		XCTAssertEqual(p2.colors[1].colorComponents, [Float32(0.0), Float32(1.0), Float32(0.0)])
-		XCTAssertEqual(p2.colors[2].colorComponents, [Float32(0.0), Float32(0.0), Float32(1.0)])
+		XCTAssertEqual(p2.colors[0].colorComponents, [1.0, 0.0, 0.0])
+		XCTAssertEqual(p2.colors[1].colorComponents, [0.0, 1.0, 0.0])
+		XCTAssertEqual(p2.colors[2].colorComponents, [0.0, 0.0, 1.0])
 	}
 	
 	func testDoco2() throws {
@@ -169,11 +169,11 @@ final class ASEPaletteTests: XCTestCase {
 		XCTAssertEqual(1, p2.groups.count)
 		XCTAssertEqual("rgb", p2.groups[0].name)
 		
-		XCTAssertEqual(p2.groups[0].colors[0].colorComponents, [Float32(1.0), Float32(0.0), Float32(0.0)])
+		XCTAssertEqual(p2.groups[0].colors[0].colorComponents, [1.0, 0.0, 0.0])
 		XCTAssertEqual(p2.groups[0].colors[0].name, "red")
-		XCTAssertEqual(p2.groups[0].colors[1].colorComponents, [Float32(0.0), Float32(1.0), Float32(0.0)])
+		XCTAssertEqual(p2.groups[0].colors[1].colorComponents, [0.0, 1.0, 0.0])
 		XCTAssertEqual(p2.groups[0].colors[1].name, "green")
-		XCTAssertEqual(p2.groups[0].colors[2].colorComponents, [Float32(0.0), Float32(0.0), Float32(1.0)])
+		XCTAssertEqual(p2.groups[0].colors[2].colorComponents, [0.0, 0.0, 1.0])
 		XCTAssertEqual(p2.groups[0].colors[2].name, "blue")
 	}
 	

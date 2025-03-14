@@ -34,7 +34,7 @@ extension PAL {
 }
 
 /// Map the provided value within a 0 ... 360 range, wrapping if needed
-@inlinable func h360(_ value: Float32) -> Float32 {
+@inlinable func h360(_ value: Double) -> Double {
 	let e = value.truncatingRemainder(dividingBy: 360)
 	return e < 0 ? e + 360 : e
 }
@@ -66,10 +66,10 @@ extension PAL.Color {
 	///   - count: The number of colors to return (including the current color)
 	///   - step: The amount to reduce the saturation for each count (-1 ... 1). A positive value means positive saturation
 	/// - Returns: An array of monochromatic colors based on this color
-	public func monochromatic(style: MonochromeStyle, count: UInt, step: Float32) throws -> [PAL.Color] {
+	public func monochromatic(style: MonochromeStyle, count: UInt, step: Double) throws -> [PAL.Color] {
 		// Get the color's hue
 		let hsba = try hsb()
-		let dest = step * Float32(count - 1)
+		let dest = step * Double(count - 1)
 		var results: [PAL.Color] = []
 		stride(from: 0, through: dest, by: step).forEach { offset in
 			let color: PAL.Color
@@ -90,7 +90,7 @@ extension PAL.Color {
 	/// - Returns: Array of colors
 	public func monochromatic(count: UInt = 4) throws -> [PAL.Color] {
 		assert(count > 1)
-		let count = Float32(count)
+		let count = Double(count)
 
 		let hsb = try self.hsb()
 		let h = hsb.h360
@@ -121,7 +121,7 @@ extension PAL.Color {
 		var colors = [PAL.Color]()
 		(0 ..< count).forEach { index in
 			let pos = (hStart + (Double(index) * stepSize)).wrappingToUnitValue()
-			let c = PAL.Color(hf: Float32(pos), sf: hsba.sf, bf: hsba.bf, af: hsba.af)
+			let c = PAL.Color(hf: Double(pos), sf: hsba.sf, bf: hsba.bf, af: hsba.af)
 			colors.append(c)
 		}
 		return colors
@@ -145,7 +145,7 @@ extension PAL.Color {
 		]
 
 		// Ensure the hue is wrapped correctly (between 0 and 360 degrees)
-		return colors.map { (h: Float32, s: Float32, l: Float32) in
+		return colors.map { (h: Double, s: Double, l: Double) in
 			PAL.Color(h360: h360(h), s100: s, l100: l)
 		}
 	}
@@ -170,7 +170,7 @@ extension PAL.Color {
 		]
 
 		// Ensure the hue is wrapped correctly (between 0 and 360 degrees)
-		return colors.map { (h: Float32, s: Float32, l: Float32) in
+		return colors.map { (h: Double, s: Double, l: Double) in
 			PAL.Color(h360: h, s100: s, l100: l)
 		}
 	}
@@ -189,7 +189,7 @@ extension PAL.Color {
 		let s = hsl.s100
 		let l = hsl.l100
 
-		let offset: Float32 = 30
+		let offset: Double = 30
 
 		// Calculate the 4 tetradic colors
 		let colors = [
@@ -200,7 +200,7 @@ extension PAL.Color {
 		]
 
 		// Ensure the hue is wrapped correctly (between 0 and 360 degrees)
-		return colors.map { (h: Float32, s: Float32, l: Float32) in
+		return colors.map { (h: Double, s: Double, l: Double) in
 			PAL.Color(h360: h, s100: s, l100: l)
 		}
 	}
@@ -217,7 +217,7 @@ extension PAL.Color {
 		let s = hsl.s100
 		let l = hsl.l100
 
-		let offset: Float32 = 30
+		let offset: Double = 30
 		let colors = [
 			(h, s, l),
 			(h360(h + 180.0 - offset), s, l),
@@ -225,7 +225,7 @@ extension PAL.Color {
 		]
 
 		// Ensure the hue is wrapped correctly (between 0 and 360 degrees)
-		return colors.map { (h: Float32, s: Float32, l: Float32) in
+		return colors.map { (h: Double, s: Double, l: Double) in
 			PAL.Color(h360: h, s100: s, l100: l)
 		}
 	}
@@ -250,7 +250,7 @@ extension PAL.Color {
 		]
 
 		// Ensure the hue is wrapped correctly (between 0 and 360 degrees)
-		return colors.map { (h: Float32, s: Float32, l: Float32) in
+		return colors.map { (h: Double, s: Double, l: Double) in
 			PAL.Color(h360: h, s100: s, l100: l)
 		}
 	}
@@ -262,10 +262,10 @@ extension PAL.Color {
 	/// https://www.colorsexplained.com/color-harmony/
 	public func harmonious(count: Int = 12) throws -> [PAL.Color] {
 		let hsl = try self.hsl()
-		let h = Float32(hsl.h360)
-		let s = Float32(hsl.s100)
-		let l = Float32(hsl.l100)
-		return stride(from: 0, to: 360, by: 360 / Float32(count)).map {
+		let h = Double(hsl.h360)
+		let s = Double(hsl.s100)
+		let l = Double(hsl.l100)
+		return stride(from: 0, to: 360, by: 360 / Double(count)).map {
 			PAL.Color(h360: h360(h + $0), s100: s, l100: l)
 		}
 	}
@@ -278,7 +278,7 @@ public extension PAL.Color {
 	/// - Returns: Shaded color
 	///
 	/// According to color theory, shades are created by adding black pigment to any hue
-	func shade(fraction: Float32) throws -> PAL.Color {
+	func shade(fraction: Double) throws -> PAL.Color {
 		let fraction = fraction.clamped(to: 0.0 ... 1.0)
 		let hsl = try self.hsl()
 		return PAL.Color(hf: hsl.hf, sf: hsl.sf, lf: hsl.lf * fraction)
@@ -291,7 +291,7 @@ public extension PAL.Color {
 	/// According to color theory, shades are created by adding black pigment to any hue
 	func shade(count: Int) throws -> [PAL.Color] {
 		let rgb = try self.rgb()
-		let step = 1.0 / Float32(count)
+		let step = 1.0 / Double(count)
 		return stride(from: 1.0, to: 0.0, by: -step).map {
 			PAL.Color(rf: rgb.rf * $0, gf: rgb.gf * $0, bf: rgb.bf * $0)
 		}
@@ -303,7 +303,7 @@ public extension PAL.Color {
 	///
 	/// Tints are created by adding white to any hue, according to color theory.
 	/// This lightens and desaturates the hue, creating a subtler and lighter color than the original hue.
-	func tint(fraction: Float32) throws -> PAL.Color {
+	func tint(fraction: Double) throws -> PAL.Color {
 		let fraction = fraction.clamped(to: 0.0 ... 1.0)
 		let hsl = try self.hsl()
 		return PAL.Color(hf: hsl.hf, sf: hsl.sf, lf: hsl.lf + ((1.0 - hsl.lf) * fraction))
@@ -317,7 +317,7 @@ public extension PAL.Color {
 	/// This lightens and desaturates the hue, creating a subtler and lighter color than the original hue.
 	func tint(count: Int) throws -> [PAL.Color] {
 		let hsl = try self.hsl()
-		let step = (1.0 - min(0.999, hsl.lf)) / Float32(count)
+		let step = (1.0 - min(0.999, hsl.lf)) / Double(count)
 		return stride(from: hsl.lf, to: 0.999, by: step).map {
 			PAL.Color(hf: hsl.hf, sf: hsl.sf, lf: $0)
 		}
@@ -330,7 +330,7 @@ public extension PAL.Color {
 	/// Get the color's luminance value
 	///
 	/// Formula from WCAG 2.0: https://www.w3.org/TR/WCAG20/#relativeluminancedef
-	func luminance() throws -> Float32 {
+	func luminance() throws -> Double {
 		// Get RGB components
 		let rgba = try self.rgb()
 
@@ -340,7 +340,7 @@ public extension PAL.Color {
 		let ag = (rgba.gf <= 0.03928) ? (rgba.gf / 12.92) : pow((rgba.gf + 0.055) / 1.055, 2.4)
 		let ab = (rgba.bf <= 0.03928) ? (rgba.bf / 12.92) : pow((rgba.bf + 0.055) / 1.055, 2.4)
 
-		return Float32((0.2126 * ar) + (0.7152 * ag) + (0.0722 * ab))
+		return Double((0.2126 * ar) + (0.7152 * ag) + (0.0722 * ab))
 	}
 
 	/// Calculates the contrast ratio between this color and the given color
@@ -350,7 +350,7 @@ public extension PAL.Color {
 	/// WCAG Contrast Guidelines
 	/// * Normal text: At least 4.5:1 contrast ratio.
 	/// * Large text (18pt or larger, or 14pt bold): At least 3:1 contrast ratio.
-	func contrastRatio(with otherColor: PAL.Color) throws -> Float32 {
+	func contrastRatio(with otherColor: PAL.Color) throws -> Double {
 		let l1 = try self.luminance()
 		let l2 = try otherColor.luminance()
 
@@ -382,7 +382,7 @@ public extension PAL.Color {
 	///     - Negative values darken the color (up to -1.0)
 	///   - useSameColorspace: If true, converts the resulting color into the original color space if needed
 	/// - Returns: A darker representation of this color
-	func adjustBrightness(by fraction: Float32, useSameColorspace: Bool = false) throws -> PAL.Color {
+	func adjustBrightness(by fraction: Double, useSameColorspace: Bool = false) throws -> PAL.Color {
 		if fraction.isEqual(to: 0, accuracy: 1e-6) {
 			return self
 		}
@@ -404,7 +404,7 @@ public extension PAL.Color {
 	///   - fraction: The fractional amount to darken the color (0.0 ... 1.0)
 	///   - useSameColorspace: If true, converts the resulting color into the original color space if needed
 	/// - Returns: A color
-	@inlinable func darker(by fraction: Float32, useSameColorspace: Bool = false) throws -> PAL.Color {
+	@inlinable func darker(by fraction: Double, useSameColorspace: Bool = false) throws -> PAL.Color {
 		try self.adjustBrightness(by: -1.0 * fraction.unitClamped, useSameColorspace: useSameColorspace)
 	}
 
@@ -413,7 +413,7 @@ public extension PAL.Color {
 	///   - fraction: The fractional amount to lighten the color (0.0 ... 1.0)
 	///   - useSameColorspace: If true, converts the resulting color into the original color space if needed
 	/// - Returns: A color
-	@inlinable func lighter(by fraction: Float32, useSameColorspace: Bool = false) throws -> PAL.Color {
+	@inlinable func lighter(by fraction: Double, useSameColorspace: Bool = false) throws -> PAL.Color {
 		try self.adjustBrightness(by: fraction.unitClamped, useSameColorspace: useSameColorspace)
 	}
 }

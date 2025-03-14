@@ -34,24 +34,24 @@ public extension PAL.Color {
 		if self.colorSpace == color2.colorSpace {
 			assert(self.colorComponents.count == color2.colorComponents.count)
 			let cs = zip(self.colorComponents, color2.colorComponents).map { i in
-				lerp(i.0, i.1, t: Float32(t.value))
+				lerp(i.0, i.1, t: t.value)
 			}
 			return try PAL.Color(
 				colorSpace: self.colorSpace,
 				colorComponents: cs,
-				alpha: lerp(self.alpha, color2.alpha, t: Float32(t.value)),
+				alpha: lerp(self.alpha, color2.alpha, t: t.value),
 				name: name ?? ""
 			)
 		}
 
 		let c1 = try self.rgb()
 		let c2 = try color2.rgb()
-		let t = Float32(t.value)
+		let t = t.value
 		return PAL.Color(
-			rf: Float32(lerp(c1.rf, c2.rf, t: t)),
-			gf: Float32(lerp(c1.gf, c2.gf, t: t)),
-			bf: Float32(lerp(c1.bf, c2.bf, t: t)),
-			af: Float32(lerp(c1.af, c2.af, t: t)),
+			rf: lerp(c1.rf, c2.rf, t: t),
+			gf: lerp(c1.gf, c2.gf, t: t),
+			bf: lerp(c1.bf, c2.bf, t: t),
+			af: lerp(c1.af, c2.af, t: t),
 			name: name ?? ""
 		)
 	}
@@ -64,7 +64,7 @@ public extension PAL.Color {
 	/// - Returns: The midpoint color
 	@inlinable @inline(__always)
 	func blending(with color2: PAL.Color, t: UnitValue<Double>, named name: String = "") throws -> PAL.Color {
-		try OkLab.mix(self, color2, t: Float32(t.value), name: name)
+		try OkLab.mix(self, color2, t: t.value, name: name)
 	}
 }
 
@@ -93,7 +93,7 @@ public extension PAL.Color {
 
 		let c1 = try startColor.rgb()
 		let c2 = try endColor.rgb()
-		let step = 1.0 / Float32(count - 1)
+		let step = 1.0 / Double(count - 1)
 
 		let rdiff = (c2.rf - c1.rf) * step
 		let gdiff = (c2.gf - c1.gf) * step
@@ -101,12 +101,12 @@ public extension PAL.Color {
 		let adiff = (c2.af - c1.af) * step
 
 		return (0 ..< count).map { index in
-			let index = Float32(index)
+			let index = Double(index)
 			return PAL.Color(
-				rf: Float32(c1.rf + (index * rdiff)),
-				gf: Float32(c1.gf + (index * gdiff)),
-				bf: Float32(c1.bf + (index * bdiff)),
-				af: Float32(c1.af + (index * adiff))
+				rf: c1.rf + (index * rdiff),
+				gf: c1.gf + (index * gdiff),
+				bf: c1.bf + (index * bdiff),
+				af: c1.af + (index * adiff)
 			)
 		}
 	}
@@ -178,6 +178,6 @@ public extension PAL.Color {
 		let rG = (fg.gf * fg.af / rA) + (bg.gf * bg.af * (1 - fg.af) / rA)
 		let rB = (fg.bf * fg.af / rA) + (bg.bf * bg.af * (1 - fg.af) / rA)
 
-		return PAL.Color(rf: Float32(rR), gf: Float32(rG), bf: Float32(rB), af: Float32(rA))
+		return PAL.Color(rf: rR, gf: rG, bf: rB, af: rA)
 	}
 }

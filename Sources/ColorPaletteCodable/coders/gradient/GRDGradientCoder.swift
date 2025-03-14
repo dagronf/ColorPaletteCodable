@@ -65,9 +65,9 @@ public extension PAL.Gradients.Coder.GRD {
 						throw PAL.GradientError.unsupportedColorFormat
 					}
 					color = rgbf(
-						Float32(co.components[0]),   // normalized 0 -> 1
-						Float32(co.components[1]),   // normalized 0 -> 1
-						Float32(co.components[2])    // normalized 0 -> 1
+						Double(co.components[0]),   // normalized 0 -> 1
+						Double(co.components[1]),   // normalized 0 -> 1
+						Double(co.components[2])    // normalized 0 -> 1
 					)
 				}
 				else if co.colorspace == "hsb" {
@@ -76,9 +76,9 @@ public extension PAL.Gradients.Coder.GRD {
 						throw PAL.GradientError.unsupportedColorFormat
 					}
 					color = PAL.Color(
-						hf: Float32(co.components[0] / 360.0),
-						sf: Float32(co.components[1] / 100.0),
-						bf: Float32(co.components[2] / 100.0)
+						hf: Double(co.components[0] / 360.0),
+						sf: Double(co.components[1] / 100.0),
+						bf: Double(co.components[2] / 100.0)
 					)
 				}
 				else if co.colorspace == "cmyk" {
@@ -88,7 +88,7 @@ public extension PAL.Gradients.Coder.GRD {
 					}
 					color = try PAL.Color(
 						colorSpace: .CMYK,
-						colorComponents: co.components.map { Float32($0 / 100.0) },
+						colorComponents: co.components.map { Double($0 / 100.0) },
 						alpha: 1
 					)
 				}
@@ -99,7 +99,7 @@ public extension PAL.Gradients.Coder.GRD {
 					}
 					color = try PAL.Color(
 						colorSpace: .Gray,
-						colorComponents: co.components.map { Float32($0 / 100.0) },
+						colorComponents: co.components.map { Double($0 / 100.0) },
 						alpha: 1
 					)
 				}
@@ -110,7 +110,7 @@ public extension PAL.Gradients.Coder.GRD {
 					}
 					color = try PAL.Color(
 						colorSpace: .LAB,
-						colorComponents: co.components.map { Float32($0) },
+						colorComponents: co.components.map { Double($0) },
 						alpha: 1
 					)
 				}

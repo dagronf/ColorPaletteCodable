@@ -65,10 +65,10 @@ extension PAL.Coder.SketchPalette {
 ////
 
 private struct SketchColor: Codable {
-	let red: Float32
-	let green: Float32
-	let blue: Float32
-	let alpha: Float32
+	let red: Double
+	let green: Double
+	let blue: Double
+	let alpha: Double
 }
 
 private struct SketchFile: Codable {

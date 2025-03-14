@@ -156,7 +156,7 @@ internal func convertToUInt32(r255: UInt8, g255: UInt8, b255: UInt8, a255: UInt8
 ///   - a255: alpha component
 ///   - colorByteFormat: The output byte format
 /// - Returns: UInt32 encoded color value
-internal func convertToUInt32(rf: Float32, gf: Float32, bf: Float32, af: Float32, colorByteFormat: PAL.ColorByteFormat) -> UInt32 {
+internal func convertToUInt32(rf: Double, gf: Double, bf: Double, af: Double, colorByteFormat: PAL.ColorByteFormat) -> UInt32 {
 	convertToUInt32(r255: _f2p(rf), g255: _f2p(gf), b255: _f2p(bf), a255: _f2p(af), colorByteFormat: colorByteFormat)
 }
 

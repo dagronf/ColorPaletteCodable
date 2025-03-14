@@ -3,11 +3,11 @@
    <defs>
       <linearGradient id="gradient-fill-0" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
          <stop offset="0.0" stop-color="#000000" stop-opacity="1.0" />
-         <stop offset="0.365609" stop-color="#1c1190" stop-opacity="1.0" />
-         <stop offset="0.749583" stop-color="#e90a0a" stop-opacity="1.0" />
-         <stop offset="0.864775" stop-color="#ff8700" stop-opacity="1.0" />
-         <stop offset="0.934891" stop-color="#efeb36" stop-opacity="1.0" />
-         <stop offset="0.934891" stop-color="#896408" stop-opacity="1.0" />
+         <stop offset="0.365609" stop-color="#1c1191" stop-opacity="1.0" />
+         <stop offset="0.749583" stop-color="#ea0b0b" stop-opacity="1.0" />
+         <stop offset="0.864775" stop-color="#ff8800" stop-opacity="1.0" />
+         <stop offset="0.934891" stop-color="#efec37" stop-opacity="1.0" />
+         <stop offset="0.934891" stop-color="#896508" stop-opacity="1.0" />
          <stop offset="1.0" stop-color="#000000" stop-opacity="1.0" />
       </linearGradient>
    </defs>

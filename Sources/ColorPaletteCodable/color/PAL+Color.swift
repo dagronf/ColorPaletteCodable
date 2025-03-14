@@ -36,10 +36,10 @@ public extension PAL {
 		/// The colorspace model for the color
 		public internal(set) var colorSpace: PAL.ColorSpace
 		/// The components of the color
-		public internal(set) var colorComponents: [Float32]
+		public internal(set) var colorComponents: [Double]
 
 		/// The color's alpha component
-		public var alpha: Float32
+		public var alpha: Double
 
 		/// Create a color object
 		/// - Parameters:
@@ -50,8 +50,8 @@ public extension PAL {
 		///   - colorType: The color type
 		public init(
 			colorSpace: PAL.ColorSpace,
-			colorComponents: [Float32],
-			alpha: Float32 = 1,
+			colorComponents: [Double],
+			alpha: Double = 1,
 			name: String = "",
 			colorType: ColorType = .global
 		) throws {
@@ -113,11 +113,13 @@ public extension PAL {
 
 		/// Equality
 		public static func == (lhs: Color, rhs: Color) -> Bool {
-			return lhs.colorSpace == rhs.colorSpace &&
-			lhs.colorComponents == rhs.colorComponents &&
-			lhs.name == rhs.name &&
-			lhs.colorType == rhs.colorType &&
-			lhs.alpha == rhs.alpha
+			if lhs.colorComponents.count != rhs.colorComponents.count { return false }
+			if zip(lhs.colorComponents, rhs.colorComponents)
+				.allSatisfy( { $0.0.isEqual(to: $0.1, accuracy: 0.000001) } ) == false { return false }
+			return
+				lhs.name == rhs.name &&
+				lhs.colorType == rhs.colorType &&
+				lhs.alpha.isEqual(to: rhs.alpha, accuracy: 0.000001)
 		}
 
 		/// Equality with a precision
@@ -154,24 +156,24 @@ public extension PAL {
 			switch colorSpace {
 			case .CMYK:
 				return PAL.Color(
-					cf: Float32.random(in: 0...1),
-					mf: Float32.random(in: 0...1),
-					yf: Float32.random(in: 0...1),
-					kf: Float32.random(in: 0...1),
+					cf: Double.random(in: 0...1),
+					mf: Double.random(in: 0...1),
+					yf: Double.random(in: 0...1),
+					kf: Double.random(in: 0...1),
 					name: name,
 					colorType: colorType
 				)
 			case .RGB:
 				return PAL.Color(
-					rf: Float32.random(in: 0...1),
-					gf: Float32.random(in: 0...1),
-					bf: Float32.random(in: 0...1),
+					rf: Double.random(in: 0...1),
+					gf: Double.random(in: 0...1),
+					bf: Double.random(in: 0...1),
 					name: name,
 					colorType: colorType
 				)
 			case .Gray:
 				return PAL.Color(
-					white: Float32.random(in: 0...1),
+					white: Double.random(in: 0...1),
 					name: name,
 					colorType: colorType
 				)
@@ -193,8 +195,8 @@ extension PAL.Color: Hashable {
 public extension PAL.Color {
 	private init(
 		noVerifyWithColorspace colorSpace: PAL.ColorSpace,
-		colorComponents: [Float32],
-		alpha: Float32,
+		colorComponents: [Double],
+		alpha: Double,
 		name: String,
 		colorType: PAL.ColorType
 	) {
@@ -223,7 +225,7 @@ public extension PAL.Color {
 	}
 
 	/// Return a copy of this color with the specified alpha value
-	func withAlpha(_ alphaValue: Float32) throws -> PAL.Color {
+	func withAlpha(_ alphaValue: Double) throws -> PAL.Color {
 		return try PAL.Color(
 			colorSpace: self.colorSpace,
 			colorComponents: self.colorComponents,
@@ -264,9 +266,9 @@ extension PAL.Color: Codable {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.name = try container.decodeIfPresent(String.self, forKey: .name) ?? ""
 		self.colorSpace = try container.decode(PAL.ColorSpace.self, forKey: .colorSpace)
-		self.colorComponents = try container.decode([Float32].self, forKey: .colorComponents)
+		self.colorComponents = try container.decode([Double].self, forKey: .colorComponents)
 		self.colorType = try container.decodeIfPresent(PAL.ColorType.self, forKey: .colorType) ?? .global
-		self.alpha = try container.decodeIfPresent(Float32.self, forKey: .alpha) ?? 1
+		self.alpha = try container.decodeIfPresent(Double.self, forKey: .alpha) ?? 1
 
 		// Make sure our content is valid
 		try self.checkValidity()
@@ -300,12 +302,12 @@ public extension PAL.Color {
 // MARK: - Modification
 
 public extension PAL.Color {
-	public mutating func setRGB(rf: Float32, gf: Float32, bf: Float32, af: Float32) {
+	mutating func setRGB(rf: Double, gf: Double, bf: Double, af: Double) {
 		self.colorSpace = .RGB
 		self.colorComponents = [rf.unitClamped, gf.unitClamped, bf.unitClamped]
 		self.alpha = af.unitClamped
 	}
-	public mutating func setGray(whitef: Float32, af: Float32) {
+	mutating func setGray(whitef: Double, af: Double) {
 		self.colorSpace = .Gray
 		self.colorComponents = [whitef.unitClamped]
 		self.alpha = af.unitClamped

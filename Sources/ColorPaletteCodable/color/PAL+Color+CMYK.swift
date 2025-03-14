@@ -32,11 +32,11 @@ import Foundation
 ///   - colorType: The type of color
 /// - Returns: A color
 public func cmykf(
-	_ cf: Float32,
-	_ mf: Float32,
-	_ yf: Float32,
-	_ kf: Float32,
-	_ af: Float32 = 1,
+	_ cf: Double,
+	_ mf: Double,
+	_ yf: Double,
+	_ kf: Double,
+	_ af: Double = 1,
 	name: String = "",
 	colorType: PAL.ColorType = .global
 ) -> PAL.Color {
@@ -55,7 +55,7 @@ public extension PAL.Color {
 		///   - yf: Yellow component (0.0 ... 1.0)
 		///   - kf: Key (black) component (0.0 ... 1.0)
 		///   - af: Alpha component (0.0 ... 1.0)
-		public init(cf: Float32, mf: Float32, yf: Float32, kf: Float32, af: Float32 = 1.0) {
+		public init(cf: Double, mf: Double, yf: Double, kf: Double, af: Double = 1.0) {
 			self.cf = cf.clamped(to: 0.0 ... 1.0)
 			self.mf = mf.clamped(to: 0.0 ... 1.0)
 			self.yf = yf.clamped(to: 0.0 ... 1.0)
@@ -73,15 +73,15 @@ public extension PAL.Color {
 		}
 
 		/// Cyan component (0.0 ... 1.0)
-		public let cf: Float32
+		public let cf: Double
 		/// Magenta component (0.0 ... 1.0)
-		public let mf: Float32
+		public let mf: Double
 		/// Yellow component (0.0 ... 1.0)
-		public let yf: Float32
+		public let yf: Double
 		/// Key (black) component (0.0 ... 1.0)
-		public let kf: Float32
+		public let kf: Double
 		/// Alpha component (0.0 ... 1.0)
-		public let af: Float32
+		public let af: Double
 	}
 }
 
@@ -98,11 +98,11 @@ public extension PAL.Color {
 	///   - name: The color name
 	///   - colorType: The type of color
 	init(
-		cf: Float32,
-		mf: Float32,
-		yf: Float32,
-		kf: Float32,
-		af: Float32 = 1.0,
+		cf: Double,
+		mf: Double,
+		yf: Double,
+		kf: Double,
+		af: Double = 1.0,
 		name: String = "",
 		colorType: PAL.ColorType = .global
 	) {
@@ -127,10 +127,10 @@ public extension PAL.Color {
 
 // Unsafe CMYK retrieval. No checks or validation are performed. Do not use unless you are absolutely sure.
 internal extension PAL.Color {
-	@inlinable var _c: Float32 { colorComponents[0] }
-	@inlinable var _m: Float32 { colorComponents[1] }
-	@inlinable var _y: Float32 { colorComponents[2] }
-	@inlinable var _k: Float32 { colorComponents[3] }
+	@inlinable var _c: Double { colorComponents[0] }
+	@inlinable var _m: Double { colorComponents[1] }
+	@inlinable var _y: Double { colorComponents[2] }
+	@inlinable var _k: Double { colorComponents[3] }
 }
 
 public extension PAL.Color {
@@ -143,7 +143,7 @@ public extension PAL.Color {
 	/// The color's cyan component IF the colorspace is `.CMYK`
 	///
 	/// Throws `PAL.CommonError.mismatchedColorspace` if the colorspace isn't `.CMYK`
-	@inlinable func c() throws -> Float32 {
+	@inlinable func c() throws -> Double {
 		if colorSpace == .CMYK { return _c }
 		throw PAL.CommonError.mismatchedColorspace
 	}
@@ -151,7 +151,7 @@ public extension PAL.Color {
 	/// The color's magenta component IF the colorspace is `.CMYK`
 	///
 	/// Throws `PAL.CommonError.mismatchedColorspace` if the colorspace isn't `.CMYK`
-	@inlinable func m() throws -> Float32 {
+	@inlinable func m() throws -> Double {
 		if colorSpace == .CMYK { return _m }
 		throw PAL.CommonError.mismatchedColorspace
 	}
@@ -159,7 +159,7 @@ public extension PAL.Color {
 	/// The color's yellow component IF the colorspace is `.CMYK`
 	///
 	/// Throws `PAL.CommonError.mismatchedColorspace` if the colorspace isn't `.CMYK`
-	@inlinable func y() throws -> Float32 {
+	@inlinable func y() throws -> Double {
 		if colorSpace == .CMYK { return _y }
 		throw PAL.CommonError.mismatchedColorspace
 	}
@@ -167,7 +167,7 @@ public extension PAL.Color {
 	/// The color's black component IF the colorspace is `.CMYK`
 	///
 	/// Throws `PAL.CommonError.mismatchedColorspace` if the colorspace isn't `.CMYK`
-	@inlinable func k() throws -> Float32 {
+	@inlinable func k() throws -> Double {
 		if colorSpace == .CMYK { return _k }
 		throw PAL.CommonError.mismatchedColorspace
 	}

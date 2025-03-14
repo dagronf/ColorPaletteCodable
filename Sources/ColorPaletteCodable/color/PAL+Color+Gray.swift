@@ -29,8 +29,8 @@ import Foundation
 ///   - colorType: The type of color
 /// - Returns: A color
 public func grayf(
-	_ white: Float32,
-	_ alpha: Float32 = 1,
+	_ white: Double,
+	_ alpha: Double = 1,
 	name: String = "",
 	colorType: PAL.ColorType = .global
 ) -> PAL.Color {
@@ -62,16 +62,16 @@ public extension PAL.Color {
 		/// - Parameters:
 		///   - grayf: Gray component (0.0 ... 1.0)
 		///   - af: Alpha component (0.0 ... 1.0)
-		public init(grayf: Float32, af: Float32 = 1.0) {
+		public init(grayf: Double, af: Double = 1.0) {
 			self.grayf = grayf
 			self.af = af
 		}
 		/// Gray component (0.0 ... 1.0)
-		public let grayf: Float32
+		public let grayf: Double
 		/// Gray component (0 ... 255)
 		public var grey255: UInt8 { UInt8(self.grayf * 255.0) }
 		/// Alpha component (0.0 ... 1.0)
-		public let af: Float32
+		public let af: Double
 		/// Alpha component (0 ... 255)
 		public var a255: UInt8 { UInt8(self.af * 255.0) }
 	}
@@ -86,7 +86,7 @@ public extension PAL.Color {
 	///   - alpha: The alpha component (0.0 ... 1.0)
 	///   - name: The color name
 	///   - colorType: The type of color
-	init(white: Float32, alpha: Float32 = 1.0, name: String = "", colorType: PAL.ColorType = .global) {
+	init(white: Double, alpha: Double = 1.0, name: String = "", colorType: PAL.ColorType = .global) {
 		self.name = name
 		self.colorSpace = .Gray
 		self.colorComponents = [white.unitClamped]
@@ -102,8 +102,8 @@ public extension PAL.Color {
 	///   - colorType: The type of color
 	init(white255: UInt8, alpha255: UInt8 = 255, name: String = "", colorType: PAL.ColorType = .global) {
 		self.init(
-			white: Float32(white255) / 255.0,
-			alpha: Float32(alpha255) / 255.0,
+			white: Double(white255) / 255.0,
+			alpha: Double(alpha255) / 255.0,
 			name: name,
 			colorType: colorType
 		)
@@ -126,5 +126,5 @@ public extension PAL.Color {
 	}
 
 	// Unsafe Gray retrieval. No checks or validation are performed
-	@inlinable internal var _l: Float32 { colorComponents[0] }
+	@inlinable internal var _l: Double { colorComponents[0] }
 }

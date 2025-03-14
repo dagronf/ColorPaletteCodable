@@ -21,25 +21,27 @@ import Foundation
 
 public extension PAL.Color {
 	/// The components for a color with the CGColorSpace.XYZ colorspace
-	struct XYZ: Equatable {
-		public init(x: Float32, y: Float32, z: Float32, a: Float32 = 1.0) {
-			self.x = x.clamped(to: 0.0 ... 1.0)
-			self.y = y.clamped(to: 0.0 ... 1.0)
-			self.z = z.clamped(to: 0.0 ... 1.0)
-			self.a = a.clamped(to: 0.0 ... 1.0)
+	struct XYZ {
+		public init(xf: Double, yf: Double, zf: Double, af: Double = 1.0) {
+			self.xf = xf.clamped(to: 0.0 ... 1.0)
+			self.yf = yf.clamped(to: 0.0 ... 1.0)
+			self.zf = zf.clamped(to: 0.0 ... 1.0)
+			self.af = af.clamped(to: 0.0 ... 1.0)
 		}
 
-		public static func == (lhs: PAL.Color.XYZ, rhs: PAL.Color.XYZ) -> Bool {
-			return
-				abs(lhs.x - rhs.x) < 0.005 &&
-				abs(lhs.y - rhs.y) < 0.005 &&
-				abs(lhs.z - rhs.z) < 0.005 &&
-				abs(lhs.a - rhs.a) < 0.005
-		}
+		public let xf: Double
+		public let yf: Double
+		public let zf: Double
+		public let af: Double
+	}
+}
 
-		public let x: Float32
-		public let y: Float32
-		public let z: Float32
-		public let a: Float32
+extension PAL.Color.XYZ: Equatable {
+	public static func == (lhs: PAL.Color.XYZ, rhs: PAL.Color.XYZ) -> Bool {
+		return
+			abs(lhs.xf - rhs.xf) < 0.005 &&
+			abs(lhs.yf - rhs.yf) < 0.005 &&
+			abs(lhs.zf - rhs.zf) < 0.005 &&
+			abs(lhs.af - rhs.af) < 0.005
 	}
 }

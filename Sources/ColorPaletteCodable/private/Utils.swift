@@ -36,5 +36,5 @@ import Foundation
 
 /// Convert a Double unit value to a palettized 0 ... 255 value
 @inlinable func _f2p<T: BinaryFloatingPoint>(_ value: T) -> UInt8 {
-	return UInt8((value * 255).clamped(to: 0 ... 255))
+	return UInt8((value * 255).rounded(.toNearestOrAwayFromZero).clamped(to: 0 ... 255))
 }

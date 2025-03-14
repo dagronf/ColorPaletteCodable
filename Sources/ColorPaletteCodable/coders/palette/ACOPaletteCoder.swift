@@ -94,30 +94,30 @@ public extension PAL.Coder.ACO {
 				case .RGB:
 					color = try PAL.Color(
 						colorSpace: .RGB,
-						colorComponents: [Float32(c0) / 65535.0, Float32(c1) / 65535.0, Float32(c2) / 65535.0],
+						colorComponents: [Double(c0) / 65535.0, Double(c1) / 65535.0, Double(c2) / 65535.0],
 						name: name
 					)
 				case .CMYK:
 					color = try PAL.Color(
 						colorSpace: .CMYK,
 						colorComponents: [
-							Float32(65535 - c0) / 65535.0,
-							Float32(65535 - c1) / 65535.0,
-							Float32(65535 - c2) / 65535.0,
-							Float32(65535 - c3) / 65535.0,
+							Double(65535 - c0) / 65535.0,
+							Double(65535 - c1) / 65535.0,
+							Double(65535 - c2) / 65535.0,
+							Double(65535 - c3) / 65535.0,
 						],
 						name: name
 					)
 				case .Grayscale:
 					assert(c0 <= 10000)
-					color = try PAL.Color(colorSpace: .Gray, colorComponents: [Float32(c0) / 10000], name: name)
+					color = try PAL.Color(colorSpace: .Gray, colorComponents: [Double(c0) / 10000], name: name)
 
 				case .LAB:
 					// Lightness is a 16-bit value from 0...10000
 					// Chrominance components are each 16-bit values from -12800...12700
-					let l0 = Float(c0) / 100.0
-					let a0 = Float(c1) / 100.0
-					let b0 = Float(c2) / 100.0
+					let l0 = Double(c0) / 100.0
+					let a0 = Double(c1) / 100.0
+					let b0 = Double(c2) / 100.0
 					color = try PAL.Color(
 						colorSpace: .LAB,
 						colorComponents: [l0, a0, b0],

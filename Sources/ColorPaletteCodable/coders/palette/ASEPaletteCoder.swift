@@ -206,7 +206,7 @@ extension PAL.Coder.ASE {
 		
 		let color = try PAL.Color(
 			colorSpace: colorspace,
-			colorComponents: colors,
+			colorComponents: colors.map { Double($0) },
 			name: name,
 			colorType: colorType.asColorType()
 		)
@@ -301,19 +301,21 @@ extension PAL.Coder.ASE {
 			let colorModel = ASEColorModel.from(color.colorSpace)
 			
 			colorData.append(try writeASCII(colorModel.rawValue))
-			
+
+			let mappedComponents = color.colorComponents.map { Float32($0) }
+
 			switch color.colorSpace {
 			case .CMYK:
-				colorData.append(try writeFloat32(color.colorComponents[0]))
-				colorData.append(try writeFloat32(color.colorComponents[1]))
-				colorData.append(try writeFloat32(color.colorComponents[2]))
-				colorData.append(try writeFloat32(color.colorComponents[3]))
+				colorData.append(try writeFloat32(mappedComponents[0]))
+				colorData.append(try writeFloat32(mappedComponents[1]))
+				colorData.append(try writeFloat32(mappedComponents[2]))
+				colorData.append(try writeFloat32(mappedComponents[3]))
 			case .RGB, .LAB:
-				colorData.append(try writeFloat32(color.colorComponents[0]))
-				colorData.append(try writeFloat32(color.colorComponents[1]))
-				colorData.append(try writeFloat32(color.colorComponents[2]))
+				colorData.append(try writeFloat32(mappedComponents[0]))
+				colorData.append(try writeFloat32(mappedComponents[1]))
+				colorData.append(try writeFloat32(mappedComponents[2]))
 			case .Gray:
-				colorData.append(try writeFloat32(color.colorComponents[0]))
+				colorData.append(try writeFloat32(mappedComponents[0]))
 			}
 			
 			// Write the color type

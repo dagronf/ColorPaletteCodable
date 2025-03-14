@@ -30,10 +30,10 @@ import Foundation
 ///   - name: Color's name
 ///   - colorType: The color type
 public func hslf(
-	_ hf: Float32,
-	_ sf: Float32,
-	_ lf: Float32,
-	_ af: Float32 = 1.0,
+	_ hf: Double,
+	_ sf: Double,
+	_ lf: Double,
+	_ af: Double = 1.0,
 	name: String = "",
 	colorType: PAL.ColorType = .global
 ) -> PAL.Color {
@@ -49,10 +49,10 @@ public func hslf(
 ///   - name: Color's name
 ///   - colorType: The color type
 public func hslf360(
-	_ h360: Float32,
-	_ s100: Float32,
-	_ l100: Float32,
-	_ af: Float32 = 1.0,
+	_ h360: Double,
+	_ s100: Double,
+	_ l100: Double,
+	_ af: Double = 1.0,
 	name: String = "",
 	colorType: PAL.ColorType = .global
 ) -> PAL.Color {
@@ -70,7 +70,7 @@ public extension PAL.Color {
 		///   - sf: Saturation value (clamped to 0 ... 1)
 		///   - lf: Luminance value (clamped to 0 ... 1)
 		///   - af: Alpha value (clamped to 0 ... 1)
-		public init(hf: Float32, sf: Float32, lf: Float32, af: Float32 = 1.0) {
+		public init(hf: Double, sf: Double, lf: Double, af: Double = 1.0) {
 			self.hf = hf.unitClamped
 			self.sf = sf.unitClamped
 			self.lf = lf.unitClamped
@@ -83,10 +83,10 @@ public extension PAL.Color {
 		///   - s100: Saturation value (clamped to 0 ... 100)
 		///   - l100: Luminance value (clamped to 0 ... 1100)
 		///   - af: Alpha value (clamped to 0 ... 1)
-		public init(h360: Int, s100: Int, l100: Int, af: Float32 = 1.0) {
-			self.hf = (Float32(h360) / 360.0).unitClamped
-			self.sf = (Float32(s100) / 100.0).unitClamped
-			self.lf = (Float32(l100) / 100.0).unitClamped
+		public init(h360: Int, s100: Int, l100: Int, af: Double = 1.0) {
+			self.hf = (Double(h360) / 360.0).unitClamped
+			self.sf = (Double(s100) / 100.0).unitClamped
+			self.lf = (Double(l100) / 100.0).unitClamped
 			self.af = af.clamped(to: 0...1)
 		}
 
@@ -99,19 +99,19 @@ public extension PAL.Color {
 		}
 
 		/// Hue value as a value in the range 0 ... 1
-		public let hf: Float32
+		public let hf: Double
 		/// Hue value as a value in the range 0 ... 360
-		public var h360: Float32 { (self.hf * 360.0).clamped(to: 0 ... 360) }
+		public var h360: Double { (self.hf * 360.0).clamped(to: 0 ... 360) }
 		/// Saturation value as a value in the range 0 ... 1
-		public let sf: Float32
+		public let sf: Double
 		/// Saturation value as a value in the range 0 ... 100
-		public var s100: Float32 { (self.sf * 100.0).clamped(to: 0 ... 100) }
+		public var s100: Double { (self.sf * 100.0).clamped(to: 0 ... 100) }
 		/// Brightness value as a value in the range 0 ... 1
-		public let lf: Float32
+		public let lf: Double
 		/// Brightness value as a value in the range 0 ... 100
-		public var l100: Float32 { (self.lf * 100.0).clamped(to: 0 ... 100) }
+		public var l100: Double { (self.lf * 100.0).clamped(to: 0 ... 100) }
 		/// Alpha value as a value in the range 0 ... 1
-		public let af: Float32
+		public let af: Double
 	}
 }
 
@@ -127,10 +127,10 @@ public extension PAL.Color {
 	///   - name: Color's name
 	///   - colorType: The color type
 	init(
-		hf: Float32,
-		sf: Float32,
-		lf: Float32,
-		af: Float32 = 1.0,
+		hf: Double,
+		sf: Double,
+		lf: Double,
+		af: Double = 1.0,
 		name: String = "",
 		colorType: PAL.ColorType = .global
 	) {
@@ -154,10 +154,10 @@ public extension PAL.Color {
 	///   - name: Color's name
 	///   - colorType: The color type
 	@inlinable init(
-		h360: Float32,
-		s100: Float32,
-		l100: Float32,
-		af: Float32 = 1.0,
+		h360: Double,
+		s100: Double,
+		l100: Double,
+		af: Double = 1.0,
 		name: String = "",
 		colorType: PAL.ColorType = .global
 	) {
@@ -209,16 +209,16 @@ extension PAL.Color.RGB {
 // https://www.easyrgb.com/en/math.php
 // https://www.niwa.nu/2013/05/math-behind-colorspace-conversions-rgb-hsl/
 
-private func rgb2hsl(r: Float32, g: Float32, b: Float32, a: Float32) -> (h: Float32, s: Float32, l: Float32, a: Float32) {
+private func rgb2hsl(r: Double, g: Double, b: Double, a: Double) -> (h: Double, s: Double, l: Double, a: Double) {
 	let cmax = max(r, g, b)
 	let cmin = min(r, g, b)
 	let delta = cmax - cmin
 
 	// Luminance
-	let l: Float32 = (cmax + cmin) / 2.0
+	let l: Double = (cmax + cmin) / 2.0
 
-	var h: Float32 = 0.0
-	var s: Float32 = 0.0
+	var h: Double = 0.0
+	var s: Double = 0.0
 
 	if delta != 0.0 {
 		// Has chromatic data...
@@ -253,8 +253,8 @@ private func rgb2hsl(r: Float32, g: Float32, b: Float32, a: Float32) -> (h: Floa
 	return (h: h, s: s, l: l, a: a)
 }
 
-private func hsl2rgb(h: Float32, s: Float32, l: Float32, a: Float32) -> (r: Float32, g: Float32, b: Float32, a: Float32) {
-	func hue2rgb(_ v1: Float32, _ v2: Float32, _ vH: Float32) -> Float32 {
+private func hsl2rgb(h: Double, s: Double, l: Double, a: Double) -> (r: Double, g: Double, b: Double, a: Double) {
+	func hue2rgb(_ v1: Double, _ v2: Double, _ vH: Double) -> Double {
 		var vH = vH
 		if vH < 0 { vH += 1 }
 		if vH > 1 { vH -= 1 }
@@ -268,7 +268,7 @@ private func hsl2rgb(h: Float32, s: Float32, l: Float32, a: Float32) -> (r: Floa
 		return (r: l, g: l, b: l, a: a)
 	}
 
-	var var_2: Float32
+	var var_2: Double
 	if l < 0.5 {
 		var_2 = l * (1 + s)
 	}

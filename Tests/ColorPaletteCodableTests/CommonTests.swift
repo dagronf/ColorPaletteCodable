@@ -211,16 +211,16 @@ final class CommonTests: XCTestCase {
 		do {
 			let color = PAL.Color(r255: 0, g255: 255, b255: 0)
 			let hsb1 = try color.hsb()
-			XCTAssertEqual(hsb1.h, Float32(0.3333), accuracy: 0.0001)
-			XCTAssertEqual(hsb1.s, Float32(1))
-			XCTAssertEqual(hsb1.b, Float32(1))
+			XCTAssertEqual(hsb1.hf, Double(0.3333), accuracy: 0.0001)
+			XCTAssertEqual(hsb1.sf, Double(1))
+			XCTAssertEqual(hsb1.bf, Double(1))
 		}
 		do {
 			let color = PAL.Color(r255: 50, g255: 216, b255: 164)
 			let hsb1 = try color.hsb()
-			XCTAssertEqual(hsb1.h, Float32(161.2 / 360.0), accuracy: 0.0001)	// 0...360
-			XCTAssertEqual(hsb1.s, Float32(76.85 / 100.0), accuracy: 0.0001)	// 0...100
-			XCTAssertEqual(hsb1.b, Float32(84.71 / 100.0), accuracy: 0.0001)	// 0...100
+			XCTAssertEqual(hsb1.hf, 161.2 / 360.0, accuracy: 0.0001)	// 0...360
+			XCTAssertEqual(hsb1.sf, 76.85 / 100.0, accuracy: 0.0001)	// 0...100
+			XCTAssertEqual(hsb1.bf, 84.71 / 100.0, accuracy: 0.0001)	// 0...100
 		}
 	}
 

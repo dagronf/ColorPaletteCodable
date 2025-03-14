@@ -124,8 +124,8 @@ public extension PAL.Color {
 		}
 
 		// The last component in CG components is the alpha, so we need to drop it (as .ase doesn't use alpha)
-		self.colorComponents = comp.dropLast().map { Float32($0) }
-		self.alpha = Float32(color.alpha)
+		self.colorComponents = comp.dropLast().map { Double($0) }
+		self.alpha = Double(color.alpha)
 		self.colorSpace = cs
 	}
 

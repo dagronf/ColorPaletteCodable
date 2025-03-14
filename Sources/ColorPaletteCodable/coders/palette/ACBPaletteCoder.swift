@@ -118,8 +118,8 @@ public extension PAL.Coder.ACB {
 				continue
 			}
 
-			let mapped = channels.map { Float32($0) }
-			let components: [Float32]
+			let mapped = channels.map { Double($0) }
+			let components: [Double]
 
 			switch colorspace {
 			case .CMYK:

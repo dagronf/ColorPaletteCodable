@@ -33,11 +33,11 @@ import Foundation
 /// [https://tannerhelland.com/2012/09/18/convert-temperature-rgb-algorithm-code.html](https://tannerhelland.com/2012/09/18/convert-temperature-rgb-algorithm-code.html)
 ///
 /// [https://andi-siess.de/rgb-to-color-temperature/](https://andi-siess.de/rgb-to-color-temperature/)
-func kelvinToRGB(_ kelvinTemperature: Float32) throws -> (r: UInt8, g: UInt8, b: UInt8) {
+func kelvinToRGB(_ kelvinTemperature: Double) throws -> (r: UInt8, g: UInt8, b: UInt8) {
 	let percentK = kelvinTemperature.clamped(to: 1000.0 ... 40000.0) / 100.0
 
 	// R
-	let r: Float32
+	let r: Double
 	if percentK <= 66 {
 		r = 255
 	}
@@ -46,7 +46,7 @@ func kelvinToRGB(_ kelvinTemperature: Float32) throws -> (r: UInt8, g: UInt8, b:
 	}
 
 	// G
-	let g: Float32
+	let g: Double
 	if percentK <= 66 {
 		g = (99.4708025861 * log(percentK) - 161.1195681661)
 	}
@@ -55,7 +55,7 @@ func kelvinToRGB(_ kelvinTemperature: Float32) throws -> (r: UInt8, g: UInt8, b:
 	}
 
 	// B
-	let b: Float32
+	let b: Double
 	if percentK > 66 {
 		b = 255
 	}

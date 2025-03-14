@@ -75,7 +75,7 @@ public extension PAL.Gradients.Coder.GPF {
 				let g = scanner._scanFloat(),
 				let b = scanner._scanFloat()
 			{
-				let color = PAL.Color(rf: Float32(r), gf: Float32(g), bf: Float32(b))
+				let color = PAL.Color(rf: Double(r), gf: Double(g), bf: Double(b))
 				result = PAL.Gradient.Stop(position: Double(p), color: color)
 			}
 			return result

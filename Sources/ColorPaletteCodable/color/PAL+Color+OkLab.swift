@@ -39,7 +39,7 @@ public extension OkLab {
 	///   - t: The fractional distance between the two colors
 	///   - name: The color name
 	/// - Returns: Interpolated color
-	static func mix(_ c1: PAL.Color, _ c2: PAL.Color, t: Float32, name: String = "") throws -> PAL.Color {
+	static func mix(_ c1: PAL.Color, _ c2: PAL.Color, t: Double, name: String = "") throws -> PAL.Color {
 		let cr1 = try c1.converted(to: .RGB).rgbValuesVec3()
 		let cr2 = try c2.converted(to: .RGB).rgbValuesVec3()
 		return PAL.Color(sRGB: OkLab.mix(cr1, cr2, t: t.unitClamped), name: name)

@@ -122,8 +122,8 @@ final class ColorFunctionTests: XCTestCase {
 
 	func testOkLab() throws {
 
-		let c1 = Vec3<Float32>(0, 0, 1)
-		let c2 = Vec3<Float32>(1, 1, 0)
+		let c1 = Vec3<Double>(0, 0, 1)
+		let c2 = Vec3<Double>(1, 1, 0)
 
 		let x1 = OkLab.mix(c1, c2, t: 0)
 		XCTAssertEqual(c1.x, x1.x, accuracy: 0.00001)

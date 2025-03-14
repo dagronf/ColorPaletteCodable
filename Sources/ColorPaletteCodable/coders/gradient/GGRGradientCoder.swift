@@ -101,14 +101,14 @@ public extension PAL.Gradients.Coder.GGR {
 				let startPoint = Double(stop[0]),
 				let _ = Double(stop[1]),							// midPoint - ignored
 				let endPoint = Double(stop[2]),
-				let r0 = Float32(stop[3]),
-				let g0 = Float32(stop[4]),
-				let b0 = Float32(stop[5]),
-				let a0 = Float32(stop[6]),
-				let r1 = Float32(stop[7]),
-				let g1 = Float32(stop[8]),
-				let b1 = Float32(stop[9]),
-				let a1 = Float32(stop[10]),
+				let r0 = Double(stop[3]),
+				let g0 = Double(stop[4]),
+				let b0 = Double(stop[5]),
+				let a0 = Double(stop[6]),
+				let r1 = Double(stop[7]),
+				let g1 = Double(stop[8]),
+				let b1 = Double(stop[9]),
+				let a1 = Double(stop[10]),
 				let _ = Int(stop[11]),								// This is the gradient function type - we will ignore
 				let GimpGradientSegmentType = Int(stop[12])	// This is the segment color function type, we only support RGB (0)
 			else {

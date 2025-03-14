@@ -35,7 +35,7 @@ public extension PAL.Colors {
 
 		let c1 = try firstColor.rgb()
 		let c2 = try lastColor.rgb()
-		let step = 1.0 / Float32(count - 1)
+		let step = 1.0 / Double(count - 1)
 
 		let rdiff = (c2.rf - c1.rf) * step
 		let gdiff = (c2.gf - c1.gf) * step
@@ -43,7 +43,7 @@ public extension PAL.Colors {
 		let adiff = (c2.af - c1.af) * step
 
 		return (0 ..< count).map { index in
-			let index = Float32(index)
+			let index = Double(index)
 			return PAL.Color(
 				rf: c1.rf + (index * rdiff),
 				gf: c1.gf + (index * gdiff),
@@ -64,10 +64,10 @@ public extension PAL.Colors {
 		let comps = try c0.rgb()
 		return stride(from: a1, through: a2, by: step).map { value in
 			PAL.Color(
-				rf: Float32(comps.rf),
-				gf: Float32(comps.gf),
-				bf: Float32(comps.bf),
-				af: Float32(value)
+				rf: comps.rf,
+				gf: comps.gf,
+				bf: comps.bf,
+				af: Double(value)
 			)
 		}
 	}

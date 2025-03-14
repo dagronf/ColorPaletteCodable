@@ -51,7 +51,7 @@ public extension UIColor {
 		var b: CGFloat = 0.0
 		var a: CGFloat = 0.0
 		self.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
-		return PAL.Color.HSB(hf: Float32(h), sf: Float32(s), bf: Float32(b), af: Float32(a))
+		return PAL.Color.HSB(hf: Double(h), sf: Double(s), bf: Double(b), af: Double(a))
 	}
 }
 

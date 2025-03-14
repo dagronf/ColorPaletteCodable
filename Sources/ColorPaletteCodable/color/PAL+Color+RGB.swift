@@ -31,10 +31,10 @@ import Foundation
 ///   - colorType: The type of color
 /// - Returns: A color
 public func rgbf(
-	_ rf: Float32,
-	_ gf: Float32,
-	_ bf: Float32,
-	_ af: Float32 = 1,
+	_ rf: Double,
+	_ gf: Double,
+	_ bf: Double,
+	_ af: Double = 1,
 	name: String = "",
 	colorType: PAL.ColorType = .global
 ) -> PAL.Color {
@@ -88,7 +88,7 @@ public extension PAL.Color {
 		///   - gf: Green component
 		///   - bf: Blue component
 		///   - af: Alpha component
-		public init(rf: Float32, gf: Float32, bf: Float32, af: Float32 = 1.0) {
+		public init(rf: Double, gf: Double, bf: Double, af: Double = 1.0) {
 			self.rf = rf.unitClamped
 			self.gf = gf.unitClamped
 			self.bf = bf.unitClamped
@@ -102,10 +102,10 @@ public extension PAL.Color {
 		///   - b255: Blue component
 		///   - a255: Alpha component
 		public init(r255: UInt8, g255: UInt8, b255: UInt8, a255: UInt8 = 255) {
-			self.rf = (Float32(r255) / 255).unitClamped
-			self.gf = (Float32(g255) / 255).unitClamped
-			self.bf = (Float32(b255) / 255).unitClamped
-			self.af = (Float32(a255) / 255).unitClamped
+			self.rf = (Double(r255) / 255).unitClamped
+			self.gf = (Double(g255) / 255).unitClamped
+			self.bf = (Double(b255) / 255).unitClamped
+			self.af = (Double(a255) / 255).unitClamped
 		}
 
 		/// Create and RGB[A] color from a hex formatted color string
@@ -146,21 +146,21 @@ public extension PAL.Color {
 		}
 
 		/// Red component (0.0 ... 1.0)
-		public let rf: Float32
+		public let rf: Double
 		/// Red component (0 ... 255)
-		public var r255: UInt8 { UInt8(self.rf * 255.0) }
+		public var r255: UInt8 { UInt8((self.rf * 255.0).rounded(.toNearestOrAwayFromZero)) }
 		/// Green component (0.0 ... 1.0)
-		public let gf: Float32
+		public let gf: Double
 		/// Green component (0 ... 255)
-		public var g255: UInt8 { UInt8(self.gf * 255.0) }
+		public var g255: UInt8 { UInt8((self.gf * 255.0).rounded(.toNearestOrAwayFromZero)) }
 		/// Blue component (0.0 ... 1.0)
-		public let bf: Float32
+		public let bf: Double
 		/// Blue component (0 ... 255)
-		public var b255: UInt8 { UInt8(self.bf * 255.0) }
+		public var b255: UInt8 { UInt8((self.bf * 255.0).rounded(.toNearestOrAwayFromZero)) }
 		/// Alpha component (0.0 ... 1.0)
-		public let af: Float32
+		public let af: Double
 		/// Alpha component (0 ... 255)
-		public var a255: UInt8 { UInt8(self.af * 255.0) }
+		public var a255: UInt8 { UInt8((self.af * 255.0).rounded(.toNearestOrAwayFromZero)) }
 	}
 }
 
@@ -186,10 +186,10 @@ public extension PAL.Color {
 	///   - name: The color name
 	///   - colorType: The type of color
 	init(
-		rf: Float32,
-		gf: Float32,
-		bf: Float32,
-		af: Float32 = 1.0,
+		rf: Double,
+		gf: Double,
+		bf: Double,
+		af: Double = 1.0,
 		name: String = "",
 		colorType: PAL.ColorType = .global
 	) {
@@ -216,10 +216,10 @@ public extension PAL.Color {
 		name: String = "",
 		colorType: PAL.ColorType = .global
 	) {
-		let rf = (Float32(r255) / 255.0).unitClamped
-		let gf = (Float32(g255) / 255.0).unitClamped
-		let bf = (Float32(b255) / 255.0).unitClamped
-		let af = (Float32(a255) / 255.0).unitClamped
+		let rf = (Double(r255) / 255.0).unitClamped
+		let gf = (Double(g255) / 255.0).unitClamped
+		let bf = (Double(b255) / 255.0).unitClamped
+		let af = (Double(a255) / 255.0).unitClamped
 
 		self.name = name
 		self.colorSpace = .RGB
@@ -280,15 +280,15 @@ extension PAL.Color {
 // Unsafe RGB retrieval. No checks or validation are performed. Do not use unless you are absolutely sure
 // that this color is rgb colorspaced
 internal extension PAL.Color {
-	@inlinable @inline(__always) var _r: Float32 {
+	@inlinable @inline(__always) var _r: Double {
 		assert(self.colorSpace == .RGB && self.colorComponents.count == 3)
 		return self.colorComponents[0]
 	}
-	@inlinable @inline(__always) var _g: Float32 {
+	@inlinable @inline(__always) var _g: Double {
 		assert(self.colorSpace == .RGB && self.colorComponents.count == 3)
 		return self.colorComponents[1]
 	}
-	@inlinable @inline(__always) var _b: Float32 {
+	@inlinable @inline(__always) var _b: Double {
 		assert(self.colorSpace == .RGB && self.colorComponents.count == 3)
 		return self.colorComponents[2]
 	}

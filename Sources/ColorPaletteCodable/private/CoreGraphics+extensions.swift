@@ -39,7 +39,7 @@ extension CGColor {
 	func rgb() throws -> PAL.Color.RGB {
 		guard
 			let c1 = self.converted(to: PAL.ColorSpace.RGB.cgColorSpace, intent: .defaultIntent, options: nil),
-			let c1c = c1.components?.map({ Float32($0) }),
+			let c1c = c1.components?.map({ Double($0) }),
 			c1c.count == 4
 		else {
 			throw PAL.CommonError.cannotConvertColorSpace

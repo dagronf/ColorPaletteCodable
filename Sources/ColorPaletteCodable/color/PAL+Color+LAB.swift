@@ -21,25 +21,37 @@ import Foundation
 
 public extension PAL.Color {
 	/// The components for a color with the CGColorSpace.LAB colorspace
-	struct LAB: Equatable {
-		public init(l100: Float32, a128: Float32, b128: Float32, af: Float32 = 1.0) {
-			self.l = l100.clamped(to: 0 ... 100)
-			self.a = a128.clamped(to: -128.0 ... 128.0)
-			self.b = b128.clamped(to: -128.0 ... 128.0)
-			self.alpha = af.clamped(to: 0.0 ... 1.0)
+	struct LAB {
+		/// Create an L*a*b* color
+		/// - Parameters:
+		///   - l100: Lightness (0 ... 100)
+		///   - a128: Red/Green Value (-128 ... 128)
+		///   - b128: Blue/Yellow Value (-128 ... 128)
+		///   - af: Alpha value (0.0 ... 1.0)
+		public init(l100: Double, a128: Double, b128: Double, af: Double = 1.0) {
+			self.lf = l100.clamped(to: 0 ... 100)
+			self.af = a128.clamped(to: -128.0 ... 128.0)
+			self.bf = b128.clamped(to: -128.0 ... 128.0)
+			self.alphaf = af.clamped(to: 0.0 ... 1.0)
 		}
 
-		public static func == (lhs: PAL.Color.LAB, rhs: PAL.Color.LAB) -> Bool {
-			return
-				abs(lhs.l - rhs.l) < 0.005 &&
-				abs(lhs.a - rhs.a) < 0.005 &&
-				abs(lhs.b - rhs.b) < 0.005 &&
-				abs(lhs.alpha - rhs.alpha) < 0.005
-		}
+		/// L\* - Lightness (0 ... 100)
+		public let lf: Double
+		/// a\* - Red/Green Value (-128 ... 128)
+		public let af: Double
+		/// b\* - Blue/Yellow Value  (-128 ... 128)
+		public let bf: Double
+		/// Alpha component (0.0 ... 1.0)
+		public let alphaf: Double
+	}
+}
 
-		public let l: Float32
-		public let a: Float32
-		public let b: Float32
-		public let alpha: Float32
+extension PAL.Color.LAB: Equatable {
+	public static func == (lhs: PAL.Color.LAB, rhs: PAL.Color.LAB) -> Bool {
+		return
+			abs(lhs.lf - rhs.lf) < 0.005 &&
+			abs(lhs.af - rhs.af) < 0.005 &&
+			abs(lhs.bf - rhs.bf) < 0.005 &&
+			abs(lhs.alphaf - rhs.alphaf) < 0.005
 	}
 }

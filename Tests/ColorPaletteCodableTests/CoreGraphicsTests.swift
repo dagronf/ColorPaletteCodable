@@ -41,10 +41,10 @@ final class CoreGraphicsTests: XCTestCase {
 			XCTAssertEqual(1, p1.colors.count)
 			XCTAssertEqual(.CMYK, p1.colors[0].colorSpace)
 			XCTAssertEqual(4, p1.colors[0].colorComponents.count)
-			XCTAssertEqual(1, p1.colors[0].colorComponents[0])
-			XCTAssertEqual(1, p1.colors[0].colorComponents[1])
-			XCTAssertEqual(0.5, p1.colors[0].colorComponents[2])
-			XCTAssertEqual(0.2, p1.colors[0].colorComponents[3])
+			XCTAssertEqual(1, p1.colors[0].colorComponents[0], accuracy: 0.000001)
+			XCTAssertEqual(1, p1.colors[0].colorComponents[1], accuracy: 0.000001)
+			XCTAssertEqual(0.5, p1.colors[0].colorComponents[2], accuracy: 0.000001)
+			XCTAssertEqual(0.2, p1.colors[0].colorComponents[3], accuracy: 0.000001)
 		}
 	}
 

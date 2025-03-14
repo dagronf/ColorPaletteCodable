@@ -146,12 +146,11 @@ extension DataWriter {
 		}
 
 		// Write the color components
-		try color.colorComponents.forEach { c in
-			try self.writeFloat32(c, .little)
-		}
+		let comps = color.colorComponents.map { Float32($0) }
+		try self.writeFloat32(comps, .little)
 
 		// Color alpha
-		try self.writeFloat32(color.alpha, .little)
+		try self.writeFloat32(Float32(color.alpha), .little)
 
 		// Color type
 		switch color.colorType {
@@ -211,8 +210,8 @@ extension DataParser {
 
 		return try PAL.Color(
 			colorSpace: colorSpace,
-			colorComponents: components,
-			alpha: alpha,
+			colorComponents: components.map { Double($0) },
+			alpha: Double(alpha),
 			name: colorName,
 			colorType: colorType
 		)
