@@ -18,6 +18,7 @@
 //
 
 import Foundation
+import BytesParser
 
 public extension PAL.Coder {
 	/// An object representing a CPL (Corel Color Palette)
@@ -40,13 +41,14 @@ public extension PAL.Coder.CPL {
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
 
 		let data = inputStream.readAllData()
-		let file = DataParser(data: data)
+		let file = RandomAccessDataReader(data: data)
+
 		var result = PAL.Palette()
 
 		var spot = false
 		var paletteType: UInt16 = 0
 
-		let version: UInt16 = try file.readInteger(.big)
+		let version: UInt16 = try file.readUInt16(.big)
 		let numberOfColors: UInt16
 
 		switch version {
@@ -56,17 +58,17 @@ public extension PAL.Coder.CPL {
 			if filenamelength > 0 {
 				result.name = try file.readAsciiString(count: Int(filenamelength))
 			}
-			numberOfColors = try file.readInteger(.little)
+			numberOfColors = try file.readUInt16(.little)
 		case 0xCCBC, 0xCCDC:
 			// This version doesn't have a palette name, just colors
-			numberOfColors = try file.readInteger(.little)
+			numberOfColors = try file.readUInt16(.little)
 		default:
 
 			// Read in headers if we can
-			let headerCount: Int32 = try file.readInteger(.little)
+			let headerCount: Int32 = try file.readInt32(.little)
 			let headers: [(hid: Int32, offset: Int)] = try (0 ..< headerCount).map { _ in
-				let hid: Int32 = try file.readInteger(.little)
-				let offset: Int32 = try file.readInteger(.little)
+				let hid: Int32 = try file.readInt32(.little)
+				let offset: Int32 = try file.readInt32(.little)
 				return (hid: hid, offset: Int(offset))
 			}
 
@@ -86,11 +88,11 @@ public extension PAL.Coder.CPL {
 
 			// Palette Type
 			try file.seekSet(headers[1].offset)
-			paletteType = try file.readInteger(.little)
+			paletteType = try file.readUInt16(.little)
 
 			// Number of colors
 			try file.seekSet(headers[2].offset)
-			numberOfColors = try file.readInteger(.little)
+			numberOfColors = try file.readUInt16(.little)
 
 			// This position is the start of the colors
 			let colorsIndex = file.readPosition
@@ -109,7 +111,7 @@ public extension PAL.Coder.CPL {
 		let long = [0xCDBC, 0xCDDC, 0xCDDD].contains(version) && paletteType < 38 && paletteType != 5 && paletteType != 16
 
 		for _ in 0 ..< numberOfColors {
-			let model: UInt16 = try file.readInteger(.little)
+			let model: UInt16 = try file.readUInt16(.little)
 			try file.seek(2, .current)
 
 			var colorspace: PAL.ColorSpace?
@@ -153,7 +155,7 @@ public extension PAL.Coder.CPL {
 			}
 
 			if long {
-				let model2: UInt16 = try file.readInteger(.little)
+				let model2: UInt16 = try file.readUInt16(.little)
 				switch model2 {
 				case 2:  // CMYK percentages
 					try file.seek(4, .current)
@@ -223,9 +225,9 @@ public extension PAL.Coder.CPL {
 			if version == 0xCDDD {
 				// row and column?  -- just skip (but we have to read them to move the read pointer to the
 				// correct next color
-				let _ /*row*/: UInt32 = try file.readInteger(.little)
-				let _ /*col*/: UInt32 = try file.readInteger(.little)
-				let _ /*unknown*/: UInt32 = try file.readInteger(.little)
+				let _ /*row*/: UInt32 = try file.readUInt32(.little)
+				let _ /*col*/: UInt32 = try file.readUInt32(.little)
+				let _ /*unknown*/: UInt32 = try file.readUInt32(.little)
 			}
 		}
 

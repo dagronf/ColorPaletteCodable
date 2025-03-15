@@ -18,6 +18,7 @@
 //
 
 import Foundation
+import BytesParser
 
 /// A Microsoft RIFF palette file reader
 /// See https://www.codeproject.com/Articles/1172812/Loading-Microsoft-RIFF-Palette-pal-Files-with-Csha
@@ -38,36 +39,37 @@ extension PAL.Coder.RIFF {
 	public func decode(from inputStream: InputStream) throws -> PAL.Palette {
 		// NOTE: Assumption here is that `inputStream` is already open
 		// If the input stream isn't open, the reading will hang.
+		let parser = BytesReader(inputStream: inputStream)
 
 		var result = PAL.Palette()
 
 		// Check header
-		let header: Int32 = try readIntegerBigEndian(inputStream)
+		let header: Int32 = try parser.readInt32(.big)
 		guard header == 0x52494646 else { // 'RIFF'
 			throw PAL.CommonError.invalidFormat
 		}
 
 		// Some form of header?
-		let _: Int32 = try readIntegerBigEndian(inputStream)
+		let _: Int32 = try parser.readInt32(.big)
 
-		let riffType: Int32 = try readIntegerBigEndian(inputStream)
+		let riffType: Int32 = try parser.readInt32(.big)
 		guard riffType == 0x50414C20 else { // 'PAL '
 			throw PAL.CommonError.invalidFormat
 		}
 
 		// We are going to ignore the fact that a RIFF file can contain multiple chunks
-		let dataHeader: Int32 = try readIntegerBigEndian(inputStream)
-		let _: Int32 = try readIntegerLittleEndian(inputStream) // checkSize
+		let dataHeader: Int32 = try parser.readInt32(.big)
+		let _: Int32 = try parser.readInt32(.little)        // checkSize
 		guard dataHeader == 0x64617461 else {
 			// Not palette data - just read all the data in the chunk
 			//_ = try readData(inputStream, size: Int((chunkSize % 2 != 0) ? chunkSize + 1 : chunkSize))
 			throw PAL.CommonError.invalidFormat
 		}
 
-		let _: Int16 = try readIntegerLittleEndian(inputStream) // palVersion
-		let palNumEntries: Int16 = try readIntegerLittleEndian(inputStream)
+		let _: Int16 = try parser.readInt16(.little) // palVersion
+		let palNumEntries: Int16 = try parser.readInt16(.little)
 		try (0 ..< palNumEntries).forEach { index in
-			let rgb = try readData(inputStream, size: 4)
+			let rgb = try parser.readData(count: 4)
 			let r = UInt8(rgb[0])
 			let g = UInt8(rgb[1])
 			let b = UInt8(rgb[2])

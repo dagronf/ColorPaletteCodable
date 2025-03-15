@@ -18,6 +18,7 @@
 //
 
 import Foundation
+import BytesParser
 
 public extension PAL.Gradients.Coder {
 	/// A coder for GRD gradients
@@ -184,47 +185,49 @@ private class GRD {
 	}
 
 	func readGradients(inputStream: InputStream) throws -> [Gradient] {
-		let bom = try readAsciiString(inputStream, length: 4)
+		let reader = BytesReader(inputStream: inputStream)
+
+		let bom = try reader.readStringASCII(length: 4)
 		if bom != "8BGR" {
 			throw GRDError.invalidFormat
 		}
-		let version: UInt16 = try readIntegerBigEndian(inputStream)
+		let version: UInt16 = try reader.readUInt16(.big)
 		if version == 3 {
 			//throw GRDError.unsupportedFormat
-			return try parseVersion3(inputStream)
+			return try parseVersion3(reader)
 		}
 		else if version != 5 {
 			throw GRDError.unsupportedFormat
 		}
 
 		// Step over the next 22 bytes (unknown)
-		_ = try readData(inputStream, size: 22)
+		_ = try reader.readBytes(count: 22)
 
-		let gradientCount = try parseGrdL(inputStream)
+		let gradientCount = try parseGrdL(reader)
 		var gradients = [Gradient]()
 		for _ in 0 ..< gradientCount {
-			if let gradient = try parseGradientDefinition(inputStream) {
+			if let gradient = try parseGradientDefinition(reader) {
 				gradients.append(gradient)
 			}
 		}
 		return gradients
 	}
 
-	func parseGradientDefinition(_ inputStream: InputStream) throws -> Gradient? {
-		let objcValue = try parseObjc(inputStream)
+	func parseGradientDefinition(_ reader: BytesReader) throws -> Gradient? {
+		let objcValue = try parseObjc(reader)
 		guard "Gradient" == objcValue.0 else {
 			throw GRDError.unsupportedFormat
 		}
 
-		let bom = try parseGrd5Typename(inputStream)
+		let bom = try parseGrd5Typename(reader)
 		guard bom == "Grad" else { throw GRDError.invalidString }
 
-		let innerObjcValue = try parseObjc(inputStream)
+		let innerObjcValue = try parseObjc(reader)
 
 		// name
-		let parseNm = try parseNm(inputStream)
+		let parseNm = try parseNm(reader)
 
-		let type = try parseEnum(inputStream, "GrdF")
+		let type = try parseEnum(reader, "GrdF")
 
 		if type.1 == "CstS" {
 			if innerObjcValue.2 != 5 {
@@ -232,7 +235,7 @@ private class GRD {
 				ColorPaletteLogger.log(.error, "GRDCoder: Expected five components, got %@", innerObjcValue.2)
 				throw GRDError.unsupportedFormat
 			}
-			return try parseCustomGradient(inputStream, gradientName: parseNm)
+			return try parseCustomGradient(reader, gradientName: parseNm)
 		}
 		else if type.1 == "ClNs" {
 			if innerObjcValue.2 != 9 {
@@ -244,7 +247,7 @@ private class GRD {
 			// Read the noise gradient components, but just ignore it
 			ColorPaletteLogger.log(.info, "GRDCoder: Found noise gradient -- ignoring...")
 
-			try parseNoiseGradient(inputStream)
+			try parseNoiseGradient(reader)
 			return nil
 		}
 		else {
@@ -254,101 +257,101 @@ private class GRD {
 	}
 
 	/// <typenamelength uint32><typename><uint32>
-	func parseTypedLong(_ inputStream: InputStream, expectedTag: String) throws -> UInt32 {
-		let type1 = try parseGrd5Typename(inputStream)
+	func parseTypedLong(_ reader: BytesReader, expectedTag: String) throws -> UInt32 {
+		let type1 = try parseGrd5Typename(reader)
 		guard type1 == expectedTag else {
 			ColorPaletteLogger.log(.error, "GRDCoder: Expected %@ when trying to read long value", expectedTag)
 			throw GRDError.invalidFormat
 		}
-		return try parseLong(inputStream)
+		return try parseLong(reader)
 	}
 
-	func parseNoiseGradient(_ inputStream: InputStream) throws {
+	func parseNoiseGradient(_ reader: BytesReader) throws {
 
 		// Currently, we read the noise gradient data but ignore it, so we can continue to the next gradient
 
-		let /*shtr*/ _ = try parseBool(inputStream, expectedType: "ShTr")
-		let /*vctc*/ _ = try parseBool(inputStream, expectedType: "VctC")
+		let /*shtr*/ _ = try parseBool(reader, expectedType: "ShTr")
+		let /*vctc*/ _ = try parseBool(reader, expectedType: "VctC")
 
-		let /*clrs*/ _ = try parseColorspace(inputStream)
+		let /*clrs*/ _ = try parseColorspace(reader)
 
-		let /*rand*/ _ = try parseTypedLong(inputStream, expectedTag: "RndS")       // 0 ..< 4096
-		let /*smoothness*/ _ = try parseTypedLong(inputStream, expectedTag: "Smth") // 0 ..< 4096
+		let /*rand*/ _ = try parseTypedLong(reader, expectedTag: "RndS")       // 0 ..< 4096
+		let /*smoothness*/ _ = try parseTypedLong(reader, expectedTag: "Smth") // 0 ..< 4096
 
 		// Mnm
-		let minsCount = try parseVLLLength(inputStream, expected: "Mnm ")
+		let minsCount = try parseVLLLength(reader, expected: "Mnm ")
 		var mins = [UInt32]()
 		for _ in 0 ..< minsCount {
-			mins.append(try parseLong(inputStream))
+			mins.append(try parseLong(reader))
 		}
 
 		// Mxm
-		let maxsCount = try parseVLLLength(inputStream, expected: "Mxm ")
+		let maxsCount = try parseVLLLength(reader, expected: "Mxm ")
 		var maxs = [UInt32]()
 		for _ in 0 ..< maxsCount {
-			maxs.append(try parseLong(inputStream))
+			maxs.append(try parseLong(reader))
 		}
 	}
 
-	func parseColorspace(_ inputStream: InputStream) throws -> String {
-		let value = try parseEnum(inputStream, "ClrS")
+	func parseColorspace(_ reader: BytesReader) throws -> String {
+		let value = try parseEnum(reader, "ClrS")
 		let colorspace = value.1
 		return colorspace
 	}
 
-	func parseBool(_ inputStream: InputStream, expectedType: String) throws -> Bool {
-		let bom = try parseGrd5Typename(inputStream)
+	func parseBool(_ reader: BytesReader, expectedType: String) throws -> Bool {
+		let bom = try parseGrd5Typename(reader)
 		guard bom == expectedType else {
 			ColorPaletteLogger.log(.error, "GRDCoder: Cannot read %@", expectedType)
 			throw GRDError.invalidFormat
 		}
-		let type = try parseType(inputStream)
+		let type = try parseType(reader)
 		guard type == "bool" else {
 			ColorPaletteLogger.log(.error, "GRDCoder: Cannot read bool")
 			throw GRDError.invalidFormat
 		}
 
-		return try readData(inputStream, size: 1).first != 0x00
+		return try reader.readByte() != 0x00 //readData(inputStream, size: 1).first != 0x00
 	}
 
-	func parseNm(_ inputStream: InputStream) throws -> String {
-		let nm = try parseGrd5Typename(inputStream)
+	func parseNm(_ reader: BytesReader) throws -> String {
+		let nm = try parseGrd5Typename(reader)
 		guard nm == "Nm  " else {
 			ColorPaletteLogger.log(.error, "GRDCoder: Expected name (Nm  )")
 			throw GRDError.invalidFormat
 		}
 
-		let bom = try parseType(inputStream)
+		let bom = try parseType(reader)
 		guard bom == "TEXT" else {
 			ColorPaletteLogger.log(.error, "GRDCoder: Expected text (TEXT)")
 			throw GRDError.invalidFormat
 		}
 
-		return try parseGrd5UCS2(inputStream)
+		return try parseGrd5UCS2(reader)
 	}
 
-	func parseText(_ inputStream: InputStream) throws -> String {
-		let type = try parseGrd5Typename(inputStream)
+	func parseText(_ reader: BytesReader) throws -> String {
+		let type = try parseGrd5Typename(reader)
 		guard type == "TEXT" else {
 			ColorPaletteLogger.log(.error, "GRDCoder: Expected text (TEXT)")
 			throw GRDError.invalidFormat
 		}
-		return try parseGrd5UCS2(inputStream)
+		return try parseGrd5UCS2(reader)
 	}
 
-	func parseCustomGradient(_ inputStream: InputStream, gradientName: String) throws -> Gradient {
-		let smoothness = try parseIntr(inputStream)
-		let numberOfStops = try parseVLLLength(inputStream, expected: "Clrs")
+	func parseCustomGradient(_ reader: BytesReader, gradientName: String) throws -> Gradient {
+		let smoothness = try parseIntr(reader)
+		let numberOfStops = try parseVLLLength(reader, expected: "Clrs")
 
 		var stops = [ColorStop]()
 		try (0 ..< numberOfStops).forEach { _ in
-			stops.append(try parseColorStop(inputStream))
+			stops.append(try parseColorStop(reader))
 		}
 
-		let numberOfTransparencyStops = try parseVLLLength(inputStream, expected: "Trns")
+		let numberOfTransparencyStops = try parseVLLLength(reader, expected: "Trns")
 		var tstops = [TransparencyStop]()
 		try (0 ..< numberOfTransparencyStops).forEach { _ in
-			tstops.append(try parseTransparencyStop(inputStream))
+			tstops.append(try parseTransparencyStop(reader))
 		}
 
 		if tstops.count > 0 {
@@ -361,16 +364,16 @@ private class GRD {
 
 	// Color stop
 
-	func parseColorStop(_ inputStream: InputStream) throws -> ColorStop {
+	func parseColorStop(_ reader: BytesReader) throws -> ColorStop {
 		// This should be an object
-		let objc = try parseObjc(inputStream)
+		let objc = try parseObjc(reader)
 
 		let numberOfComponents = objc.2
 
 		let color: Color
 		if numberOfComponents == 4 {
 			// is a user color
-			color = try parseUserColor(inputStream)
+			color = try parseUserColor(reader)
 		}
 		else if numberOfComponents == 3 {
 			// Is a book color (predefined).  Just put in black
@@ -381,7 +384,7 @@ private class GRD {
 		}
 
 		let ct: ColorStop.ColorType
-		let colorType = try parseClry(inputStream)
+		let colorType = try parseClry(reader)
 		switch colorType {
 		case "FrgC": ct = .foreground
 		case "BckC": ct = .background
@@ -390,8 +393,8 @@ private class GRD {
 			ColorPaletteLogger.log(.error, "GRDCoder: Unsupported color type (%@)", colorType)
 			throw GRDError.invalidFormat
 		}
-		let location = try parseLctn(inputStream)
-		let midpoint = try parseMdpn(inputStream)
+		let location = try parseLctn(reader)
+		let midpoint = try parseMdpn(reader)
 
 		return ColorStop(
 			colorType: ct,
@@ -402,71 +405,71 @@ private class GRD {
 	}
 
 	// Transparency
-	func parseTransparencyStop(_ inputStream: InputStream) throws -> TransparencyStop {
+	func parseTransparencyStop(_ reader: BytesReader) throws -> TransparencyStop {
 		//
-		let type = try parseObjc(inputStream)
+		let type = try parseObjc(reader)
 		guard type.1 == "TrnS" else { throw GRDError.invalidString }
 		guard type.2 == 3 else { throw GRDError.invalidString }
 
-		let ttype = try parseGrd5Typename(inputStream)
+		let ttype = try parseGrd5Typename(reader)
 		guard ttype == "Opct" else { throw GRDError.invalidString }
-		let value = try parseUnitFloat(inputStream)
+		let value = try parseUnitFloat(reader)
 
-		let location = try parseLctn(inputStream)
-		let midpoint = try parseMdpn(inputStream)
+		let location = try parseLctn(reader)
+		let midpoint = try parseMdpn(reader)
 		return TransparencyStop(value: value, location: location, midpoint: midpoint)
 	}
 
-	func parseUnitFloat(_ inputStream: InputStream) throws -> Double {
-		let valueType = try parseType(inputStream)
+	func parseUnitFloat(_ reader: BytesReader) throws -> Double {
+		let valueType = try parseType(reader)
 		guard valueType == "UntF" else  { throw GRDError.invalidString }
-		let subtype = try parseType(inputStream)
+		let subtype = try parseType(reader)
 		guard subtype == "#Prc" else  { throw GRDError.invalidString }
-		let percent = Double(bitPattern: try readIntegerBigEndian(inputStream))
+		let percent = Double(bitPattern: try reader.readUInt64(.big))
 		return percent
 	}
 
 
 	// location
-	func parseLctn(_ inputStream: InputStream) throws -> UInt32 {
-		let type = try parseGrd5Typename(inputStream)
+	func parseLctn(_ reader: BytesReader) throws -> UInt32 {
+		let type = try parseGrd5Typename(reader)
 		guard type == "Lctn" else { throw GRDError.invalidString }
-		return try parseLong(inputStream)
+		return try parseLong(reader)
 	}
 
 	// midpoint
-	func parseMdpn(_ inputStream: InputStream) throws -> UInt32 {
-		let type = try parseGrd5Typename(inputStream)
+	func parseMdpn(_ reader: BytesReader) throws -> UInt32 {
+		let type = try parseGrd5Typename(reader)
 		guard type == "Mdpn" else { throw GRDError.invalidString }
-		return try parseLong(inputStream)
+		return try parseLong(reader)
 	}
 
-	func parseLong(_ inputStream: InputStream) throws -> UInt32 {
-		let type = try parseType(inputStream)
+	func parseLong(_ reader: BytesReader) throws -> UInt32 {
+		let type = try parseType(reader)
 		guard type == "long" else { throw GRDError.invalidString }
-		return try readIntegerBigEndian(inputStream)
+		return try reader.readUInt32(.big)
 	}
 
-	func parseUserColor(_ inputStream: InputStream) throws -> Color {
-		let type = try parseGrd5Typename(inputStream)
+	func parseUserColor(_ reader: BytesReader) throws -> Color {
+		let type = try parseGrd5Typename(reader)
 		guard type == "Clr " else { throw GRDError.invalidString }
 
-		let objc = try parseObjc(inputStream)
+		let objc = try parseObjc(reader)
 		let colorType = objc.1
 		let /*numberOfComponents*/ _ = objc.2
 
 		let color: Color
 		switch colorType {
 		case "RGBC":
-			color = try parseUserRGB(inputStream)
+			color = try parseUserRGB(reader)
 		case "HSBC":
-			color = try parseUserHSB(inputStream)
+			color = try parseUserHSB(reader)
 		case "CMYC":
-			color = try parseUserCMYK(inputStream)
+			color = try parseUserCMYK(reader)
 		case "Grsc":
-			color = try parseUserGray(inputStream)
+			color = try parseUserGray(reader)
 		case "LbCl":
-			color = try parseUserLAB(inputStream)
+			color = try parseUserLAB(reader)
 		case "BkCl":
 			ColorPaletteLogger.log(.error, "GRDCoder: Book colors are not supported")
 			throw GRDError.unsupportedFormat
@@ -477,128 +480,129 @@ private class GRD {
 
 		return color
 	}
-	func parseUserGray(_ inputStream: InputStream) throws -> Color {
-		let g = try parseDouble(inputStream, expected: "Gry ")
+
+	func parseUserGray(_ reader: BytesReader) throws -> Color {
+		let g = try parseDouble(reader, expected: "Gry ")
 		return Color(colorspace: "gray", components: [g])
 	}
 
-	func parseUserLAB(_ inputStream: InputStream) throws -> Color {
-		let l = try parseDouble(inputStream, expected: "Lmnc")
-		let a = try parseDouble(inputStream, expected: "A   ")
-		let b = try parseDouble(inputStream, expected: "B   ")
+	func parseUserLAB(_ reader: BytesReader) throws -> Color {
+		let l = try parseDouble(reader, expected: "Lmnc")
+		let a = try parseDouble(reader, expected: "A   ")
+		let b = try parseDouble(reader, expected: "B   ")
 		return Color(colorspace: "lab", components: [l, a, b])
 	}
 
-	func parseUserRGB(_ inputStream: InputStream) throws -> Color {
-		let r = try parseDouble(inputStream, expected: "Rd  ")
-		let g = try parseDouble(inputStream, expected: "Grn ")
-		let b = try parseDouble(inputStream, expected: "Bl  ")
+	func parseUserRGB(_ reader: BytesReader) throws -> Color {
+		let r = try parseDouble(reader, expected: "Rd  ")
+		let g = try parseDouble(reader, expected: "Grn ")
+		let b = try parseDouble(reader, expected: "Bl  ")
 		return Color(colorspace: "rgb", components: [r / 255.0, g / 255.0, b / 255.0])
 	}
 
-	func parseUserCMYK(_ inputStream: InputStream) throws -> Color {
-		let c = try parseDouble(inputStream, expected: "Cyn ")
-		let m = try parseDouble(inputStream, expected: "Mgnt")
-		let y = try parseDouble(inputStream, expected: "Ylw ")
-		let k = try parseDouble(inputStream, expected: "Blck")
+	func parseUserCMYK(_ reader: BytesReader) throws -> Color {
+		let c = try parseDouble(reader, expected: "Cyn ")
+		let m = try parseDouble(reader, expected: "Mgnt")
+		let y = try parseDouble(reader, expected: "Ylw ")
+		let k = try parseDouble(reader, expected: "Blck")
 		return Color(colorspace: "cmyk", components: [c, m, y, k])
 	}
 
-	func parseUserHSB(_ inputStream: InputStream) throws -> Color {
-		let bom = try parseGrd5Typename(inputStream)
+	func parseUserHSB(_ reader: BytesReader) throws -> Color {
+		let bom = try parseGrd5Typename(reader)
 		guard bom == "H   " else { throw GRDError.invalidString }
 
-		let type = try parseType(inputStream)
+		let type = try parseType(reader)
 		guard type == "UntF" else  { throw GRDError.invalidString }
-		let subtype = try parseType(inputStream)
+		let subtype = try parseType(reader)
 		guard subtype == "#Ang" else  { throw GRDError.invalidString }
-		let angle = Double(bitPattern: try readIntegerBigEndian(inputStream))
+		let angle = Double(bitPattern: try reader.readUInt64(.big))
 
-		let s = try parseDouble(inputStream, expected: "Strt")
-		let b = try parseDouble(inputStream, expected: "Brgh")
+		let s = try parseDouble(reader, expected: "Strt")
+		let b = try parseDouble(reader, expected: "Brgh")
 		return Color(colorspace: "hsb", components: [angle, s, b])
 	}
 
-	func parseClry(_ inputStream: InputStream) throws -> String {
-		let names = try parseEnum(inputStream, "Type")
+	func parseClry(_ reader: BytesReader) throws -> String {
+		let names = try parseEnum(reader, "Type")
 		guard names.0 == "Clry" else { throw GRDError.invalidString }
 		return names.1
 	}
 
 
-	func parseIntr(_ inputStream: InputStream) throws -> Double {
-		try parseDouble(inputStream, expected: "Intr")
+	func parseIntr(_ reader: BytesReader) throws -> Double {
+		try parseDouble(reader, expected: "Intr")
 	}
 
-	func parseDouble(_ inputStream: InputStream, expected: String) throws -> Double {
-		let type = try parseGrd5Typename(inputStream)
+	func parseDouble(_ reader: BytesReader, expected: String) throws -> Double {
+		let type = try parseGrd5Typename(reader)
 		guard type == expected else { throw GRDError.invalidString }
-		let t = try readAsciiString(inputStream, length: 4)
+		let t = try reader.readStringASCII(length: 4)
 		guard "doub" == t else {
 			throw GRDError.invalidString
 		}
 
 		// Double is 8 bytes
-		return Double(bitPattern: try readIntegerBigEndian(inputStream))
+		return Double(bitPattern: try reader.readUInt64(.big))
 	}
 
-	func parseEnum(_ inputStream: InputStream, _ expected: String) throws -> (String, String) {
-		let type = try parseGrd5Typename(inputStream)
+	func parseEnum(_ reader: BytesReader, _ expected: String) throws -> (String, String) {
+		let type = try parseGrd5Typename(reader)
 		guard type == expected else { throw GRDError.invalidString }
-		let subtype = try parseType(inputStream)
+		let subtype = try parseType(reader)
 		guard subtype == "enum" else { throw GRDError.invalidString }
-		let name = try parseGrd5Typename(inputStream)
-		let subname = try parseGrd5Typename(inputStream)
+		let name = try parseGrd5Typename(reader)
+		let subname = try parseGrd5Typename(reader)
 		return (name, subname)
 	}
 
-	func parseTextHeader(_ inputStream: InputStream) throws {
-		let bom = try parseType(inputStream)
+	func parseTextHeader(_ reader: BytesReader) throws {
+		let bom = try parseType(reader)
 		guard bom == "TEXT" else { throw GRDError.invalidString }
 	}
 
 
-	func parseObjc(_ inputStream: InputStream) throws -> (String, String, Int32) {
-		let type = try parseType(inputStream)
+	func parseObjc(_ reader: BytesReader) throws -> (String, String, Int32) {
+		let type = try parseType(reader)
 		guard type == "Objc" else { throw GRDError.invalidString }
-		let name = try parseGrd5UCS2(inputStream)
-		let typeName = try parseGrd5Typename(inputStream)
-		let value: Int32 = try readIntegerBigEndian(inputStream)
+		let name = try parseGrd5UCS2(reader)
+		let typeName = try parseGrd5Typename(reader)
+		let value: Int32 = try reader.readInt32(.big)
 		return (name, typeName, value)
 	}
 
 	// Returns the number of ...
-	func parseGrdL(_ inputStream: InputStream) throws -> Int32 {
-		try parseVLLLength(inputStream, expected: "GrdL")
+	func parseGrdL(_ reader: BytesReader) throws -> Int32 {
+		try parseVLLLength(reader, expected: "GrdL")
 	}
 
-	func parseVLLLength(_ inputStream: InputStream, expected: String) throws -> Int32 {
-		let namedType = try parseGrd5Typename(inputStream)
+	func parseVLLLength(_ reader: BytesReader, expected: String) throws -> Int32 {
+		let namedType = try parseGrd5Typename(reader)
 		guard namedType == expected else { throw GRDError.invalidString }
 
-		let typeName = try readAsciiString(inputStream, length: 4)
+		let typeName = try reader.readStringASCII(length: 4)
 		guard typeName == "VlLs" else { throw GRDError.invalidString }
 
-		return try readIntegerBigEndian(inputStream)
+		return try reader.readInt32(.big)
 	}
 
-	func parseType(_ inputStream: InputStream) throws -> String {
-		return try readAsciiString(inputStream, length: 4)
+	func parseType(_ reader: BytesReader) throws -> String {
+		return try reader.readStringASCII(length: 4)
 	}
 
-	func parseGrd5Typename(_ inputStream: InputStream) throws -> String {
-		var length: UInt32 = try readIntegerBigEndian(inputStream)
+	func parseGrd5Typename(_ reader: BytesReader) throws -> String {
+		var length: UInt32 = try reader.readUInt32(.big)
 		if length == 0 { length = 4 }
-		let strData = try readData(inputStream, size: Int(length))
+		let strData = try reader.readData(count: Int(length))
 		guard let str = String(data: strData, encoding: .utf8) else {
 			throw GRDError.invalidString
 		}
 		return str
 	}
 
-	func parseGrd5UCS2(_ inputStream: InputStream) throws -> String {
-		let length: UInt32 = try readIntegerBigEndian(inputStream) * 2
-		let strData = try readData(inputStream, size: Int(length))
+	func parseGrd5UCS2(_ reader: BytesReader) throws -> String {
+		let length: UInt32 = try reader.readUInt32(.big) * 2
+		let strData = try reader.readData(count: Int(length))
 		guard let str = String(data: strData, encoding: .utf16BigEndian) else {
 			throw GRDError.invalidString
 		}
@@ -612,27 +616,27 @@ private class GRD {
 /////
 
 extension GRD {
-	func parseVersion3(_ inputStream: InputStream) throws -> [Gradient] {
-		let numGradients: UInt16 = try readIntegerBigEndian(inputStream)
+	func parseVersion3(_ reader: BytesReader) throws -> [Gradient] {
+		let numGradients: UInt16 = try reader.readUInt16(.big)
 		var result = [Gradient]()
 		for _ in 0 ..< numGradients {
-			result.append(try parseV3Gradient(inputStream))
+			result.append(try parseV3Gradient(reader))
 		}
 		return result
 	}
 
-	func parseV3Gradient(_ inputStream: InputStream) throws -> Gradient {
+	func parseV3Gradient(_ reader: BytesReader) throws -> Gradient {
 
 		// Gradient name string of length (int8) characters ("Pascal string")
-		let titleLength: Int8 = try readIntegerBigEndian(inputStream)
-		let title = try readAsciiString(inputStream, length: Int(titleLength))
+		let titleLength: Int8 = try reader.readInt8()
+		let title = try reader.readStringASCII(length: Int(titleLength))
 
-		let numberOfStops: Int16 = try readIntegerBigEndian(inputStream)
+		let numberOfStops: Int16 = try reader.readInt16(.big)
 		var stops: [ColorStop] = []
 		for _ in 0 ..< numberOfStops {
-			let location: UInt32 = try readIntegerBigEndian(inputStream)  // 0 ... 4096
-			let midPoint: UInt32 = try readIntegerBigEndian(inputStream)  // percent
-			let colorModel: Int16 = try readIntegerBigEndian(inputStream)
+			let location: UInt32 = try reader.readUInt32(.big)  // 0 ... 4096
+			let midPoint: UInt32 = try reader.readUInt32(.big)  // percent
+			let colorModel: Int16 = try reader.readInt16(.big)
 			let colorspace: String = try {
 				switch colorModel {
 				case 0: return "rgb"
@@ -644,10 +648,10 @@ extension GRD {
 				}
 			}()
 
-			let c0: UInt16 = try readIntegerBigEndian(inputStream)
-			let c1: UInt16 = try readIntegerBigEndian(inputStream)
-			let c2: UInt16 = try readIntegerBigEndian(inputStream)
-			let c3: UInt16 = try readIntegerBigEndian(inputStream)
+			let c0: UInt16 = try reader.readUInt16(.big)
+			let c1: UInt16 = try reader.readUInt16(.big)
+			let c2: UInt16 = try reader.readUInt16(.big)
+			let c3: UInt16 = try reader.readUInt16(.big)
 			let color = Color(
 				colorspace: colorspace,
 				components: [
@@ -659,7 +663,7 @@ extension GRD {
 			)
 
 			// 0 ⇒ User color, 1 ⇒ Foreground, 2 ⇒ Background)
-			let colorType: Int16 = try readIntegerBigEndian(inputStream)
+			let colorType: Int16 = try reader.readInt16(.big)
 			let ct: ColorStop.ColorType = try {
 				switch colorType {
 				case 0: return ColorStop.ColorType.userStop
@@ -675,12 +679,12 @@ extension GRD {
 			stops.append(cs)
 		}
 
-		let numberOfTransparencyStops: Int16 = try readIntegerBigEndian(inputStream)
+		let numberOfTransparencyStops: Int16 = try reader.readInt16(.big)
 		var tstops = [TransparencyStop]()
 		for _ in 0 ..< numberOfTransparencyStops {
-			let stopOffset: UInt32 = try readIntegerBigEndian(inputStream)  // 0 ... 4096
-			let midPoint: UInt32 = try readIntegerBigEndian(inputStream)  // percent
-			let opacity: Int16 = try readIntegerBigEndian(inputStream)  // 0 ... 255
+			let stopOffset: UInt32 = try reader.readUInt32(.big)  // 0 ... 4096
+			let midPoint: UInt32 = try reader.readUInt32(.big)    // percent
+			let opacity: Int16 = try reader.readInt16(.big)       // 0 ... 255
 			let stop = TransparencyStop(
 				value: Double(opacity),
 				location: UInt32(stopOffset),

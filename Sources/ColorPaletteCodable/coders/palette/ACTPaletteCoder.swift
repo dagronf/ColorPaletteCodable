@@ -18,6 +18,7 @@
 //
 
 import Foundation
+import BytesParser
 
 /// An ACT file reader (Adobe Color Table)
 /// UTI: com.adobe.act
@@ -34,14 +35,12 @@ extension PAL.Coder.ACT {
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
 	public func decode(from inputStream: InputStream) throws -> PAL.Palette {
-		// NOTE: Assumption here is that `inputStream` is already open
-		// If the input stream isn't open, the reading will hang.
-
+		let parser = BytesReader(inputStream: inputStream)
 		var result = PAL.Palette()
 
 		// The file is 768 or 772 bytes long and contains 256 RGB colors
 		try (0 ..< 256).forEach { _ in
-			let rgb = try readData(inputStream, size: 3)
+			let rgb = try parser.readData(count: 3)
 			let r = UInt8(rgb[0])
 			let g = UInt8(rgb[1])
 			let b = UInt8(rgb[2])
@@ -49,13 +48,13 @@ extension PAL.Coder.ACT {
 			result.colors.append(color)
 		}
 
-		if let numColors: Int16 = try? readIntegerBigEndian(inputStream) {
+		if let numColors: Int16 = try? parser.readInt16(.big) {
 			// Two bytes for the number of colors to use
 			let prefix = [PAL.Color](result.colors.prefix(Int(numColors)))
 			result.colors = prefix
 		}
 
-		if let alphaIndex: Int16 = try? readIntegerBigEndian(inputStream),
+		if let alphaIndex: Int16 = try? parser.readInt16(.big),
 			alphaIndex >= 0 && alphaIndex < result.colors.count
 		{
 			let index = Int(alphaIndex)
@@ -73,7 +72,7 @@ extension PAL.Coder.ACT {
 	/// - Parameter palette: The palette to encode
 	/// - Returns: The encoded representation  of the palette
 	public func encode(_ palette: PAL.Palette) throws -> Data {
-		var outputData = Data(capacity: 1024)
+		let writer = try BytesWriter()
 
 		// Flatten _all_ the colors in the palette (including global and group colors) to an RGB list
 		let flattenedColors = try palette.allColors().rgb()
@@ -82,27 +81,27 @@ extension PAL.Coder.ACT {
 		let colors = flattenedColors.prefix(256)
 		let maxColors = colors.count
 
-		(0 ..< 256).forEach { index in
+		try (0 ..< 256).forEach { index in
 			if index < maxColors {
 				// All colors in the ACT table are RGB
 				let c = flattenedColors[index]
-				outputData.append(c.r255)
-				outputData.append(c.g255)
-				outputData.append(c.b255)
+				try writer.writeByte(c.r255)
+				try writer.writeByte(c.g255)
+				try writer.writeByte(c.b255)
 			}
 			else {
-				outputData.append(0)
-				outputData.append(0)
-				outputData.append(0)
+				try writer.writeByte(0)
+				try writer.writeByte(0)
+				try writer.writeByte(0)
 			}
 		}
 
 		if maxColors < 256 {
-			outputData.append(try writeUInt16BigEndian(UInt16(maxColors)))
-			outputData.append(try writeUInt16BigEndian(UInt16(0xFFFF)))
+			try writer.writeUInt16(UInt16(maxColors), .big)
+			try writer.writeUInt16(UInt16(0xFFFF), .big)
 		}
 
-		return outputData
+		return try writer.data()
 	}
 }
 

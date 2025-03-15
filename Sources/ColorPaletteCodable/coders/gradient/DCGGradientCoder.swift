@@ -18,6 +18,7 @@
 //
 
 import Foundation
+import BytesParser
 
 public extension PAL.Gradients.Coder {
 	/// A coder for DCG (Binary colorpalettecodable) gradients
@@ -43,7 +44,7 @@ private let transparencyStopIdentifier__: UInt8 = 0xBD
 
 public extension PAL.Gradients.Coder.DCG {
 	func encode(_ gradients: PAL.Gradients) throws -> Data {
-		let file = DataWriter()
+		let file = try BytesWriter()
 
 		// Expected BOM
 		try file.writeUInt16(BOM__, .little)
@@ -105,7 +106,7 @@ public extension PAL.Gradients.Coder.DCG {
 			}
 		}
 
-		return file.storage
+		return try file.data()
 	}
 }
 
@@ -116,9 +117,7 @@ public extension PAL.Gradients.Coder.DCG {
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
 	func decode(from inputStream: InputStream) throws -> PAL.Gradients {
-		let data = inputStream.readAllData()
-		let parser = DataParser(data: data)
-
+		let parser = BytesReader(inputStream: inputStream)
 		var result = PAL.Gradients()
 
 		// Expected BOM

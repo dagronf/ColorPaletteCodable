@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "BytesParser",
+        "repositoryURL": "https://github.com/dagronf/BytesParser",
+        "state": {
+          "branch": null,
+          "revision": "2862eeb23a2e3f80b0469bfe0a95c9f7b49016b2",
+          "version": "2.0.1"
+        }
+      },
+      {
         "package": "DSFRegex",
         "repositoryURL": "https://github.com/dagronf/DSFRegex",
         "state": {
@@ -15,8 +24,8 @@
         "repositoryURL": "https://github.com/dagronf/SwiftImageReadWrite",
         "state": {
           "branch": null,
-          "revision": "f4ac49b459967c6a63d9dc6e416ca866d16da673",
-          "version": "1.7.1"
+          "revision": "42ace2412279f18bc264bc306e96b51c36e12a33",
+          "version": "1.9.2"
         }
       },
       {
@@ -24,8 +33,8 @@
         "repositoryURL": "https://github.com/dagronf/TinyCSV",
         "state": {
           "branch": null,
-          "revision": "a354f61664eef13236f20c4eb5400b50a8844d5a",
-          "version": "1.0.0"
+          "revision": "a27a0baa6766e44eb27a2a8c6b2e15541056b3de",
+          "version": "1.2.0"
         }
       }
     ]

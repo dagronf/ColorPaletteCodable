@@ -1,61 +1,68 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "Defaults",
-        "repositoryURL": "https://github.com/sindresorhus/Defaults",
-        "state": {
-          "branch": "main",
-          "revision": "be7e30ba366a7a10e198671505dbe6b4e07b76bc",
-          "version": null
-        }
-      },
-      {
-        "package": "DSFAppearanceManager",
-        "repositoryURL": "https://github.com/dagronf/DSFAppearanceManager",
-        "state": {
-          "branch": null,
-          "revision": "fd459c8060d46d17b780a80ac43db83b444e2e13",
-          "version": "3.6.2"
-        }
-      },
-      {
-        "package": "DSFRegex",
-        "repositoryURL": "https://github.com/dagronf/DSFRegex",
-        "state": {
-          "branch": null,
-          "revision": "e0e64805519b23b08dcca9c83ca2d4a2b3de4c33",
-          "version": "3.4.0"
-        }
-      },
-      {
-        "package": "SwiftImageReadWrite",
-        "repositoryURL": "https://github.com/dagronf/SwiftImageReadWrite",
-        "state": {
-          "branch": null,
-          "revision": "42ace2412279f18bc264bc306e96b51c36e12a33",
-          "version": "1.9.2"
-        }
-      },
-      {
-        "package": "swiftui-flow-layout",
-        "repositoryURL": "https://github.com/globulus/swiftui-flow-layout",
-        "state": {
-          "branch": null,
-          "revision": "de7da3440c3b87ba94adfa98c698828d7746a76d",
-          "version": "1.0.5"
-        }
-      },
-      {
-        "package": "TinyCSV",
-        "repositoryURL": "https://github.com/dagronf/TinyCSV",
-        "state": {
-          "branch": null,
-          "revision": "a27a0baa6766e44eb27a2a8c6b2e15541056b3de",
-          "version": "1.2.0"
-        }
+  "pins" : [
+    {
+      "identity" : "bytesparser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dagronf/BytesParser",
+      "state" : {
+        "revision" : "2862eeb23a2e3f80b0469bfe0a95c9f7b49016b2",
+        "version" : "2.0.1"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "defaults",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sindresorhus/Defaults",
+      "state" : {
+        "branch" : "main",
+        "revision" : "be7e30ba366a7a10e198671505dbe6b4e07b76bc"
+      }
+    },
+    {
+      "identity" : "dsfappearancemanager",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dagronf/DSFAppearanceManager",
+      "state" : {
+        "revision" : "fd459c8060d46d17b780a80ac43db83b444e2e13",
+        "version" : "3.6.2"
+      }
+    },
+    {
+      "identity" : "dsfregex",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dagronf/DSFRegex",
+      "state" : {
+        "revision" : "e0e64805519b23b08dcca9c83ca2d4a2b3de4c33",
+        "version" : "3.4.0"
+      }
+    },
+    {
+      "identity" : "swiftimagereadwrite",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dagronf/SwiftImageReadWrite",
+      "state" : {
+        "revision" : "42ace2412279f18bc264bc306e96b51c36e12a33",
+        "version" : "1.9.2"
+      }
+    },
+    {
+      "identity" : "swiftui-flow-layout",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/globulus/swiftui-flow-layout",
+      "state" : {
+        "revision" : "de7da3440c3b87ba94adfa98c698828d7746a76d",
+        "version" : "1.0.5"
+      }
+    },
+    {
+      "identity" : "tinycsv",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dagronf/TinyCSV",
+      "state" : {
+        "revision" : "a27a0baa6766e44eb27a2a8c6b2e15541056b3de",
+        "version" : "1.2.0"
+      }
+    }
+  ],
+  "version" : 2
 }

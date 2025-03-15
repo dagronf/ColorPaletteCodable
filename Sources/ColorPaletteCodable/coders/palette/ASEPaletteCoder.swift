@@ -18,6 +18,7 @@
 //
 
 import Foundation
+import BytesParser
 
 /// An ASE file reader, based on [the format defined here](http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase)
 public extension PAL.Coder {
@@ -84,21 +85,19 @@ extension PAL.Coder.ASE {
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
 	public func decode(from inputStream: InputStream) throws -> PAL.Palette {
-		// NOTE: Assumption here is that `inputStream` is already open
-		// If the input stream isn't open, the reading will hang.
-		
+		let reader = BytesReader(inputStream: inputStream)
 		var result = PAL.Palette()
 		
 		// Load and validate the header
-		let header = try readData(inputStream, size: 4)
+		let header = try reader.readData(count: 4)
 		if header != ASE_HEADER_DATA {
 			ColorPaletteLogger.log(.error, "Invalid .ase header")
 			throw PAL.CommonError.invalidASEHeader
 		}
 		
 		// Read version (currently not being used for anything)
-		let version0: UInt16 = try readIntegerBigEndian(inputStream)
-		let version1: UInt16 = try readIntegerBigEndian(inputStream)
+		let version0: UInt16 = try reader.readUInt16(.big)
+		let version1: UInt16 = try reader.readUInt16(.big)
 		if version0 != 1 || version1 != 0 {
 			// Unknown version?
 			//throw PAL.CommonError.invalidVersion
@@ -106,26 +105,26 @@ extension PAL.Coder.ASE {
 		}
 		
 		// Read the number of blocks contained within the ase file
-		let numberOfBlocks: UInt32 = try readIntegerBigEndian(inputStream)
-		
+		let numberOfBlocks: UInt32 = try reader.readUInt32(.big)
+
 		// The currently active group. If nil, colors are added to the global group
 		var currentGroup: PAL.Group?
 		
 		// Read in all the blocks
 		for _ in 0 ..< numberOfBlocks {
 			// The type of block
-			let type: UInt16 = try readIntegerBigEndian(inputStream)
-			
+			let type: UInt16 = try reader.readUInt16(.big)
+
 			// currently not validating the block lengths
-			let _: UInt32 = try readIntegerBigEndian(inputStream)
-			
+			let _: UInt32 = try reader.readUInt32(.big)
+
 			switch type {
 			case ASE_GROUP_START:
 				guard currentGroup == nil else {
 					ColorPaletteLogger.log(.error, "Attempting to open group with a group already open")
 					throw PAL.CommonError.groupAlreadyOpen
 				}
-				currentGroup = try self.readStartGroupBlock(inputStream)
+				currentGroup = try self.readStartGroupBlock(reader)
 			case ASE_GROUP_END:
 				guard let c = currentGroup else {
 					ColorPaletteLogger.log(.error, "Attempting to close group without an open group")
@@ -135,7 +134,7 @@ extension PAL.Coder.ASE {
 				currentGroup = nil
 			case ASE_BLOCK_COLOR:
 				// Pass group in by reference so we can add to it
-				try self.readColor(inputStream, currentGroup: &currentGroup, palette: &result)
+				try self.readColor(reader, currentGroup: &currentGroup, palette: &result)
 			default:
 				ColorPaletteLogger.log(.error, "Unknown ase block type")
 				throw PAL.CommonError.unknownBlockType
@@ -144,10 +143,10 @@ extension PAL.Coder.ASE {
 		return result
 	}
 	
-	private func readStartGroupBlock(_ inputStream: InputStream) throws -> PAL.Group {
+	private func readStartGroupBlock(_ reader: BytesReader) throws -> PAL.Group {
 		// Read in the name
-		let stringLen: UInt16 = try readIntegerBigEndian(inputStream)
-		let name = try readZeroTerminatedUTF16String(inputStream)
+		let stringLen: UInt16 = try reader.readUInt16(.big)
+		let name = try reader.readStringUTF16NullTerminated(.big)
 		assert(stringLen == name.count + 1)
 		return PAL.Group(name: name)
 	}
@@ -156,16 +155,16 @@ extension PAL.Coder.ASE {
 		palette.groups.append(currentGroup)
 	}
 	
-	private func readColor(_ inputStream: InputStream, currentGroup: inout PAL.Group?, palette: inout PAL.Palette) throws {
+	private func readColor(_ reader: BytesReader, currentGroup: inout PAL.Group?, palette: inout PAL.Palette) throws {
 		// Read in the name
-		let stringLen: UInt16 = try readIntegerBigEndian(inputStream)
-		let name = try readZeroTerminatedUTF16String(inputStream)
+		let stringLen: UInt16 = try reader.readUInt16(.big)
+		let name = try reader.readStringUTF16NullTerminated(.big)
 		guard stringLen == name.count + 1 else {
 			ColorPaletteLogger.log(.error, "Invalid color name")
 			throw PAL.CommonError.invalidString
 		}
 		
-		let mode = try readAsciiString(inputStream, length: 4)
+		let mode = try reader.readStringASCII(length: 4)
 		guard let colorModel = ASEColorModel(rawValue: mode) else {
 			ColorPaletteLogger.log(.error, "Invalid .ase color model %@", mode)
 			throw PAL.CommonError.unknownColorMode(mode)
@@ -178,27 +177,27 @@ extension PAL.Coder.ASE {
 		switch colorModel {
 		case .CMYK:
 			colorspace = .CMYK
-			colors.append(try readFloat32(inputStream))
-			colors.append(try readFloat32(inputStream))
-			colors.append(try readFloat32(inputStream))
-			colors.append(try readFloat32(inputStream))
+			colors.append(try reader.readFloat32(.big))
+			colors.append(try reader.readFloat32(.big))
+			colors.append(try reader.readFloat32(.big))
+			colors.append(try reader.readFloat32(.big))
 		case .RGB:
 			colorspace = .RGB
-			colors.append(try readFloat32(inputStream))
-			colors.append(try readFloat32(inputStream))
-			colors.append(try readFloat32(inputStream))
+			colors.append(try reader.readFloat32(.big))
+			colors.append(try reader.readFloat32(.big))
+			colors.append(try reader.readFloat32(.big))
 		case .LAB:
 			colorspace = .LAB
-			colors.append(try readFloat32(inputStream))
-			colors.append(try readFloat32(inputStream))
-			colors.append(try readFloat32(inputStream))
-			
+			colors.append(try reader.readFloat32(.big))
+			colors.append(try reader.readFloat32(.big))
+			colors.append(try reader.readFloat32(.big))
+
 		case .Gray:
 			colorspace = .Gray
-			colors.append(try readFloat32(inputStream))
+			colors.append(try reader.readFloat32(.big))
 		}
 		
-		let colorTypeValue: UInt16 = try readIntegerBigEndian(inputStream)
+		let colorTypeValue: UInt16 = try reader.readUInt16(.big)
 		guard let colorType = ASEColorType(rawValue: Int(colorTypeValue)) else {
 			ColorPaletteLogger.log(.error, "Invalid color type %@", colorTypeValue)
 			throw PAL.CommonError.unknownColorType(Int(colorTypeValue))
@@ -224,112 +223,107 @@ extension PAL.Coder.ASE {
 	/// - Parameter palette: The palette to encode
 	/// - Returns: The encoded representation  of the palette
 	public func encode(_ palette: PAL.Palette) throws -> Data {
-		var outputData = Data(capacity: 1024)
-		
+		let writer = try BytesWriter()
+
 		// Write header
-		outputData.append(ASE_HEADER_DATA)
-		
-		outputData.append(try writeUInt16BigEndian(1))
-		outputData.append(try writeUInt16BigEndian(0))
-		
-		var blocksData = Data(capacity: 1024)
+		try writer.writeData(ASE_HEADER_DATA)
+		try writer.writeUInt16(1, .big)
+		try writer.writeUInt16(0, .big)
+
 		do {
 			var totalBlocks = palette.colors.count + (palette.groups.count * 2) // group-start + group-end
 			palette.groups.forEach { totalBlocks += $0.colors.count }
 			
 			// The total number of blocks (group start/group end/color)
-			blocksData.append(try writeUInt32BigEndian(UInt32(totalBlocks)))
-			
+			try writer.writeUInt32(UInt32(totalBlocks), .big)
+
 			// Write the 'global' colors
 			for color in palette.colors {
-				blocksData.append(try self.writeColorData(color))
+				try self.writeColorData(writer, color)
 			}
 			
 			// Write the groups
 			for group in palette.groups {
 				// group header
-				blocksData.append(try writeUInt16BigEndian(ASE_GROUP_START))
-				
-				var groupData = Data(capacity: 1024)
+				try writer.writeUInt16(ASE_GROUP_START, .big)
+
+				let groupWriter = try BytesWriter()
 				do {
 					// Write the group name
 					let groupName = group.name.data(using: .utf16BigEndian)!
 					let groupNameLen = UInt16(group.name.count + 1)
 					// Length of the name + zero terminator
-					groupData.append(try writeUInt16BigEndian(groupNameLen))
-					groupData.append(groupName)
-					groupData.append(Common.DataTwoZeros)
+					try groupWriter.writeUInt16(groupNameLen, .big)
+					try groupWriter.writeData(groupName)
+					try groupWriter.writeData(Common.DataTwoZeros)
 				}
 				
 				// Write the group data length (the number of bytes between this block tag and the next
-				blocksData.append(try writeUInt32BigEndian(UInt32(groupData.count)))
+				try writer.writeUInt32(UInt32(groupWriter.count), .big)
 				// And the group data
-				blocksData.append(groupData)
-				
+				try writer.writeData(groupWriter.data())
+
 				for color in group.colors {
-					blocksData.append(try self.writeColorData(color))
+					try self.writeColorData(writer, color)
 				}
 				
 				// group footer
-				blocksData.append(try writeUInt16BigEndian(ASE_GROUP_END))
-				blocksData.append(try writeUInt32BigEndian(0))
+				try writer.writeUInt16(ASE_GROUP_END, .big)
+				try writer.writeUInt32(0, .big)
 			}
 		}
-		
-		outputData.append(blocksData)
-		return outputData
+
+		return try writer.data()
 	}
 	
-	func writeColorData(_ color: PAL.Color) throws -> Data {
-		var outputData = Data(capacity: 1024)
-		
+	private func writeColorData(_ writer: BytesWriter, _ color: PAL.Color) throws {
 		// Write the color block header
-		outputData.append(try writeUInt16BigEndian(ASE_BLOCK_COLOR))
-		
+		try writer.writeUInt16(ASE_BLOCK_COLOR, .big)
+
 		// Generate the color data
-		var colorData = Data(capacity: 1024)
+		let colorData = try BytesWriter()
 		do {
 			// Write the name
 			let colorName = color.name.data(using: .utf16BigEndian)!
 			let colorNameLen = UInt16(color.name.count + 1)
+
 			// Length of the name + zero terminator
-			colorData.append(try writeUInt16BigEndian(colorNameLen))
-			colorData.append(colorName)
-			colorData.append(Common.DataTwoZeros)
-			
-			/// Write the model
+			try colorData.writeUInt16(colorNameLen, .big)
+			if colorName.count > 0 {
+				try colorData.writeData(colorName)
+			}
+			try colorData.writeData(Common.DataTwoZeros)
+
+			// Write the model
 			let colorModel = ASEColorModel.from(color.colorSpace)
-			
-			colorData.append(try writeASCII(colorModel.rawValue))
+			try colorData.writeStringASCII(colorModel.rawValue)
 
+			// Write the components
 			let mappedComponents = color.colorComponents.map { Float32($0) }
-
 			switch color.colorSpace {
 			case .CMYK:
-				colorData.append(try writeFloat32(mappedComponents[0]))
-				colorData.append(try writeFloat32(mappedComponents[1]))
-				colorData.append(try writeFloat32(mappedComponents[2]))
-				colorData.append(try writeFloat32(mappedComponents[3]))
+				try colorData.writeFloat32(mappedComponents[0], .big)
+				try colorData.writeFloat32(mappedComponents[1], .big)
+				try colorData.writeFloat32(mappedComponents[2], .big)
+				try colorData.writeFloat32(mappedComponents[3], .big)
 			case .RGB, .LAB:
-				colorData.append(try writeFloat32(mappedComponents[0]))
-				colorData.append(try writeFloat32(mappedComponents[1]))
-				colorData.append(try writeFloat32(mappedComponents[2]))
+				try colorData.writeFloat32(mappedComponents[0], .big)
+				try colorData.writeFloat32(mappedComponents[1], .big)
+				try colorData.writeFloat32(mappedComponents[2], .big)
 			case .Gray:
-				colorData.append(try writeFloat32(mappedComponents[0]))
+				try colorData.writeFloat32(mappedComponents[0], .big)
 			}
 			
 			// Write the color type
 			let mappedColorType = ASEColorType.from(color.colorType)
 			let colorType = UInt16(mappedColorType.rawValue)
-			colorData.append(try writeUInt16BigEndian(colorType))
+			try colorData.writeUInt16(colorType, .big)
 		}
 		
 		// Write the block length
-		outputData.append(try writeUInt32BigEndian(UInt32(colorData.count)))
+		try writer.writeUInt32(UInt32(colorData.count), .big)
 		// Write the color block data
-		outputData.append(colorData)
-		
-		return outputData
+		try writer.writeData(colorData.data())
 	}
 }
 

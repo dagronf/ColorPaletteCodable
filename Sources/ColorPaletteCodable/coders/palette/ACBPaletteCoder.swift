@@ -18,6 +18,7 @@
 //
 
 import Foundation
+import BytesParser
 
 public extension PAL.Coder {
 	/// An object representing an ACB (Adobe Color Book)
@@ -50,22 +51,23 @@ public extension PAL.Coder.ACB {
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
+		let parser = BytesReader(inputStream: inputStream)
 		var result = PAL.Palette()
 
-		let bom = try readAsciiString(inputStream, length: 4)
+		let bom = try parser.readStringASCII(length: 4)
 		if bom != "8BCB" {
 			ColorPaletteLogger.log(.error, "ACBCoder: Invalid palette file")
 			throw PAL.CommonError.invalidBOM
 		}
 
-		let version: UInt16 = try readIntegerBigEndian(inputStream)
+		let version: UInt16 = try parser.readUInt16(.big)
 		if version != 1 {
 			ColorPaletteLogger.log(.info, "ACB: Found untested version %d... decoder may not work", version)
 		}
 
-		let _ /*identifier*/: UInt16 = try readIntegerBigEndian(inputStream)
+		let _ /*identifier*/: UInt16 = try parser.readUInt16(.big)
 
-		var title = try readPascalStyleUnicodeString(inputStream)
+		var title = try parser.readAdobePascalStyleString()
 
 		if title.starts(with: "$$$") {
 			title = title.components(separatedBy: "=").last ?? title
@@ -73,16 +75,16 @@ public extension PAL.Coder.ACB {
 
 		result.name = title
 
-		let _ /*prefix*/ = try readPascalStyleUnicodeString(inputStream)
-		let _ /*suffix*/ = try readPascalStyleUnicodeString(inputStream)
-		let _ /*description*/ = try readPascalStyleUnicodeString(inputStream)
+		let _ /*prefix*/ = try parser.readAdobePascalStyleString()
+		let _ /*suffix*/ = try parser.readAdobePascalStyleString()
+		let _ /*description*/ = try parser.readAdobePascalStyleString()
 
-		let colorCount: UInt16 = try readIntegerBigEndian(inputStream)
+		let colorCount: UInt16 = try parser.readUInt16(.big)
 		ColorPaletteLogger.log(.info, "ACBCoder: Expecting %d colors", colorCount)
 
-		let _ /*pageSize*/: UInt16 = try readIntegerBigEndian(inputStream)
-		let _ /*pageSelectorOffset*/ : UInt16 = try readIntegerBigEndian(inputStream)
-		let colorSpace: UInt16 = try readIntegerBigEndian(inputStream)
+		let _ /*pageSize*/: UInt16 = try parser.readUInt16(.big)
+		let _ /*pageSelectorOffset*/ : UInt16 = try parser.readUInt16(.big)
+		let colorSpace: UInt16 = try parser.readUInt16(.big)
 
 		let colorspace: PAL.ColorSpace
 		let componentCount: Int
@@ -105,11 +107,11 @@ public extension PAL.Coder.ACB {
 		}
 
 		for _ in 0 ..< colorCount {
-			let colorName = try readPascalStyleUnicodeString(inputStream)
-			let colorCode = try readAsciiString(inputStream, length: 6)
+			let colorName = try parser.readAdobePascalStyleString()
+			let colorCode = try parser.readStringASCII(length: 6)
 
 			// Color channels
-			let channels = try readData(inputStream, size: componentCount)
+			let channels = try parser.readData(count: componentCount)
 
 			if colorName.trimmingCharacters(in: .whitespaces).isEmpty,
 				colorCode.trimmingCharacters(in: .whitespaces).isEmpty
@@ -151,7 +153,7 @@ public extension PAL.Coder.ACB {
 			result.colors.append(color)
 		}
 
-		let _ /* spotIdentifier */ = try readAsciiString(inputStream, length: 8)
+		let _ /* spotIdentifier */ = try parser.readStringASCII(length: 8)
 
 		return result
 	}

@@ -20,6 +20,7 @@
 // A Basic binary encoder/decoder for Palettes
 
 import Foundation
+import BytesParser
 
 public extension PAL.Coder {
 	/// An object representing a DCP file
@@ -42,9 +43,7 @@ public extension PAL.Coder.DCP {
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
-
-		let data = inputStream.readAllData()
-		let parser = DataParser(data: data)
+		let parser = BytesReader(inputStream: inputStream)
 		var result = PAL.Palette()
 
 		// Read BOM
@@ -95,7 +94,7 @@ public extension PAL.Coder.DCP {
 	///
 	/// Currently not supported for Adobe Color Book
 	func encode(_ palette: PAL.Palette) throws -> Data {
-		let file = DataWriter()
+		let file = try BytesWriter()
 
 		// Expected BOM
 		try file.writeUInt16(BOM__, .little)
@@ -125,11 +124,11 @@ public extension PAL.Coder.DCP {
 			}
 		}
 
-		return file.storage
+		return try file.data()
 	}
 }
 
-extension DataWriter {
+extension BytesWriter {
 	func writeColor(_ color: PAL.Color) throws {
 		// Write a color identifer tag
 		try self.writeByte(colorIdentifier__)
@@ -161,7 +160,7 @@ extension DataWriter {
 	}
 }
 
-extension DataParser {
+extension BytesReader {
 	func readColor() throws -> PAL.Color {
 		// Read a color identifer tag
 		guard try self.readByte() == colorIdentifier__ else { throw PAL.CommonError.invalidBOM }

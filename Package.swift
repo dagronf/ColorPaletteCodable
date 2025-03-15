@@ -1,4 +1,4 @@
-// swift-tools-version: 5.4
+// swift-tools-version: 5.6
 
 import PackageDescription
 
@@ -19,6 +19,7 @@ let package = Package(
 		.package(url: "https://github.com/dagronf/DSFRegex", from: "3.4.0"),
 		.package(url: "https://github.com/dagronf/SwiftImageReadWrite", from: "1.7.1"),
 		.package(url: "https://github.com/dagronf/TinyCSV", from: "1.0.0"),
+		.package(url: "https://github.com/dagronf/BytesParser", from: "2.0.1"),
 	],
 	targets: [
 		.target(
@@ -27,6 +28,7 @@ let package = Package(
 				"DSFRegex",
 				"SwiftImageReadWrite", 
 				"TinyCSV",
+				"BytesParser",
 			],
 			resources: [
 				.copy("PrivacyInfo.xcprivacy"),

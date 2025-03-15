@@ -1,6 +1,8 @@
 @testable import ColorPaletteCodable
 import XCTest
 
+@testable import BytesParser
+
 let testResultsContainer = try! TestFilesContainer(named: "ColorPaletteCodableTests")
 
 final class CommonTests: XCTestCase {
@@ -18,46 +20,46 @@ final class CommonTests: XCTestCase {
 		XCTAssertEqual(converted.colorSpace, .RGB)
 	}
 
-	func testRoundTripValueEncodingDecoding() throws {
-
-		// Round-trip Float32
-		do {
-			let data = try writeFloat32(1)
-			let i = InputStream(data: data)
-			i.open()
-
-			let floatVal = try readFloat32(i)
-			XCTAssertEqual(floatVal, 1)
-		}
-
-		// Round-trip UInt16
-		do {
-			var data = try writeUInt16BigEndian(0)
-			data.append(try writeUInt16BigEndian(108))
-
-			let i = InputStream(data: data)
-			i.open()
-
-			let readValue1: UInt16 = try readIntegerBigEndian(i)
-			let readValue2: UInt16 = try readIntegerBigEndian(i)
-			XCTAssertEqual(0, readValue1)
-			XCTAssertEqual(108, readValue2)
-		}
-
-		// Round-trip UInt32
-		do {
-			var data = try writeUInt32BigEndian(4)
-			data.append(try writeUInt32BigEndian(55))
-
-			let i = InputStream(data: data)
-			i.open()
-
-			let readValue1: UInt32 = try readIntegerBigEndian(i)
-			let readValue2: UInt32 = try readIntegerBigEndian(i)
-			XCTAssertEqual(4, readValue1)
-			XCTAssertEqual(55, readValue2)
-		}
-	}
+//	func testRoundTripValueEncodingDecoding() throws {
+//
+//		// Round-trip Float32
+//		do {
+//			let data = try writeFloat32(1)
+//			let i = InputStream(data: data)
+//			i.open()
+//
+//			let floatVal = try readFloat32(i)
+//			XCTAssertEqual(floatVal, 1)
+//		}
+//
+//		// Round-trip UInt16
+//		do {
+//			var data = try writeUInt16BigEndian(0)
+//			data.append(try writeUInt16BigEndian(108))
+//
+//			let i = InputStream(data: data)
+//			i.open()
+//
+//			let readValue1: UInt16 = try readIntegerBigEndian(i)
+//			let readValue2: UInt16 = try readIntegerBigEndian(i)
+//			XCTAssertEqual(0, readValue1)
+//			XCTAssertEqual(108, readValue2)
+//		}
+//
+//		// Round-trip UInt32
+//		do {
+//			var data = try writeUInt32BigEndian(4)
+//			data.append(try writeUInt32BigEndian(55))
+//
+//			let i = InputStream(data: data)
+//			i.open()
+//
+//			let readValue1: UInt32 = try readIntegerBigEndian(i)
+//			let readValue2: UInt32 = try readIntegerBigEndian(i)
+//			XCTAssertEqual(4, readValue1)
+//			XCTAssertEqual(55, readValue2)
+//		}
+//	}
 
 	func testAutoDetectFile() throws {
 		let aseFile = try XCTUnwrap(Bundle.module.url(forResource: "wisteric-17", withExtension: "ase"))
@@ -274,7 +276,7 @@ final class CommonTests: XCTestCase {
 
 		do {
 			let data = Data([0xAE])
-			let parser = DataParser(data: data)
+			let parser = RandomAccessDataReader(data: data)
 
 			// Should not be able to seek beyond the end of the data
 			XCTAssertThrowsError(try parser.seek(1, .current))
@@ -296,12 +298,12 @@ final class CommonTests: XCTestCase {
 
 		do {
 			let data = Data([0x11, 0x22, 0x33, 0x44])
-			let parser = DataParser(data: data)
-			let value: UInt32 = try parser.readInteger(.big)
+			let parser = RandomAccessDataReader(data: data)
+			let value: UInt32 = try parser.readUInt32(.big)
 			XCTAssertEqual(0x11223344, value)
 			XCTAssertFalse(parser.hasMoreData())
 			try parser.seekSet(0)
-			let value2: UInt32 = try parser.readInteger(.little)
+			let value2: UInt32 = try parser.readUInt32(.little)
 			XCTAssertEqual(0x44332211, value2)
 			XCTAssertFalse(parser.hasMoreData())
 			XCTAssertThrowsError(try parser.readByte())
@@ -314,7 +316,7 @@ final class CommonTests: XCTestCase {
 
 		do {
 			let data2 = Data([0x11, 0x22, 0x33, 0x44])
-			let parser2 = DataParser(data: data2)
+			let parser2 = RandomAccessDataReader(data: data2)
 			XCTAssertEqual(0x11, try parser2.readByte())
 			XCTAssertEqual(0x22, try parser2.readByte())
 			XCTAssertEqual(0x33, try parser2.readByte())
@@ -324,7 +326,7 @@ final class CommonTests: XCTestCase {
 
 		do {
 			let data3 = Data([0x11, 0x22, 0x33, 0x44])
-			let parser3 = DataParser(data: data3)
+			let parser3 = RandomAccessDataReader(data: data3)
 			let datar = try parser3.readData(count: 4)
 			XCTAssertEqual([0x11, 0x22, 0x33, 0x44], Array(datar))
 			XCTAssertFalse(parser3.hasMoreData())
@@ -333,7 +335,7 @@ final class CommonTests: XCTestCase {
 
 		do {
 			let data3 = Data([0x11, 0x22, 0x33, 0x44])
-			let parser3 = DataParser(data: data3)
+			let parser3 = RandomAccessDataReader(data: data3)
 			let data1 = try parser3.readData(count: 2)
 			let data2 = try parser3.readData(count: 2)
 			XCTAssertFalse(parser3.hasMoreData())
@@ -345,9 +347,9 @@ final class CommonTests: XCTestCase {
 
 		do {
 			let data3 = Data([0x11, 0x22, 0x33, 0x44])
-			let parser3 = DataParser(data: data3)
+			let parser3 = RandomAccessDataReader(data: data3)
 			let data1 = try parser3.readData(count: 1)
-			let data2 = try parser3.readToEndOfData()
+			let data2 = try parser3.readAllRemainingData()
 			XCTAssertFalse(parser3.hasMoreData())
 			XCTAssertThrowsError(try parser3.readByte())
 

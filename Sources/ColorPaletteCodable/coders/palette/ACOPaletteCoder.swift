@@ -18,6 +18,7 @@
 //
 
 import Foundation
+import BytesParser
 
 // An object representing an ACO (Adobe Photoshop Swatch)
 //
@@ -48,6 +49,7 @@ public extension PAL.Coder.ACO {
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
+		let parser = BytesReader(inputStream: inputStream)
 		var result = PAL.Palette()
 
 		var v1Colors = [PAL.Color]()
@@ -55,7 +57,7 @@ public extension PAL.Coder.ACO {
 
 		try (1 ... 2).forEach { type in
 			do {
-				let version: UInt16 = try readIntegerBigEndian(inputStream)
+				let version: UInt16 = try parser.readUInt16(.big)
 				if version != type {
 					throw PAL.CommonError.invalidVersion
 				}
@@ -66,24 +68,24 @@ public extension PAL.Coder.ACO {
 				return
 			}
 
-			let numberOfColors: UInt16 = try readIntegerBigEndian(inputStream)
+			let numberOfColors: UInt16 = try parser.readUInt16(.big)
 
 			try (0 ..< numberOfColors).forEach { index in
 
-				let colorSpace: UInt16 = try readIntegerBigEndian(inputStream)
+				let colorSpace: UInt16 = try parser.readUInt16(.big)
 				guard let cs = ACO_Colorspace(rawValue: colorSpace) else {
 					Swift.print("ACOPaletteCoder: Unsupported colorspace \(colorSpace)")
 					throw PAL.CommonError.unsupportedColorSpace
 				}
 
-				let c0: UInt16 = try readIntegerBigEndian(inputStream)
-				let c1: UInt16 = try readIntegerBigEndian(inputStream)
-				let c2: UInt16 = try readIntegerBigEndian(inputStream)
-				let c3: UInt16 = try readIntegerBigEndian(inputStream)
+				let c0: UInt16 = try parser.readUInt16(.big)
+				let c1: UInt16 = try parser.readUInt16(.big)
+				let c2: UInt16 = try parser.readUInt16(.big)
+				let c3: UInt16 = try parser.readUInt16(.big)
 
 				let name: String = try {
 					if type == 2 {
-						return try readPascalStyleUnicodeString(inputStream)
+						return try parser.readAdobePascalStyleString()
 					}
 					return ""
 				}()
@@ -152,12 +154,12 @@ public extension PAL.Coder.ACO {
 	/// - Parameter palette: The palette to encode
 	/// - Returns: The encoded representation of the palette
 	func encode(_ palette: PAL.Palette) throws -> Data {
-		var outputData = Data(capacity: 1024)
+		let writer = try BytesWriter()
 
 		// Write out both v1 and v2 colors
 		try (1 ... 2).forEach { type in
-			outputData.append(try writeUInt16BigEndian(UInt16(type)))
-			outputData.append(try writeUInt16BigEndian(UInt16(palette.colors.count)))
+			try writer.writeUInt16(UInt16(type), .big)
+			try writer.writeUInt16(UInt16(palette.colors.count), .big)
 
 			for color in palette.colors {
 				var c0: UInt16 = 0
@@ -192,19 +194,19 @@ public extension PAL.Coder.ACO {
 					c2 = UInt16(65535 * converted.colorComponents[2])
 				}
 
-				outputData.append(try writeUInt16BigEndian(UInt16(acoModel.rawValue)))
+				try writer.writeUInt16(UInt16(acoModel.rawValue), .big)
 
-				outputData.append(try writeUInt16BigEndian(c0))
-				outputData.append(try writeUInt16BigEndian(c1))
-				outputData.append(try writeUInt16BigEndian(c2))
-				outputData.append(try writeUInt16BigEndian(c3))
+				try writer.writeUInt16(c0, .big)
+				try writer.writeUInt16(c1, .big)
+				try writer.writeUInt16(c2, .big)
+				try writer.writeUInt16(c3, .big)
 
 				if type == 2 {
-					outputData.append(try writePascalStyleUnicodeString(color.name))
+					try writer.writeAdobePascalStyleString(color.name)
 				}
 			}
 		}
-		return outputData
+		return try writer.data()
 	}
 }
 
