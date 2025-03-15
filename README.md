@@ -93,11 +93,12 @@ Some features :-
 |`PAL.Coder.ASE`                    | Adobe Swatch Exchange (.ase)                |
 |`PAL.Coder.BasicXML`               | Basic XML structure (.xml)                  |
 |`PAL.Coder.CLR`                    | NSColorList (.clr) *(macOS only)*           |
+|`PAL.Coder.CorelDrawV3`            | Corel Draw V3 Palette (.pal)                |
 |`PAL.Coder.CorelPainter`           | CorelPainter Swatch (.txt)                  |
 |`PAL.Coder.CorelXMLPalette`        | CorelDraw/Adobe Illustrator Palette (.xml)  |
 |`PAL.Coder.CPL`                    | Corel Paint (.cpl)                          |
 |`PAL.Coder.CSV`                    | CSV (.csv)                                  |
-|`PAL.Coder.DCP`                    | Built-in binary palette format (.dcp)   |
+|`PAL.Coder.DCP`                    | Built-in binary palette format (.dcp)       |
 |`PAL.Coder.GIMP`                   | GIMP palette files (.gpl)                   |
 |`PAL.Coder.HEX`                    | Hex Color Palette (`.hex`)                  |
 |`PAL.Coder.Image`                  | Image files (.png, .jpg, .gif)              |
@@ -178,6 +179,7 @@ let rawData = try encoder.encode(palette)
 | `PAL.Coder.ASE`               | Binary                 | ✅        | ✅        | ✅                | ❌                 | ✅                | ✅                     | ✅                        | ❌               |
 | `PAL.Coder.BasicXML`          | XML                    | ✅        | ✅        | ✅                | ✅                 | ❌                | ❌                     | RGB only                 | ✅               |
 | `PAL.Coder.CLR`               | Binary<br>(macOS only) | ✅        | ✅        | ✅                | ❌                 | ❌                | ❌                     | ✅                        | ✅               |
+| `PAL.Coder.CorelDrawV3`       | Text                   | ✅        | ✅        | ✅                | ❌                 | ❌                | ❌                     | CMYK only                | ❌               |
 | `PAL.Coder.CorelPainter`      | Text                   | ✅        | ✅        | ✅                | ❌                 | ❌                | ❌                     | RGB only                 | ❌               |
 | `PAL.Coder.CPL`               | Binary                 | ✅        | ❌        | ✅                | ✅                 | ❌                | ✅                     | ✅                        | ❌               |
 | `PAL.Coder.CSV`               | Text                   | ✅        | ✅        | ✅                | ❌                 | ❌                | ❌                     | RGB only                 | ✅               |

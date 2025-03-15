@@ -28,6 +28,7 @@
 				<string>org.openoffice.palette</string>
 				<string>public.dagronf.colorpalette.gradients</string>
 				<string>public.dagronf.colorpalette.dcp</string>
+				<string>public.dagronf.coreldrawV3.pal</string>
 			</array>
 			<key>QLSupportsSearchableItems</key>
 			<false/>

@@ -49,6 +49,7 @@ public extension PAL {
 		case sketch        // Sketch palette file (.sketchpalette)
 		case svg           // Scalable Vector Grapihcs palette (.svg)
 		case swift         // (export only) Swift source file (.swift)
+		case corelDrawV3   // Corel Draw V3 file (.pal)
 
 		/// Create a new coder based on the format
 		public var coder: PAL_PaletteCoder {
@@ -80,6 +81,7 @@ public extension PAL {
 			case .sketch       : return PAL.Coder.SketchPalette()
 			case .svg          : return PAL.Coder.SVG()
 			case .swift        : return PAL.Coder.SwiftCoder()
+			case .corelDrawV3  : return PAL.Coder.CorelDraw3PaletteCoder()
 			}
 		}
 	}
@@ -106,6 +108,7 @@ public extension PAL.Palette {
 		PAL.Coder.CorelPainter(),
 		PAL.Coder.AndroidColorsXML(),
 		PAL.Coder.OpenOfficePaletteCoder(),
+		PAL.Coder.CorelDraw3PaletteCoder(),
 	]
 }
 
