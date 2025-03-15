@@ -73,10 +73,8 @@ public extension PAL.Coder.ACO {
 			try (0 ..< numberOfColors).forEach { index in
 
 				let colorSpace: UInt16 = try parser.readUInt16(.big)
-				guard let cs = ACO_Colorspace(rawValue: colorSpace) else {
-					Swift.print("ACOPaletteCoder: Unsupported colorspace \(colorSpace)")
-					throw PAL.CommonError.unsupportedColorSpace
-				}
+
+				let cs = ACO_Colorspace(rawValue: colorSpace)
 
 				let c0: UInt16 = try parser.readUInt16(.big)
 				let c1: UInt16 = try parser.readUInt16(.big)
@@ -90,7 +88,7 @@ public extension PAL.Coder.ACO {
 					return ""
 				}()
 
-				var color: PAL.Color
+				var color: PAL.Color?
 
 				switch cs {
 				case .RGB:
@@ -126,19 +124,27 @@ public extension PAL.Coder.ACO {
 						name: name
 					)
 				case .HSB:
-					ColorPaletteLogger.log(.error, "ACOPaletteCoder: Unsupported color space HSB")
-					throw PAL.CommonError.unsupportedColorSpace
+					ColorPaletteLogger.log(.error, "ACOPaletteCoder: Unsupported color space HSB for color at index %d, converting to RGB...")
+					let h = Double(c0) / 65535.0
+					let s = Double(c1) / 65535.0
+					let b = Double(c2) / 65535.0
+					color = PAL.Color(hf: h, sf: s, bf: b, name: name)
+				default:
+					ColorPaletteLogger.log(.error, "ACOPaletteCoder: Unknown color space for color at index %d, inserting placeholder...", index)
+					color = rgbf(1.0, 0.0, 0.0, 0.5, name: "Unsupported Colorspace")
 				}
 
-				if type == 1 {
-					v1Colors.append(color)
-				}
-				else if type == 2 {
-					v2Colors.append(color)
-				}
-				else {
-					ColorPaletteLogger.log(.error, "ACOPaletteCoder: Unexpected version $d", type)
-					throw PAL.CommonError.invalidVersion
+				if let color {
+					if type == 1 {
+						v1Colors.append(color)
+					}
+					else if type == 2 {
+						v2Colors.append(color)
+					}
+					else {
+						ColorPaletteLogger.log(.error, "ACOPaletteCoder: Unexpected version $d", type)
+						throw PAL.CommonError.invalidVersion
+					}
 				}
 			}
 		}
