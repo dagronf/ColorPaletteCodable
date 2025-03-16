@@ -89,6 +89,11 @@ public extension PAL.Coder.CorelDraw3PaletteCoder {
 			}
 		}
 
+		if palette.allColors().count == 0 {
+			// Couldn't load any colors - invalid format?
+			throw PAL.CommonError.invalidFormat
+		}
+
 		return palette
 	}
 

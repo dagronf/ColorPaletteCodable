@@ -51,6 +51,10 @@ public extension PAL {
 		case swift         // (export only) Swift source file (.swift)
 		case corelDrawV3   // Corel Draw V3 file (.pal)
 
+		// This needs to go last, so it doesn't override the other PAL types
+		case vga24bit      // 24-bit RGB VGA (3 bytes RRGGBB)
+		case vga18bit      // 18-bit RGB VGA (3 bytes RRGGBB)
+
 		/// Create a new coder based on the format
 		public var coder: PAL_PaletteCoder {
 			switch self {
@@ -82,6 +86,8 @@ public extension PAL {
 			case .svg          : return PAL.Coder.SVG()
 			case .swift        : return PAL.Coder.SwiftCoder()
 			case .corelDrawV3  : return PAL.Coder.CorelDraw3PaletteCoder()
+			case .vga24bit     : return PAL.Coder.VGA24BitPaletteCoder()
+			case .vga18bit     : return PAL.Coder.VGA18BitPaletteCoder()
 			}
 		}
 	}

@@ -148,19 +148,24 @@ public extension PAL.Color {
 		/// Red component (0.0 ... 1.0)
 		public let rf: Double
 		/// Red component (0 ... 255)
-		public var r255: UInt8 { UInt8((self.rf * 255.0).rounded(.toNearestOrAwayFromZero)) }
+		@inlinable public var r255: UInt8 { UInt8((self.rf * 255.0).rounded(.toNearestOrAwayFromZero)) }
 		/// Green component (0.0 ... 1.0)
 		public let gf: Double
 		/// Green component (0 ... 255)
-		public var g255: UInt8 { UInt8((self.gf * 255.0).rounded(.toNearestOrAwayFromZero)) }
+		@inlinable public var g255: UInt8 { UInt8((self.gf * 255.0).rounded(.toNearestOrAwayFromZero)) }
 		/// Blue component (0.0 ... 1.0)
 		public let bf: Double
 		/// Blue component (0 ... 255)
-		public var b255: UInt8 { UInt8((self.bf * 255.0).rounded(.toNearestOrAwayFromZero)) }
+		@inlinable public var b255: UInt8 { UInt8((self.bf * 255.0).rounded(.toNearestOrAwayFromZero)) }
 		/// Alpha component (0.0 ... 1.0)
 		public let af: Double
 		/// Alpha component (0 ... 255)
-		public var a255: UInt8 { UInt8((self.af * 255.0).rounded(.toNearestOrAwayFromZero)) }
+		@inlinable public var a255: UInt8 { UInt8((self.af * 255.0).rounded(.toNearestOrAwayFromZero)) }
+		
+		/// RGB color components
+		@inlinable public var components: [Double] { [self.rf, self.gf, self.bf] }
+		/// RGB color components
+		@inlinable public var components255: [UInt8] { [self.r255, self.g255, self.b255] }
 	}
 }
 

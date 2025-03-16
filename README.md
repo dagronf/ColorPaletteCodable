@@ -111,6 +111,8 @@ Some features :-
 |`PAL.Coder.RIFF`                   | Microsoft RIFF palette (.pal)               |
 |`PAL.Coder.SketchPalette`          | Sketch Palette (.sketchpalette)             |
 |`PAL.Coder.SVG`                    | SVG image file (.svg)                       |
+|`PAL.Coder.VGA24BitPaletteCoder`   | 24-bit VGA palette (.pal)                   |
+|`PAL.Coder.VGA18BitPaletteCoder`   | 18-bit VGA palette (.pal)                   |
 
 Each coder defines `.encode` and `.decode`. Not all coders support both encode and decode.
 
@@ -192,9 +194,11 @@ let rawData = try encoder.encode(palette)
 | `PAL.Coder.PaintNET`          | Text                   | ✅        | ✅        | ❌                | ❌                 | ❌                | ❌                     | RGB only                 | ✅               |
 | `PAL.Coder.PaintShopPro`      | Text                   | ✅        | ✅        | ❌                | ❌                 | ❌                | ❌                     | RGB only                 | ❌               |
 | `PAL.Coder.RGB/A`             | Text                   | ✅        | ✅        | ✅                | ❌                 | ❌                | ❌                     | RGB only                 | ✅               |
-| `PAL.Coder.RIFF`              | Binary                 | ✅        | ❌        | ❌                | ❌                 | ❌                | ❌                     | RGB only                 | ❌               |
-| `PAL.Coder.SketchPalette`     | XML                    | ✅        | ✅        | ❌                | ❌                 | ❌                | ❌                     | RGB only                 | ✅               |
-| `PAL.Coder.SVG`               | SVG text               | ❌        | ✅        | ❌                | ✅                 | ✅                | ❌                     | RGB only                 | ✅               |
+| `PAL.Coder.RIFF`                 | Binary                 | ✅        | ❌        | ❌                | ❌                 | ❌                | ❌                     | RGB only                 | ❌               |
+| `PAL.Coder.SketchPalette`        | XML                    | ✅        | ✅        | ❌                | ❌                 | ❌                | ❌                     | RGB only                 | ✅               |
+| `PAL.Coder.SVG`                  | SVG text               | ❌        | ✅        | ❌                | ✅                 | ✅                | ❌                     | RGB only                 | ✅               |
+| `PAL.Coder.VGA24BitPaletteCoder` | Binary                 | ✅        | ✅        | ❌                | ❌                 | ❌                | ❌                     | RGB only                 | ❌               |
+| `PAL.Coder.VGA18BitPaletteCoder` | Binary                 | ✅        | ✅        | ❌                | ❌                 | ❌                | ❌                     | RGB only                 | ❌               |
 
 *(A ColorType represents the type of color (global/spot/normal))*
 

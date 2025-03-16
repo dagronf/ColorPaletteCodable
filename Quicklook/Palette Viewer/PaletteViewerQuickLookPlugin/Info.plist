@@ -29,6 +29,8 @@
 				<string>public.dagronf.colorpalette.gradients</string>
 				<string>public.dagronf.colorpalette.dcp</string>
 				<string>public.dagronf.coreldrawV3.pal</string>
+				<string>public.dagronf.vgargb.24bit.pal</string>
+				<string>public.dagronf.vgargb.18bit.pal</string>
 			</array>
 			<key>QLSupportsSearchableItems</key>
 			<false/>
