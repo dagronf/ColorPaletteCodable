@@ -306,3 +306,85 @@ public extension PAL.Palette {
 		try self.colors(for: type).bucketedColor(at: t, interpolate: true)
 	}
 }
+
+// MARK: - Modify
+
+public extension PAL.Palette {
+	/// An index for a color within the palette
+	struct ColorIndex: Equatable {
+		/// The group index for the color, or nil for global colors
+		public let groupIndex: Int?
+		/// The color index within the selected group
+		public let colorIndex: Int
+		/// Create
+		/// - Parameters:
+		///   - groupIndex: The group index for the color, or nil for global colors
+		///   - colorIndex: The color index within the selected group
+		public init(groupIndex: Int? = nil, colorIndex: Int) {
+			self.groupIndex = groupIndex
+			self.colorIndex = colorIndex
+		}
+	}
+
+	/// Retrieve a color from the palette
+	/// - Parameters:
+	///   - groupIndex: For palettes containing groups, the group index containing the color, or nil for global colors
+	///   - colorIndex: The color index within the group
+	/// - Returns: The color at the specified index
+	func color(groupIndex: Int? = nil, colorIndex: Int) throws -> PAL.Color {
+		if let groupIndex {
+			guard
+				groupIndex < self.groups.count,
+				colorIndex < self.groups[groupIndex].colors.count
+			else {
+				throw PAL.CommonError.indexOutOfRange
+			}
+			return self.groups[groupIndex].colors[colorIndex]
+		}
+		else {
+			guard colorIndex < self.colors.count else {
+				throw PAL.CommonError.indexOutOfRange
+			}
+			return self.colors[colorIndex]
+		}
+	}
+
+	/// Retrieve a color from the palette
+	/// - Parameters:
+	///   - index: The palette index for the color to update
+	/// - Returns: The color at the specified index
+	@inlinable func color(index: PAL.Palette.ColorIndex) throws -> PAL.Color {
+		try self.color(groupIndex: index.groupIndex, colorIndex: index.colorIndex)
+	}
+
+	/// Update a color
+	/// - Parameters:
+	///   - groupIndex: The group index containing the color index, or nil for global colors
+	///   - colorIndex: The color index within the group
+	///   - color: The color
+	mutating func updateColor(groupIndex: Int? = nil, colorIndex: Int, color: PAL.Color) throws {
+		if let groupIndex {
+			guard
+				groupIndex < self.groups.count,
+				colorIndex < self.groups[groupIndex].colors.count
+			else {
+				throw PAL.CommonError.indexOutOfRange
+			}
+			self.groups[groupIndex].colors[colorIndex].setColor(color)
+		}
+		else {
+			guard colorIndex < self.colors.count else {
+				throw PAL.CommonError.indexOutOfRange
+			}
+			self.colors[colorIndex].setColor(color)
+		}
+	}
+
+	/// Update a color
+	/// - Parameters:
+	///   - index: The palette index for the color to update
+	///   - color: The color
+	@inlinable mutating func updateColor(index: PAL.Palette.ColorIndex, color: PAL.Color) throws {
+		try self.updateColor(groupIndex: index.groupIndex, colorIndex: index.colorIndex, color: color)
+	}
+}

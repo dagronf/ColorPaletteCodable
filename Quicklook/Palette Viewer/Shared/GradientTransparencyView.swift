@@ -112,8 +112,6 @@ struct GradientTransparency_Previews: PreviewProvider {
 			PAL.Gradient.TransparencyStop(position: 1, value: 1, midpoint: 0.5)
 		]
 
-		PAL.Gradients.Coder.GGR()
-
 		return g
 	}()
 	static let gradient2: PAL.Gradient = {

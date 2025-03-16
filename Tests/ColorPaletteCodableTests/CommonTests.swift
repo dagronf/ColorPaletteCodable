@@ -607,4 +607,17 @@ final class CommonTests: XCTestCase {
 		XCTAssertEqual(try c1.hexString(.bgra, hashmark: false, uppercase: true), "CCBBAADD")
 		XCTAssertEqual(try c1.hexString(.abgr, hashmark: false, uppercase: true), "DDCCBBAA")
 	}
+
+
+	func testModifyPalette() throws {
+		var palette = try loadResourcePalette(named: "24 colour palettes.ase")
+
+		try palette.updateColor(groupIndex: 1, colorIndex: 1, color: rgb255(255, 0, 0))
+		try palette.updateColor(groupIndex: 1, colorIndex: 2, color: rgb255(255, 0, 0))
+		try palette.updateColor(groupIndex: 1, colorIndex: 3, color: rgb255(255, 0, 0))
+
+		let d = try palette.export(format: .ase)
+		try d.write(to: URL(fileURLWithPath: "/tmp/modified.ase"))
+	}
+
 }

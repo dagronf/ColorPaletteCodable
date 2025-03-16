@@ -11,7 +11,7 @@ import ColorPaletteCodable
 func paletteAsset(named name: String) -> PAL.Palette {
 	let assetData = NSDataAsset(name: name)!.data
 	let u = URL(string: name)!
-	return try! PAL.LoadPalette(assetData, for: u.pathExtension)
+	return try! PAL.Palette(assetData, fileExtension: u.pathExtension)
 }
 
 let palette1 = paletteAsset(named: "pear36.hex")

@@ -208,6 +208,7 @@ public extension PAL.Color {
 	}
 
 	/// Make a unique copy of this color
+	/// - Returns: A unique copy
 	func uniqueCopy() -> PAL.Color {
 		PAL.Color(
 			noVerifyWithColorspace: self.colorSpace,
@@ -216,6 +217,13 @@ public extension PAL.Color {
 			name: self.name,
 			colorType: self.colorType
 		)
+	}
+
+	/// Make unique copies of this color
+	/// - Parameter count: The number of unique copies to make
+	/// - Returns: Array of unique copies
+	@inlinable func uniqueCopy(count: Int) -> [PAL.Color] {
+		(0 ..< count).map { _ in self.uniqueCopy()}
 	}
 
 	/// Returns a copy of this color without transparency
@@ -298,19 +306,3 @@ public extension PAL.Color {
 		return try PAL_ColorSpaceConverter.convert(color: self, to: colorspace)
 	}
 }
-
-// MARK: - Modification
-
-public extension PAL.Color {
-	mutating func setRGB(rf: Double, gf: Double, bf: Double, af: Double) {
-		self.colorSpace = .RGB
-		self.colorComponents = [rf.unitClamped, gf.unitClamped, bf.unitClamped]
-		self.alpha = af.unitClamped
-	}
-	mutating func setGray(whitef: Double, af: Double) {
-		self.colorSpace = .Gray
-		self.colorComponents = [whitef.unitClamped]
-		self.alpha = af.unitClamped
-	}
-}
-
