@@ -125,7 +125,7 @@ do {
    let myFileURL = URL(fileURL: ...)
    
    // Try to decode the palette based on its file extension
-   let palette = try PAL.Palette.Decode(from: myFileURL)
+   let palette = try PAL.Palette(myFileURL)
    
    // do something with 'palette'
 }
@@ -147,27 +147,28 @@ palette.colors.append(contentsOf: [c1, c2, c3])
 // Generate a simple image from the colors
 let image = try PAL.Image.Image(colors: [c1, c2, c3], size: CGSize(width: 100, height: 25))
 
+// Simple export using the 'ase' format with default settings
+let exportedPaletteData = try palette.export(format: .ase)
+
+// Export using a coder (useful when the coder has configuration options)
 // Create an ASE coder
 let coder = PAL.Coder.ASE()
-
-// Get the .ase format data
 let rawData = try coder.encode(palette)
    
 // Do something with 'rawData' (like write to a file for example)
+
 ```
 
 #### Read an ACO file, write an ASE file
 
 ```swift
 let acoFileURL = URL(fileURL: ...)
-let coder = PAL.Coder.ACO()
-var palette = try coder.decode(from: acoFileURL)
-   
-// do something with 'palette'
-   
+var palette = try PAL.Palette(acoFileURL)
+
+// ... do something with 'palette' ...
+
 // re-encode the palette to an ASE format
-let encoder = PAL.Coder.ASE()
-let rawData = try encoder.encode(palette) 
+let paletteData = palette.export(format: .ase)
 ```
 
 ### Palette format encoding/decoding limitations
@@ -315,8 +316,6 @@ let rgb1 = rgbf(1.0, 1.0, 0.5, 0.2, name: "Lemon Curd")
 /// Create a gray color
 let gray1 = grayf(0.2, 1.0, name: "Dark Gray")
 ```
-
-
 
 ## Palette Viewer
 
