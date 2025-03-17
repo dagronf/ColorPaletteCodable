@@ -47,6 +47,7 @@ import TinyCSV
 /// A very basic csv decoder/encoder
 public extension PAL.Coder {
 	struct CSV: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .csv
 		public let name = "CSV"
 		public let fileExtension = ["csv"]
 
@@ -94,7 +95,8 @@ extension PAL.Coder.CSV {
 		if colors.count == 0 {
 			throw PAL.CommonError.invalidFormat
 		}
-		return PAL.Palette(colors: colors)
+
+		return PAL.Palette(colors: colors, format: self.format)
 	}
 }
 

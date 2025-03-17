@@ -25,6 +25,7 @@ import BytesParser
 public extension PAL.Coder {
 	/// An object representing a DCP file
 	struct DCP: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .dcp
 		public let name = "Color Palette"
 		public let fileExtension = ["dcp"]
 		public init() {}
@@ -44,7 +45,7 @@ public extension PAL.Coder.DCP {
 	/// - Returns: A palette
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
 		let parser = BytesReader(inputStream: inputStream)
-		var result = PAL.Palette()
+		var result = PAL.Palette(format: self.format)
 
 		// Read BOM
 		guard try parser.readUInt16(.little) == BOM__ else {

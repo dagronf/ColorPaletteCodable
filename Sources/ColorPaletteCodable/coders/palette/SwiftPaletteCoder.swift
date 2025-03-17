@@ -22,6 +22,7 @@ import Foundation
 public extension PAL.Coder {
 
 	struct SwiftCoder: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .swift
 		public let name = "Swift Palette Code Generator"
 		public let fileExtension = ["swift"]
 	}

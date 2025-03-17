@@ -29,6 +29,7 @@ public extension PAL.Coder {
 	///
 	/// https://community.coreldraw.com/sdk/w/articles/177/creating-color-palettes
 	class CorelXMLPalette: NSObject, PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .corelDraw
 		public let name = "CorelDraw XML Palette"
 		public let fileExtension = ["xml"]
 		public override init() {
@@ -50,7 +51,7 @@ extension PAL.Coder.CorelXMLPalette {
 	/// - Returns: A palette
 	public func decode(from inputStream: InputStream) throws -> PAL.Palette {
 
-		self.palette = PAL.Palette()
+		self.palette = PAL.Palette(format: self.format)
 
 		let parser = XMLParser(stream: inputStream)
 		parser.delegate = self

@@ -26,6 +26,9 @@ public extension PAL {
 
 /// A Palette coder protocol
 public protocol PAL_PaletteCoder {
+	/// The palette format
+	var format: PAL.PaletteFormat { get }
+
 	/// The coder's name
 	var name: String { get }
 

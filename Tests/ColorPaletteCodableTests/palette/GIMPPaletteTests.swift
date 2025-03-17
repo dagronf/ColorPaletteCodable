@@ -13,9 +13,12 @@ class GIMPPaletteTests: XCTestCase {
 		try files.forEach { file in
 			let paletteURL = try XCTUnwrap(Bundle.module.url(forResource: file, withExtension: "gpl"))
 			let palette = try PAL.Palette.Decode(from: paletteURL)
+			XCTAssertEqual(palette.format, .gimp)
 			XCTAssertGreaterThan(palette.colors.count, 0)
+
 			let data = try PAL.Coder.GIMP().encode(palette)
 			let palette2 = try PAL.Palette.Decode(from: data, fileExtension: "gpl")
+			XCTAssertEqual(palette2.format, .gimp)
 			XCTAssertGreaterThan(palette2.colors.count, 0)
 			XCTAssertEqual(palette.colors.count, palette2.colors.count)
 		}

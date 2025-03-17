@@ -52,7 +52,7 @@ public extension PAL.Gradients.Coder.GRD {
 			return PAL.Gradients()
 		}
 
-		var result = PAL.Gradients()
+		var result = PAL.Gradients(format: .grd)
 
 		try gradients.forEach { gradient in
 			var gr = PAL.Gradient(colors: [])

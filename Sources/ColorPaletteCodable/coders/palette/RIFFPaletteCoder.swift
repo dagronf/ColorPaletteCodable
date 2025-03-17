@@ -24,6 +24,7 @@ import BytesParser
 /// See https://www.codeproject.com/Articles/1172812/Loading-Microsoft-RIFF-Palette-pal-Files-with-Csha
 public extension PAL.Coder {
 	struct RIFF: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .riff
 		public let name = "Microsoft RIFF"
 		public let fileExtension = ["pal"]
 		public init() {}
@@ -41,7 +42,7 @@ extension PAL.Coder.RIFF {
 		// If the input stream isn't open, the reading will hang.
 		let parser = BytesReader(inputStream: inputStream)
 
-		var result = PAL.Palette()
+		var result = PAL.Palette(format: self.format)
 
 		// Check header
 		let header: Int32 = try parser.readInt32(.big)

@@ -68,6 +68,7 @@ final class DCGGradientTests: XCTestCase {
 		// TSMP is 30.grd
 		let gradients = try loadResourceGradient(named: "tsmp.dcg")
 		XCTAssertEqual(10, gradients.count)
+		XCTAssertEqual(.dcg, gradients.format)
 
 		let g1 = gradients.gradients[0]
 		XCTAssertEqual("Custom", g1.name)
@@ -105,6 +106,7 @@ final class DCGGradientTests: XCTestCase {
 	func testVeryBasicTransparencyMap() throws {
 		// This gradient has a transparency map
 		let gradients = try loadResourceGradient(named: "30.grd")
+		XCTAssertEqual(.grd, gradients.format)
 		XCTAssertEqual(10, gradients.count)
 		let g1 = gradients.gradients[0]
 

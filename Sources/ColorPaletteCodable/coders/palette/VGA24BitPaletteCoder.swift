@@ -24,6 +24,7 @@ import BytesParser
 public extension PAL.Coder {
 	/// A coder supporting 24-bit (3 \* 8-bit channel) RGB VGA palettes
 	struct VGA24BitPaletteCoder: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .vga24bit
 		public let name = "24-bit VGA Palette"
 		public let utType = "public.dagronf.vgargb.24bit.pal"
 		public let fileExtension = ["pal"]
@@ -49,7 +50,7 @@ public extension PAL.Coder.VGA24BitPaletteCoder {
 			let b = data[index + 2]
 			return rgbf(Double(r) / 255.0, Double(g) / 255.0, Double(b) / 255.0)
 		}
-		return PAL.Palette(colors: colors)
+		return PAL.Palette(colors: colors, format: self.format)
 	}
 
 	/// Encode the palette

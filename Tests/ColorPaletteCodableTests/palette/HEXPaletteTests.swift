@@ -26,6 +26,7 @@ final class HEXPaletteTests: XCTestCase {
 
 	func testLoadingAlpha() throws {
 		let palette = try loadResourcePalette(named: "pear36-transparency.hex", using: PAL.Coder.HEX())
+		XCTAssertEqual(palette.format, .hexRGBA)
 		XCTAssertEqual(36, palette.colors.count)
 
 		let color1 = palette.colors[0]

@@ -23,6 +23,7 @@ import BytesParser
 public extension PAL.Coder {
 	/// An object representing a CPL (Corel Color Palette)
 	struct CPL: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .corelPalette
 		public let name = "Corel Palette"
 		public let fileExtension = ["cpl"]
 		public init() {}
@@ -43,7 +44,7 @@ public extension PAL.Coder.CPL {
 		let data = inputStream.readAllData()
 		let file = RandomAccessDataReader(data: data)
 
-		var result = PAL.Palette()
+		var result = PAL.Palette(format: self.format)
 
 		var spot = false
 		var paletteType: UInt16 = 0

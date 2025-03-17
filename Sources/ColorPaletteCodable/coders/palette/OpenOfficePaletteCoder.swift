@@ -40,6 +40,7 @@ import FoundationXML
 
 public extension PAL.Coder {
 	class OpenOfficePaletteCoder: NSObject, PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .openOffice
 		public let name = "OpenOffice Palette"
 		public let fileExtension = ["soc"]
 		public override init() {
@@ -58,7 +59,7 @@ public extension PAL.Coder.OpenOfficePaletteCoder {
 	/// - Returns: A palette
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
 
-		self.palette = PAL.Palette()
+		self.palette = PAL.Palette(format: self.format)
 
 		let parser = XMLParser(stream: inputStream)
 		parser.delegate = self

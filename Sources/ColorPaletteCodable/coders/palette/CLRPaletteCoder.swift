@@ -26,6 +26,7 @@ import AppKit
 /// An NSColorList palette coder/decoder.
 public extension PAL.Coder {
 	struct CLR: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .clr
 		public let name = "Apple NSColorList"
 		public let fileExtension = ["clr"]
 		public init() {}
@@ -40,7 +41,9 @@ extension PAL.Coder.CLR {
 			return NSColorList(name: "", fromFile: fileURL.path)
 		}
 		if let cl = cl {
-			return try PAL.Palette(cl)
+			var p = try PAL.Palette(cl)
+			p.format = self.format
+			return p
 		}
 		throw PAL.CommonError.unableToLoadFile
 #else

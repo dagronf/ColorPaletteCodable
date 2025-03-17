@@ -19,30 +19,30 @@
 
 import Foundation
 
-public extension PAL.Gradients.Coder {
-	/// A coder for PSP gradients
-	struct PSP: PAL_GradientsCoder {
-		/// The coder's file format
-		public static let fileExtension = "pspgradient"
-		public init() {}
-	}
-}
+public extension PAL {
+	/// Supported gradient formats
+	enum GradientCoderFormat: CaseIterable {
+		case json
+		case dcg
+		case ggr
+		case grd
+		case psp
+		case svg
+		case cpt
+		case gpf		// GNUPlot format
 
-public extension PAL.Gradients.Coder.PSP {
-	func encode(_ gradients: PAL.Gradients) throws -> Data {
-		throw PAL.CommonError.notImplemented
-	}
-}
-
-public extension PAL.Gradients.Coder.PSP {
-	/// Create a palette from the contents of the input stream
-	/// - Parameter inputStream: The input stream containing the encoded palette
-	/// - Returns: A palette
-	///
-	/// Note that the psppalette scheme appears to be equal to v3 of the grd format
-	func decode(from inputStream: InputStream) throws -> PAL.Gradients {
-		var g = try PAL.Gradients.Coder.GRD().decode(from: inputStream)
-		g.format = .psp
-		return g
+		/// Create a new coder based on the format
+		public var coder: PAL_GradientsCoder {
+			switch self {
+			case .json: return PAL.Gradients.Coder.JSON()
+			case .dcg:  return PAL.Gradients.Coder.DCG()
+			case .ggr:  return PAL.Gradients.Coder.GGR()
+			case .grd:  return PAL.Gradients.Coder.GRD()
+			case .psp:  return PAL.Gradients.Coder.PSP()
+			case .svg:  return PAL.Gradients.Coder.SVG()
+			case .cpt:  return PAL.Gradients.Coder.CPT()
+			case .gpf:  return PAL.Gradients.Coder.GPF()
+			}
+		}
 	}
 }

@@ -21,6 +21,7 @@ final class CLRPaletteTests: XCTestCase {
 
 			// Try to load
 			let palette = try loadResourcePalette(named: name)
+			XCTAssertEqual(palette.format, .clr)
 
 			// Write to a data stream
 			let data = try coder.encode(palette)

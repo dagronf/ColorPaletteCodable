@@ -23,6 +23,7 @@ import Foundation
 public extension PAL.Coder {
 	/// A coder that handle delimited RGBA strings
 	struct HEX: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .hexRGBA
 		public let name = "Hex RGBA"
 		public let fileExtension = ["hex"]
 		public init() {}
@@ -38,7 +39,7 @@ public extension PAL.Coder.HEX {
 		}
 		let content = decoded.text
 
-		var palette = PAL.Palette()
+		var palette = PAL.Palette(format: self.format)
 
 		// Split into newlines
 		let lines = content.split(whereSeparator: \.isNewline)

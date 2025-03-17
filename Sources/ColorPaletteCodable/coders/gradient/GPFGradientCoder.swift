@@ -80,7 +80,10 @@ public extension PAL.Gradients.Coder.GPF {
 			}
 			return result
 		}
-		return PAL.Gradients(gradients: [PAL.Gradient(stops: gradientStops)])
+		return PAL.Gradients(
+			gradient: PAL.Gradient(stops: gradientStops),
+			format: .gpf
+		)
 	}
 }
 

@@ -19,34 +19,6 @@
 
 import Foundation
 
-public extension PAL {
-	/// Supported gradient formats
-	enum GradientCoderFormat: CaseIterable {
-		case json
-		case dcg
-		case ggr
-		case grd
-		case psp
-		case svg
-		case cpt
-		case gpf
-
-		/// Create a new coder based on the format
-		public var coder: PAL_GradientsCoder {
-			switch self {
-			case .json: return PAL.Gradients.Coder.JSON()
-			case .dcg:  return PAL.Gradients.Coder.DCG()
-			case .ggr:  return PAL.Gradients.Coder.GGR()
-			case .grd:  return PAL.Gradients.Coder.GRD()
-			case .psp:  return PAL.Gradients.Coder.PSP()
-			case .svg:  return PAL.Gradients.Coder.SVG()
-			case .cpt:  return PAL.Gradients.Coder.CPT()
-			case .gpf:  return PAL.Gradients.Coder.GPF()
-			}
-		}
-	}
-}
-
 /// The built-in supported coders
 private let AvailableGradientCoders: [PAL_GradientsCoder] =
 	PAL.GradientCoderFormat.allCases.map { $0.coder }
@@ -124,6 +96,15 @@ public extension PAL.Gradients {
 			return coder
 		}()
 		return try coder.decode(from: fileURL)
+	}
+
+	/// Decode a gradient from the contents of a fileURL
+	/// - Parameters:
+	///   - fileURL: The file to load
+	///   - format: The expected gradients file format
+	/// - Returns: A palette
+	static func Decode(from fileURL: URL, format: PAL.GradientCoderFormat) throws -> PAL.Gradients {
+		try Self.Decode(from: fileURL, usingCoder: format.coder)
 	}
 
 	/// Decode a gradient from the contents of a fileURL

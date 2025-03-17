@@ -23,9 +23,13 @@ import Foundation
 
 public extension PAL {
 	/// A collection of gradients
-	struct Gradients: Codable {
+	struct Gradients {
 		/// The gradients
 		public var gradients: [Gradient]
+
+		/// If the gradient was populated from a file, the format of the loaded file
+		public internal(set) var format: PAL.GradientCoderFormat? = nil
+
 		/// The number of gradients
 		@inlinable public var count: Int { gradients.count }
 		/// Create a collection of gradients
@@ -58,10 +62,46 @@ public extension PAL {
 	}
 }
 
-public extension PAL.Gradients {
-	struct Coder {
+extension PAL.Gradients {
+	/// Create from a single gradient and a format
+	/// - Parameters:
+	///   - gradient: The gradient
+	///   - format: The format
+	internal init(gradient: PAL.Gradient, format: PAL.GradientCoderFormat) {
+		self.gradients = [gradient]
+		self.format = format
+	}
+
+	/// Create with a format
+	/// - Parameters:
+	///   - format: The format
+	internal init(format: PAL.GradientCoderFormat) {
+		self.gradients = []
+		self.format = format
+	}
+}
+
+// MARK: - Codable support
+
+extension PAL.Gradients: Codable {
+	public struct Coder {
 		// Hide the init
 		private init() {}
+	}
+
+	enum CodingKeys: String, CodingKey {
+		case gradients
+	}
+
+	public init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		self.gradients = try container.decode([PAL.Gradient].self, forKey: .gradients)
+		self.format = .json
+	}
+
+	public func encode(to encoder: Encoder) throws {
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		try container.encode(self.gradients, forKey: .gradients)
 	}
 }
 
@@ -76,7 +116,9 @@ public extension PAL.Gradients {
 	///   - fileURL: The local fileURL for the gradients file
 	///   - coder: [optional] Override the default gradients coder
 	init(_ fileURL: URL, usingCoder coder: PAL_GradientsCoder? = nil) throws {
-		self.gradients = try PAL.Gradients.Decode(from: fileURL, usingCoder: coder).gradients
+		let decoded = try PAL.Gradients.Decode(from: fileURL, usingCoder: coder)
+		self.gradients = decoded.gradients
+		self.format = decoded.format
 	}
 
 	/// Load a local gradient file
@@ -96,6 +138,7 @@ public extension PAL.Gradients {
 	init(_ data: Data, usingCoder coder: PAL_GradientsCoder) throws {
 		let g = try coder.decode(from: data)
 		self.gradients = g.gradients
+		self.format = g.format
 	}
 
 	/// Load a gradient from raw data
@@ -113,6 +156,7 @@ public extension PAL.Gradients {
 	init(_ data: Data, fileExtension: String) throws {
 		let g = try PAL.Gradients.Decode(from: data, fileExtension: fileExtension)
 		self.gradients = g.gradients
+		self.format = g.format
 	}
 }
 

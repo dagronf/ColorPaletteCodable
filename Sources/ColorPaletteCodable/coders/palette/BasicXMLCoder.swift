@@ -39,11 +39,9 @@ import FoundationXML
 
 public extension PAL.Coder {
 	class BasicXML: NSObject, PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .basicXML
 		public let name = "Basic XML Palette"
 		public let fileExtension = ["xml"]
-		public override init() {
-			super.init()
-		}
 
 		var palette = PAL.Palette()
 	}
@@ -54,7 +52,7 @@ extension PAL.Coder.BasicXML {
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
 	public func decode(from inputStream: InputStream) throws -> PAL.Palette {
-		self.palette = PAL.Palette()
+		self.palette = PAL.Palette(format: self.format)
 
 		let parser = XMLParser(stream: inputStream)
 		parser.delegate = self

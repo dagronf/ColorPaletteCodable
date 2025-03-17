@@ -31,6 +31,7 @@ final class ASEPaletteTests: XCTestCase {
 
 			// Attempt to load the ase file
 			let palette = try loadResourcePalette(named: name)
+			XCTAssertEqual(palette.format, .ase)
 
 			// Write to a data stream
 			let data = try coder.encode(palette)

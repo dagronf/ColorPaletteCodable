@@ -22,9 +22,9 @@ import Foundation
 
 public extension PAL.Coder {
 	struct GIMP: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .gimp
 		public let name = "GIMP Palette"
 		public let fileExtension = ["gpl"]
-		public init() {}
 	}
 }
 
@@ -42,7 +42,7 @@ public extension PAL.Coder.GIMP {
 			throw PAL.CommonError.invalidFormat
 		}
 
-		var palette = PAL.Palette()
+		var palette = PAL.Palette(format: self.format)
 
 		// Regex to find the name
 		let nameRegex = try DSFRegex(#"^Name:\s*(.*)$"#)

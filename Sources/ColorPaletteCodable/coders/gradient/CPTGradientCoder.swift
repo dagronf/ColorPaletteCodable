@@ -80,7 +80,7 @@ public extension PAL.Gradients.Coder.CPT {
 			}
 		}
 
-		return PAL.Gradients(gradient: PAL.Gradient(stops: stops))
+		return PAL.Gradients(gradient: PAL.Gradient(stops: stops), format: .cpt)
 	}
 }
 

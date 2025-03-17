@@ -22,8 +22,10 @@ import Foundation
 public extension PAL.Coder {
 	/// A coder that handles export a palette to an SVG swatch representation
 	struct SVG: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .svg
 		public let name = "SVG"
 		public let fileExtension = ["svg"]
+
 		public var swatchSize: PAL.Size
 		public var maxExportWidth: Double
 		public var edgeInset: PAL.EdgeInsets

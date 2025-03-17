@@ -34,6 +34,7 @@ import Foundation
 /// ```
 public extension PAL.Coder {
 	struct RGBA: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .rgba
 		public let name = "RGBA text"
 		public let fileExtension = ["rgba", "txt"]
 		public init() {}
@@ -62,7 +63,7 @@ public extension PAL.Coder.RGBA {
 		let text = decoded.text
 
 		let lines = text.split(separator: "\n")
-		var palette = PAL.Palette()
+		var palette = PAL.Palette(format: self.format)
 
 		try lines.forEach { line in
 			let l = line.trimmingCharacters(in: CharacterSet.whitespaces)

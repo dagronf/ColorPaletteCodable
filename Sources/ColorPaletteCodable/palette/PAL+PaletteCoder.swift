@@ -160,20 +160,18 @@ public extension PAL.Palette {
 			return coders
 		}()
 
-		var lastError: Error = PAL.CommonError.unsupportedPaletteType
-
 		// Loop through coders that support this path extension and try each one until one works
 		for coder in coders {
 			do {
 				return try coder.decode(from: fileURL)
 			}
 			catch {
-				lastError = error
+				// Move on to the next matching coder
 			}
 		}
 
 		// None of our coders worked
-		throw lastError
+		throw PAL.CommonError.unsupportedPaletteType
 	}
 	
 	/// Decode a palette from the contents of a fileURL

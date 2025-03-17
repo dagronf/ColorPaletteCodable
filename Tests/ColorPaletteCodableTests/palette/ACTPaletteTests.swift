@@ -18,6 +18,7 @@ final class ACTSwatchesTests: XCTestCase {
 
 			// Attempt to load the ase file
 			let swatches = try loadResourcePalette(named: name)
+			XCTAssertEqual(swatches.format, .act)
 
 			// Write to a data stream
 			let data = try paletteCoder.encode(swatches)

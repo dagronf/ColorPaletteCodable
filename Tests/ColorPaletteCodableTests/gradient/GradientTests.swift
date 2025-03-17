@@ -12,6 +12,7 @@ class GradientTests: XCTestCase {
 		let fileURL = try resourceURL(for: "37_waves.cpt")
 		let gradients = try PAL.Gradients(fileURL)
 		XCTAssertEqual(1, gradients.count)
+		XCTAssertEqual(.cpt, gradients.format)
 		XCTAssertEqual(1, gradients.gradients.count)
 		XCTAssertEqual(508, gradients.gradients[0].stops.count)
 
@@ -26,6 +27,7 @@ class GradientTests: XCTestCase {
 		let fileData = try gradients.export(format: .dcg)
 		let decoded = try PAL.Gradients(fileData, fileExtension: "dcg")
 		XCTAssertEqual(1, decoded.count)
+		XCTAssertEqual(.dcg, decoded.format)
 		XCTAssertEqual(1, decoded.gradients.count)
 		XCTAssertEqual(508, decoded.gradients[0].stops.count)
 
@@ -110,6 +112,7 @@ class GradientTests: XCTestCase {
 		// Decode
 		let gradients2 = try PAL.Gradients.Decode(from: g1, fileExtension: format)
 		XCTAssertEqual(1, gradients2.count)
+		XCTAssertEqual(.json, gradients2.format)
 		let gradient2 = gradients.gradients[0]
 
 		XCTAssertNil(gradient2.name)

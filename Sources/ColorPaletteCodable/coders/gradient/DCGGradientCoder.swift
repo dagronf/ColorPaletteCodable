@@ -118,7 +118,7 @@ public extension PAL.Gradients.Coder.DCG {
 	/// - Returns: A palette
 	func decode(from inputStream: InputStream) throws -> PAL.Gradients {
 		let parser = BytesReader(inputStream: inputStream)
-		var result = PAL.Gradients()
+		var result = PAL.Gradients(format: .dcg)
 
 		// Expected BOM
 		let bom = try parser.readUInt16(.little)

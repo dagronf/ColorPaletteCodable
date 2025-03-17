@@ -18,6 +18,8 @@ class AndroidColorsXMLTests: XCTestCase {
 		try files.forEach { item in
 			Swift.print("> Roundtripping: \(item)")
 			let palette = try loadResourcePalette(named: item)
+			XCTAssertEqual(palette.format, .androidXML)
+			
 			let coder = PAL.Coder.AndroidColorsXML()
 			let data = try coder.encode(palette)
 

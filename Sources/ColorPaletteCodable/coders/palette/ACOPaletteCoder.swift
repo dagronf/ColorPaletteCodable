@@ -25,6 +25,7 @@ import BytesParser
 // Based on the discussion here: https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577411_pgfId-1070626
 public extension PAL.Coder {
 	struct ACO: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .aco
 		public let name = "Adobe Photoshop Swatch"
 		public let fileExtension = ["aco"]
 		public init() {}
@@ -50,7 +51,7 @@ public extension PAL.Coder.ACO {
 	/// - Returns: A palette
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
 		let parser = BytesReader(inputStream: inputStream)
-		var result = PAL.Palette()
+		var result = PAL.Palette(format: self.format)
 
 		var v1Colors = [PAL.Color]()
 		var v2Colors = [PAL.Color]()

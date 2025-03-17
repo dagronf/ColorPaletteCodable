@@ -40,6 +40,7 @@ import Foundation
 
 public extension PAL.Coder {
 	struct CorelDraw3PaletteCoder: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .corelDrawV3
 		public let name = "Corel Draw V3"
 		public let fileExtension = ["pal"]
 		public init() {}
@@ -58,7 +59,7 @@ public extension PAL.Coder.CorelDraw3PaletteCoder {
 			throw PAL.CommonError.invalidFormat
 		}
 
-		var palette = PAL.Palette()
+		var palette = PAL.Palette(format: self.format)
 
 		decoded.text.lines.forEach { line in
 			let l = line.trimmingCharacters(in: CharacterSet.whitespaces)

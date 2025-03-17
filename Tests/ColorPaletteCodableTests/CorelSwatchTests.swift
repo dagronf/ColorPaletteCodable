@@ -7,11 +7,13 @@ final class CorelSwatchTests: XCTestCase {
 
 		do {
 			let pal = try loadResourcePalette(named: "adobe-swatch-fun.txt", using: PAL.Coder.CorelPainter())
+			XCTAssertEqual(pal.format, .corelPainter)
 			XCTAssertEqual(408, pal.colors.count)
 		}
 
 		do {
 			let pal2 = try loadResourcePalette(named: "corel-odd-coding.txt", using: PAL.Coder.CorelPainter())
+			XCTAssertEqual(pal2.format, .corelPainter)
 			XCTAssertEqual(13, pal2.colors.count)
 
 			XCTAssertEqual("", pal2.colors[0].name)

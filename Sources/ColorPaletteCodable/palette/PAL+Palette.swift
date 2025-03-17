@@ -33,6 +33,9 @@ public extension PAL {
 		/// Groups of colors
 		public var groups = [Group]()
 
+		/// If this palette was loaded, the format used to decode
+		public internal(set) var format: PAL.PaletteFormat?
+
 		/// Create an empty palette
 		public init() {}
 
@@ -72,6 +75,22 @@ extension PAL.Palette: Hashable {
 }
 
 public extension PAL.Palette {
+
+	internal init(format: PAL.PaletteFormat) {
+		self.name = ""
+		self.colors = []
+		self.groups = []
+		self.format = format
+
+	}
+	internal init(colors: [PAL.Color], groups: [PAL.Group] = [], name: String = "", format: PAL.PaletteFormat) {
+		self.name = name
+		self.colors = colors
+		self.groups = groups
+		self.format = format
+	}
+
+
 	/// Create a palette by interpolating between two colors
 	/// - Parameters:
 	///   - startColor: The first (starting) color for the palette
@@ -130,13 +149,14 @@ public extension PAL.Palette {
 		self.name = palette.name
 		self.colors = palette.colors
 		self.groups = palette.groups
+		self.format = palette.format
 	}
 
 	/// Load a palette from a local file
 	/// - Parameters:
 	///   - fileURL: The fileURL for the palette file
 	///   - format: The format for the palette file
-	init(_ fileURL: URL, format: PAL.PaletteCoderType) throws {
+	init(_ fileURL: URL, format: PAL.PaletteFormat) throws {
 		try self.init(fileURL, usingCoder: format.coder)
 	}
 
@@ -151,6 +171,7 @@ public extension PAL.Palette {
 		self.name = palette.name
 		self.colors = palette.colors
 		self.groups = palette.groups
+		self.format = coder.format
 	}
 
 	/// Load a palette from raw data
@@ -168,7 +189,7 @@ public extension PAL.Palette {
 	/// - Parameters:
 	///   - data: The gradient data
 	///   - format: The format for the palette file
-	init(_ data: Data, format: PAL.PaletteCoderType) throws {
+	init(_ data: Data, format: PAL.PaletteFormat) throws {
 		try self.init(data, usingCoder: format.coder)
 	}
 }
@@ -187,7 +208,7 @@ public extension PAL.Palette {
 	/// Export the palette
 	/// - Parameter format: The format for the palette file
 	/// - Returns: raw palette format data
-	func export(format: PAL.PaletteCoderType) throws -> Data {
+	func export(format: PAL.PaletteFormat) throws -> Data {
 		try self.export(using: format.coder)
 	}
 }
@@ -269,6 +290,7 @@ public extension PAL.Palette {
 		self.name = try container.decodeIfPresent(String.self, forKey: .name) ?? ""
 		self.colors = try container.decodeIfPresent([PAL.Color].self, forKey: .colors) ?? []
 		self.groups = try container.decodeIfPresent([PAL.Group].self, forKey: .groups) ?? []
+		self.format = .json
 	}
 
 	func encode(to encoder: Encoder) throws {

@@ -23,6 +23,7 @@ import BytesParser
 /// An ASE file reader, based on [the format defined here](http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase)
 public extension PAL.Coder {
 	struct ASE: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .ase
 		public let name = "Adobe Swatch Exchange"
 		public let fileExtension = ["ase"]
 		public init() {}
@@ -86,8 +87,8 @@ extension PAL.Coder.ASE {
 	/// - Returns: A palette
 	public func decode(from inputStream: InputStream) throws -> PAL.Palette {
 		let reader = BytesReader(inputStream: inputStream)
-		var result = PAL.Palette()
-		
+		var result = PAL.Palette(format: self.format)
+
 		// Load and validate the header
 		let header = try reader.readData(count: 4)
 		if header != ASE_HEADER_DATA {

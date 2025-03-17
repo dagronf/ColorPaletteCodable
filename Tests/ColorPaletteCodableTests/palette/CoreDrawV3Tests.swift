@@ -11,6 +11,7 @@ final class CoreDrawV3Tests: XCTestCase {
 		try files.forEach { file in
 			let paletteURL = try resourceURL(for: file)
 			let palette = try PAL.Palette(paletteURL, format: .corelDrawV3)
+			XCTAssertEqual(palette.format, .corelDrawV3)
 
 			// Export out
 			let data = try palette.export(format: .corelDrawV3)

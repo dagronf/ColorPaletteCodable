@@ -22,6 +22,7 @@ class JSONPaletteTests: XCTestCase {
 			Swift.print("  Validating '\(name).jsoncolorpalette'...")
 			let jsonURL = try XCTUnwrap(Bundle.module.url(forResource: name, withExtension: "jsoncolorpalette"))
 			let palette = try XCTUnwrap(try? PAL.Palette.Decode(from: jsonURL))
+			XCTAssertEqual(palette.format, .json)
 			let data = try PAL.Coder.JSON().encode(palette)
 			let decoded = try PAL.Coder.JSON().decode(from: data)
 			XCTAssertEqual(palette, decoded)

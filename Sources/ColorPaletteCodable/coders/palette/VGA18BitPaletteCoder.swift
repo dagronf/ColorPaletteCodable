@@ -24,6 +24,7 @@ import BytesParser
 public extension PAL.Coder {
 	/// A coder supporting 18-bit (3 \* 6-bit channel) RGB VGA palettes
 	struct VGA18BitPaletteCoder: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .vga18bit
 		public let name = "18-bit RGB VGA Palette"
 		public let utType = "public.dagronf.vgargb.18bit.pal"
 		public let fileExtension = ["pal"]
@@ -52,7 +53,7 @@ public extension PAL.Coder.VGA18BitPaletteCoder {
 			}
 			return rgbf(Double(r) / 63.0, Double(g) / 63.0, Double(b) / 63.0)
 		}
-		return PAL.Palette(colors: colors)
+		return PAL.Palette(colors: colors, format: self.format)
 	}
 
 	/// Encode the palette

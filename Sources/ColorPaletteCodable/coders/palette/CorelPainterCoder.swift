@@ -40,6 +40,7 @@ R: 059, G:059, B:059
 
 public extension PAL.Coder {
 	struct CorelPainter: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .corelPainter
 		public let name = "Corel Painter Swatch"
 		public let fileExtension = ["txt"]
 		public init() {}
@@ -84,7 +85,7 @@ public extension PAL.Coder.CorelPainter {
 
 		let content = lines.dropFirst(6)
 
-		var palette = PAL.Palette()
+		var palette = PAL.Palette(format: self.format)
 
 		content.forEach { line in
 			let l = line.trimmingCharacters(in: CharacterSet.whitespaces)

@@ -30,6 +30,7 @@ import Foundation
 /// ```
 public extension PAL.Coder {
 	struct RGB: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .rgb
 		public let name = "RGB text"
 		public let fileExtension = ["rgb", "txt"]
 		public init() {}
@@ -54,7 +55,7 @@ public extension PAL.Coder.RGB {
 		let text = decoded.text
 
 		let lines = text.split(separator: "\n")
-		var palette = PAL.Palette()
+		var palette = PAL.Palette(format: self.format)
 
 		try lines.forEach { line in
 			let l = line.trimmingCharacters(in: CharacterSet.whitespaces)

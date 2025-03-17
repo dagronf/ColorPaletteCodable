@@ -52,6 +52,7 @@ import FoundationXML
 
 public extension PAL.Coder {
 	class AndroidColorsXML: NSObject, PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .androidXML
 		public let name = "Android Colors XML"
 		public let fileExtension = ["xml"]
 
@@ -78,11 +79,10 @@ extension PAL.Coder.AndroidColorsXML {
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
 	public func decode(from inputStream: InputStream) throws -> PAL.Palette {
-		self.palette = PAL.Palette()
+		self.palette = PAL.Palette(format: self.format)
 
 		self.currentElement = ""
 		self.currentName = nil
-		self.palette = PAL.Palette()
 
 		let parser = XMLParser(stream: inputStream)
 		parser.delegate = self

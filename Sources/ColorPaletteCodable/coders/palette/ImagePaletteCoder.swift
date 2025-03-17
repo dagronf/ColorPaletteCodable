@@ -19,7 +19,6 @@
 
 #if canImport(CoreGraphics)
 
-import Foundation
 import SwiftImageReadWrite
 
 #if os(macOS)
@@ -31,6 +30,7 @@ import UIKit
 public extension PAL.Coder {
 	/// A coder that handles loading a palette from an image (just the first row of the image)
 	struct Image: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .image
 		public let name = "Image"
 
 		/// Supported import image types
@@ -74,7 +74,9 @@ public extension PAL.Coder.Image {
 	/// - Returns: A palette representing the unique colors in the image
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
 		let data = inputStream.readAllData()
-		return try __decode(data: data, accuracy: accuracy)
+		var p = try __decode(data: data, accuracy: accuracy)
+		p.format = self.format
+		return p
 	}
 }
 

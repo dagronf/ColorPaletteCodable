@@ -38,6 +38,7 @@ import Foundation
 public extension PAL.Coder {
 	/// A coder that handle delimited RGBA strings
 	struct PaintNET: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .paintNET
 		public let name = "Paint.NET Palette"
 		public let fileExtension = ["txt"]
 		public init() {}
@@ -63,7 +64,7 @@ public extension PAL.Coder.PaintNET {
 			throw PAL.CommonError.invalidFormat
 		}
 
-		var palette = PAL.Palette()
+		var palette = PAL.Palette(format: self.format)
 
 		// Split into newlines
 		let lines = content.split(whereSeparator: \.isNewline)

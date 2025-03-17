@@ -27,6 +27,7 @@ public extension PAL.Coder {
 	///
 	/// [Coffeescript implementation](https://github.com/jacobbubu/acb/blob/master/decoder.coffee)
 	struct ACB: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .acb
 		public let name = "Adobe Color Book"
 		public let fileExtension = ["acb"]
 		public init() {}
@@ -52,7 +53,7 @@ public extension PAL.Coder.ACB {
 	/// - Returns: A palette
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
 		let parser = BytesReader(inputStream: inputStream)
-		var result = PAL.Palette()
+		var result = PAL.Palette(format: self.format)
 
 		let bom = try parser.readStringASCII(length: 4)
 		if bom != "8BCB" {

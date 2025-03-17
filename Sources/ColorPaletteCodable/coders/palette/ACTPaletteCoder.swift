@@ -24,6 +24,7 @@ import BytesParser
 /// UTI: com.adobe.act
 public extension PAL.Coder {
 	struct ACT: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .act
 		public let name = "Adobe Color Table"
 		public let fileExtension = ["act"]
 		public init() {}
@@ -36,7 +37,7 @@ extension PAL.Coder.ACT {
 	/// - Returns: A palette
 	public func decode(from inputStream: InputStream) throws -> PAL.Palette {
 		let parser = BytesReader(inputStream: inputStream)
-		var result = PAL.Palette()
+		var result = PAL.Palette(format: self.format)
 
 		// The file is 768 or 772 bytes long and contains 256 RGB colors
 		try (0 ..< 256).forEach { _ in

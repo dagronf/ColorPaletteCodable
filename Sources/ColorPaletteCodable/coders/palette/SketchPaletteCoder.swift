@@ -22,6 +22,7 @@ import Foundation
 public extension PAL.Coder {
 	/// .sketchpalette Sketch palette file
 	struct SketchPalette: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .sketch
 		public let name = "Sketch Palette"
 		public let fileExtension = ["sketchpalette"]
 		public init() {}
@@ -37,7 +38,7 @@ extension PAL.Coder.SketchPalette {
 	public func decode(from inputStream: InputStream) throws -> PAL.Palette {
 		let data = inputStream.readAllData()
 		let sketchFile = try JSONDecoder().decode(SketchFile.self, from: data)
-		var palette = PAL.Palette()
+		var palette = PAL.Palette(format: self.format)
 		palette.colors = sketchFile.colors.compactMap {
 			PAL.Color(rf: $0.red, gf: $0.green, bf: $0.blue, af: $0.alpha)
 		}

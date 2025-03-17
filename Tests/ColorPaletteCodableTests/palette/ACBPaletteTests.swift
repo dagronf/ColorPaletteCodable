@@ -14,6 +14,7 @@ final class ACBPaletteTests: XCTestCase {
 		// Loop through all the resource files
 		for item in acb_resources {
 			let swatches = try loadResourcePalette(named: item.name, using: PAL.Coder.ACB())
+			XCTAssertEqual(swatches.format, .acb)
 			XCTAssertEqual(item.count, swatches.allColors().count)
 
 			// Write to a data stream. Not implemented

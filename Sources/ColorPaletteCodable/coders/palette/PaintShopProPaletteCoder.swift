@@ -23,6 +23,7 @@ import Foundation
 public extension PAL.Coder {
 	/// A coder/decoder for JASC PaintShopPro palettes
 	struct PaintShopPro: PAL_PaletteCoder {
+		public let format: PAL.PaletteFormat = .paintShopPro
 		public let name = "Paint Shop Pro Palette"
 		public let fileExtension = ["psppalette", "pal"]
 		public init() {}
@@ -62,7 +63,7 @@ public extension PAL.Coder.PaintShopPro {
 			Swift.print("JASC palette coder - invalid color count?")
 		}
 
-		var palette = PAL.Palette()
+		var palette = PAL.Palette(format: self.format)
 
 		let regex = try DSFRegex(#"^\s*(\d+)\s+(\d+)\s+(\d+)\s*$"#)
 

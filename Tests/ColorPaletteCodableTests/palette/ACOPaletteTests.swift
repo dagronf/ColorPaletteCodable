@@ -19,7 +19,8 @@ final class ACOSwatchesTests: XCTestCase {
 			Swift.print("Validating '\(name)...'")
 			// Attempt to load the ase file
 			let swatches = try loadResourcePalette(named: name, using: paletteCoder)
-
+			XCTAssertEqual(swatches.format, .aco)
+			
 			// Write to a data stream
 			let data = try paletteCoder.encode(swatches)
 
