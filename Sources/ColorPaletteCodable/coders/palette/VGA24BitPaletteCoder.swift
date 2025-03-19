@@ -26,8 +26,9 @@ public extension PAL.Coder {
 	struct VGA24BitPaletteCoder: PAL_PaletteCoder {
 		public let format: PAL.PaletteFormat = .vga24bit
 		public let name = "24-bit VGA Palette"
-		public let utType = "public.dagronf.vgargb.24bit.pal"
 		public let fileExtension = ["pal"]
+		public static let utTypeString = "com.dagronf.colorpalette.vgargb.24bit"   // conforms to `public.data`
+
 		public init() {}
 	}
 }
@@ -66,3 +67,13 @@ public extension PAL.Coder.VGA24BitPaletteCoder {
 		return data
 	}
 }
+
+// MARK: - UTType identifiers
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let vga24bit = UTType(PAL.Coder.VGA24BitPaletteCoder.utTypeString)!
+}
+#endif

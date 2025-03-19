@@ -55,6 +55,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .androidXML
 		public let name = "Android Colors XML"
 		public let fileExtension = ["xml"]
+		public static let utTypeString = "com.dagronf.colorpalette.android.xml"   // conforms to `public.xml`
 
 		/// Create an Android `colors.xml` coder
 		/// - Parameters:
@@ -176,3 +177,13 @@ extension PAL.Coder.AndroidColorsXML {
 		return data
 	}
 }
+
+// MARK: - UTType identifiers
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let androidXML = UTType(PAL.Coder.AndroidColorsXML.utTypeString)!
+}
+#endif

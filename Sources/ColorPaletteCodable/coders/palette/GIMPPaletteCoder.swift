@@ -24,6 +24,7 @@ public extension PAL.Coder {
 	struct GIMP: PAL_PaletteCoder {
 		public let format: PAL.PaletteFormat = .gimp
 		public let name = "GIMP Palette"
+		public static var utTypeString: String = "public.dagronf.colorpalette.gimp.gpl"
 		public let fileExtension = ["gpl"]
 	}
 }
@@ -37,7 +38,7 @@ public extension PAL.Coder.GIMP {
 		}
 		let content = decoded.text
 
-		let lines = content.split(whereSeparator: \.isNewline)
+		let lines = content.lines
 		guard lines.count > 0, lines[0].contains("GIMP Palette") else {
 			throw PAL.CommonError.invalidFormat
 		}
@@ -116,10 +117,12 @@ public extension PAL.Coder.GIMP {
 	}
 }
 
+// MARK: - UTType identifiers
+
 #if canImport(UniformTypeIdentifiers)
 import UniformTypeIdentifiers
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static let gimpPalette = UTType("public.dagronf.gimp.gpl")!
+	static let gimpPalette = UTType(PAL.Coder.GIMP.utTypeString)!
 }
 #endif

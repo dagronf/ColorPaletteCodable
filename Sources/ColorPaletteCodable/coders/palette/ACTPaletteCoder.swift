@@ -21,12 +21,12 @@ import Foundation
 import BytesParser
 
 /// An ACT file reader (Adobe Color Table)
-/// UTI: com.adobe.act
 public extension PAL.Coder {
 	struct ACT: PAL_PaletteCoder {
 		public let format: PAL.PaletteFormat = .act
 		public let name = "Adobe Color Table"
 		public let fileExtension = ["act"]
+		public static let utTypeString = "com.adobe.act"  // conforms to `public.data`
 		public init() {}
 	}
 }
@@ -106,3 +106,12 @@ extension PAL.Coder.ACT {
 	}
 }
 
+// MARK: - UTType identifiers
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let adobeColorTable = UTType(PAL.Coder.ACT.utTypeString)!
+}
+#endif

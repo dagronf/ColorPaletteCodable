@@ -28,6 +28,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .aco
 		public let name = "Adobe Photoshop Swatch"
 		public let fileExtension = ["aco"]
+		public static let utTypeString = "com.adobe.aco"  // conforms to `public.data`
 		public init() {}
 	}
 }
@@ -222,6 +223,6 @@ public extension PAL.Coder.ACO {
 import UniformTypeIdentifiers
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static let aco = UTType("com.adobe.aco")!
+	static let aco = UTType(PAL.Coder.ACO.utTypeString)!
 }
 #endif

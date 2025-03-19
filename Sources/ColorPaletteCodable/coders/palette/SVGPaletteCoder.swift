@@ -25,6 +25,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .svg
 		public let name = "SVG"
 		public let fileExtension = ["svg"]
+		public static let utTypeString = "public.svg-image"
 
 		public var swatchSize: PAL.Size
 		public var maxExportWidth: Double

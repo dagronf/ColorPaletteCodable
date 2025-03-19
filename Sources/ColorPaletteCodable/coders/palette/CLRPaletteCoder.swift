@@ -29,6 +29,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .clr
 		public let name = "Apple NSColorList"
 		public let fileExtension = ["clr"]
+		public static let utTypeString = "com.apple.color-file"    // conforms to `public.data`
 		public init() {}
 	}
 }
@@ -69,10 +70,12 @@ public extension PAL.Coder.CLR {
 	}
 }
 
+// MARK: - UTType identifiers
+
 #if canImport(UniformTypeIdentifiers)
 import UniformTypeIdentifiers
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static let clr = UTType("com.apple.color-file")!
+	static let appleColorList = UTType(PAL.Coder.CLR.utTypeString)!
 }
 #endif

@@ -26,6 +26,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .ase
 		public let name = "Adobe Swatch Exchange"
 		public let fileExtension = ["ase"]
+		public static let utTypeString = "com.adobe.ase"   // conforms to `public.data`
 		public init() {}
 	}
 }
@@ -328,10 +329,12 @@ extension PAL.Coder.ASE {
 	}
 }
 
+// MARK: - UTType identifiers
+
 #if canImport(UniformTypeIdentifiers)
 import UniformTypeIdentifiers
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static var adobeSwatchExchange: Self { Self(filenameExtension: "ase", conformingTo: .data)! }
+	static var adobeSwatchExchange = UTType(PAL.Coder.ASE.utTypeString)!
 }
 #endif

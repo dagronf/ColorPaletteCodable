@@ -43,6 +43,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .openOffice
 		public let name = "OpenOffice Palette"
 		public let fileExtension = ["soc"]
+		public static let utTypeString = "org.openoffice.palette"   // conforms to `public.xml`
 		public override init() {
 			super.init()
 		}
@@ -125,3 +126,13 @@ public extension PAL.Coder.OpenOfficePaletteCoder {
 		return data
 	}
 }
+
+// MARK: - UTType identifiers
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let openOfficePalette = UTType(PAL.Coder.OpenOfficePaletteCoder.utTypeString)!
+}
+#endif

@@ -30,6 +30,8 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .acb
 		public let name = "Adobe Color Book"
 		public let fileExtension = ["acb"]
+		public static let utTypeString = "com.adobe.acb"  // conforms to `public.data`
+
 		public init() {}
 	}
 }
@@ -170,10 +172,12 @@ public extension PAL.Coder.ACB {
 	}
 }
 
+// UTType identifiers
+
 #if canImport(UniformTypeIdentifiers)
 import UniformTypeIdentifiers
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static let acb = UTType("com.adobe.acb")!
+	static let acb = UTType(PAL.Coder.ACB.utTypeString)!
 }
 #endif

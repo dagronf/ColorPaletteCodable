@@ -28,6 +28,8 @@ public extension PAL.Coder {
 		public let name = "18-bit RGB VGA Palette"
 		public let utType = "public.dagronf.vgargb.18bit.pal"
 		public let fileExtension = ["pal"]
+		public static let utTypeString = "com.dagronf.colorpalette.vgargb.18bit"   // conforms to `public.data`
+
 		public init() {}
 	}
 }
@@ -71,3 +73,13 @@ public extension PAL.Coder.VGA18BitPaletteCoder {
 		return data
 	}
 }
+
+// MARK: - UTType identifiers
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let vga18bit = UTType(PAL.Coder.VGA18BitPaletteCoder.utTypeString)!
+}
+#endif

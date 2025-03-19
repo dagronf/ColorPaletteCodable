@@ -24,7 +24,6 @@ class RGBPaletteTests: XCTestCase {
 	}
 
 	func testRGBA() throws {
-		let origData = try loadResourceData(named: "basic1alpha.txt")
 		let palette = try loadResourcePalette(named: "basic1alpha.txt", using: PAL.Coder.RGBA())
 		XCTAssertEqual(palette.colors.count, 7)
 
@@ -37,12 +36,9 @@ class RGBPaletteTests: XCTestCase {
 
 		// Write out as RGBA
 		let data = try PAL.Coder.RGBA().encode(palette)
-
+		let r = try PAL.Coder.RGBA().decode(from: data)
 		// The input and output files should be identical
-		let o = String(data: origData, encoding: .utf8)!
-		let r = String(data: data, encoding: .utf8)!
-
-		XCTAssertEqual(o, r)
+		XCTAssertEqual(palette, r)
 	}
 
 	func testRGBConversion() throws {

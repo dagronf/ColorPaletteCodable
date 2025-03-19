@@ -41,6 +41,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .paintNET
 		public let name = "Paint.NET Palette"
 		public let fileExtension = ["txt"]
+		public static var utTypeString: String = "com.dagronf.colorpalette.paint.net"   // conforms to `public.text`
 		public init() {}
 		static let validHexChars = "0123456789abcdefABCDEF"
 	}
@@ -66,10 +67,7 @@ public extension PAL.Coder.PaintNET {
 
 		var palette = PAL.Palette(format: self.format)
 
-		// Split into newlines
-		let lines = content.split(whereSeparator: \.isNewline)
-
-		for line in lines {
+		for line in content.lines {
 			let line = line.trimmingCharacters(in: .whitespaces)
 			if line[line.startIndex] == ";" {
 				// Assume a comment. Skip the line
@@ -121,7 +119,7 @@ public extension PAL.Coder.PaintNET {
 			// Format is :-
 			//   AARRGGBB eg. FF404040
 			content += try color.hexString(.argb, hashmark: false, uppercase: true)
-			content += "\n"
+			content += "\r\n"
 		}
 
 		guard let data = content.data(using: .utf8) else {
@@ -130,3 +128,14 @@ public extension PAL.Coder.PaintNET {
 		return data
 	}
 }
+
+// MARK: - UTType identifiers
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let paintNET = UTType(PAL.Coder.PaintNET.utTypeString)!
+}
+#endif
+

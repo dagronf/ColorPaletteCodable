@@ -26,6 +26,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .hexRGBA
 		public let name = "Hex RGBA"
 		public let fileExtension = ["hex"]
+		public static let utTypeString: String = "public.dagronf.colorpalette.hex"
 		public init() {}
 		static let validHexChars = "#0123456789abcdefABCDEF"
 	}
@@ -42,7 +43,7 @@ public extension PAL.Coder.HEX {
 		var palette = PAL.Palette(format: self.format)
 
 		// Split into newlines
-		let lines = content.split(whereSeparator: \.isNewline)
+		let lines = content.lines
 
 		for line in lines {
 			if line.first == ";" {
@@ -106,3 +107,13 @@ public extension PAL.Coder.HEX {
 		return data
 	}
 }
+
+// MARK: - UTType identifiers
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let hexPalette = UTType(PAL.Coder.HEX.utTypeString)!
+}
+#endif

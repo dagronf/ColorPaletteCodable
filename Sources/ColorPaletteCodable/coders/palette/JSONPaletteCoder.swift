@@ -26,6 +26,7 @@ public extension PAL.Coder {
 		public let name = "JSON coded"
 
 		public let fileExtension = ["jsoncolorpalette"]
+		public static let utTypeString = "com.dagronf.colorpalette.palette.json"   // conforms to `public.json`
 
 		/// Should the output be pretty-printed?
 		public let prettyPrint: Bool
@@ -59,10 +60,12 @@ public extension PAL.Coder.JSON {
 	}
 }
 
+// MARK: - UTType identifiers
+
 #if canImport(UniformTypeIdentifiers)
 import UniformTypeIdentifiers
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static let jsonColorPalette = UTType("public.dagronf.colorpalette")!
+	static let jsonColorPalette = UTType(PAL.Coder.JSON.utTypeString)!
 }
 #endif

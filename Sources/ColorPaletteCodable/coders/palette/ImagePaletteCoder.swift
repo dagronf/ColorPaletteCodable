@@ -35,6 +35,8 @@ public extension PAL.Coder {
 
 		/// Supported import image types
 		public let fileExtension = ["png", "jpeg", "jpg", "gif"]
+		public static let utTypeString = "public.image"
+		
 		/// When importing, the accuracy when determining identical colors
 		public let accuracy: Double
 

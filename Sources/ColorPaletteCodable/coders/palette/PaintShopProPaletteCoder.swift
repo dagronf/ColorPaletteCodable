@@ -26,6 +26,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .paintShopPro
 		public let name = "Paint Shop Pro Palette"
 		public let fileExtension = ["psppalette", "pal"]
+		public static var utTypeString = "public.dagronf.colorpalette.corel.pal"   // conforms to `public.text`
 		public init() {}
 	}
 }
@@ -38,7 +39,7 @@ public extension PAL.Coder.PaintShopPro {
 		}
 		let content = decoded.text
 
-		let lines = content.split(whereSeparator: \.isNewline)
+		let lines = content.lines
 		guard lines.count > 2 else {
 			throw PAL.CommonError.invalidFormat
 		}
@@ -115,3 +116,13 @@ public extension PAL.Coder.PaintShopPro {
 		return data
 	}
 }
+
+// MARK: - UTType identifiers
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let paintShopPro = UTType(PAL.Coder.PaintShopPro.utTypeString)!
+}
+#endif

@@ -42,6 +42,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .basicXML
 		public let name = "Basic XML Palette"
 		public let fileExtension = ["xml"]
+		public static var utTypeString: String = "com.dagronf.colorpalette.basicxml"   // conforms to `public.xml`
 
 		var palette = PAL.Palette()
 	}
@@ -137,3 +138,13 @@ extension PAL.Coder.BasicXML {
 	}
 
 }
+
+// MARK: - UTType identifiers
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let basicXML = UTType(PAL.Coder.BasicXML.utTypeString)!
+}
+#endif

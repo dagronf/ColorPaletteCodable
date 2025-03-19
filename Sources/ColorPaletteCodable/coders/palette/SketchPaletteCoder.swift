@@ -25,6 +25,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .sketch
 		public let name = "Sketch Palette"
 		public let fileExtension = ["sketchpalette"]
+		public static var utTypeString = "com.bohemiancoding.sketch.palette"    // conforms to `public.json`
 		public init() {}
 
 		// com.bohemiancoding.sketch.drawing
@@ -101,4 +102,14 @@ private struct SketchFile: Codable {
 		}
 	}
 }
+
+// MARK: - UTType identifiers
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let sketchPalette = UTType(PAL.Coder.SketchPalette.utTypeString)!
+}
+#endif
 

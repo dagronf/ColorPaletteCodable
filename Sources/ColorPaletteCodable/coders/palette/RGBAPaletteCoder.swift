@@ -37,6 +37,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .rgba
 		public let name = "RGBA text"
 		public let fileExtension = ["rgba", "txt"]
+		public static let utTypeString = "com.dagronf.colorpalette.rgba"   // conforms to `public.text`
 		public init() {}
 
 		// Regex for file of the format
@@ -62,10 +63,9 @@ public extension PAL.Coder.RGBA {
 		}
 		let text = decoded.text
 
-		let lines = text.split(separator: "\n")
 		var palette = PAL.Palette(format: self.format)
 
-		try lines.forEach { line in
+		try text.lines.forEach { line in
 			let l = line.trimmingCharacters(in: CharacterSet.whitespaces)
 
 			if l.isEmpty {
@@ -102,7 +102,7 @@ public extension PAL.Coder.RGBA {
 
 		var result = ""
 		for color in flattenedColors {
-			if !result.isEmpty { result += "\n" }
+			if !result.isEmpty { result += "\r\n" }
 
 			result += try color.hexRGBA(hashmark: true)
 			if color.name.count > 0 {
@@ -115,3 +115,13 @@ public extension PAL.Coder.RGBA {
 		return d
 	}
 }
+
+// MARK: - UTType identifiers
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let rgba = UTType(PAL.Coder.RGBA.utTypeString)!
+}
+#endif

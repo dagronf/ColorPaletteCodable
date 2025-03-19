@@ -43,9 +43,9 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .corelPainter
 		public let name = "Corel Painter Swatch"
 		public let fileExtension = ["txt"]
-		public init() {}
+		public static let utTypeString = "com.dagronf.colorpalette.corel.painter"   // conforms to `public.text`
 
-		//static let regex = try! DSFRegex(#"R:[ \t]*([0-9]{3}),[ \t]*G:[ \t]*([0-9]{3}),[ \t]*B:[ \t]*([0-9]{3})"#)
+		public init() {}
 
 		static let regex = try! DSFRegex(#"[ \t]*R[ \t]*:[ \t]*([0-9]*\.?[0-9]+)[ \t,]*G[ \t]*:[ \t]*([0-9]*\.?[0-9]+)[ \t,]*B[ \t]*:[ \t]*([0-9]*\.?[0-9]+)[ \t,]*(?:HV[ \t]*:[ \t]*([0-9]*\.?[0-9]+)[ \t,]*)?(?:SV[ \t]*:[ \t]*([0-9]*\.?[0-9]+)[ \t,]*)?(?:VV[ \t]*:[ \t]*([0-9]*\.?[0-9]+)[ \t,]*)?(.*)"#)
 	}
@@ -148,3 +148,13 @@ SPACING 1
 		return d
 	}
 }
+
+// MARK: - UTType identifiers
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let corelPainter = UTType(PAL.Coder.CorelPainter.utTypeString)!
+}
+#endif

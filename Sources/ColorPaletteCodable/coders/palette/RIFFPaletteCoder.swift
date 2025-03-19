@@ -27,9 +27,9 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .riff
 		public let name = "Microsoft RIFF"
 		public let fileExtension = ["pal"]
-		public init() {}
+		public static let utTypeString = "public.dagronf.colorpalette.microsoft.riff.palette"   // conforms to `public.data`
 
-		// public.dagronf.microsoft.riff.palette
+		public init() {}
 	}
 }
 
@@ -90,3 +90,13 @@ extension PAL.Coder.RIFF {
 		throw PAL.CommonError.unsupportedPaletteType
 	}
 }
+
+// MARK: - UTType identifiers
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let microsoftRIFF = UTType(PAL.Coder.RIFF.utTypeString)!
+}
+#endif

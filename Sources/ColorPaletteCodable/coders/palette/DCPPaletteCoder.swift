@@ -28,6 +28,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .dcp
 		public let name = "Color Palette"
 		public let fileExtension = ["dcp"]
+		public static var utTypeString = "public.dagronf.colorpalette.dcp"
 		public init() {}
 	}
 }
@@ -218,10 +219,13 @@ extension BytesReader {
 	}
 }
 
+// MARK: - UTType identifiers
+
+
 #if canImport(UniformTypeIdentifiers)
 import UniformTypeIdentifiers
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static let dcp = UTType("public.dagronf.colorpalette.dcp")!
+	static let dcp = UTType(PAL.Coder.DCP.utTypeString)!
 }
 #endif

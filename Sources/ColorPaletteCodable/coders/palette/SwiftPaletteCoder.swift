@@ -25,6 +25,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .swift
 		public let name = "Swift Palette Code Generator"
 		public let fileExtension = ["swift"]
+		public static let utTypeString = "public.swift-source"
 	}
 }
 

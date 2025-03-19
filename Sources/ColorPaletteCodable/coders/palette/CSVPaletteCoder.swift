@@ -50,6 +50,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .csv
 		public let name = "CSV"
 		public let fileExtension = ["csv"]
+		public static var utTypeString = "public.comma-separated-values-text"
 
 		/// Create a CSV Coder
 		/// - Parameter hexFormat: The format to use when encoding/decoding CSV color values

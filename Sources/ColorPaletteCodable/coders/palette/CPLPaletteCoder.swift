@@ -26,6 +26,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .corelPalette
 		public let name = "Corel Palette"
 		public let fileExtension = ["cpl"]
+		public static let utTypeString = "com.dagronf.colorpalette.corel.cpl"   // conforms to `public.data`
 		public init() {}
 	}
 }
@@ -250,6 +251,6 @@ public extension PAL.Coder.CPL {
 import UniformTypeIdentifiers
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static let cpl = UTType("com.corel.cpl")!
+	static let corelPaintPalette = UTType(PAL.Coder.CPL.utTypeString)!
 }
 #endif

@@ -195,7 +195,7 @@
 			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>public.dagronf.corel.pal</string>
+				<string>public.dagronf.colorpalette.corel.pal</string>
 			</array>
 			<key>NSDocumentClass</key>
 			<string>$(PRODUCT_MODULE_NAME).Document</string>
@@ -377,7 +377,7 @@
 			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>public.dagronf.corel.cpl</string>
+				<string>com.dagronf.colorpalette.corel.cpl</string>
 			</array>
 			<key>NSDocumentClass</key>
 			<string>$(PRODUCT_MODULE_NAME).Document</string>
@@ -431,7 +431,7 @@
 			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>public.dagronf.vgargb.24bit.pal</string>
+				<string>public.dagronf.colorpalette.vgargb.24bit</string>
 			</array>
 		</dict>
 		<dict>
@@ -443,7 +443,7 @@
 			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>public.dagronf.vgargb.18bit.pal</string>
+				<string>public.dagronf.colorpalette.vgargb.18bit</string>
 			</array>
 		</dict>
 	</array>
@@ -687,7 +687,7 @@
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
-			<string>public.dagronf.gimp.gpl</string>
+			<string>public.dagronf.colorpalette.gimp.gpl</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
@@ -820,7 +820,7 @@
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
-			<string>public.dagronf.microsoft.riff.palette</string>
+			<string>public.dagronf.colorpalette.microsoft.riff.palette</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>

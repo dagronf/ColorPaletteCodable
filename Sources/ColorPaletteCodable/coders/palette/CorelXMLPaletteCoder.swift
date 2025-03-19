@@ -32,6 +32,8 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .corelDraw
 		public let name = "CorelDraw XML Palette"
 		public let fileExtension = ["xml"]
+		public static let utTypeString = "com.dagronf.colorpalette.coreldraw.xml"   // conforms to `public.xml`
+
 		public override init() {
 			super.init()
 		}
@@ -238,3 +240,13 @@ extension PAL.Coder.CorelXMLPalette {
 		return result
 	}
 }
+
+// MARK: - UTType identifiers
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let corelPalette = UTType(PAL.Coder.CorelXMLPalette.utTypeString)!
+}
+#endif

@@ -43,6 +43,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .corelDrawV3
 		public let name = "Corel Draw V3"
 		public let fileExtension = ["pal"]
+		public static let utTypeString = "public.dagronf.coreldrawV3.pal"    // conforms to `public.text`
 		public init() {}
 
 		static let regex = try! DSFRegex(#""(.*)"[ \t]*([0-9]*\.?[0-9]+)[ \t]*([0-9]*\.?[0-9]+)[ \t]*([0-9]*\.?[0-9]+)[ \t]*([0-9]*\.?[0-9]+)[ \t]*"#)
@@ -123,3 +124,13 @@ public extension PAL.Coder.CorelDraw3PaletteCoder {
 		return d
 	}
 }
+
+// MARK: - UTType identifiers
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let corelDrawV3 = UTType(PAL.Coder.CorelDraw3PaletteCoder.utTypeString)!
+}
+#endif
