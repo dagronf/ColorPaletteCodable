@@ -41,7 +41,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .paintNET
 		public let name = "Paint.NET Palette"
 		public let fileExtension = ["txt"]
-		public static var utTypeString: String = "com.dagronf.colorpalette.paint.net"   // conforms to `public.text`
+		public static var utTypeString: String = "public.dagronf.colorpalette.palette.paint.net"   // conforms to `public.text`
 		public init() {}
 		static let validHexChars = "0123456789abcdefABCDEF"
 	}

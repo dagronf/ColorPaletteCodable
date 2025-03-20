@@ -360,6 +360,10 @@ Note that the /src directory in the Linux container is a direct mirror of the cu
 
 ## Format specs
 
+Many thanks to [https://www.selapa.net/swatches/colors/fileformats.php](https://www.selapa.net/swatches/colors/fileformats.php) 
+[(archive.org)](https://web.archive.org/web/20250320193326/https://www.selapa.net/swatches/colors/fileformats.php)
+for so much useful information.
+
 The `.ase` file format is not formally defined, however there are a number of deconstructions available on the web.
 I used the breakdown of the format defined [here](http://www.selapa.net/swatches/colors/fileformats.php#adobe_ase).
 
@@ -382,7 +386,6 @@ The CorelDraw/Adobe Illustrator `.xml` file format is (somewhat) defined [here](
 
 * Based on Neil Bartlett's implementation of Mitchell Charity's color temperature work
 * Original data and calculations by Mitchell Charity [http://www.vendian.org/mncharity/dir3/blackbody/](http://www.vendian.org/mncharity/dir3/blackbody/)
-
 
 - [https://tannerhelland.com/2012/09/18/convert-temperature-rgb-algorithm-code.html](https://tannerhelland.com/2012/09/18/convert-temperature-rgb-algorithm-code.html)
 - [https://andi-siess.de/rgb-to-color-temperature/](https://andi-siess.de/rgb-to-color-temperature/)

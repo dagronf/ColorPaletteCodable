@@ -26,7 +26,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .paintShopPro
 		public let name = "Paint Shop Pro Palette"
 		public let fileExtension = ["psppalette", "pal"]
-		public static var utTypeString = "public.dagronf.colorpalette.corel.pal"   // conforms to `public.text`
+		public static var utTypeString = "public.dagronf.colorpalette.palette.corel.pal"   // conforms to `public.text`
 		public init() {}
 	}
 }

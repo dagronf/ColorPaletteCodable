@@ -43,7 +43,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .openOffice
 		public let name = "OpenOffice Palette"
 		public let fileExtension = ["soc"]
-		public static let utTypeString = "org.openoffice.palette"   // conforms to `public.xml`
+		public static let utTypeString = "public.dagronf.colorpalette.palette.openoffice"   // conforms to `public.xml`
 		public override init() {
 			super.init()
 		}

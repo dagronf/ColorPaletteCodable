@@ -24,7 +24,7 @@ public extension PAL.Coder {
 	struct GIMP: PAL_PaletteCoder {
 		public let format: PAL.PaletteFormat = .gimp
 		public let name = "GIMP Palette"
-		public static var utTypeString: String = "public.dagronf.colorpalette.gimp.gpl"
+		public static var utTypeString: String = "public.dagronf.colorpalette.palette.gimp.gpl"
 		public let fileExtension = ["gpl"]
 	}
 }

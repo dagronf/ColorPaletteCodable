@@ -55,7 +55,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .androidXML
 		public let name = "Android Colors XML"
 		public let fileExtension = ["xml"]
-		public static let utTypeString = "com.dagronf.colorpalette.android.xml"   // conforms to `public.xml`
+		public static let utTypeString = "public.dagronf.colorpalette.palette.android.xml"   // conforms to `public.xml`
 
 		/// Create an Android `colors.xml` coder
 		/// - Parameters:

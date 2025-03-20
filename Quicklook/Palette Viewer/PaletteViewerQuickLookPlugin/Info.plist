@@ -16,21 +16,20 @@
 				<string>com.adobe.ase</string>
 				<string>com.apple.color-file</string>
 				<string>com.bohemiancoding.sketch.palette</string>
-				<string>public.dagronf.gimp.gpl</string>
-				<string>public.dagronf.colorpalette</string>
-				<string>public.dagronf.palette.hex</string>
-				<string>public.dagronf.corel.pal</string>
-				<string>public.dagronf.corel.psppalette</string>
-				<string>public.dagronf.microsoft.riff.palette</string>
-				<string>public.dagronf.palette.rgb</string>
-				<string>public.dagronf.palette.rgba</string>
-				<string>public.dagronf.corel.cpl</string>
-				<string>org.openoffice.palette</string>
-				<string>public.dagronf.colorpalette.gradients</string>
-				<string>public.dagronf.colorpalette.dcp</string>
-				<string>public.dagronf.coreldrawV3.pal</string>
-				<string>public.dagronf.vgargb.24bit.pal</string>
-				<string>public.dagronf.vgargb.18bit.pal</string>
+				<string>public.dagronf.colorpalette.palette.gimp.gpl</string>
+				<string>public.dagronf.colorpalette.palette.json</string>
+				<string>public.dagronf.colorpalette.palette.hex</string>
+				<string>public.dagronf.colorpalette.palette.corel.cpl</string>
+				<string>public.dagronf.colorpalette.palette.corel.pal</string>
+				<string>public.dagronf.colorpalette.palette.coreldraw.xml</string>
+				<string>public.dagronf.colorpalette.palette.microsoft.riff</string>
+				<string>public.dagronf.colorpalette.palette.rgb</string>
+				<string>public.dagronf.colorpalette.palette.rgba</string>
+				<string>public.dagronf.colorpalette.palette.openoffice</string>
+				<string>public.dagronf.colorpalette.palette.dcp</string>
+				<string>public.dagronf.colorpalette.palette.coreldrawV3.pal</string>
+				<string>public.dagronf.colorpalette.palette.vgargb.24bit</string>
+				<string>public.dagronf.colorpalette.palette.vgargb.18bit</string>
 			</array>
 			<key>QLSupportsSearchableItems</key>
 			<false/>

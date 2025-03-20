@@ -37,7 +37,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .rgba
 		public let name = "RGBA text"
 		public let fileExtension = ["rgba", "txt"]
-		public static let utTypeString = "com.dagronf.colorpalette.rgba"   // conforms to `public.text`
+		public static let utTypeString = "public.dagronf.colorpalette.palette.rgba"   // conforms to `public.text`
 		public init() {}
 
 		// Regex for file of the format

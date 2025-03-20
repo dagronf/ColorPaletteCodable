@@ -6,24 +6,24 @@
 //
 
 import Foundation
-
 import UniformTypeIdentifiers
 
+import ColorPaletteCodable
+
 public let ExportablePaletteTypes: [String] = [
-	"public.dagronf.colorpalette",
-	"public.xml",
-	"com.adobe.aco",
-	"com.adobe.ase",
-	"com.adobe.act",
-	"com.apple.color-file",
-	"public.dagronf.gimp.gpl",
-	"public.dagronf.corel.psppalette",
-	"com.bohemiancoding.sketch.palette",
-	"public.dagronf.palette.rgb",
-	"public.dagronf.palette.rgba",
-	"public.svg-image",
-	"org.openoffice.palette",
-	"public.dagronf.colorpalette.dcp",
+	PAL.Coder.JSON.utTypeString,
+	PAL.Coder.ACO.utTypeString,
+	PAL.Coder.ASE.utTypeString,
+	PAL.Coder.ACT.utTypeString,
+	PAL.Coder.CLR.utTypeString,
+	PAL.Coder.GIMP.utTypeString,
+	PAL.Coder.PaintShopPro.utTypeString,
+	PAL.Coder.SketchPalette.utTypeString,
+	PAL.Coder.ACO.utTypeString,
+	PAL.Coder.RGBA.utTypeString,
+	PAL.Coder.SVG.utTypeString,
+	PAL.Coder.OpenOfficePaletteCoder.utTypeString,
+	PAL.Coder.DCP.utTypeString,
 ]
 
 public let ExportablePaletteUTTypes: [UTType] = {

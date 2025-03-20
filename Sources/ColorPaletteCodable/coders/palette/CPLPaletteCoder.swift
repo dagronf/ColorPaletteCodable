@@ -20,13 +20,16 @@
 import Foundation
 import BytesParser
 
+/// https://www.selapa.net/swatches/colors/fileformats.php#corel_cpl
+/// https://web.archive.org/web/20250320193326/https://www.selapa.net/swatches/colors/fileformats.php
+
 public extension PAL.Coder {
-	/// An object representing a CPL (Corel Color Palette)
+	/// A coder for Corel .cpl palette files
 	struct CPL: PAL_PaletteCoder {
 		public let format: PAL.PaletteFormat = .corelPalette
 		public let name = "Corel Palette"
 		public let fileExtension = ["cpl"]
-		public static let utTypeString = "com.dagronf.colorpalette.corel.cpl"   // conforms to `public.data`
+		public static let utTypeString = "public.dagronf.colorpalette.palette.corel.cpl"   // conforms to `public.data`
 		public init() {}
 	}
 }

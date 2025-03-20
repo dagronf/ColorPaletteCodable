@@ -33,7 +33,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .rgb
 		public let name = "RGB text"
 		public let fileExtension = ["rgb", "txt"]
-		public static let utTypeString = "com.dagronf.colorpalette.rgb"   // conforms to `public.text`
+		public static let utTypeString = "public.dagronf.colorpalette.palette.rgb"   // conforms to `public.text`
 
 		public init() {}
 

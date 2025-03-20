@@ -178,6 +178,6 @@ public extension PAL.Coder.ACB {
 import UniformTypeIdentifiers
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static let acb = UTType(PAL.Coder.ACB.utTypeString)!
+	static let adobeColorBook = UTType(PAL.Coder.ACB.utTypeString)!
 }
 #endif

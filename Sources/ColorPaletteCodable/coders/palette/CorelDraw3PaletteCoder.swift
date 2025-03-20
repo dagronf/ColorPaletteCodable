@@ -43,7 +43,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .corelDrawV3
 		public let name = "Corel Draw V3"
 		public let fileExtension = ["pal"]
-		public static let utTypeString = "public.dagronf.coreldrawV3.pal"    // conforms to `public.text`
+		public static let utTypeString = "public.dagronf.colorpalette.palette.coreldrawV3.pal"    // conforms to `public.text`
 		public init() {}
 
 		static let regex = try! DSFRegex(#""(.*)"[ \t]*([0-9]*\.?[0-9]+)[ \t]*([0-9]*\.?[0-9]+)[ \t]*([0-9]*\.?[0-9]+)[ \t]*([0-9]*\.?[0-9]+)[ \t]*"#)

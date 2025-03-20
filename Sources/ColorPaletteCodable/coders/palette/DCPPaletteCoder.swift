@@ -26,9 +26,9 @@ public extension PAL.Coder {
 	/// An object representing a DCP file
 	struct DCP: PAL_PaletteCoder {
 		public let format: PAL.PaletteFormat = .dcp
-		public let name = "Color Palette"
+		public let name = "ColorPaletteCodable Binary Palette"
 		public let fileExtension = ["dcp"]
-		public static var utTypeString = "public.dagronf.colorpalette.dcp"
+		public static var utTypeString = "public.dagronf.colorpalette.palette.dcp"
 		public init() {}
 	}
 }

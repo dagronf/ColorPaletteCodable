@@ -223,6 +223,6 @@ public extension PAL.Coder.ACO {
 import UniformTypeIdentifiers
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static let aco = UTType(PAL.Coder.ACO.utTypeString)!
+	static let adobePhotoshopSwatches = UTType(PAL.Coder.ACO.utTypeString)!
 }
 #endif

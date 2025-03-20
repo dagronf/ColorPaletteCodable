@@ -23,10 +23,10 @@ public extension PAL.Coder {
 	/// A JSON encoder/decoder
 	struct JSON: PAL_PaletteCoder {
 		public let format: PAL.PaletteFormat = .json
-		public let name = "JSON coded"
+		public let name = "ColorPaletteCodable JSON Palette"
 
 		public let fileExtension = ["jsoncolorpalette"]
-		public static let utTypeString = "com.dagronf.colorpalette.palette.json"   // conforms to `public.json`
+		public static let utTypeString = "public.dagronf.colorpalette.palette.json"   // conforms to `public.json`
 
 		/// Should the output be pretty-printed?
 		public let prettyPrint: Bool

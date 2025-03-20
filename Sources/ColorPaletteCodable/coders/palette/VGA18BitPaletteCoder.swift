@@ -26,9 +26,8 @@ public extension PAL.Coder {
 	struct VGA18BitPaletteCoder: PAL_PaletteCoder {
 		public let format: PAL.PaletteFormat = .vga18bit
 		public let name = "18-bit RGB VGA Palette"
-		public let utType = "public.dagronf.vgargb.18bit.pal"
 		public let fileExtension = ["pal"]
-		public static let utTypeString = "com.dagronf.colorpalette.vgargb.18bit"   // conforms to `public.data`
+		public static let utTypeString = "public.dagronf.colorpalette.palette.vgargb.18bit"   // conforms to `public.data`
 
 		public init() {}
 	}

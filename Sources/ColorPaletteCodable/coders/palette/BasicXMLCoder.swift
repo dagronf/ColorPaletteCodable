@@ -42,7 +42,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .basicXML
 		public let name = "Basic XML Palette"
 		public let fileExtension = ["xml"]
-		public static var utTypeString: String = "com.dagronf.colorpalette.basicxml"   // conforms to `public.xml`
+		public static var utTypeString: String = "public.dagronf.colorpalette.palette.basicxml"   // conforms to `public.xml`
 
 		var palette = PAL.Palette()
 	}

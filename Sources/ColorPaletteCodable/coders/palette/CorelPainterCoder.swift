@@ -43,7 +43,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .corelPainter
 		public let name = "Corel Painter Swatch"
 		public let fileExtension = ["txt"]
-		public static let utTypeString = "com.dagronf.colorpalette.corel.painter"   // conforms to `public.text`
+		public static let utTypeString = "public.dagronf.colorpalette.palette.corel.painter"   // conforms to `public.text`
 
 		public init() {}
 

@@ -27,7 +27,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .vga24bit
 		public let name = "24-bit VGA Palette"
 		public let fileExtension = ["pal"]
-		public static let utTypeString = "com.dagronf.colorpalette.vgargb.24bit"   // conforms to `public.data`
+		public static let utTypeString = "public.dagronf.colorpalette.palette.vgargb.24bit"   // conforms to `public.data`
 
 		public init() {}
 	}

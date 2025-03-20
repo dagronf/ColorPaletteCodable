@@ -26,7 +26,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .hexRGBA
 		public let name = "Hex RGBA"
 		public let fileExtension = ["hex"]
-		public static let utTypeString: String = "public.dagronf.colorpalette.hex"
+		public static let utTypeString: String = "public.dagronf.colorpalette.palette.hex"
 		public init() {}
 		static let validHexChars = "#0123456789abcdefABCDEF"
 	}

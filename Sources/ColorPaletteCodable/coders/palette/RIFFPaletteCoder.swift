@@ -27,7 +27,7 @@ public extension PAL.Coder {
 		public let format: PAL.PaletteFormat = .riff
 		public let name = "Microsoft RIFF"
 		public let fileExtension = ["pal"]
-		public static let utTypeString = "public.dagronf.colorpalette.microsoft.riff.palette"   // conforms to `public.data`
+		public static let utTypeString = "public.dagronf.colorpalette.palette.microsoft.riff"   // conforms to `public.data`
 
 		public init() {}
 	}

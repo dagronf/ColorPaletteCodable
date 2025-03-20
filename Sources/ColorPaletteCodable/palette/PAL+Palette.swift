@@ -179,10 +179,11 @@ public extension PAL.Palette {
 	///   - data: The gradient data
 	///   - fileExtension: The gradient format's extension (eg. "ase")
 	init(_ data: Data, fileExtension: String) throws {
-		guard let coder = PAL.Palette.coder(for: fileExtension).first else {
-			throw PAL.CommonError.unsupportedPaletteType
-		}
-		try self.init(data, usingCoder: coder)
+		let palette = try PAL.Palette.Decode(from: data, fileExtension: fileExtension)
+		self.name = palette.name
+		self.colors = palette.colors
+		self.groups = palette.groups
+		self.format = palette.format
 	}
 
 	/// Load a palette from data

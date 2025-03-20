@@ -52,6 +52,8 @@ public protocol PAL_PaletteCoder {
 }
 
 public extension PAL_PaletteCoder {
+	@inlinable func utTypeString() -> String { Self.utTypeString }
+
 	/// Create a palette object from the contents of a fileURL
 	/// - Parameter fileURL: The file containing the palette
 	/// - Returns: A palette object
