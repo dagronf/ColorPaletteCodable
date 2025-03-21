@@ -38,6 +38,8 @@ public extension PAL.Gradients.Coder {
 
 		/// The coder's file format
 		public static let fileExtension = "gpf"
+		/// The uniform type string for the gradient type
+		public static let utTypeString = "public.dagronf.colorpalette.gradient.gnuplot.gpf"
 
 		/// Create
 		public init() {}
@@ -138,6 +140,6 @@ public extension PAL.Gradients.Coder.GPF {
 import UniformTypeIdentifiers
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static let gpf = UTType("public.dagronf.gnuplot.gpf")!
+	static let gpf = UTType(PAL.Gradients.Coder.GPF.utTypeString)!
 }
 #endif

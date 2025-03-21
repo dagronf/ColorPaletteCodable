@@ -44,6 +44,8 @@ public extension PAL.Gradients.Coder {
 
 		/// The coder's file format
 		public static let fileExtension = "ggr"
+		/// The uniform type string for the gradient type
+		public static let utTypeString = "public.dagronf.colorpalette.gradient.gimp.ggr"
 
 		/// Create
 		public init() {}
@@ -214,6 +216,6 @@ public extension PAL.Gradients.Coder.GGR {
 import UniformTypeIdentifiers
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static let ggr = UTType("public.dagronf.gimp.ggr")!
+	static let ggr = UTType(PAL.Gradients.Coder.GGR.utTypeString)!
 }
 #endif

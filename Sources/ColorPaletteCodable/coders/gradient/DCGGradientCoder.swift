@@ -25,6 +25,9 @@ public extension PAL.Gradients.Coder {
 	struct DCG: PAL_GradientsCoder {
 		/// The coder's file format
 		public static let fileExtension = "dcg"
+		/// The uniform type string for the gradient type
+		public static let utTypeString = "public.dagronf.colorpalette.gradient.dcg"
+
 		public init() {}
 	}
 }
@@ -225,6 +228,6 @@ public extension PAL.Gradients.Coder.DCG {
 import UniformTypeIdentifiers
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static let dcg = UTType("public.dagronf.colorpalette.gradients")!
+	static let dcg = UTType(PAL.Gradients.Coder.DCG.utTypeString)!
 }
 #endif

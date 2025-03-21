@@ -10,13 +10,13 @@
 			<false/>
 			<key>QLSupportedContentTypes</key>
 			<array>
-				<string>public.dagronf.gnuplot.gpf</string>
-				<string>public.dagronf.jsoncolorgradient</string>
-				<string>public.dagronf.gimp.ggr</string>
+				<string>public.dagronf.colorpalette.gradient.gnuplot.gpf</string>
+				<string>public.dagronf.colorpalette.gradient.json</string>
+				<string>public.dagronf.colorpalette.gradient.gimp.ggr</string>
 				<string>com.adobe.grd</string>
-				<string>public.dagronf.corel.paintshoppro.pspgradient</string>
-				<string>public.dagronf.cpt</string>
-				<string>public.dagronf.colorpalette.gradients</string>
+				<string>public.dagronf.colorpalette.gradient.corel.paintshoppro.pspgradient</string>
+				<string>public.dagronf.colorpalette.gradient.cpt</string>
+				<string>public.dagronf.colorpalette.gradient.json</string>
 			</array>
 			<key>QLSupportsSearchableItems</key>
 			<false/>

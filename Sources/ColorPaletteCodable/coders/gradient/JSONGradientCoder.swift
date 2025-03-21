@@ -24,6 +24,8 @@ public extension PAL.Gradients.Coder {
 	struct JSON: PAL_GradientsCoder {
 		/// The coder's file format
 		public static let fileExtension = "jsoncolorgradient"
+		/// The uniform type string for the gradient type
+		public static let utTypeString = "public.dagronf.colorpalette.gradient.json"
 
 		/// Create
 		public init() {}
@@ -48,6 +50,6 @@ public extension PAL.Gradients.Coder {
 import UniformTypeIdentifiers
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static let jsoncolorgradient = UTType("public.dagronf.jsoncolorgradient")!
+	static let jsoncolorgradient = UTType(PAL.Gradients.Coder.JSON.utTypeString)!
 }
 #endif

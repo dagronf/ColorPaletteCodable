@@ -70,25 +70,24 @@ class GradientDocument: NSDocument {
 			throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
 		}
 
-		if typeName == "public.dagronf.jsoncolorgradient" {
+		if typeName == PAL.Gradients.Coder.JSON.utTypeString {
 			return try PAL.Gradients.Coder.JSON().encode(g)
 		}
-		else if typeName == "public.dagronf.colorpalette.gradients" {
+		else if typeName == PAL.Gradients.Coder.DCG.utTypeString {
 			return try PAL.Gradients.Coder.DCG().encode(g)
 		}
-		else if typeName == "public.dagronf.gimp.ggr" {
+		else if typeName == PAL.Gradients.Coder.GGR.utTypeString {
 			return try PAL.Gradients.Coder.GGR().encode(g)
 		}
-		else if typeName == "public.dagronf.cpt" {
+		else if typeName == PAL.Gradients.Coder.CPT.utTypeString {
 			return try PAL.Gradients.Coder.CPT().encode(g)
 		}
-		else if typeName == "public.dagronf.gnuplot.gpf" {
+		else if typeName == PAL.Gradients.Coder.GPF.utTypeString {
 			return try PAL.Gradients.Coder.GPF().encode(g)
 		}
-		else if typeName == "public.dagronf.cpt" {
+		else if typeName == PAL.Gradients.Coder.CPT.utTypeString {
 			return try PAL.Gradients.Coder.CPT().encode(g)
 		}
-
 
 		throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
 	}

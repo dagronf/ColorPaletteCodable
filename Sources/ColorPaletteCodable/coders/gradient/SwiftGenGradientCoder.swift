@@ -28,6 +28,9 @@ public extension PAL.Gradients.Coder {
 	struct SwiftGen: PAL_GradientsCoder {
 		/// The coder's file format. We cannot load or save for this type
 		public static let fileExtension = ""
+		/// The uniform type string for the gradient type
+		public static let utTypeString = "public.swift-source"
+
 		public init() {}
 	}
 }
@@ -95,6 +98,9 @@ public extension PAL.Gradients.Coder {
 	struct SwiftUIGen: PAL_GradientsCoder {
 		/// The coder's file format. We cannot load or save for this type
 		public static let fileExtension = ""
+		/// The uniform type string for the gradient type
+		public static let utTypeString = "public.swift-source"
+
 		public init() {}
 	}
 }

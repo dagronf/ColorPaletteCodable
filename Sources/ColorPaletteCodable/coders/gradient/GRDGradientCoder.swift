@@ -21,7 +21,7 @@ import Foundation
 import BytesParser
 
 public extension PAL.Gradients.Coder {
-	/// A coder for GRD gradients
+	/// A coder for GRD (Photoshop) gradients
 	///
 	/// References :-
 	/// [1](http://www.selapa.net/swatches/gradients/fileformats.php)
@@ -31,6 +31,9 @@ public extension PAL.Gradients.Coder {
 	struct GRD: PAL_GradientsCoder {
 		/// The coder's file format
 		public static let fileExtension = "grd"
+		/// The uniform type string for the gradient type
+		public static let utTypeString = "com.adobe.grd"
+
 		public init() {}
 	}
 }
@@ -695,3 +698,11 @@ extension GRD {
 		return Gradient(name: title, smoothness: 0, colorStops: stops, transparencyStops: tstops)
 	}
 }
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let grd = UTType(PAL.Gradients.Coder.GRD.utTypeString)!
+}
+#endif

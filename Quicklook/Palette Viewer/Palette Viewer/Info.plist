@@ -139,7 +139,7 @@
 			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>public.dagronf.colorpalette.vgargb.18bit</string>
+				<string>public.dagronf.colorpalette.palette.vgargb.18bit</string>
 			</array>
 		</dict>
 		<dict>
@@ -151,7 +151,7 @@
 			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>public.dagronf.colorpalette.vgargb.24bit</string>
+				<string>public.dagronf.colorpalette.palette.vgargb.24bit</string>
 			</array>
 		</dict>
 		<dict>
@@ -220,20 +220,6 @@
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.comma-separated-values-text</string>
-			</array>
-			<key>NSDocumentClass</key>
-			<string>$(PRODUCT_MODULE_NAME).Document</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeName</key>
-			<string>CPT Gradient File</string>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>LSHandlerRank</key>
-			<string>Default</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>public.dagronf.cpt</string>
 			</array>
 			<key>NSDocumentClass</key>
 			<string>$(PRODUCT_MODULE_NAME).Document</string>
@@ -329,21 +315,49 @@
 			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>public.dagronf.gimp.ggr</string>
+				<string>public.dagronf.colorpalette.gradient.gimp.ggr</string>
 			</array>
 			<key>NSDocumentClass</key>
 			<string>$(PRODUCT_MODULE_NAME).GradientDocument</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeName</key>
-			<string>Color Gradient File</string>
+			<string>CPT Gradient File</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSHandlerRank</key>
 			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>public.dagronf.jsoncolorgradient</string>
+				<string>public.dagronf.colorpalette.gradient.cpt</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>$(PRODUCT_MODULE_NAME).GradientDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>ColorPaletteCodable JSON Gradients</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.dagronf.colorpalette.gradient.json</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>$(PRODUCT_MODULE_NAME).GradientDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>ColorPaletteCodable Binary Gradients</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.dagronf.colorpalette.gradient.json</string>
 			</array>
 			<key>NSDocumentClass</key>
 			<string>$(PRODUCT_MODULE_NAME).GradientDocument</string>
@@ -357,7 +371,7 @@
 			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>public.dagronf.gnuplot.gpf</string>
+				<string>public.dagronf.colorpalette.gradient.gnuplot.gpf</string>
 			</array>
 			<key>NSDocumentClass</key>
 			<string>$(PRODUCT_MODULE_NAME).GradientDocument</string>
@@ -385,21 +399,7 @@
 			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>public.dagronf.corel.paintshoppro.pspgradient</string>
-			</array>
-			<key>NSDocumentClass</key>
-			<string>$(PRODUCT_MODULE_NAME).GradientDocument</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeName</key>
-			<string>ColorPaletteCodable Binary Gradients</string>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>LSHandlerRank</key>
-			<string>Default</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>public.dagronf.colorpalette.gradients</string>
+				<string>public.dagronf.colorpalette.gradient.corel.paintshoppro.pspgradient</string>
 			</array>
 			<key>NSDocumentClass</key>
 			<string>$(PRODUCT_MODULE_NAME).GradientDocument</string>
@@ -538,25 +538,6 @@
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
-				<string>public.data</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>Adobe Photoshop Gradient</string>
-			<key>UTTypeIcons</key>
-			<dict/>
-			<key>UTTypeIdentifier</key>
-			<string>com.adobe.grd</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>grd</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
 				<string>public.text</string>
 			</array>
 			<key>UTTypeDescription</key>
@@ -624,25 +605,6 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>pal</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.plain-text</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>GNUPlot Color Gradient</string>
-			<key>UTTypeIcons</key>
-			<dict/>
-			<key>UTTypeIdentifier</key>
-			<string>public.dagronf.gnuplot.gpf</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>gpf</string>
 				</array>
 			</dict>
 		</dict>
@@ -766,7 +728,7 @@
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
-			<string>public.dagronf.vgargb.18bit.pal</string>
+			<string>public.dagronf.colorpalette.palette.vgargb.18bit.pal</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
@@ -781,7 +743,7 @@
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
-			<string>public.dagronf.vgargb.24bit.pal</string>
+			<string>public.dagronf.colorpalette.palette.vgargb.24bit.pal</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
@@ -812,6 +774,44 @@
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Adobe Photoshop Gradient</string>
+			<key>UTTypeIcons</key>
+			<dict/>
+			<key>UTTypeIdentifier</key>
+			<string>com.adobe.grd</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>grd</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.plain-text</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>GNUPlot Color Gradient</string>
+			<key>UTTypeIcons</key>
+			<dict/>
+			<key>UTTypeIdentifier</key>
+			<string>public.dagronf.colorpalette.gradient.gnuplot.gpf</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>gpf</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
 				<string>public.json</string>
 			</array>
 			<key>UTTypeDescription</key>
@@ -819,7 +819,7 @@
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
-			<string>public.dagronf.jsoncolorgradient</string>
+			<string>public.dagronf.colorpalette.gradient.json</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
@@ -838,7 +838,7 @@
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
-			<string>public.dagronf.gimp.ggr</string>
+			<string>public.dagronf.colorpalette.gradient.gimp.ggr</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
@@ -857,7 +857,7 @@
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
-			<string>public.dagronf.cpt</string>
+			<string>public.dagronf.colorpalette.gradient.cpt</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
@@ -876,7 +876,7 @@
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
-			<string>public.dagronf.corel.paintshoppro.pspgradient</string>
+			<string>public.dagronf.colorpalette.gradient.corel.paintshoppro.pspgradient</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>

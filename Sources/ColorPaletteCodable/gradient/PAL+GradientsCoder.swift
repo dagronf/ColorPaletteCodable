@@ -31,6 +31,9 @@ public protocol PAL_GradientsCoder {
 	/// The extension for the file, or a unique name for identifying the coder type.
 	var fileExtension: String { get }
 
+	/// The uniform type string for the palette type
+	static var utTypeString: String { get }
+
 	/// Load gradients from an input stream
 	func decode(from inputStream: InputStream) throws -> PAL.Gradients
 

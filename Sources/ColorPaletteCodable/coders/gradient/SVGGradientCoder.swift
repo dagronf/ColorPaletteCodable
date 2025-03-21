@@ -24,6 +24,9 @@ public extension PAL.Gradients.Coder {
 	struct SVG: PAL_GradientsCoder {
 		/// The coder's file format
 		public static let fileExtension = "svg"
+		/// The uniform type string for the gradient type
+		public static let utTypeString = "public.svg-image"
+
 		public init() {}
 	}
 }

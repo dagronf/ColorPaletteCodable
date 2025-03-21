@@ -24,6 +24,9 @@ public extension PAL.Gradients.Coder {
 	struct PSP: PAL_GradientsCoder {
 		/// The coder's file format
 		public static let fileExtension = "pspgradient"
+		/// The uniform type string for the gradient type
+		public static let utTypeString = "public.dagronf.colorpalette.gradient.corel.paintshoppro.pspgradient"
+
 		public init() {}
 	}
 }
