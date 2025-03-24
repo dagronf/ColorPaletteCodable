@@ -1,6 +1,14 @@
 {
-  "originHash" : "32c28b020e5d0214edb3e8dd2d985bec31c54f4a79d84d946908321b704a5631",
   "pins" : [
+    {
+      "identity" : "bytesparser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dagronf/BytesParser",
+      "state" : {
+        "revision" : "ca0224ff5f581c003d35effe065cb9c7075368a0",
+        "version" : "3.0.0"
+      }
+    },
     {
       "identity" : "defaults",
       "kind" : "remoteSourceControl",
@@ -20,6 +28,24 @@
       }
     },
     {
+      "identity" : "dsfregex",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dagronf/DSFRegex",
+      "state" : {
+        "revision" : "e0e64805519b23b08dcca9c83ca2d4a2b3de4c33",
+        "version" : "3.4.0"
+      }
+    },
+    {
+      "identity" : "swiftimagereadwrite",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dagronf/SwiftImageReadWrite",
+      "state" : {
+        "revision" : "42ace2412279f18bc264bc306e96b51c36e12a33",
+        "version" : "1.9.2"
+      }
+    },
+    {
       "identity" : "swiftui-flow-layout",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/globulus/swiftui-flow-layout",
@@ -27,7 +53,16 @@
         "revision" : "de7da3440c3b87ba94adfa98c698828d7746a76d",
         "version" : "1.0.5"
       }
+    },
+    {
+      "identity" : "tinycsv",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dagronf/TinyCSV",
+      "state" : {
+        "revision" : "a27a0baa6766e44eb27a2a8c6b2e15541056b3de",
+        "version" : "1.2.0"
+      }
     }
   ],
-  "version" : 3
+  "version" : 2
 }
