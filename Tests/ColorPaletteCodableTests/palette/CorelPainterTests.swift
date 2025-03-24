@@ -1,7 +1,7 @@
 @testable import ColorPaletteCodable
 import XCTest
 
-final class CorelSwatchTests: XCTestCase {
+final class CorelPainterTests: XCTestCase {
 
 	func testCorelPainterSwatch() throws {
 

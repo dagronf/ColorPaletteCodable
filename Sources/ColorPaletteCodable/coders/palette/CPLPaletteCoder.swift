@@ -46,7 +46,7 @@ public extension PAL.Coder.CPL {
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
 
 		let data = inputStream.readAllData()
-		let file = RandomAccessDataReader(data: data)
+		let file = BytesReader(data: data)
 
 		var result = PAL.Palette(format: self.format)
 
@@ -61,7 +61,7 @@ public extension PAL.Coder.CPL {
 			// This version has a palette name
 			let filenamelength = try file.readUInt8()
 			if filenamelength > 0 {
-				result.name = try file.readAsciiString(count: Int(filenamelength))
+				result.name = try file.readStringASCII(length: Int(filenamelength))
 			}
 			numberOfColors = try file.readUInt16(.little)
 		case 0xCCBC, 0xCCDC:
@@ -71,6 +71,9 @@ public extension PAL.Coder.CPL {
 
 			// Read in headers if we can
 			let headerCount: Int32 = try file.readInt32(.little)
+
+			// Header ID 1*int32 (0 ⇒ Name, 1 ⇒ Palette type, 2 ⇒ Number of colors, 3 ⇒ Special inks, 4 ⇒ UI Color models, 5 ⇒ UI Columns & Rows)
+
 			let headers: [(hid: Int32, offset: Int)] = try (0 ..< headerCount).map { _ in
 				let hid: Int32 = try file.readInt32(.little)
 				let offset: Int32 = try file.readInt32(.little)
@@ -83,10 +86,11 @@ public extension PAL.Coder.CPL {
 			var name: String = ""
 			if filenamelength > 0 {
 				if version == 0xCDDC {
-					name = try file.readAsciiString(count: Int(filenamelength))
+					var nameData = try file.readData(count: Int(filenamelength))
+					name = String(data: nameData, encoding: .isoLatin1) ?? ""
 				}
 				else {
-					name = try file.readUTF16String(.little, count: Int(filenamelength))
+					name = try file.readStringUTF16(.little, length: Int(filenamelength))
 				}
 			}
 			result.name = name
@@ -99,23 +103,27 @@ public extension PAL.Coder.CPL {
 			try file.seekSet(headers[2].offset)
 			numberOfColors = try file.readUInt16(.little)
 
-			// This position is the start of the colors
-			let colorsIndex = file.readPosition
-
 			// There are some other possible headers here, but we don't care about them.
 			// Given that CPL isn't really in use anymore just ignore them for now.
 
 			// Check if we are a spot palette
 			spot = __spotPaletteTypes.contains(paletteType)
 
+
+			try file.seekSet(headers[2].offset + 2)
+
 			// Move to the colors definitions
-			try file.seekSet(colorsIndex)
+			//try file.seekSet(colorsIndex)
 		}
 
 		//if version in ('\xcd\xbc','\xcd\xdc','\xcd\xdd') and type < 38 and type not in(5,16):
 		let long = [0xCDBC, 0xCDDC, 0xCDDD].contains(version) && paletteType < 38 && paletteType != 5 && paletteType != 16
 
 		for _ in 0 ..< numberOfColors {
+			if long {
+				let id = try file.readUInt32(.little)
+				_ = id
+			}
 			let model: UInt16 = try file.readUInt16(.little)
 			try file.seek(2, .current)
 
@@ -200,10 +208,12 @@ public extension PAL.Coder.CPL {
 			var colorName = ""
 			if nameLength > 0 {
 				if version == 0xCDDC || version == 0xDCDC || version == 0xCCDC {
-					colorName = try file.readAsciiString(count: Int(nameLength))
+					var nameData = try file.readData(count: Int(nameLength))
+					colorName = String(data: nameData, encoding: .isoLatin1) ?? ""
+					//colorName = try file.readAsciiString(count: Int(nameLength))
 				}
 				else {
-					colorName = try file.readUTF16String(.little, count: Int(nameLength))
+					colorName = try file.readStringUTF16(.little, length: Int(nameLength))
 				}
 			}
 
