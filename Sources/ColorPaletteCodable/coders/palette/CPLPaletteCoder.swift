@@ -86,7 +86,7 @@ public extension PAL.Coder.CPL {
 			var name: String = ""
 			if filenamelength > 0 {
 				if version == 0xCDDC {
-					var nameData = try file.readData(count: Int(filenamelength))
+					let nameData = try file.readData(count: Int(filenamelength))
 					name = String(data: nameData, encoding: .isoLatin1) ?? ""
 				}
 				else {
@@ -208,7 +208,7 @@ public extension PAL.Coder.CPL {
 			var colorName = ""
 			if nameLength > 0 {
 				if version == 0xCDDC || version == 0xDCDC || version == 0xCCDC {
-					var nameData = try file.readData(count: Int(nameLength))
+					let nameData = try file.readData(count: Int(nameLength))
 					colorName = String(data: nameData, encoding: .isoLatin1) ?? ""
 					//colorName = try file.readAsciiString(count: Int(nameLength))
 				}
