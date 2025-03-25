@@ -230,7 +230,7 @@ extension PAL.Coder.CorelXMLPalette {
 			}()
 
 			result += " cs=\"\(colorspaceInfo.0)\""
-			let tints = colorspaceInfo.1.map({ "\($0)" }).joined(separator: ",")
+			let tints = colorspaceInfo.1.map({ _XMLD($0) }).joined(separator: ",")
 			if tints.isEmpty == false {
 				result += " tints=\"\(tints)\""
 			}
