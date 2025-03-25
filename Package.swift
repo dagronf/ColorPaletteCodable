@@ -19,7 +19,7 @@ let package = Package(
 		.package(url: "https://github.com/dagronf/DSFRegex", from: "3.4.0"),
 		.package(url: "https://github.com/dagronf/SwiftImageReadWrite", from: "1.7.1"),
 		.package(url: "https://github.com/dagronf/TinyCSV", from: "1.0.0"),
-		.package(url: "https://github.com/dagronf/BytesParser", from: "3.1.0"),
+		.package(url: "https://github.com/dagronf/BytesParser", from: "3.1.1"),
 	],
 	targets: [
 		.target(
