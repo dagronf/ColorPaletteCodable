@@ -20,7 +20,13 @@
 import Foundation
 
 public extension PAL.Palette {
-	/// The standard X11 color palette
+	/// The standard named X11 color palette
+	///
+	/// Source: [sK1 Project](https://sk1project.net/palettes/x11-named-colors/)
+	///
+	/// See:
+	///   * [https://en.wikipedia.org/wiki/X11_color_names](https://en.wikipedia.org/wiki/X11_color_names)
+	///   * [https://www.w3schools.com/%5Ccolors/colors_x11.asp](https://www.w3schools.com/%5Ccolors/colors_x11.asp)
 	static let X11ColorPalette: PAL.Palette = {
 		let c = PAL.Coder.GIMP()
 		let s = _x11GimpColorPalette.data(using: .utf8)!
