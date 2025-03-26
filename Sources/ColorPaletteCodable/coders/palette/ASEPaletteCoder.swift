@@ -190,7 +190,7 @@ extension PAL.Coder.ASE {
 			colors.append(try reader.readFloat32(.big))
 		case .LAB:
 			colorspace = .LAB
-			colors.append(try reader.readFloat32(.big))
+			colors.append(try reader.readFloat32(.big) * 100)
 			colors.append(try reader.readFloat32(.big))
 			colors.append(try reader.readFloat32(.big))
 
@@ -308,8 +308,12 @@ extension PAL.Coder.ASE {
 				try colorData.writeFloat32(mappedComponents[1], .big)
 				try colorData.writeFloat32(mappedComponents[2], .big)
 				try colorData.writeFloat32(mappedComponents[3], .big)
-			case .RGB, .LAB:
+			case .RGB:
 				try colorData.writeFloat32(mappedComponents[0], .big)
+				try colorData.writeFloat32(mappedComponents[1], .big)
+				try colorData.writeFloat32(mappedComponents[2], .big)
+			case .LAB:
+				try colorData.writeFloat32(mappedComponents[0] / 100.0, .big)
 				try colorData.writeFloat32(mappedComponents[1], .big)
 				try colorData.writeFloat32(mappedComponents[2], .big)
 			case .Gray:
