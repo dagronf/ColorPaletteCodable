@@ -95,7 +95,7 @@ extension PAL.Coder.ScribusXMLPaletteCoder: XMLParserDelegate {
 				}
 			}
 			else if let cmykHexFormat = lowercasedAtts["cmyk"] {
-				if let color = try? PAL.Color(hexString: cmykHexFormat, format: .rgb, name: name) {
+				if let color = try? PAL.Color(cmykHexString: cmykHexFormat, name: name) {
 					self.palette.colors.append(color)
 				}
 			}
