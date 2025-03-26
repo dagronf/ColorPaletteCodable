@@ -85,7 +85,7 @@ extension PAL.Coder.OpenOfficePaletteCoder: XMLParserDelegate {
 			let name: String = attributeDict["draw:name"] ?? ""
 			if
 				let colorString: String = attributeDict["draw:color"],
-				let color = try? PAL.Color(hexString: colorString, format: .argb, name: name.xmlDecoded())
+				let color = try? PAL.Color(rgbHexString: colorString, format: .argb, name: name.xmlDecoded())
 			{
 				self.palette.colors.append(color)
 			}

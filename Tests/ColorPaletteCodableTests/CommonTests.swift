@@ -285,14 +285,14 @@ final class CommonTests: XCTestCase {
 
 	func testHexDecode() throws {
 		do {
-			let c1 = try PAL.Color(hexString: "B0C4DEFF", format: .rgba)
+			let c1 = try PAL.Color(rgbHexString: "B0C4DEFF", format: .rgba)
 			XCTAssertEqual(_p2f(0xB0), c1.colorComponents[0], accuracy: 0.000001)
 			XCTAssertEqual(_p2f(0xC4), c1.colorComponents[1], accuracy: 0.000001)
 			XCTAssertEqual(_p2f(0xDE), c1.colorComponents[2], accuracy: 0.000001)
 			XCTAssertEqual(1.0, c1.alpha, accuracy: 0.000001)
 		}
 		do {
-			let c1 = try PAL.Color(hexString: "B0C4DEFF", format: .argb)
+			let c1 = try PAL.Color(rgbHexString: "B0C4DEFF", format: .argb)
 			XCTAssertEqual(_p2f(0xC4), c1.colorComponents[0], accuracy: 0.000001)
 			XCTAssertEqual(_p2f(0xDE), c1.colorComponents[1], accuracy: 0.000001)
 			XCTAssertEqual(_p2f(0xFF), c1.colorComponents[2], accuracy: 0.000001)
@@ -300,7 +300,7 @@ final class CommonTests: XCTestCase {
 		}
 
 		do {
-			let c1 = try PAL.Color(hexString: "#FFFFF0", format: .argb)
+			let c1 = try PAL.Color(rgbHexString: "#FFFFF0", format: .argb)
 			XCTAssertEqual(1.0, c1.colorComponents[0], accuracy: 0.000001)
 			XCTAssertEqual(1.0, c1.colorComponents[1], accuracy: 0.000001)
 			XCTAssertEqual(_p2f(0xF0), c1.colorComponents[2], accuracy: 0.000001)
@@ -308,7 +308,7 @@ final class CommonTests: XCTestCase {
 		}
 
 		do {
-			let c2 = try PAL.Color(hexString: "#1122FE", format: .rgba, name: "c2")
+			let c2 = try PAL.Color(rgbHexString: "#1122FE", format: .rgba, name: "c2")
 			XCTAssertEqual(c2.colorSpace, .RGB)
 			XCTAssertEqual(c2.colorComponents.count, 3)
 			XCTAssertEqual(c2.colorComponents[0], _p2f(0x11), accuracy: 0.00001)
@@ -317,7 +317,7 @@ final class CommonTests: XCTestCase {
 		}
 
 		do {
-			let c3 = try PAL.Color(hexString: "0x1122FE", format: .rgba, name: "c3")
+			let c3 = try PAL.Color(rgbHexString: "0x1122FE", format: .rgba, name: "c3")
 			XCTAssertEqual(c3.colorSpace, .RGB)
 			XCTAssertEqual(c3.colorComponents.count, 3)
 			XCTAssertEqual(c3.colorComponents[0], _p2f(0x11), accuracy: 0.00001)
@@ -326,7 +326,7 @@ final class CommonTests: XCTestCase {
 		}
 
 		do {
-			let c1 = try PAL.Color(hexString: "0x1122FE", format: .rgba, name: "c1")
+			let c1 = try PAL.Color(rgbHexString: "0x1122FE", format: .rgba, name: "c1")
 			XCTAssertEqual(c1.colorSpace, .RGB)
 			XCTAssertEqual(c1.colorComponents.count, 3)
 			XCTAssertEqual(c1.colorComponents[0], _p2f(0x11), accuracy: 0.00001)
@@ -334,7 +334,7 @@ final class CommonTests: XCTestCase {
 			XCTAssertEqual(c1.colorComponents[2], _p2f(0xFE), accuracy: 0.00001)
 			XCTAssertEqual(c1.alpha, 1.0, accuracy: 0.00001)
 
-			let c2 = try PAL.Color(hexString: "0xBB1122FE", format: .argb, name: "c2")
+			let c2 = try PAL.Color(rgbHexString: "0xBB1122FE", format: .argb, name: "c2")
 			XCTAssertEqual(c2.colorSpace, .RGB)
 			XCTAssertEqual(c2.colorComponents.count, 3)
 			XCTAssertEqual(c2.colorComponents[0], _p2f(0x11), accuracy: 0.00001)
@@ -344,7 +344,7 @@ final class CommonTests: XCTestCase {
 		}
 
 		do {
-			let c1 = try PAL.Color(hexString: "#BB1122FE", format: .bgra, name: "c1")
+			let c1 = try PAL.Color(rgbHexString: "#BB1122FE", format: .bgra, name: "c1")
 			XCTAssertEqual(c1.colorSpace, .RGB)
 			XCTAssertEqual(c1.colorComponents.count, 3)
 			XCTAssertEqual(c1.colorComponents[0], _p2f(0x22), accuracy: 0.00001)
@@ -352,7 +352,7 @@ final class CommonTests: XCTestCase {
 			XCTAssertEqual(c1.colorComponents[2], _p2f(0xBB), accuracy: 0.00001)
 			XCTAssertEqual(c1.alpha, _p2f(0xFE), accuracy: 0.00001)
 
-			let c2 = try PAL.Color(hexString: "#BB1122", format: .bgra, name: "c1")
+			let c2 = try PAL.Color(rgbHexString: "#BB1122", format: .bgra, name: "c1")
 			XCTAssertEqual(c2.colorSpace, .RGB)
 			XCTAssertEqual(c2.colorComponents.count, 3)
 			XCTAssertEqual(c2.colorComponents[0], _p2f(0x22), accuracy: 0.00001)
@@ -362,7 +362,7 @@ final class CommonTests: XCTestCase {
 		}
 
 		do {
-			let c1 = try PAL.Color(hexString: "#BB1122FE", format: .abgr, name: "c1")
+			let c1 = try PAL.Color(rgbHexString: "#BB1122FE", format: .abgr, name: "c1")
 			XCTAssertEqual(c1.colorSpace, .RGB)
 			XCTAssertEqual(c1.colorComponents.count, 3)
 			XCTAssertEqual(c1.colorComponents[0], _p2f(0xFE), accuracy: 0.00001)
@@ -370,7 +370,7 @@ final class CommonTests: XCTestCase {
 			XCTAssertEqual(c1.colorComponents[2], _p2f(0x11), accuracy: 0.00001)
 			XCTAssertEqual(c1.alpha, _p2f(0xBB), accuracy: 0.00001)
 
-			let c2 = try PAL.Color(hexString: "#BB1122", format: .abgr, name: "c1")
+			let c2 = try PAL.Color(rgbHexString: "#BB1122", format: .abgr, name: "c1")
 			XCTAssertEqual(c2.colorSpace, .RGB)
 			XCTAssertEqual(c2.colorComponents.count, 3)
 			XCTAssertEqual(c2.colorComponents[0], _p2f(0x22), accuracy: 0.00001)

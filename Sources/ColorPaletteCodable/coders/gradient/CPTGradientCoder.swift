@@ -123,7 +123,7 @@ private extension PAL.Gradients.Coder.CPT {
 		// scan for "#RRGGBB"
 		let hexCS = CharacterSet.alphanumerics.union(CharacterSet(["#"]))
 		if let hexRGB = scanner._scanCharacters(in: hexCS),
-			let color = try? PAL.Color(hexString: hexRGB, format: .rgba)
+			let color = try? PAL.Color(rgbHexString: hexRGB, format: .rgba)
 		{
 			return color
 		}

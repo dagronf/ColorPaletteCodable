@@ -61,7 +61,7 @@ public extension PAL.Coder.HEX {
 				else {
 					if current.isEmpty == false {
 						// Attempt convert from RGB[A] hex
-						if let color = try? PAL.Color(hexString: current, format: .rgba) {
+						if let color = try? PAL.Color(rgbHexString: current, format: .rgba) {
 							palette.colors.append(color)
 						}
 						current = ""
@@ -71,7 +71,7 @@ public extension PAL.Coder.HEX {
 
 			if current.isEmpty == false {
 				// Attempt convert from hex
-				if let color = try? PAL.Color(hexString: current, format: .rgba) {
+				if let color = try? PAL.Color(rgbHexString: current, format: .rgba) {
 					palette.colors.append(color)
 				}
 			}

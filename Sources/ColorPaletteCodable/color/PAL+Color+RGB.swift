@@ -63,18 +63,18 @@ public func rgb255(
 
 /// Create a color from an RGB[A] hex color format string
 /// - Parameters:
-///   - hexString: The hex-encoded color string
+///   - rgbHexString: The hex-encoded color string
 ///   - format: The expected format for the incoming hex string (eg. `.rgb`, `.bgr`)
 ///   - name: The color name
 ///   - colorType: The color type
 /// - Returns: A color representing the hex string
 public func rgb(
-	_ hexString: String,
+	_ rgbHexString: String,
 	format: PAL.ColorByteFormat,
 	name: String = "",
 	colorType: PAL.ColorType = .normal
 ) throws -> PAL.Color {
-	try PAL.Color(hexString: hexString, format: format, name: name, colorType: colorType)
+	try PAL.Color(rgbHexString: rgbHexString, format: format, name: name, colorType: colorType)
 }
 
 // MARK: - Basic RGB structure
@@ -254,8 +254,8 @@ public extension PAL.Color {
 	/// - [#]ABCD     : RGBA color (RRGGBB)
 	/// - [#]AABBCC   : RGB color
 	/// - [#]AABBCCDD : RGBA color (RRGGBBAA)
-	init(hexString: String, format: PAL.ColorByteFormat, name: String = "", colorType: PAL.ColorType = .normal) throws {
-		let color = try PAL.Color.RGB(hexString, format: format)
+	init(rgbHexString: String, format: PAL.ColorByteFormat, name: String = "", colorType: PAL.ColorType = .normal) throws {
+		let color = try PAL.Color.RGB(rgbHexString, format: format)
 		try self.init(
 			colorSpace: .RGB,
 			colorComponents: [color.rf, color.gf, color.bf],

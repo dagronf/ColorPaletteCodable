@@ -90,7 +90,7 @@ extension PAL.Coder.ScribusXMLPaletteCoder: XMLParserDelegate {
 		else if en == "color" {
 			let name = lowercasedAtts["name"]?.xmlDecoded() ?? ""
 			if let rgbHexFormat = lowercasedAtts["rgb"] {
-				if let color = try? PAL.Color(hexString: rgbHexFormat, format: .rgb, name: name) {
+				if let color = try? PAL.Color(rgbHexString: rgbHexFormat, format: .rgb, name: name) {
 					self.palette.colors.append(color)
 				}
 			}

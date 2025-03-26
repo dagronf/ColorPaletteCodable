@@ -79,16 +79,16 @@ extension PAL.Coder.CSV {
 		case 1:
 			// Single line of hex colors
 			let record = content.records[0]
-			colors = try record.map { try PAL.Color(hexString: $0.trim(), format: .rgba) }
+			colors = try record.map { try PAL.Color(rgbHexString: $0.trim(), format: .rgba) }
 		default:
 			colors = try content.records.compactMap { record in
 				if record.count == 1 {
 					// Single RGB(A) entry
-					return try PAL.Color(hexString: record[0].trim(), format: .rgba)
+					return try PAL.Color(rgbHexString: record[0].trim(), format: .rgba)
 				}
 				else if record.count > 1 {
 					// First is color, second is name
-					return try PAL.Color(hexString: record[0].trim(), format: .rgba, name: record[1].trim())
+					return try PAL.Color(rgbHexString: record[0].trim(), format: .rgba, name: record[1].trim())
 				}
 				return nil
 			}
