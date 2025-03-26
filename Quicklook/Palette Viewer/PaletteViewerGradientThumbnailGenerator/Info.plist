@@ -13,7 +13,7 @@
 				<string>public.dagronf.colorpalette.gradient.gimp.ggr</string>
 				<string>com.adobe.grd</string>
 				<string>public.dagronf.colorpalette.gradient.corel.paintshoppro.pspgradient</string>
-				<string>public.dagronf.colorpalette.gradient.cpt</string>
+				<string>public.dagronf.colorpalette.gradient.colorpalettetables.cpt</string>
 				<string>public.dagronf.colorpalette.gradient.json</string>
 				<string>public.dagronf.colorpalette.gradient.dcg</string>
 			</array>

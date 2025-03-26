@@ -329,7 +329,7 @@
 			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>public.dagronf.colorpalette.gradient.cpt</string>
+				<string>public.dagronf.colorpalette.gradient.colorpalettetables.cpt</string>
 			</array>
 			<key>NSDocumentClass</key>
 			<string>$(PRODUCT_MODULE_NAME).GradientDocument</string>
