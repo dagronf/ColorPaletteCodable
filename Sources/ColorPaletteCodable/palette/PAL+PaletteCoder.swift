@@ -19,86 +19,10 @@
 
 import Foundation
 
-public extension PAL {
-	/// Supported palette formats
-	enum PaletteCoderType: CaseIterable {
-		case acb           // Adobe Color Book
-		case aco           // Adobe Photoshop Swatch
-		case act           // Adobe Color Tables
-		case androidXML    // Android XML Palette file
-		case ase           // Adobe Swatch Exchange
-		case basicXML      // Basic XML palette format
-		case clr           // macOS NSColorList
-		case corelPainter  // Corel Painter Swatches
-		case corelDraw     // CorelDraw XML
-		case corelPalette  // Corel Palette
-		case csv           // CSV Palette
-		case dcp           // ColorPaletteCodable binary format
-		case gimp          // GIMP gpl format
-		case hexRGBA       // Hex RGBA coded files
-		#if canImport(CoreGraphics)
-		case image         // image-based palette coder
-		#endif
-		case json          // ColorPaletteCodable binary format
-		case openOffice    // OpenOffice palette format (.soc)
-		case paintNET      // Paint.NET palette file (.txt)
-		case paintShopPro  // Paint Shop Pro palette (.pal, .psppalette)
-		case rgba          // RGBA encoded text files (.rgba, .txt)
-		case rgb           // RGB encoded text files (.rgb, .txt)
-		case riff          // Microsoft RIFF palette (.pal))
-		case sketch        // Sketch palette file (.sketchpalette)
-		case svg           // Scalable Vector Grapihcs palette (.svg)
-		case swift         // (export only) Swift source file (.swift)
-		case corelDrawV3   // Corel Draw V3 file (.pal)
-		case scribusXML    // Scribus XML palette (.xml)
-
-		// This needs to go last, so it doesn't override the other PAL types
-		case vga24bit      // 24-bit RGB VGA (3 bytes RRGGBB)
-		case vga18bit      // 18-bit RGB VGA (3 bytes RRGGBB)
-
-		/// Create a new coder based on the format
-		public var coder: PAL_PaletteCoder {
-			switch self {
-			case .acb          : return PAL.Coder.ACB()
-			case .aco          : return PAL.Coder.ACO()
-			case .act          : return PAL.Coder.ACT()
-			case .androidXML   : return PAL.Coder.AndroidColorsXML()
-			case .ase          : return PAL.Coder.ASE()
-			case .basicXML     : return PAL.Coder.BasicXML()
-			case .clr          : return PAL.Coder.CLR()
-			case .corelPainter : return PAL.Coder.CorelPainter()
-			case .corelDraw    : return PAL.Coder.CorelXMLPalette()
-			case .corelPalette : return PAL.Coder.CPL()
-			case .scribusXML   : return PAL.Coder.ScribusXMLPaletteCoder()
-			case .csv          : return PAL.Coder.CSV()
-			case .dcp          : return PAL.Coder.DCP()
-			case .gimp         : return PAL.Coder.GIMP()
-			case .hexRGBA      : return PAL.Coder.HEX()
-			#if canImport(CoreGraphics)
-			case .image        : return PAL.Coder.Image()
-			#endif
-			case .json         : return PAL.Coder.JSON()
-			case .openOffice   : return PAL.Coder.OpenOfficePaletteCoder()
-			case .paintNET     : return PAL.Coder.PaintNET()
-			case .paintShopPro : return PAL.Coder.PaintShopPro()
-			case .rgba         : return PAL.Coder.RGBA()
-			case .rgb          : return PAL.Coder.RGB()
-			case .riff         : return PAL.Coder.RIFF()
-			case .sketch       : return PAL.Coder.SketchPalette()
-			case .svg          : return PAL.Coder.SVG()
-			case .swift        : return PAL.Coder.SwiftCoder()
-			case .corelDrawV3  : return PAL.Coder.CorelDraw3PaletteCoder()
-			case .vga24bit     : return PAL.Coder.VGA24BitPaletteCoder()
-			case .vga18bit     : return PAL.Coder.VGA18BitPaletteCoder()
-			}
-		}
-	}
-}
-
 public extension PAL.Palette {
 	/// All coders
 	static let AvailableCoders: [PAL_PaletteCoder] =
-		PAL.PaletteCoderType.allCases.map { $0.coder }
+		PAL.PaletteFormat.allCases.map { $0.coder }
 
 	/// All text-based coders
 	static let TextBasedCoders: [PAL_PaletteCoder] = [
@@ -117,6 +41,7 @@ public extension PAL.Palette {
 		PAL.Coder.AndroidColorsXML(),
 		PAL.Coder.OpenOfficePaletteCoder(),
 		PAL.Coder.CorelDraw3PaletteCoder(),
+		PAL.Coder.ScribusXMLPaletteCoder(),
 	]
 }
 
