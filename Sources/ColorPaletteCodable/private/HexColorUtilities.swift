@@ -162,7 +162,6 @@ internal func convertToUInt32(rf: Double, gf: Double, bf: Double, af: Double, co
 
 // MARK: - Hex string representations
 
-
 // Format strings
 private let _fmt3  = "%02x%02x%02x"
 private let _fmt3u = "%02X%02X%02X"
@@ -257,12 +256,12 @@ internal func extractHexCMYK(hexString: String) -> PAL.Color.CMYK? {
 	}
 
 	// Parse the hex components
-	let (c0, c1, c2, c3) = (val >> 24 & 0xFF, val >> 16 & 0xFF, val >> 8 & 0xFF, val & 0xFF)
+	let (c, m, y, k) = (val >> 24 & 0xFF, val >> 16 & 0xFF, val >> 8 & 0xFF, val & 0xFF)
 	return PAL.Color.CMYK(
-		cf: Double(c0) / 255.0,
-		mf: Double(c1) / 255.0,
-		yf: Double(c2) / 255.0,
-		kf: Double(c3) / 255.0
+		cf: Double(c) / 255.0,
+		mf: Double(m) / 255.0,
+		yf: Double(y) / 255.0,
+		kf: Double(k) / 255.0
 	)
 }
 
