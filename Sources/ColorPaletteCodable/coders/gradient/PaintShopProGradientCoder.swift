@@ -20,38 +20,34 @@
 import Foundation
 
 public extension PAL.Gradients.Coder {
-	/// Simple JSON encoder/decoder
-	struct JSON: PAL_GradientsCoder {
+	/// A coder for Paint Shop Pro (.pspgradient) gradients
+	struct PaintShopProGradientCoder: PAL_GradientsCoder {
 		/// The gradients format
-		public static var format: PAL.GradientsFormat { .json }
+		public static var format: PAL.GradientsFormat { .paintShopPro }
 		/// The coder's file format
-		public static let fileExtension = "jsoncolorgradient"
+		public static let fileExtension = "pspgradient"
 		/// The uniform type string for the gradient type
-		public static let utTypeString = "public.dagronf.colorpalette.gradient.json"
+		public static let utTypeString = "public.dagronf.colorpalette.gradient.corel.paintshoppro.pspgradient"
 
-		/// Create
 		public init() {}
-
-		/// Attempt to decode a gradient using the
-		/// - Parameter inputStream: The input stream containing the data
-		/// - Returns: a gradient
-		public func decode(from inputStream: InputStream) throws -> PAL.Gradients {
-			try JSONDecoder().decode(PAL.Gradients.self, from: inputStream.readAllData())
-		}
-
-		/// Encode the gradient using the default JSON format
-		/// - Parameter gradients: The gradients to encode
-		/// - Returns: encoded data
-		public func encode(_ gradients: PAL.Gradients) throws -> Data {
-			try JSONEncoder().encode(gradients)
-		}
 	}
 }
 
-#if canImport(UniformTypeIdentifiers)
-import UniformTypeIdentifiers
-@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
-public extension UTType {
-	static let jsoncolorgradient = UTType(PAL.Gradients.Coder.JSON.utTypeString)!
+public extension PAL.Gradients.Coder.PaintShopProGradientCoder {
+	func encode(_ gradients: PAL.Gradients) throws -> Data {
+		throw PAL.CommonError.notImplemented
+	}
 }
-#endif
+
+public extension PAL.Gradients.Coder.PaintShopProGradientCoder {
+	/// Create a palette from the contents of the input stream
+	/// - Parameter inputStream: The input stream containing the encoded palette
+	/// - Returns: A palette
+	///
+	/// Note that the psppalette scheme appears to be equal to v3 of the grd format
+	func decode(from inputStream: InputStream) throws -> PAL.Gradients {
+		var g = try PAL.Gradients.Coder.AdobeGradientsCoder().decode(from: inputStream)
+		g.format = self.format
+		return g
+	}
+}

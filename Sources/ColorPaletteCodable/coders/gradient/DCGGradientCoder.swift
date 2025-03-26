@@ -23,6 +23,8 @@ import BytesParser
 public extension PAL.Gradients.Coder {
 	/// A coder for DCG (Binary colorpalettecodable) gradients
 	struct DCG: PAL_GradientsCoder {
+		/// The gradients format
+		public static var format: PAL.GradientsFormat { .dcg }
 		/// The coder's file format
 		public static let fileExtension = "dcg"
 		/// The uniform type string for the gradient type

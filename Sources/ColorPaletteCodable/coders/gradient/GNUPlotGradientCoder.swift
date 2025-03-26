@@ -34,8 +34,9 @@ public extension PAL.Gradients.Coder {
 	/// 0.03170 0.00000 0.21176 0.00000
 	///   ...
 	/// ```
-	struct GPF: PAL_GradientsCoder {
-
+	struct GNUPlotGradientCoder: PAL_GradientsCoder {
+		/// The gradients format
+		public static var format: PAL.GradientsFormat { .gnuplot }
 		/// The coder's file format
 		public static let fileExtension = "gpf"
 		/// The uniform type string for the gradient type
@@ -46,7 +47,7 @@ public extension PAL.Gradients.Coder {
 	}
 }
 
-public extension PAL.Gradients.Coder.GPF {
+public extension PAL.Gradients.Coder.GNUPlotGradientCoder {
 	/// Decode a gradient using the GIMP Gradient format
 	/// - Parameter inputStream: The input stream containing the data
 	/// - Returns: a gradient
@@ -84,17 +85,18 @@ public extension PAL.Gradients.Coder.GPF {
 		}
 		return PAL.Gradients(
 			gradient: PAL.Gradient(stops: gradientStops),
-			format: .gpf
+			format: self.format
 		)
 	}
 }
 
-private let _defaultDoubleFormatter = NumberFormatter {
-	$0.minimumFractionDigits = 1
-	$0.maximumFractionDigits = 5
-}
+private let _defaultDoubleFormatter = NumberFormatter(
+	minimumFractionDigits: 1,
+	maximumFractionDigits: 8,
+	decimalSeparator: "."
+)
 
-public extension PAL.Gradients.Coder.GPF {
+public extension PAL.Gradients.Coder.GNUPlotGradientCoder {
 	/// Encode the gradient using GGR format (GIMP Gradient)
 	/// - Parameter gradients: The gradients to encode
 	/// - Returns: encoded data
@@ -140,6 +142,6 @@ public extension PAL.Gradients.Coder.GPF {
 import UniformTypeIdentifiers
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static let gpf = UTType(PAL.Gradients.Coder.GPF.utTypeString)!
+	static let gpf = UTType(PAL.Gradients.Coder.GNUPlotGradientCoder.utTypeString)!
 }
 #endif

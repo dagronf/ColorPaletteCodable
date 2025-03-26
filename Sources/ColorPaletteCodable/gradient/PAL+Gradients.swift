@@ -28,7 +28,7 @@ public extension PAL {
 		public var gradients: [Gradient]
 
 		/// If the gradient was populated from a file, the format of the loaded file
-		public internal(set) var format: PAL.GradientCoderFormat? = nil
+		public internal(set) var format: PAL.GradientsFormat? = nil
 
 		/// The number of gradients
 		@inlinable public var count: Int { gradients.count }
@@ -67,7 +67,7 @@ extension PAL.Gradients {
 	/// - Parameters:
 	///   - gradient: The gradient
 	///   - format: The format
-	internal init(gradient: PAL.Gradient, format: PAL.GradientCoderFormat) {
+	internal init(gradient: PAL.Gradient, format: PAL.GradientsFormat) {
 		self.gradients = [gradient]
 		self.format = format
 	}
@@ -75,7 +75,7 @@ extension PAL.Gradients {
 	/// Create with a format
 	/// - Parameters:
 	///   - format: The format
-	internal init(format: PAL.GradientCoderFormat) {
+	internal init(format: PAL.GradientsFormat) {
 		self.gradients = []
 		self.format = format
 	}
@@ -125,7 +125,7 @@ public extension PAL.Gradients {
 	/// - Parameters:
 	///   - fileURL: The local fileURL for the gradients file
 	///   - format: The file's gradient format
-	@inlinable init(_ fileURL: URL, format: PAL.GradientCoderFormat) throws {
+	@inlinable init(_ fileURL: URL, format: PAL.GradientsFormat) throws {
 		try self.init(fileURL, usingCoder: format.coder)
 	}
 
@@ -145,7 +145,7 @@ public extension PAL.Gradients {
 	/// - Parameters:
 	///   - data: The gradient data
 	///   - format: The file's gradient format
-	init(_ data: Data, format: PAL.GradientCoderFormat) throws {
+	init(_ data: Data, format: PAL.GradientsFormat) throws {
 		try self.init(data, usingCoder: format.coder)
 	}
 
@@ -173,7 +173,7 @@ public extension PAL.Gradients {
 	/// Export the gradient
 	/// - Parameter format: The gradient format
 	/// - Returns: raw gradient format data
-	@inlinable func export(format: PAL.GradientCoderFormat) throws -> Data {
+	@inlinable func export(format: PAL.GradientsFormat) throws -> Data {
 		try self.export(using: format.coder)
 	}
 

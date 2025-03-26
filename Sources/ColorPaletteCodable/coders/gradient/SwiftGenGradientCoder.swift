@@ -26,6 +26,8 @@ import Foundation
 public extension PAL.Gradients.Coder {
 	/// A Swift code generator for gradients
 	struct SwiftGen: PAL_GradientsCoder {
+		/// The gradients format
+		public static var format: PAL.GradientsFormat { .swiftGen }
 		/// The coder's file format. We cannot load or save for this type
 		public static let fileExtension = ""
 		/// The uniform type string for the gradient type
@@ -96,6 +98,8 @@ public extension PAL.Gradients.Coder.SwiftGen {
 public extension PAL.Gradients.Coder {
 	/// A coder for PSP gradients
 	struct SwiftUIGen: PAL_GradientsCoder {
+		/// The gradients format
+		public static var format: PAL.GradientsFormat { .swiftUIGen }
 		/// The coder's file format. We cannot load or save for this type
 		public static let fileExtension = ""
 		/// The uniform type string for the gradient type

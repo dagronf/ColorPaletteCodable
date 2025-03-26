@@ -28,7 +28,9 @@ public extension PAL.Gradients.Coder {
 	/// [2](https://github.com/Balakov/GrdToAfpalette/blob/master/palette-js/load_grd.js)
 	/// [3](https://github.com/abought/grd_to_cmap/blob/master/grd_reader.py)
 	/// [4](https://github.com/tonton-pixel/json-photoshop-scripting/tree/master/Documentation/Photoshop-Gradients-File-Format#descriptor)
-	struct GRD: PAL_GradientsCoder {
+	struct AdobeGradientsCoder: PAL_GradientsCoder {
+		/// The gradients format
+		public static var format: PAL.GradientsFormat { .adobeGRD }
 		/// The coder's file format
 		public static let fileExtension = "grd"
 		/// The uniform type string for the gradient type
@@ -38,13 +40,13 @@ public extension PAL.Gradients.Coder {
 	}
 }
 
-public extension PAL.Gradients.Coder.GRD {
+public extension PAL.Gradients.Coder.AdobeGradientsCoder {
 	func encode(_ gradients: PAL.Gradients) throws -> Data {
 		throw PAL.CommonError.notImplemented
 	}
 }
 
-public extension PAL.Gradients.Coder.GRD {
+public extension PAL.Gradients.Coder.AdobeGradientsCoder {
 	/// Create a palette from the contents of the input stream
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
@@ -55,7 +57,7 @@ public extension PAL.Gradients.Coder.GRD {
 			return PAL.Gradients()
 		}
 
-		var result = PAL.Gradients(format: .grd)
+		var result = PAL.Gradients(format: .adobeGRD)
 
 		try gradients.forEach { gradient in
 			var gr = PAL.Gradient(colors: [])
@@ -703,6 +705,6 @@ extension GRD {
 import UniformTypeIdentifiers
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static let grd = UTType(PAL.Gradients.Coder.GRD.utTypeString)!
+	static let grd = UTType(PAL.Gradients.Coder.AdobeGradientsCoder.utTypeString)!
 }
 #endif

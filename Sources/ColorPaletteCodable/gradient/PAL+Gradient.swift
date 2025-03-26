@@ -176,7 +176,7 @@ public extension PAL.Gradient {
 	/// Export this gradient
 	/// - Parameter format: The file format to use when saving
 	/// - Returns: raw gradient data
-	func export(format: PAL.GradientCoderFormat) throws -> Data {
+	func export(format: PAL.GradientsFormat) throws -> Data {
 		try self.export(using: format.coder)
 	}
 }

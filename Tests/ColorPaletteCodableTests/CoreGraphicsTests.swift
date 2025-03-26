@@ -70,7 +70,7 @@ final class CoreGraphicsTests: XCTestCase {
 
 		do {
 			let content = try loadResourceData(named: "Tube_Red.ggr")
-			let dec = PAL.Gradients.Coder.GGR()
+			let dec = PAL.Gradients.Coder.GIMPGradientCoder()
 			let gradients = try dec.decode(from: content)
 
 			let suis = try PAL.Gradients.Coder.SwiftGen().encode(gradients)

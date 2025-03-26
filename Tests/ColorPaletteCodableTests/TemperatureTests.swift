@@ -36,7 +36,7 @@ final class TemperatureTests: XCTestCase {
 		let range = try PAL.Palette(kelvinRange: 30 ... 40000, count: 100)
 		XCTAssertEqual(100, range.colors.count)
 		try self.outputFolder.write(range, coder: PAL.Coder.GIMP(), filename: "basic100kelvin.gpl")
-		try self.outputFolder.write(range.gradient(), coder: PAL.Gradients.Coder.GGR(), filename: "basic100kelvin.ggr")
+		try self.outputFolder.write(range.gradient(), coder: PAL.Gradients.Coder.GIMPGradientCoder(), filename: "basic100kelvin.ggr")
 
 		#if !os(Linux)
 		let cgi = range.thumbnailImage(size: CGSize(width: 300, height: 40))!
@@ -48,7 +48,7 @@ final class TemperatureTests: XCTestCase {
 	func testKelvinGradient() throws {
 		let kg = try PAL.Gradient(kelvinRange: 1500 ... 15000, count: 111)
 		XCTAssertEqual(111, kg.stops.count)
-		try self.outputFolder.write(kg, coder: PAL.Gradients.Coder.GGR(), filename: "basicKelvinGradient.ggr")
+		try self.outputFolder.write(kg, coder: PAL.Gradients.Coder.GIMPGradientCoder(), filename: "basicKelvinGradient.ggr")
 
 		#if !os(Linux)
 		let nsi = try kg.image(size: CGSize(width: 400, height: 50))

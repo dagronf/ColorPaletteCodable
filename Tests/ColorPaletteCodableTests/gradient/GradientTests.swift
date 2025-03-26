@@ -12,13 +12,13 @@ class GradientTests: XCTestCase {
 		let fileURL = try resourceURL(for: "37_waves.cpt")
 		let gradients = try PAL.Gradients(fileURL)
 		XCTAssertEqual(1, gradients.count)
-		XCTAssertEqual(.cpt, gradients.format)
+		XCTAssertEqual(.colorPaletteTables, gradients.format)
 		XCTAssertEqual(1, gradients.gradients.count)
 		XCTAssertEqual(508, gradients.gradients[0].stops.count)
 
 		/// Load gradients by specifying the type
 		let data = try dataURL(for: "37_waves.cpt")
-		let gradients2 = try PAL.Gradients(data, format: .cpt)
+		let gradients2 = try PAL.Gradients(data, format: .colorPaletteTables)
 		XCTAssertEqual(1, gradients2.count)
 		XCTAssertEqual(1, gradients2.gradients.count)
 		XCTAssertEqual(508, gradients2.gradients[0].stops.count)
@@ -39,7 +39,7 @@ class GradientTests: XCTestCase {
 		XCTAssertEqual(508, decoded2.gradients[0].stops.count)
 
 		do {
-			let coder = PAL.Gradients.Coder.CPT()
+			let coder = PAL.Gradients.Coder.ColorPaletteTablesCoder()
 			let gradients2 = try coder.decode(from: fileURL)
 			XCTAssertEqual(1, gradients2.count)
 			XCTAssertEqual(1, gradients2.gradients.count)
@@ -406,27 +406,27 @@ class GradientTests: XCTestCase {
 		do {
 			let g1 = PAL.Gradient(hueRange: 0.0 ... 1.0, stopCount: 11)
 			let gs1 = PAL.Gradients(gradient: g1)
-			let ps1 = try PAL.Gradients.Coder.GGR().encode(gs1)
+			let ps1 = try PAL.Gradients.Coder.GIMPGradientCoder().encode(gs1)
 			try hueGradient.write(ps1, to: "hue-gradient-0-1-11.ggr")
 		}
 		do {
 			let g1 = PAL.Gradient(hueRange: 0.0 ... 1.0, stopCount: 101)
 			let gs1 = PAL.Gradients(gradient: g1)
-			let ps1 = try PAL.Gradients.Coder.GGR().encode(gs1)
+			let ps1 = try PAL.Gradients.Coder.GIMPGradientCoder().encode(gs1)
 			try hueGradient.write(ps1, to: "hue-gradient-0-1-101.ggr")
 		}
 
 		do {
 			let g1 = PAL.Gradient(hueRange: 0.0 ... 1.0, stopCount: 3)
 			let gs1 = PAL.Gradients(gradient: g1)
-			let ps1 = try PAL.Gradients.Coder.GGR().encode(gs1)
+			let ps1 = try PAL.Gradients.Coder.GIMPGradientCoder().encode(gs1)
 			try hueGradient.write(ps1, to: "hue-gradient-0-1-3.ggr")
 		}
 
 		do {
 			let g1 = PAL.Gradient(hueRange: 0.1 ... 0.47, stopCount: 8)
 			let gs1 = PAL.Gradients(gradient: g1)
-			let ps1 = try PAL.Gradients.Coder.GGR().encode(gs1)
+			let ps1 = try PAL.Gradients.Coder.GIMPGradientCoder().encode(gs1)
 			try hueGradient.write(ps1, to: "hue-gradient-orange2green-8.ggr")
 		}
 	}

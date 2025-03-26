@@ -29,17 +29,19 @@ public extension PAL.Gradients.Coder {
 	///
 	/// • No support for fill-back, fill-fore or fill-nan
 	/// • No support for HSV gradients
-	struct CPT: PAL_GradientsCoder {
+	struct ColorPaletteTablesCoder: PAL_GradientsCoder {
+		/// The gradients format
+		public static var format: PAL.GradientsFormat { .colorPaletteTables }
 		/// The coder's file format
 		public static let fileExtension = "cpt"
 		/// The uniform type string for the gradient type
-		public static let utTypeString = "public.dagronf.colorpalette.gradient.cpt"
+		public static let utTypeString = "public.dagronf.colorpalette.gradient.colorpalettetables.cpt"
 		/// Create
 		public init() {}
 	}
 }
 
-public extension PAL.Gradients.Coder.CPT {
+public extension PAL.Gradients.Coder.ColorPaletteTablesCoder {
 	/// Decode a gradient using the GIMP Gradient format
 	/// - Parameter inputStream: The input stream containing the data
 	/// - Returns: a gradient
@@ -82,13 +84,13 @@ public extension PAL.Gradients.Coder.CPT {
 			}
 		}
 
-		return PAL.Gradients(gradient: PAL.Gradient(stops: stops), format: .cpt)
+		return PAL.Gradients(gradient: PAL.Gradient(stops: stops), format: self.format)
 	}
 }
 
 let _rgbSeparator = CharacterSet(["/"])
 
-private extension PAL.Gradients.Coder.CPT {
+private extension PAL.Gradients.Coder.ColorPaletteTablesCoder {
 
 	func scanColor(_ scanner: Scanner) -> PAL.Color? {
 
@@ -174,7 +176,7 @@ private extension PAL.Gradients.Coder.CPT {
 
 private let _positionFormatter = NumberFormatter(minimumFractionDigits: 0, maximumFractionDigits: 5, decimalSeparator: ".")
 
-public extension PAL.Gradients.Coder.CPT {
+public extension PAL.Gradients.Coder.ColorPaletteTablesCoder {
 	/// Encode the gradient using CPT format (CPT Gradient)
 	/// - Parameter gradients: The gradients to encode
 	/// - Returns: encoded data
@@ -246,6 +248,6 @@ public extension PAL.Gradients.Coder.CPT {
 import UniformTypeIdentifiers
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static let cpt = UTType(PAL.Gradients.Coder.CPT.utTypeString)!
+	static let cpt = UTType(PAL.Gradients.Coder.ColorPaletteTablesCoder.utTypeString)!
 }
 #endif

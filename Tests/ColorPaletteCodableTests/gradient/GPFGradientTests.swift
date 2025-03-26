@@ -19,7 +19,23 @@ final class GPFGradientTests: XCTestCase {
 		("geo-smooth.gpf", 29),
 	]
 
-	#if !os(Linux)
+	func testBasicLoadSave() throws {
+		let gradients = try loadResourceGradient(named: "argentina.gpf")
+		XCTAssertEqual(1, gradients.gradients.count)
+		let g = gradients.gradients[0]
+		XCTAssertEqual(127, g.colors.count)
+
+		let coder = PAL.Gradients.Coder.GNUPlotGradientCoder()
+		let enc = try coder.encode(gradients)
+		try enc.write(to: URL(fileURLWithPath: "/tmp/output.gpf"))
+
+		let decoded = try coder.decode(from: enc)
+		let decodedGradient = try XCTUnwrap(decoded.gradients.first)
+		XCTAssertEqual(127, decodedGradient.colors.count)
+
+		XCTAssertEqual(decodedGradient.stops[0].position, g.stops[0].position, accuracy: 0.0001)
+		XCTAssertEqual(decodedGradient.stops[1].position, g.stops[1].position, accuracy: 0.0001)
+	}
 
 	func testRoundTripLoad() throws {
 		for item in roundTrip {
@@ -28,9 +44,9 @@ final class GPFGradientTests: XCTestCase {
 			let g = gradients.gradients[0]
 			XCTAssertEqual(item.expectedCount, g.colors.count)
 
-			let enc = try PAL.Gradients.Coder.GPF().encode(gradients)
+			let enc = try PAL.Gradients.Coder.GNUPlotGradientCoder().encode(gradients)
 
-			let decoded = try PAL.Gradients.Coder.GPF().decode(from: enc)
+			let decoded = try PAL.Gradients.Coder.GNUPlotGradientCoder().decode(from: enc)
 			let decodedGradient = try XCTUnwrap(decoded.gradients.first)
 			XCTAssertEqual(item.expectedCount, decodedGradient.colors.count)
 
@@ -41,6 +57,4 @@ final class GPFGradientTests: XCTestCase {
 			}
 		}
 	}
-
-	#endif
 }

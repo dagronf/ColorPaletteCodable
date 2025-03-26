@@ -208,8 +208,8 @@ final class InterpolationTests: XCTestCase {
 		let g2 = PAL.Gradient(palette: p2)
 
 		// Simple srgb linear interpolation
-		try outputFolder.write(g1, coder: PAL.Gradients.Coder.GGR(), filename: "gradient-mixing-test.ggr")
-		try outputFolder.write(g2, coder: PAL.Gradients.Coder.GGR(), filename: "gradient-mixing-test-oklab.ggr")
+		try outputFolder.write(g1, coder: PAL.Gradients.Coder.GIMPGradientCoder(), filename: "gradient-mixing-test.ggr")
+		try outputFolder.write(g2, coder: PAL.Gradients.Coder.GIMPGradientCoder(), filename: "gradient-mixing-test-oklab.ggr")
 	}
 
 	func testShading() throws {

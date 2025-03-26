@@ -29,8 +29,8 @@ public extension PAL.Gradients.Coder {
 	/// left middle right r0 g0 b0 a0 r1 g1 b1 a1 type coloring
 	/// left middle right r0 g0 b0 a0 r1 g1 b1 a1 type coloring
 	/// ```
-	struct GGR: PAL_GradientsCoder {
-
+	struct GIMPGradientCoder: PAL_GradientsCoder {
+		/// Errors thrown
 		public enum GimpGradientError: Error {
 			case invalidData
 			case unexpectedTextEncoding
@@ -42,6 +42,8 @@ public extension PAL.Gradients.Coder {
 			case noGradients
 		}
 
+		/// The gradients format
+		public static var format: PAL.GradientsFormat { .gimp }
 		/// The coder's file format
 		public static let fileExtension = "ggr"
 		/// The uniform type string for the gradient type
@@ -52,7 +54,7 @@ public extension PAL.Gradients.Coder {
 	}
 }
 
-public extension PAL.Gradients.Coder.GGR {
+public extension PAL.Gradients.Coder.GIMPGradientCoder {
 	/// Decode a gradient using the GIMP Gradient format
 	/// - Parameter inputStream: The input stream containing the data
 	/// - Returns: a gradient
@@ -139,12 +141,12 @@ public extension PAL.Gradients.Coder.GGR {
 
 		return PAL.Gradients(
 			gradient: PAL.Gradient(stops: stops, name: String(name)),
-			format: .ggr
+			format: self.format
 		)
 	}
 }
 
-public extension PAL.Gradients.Coder.GGR {
+public extension PAL.Gradients.Coder.GIMPGradientCoder {
 	/// Encode the gradient using GGR format (GIMP Gradient)
 	/// - Parameter gradients: The gradients to encode
 	/// - Returns: encoded data
@@ -216,6 +218,6 @@ public extension PAL.Gradients.Coder.GGR {
 import UniformTypeIdentifiers
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static let ggr = UTType(PAL.Gradients.Coder.GGR.utTypeString)!
+	static let ggr = UTType(PAL.Gradients.Coder.GIMPGradientCoder.utTypeString)!
 }
 #endif

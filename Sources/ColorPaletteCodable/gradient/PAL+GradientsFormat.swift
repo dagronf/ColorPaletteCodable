@@ -19,33 +19,36 @@
 
 import Foundation
 
-public extension PAL.Gradients.Coder {
-	/// A coder for PSP gradients
-	struct PSP: PAL_GradientsCoder {
-		/// The coder's file format
-		public static let fileExtension = "pspgradient"
-		/// The uniform type string for the gradient type
-		public static let utTypeString = "public.dagronf.colorpalette.gradient.corel.paintshoppro.pspgradient"
-
-		public init() {}
+public extension PAL {
+	/// Supported gradient formats
+	enum GradientsFormat: CaseIterable {
+		case json
+		case dcg
+		case gimp
+		case adobeGRD
+		case paintShopPro
+		case colorPaletteTables
+		case gnuplot
+		case svg
+		case swiftGen
+		case swiftUIGen
 	}
 }
 
-public extension PAL.Gradients.Coder.PSP {
-	func encode(_ gradients: PAL.Gradients) throws -> Data {
-		throw PAL.CommonError.notImplemented
-	}
-}
-
-public extension PAL.Gradients.Coder.PSP {
-	/// Create a palette from the contents of the input stream
-	/// - Parameter inputStream: The input stream containing the encoded palette
-	/// - Returns: A palette
-	///
-	/// Note that the psppalette scheme appears to be equal to v3 of the grd format
-	func decode(from inputStream: InputStream) throws -> PAL.Gradients {
-		var g = try PAL.Gradients.Coder.GRD().decode(from: inputStream)
-		g.format = .psp
-		return g
+public extension PAL.GradientsFormat {
+	/// Create a new coder based on the format
+	var coder: PAL_GradientsCoder {
+		switch self {
+		case .json: return PAL.Gradients.Coder.JSON()
+		case .dcg:  return PAL.Gradients.Coder.DCG()
+		case .gimp:  return PAL.Gradients.Coder.GIMPGradientCoder()
+		case .adobeGRD:  return PAL.Gradients.Coder.AdobeGradientsCoder()
+		case .paintShopPro: return PAL.Gradients.Coder.PaintShopProGradientCoder()
+		case .svg: return PAL.Gradients.Coder.SVG()
+		case .colorPaletteTables: return PAL.Gradients.Coder.ColorPaletteTablesCoder()
+		case .gnuplot: return PAL.Gradients.Coder.GNUPlotGradientCoder()
+		case .swiftGen: return PAL.Gradients.Coder.SwiftGen()
+		case .swiftUIGen: return PAL.Gradients.Coder.SwiftUIGen()
+		}
 	}
 }

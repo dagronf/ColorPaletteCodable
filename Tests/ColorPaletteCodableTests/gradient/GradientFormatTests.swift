@@ -13,7 +13,7 @@ class GradientFormatTests: XCTestCase {
 		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "Pastel_Rainbow", withExtension: "ggr"))
 		let content = try Data(contentsOf: fileURL)
 
-		let dec = PAL.Gradients.Coder.GGR()
+		let dec = PAL.Gradients.Coder.GIMPGradientCoder()
 		_ = try XCTAssertThrowsError(dec.decode(from: content))
 	}
 
@@ -21,7 +21,7 @@ class GradientFormatTests: XCTestCase {
 		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "Skyline", withExtension: "ggr"))
 		let content = try Data(contentsOf: fileURL)
 
-		let dec = PAL.Gradients.Coder.GGR()
+		let dec = PAL.Gradients.Coder.GIMPGradientCoder()
 		let gradients = try dec.decode(from: content)
 
 		XCTAssertEqual(1, gradients.count)
@@ -85,7 +85,7 @@ class GradientFormatTests: XCTestCase {
 			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "Tube_Red", withExtension: "ggr"))
 			let content = try Data(contentsOf: fileURL)
 
-			let dec = PAL.Gradients.Coder.GGR()
+			let dec = PAL.Gradients.Coder.GIMPGradientCoder()
 			let gradients = try dec.decode(from: content)
 
 			XCTAssertEqual(1, gradients.count)
@@ -105,7 +105,7 @@ class GradientFormatTests: XCTestCase {
 			let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "colorcube", withExtension: "ggr"))
 			let content = try Data(contentsOf: fileURL)
 
-			let dec = PAL.Gradients.Coder.GGR()
+			let dec = PAL.Gradients.Coder.GIMPGradientCoder()
 			let gradients = try dec.decode(from: content)
 
 			XCTAssertEqual(1, gradients.count)
@@ -133,7 +133,7 @@ class GradientFormatTests: XCTestCase {
 	}
 
 	func testBasicEncode() throws {
-		let dec = PAL.Gradients.Coder.GGR()
+		let dec = PAL.Gradients.Coder.GIMPGradientCoder()
 
 		do {
 			let gradient = PAL.Gradient(colorPositions: [
@@ -186,7 +186,7 @@ class GradientFormatTests: XCTestCase {
 		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "my-custom-gradient-3-rgb", withExtension: "grd"))
 		let i = InputStream(url: fileURL)!
 		i.open()
-		let grad1 = try PAL.Gradients.Coder.GRD().decode(from: i)
+		let grad1 = try PAL.Gradients.Coder.AdobeGradientsCoder().decode(from: i)
 		XCTAssertEqual(1, grad1.count)
 		let gradient = grad1.gradients[0]
 		let palette = gradient.palette
@@ -197,7 +197,7 @@ class GradientFormatTests: XCTestCase {
 		let fileURL = try XCTUnwrap(Bundle.module.url(forResource: "35", withExtension: "grd"))
 		let i = InputStream(url: fileURL)!
 		i.open()
-		let grad1 = try PAL.Gradients.Coder.GRD().decode(from: i)
+		let grad1 = try PAL.Gradients.Coder.AdobeGradientsCoder().decode(from: i)
 
 		// There are 10 gradients in this file
 		XCTAssertEqual(10, grad1.count)

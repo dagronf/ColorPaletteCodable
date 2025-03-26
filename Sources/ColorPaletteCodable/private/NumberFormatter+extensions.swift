@@ -46,7 +46,11 @@ extension NumberFormatter {
 		decimalSeparator: String? = nil
 	) {
 		self.init()
+		#if !os(Linux)
+		// For some reason, setting the minimumFractionalDigits causes linux to ignore the maximumFractionDigits
 		self.minimumFractionDigits = minimumFractionDigits
+		#endif
+
 		self.maximumFractionDigits = maximumFractionDigits
 		if let numberStyle = numberStyle {
 			self.numberStyle = numberStyle

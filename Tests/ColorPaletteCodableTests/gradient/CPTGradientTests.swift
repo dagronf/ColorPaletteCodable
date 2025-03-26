@@ -14,14 +14,14 @@ final class CPTGradientTests: XCTestCase {
 	func testGradientFormat1() throws {
 		let gradients = try loadResourceGradient(named: "wysiwyg.cpt")
 		XCTAssertEqual(1, gradients.count)
-		XCTAssertEqual(.cpt, gradients.format)
+		XCTAssertEqual(.colorPaletteTables, gradients.format)
 		let g = try XCTUnwrap(gradients.gradients.first)
 		XCTAssertEqual(38, g.stops.count)
 	}
 
 	func testGradientFormat2() throws {
 		let gradients = try loadResourceGradient(named: "magma.cpt")
-		XCTAssertEqual(.cpt, gradients.format)
+		XCTAssertEqual(.colorPaletteTables, gradients.format)
 		XCTAssertEqual(1, gradients.count)
 		let g = try XCTUnwrap(gradients.gradients.first)
 		XCTAssertEqual(510, g.stops.count)
@@ -98,7 +98,7 @@ final class CPTGradientTests: XCTestCase {
 			name: "first"
 		)
 
-		let c = PAL.Gradients.Coder.CPT()
+		let c = PAL.Gradients.Coder.ColorPaletteTablesCoder()
 
 		let data = try c.encode(PAL.Gradients(gradient: g1))
 		//try data.write(to: URL(fileURLWithPath: "/tmp/output.cpt"))

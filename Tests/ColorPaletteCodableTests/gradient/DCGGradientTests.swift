@@ -106,7 +106,7 @@ final class DCGGradientTests: XCTestCase {
 	func testVeryBasicTransparencyMap() throws {
 		// This gradient has a transparency map
 		let gradients = try loadResourceGradient(named: "30.grd")
-		XCTAssertEqual(.grd, gradients.format)
+		XCTAssertEqual(.adobeGRD, gradients.format)
 		XCTAssertEqual(10, gradients.count)
 		let g1 = gradients.gradients[0]
 

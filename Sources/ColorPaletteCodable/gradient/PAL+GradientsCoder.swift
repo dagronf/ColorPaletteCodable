@@ -21,10 +21,13 @@ import Foundation
 
 /// The built-in supported coders
 private let AvailableGradientCoders: [PAL_GradientsCoder] =
-	PAL.GradientCoderFormat.allCases.map { $0.coder }
+	PAL.GradientsFormat.allCases.map { $0.coder }
 
 /// A gradient coder protocol
 public protocol PAL_GradientsCoder {
+	/// The gradients format
+	static var format: PAL.GradientsFormat { get }
+
 	/// The extension for the file, or a unique name for identifying the coder type.
 	static var fileExtension: String { get }
 
@@ -42,6 +45,9 @@ public protocol PAL_GradientsCoder {
 }
 
 public extension PAL_GradientsCoder {
+	/// The gradients format
+	var format: PAL.GradientsFormat { Self.format }
+
 	/// The file extension supported by the coder
 	var fileExtension: String { Self.fileExtension }
 
@@ -106,7 +112,7 @@ public extension PAL.Gradients {
 	///   - fileURL: The file to load
 	///   - format: The expected gradients file format
 	/// - Returns: A palette
-	static func Decode(from fileURL: URL, format: PAL.GradientCoderFormat) throws -> PAL.Gradients {
+	static func Decode(from fileURL: URL, format: PAL.GradientsFormat) throws -> PAL.Gradients {
 		try Self.Decode(from: fileURL, usingCoder: format.coder)
 	}
 
@@ -127,7 +133,7 @@ public extension PAL.Gradients {
 	///   - data: The data
 	///   - format: The expected gradients type for the data
 	/// - Returns: A gradient
-	@inlinable static func Decode(from data: Data, format: PAL.GradientCoderFormat) throws -> PAL.Gradients {
+	@inlinable static func Decode(from data: Data, format: PAL.GradientsFormat) throws -> PAL.Gradients {
 		try format.coder.decode(from: data)
 	}
 

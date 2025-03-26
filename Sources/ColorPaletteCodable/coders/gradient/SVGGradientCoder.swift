@@ -22,6 +22,8 @@ import Foundation
 public extension PAL.Gradients.Coder {
 	/// A coder for PSP gradients
 	struct SVG: PAL_GradientsCoder {
+		/// The gradients format
+		public static var format: PAL.GradientsFormat { .svg }
 		/// The coder's file format
 		public static let fileExtension = "svg"
 		/// The uniform type string for the gradient type
