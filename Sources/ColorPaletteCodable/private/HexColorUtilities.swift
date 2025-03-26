@@ -235,3 +235,47 @@ internal func hexRGBString<T: BinaryFloatingPoint>(
 		uppercase: uppercase
 	)
 }
+
+// MARK: - CMYK
+
+/// Extract CMYK components from a hex formatted color string
+/// - Parameters:
+///   - cmykHexString: The cmyk hex string
+///   - format: The expected rgba format
+/// - Returns: CMYK components or nil if the hex string is invalid
+internal func extractHexCMYK(hexString: String) -> PAL.Color.CMYK? {
+	var hex = hexString
+		.lowercased()
+		.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+	if hex.hasPrefix("0x") {
+		hex = String(hex.dropFirst(2))
+	}
+
+	var val: UInt64 = 0
+	guard Scanner(string: hex).scanHexInt64(&val) else {
+		return nil
+	}
+
+	// Parse the hex components
+	let (c0, c1, c2, c3) = (val >> 24 & 0xFF, val >> 16 & 0xFF, val >> 8 & 0xFF, val & 0xFF)
+	return PAL.Color.CMYK(
+		cf: Double(c0) / 255.0,
+		mf: Double(c1) / 255.0,
+		yf: Double(c2) / 255.0,
+		kf: Double(c3) / 255.0
+	)
+}
+
+internal func hexCMYKString(
+	c255: UInt8,
+	m255: UInt8,
+	y255: UInt8,
+	k255: UInt8,
+	hashmark: Bool = true,
+	uppercase: Bool = false
+) -> String {
+	var result = hashmark ? "#" : ""
+	result += String(format: uppercase ? _fmt4u : _fmt4, c255, m255, y255, k255)
+
+	return result
+}

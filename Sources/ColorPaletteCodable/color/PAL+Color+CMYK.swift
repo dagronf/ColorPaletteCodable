@@ -72,14 +72,38 @@ public extension PAL.Color {
 				abs(lhs.af - rhs.af) < 0.005
 		}
 
+		/// Return a hex string representation of this cmyk color
+		/// - Parameters:
+		///   - hashmark: If true, includes a hashnark (`#`) at the beginning*
+		///   - uppercase: If true, uppercases the output string
+		/// - Returns: A string
+		public func hexString(hashmark: Bool, uppercase: Bool) -> String {
+			hexCMYKString(
+				c255: self.c255,
+				m255: self.m255,
+				y255: self.y255,
+				k255: self.k255,
+				hashmark: hashmark,
+				uppercase: uppercase
+			)
+		}
+
 		/// Cyan component (0.0 ... 1.0)
 		public let cf: Double
+		/// Cyan component (0 ... 255)
+		@inlinable public var c255: UInt8 { UInt8((self.cf * 255.0).rounded(.toNearestOrAwayFromZero)) }
 		/// Magenta component (0.0 ... 1.0)
 		public let mf: Double
+		/// Magenta component (0 ... 255)
+		@inlinable public var m255: UInt8 { UInt8((self.mf * 255.0).rounded(.toNearestOrAwayFromZero)) }
 		/// Yellow component (0.0 ... 1.0)
 		public let yf: Double
+		/// Yellow component (0 ... 255)
+		@inlinable public var y255: UInt8 { UInt8((self.yf * 255.0).rounded(.toNearestOrAwayFromZero)) }
 		/// Key (black) component (0.0 ... 1.0)
 		public let kf: Double
+		/// Key (black) component (0 ... 255)
+		@inlinable public var k255: UInt8 { UInt8((self.kf * 255.0).rounded(.toNearestOrAwayFromZero)) }
 		/// Alpha component (0.0 ... 1.0)
 		public let af: Double
 	}
@@ -120,6 +144,22 @@ public extension PAL.Color {
 	///   - colorType: The type of color
 	init(color: PAL.Color.CMYK, name: String = "", colorType: PAL.ColorType = .global) {
 		self.init(cf: color.cf, mf: color.mf, yf: color.yf, kf: color.kf, af: color.af, name: name, colorType: colorType)
+	}
+
+	/// Create a cmyk color from a hex string representation (eg. #EE1A7322)
+	/// - Parameters:
+	///   - cmykHexString: The cmyk hex string
+	///   - name: The color name
+	///   - colorType: The color type
+	init(cmykHexString: String, name: String = "", colorType: PAL.ColorType = .global) throws {
+		guard let c = extractHexCMYK(hexString: cmykHexString) else {
+			throw PAL.CommonError.cannotCreateColor
+		}
+		self.name = name
+		self.colorSpace = .CMYK
+		self.colorComponents = [c.cf.unitClamped, c.mf.unitClamped, c.yf.unitClamped, c.kf.unitClamped]
+		self.alpha = 1.0
+		self.colorType = colorType
 	}
 }
 

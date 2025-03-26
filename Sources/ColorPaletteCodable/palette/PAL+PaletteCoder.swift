@@ -50,6 +50,7 @@ public extension PAL {
 		case svg           // Scalable Vector Grapihcs palette (.svg)
 		case swift         // (export only) Swift source file (.swift)
 		case corelDrawV3   // Corel Draw V3 file (.pal)
+		case scribusXML    // Scribus XML palette (.xml)
 
 		// This needs to go last, so it doesn't override the other PAL types
 		case vga24bit      // 24-bit RGB VGA (3 bytes RRGGBB)
@@ -68,6 +69,7 @@ public extension PAL {
 			case .corelPainter : return PAL.Coder.CorelPainter()
 			case .corelDraw    : return PAL.Coder.CorelXMLPalette()
 			case .corelPalette : return PAL.Coder.CPL()
+			case .scribusXML   : return PAL.Coder.ScribusXMLPaletteCoder()
 			case .csv          : return PAL.Coder.CSV()
 			case .dcp          : return PAL.Coder.DCP()
 			case .gimp         : return PAL.Coder.GIMP()

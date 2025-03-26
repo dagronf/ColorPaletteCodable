@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Palette source: Echo Project
+The palette is published here:
+https://fedorahosted.org/echo-icon-theme/wiki/Guidelines/ColorPalette
+-->
+<SCRIBUSCOLORS Name="Echo Icon Theme Palette" >
+	<COLOR RGB="#19aeff" NAME="Blue1" />
+	<COLOR RGB="#0084c8" NAME="Blue2" />
+	<COLOR RGB="#005c94" NAME="Blue3" />
+	<COLOR RGB="#ff4141" NAME="Red1" />
+	<COLOR RGB="#dc0000" NAME="Red2" />
+	<COLOR RGB="#b50000" NAME="Red3" />
+	<COLOR RGB="#ffff3e" NAME="Orange1" />
+	<COLOR RGB="#ff9900" NAME="Orange2" />
+	<COLOR RGB="#ff6600" NAME="Orange3" />
+	<COLOR RGB="#ffc022" NAME="Brown1" />
+	<COLOR RGB="#b88100" NAME="Brown2" />
+	<COLOR RGB="#804d00" NAME="Brown3" />
+	<COLOR RGB="#ccff42" NAME="Green1" />
+	<COLOR RGB="#9ade00" NAME="Green2" />
+	<COLOR RGB="#009100" NAME="Green3" />
+	<COLOR RGB="#f1caff" NAME="Purple1" />
+	<COLOR RGB="#d76cff" NAME="Purple2" />
+	<COLOR RGB="#ba00ff" NAME="Purple3" />
+	<COLOR RGB="#bdcdd4" NAME="Metalic1" />
+	<COLOR RGB="#9eabb0" NAME="Metalic2" />
+	<COLOR RGB="#364e59" NAME="Metalic3" />
+	<COLOR RGB="#0e232e" NAME="Metalic4" />
+	<COLOR RGB="#ffffff" NAME="Grey1" />
+	<COLOR RGB="#cccccc" NAME="Grey2" />
+	<COLOR RGB="#999999" NAME="Grey3" />
+	<COLOR RGB="#666666" NAME="Grey4" />
+	<COLOR RGB="#2d2d2d" NAME="Grey5" />
+</SCRIBUSCOLORS>

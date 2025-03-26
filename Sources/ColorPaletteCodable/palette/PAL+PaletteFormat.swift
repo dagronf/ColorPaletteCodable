@@ -31,6 +31,7 @@ public extension PAL {
 		case clr           // macOS NSColorList
 		case corelPainter  // Corel Painter Swatches
 		case corelDraw     // CorelDraw XML
+		case scribusXML    // Scribus XML swatches
 		case corelPalette  // Corel Palette
 		case csv           // CSV Palette
 		case dcp           // ColorPaletteCodable binary format
@@ -70,6 +71,7 @@ public extension PAL.PaletteFormat {
 		case .clr          : return PAL.Coder.CLR()
 		case .corelPainter : return PAL.Coder.CorelPainter()
 		case .corelDraw    : return PAL.Coder.CorelXMLPalette()
+		case .scribusXML   : return PAL.Coder.ScribusXMLPaletteCoder()
 		case .corelPalette : return PAL.Coder.CPL()
 		case .csv          : return PAL.Coder.CSV()
 		case .dcp          : return PAL.Coder.DCP()
