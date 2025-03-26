@@ -34,10 +34,10 @@ public let ExportablePaletteUTTypes: [UTType] = {
 public let ExportableGradientTypes: [String] = [
 	PAL.Gradients.Coder.JSON.utTypeString,
 	PAL.Gradients.Coder.DCG.utTypeString, 
-	PAL.Gradients.Coder.GGR.utTypeString, 
-	PAL.Gradients.Coder.SVG.utTypeString, 
-	PAL.Gradients.Coder.GPF.utTypeString, 
-	PAL.Gradients.Coder.CPT.utTypeString, 
+	PAL.Gradients.Coder.GIMPGradientCoder.utTypeString,
+	PAL.Gradients.Coder.SVG.utTypeString,
+	PAL.Gradients.Coder.GNUPlotGradientCoder.utTypeString,
+	PAL.Gradients.Coder.ColorPaletteTablesCoder.utTypeString, 
 ]
 
 public let ExportableGradientUTTypes: [UTType] = {

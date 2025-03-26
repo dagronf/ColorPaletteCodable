@@ -76,17 +76,17 @@ class GradientDocument: NSDocument {
 		else if typeName == PAL.Gradients.Coder.DCG.utTypeString {
 			return try PAL.Gradients.Coder.DCG().encode(g)
 		}
-		else if typeName == PAL.Gradients.Coder.GGR.utTypeString {
-			return try PAL.Gradients.Coder.GGR().encode(g)
+		else if typeName == PAL.Gradients.Coder.GIMPGradientCoder.utTypeString {
+			return try PAL.Gradients.Coder.GIMPGradientCoder().encode(g)
 		}
-		else if typeName == PAL.Gradients.Coder.CPT.utTypeString {
-			return try PAL.Gradients.Coder.CPT().encode(g)
+		else if typeName == PAL.Gradients.Coder.ColorPaletteTablesCoder.utTypeString {
+			return try PAL.Gradients.Coder.ColorPaletteTablesCoder().encode(g)
 		}
-		else if typeName == PAL.Gradients.Coder.GPF.utTypeString {
-			return try PAL.Gradients.Coder.GPF().encode(g)
+		else if typeName == PAL.Gradients.Coder.GNUPlotGradientCoder.utTypeString {
+			return try PAL.Gradients.Coder.GNUPlotGradientCoder().encode(g)
 		}
-		else if typeName == PAL.Gradients.Coder.CPT.utTypeString {
-			return try PAL.Gradients.Coder.CPT().encode(g)
+		else if typeName == PAL.Gradients.Coder.DCG.utTypeString {
+			return try PAL.Gradients.Coder.DCG().encode(g)
 		}
 
 		throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)

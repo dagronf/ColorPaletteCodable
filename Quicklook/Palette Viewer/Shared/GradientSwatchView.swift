@@ -90,7 +90,7 @@ struct GradientSwatchView: View {
 
 	func generateGradientData() throws -> Data {
 		let flattened = try gradient.mergeTransparencyStops()
-		return try PAL.Gradients.Coder.GGR().encode(PAL.Gradients(gradients: [flattened]))
+		return try PAL.Gradients.Coder.GIMPGradientCoder().encode(PAL.Gradients(gradients: [flattened]))
 	}
 
 	func generateDragContent() -> URL {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22138.1" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="23504" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22138.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23504"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -38,7 +38,7 @@
                     <constraint firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="s6i-b7-llN"/>
                 </constraints>
             </view>
-            <toolbar key="toolbar" implicitIdentifier="1734EE77-A728-4931-90C5-460D3718A04B" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="TuU-8Z-FtZ">
+            <toolbar key="toolbar" implicitIdentifier="1734EE77-A728-4931-90C5-460D3718A04B" autosavesConfiguration="NO" showsBaselineSeparator="NO" displayMode="iconAndLabel" sizeMode="regular" id="TuU-8Z-FtZ">
                 <allowedToolbarItems>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="TNB-Xc-Piq"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="dZS-uu-pPS"/>
@@ -101,7 +101,7 @@
         </window>
     </objects>
     <resources>
-        <image name="square.and.arrow.up" catalog="system" width="19" height="22"/>
+        <image name="square.and.arrow.up" catalog="system" width="19" height="23"/>
         <image name="swift-icon" width="22" height="22"/>
         <image name="swiftui-icon" width="22" height="22"/>
     </resources>

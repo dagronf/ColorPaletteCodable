@@ -17,6 +17,7 @@
 				<string>public.dagronf.colorpalette.gradient.corel.paintshoppro.pspgradient</string>
 				<string>public.dagronf.colorpalette.gradient.cpt</string>
 				<string>public.dagronf.colorpalette.gradient.json</string>
+				<string>public.dagronf.colorpalette.gradient.dcg</string>
 			</array>
 			<key>QLSupportsSearchableItems</key>
 			<false/>
