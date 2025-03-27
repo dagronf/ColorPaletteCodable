@@ -51,6 +51,7 @@ public extension PAL {
 		case svg           // Scalable Vector Grapihcs palette (.svg)
 		case swift         // (export only) Swift source file (.swift)
 		case corelDrawV3   // Corel Draw V3 file (.pal)
+		case clf           // LAB colors
 
 		// This needs to go last, so it doesn't override the other PAL types
 		case vga24bit      // 24-bit RGB VGA (3 bytes RRGGBB)
@@ -93,6 +94,7 @@ public extension PAL.PaletteFormat {
 		case .corelDrawV3  : return PAL.Coder.CorelDraw3PaletteCoder()
 		case .vga24bit     : return PAL.Coder.VGA24BitPaletteCoder()
 		case .vga18bit     : return PAL.Coder.VGA18BitPaletteCoder()
+		case .clf          : return PAL.Coder.CLF()
 		}
 	}
 }

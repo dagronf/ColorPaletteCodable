@@ -55,3 +55,10 @@ extension PAL.Color.LAB: Equatable {
 			abs(lhs.alphaf - rhs.alphaf) < 0.005
 	}
 }
+
+public extension PAL.Color.LAB {
+	/// Convert LAB color to RGB
+	func rgb() -> PAL.Color.RGB {
+		NaiveConversions.LAB2RGB(self)
+	}
+}

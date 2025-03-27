@@ -23,10 +23,10 @@ public extension PAL.Color {
 	/// The components for a color with the CGColorSpace.XYZ colorspace
 	struct XYZ {
 		public init(xf: Double, yf: Double, zf: Double, af: Double = 1.0) {
-			self.xf = xf.clamped(to: 0.0 ... 1.0)
-			self.yf = yf.clamped(to: 0.0 ... 1.0)
-			self.zf = zf.clamped(to: 0.0 ... 1.0)
-			self.af = af.clamped(to: 0.0 ... 1.0)
+			self.xf = xf
+			self.yf = yf
+			self.zf = zf
+			self.af = af
 		}
 
 		public let xf: Double

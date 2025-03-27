@@ -30,6 +30,7 @@
 				<string>public.dagronf.colorpalette.palette.coreldrawV3.pal</string>
 				<string>public.dagronf.colorpalette.palette.vgargb.24bit</string>
 				<string>public.dagronf.colorpalette.palette.vgargb.18bit</string>
+				<string>public.dagronf.colorpalette.palette.clf</string>
 			</array>
 			<key>QLSupportsSearchableItems</key>
 			<false/>

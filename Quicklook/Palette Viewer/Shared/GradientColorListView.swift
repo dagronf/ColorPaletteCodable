@@ -12,57 +12,45 @@ import ColorPaletteCodable
 struct GradientColorListView: View {
 	let gradient: PAL.Gradient
 
+
 	var body: some View {
-		ScrollView {
-			Grid(verticalSpacing: 4) {
-				GridRow {
-					Text("Color")
-						.bold()
-					Text("Pos")
-						.help("Position")
-						.gridCellAnchor(.leading)
-						.bold()
-					Text("CS")
-						.help("Colorspace")
-						.gridCellAnchor(.leading)
-						.bold()
-					Text("Components")
-						.help("Color components")
-						.gridCellAnchor(.leading)
-						.bold()
-				}
-				ForEach(gradient.stops) { stop in
-					Rectangle()
-						.foregroundColor( Color.secondary.opacity(0.3) )
-						.frame(height: 0.5)
-					GridRow {
-						GradientColorSwatch(color: stop.color)
-							.frame(width: 26, height: 26)
-							.onDrag {
-								guard let c = stop.color.nsColor else {
-									return NSItemProvider()
-								}
-								return NSItemProvider(item: c, typeIdentifier: UTType.nsColor.identifier)
-							}
-						Text(String(format: "%0.03f", stop.position))
-							.font(.callout)
-							.textSelection(.enabled)
-							.monospacedDigit()
-							.gridCellAnchor(.leading)
-						Text(stop.color.colorSpace.rawValue)
-							.font(.callout)
-						Text(stop.color.componentsString())
-							.font(.callout)
-							.textSelection(.enabled)
-							.monospacedDigit()
-							.gridCellAnchor(.leading)
-							.frame(maxWidth: .infinity, alignment: .leading)
+		Table(gradient.stops) {
+			TableColumn("") { stop in
+				GradientColorSwatch(color: stop.color)
+					.frame(width: 26, height: 26)
+					.onDrag {
+						guard let c = stop.color.nsColor else {
+							return NSItemProvider()
+						}
+						return NSItemProvider(item: c, typeIdentifier: UTType.nsColor.identifier)
 					}
-				}
+			}
+			.width(30)
+			.alignment(.center)
+
+			TableColumn("Pos") { stop in
+				Text(String(format: "%0.03f", stop.position))
+					.font(.callout)
+					.textSelection(.enabled)
+					.monospacedDigit()
+			}
+			.width(40)
+
+			TableColumn("CS") { stop in
+				Text(stop.color.colorSpace.rawValue)
+					.font(.callout)
+			}
+			.width(40)
+
+			TableColumn("Components") { stop in
+				Text(stop.color.componentsString())
+					.font(.callout)
+					.textSelection(.enabled)
+					.monospacedDigit()
+					.gridCellAnchor(.leading)
+					.frame(maxWidth: .infinity, alignment: .leading)
 			}
 		}
-		.frame(maxHeight: 300)
-		.padding(4)
 	}
 }
 
@@ -159,44 +147,35 @@ struct GradientTransparencyStopsListView: View {
 	var body: some View {
 		Group {
 			if gradient.hasTransparency {
-				ScrollView {
-					Grid(verticalSpacing: 4) {
-						GridRow {
-							Text("Value").bold()
-							Text("Position").bold()
-							Text("Opacity").bold()
-							Text("")
-						}
-						ForEach(tmap) { stop in
-							Rectangle()
-								.foregroundColor( Color.secondary.opacity(0.3) )
-								.frame(height: 0.5)
-							GridRow {
-								GradientColorSwatch(color: Color.red.opacity(stop.value))
-									.frame(width: 26, height: 26)
-								Text(String(format: "%0.03f", stop.position))
-									.font(.callout)
-									.textSelection(.enabled)
-									.monospacedDigit()
-									.gridCellAnchor(.leading)
-								Text(String(format: "%0.03f", stop.value))
-									.font(.callout)
-									.textSelection(.enabled)
-									.monospacedDigit()
-									.gridCellAnchor(.leading)
-								Text("")
-									.frame(maxWidth: .infinity)
-							}
-						}
+				Table(tmap) {
+					TableColumn("Value") { stop in
+						GradientColorSwatch(color: Color.red.opacity(stop.value))
+							.frame(width: 26, height: 26)
 					}
+					.width(40)
+					.alignment(.center)
+
+					TableColumn("Position") { stop in
+						Text(String(format: "%0.03f", stop.position))
+							.font(.callout)
+							.textSelection(.enabled)
+							.monospacedDigit()
+					}
+					.width(60)
+
+					TableColumn("Opacity") { stop in
+						Text(String(format: "%0.03f", stop.value))
+							.font(.callout)
+							.textSelection(.enabled)
+							.monospacedDigit()
+					}
+					.width(60)
 				}
-				.frame(maxHeight: 300)
 			}
 			else {
 				EmptyView()
 			}
 		}
-		.padding(4)
 	}
 }
 

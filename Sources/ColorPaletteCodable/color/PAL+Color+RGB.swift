@@ -179,6 +179,13 @@ extension PAL.Color.RGB: Equatable {
 	}
 }
 
+public extension PAL.Color.RGB {
+	/// Convert LAB color to RGB
+	func lab() -> PAL.Color.LAB {
+		NaiveConversions.RGB2LAB(self)
+	}
+}
+
 // MARK: - Color RGB support
 
 public extension PAL.Color {

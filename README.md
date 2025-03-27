@@ -43,6 +43,7 @@ Supports the following :-
 * Basic CSV
 * Basic XML
 * Android `colors.xml` resource file format
+* CLF Lab colors file (`.clf`) ***(read only)***
 
 ## Supported gradient formats
 
@@ -92,6 +93,7 @@ Some features :-
 |`PAL.Coder.AndroidColorsXML`       | Android `color.xml` resources (.xml)        |
 |`PAL.Coder.ASE`                    | Adobe Swatch Exchange (.ase)                |
 |`PAL.Coder.BasicXML`               | Basic XML structure (.xml)                  |
+|`PAL.Coder.CLF`                    | CLF Lab Colors file (.clf)                  |
 |`PAL.Coder.CLR`                    | NSColorList (.clr) *(macOS only)*           |
 |`PAL.Coder.CorelDrawV3`            | Corel Draw V3 Palette (.pal)                |
 |`PAL.Coder.CorelPainter`           | CorelPainter Swatch (.txt)                  |
@@ -182,6 +184,7 @@ let paletteData = palette.export(format: .ase)
 | `PAL.Coder.AndroidColorsXML`       | XML                    | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.ASE`                    | Binary                 | ✅       | ✅       | ✅              | ❌                | ✅               | ✅                     | ✅                     | ❌               |
 | `PAL.Coder.BasicXML`               | XML                    | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB only               | ✅               |
+| `PAL.Coder.CLF`                    | Text                   | ✅       | ❌       | ✅              | ❌                | ❌               | ❌                     | LAB only               | ❌               |
 | `PAL.Coder.CLR`                    | Binary<br>(macOS only) | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | ✅                     | ✅               |
 | `PAL.Coder.CorelDrawV3`            | Text                   | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | CMYK only              | ❌               |
 | `PAL.Coder.CorelPainter`           | Text                   | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | RGB only               | ❌               |

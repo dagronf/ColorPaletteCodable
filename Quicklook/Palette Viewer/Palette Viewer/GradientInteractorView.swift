@@ -40,7 +40,8 @@ struct GradientsInteractorView: View {
 					ScrollView {
 						VStack(alignment: .leading, spacing: 16) {
 							VStack {
-								Text("Gradient").font(.title3).fontWeight(.heavy)
+								Text("Gradient (\(s.stops.count) stops)")
+									.font(.title3).fontWeight(.heavy)
 									.frame(maxWidth: .infinity, alignment: .leading)
 									.padding(EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4))
 									.background(RoundedRectangle(cornerRadius: 4).fill(.separator))
@@ -51,14 +52,26 @@ struct GradientsInteractorView: View {
 
 							VStack {
 								GradientColorListView(gradient: s)
+									.frame(minWidth: 300, minHeight: 200)
 								if s.hasTransparency {
 									VStack {
-										Text("Transparency").font(.title3).fontWeight(.heavy)
-											.frame(maxWidth: .infinity, alignment: .leading)
-											.padding(EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4))
-											.background(RoundedRectangle(cornerRadius: 4).fill(.separator))
+										if let ts = s.transparencyStops {
+											Text("Transparency (\(ts.count) stops)")
+												.font(.title3).fontWeight(.heavy)
+												.frame(maxWidth: .infinity, alignment: .leading)
+												.padding(EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4))
+												.background(RoundedRectangle(cornerRadius: 4).fill(.separator))
+										}
+										else {
+											Text("Transparency map")
+												.font(.title3).fontWeight(.heavy)
+												.frame(maxWidth: .infinity, alignment: .leading)
+												.padding(EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4))
+												.background(RoundedRectangle(cornerRadius: 4).fill(.separator))
+										}
 										GradientTransparencyView(gradient: s)
 										GradientTransparencyStopsListView(gradient: s)
+											.frame(minWidth: 300, minHeight: 200)
 									}
 								}
 							}
