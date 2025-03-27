@@ -20,6 +20,7 @@ let package = Package(
 		.package(url: "https://github.com/dagronf/SwiftImageReadWrite", from: "1.7.1"),
 		.package(url: "https://github.com/dagronf/TinyCSV", from: "1.0.0"),
 		.package(url: "https://github.com/dagronf/BytesParser", from: "3.1.1"),
+		.package(url: "https://github.com/weichsel/ZIPFoundation", from: "0.9.19")
 	],
 	targets: [
 		.target(
@@ -29,6 +30,7 @@ let package = Package(
 				"SwiftImageReadWrite", 
 				"TinyCSV",
 				"BytesParser",
+				"ZIPFoundation",
 			],
 			resources: [
 				.copy("PrivacyInfo.xcprivacy"),

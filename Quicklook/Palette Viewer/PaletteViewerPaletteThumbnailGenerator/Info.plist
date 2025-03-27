@@ -29,6 +29,7 @@
 				<string>public.dagronf.colorpalette.palette.vgargb.24bit</string>
 				<string>public.dagronf.colorpalette.palette.vgargb.18bit</string>
 				<string>public.dagronf.colorpalette.palette.clf</string>
+				<string>public.dagronf.colorpalette.palette.procreate.swatches</string>
 			</array>
 			<key>QLThumbnailMinimumDimension</key>
 			<integer>0</integer>
