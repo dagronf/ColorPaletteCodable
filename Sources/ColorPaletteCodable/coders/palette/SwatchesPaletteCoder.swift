@@ -50,7 +50,7 @@ private struct _SwatchPalette: Codable {
 		let saturation: Double
 		let brightness: Double
 		let alpha: Double
-		let colorSpace: Int
+		let colorSpace: Int?
 
 		let origin: Int?
 		let colorModel: Int?
@@ -64,8 +64,8 @@ private struct _SwatchPalette: Codable {
 			self.hue = try container.decode(Double.self, forKey: _SwatchPalette.Swatch.CodingKeys.hue)
 			self.saturation = try container.decode(Double.self, forKey: _SwatchPalette.Swatch.CodingKeys.saturation)
 			self.brightness = try container.decode(Double.self, forKey: _SwatchPalette.Swatch.CodingKeys.brightness)
-			self.alpha = try container.decode(Double.self, forKey: _SwatchPalette.Swatch.CodingKeys.alpha)
-			self.colorSpace = try container.decode(Int.self, forKey: _SwatchPalette.Swatch.CodingKeys.colorSpace)
+			self.alpha = try container.decodeIfPresent(Double.self, forKey: _SwatchPalette.Swatch.CodingKeys.alpha) ?? 1.0
+			self.colorSpace = try container.decodeIfPresent(Int.self, forKey: _SwatchPalette.Swatch.CodingKeys.colorSpace) ?? 0
 			self.origin = try container.decodeIfPresent(Int.self, forKey: _SwatchPalette.Swatch.CodingKeys.origin)
 			self.colorModel = try container.decodeIfPresent(Int.self, forKey: _SwatchPalette.Swatch.CodingKeys.colorModel)
 			self.colorProfile = try container.decodeIfPresent(String.self, forKey: _SwatchPalette.Swatch.CodingKeys.colorProfile)
@@ -138,7 +138,9 @@ public extension PAL.Coder.SwatchesPaletteCoder {
 			let groupColors = palette.swatches
 				.compactMap { $0 }
 				.map { color in
-					PAL.Color(hf: color.hue, sf: color.saturation, bf: color.brightness, name: color.name ?? "")
+					var c = PAL.Color(hf: color.hue, sf: color.saturation, bf: color.brightness, name: color.name ?? "")
+					c.alpha = color.alpha
+					return c
 				}
 			let group = PAL.Group(colors: groupColors, name: palette.name)
 			result.groups.append(group)
