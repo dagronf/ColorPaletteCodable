@@ -37,7 +37,7 @@ public extension PAL.Gradients.Coder {
 // MARK: - Encoding
 
 private let BOM__: UInt16 = 32157
-private let version__: UInt16 = 1
+private let version__: UInt16 = 2
 private let gradientsHeader__: UInt16 = 28678
 private let gradientIdentifier__: UInt8 = 0xA0
 
@@ -59,6 +59,11 @@ public extension PAL.Gradients.Coder.DCG {
 
 		// Gradients header
 		try file.writeUInt16(gradientsHeader__, .little)
+
+		// Write the gradient's name if it exists
+		try file.writePascalStringUTF16(gradients.name, .little)
+
+		// Write all the contained gradients
 
 		// The number of gradients
 		try file.writeUInt16(UInt16(gradients.gradients.count), .little)
@@ -131,15 +136,17 @@ public extension PAL.Gradients.Coder.DCG {
 			throw PAL.CommonError.invalidBOM
 		}
 
-		// Expect version
+		// Gradients version
 		let version = try parser.readUInt16(.little)
-		guard version == version__ else {
-			throw PAL.CommonError.invalidVersion
-		}
 
 		// Gradients header
 		guard try parser.readUInt16(.little) == gradientsHeader__ else {
 			throw PAL.CommonError.invalidFormat
+		}
+
+		if version > 1 {
+			// Read the gradient's name (only v2 and higher)
+			result.name = try parser.readPascalStringUTF16(.little)
 		}
 
 		// Number of gradients

@@ -24,40 +24,34 @@ import Foundation
 public extension PAL {
 	/// A collection of gradients
 	struct Gradients {
-		/// The gradients
+		/// The gradient's name
+		public var name: String?
+
+		/// The contained gradients
 		public var gradients: [Gradient]
+
+		/// The number of gradients
+		@inlinable public var count: Int { self.gradients.count }
 
 		/// If the gradient was populated from a file, the format of the loaded file
 		public internal(set) var format: PAL.GradientsFormat? = nil
 
-		/// The number of gradients
-		@inlinable public var count: Int { gradients.count }
 		/// Create a collection of gradients
-		public init(gradients: [Gradient] = []) {
+		/// - Parameters:
+		///   - gradients: The individual gradients
+		///   - name: The gradient's name
+		public init(gradients: [Gradient] = [], name: String? = nil) {
 			self.gradients = gradients
+			self.name = name
 		}
 
 		/// Create with a single gradient
-		@inlinable public init(gradient: Gradient) {
+		/// - Parameters:
+		///   - gradient: The gradient
+		///   - name: The gradient's name
+		public init(gradient: Gradient, name: String? = nil) {
 			self.gradients = [gradient]
-		}
-
-		/// Return a palette containing all the gradients as mapped color groups
-		public var palette: PAL.Palette {
-			let grs = gradients.map { gradient in
-				PAL.Group(colors: gradient.sorted.colors, name: gradient.name ?? "")
-			}
-			return PAL.Palette(colors: [], groups: grs)
-		}
-
-		/// Locate a gradient via its id.
-		@inlinable public func find(id: UUID) -> PAL.Gradient? {
-			self.gradients.first { $0.id == id }
-		}
-
-		/// Map all the gradients to a 0 -> 1 range
-		public func expandAllGradientsToEdges() -> PAL.Gradients {
-			PAL.Gradients(gradients: self.gradients.map { $0.expandGradientToEdges() })
+			self.name = name
 		}
 	}
 }
@@ -67,9 +61,11 @@ extension PAL.Gradients {
 	/// - Parameters:
 	///   - gradient: The gradient
 	///   - format: The format
-	internal init(gradient: PAL.Gradient, format: PAL.GradientsFormat) {
+	///   - name: The gradients name
+	internal init(gradient: PAL.Gradient, format: PAL.GradientsFormat, name: String? = nil) {
 		self.gradients = [gradient]
 		self.format = format
+		self.name = name
 	}
 
 	/// Create with a format
@@ -78,6 +74,41 @@ extension PAL.Gradients {
 	internal init(format: PAL.GradientsFormat) {
 		self.gradients = []
 		self.format = format
+	}
+}
+
+// MARK: - Functions
+
+public extension PAL.Gradients {
+	/// Return a palette containing all the gradients as color groups
+	func palette() throws -> PAL.Palette {
+		let grs = try self.gradients
+			.map { try $0.palette() }
+			.map { ($0.name, $0.colors) }
+			.map { PAL.Group(colors: $0.1, name: $0.0) }
+		return PAL.Palette(colors: [], groups: grs)
+	}
+
+	/// Locate a gradient via its id
+	/// - Parameter id: The unique gradient id
+	/// - Returns: The gradient matching the specified id, or nil if none was found
+	@inlinable func find(id: UUID) -> PAL.Gradient? {
+		self.gradients.first { $0.id == id }
+	}
+
+	/// Locate a gradient via its name
+	/// - Parameter name: The gradient name to find
+	/// - Returns: The gradient matching the specified name, or nil if none was found
+	@inlinable func find(name: String) -> PAL.Gradient? {
+		self.gradients.first { $0.name == name }
+	}
+
+	/// Map all the gradients to a 0 -> 1 range
+	///
+	/// Gradient files stops can specify ranges other than 0 -> 1.  For example, a CPT file representing
+	/// topological data might use gradient stops based on height values (eg. 2000m -> 3000m)
+	func expandAllGradientsToEdges() -> PAL.Gradients {
+		PAL.Gradients(gradients: self.gradients.map { $0.expandGradientToEdges() })
 	}
 }
 
@@ -90,18 +121,21 @@ extension PAL.Gradients: Codable {
 	}
 
 	enum CodingKeys: String, CodingKey {
+		case name
 		case gradients
 	}
 
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.gradients = try container.decode([PAL.Gradient].self, forKey: .gradients)
+		self.name = try container.decodeIfPresent(String.self, forKey: .name)
 		self.format = .json
 	}
 
 	public func encode(to encoder: Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encode(self.gradients, forKey: .gradients)
+		try container.encodeIfPresent(self.name, forKey: .name)
 	}
 }
 
@@ -119,6 +153,7 @@ public extension PAL.Gradients {
 		let decoded = try PAL.Gradients.Decode(from: fileURL, usingCoder: coder)
 		self.gradients = decoded.gradients
 		self.format = decoded.format
+		self.name = decoded.name
 	}
 
 	/// Load a local gradient file
@@ -139,6 +174,7 @@ public extension PAL.Gradients {
 		let g = try coder.decode(from: data)
 		self.gradients = g.gradients
 		self.format = g.format
+		self.name = g.name
 	}
 
 	/// Load a gradient from raw data
@@ -157,6 +193,7 @@ public extension PAL.Gradients {
 		let g = try PAL.Gradients.Decode(from: data, fileExtension: fileExtension)
 		self.gradients = g.gradients
 		self.format = g.format
+		self.name = g.name
 	}
 }
 
