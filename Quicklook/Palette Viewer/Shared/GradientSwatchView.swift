@@ -44,7 +44,7 @@ func exportGradient(_ gradient: PAL.Gradient) throws {
 
 func exportPalette(_ gradient: PAL.Gradient) throws {
 
-	let palette = try gradient.sorted.mergeTransparencyStops().palette
+	let palette = try gradient.palette()
 
 	let filename = (gradient.name ?? "exported")
 

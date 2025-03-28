@@ -189,7 +189,7 @@ class GradientFormatTests: XCTestCase {
 		let grad1 = try PAL.Gradients.Coder.AdobeGradientsCoder().decode(from: i)
 		XCTAssertEqual(1, grad1.count)
 		let gradient = grad1.gradients[0]
-		let palette = gradient.palette
+		let palette = try gradient.palette()
 		XCTAssertEqual(4, palette.colors.count)
 	}
 
@@ -202,7 +202,7 @@ class GradientFormatTests: XCTestCase {
 		// There are 10 gradients in this file
 		XCTAssertEqual(10, grad1.count)
 
-		let palette = grad1.palette
+		let palette = try grad1.palette()
 		XCTAssertEqual(0, palette.colors.count)
 		XCTAssertEqual(10, palette.groups.count)
 	}

@@ -103,11 +103,15 @@ struct GradientsInteractorView: View {
 	}
 
 	func updatePalette() {
-		if let s = selectedGradient, let gradient = gradients.find(id: s) {
-			palette = PaletteModel(gradient.palette)
+		if
+			let s = self.selectedGradient,
+			let gradient = gradients.find(id: s),
+			let gradientPalette = try? gradient.palette()
+		{
+			self.palette = PaletteModel(gradientPalette)
 		}
 		else {
-			palette = PaletteModel(PAL.Palette())
+			self.palette = PaletteModel(PAL.Palette())
 		}
 	}
 

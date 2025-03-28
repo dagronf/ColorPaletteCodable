@@ -73,9 +73,15 @@ public extension PAL {
 			self.stops.map { $0.color }
 		}
 
-		/// Return a palette containing the colors in the order of the color stops
-		@inlinable public var palette: PAL.Palette {
-			PAL.Palette(colors: self.sorted.colors, name: self.name ?? "")
+		/// Create a new palette containing the colors in the order of the color stops
+		///
+		/// * Any transparency information is merged into the palette
+		/// * Stop position information is lost
+		public func palette() throws -> PAL.Palette {
+			let flattened = try self
+				.mergeTransparencyStops()
+				.mergeIdenticalNeighbouringStops()
+			return PAL.Palette(colors: flattened.sorted.colors, name: self.name ?? "")
 		}
 
 		// MARK: Creation
