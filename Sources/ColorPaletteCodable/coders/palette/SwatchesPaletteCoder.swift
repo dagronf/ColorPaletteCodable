@@ -19,7 +19,9 @@
 
 import Foundation
 
+#if !os(Linux)
 import ZIPFoundation
+#endif
 
 public extension PAL.Coder {
 	/// A JSON encoder/decoder
@@ -105,6 +107,7 @@ public extension PAL.Coder.SwatchesPaletteCoder {
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
+#if !os(Linux)
 		let data = inputStream.readAllData()
 
 		let archive = try Archive(data: data, accessMode: .read)
@@ -142,6 +145,9 @@ public extension PAL.Coder.SwatchesPaletteCoder {
 		}
 
 		return result
+#else
+		throw PAL.CommonError.notImplemented
+#endif
 	}
 
 	/// Encode the palette
