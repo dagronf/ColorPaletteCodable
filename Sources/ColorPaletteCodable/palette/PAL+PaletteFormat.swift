@@ -96,7 +96,7 @@ public extension PAL.PaletteFormat {
 		case .vga24bit     : return PAL.Coder.VGA24BitPaletteCoder()
 		case .vga18bit     : return PAL.Coder.VGA18BitPaletteCoder()
 		case .clf          : return PAL.Coder.CLF()
-		case .swatches     : return PAL.Coder.SwatchesPaletteCoder()
+		case .swatches     : return PAL.Coder.ProcreateSwatchesCoder()
 		}
 	}
 }

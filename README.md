@@ -34,6 +34,7 @@ Supports the following :-
 * Microsoft RIFF palette files (`.pal`) ***(read only)***
 * SketchPalette files (`.sketchpalette`)
 * CorelDraw/Adobe Illustrator xml palette (`.xml`)
+* ProCreate Swatches file (`.swatches`)
 * Corel swatches (`.txt`)
 * Corel Paint file format (`.cpl`) ***(read only)***
 * JSON encoded color files (`.jsoncolorpalette`) ***ColorPaletteCodable internal file format***
@@ -114,6 +115,7 @@ Some features :-
 |`PAL.Coder.ScribusXMLPaletteCoder` | Scribus XML palette (.xml)                  | 
 |`PAL.Coder.SketchPalette`          | Sketch Palette (.sketchpalette)             |
 |`PAL.Coder.SVG`                    | SVG image file (.svg)                       |
+|`PAL.Coder.ProcreateSwatchesCoder` | Procreate Swatches (.swatches)              |
 |`PAL.Coder.VGA24BitPaletteCoder`   | 24-bit VGA palette (.pal)                   |
 |`PAL.Coder.VGA18BitPaletteCoder`   | 18-bit VGA palette (.pal)                   |
 
@@ -203,6 +205,7 @@ let paletteData = palette.export(format: .ase)
 | `PAL.Coder.ScribusXMLPaletteCoder` | XML                    | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB/CMYK only          | ❌               |
 | `PAL.Coder.SketchPalette`          | XML                    | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.SVG`                    | SVG text               | ❌       | ✅       | ❌              | ✅                | ✅               | ❌                     | RGB only               | ✅               |
+| `PAL.Coder.ProcreateSwatchesCoder` | Binary                 | ✅       | ✅       | ❌              | ✅                | ✅               | ❌                     | ❌                     | ✅               |
 | `PAL.Coder.VGA24BitPaletteCoder`   | Binary                 | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
 | `PAL.Coder.VGA18BitPaletteCoder`   | Binary                 | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
 
@@ -439,6 +442,37 @@ of the Software, and to permit persons to whom the Software is furnished to do
 so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+### ZipFoundation
+
+[ZIPFoundation](https://github.com/weichsel/ZIPFoundation)
+
+ZIP Foundation is released under the MIT License.  
+See [LICENSE](https://github.com/weichsel/ZIPFoundation/blob/master/LICENSE) for details.
+
+```
+MIT License
+
+Copyright (c) 2017-2024 Thomas Zoechling (https://www.peakstep.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE

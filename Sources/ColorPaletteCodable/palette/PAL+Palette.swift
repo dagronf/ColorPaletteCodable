@@ -36,6 +36,13 @@ public extension PAL {
 		/// If this palette was loaded, the format used to decode
 		public internal(set) var format: PAL.PaletteFormat?
 
+		/// The total number of colors in the palette 
+		public var totalColorCount: Int {
+			self.colors.count + self.groups.reduce(0) { partialResult, group in
+				partialResult + group.colors.count
+			}
+		}
+
 		/// Create an empty palette
 		public init() {}
 

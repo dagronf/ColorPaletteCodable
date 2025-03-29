@@ -24,6 +24,7 @@ public let ExportablePaletteTypes: [String] = [
 	PAL.Coder.SVG.utTypeString,
 	PAL.Coder.OpenOfficePaletteCoder.utTypeString,
 	PAL.Coder.DCP.utTypeString,
+	PAL.Coder.ProcreateSwatchesCoder.utTypeString,
 ]
 
 public let ExportablePaletteUTTypes: [UTType] = {

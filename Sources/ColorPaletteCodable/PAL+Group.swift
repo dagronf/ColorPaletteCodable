@@ -26,12 +26,12 @@ public extension PAL {
 		/// The group name
 		public var name: String
 		/// The colors assigned to the group
-		public internal(set) var colors: [Color]
+		public internal(set) var colors: [PAL.Color]
 		/// Create a group with the specified name and colors
 		/// - Parameters:
 		///   - colors: The colors in the group
 		///   - name: The group's name
-		public init(colors: [Color] = [], name: String = "") {
+		public init(colors: [PAL.Color] = [], name: String = "") {
 			self.name = name
 			self.colors = colors
 		}

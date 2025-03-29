@@ -56,5 +56,6 @@ public extension PAL {
 		case cannotCreateColor
 		case tooFewColors
 		case indexOutOfRange
+		case cannotGenerateOutputZip
 	}
 }
