@@ -19,7 +19,7 @@
 
 import Foundation
 
-#if !os(Linux)
+#if canImport(Darwin)
 import ZIPFoundation
 #endif
 
@@ -36,7 +36,7 @@ public extension PAL.Coder {
 	}
 }
 
-#if !os(Linux)
+#if canImport(Darwin)
 
 public extension PAL.Coder.ProcreateSwatchesCoder {
 	/// Create a palette from the contents of the input stream

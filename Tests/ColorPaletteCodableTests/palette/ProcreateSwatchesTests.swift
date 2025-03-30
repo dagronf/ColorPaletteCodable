@@ -1,17 +1,19 @@
 @testable import ColorPaletteCodable
 import XCTest
 
-#if !os(Linux)
+#if canImport(Darwin)
 
 // ZipFoundation fails to compile on linux, so lets ignore it for the moment
 
 import Foundation
 
-class SwatchesPaletteTests: XCTestCase {
+class ProcreateSwatchesTests: XCTestCase {
 
 	let files = [
 		("Ascend.swatches", 24),
-		("mypalette.swatches", 2)
+		("mypalette.swatches", 2),
+		("Pantone_2019.swatches", 30),
+		("Retro_&_Vintage.swatches", 30)
 	]
 
 	func testBasic() throws {
@@ -29,12 +31,20 @@ class SwatchesPaletteTests: XCTestCase {
 	func testAllRoundTrip() throws {
 		try files.forEach { item in
 			Swift.print("> Roundtripping: \(item.0)")
+
+			// Read a procreate swatches file
 			let palette = try loadResourcePalette(named: item.0)
+			// Make sure that the expected number of colors is as we expect
 			XCTAssertEqual(item.1, palette.allColors().count)
 
+			// Re-encode ...
 			let coder = PAL.Coder.ProcreateSwatchesCoder()
 			let data = try coder.encode(palette)
+
+			// ... and decode!
 			let rebuilt = try coder.decode(from: data)
+
+			// After reading back, it should be the same as the original palette
 			XCTAssertEqual(rebuilt, palette)
 		}
 	}

@@ -9,7 +9,10 @@ let packageDeps: [Package.Dependency] = {
 		.package(url: "https://github.com/dagronf/TinyCSV", from: "1.0.0"),
 		.package(url: "https://github.com/dagronf/BytesParser", from: "3.1.1"),
 	]
-#if !os(Linux)
+
+	// Unfortunately, ZipFoundation has a bug in Linux for the latest Swift versions which stops it from
+	// compiling. We'll only add it in for Apple-type builds
+#if canImport(Darwin)
 	d.append(.package(url: "https://github.com/dagronf/ZIPFoundation", exact: "0.9.19"))
 #endif
 	return d
@@ -22,7 +25,7 @@ let targetDeps: [Target.Dependency] = {
 		"TinyCSV",
 		"BytesParser",
 	]
-#if !os(Linux)
+#if canImport(Darwin)
 	d.append("ZIPFoundation")
 #endif
 	return d
