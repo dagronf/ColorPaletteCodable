@@ -983,7 +983,7 @@
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
-				<string>public.data</string>
+				<string>public.zip-archive</string>
 			</array>
 			<key>UTTypeDescription</key>
 			<string>ProCreate Swatches</string>
