@@ -67,6 +67,9 @@ public extension PAL.Color {
 	@inlinable var uiColor: UIColor? {
 		return self.cgColor.unwrapping { UIColor(cgColor: $0) }
 	}
+
+	/// Returns a UIColor representation of this color
+	@inlinable var platformColor: UIColor? { self.uiColor }
 }
 
 public extension PAL.Image {

@@ -71,6 +71,9 @@ public extension PAL.Color {
 		guard let c = self.cgColor else { return nil }
 		return NSColor(cgColor: c)
 	}
+
+	/// Returns an NSColor representation of this color
+	@inlinable var platformColor: NSColor? { self.nsColor }
 }
 
 public extension PAL.Image {
