@@ -10,7 +10,7 @@ let packageDeps: [Package.Dependency] = {
 		.package(url: "https://github.com/dagronf/BytesParser", from: "3.1.1"),
 	]
 #if !os(Linux)
-	d.append(.package(url: "https://github.com/weichsel/ZIPFoundation", from: "0.9.19"))
+	d.append(.package(url: "https://github.com/dagronf/ZIPFoundation", exact: "0.9.19"))
 #endif
 	return d
 }()
