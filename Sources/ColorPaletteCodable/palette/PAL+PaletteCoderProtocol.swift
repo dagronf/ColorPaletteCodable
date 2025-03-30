@@ -52,12 +52,17 @@ public protocol PAL_PaletteCoder {
 }
 
 public extension PAL_PaletteCoder {
+	/// The uniform type string for the palette type
 	@inlinable func utTypeString() -> String { Self.utTypeString }
 
 	/// Create a palette object from the contents of a fileURL
 	/// - Parameter fileURL: The file containing the palette
 	/// - Returns: A palette object
 	func decode(from fileURL: URL) throws -> PAL.Palette {
+		// Make sure we request access to the fileURL resource before attempting to access it.
+		fileURL.startAccessingSecurityScopedResource()
+		defer { fileURL.stopAccessingSecurityScopedResource() }
+
 		guard let inputStream = InputStream(fileAtPath: fileURL.path) else {
 			throw PAL.CommonError.unableToLoadFile
 		}

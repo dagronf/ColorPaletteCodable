@@ -125,18 +125,6 @@ public extension PAL.Palette {
 		// None of our coders worked
 		throw PAL.CommonError.unsupportedPaletteType
 	}
-	
-//	/// Encode the specified palette using the specified coder
-//	/// - Parameters:
-//	///   - palette: The palette to encode
-//	///   - fileExtension: The coder to use for the encoded data
-//	/// - Returns: The encoded data
-//	static func Encode(_ palette: PAL.Palette, fileExtension: String) throws -> Data {
-//		guard let coder = self.coder(for: fileExtension) else {
-//			throw PAL.CommonError.unsupportedCoderType
-//		}
-//		return try coder.encode(palette)
-//	}
 }
 
 #if !os(Linux) && !os(Windows)
