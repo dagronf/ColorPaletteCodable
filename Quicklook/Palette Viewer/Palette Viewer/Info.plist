@@ -469,7 +469,7 @@
 			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>public.dagronf.colorpalette.palette.autoCAD.colorbook</string>
+				<string>public.dagronf.colorpalette.palette.autodesk.colorbook</string>
 			</array>
 			<key>NSDocumentClass</key>
 			<string>$(PRODUCT_MODULE_NAME).Document</string>
@@ -1023,7 +1023,7 @@
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
-			<string>public.dagronf.colorpalette.palette.autoCAD.colorbook</string>
+			<string>public.dagronf.colorpalette.palette.autodesk.colorbook</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>

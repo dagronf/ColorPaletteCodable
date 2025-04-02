@@ -3,7 +3,7 @@ import XCTest
 
 // Can generate Autodesk ACB files here - https://download.autodesk.com/global/acb/index.html
 
-final class AutoCADColorBookTests: XCTestCase {
+final class AutodeskColorBookTests: XCTestCase {
 	func testBasic() throws {
 		let url = try resourceURL(for: "basic-rgb.acb")
 		let coder = PAL.Coder.AutodeskColorBook()
@@ -36,13 +36,15 @@ final class AutoCADColorBookTests: XCTestCase {
 		let palette = try loadResourcePalette(named: "Default.gpl")
 
 		XCTAssertEqual(23, palette.colors.count)
+		XCTAssertEqual(palette.format, .gimp)
 
 		let coder = PAL.Coder.AutodeskColorBook()
 		let data = try coder.encode(palette)
 
-		try data.write(to: URL(fileURLWithPath: "/tmp/autocad.acb"))
+		// try data.write(to: URL(fileURLWithPath: "/tmp/autodesk.acb"))
 
 		let decoded = try coder.decode(from: data)
+		XCTAssertEqual(decoded.format, .autodeskColorBook)
 		XCTAssertEqual(1, decoded.groups.count)
 		XCTAssertEqual(10, decoded.groups[0].colors.count)
 	}

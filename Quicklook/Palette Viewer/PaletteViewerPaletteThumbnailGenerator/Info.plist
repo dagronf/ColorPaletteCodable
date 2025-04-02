@@ -30,7 +30,7 @@
 				<string>public.dagronf.colorpalette.palette.vgargb.18bit</string>
 				<string>public.dagronf.colorpalette.palette.clf</string>
 				<string>public.dagronf.colorpalette.palette.procreate.swatches</string>
-				<string>public.dagronf.colorpalette.palette.autoCAD.colorbook</string>
+				<string>public.dagronf.colorpalette.palette.autodesk.colorbook</string>
 			</array>
 			<key>QLThumbnailMinimumDimension</key>
 			<integer>0</integer>

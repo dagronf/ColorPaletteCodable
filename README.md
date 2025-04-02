@@ -35,7 +35,7 @@ Supports the following :-
 * Microsoft RIFF palette files (`.pal`) ***(read only)***
 * SketchPalette files (`.sketchpalette`)
 * CorelDraw/Adobe Illustrator xml palette (`.xml`)
-* ProCreate Swatches file (`.swatches`)
+* ProCreate Swatches file (`.swatches`) ***(Apple platforms only)***
 * Corel swatches (`.txt`)
 * Corel Paint file format (`.cpl`) ***(read only)***
 * JSON encoded color files (`.jsoncolorpalette`) ***ColorPaletteCodable internal file format***
@@ -112,13 +112,13 @@ Some features :-
 |`PAL.Coder.OpenOfficePaletteCoder` | OpenOffice Palette (.soc)                   |
 |`PAL.Coder.PaintNET`               | Paint.NET Palette (.txt)                    |
 |`PAL.Coder.PaintShopPro`           | Paint Shop Pro palette (.pal;.psppalette)   |
+|`PAL.Coder.ProcreateSwatchesCoder` | Procreate Swatches (.swatches)              |
 |`PAL.Coder.RGBA`                   | RGB(A) text files (.rgba)                   |
 |`PAL.Coder.RGB`                    | RGB text files (.rgb)                       |
 |`PAL.Coder.RIFF`                   | Microsoft RIFF palette (.pal)               |
 |`PAL.Coder.ScribusXMLPaletteCoder` | Scribus XML palette (.xml)                  | 
 |`PAL.Coder.SketchPalette`          | Sketch Palette (.sketchpalette)             |
 |`PAL.Coder.SVG`                    | SVG image file (.svg)                       |
-|`PAL.Coder.ProcreateSwatchesCoder` | Procreate Swatches (.swatches)              |
 |`PAL.Coder.VGA24BitPaletteCoder`   | 24-bit VGA palette (.pal)                   |
 |`PAL.Coder.VGA18BitPaletteCoder`   | 18-bit VGA palette (.pal)                   |
 

@@ -25,7 +25,7 @@
 // * The page color represents one of the colors in the ColorEntries for the page.
 //
 // * For decoding I'm ignoring the pageColor - its supposed to be equal to one of the colors in
-//   the colorEntry fields anyway. The AutoCAD online editor only allows you to select one of the 10 color entries
+//   the colorEntry fields anyway. The Autodesk online editor only allows you to select one of the 10 color entries
 // * For encoding, I'm setting the page color to the first color in the group.
 
 import Foundation
@@ -37,10 +37,10 @@ import FoundationXML
 
 public extension PAL.Coder {
 	class AutodeskColorBook: NSObject, PAL_PaletteCoder {
-		public let format: PAL.PaletteFormat = .openOffice
-		public let name = "AutoCAD Color Book"
+		public let format: PAL.PaletteFormat = .autodeskColorBook
+		public let name = "Autodesk Color Book"
 		public let fileExtension = ["acb"]
-		public static let utTypeString = "public.dagronf.colorpalette.palette.autoCAD.colorbook"   // conforms to `public.xml`
+		public static let utTypeString = "public.dagronf.colorpalette.palette.autodesk.colorbook"   // conforms to `public.xml`
 		public override init() {
 			super.init()
 		}
@@ -201,7 +201,7 @@ public extension PAL.Coder.AutodeskColorBook {
 				continue
 			}
 
-			// AutoCAD color book can only handle a maximum of 10 color entries
+			// Autodesk color book can only handle a maximum of 10 color entries
 			let entries = g.colors.prefix(10)
 
 			xml += "   <colorPage>\n"
@@ -256,6 +256,6 @@ public extension PAL.Coder.AutodeskColorBook {
 import UniformTypeIdentifiers
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static let autoCADColorBook = UTType(PAL.Coder.AutodeskColorBook.utTypeString)!
+	static let autodeskColorBook = UTType(PAL.Coder.AutodeskColorBook.utTypeString)!
 }
 #endif

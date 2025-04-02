@@ -24,6 +24,13 @@ struct PaletteView: View {
 	let title: String?
 	@ObservedObject var paletteModel: PaletteModel
 
+	var needsSeparator: Bool {
+		if let title = title, title.count > 0 || paletteModel.palette?.format != nil {
+			return true
+		}
+		return false
+	}
+
 	var body: some View {
 		VStack(alignment: .leading, spacing: 0) {
 			if let title = title, title.count > 0 {
@@ -33,6 +40,17 @@ struct PaletteView: View {
 					.frame(maxWidth: .infinity, alignment: .leading)
 					.padding(4)
 					.background(Rectangle().fill(.background))
+			}
+			if let type = paletteModel.palette?.format {
+				Text("􀆫 \(type.coder.name)")
+					.font(.title2).fontWeight(.heavy)
+					.truncationMode(.tail)
+					.frame(maxWidth: .infinity, alignment: .leading)
+					.padding(4)
+					.background(Rectangle().fill(.background))
+			}
+			if self.needsSeparator {
+				Divider()
 			}
 			ScrollView(.vertical) {
 				if let p = paletteModel.palette {
