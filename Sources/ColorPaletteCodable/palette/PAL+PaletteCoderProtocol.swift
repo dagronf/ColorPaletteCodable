@@ -59,15 +59,7 @@ public extension PAL_PaletteCoder {
 	/// - Parameter fileURL: The file containing the palette
 	/// - Returns: A palette object
 	func decode(from fileURL: URL) throws -> PAL.Palette {
-
-#if canImport(Darwin)
-		// Make sure we request access to the fileURL resource before attempting to access it.
-		guard fileURL.startAccessingSecurityScopedResource() else {
-			throw PAL.CommonError.unableToLoadFile
-		}
-		defer { fileURL.stopAccessingSecurityScopedResource() }
-#endif
-
+		// Create an input stream
 		guard let inputStream = InputStream(fileAtPath: fileURL.path) else {
 			throw PAL.CommonError.unableToLoadFile
 		}
