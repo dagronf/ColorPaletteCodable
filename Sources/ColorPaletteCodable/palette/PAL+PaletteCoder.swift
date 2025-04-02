@@ -51,7 +51,15 @@ public extension PAL.Palette {
 		let lext = fileExtension.lowercased()
 		return AvailableCoders.filter({ $0.fileExtension.contains(lext) })
 	}
-	
+
+	/// Return the coder for the specific UTType string (eg. "com.adobe.ase")
+	/// - Parameter typeString: The UTType string
+	/// - Returns: A coder matching the uttype, or nil for no coder
+	static func coder(forTypeString typeString: String) -> PAL_PaletteCoder? {
+		let lTS = typeString.lowercased()
+		return AvailableCoders.first(where: { lTS == $0.utTypeString().lowercased() })
+	}
+
 	/// Returns a coder for the specified fileURL
 	static func coder(for fileURL: URL) -> [PAL_PaletteCoder] {
 		let lext = fileURL.pathExtension.lowercased()

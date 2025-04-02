@@ -67,11 +67,7 @@ class Document: NSDocument {
 			throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
 		}
 
-		if
-			let t = UTType(typeName),
-			let extn = t.preferredFilenameExtension,
-			let coder = PAL.Palette.coder(for: extn).first
-		{
+		if let coder = PAL.Palette.coder(forTypeString: typeName) {
 			return try coder.encode(pal)
 		}
 		else if typeName == "RGB Text File" {

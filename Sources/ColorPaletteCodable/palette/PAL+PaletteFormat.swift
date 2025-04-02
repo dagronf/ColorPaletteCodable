@@ -53,6 +53,7 @@ public extension PAL {
 		case corelDrawV3   // Corel Draw V3 file (.pal)
 		case clf           // LAB colors
 		case swatches      // Procreate swatches
+		case autoCAD       // AutoCAD Color Book (unencrypted only) (.acb)
 
 		// This needs to go last, so it doesn't override the other PAL types
 		case vga24bit      // 24-bit RGB VGA (3 bytes RRGGBB)
@@ -97,6 +98,7 @@ public extension PAL.PaletteFormat {
 		case .vga18bit     : return PAL.Coder.VGA18BitPaletteCoder()
 		case .clf          : return PAL.Coder.CLF()
 		case .swatches     : return PAL.Coder.ProcreateSwatchesCoder()
+		case .autoCAD      : return PAL.Coder.AutodeskColorBook()
 		}
 	}
 }

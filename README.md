@@ -24,6 +24,7 @@ Supports the following :-
 * Adobe Photoshop Color Swatch (`.aco`)
 * Adobe Color Table (`.act`)
 * Adobe Color Book (`.acb`) ***(read only)***
+* Autodesk Color Book (`.acb`)
 * NSColorList (`.clr`) ***(macOS only)***
 * RGB text files (`.rgb`)
 * RGBA text files (`.rgba`)
@@ -93,6 +94,8 @@ Some features :-
 |`PAL.Coder.ACT`                    | Adobe Color Table (.act)                    |
 |`PAL.Coder.AndroidColorsXML`       | Android `color.xml` resources (.xml)        |
 |`PAL.Coder.ASE`                    | Adobe Swatch Exchange (.ase)                |
+|`PAL.Coder.AutodeskColorBook`      | Autodesk Color Book (.acb)                  |
+|`PAL.Coder.ACB`                    | Adobe Color Book (.acb)                     |
 |`PAL.Coder.BasicXML`               | Basic XML structure (.xml)                  |
 |`PAL.Coder.CLF`                    | CLF Lab Colors file (.clf)                  |
 |`PAL.Coder.CLR`                    | NSColorList (.clr) *(macOS only)*           |
@@ -185,6 +188,7 @@ let paletteData = palette.export(format: .ase)
 | `PAL.Coder.ACT`                    | Binary                 | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | Decode only     |
 | `PAL.Coder.AndroidColorsXML`       | XML                    | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.ASE`                    | Binary                 | ✅       | ✅       | ✅              | ❌                | ✅               | ✅                     | ✅                     | ❌               |
+| `PAL.Coder.AutodeskColorBook`      | XML                    | ✅       | ✅       | ✅              | ✅                | ✅               | ❌                     | RGB only               | ❌               |
 | `PAL.Coder.BasicXML`               | XML                    | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.CLF`                    | Text                   | ✅       | ❌       | ✅              | ❌                | ❌               | ❌                     | LAB only               | ❌               |
 | `PAL.Coder.CLR`                    | Binary<br>(macOS only) | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | ✅                     | ✅               |

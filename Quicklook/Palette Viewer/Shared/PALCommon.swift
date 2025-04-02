@@ -25,6 +25,7 @@ public let ExportablePaletteTypes: [String] = [
 	PAL.Coder.OpenOfficePaletteCoder.utTypeString,
 	PAL.Coder.DCP.utTypeString,
 	PAL.Coder.ProcreateSwatchesCoder.utTypeString,
+	PAL.Coder.AutodeskColorBook.utTypeString,
 ]
 
 public let ExportablePaletteUTTypes: [UTType] = {
