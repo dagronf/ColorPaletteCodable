@@ -178,7 +178,7 @@ extension PAL.Coder.CorelXMLPalette {
 	public func encode(_ palette: PAL.Palette) throws -> Data {
 
 		var xml = "<?xml version=\"1.0\"?>\n"
-		xml += "<palette guid=\"\(UUID().uuidString)\""
+		xml += "<palette guid=\"\(UUID().uuidString)\">"
 		if palette.name.count > 0 {
 			xml += " name=\"\(palette.name.xmlEscaped())\">"
 		}
