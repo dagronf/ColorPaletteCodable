@@ -164,13 +164,15 @@ public extension PAL.Coder.ACO {
 	func encode(_ palette: PAL.Palette) throws -> Data {
 		let writer = try BytesWriter()
 
+		// Flatten the palette -- this format doesn't support color groups
+		let allColors = palette.allColors()
+
 		// Write out both v1 and v2 colors
 		try (1 ... 2).forEach { type in
 			try writer.writeUInt16(UInt16(type), .big)
-			try writer.writeUInt16(UInt16(palette.colors.count), .big)
+			try writer.writeUInt16(UInt16(allColors.count), .big)
 
-			// Flatten the palette -- this format doesn't support color groups
-			for color in palette.allColors() {
+			for color in allColors {
 				var c0: UInt16 = 0
 				var c1: UInt16 = 0
 				var c2: UInt16 = 0
