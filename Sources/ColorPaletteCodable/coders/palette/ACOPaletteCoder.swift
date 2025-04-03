@@ -169,7 +169,8 @@ public extension PAL.Coder.ACO {
 			try writer.writeUInt16(UInt16(type), .big)
 			try writer.writeUInt16(UInt16(palette.colors.count), .big)
 
-			for color in palette.colors {
+			// Flatten the palette -- this format doesn't support color groups
+			for color in palette.allColors() {
 				var c0: UInt16 = 0
 				var c1: UInt16 = 0
 				var c2: UInt16 = 0
