@@ -409,6 +409,9 @@ The CorelDraw/Adobe Illustrator `.xml` file format is (somewhat) defined [here](
 
 [Sindre Sorhus](https://sindresorhus.com)
 
+This library does not support extended linear sRGB (R, G, B component values outside the 0.0 ... 1.0 range)
+so during import are converted to the standard sRGB color space.
+
 - [https://github.com/simple-color-palette/spec](https://github.com/simple-color-palette/spec)
 - [https://sindresorhus.com/simple-color-palette](https://sindresorhus.com/simple-color-palette)
 

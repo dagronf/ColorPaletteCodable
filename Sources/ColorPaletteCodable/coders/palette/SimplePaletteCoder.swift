@@ -24,7 +24,11 @@ import Foundation
 /// https://github.com/simple-color-palette/spec
 
 public extension PAL.Coder {
-	/// A 'Simple Palette' encoder/decoder
+	/// A 'Simple Color Palette' encoder/decoder
+	///
+	/// Specification for the Simple Color Palette format
+	/// [https://sindresorhus.com/simple-color-palette](https://sindresorhus.com/simple-color-palette)
+	/// [https://github.com/simple-color-palette/spec](https://github.com/simple-color-palette/spec)
 	struct SimplePaletteCoder: PAL_PaletteCoder {
 		public let format: PAL.PaletteFormat = .simplePalette
 		public let name = "Simple Color Palette"
