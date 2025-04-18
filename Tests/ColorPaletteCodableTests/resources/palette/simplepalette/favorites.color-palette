@@ -1,0 +1,12 @@
+{
+	"name": "Favorites",
+	"colors": [
+		{
+			"name": "Hot Pink",
+			"components": [1, 0.1274, 0.418]
+		},
+		{
+			"components": [0.592, 0.278, 0.996, 0.9]
+		}
+	]
+}

@@ -42,6 +42,7 @@ public extension PAL.Palette {
 		PAL.Coder.OpenOfficePaletteCoder(),
 		PAL.Coder.CorelDraw3PaletteCoder(),
 		PAL.Coder.ScribusXMLPaletteCoder(),
+		PAL.Coder.SimplePaletteCoder()
 	]
 }
 

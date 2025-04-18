@@ -135,10 +135,47 @@ internal struct NaiveConversions {
 		return PAL.Color.RGB(rf: l, gf: l, bf: l)
 	}
 
+	// MARK: Convert sRGB to linear sRGB and back
+
+	static func SRGB2Linear(_ value: Double) -> Double {
+		(value <= 0.04045) ? (value / 12.92) : (pow((value + 0.055) / 1.055, 2.4))
+	}
+
+	static func Linear2SRGB(_ value: Double) -> Double {
+		(value <= 0.0031308) ? (12.92 * value) : (1.055 * pow(value, 1.0 / 2.4) - 0.055)
+	}
+
+	/// Map a extended linear SRGB color to a standard sRGB colorspace
+	@inlinable static func ExtendedLinearSRGB2SRGB(_ value: Double) -> Double {
+		if (value <= 0.0) { return 0.0 }
+		if (value >= 1.0) { return 1.0 }
+		return Linear2SRGB(value)
+	}
+
+	/// Map a linear extended SRGB color to a standard sRGB colorspace
+	@inlinable static func SRGB2ExtendedLinearSRGB(_ value: Double) -> Double {
+		SRGB2Linear(value)
+	}
+
+	/// A version that handles extended values without clamping (optional tone mapping):
+	static func Linear2SRGBExtended(_ value: Double) -> Double {
+		let sign = (value < 0.0) ? -1.0 : 1.0
+		let abs_c = abs(value)
+
+		let encoded: Double
+		if abs_c <= 0.0031308 {
+			encoded = 12.92 * abs_c
+		}
+		else {
+			encoded = 1.055 * pow(abs_c, 1.0 / 2.4) - 0.055;
+		}
+		return sign * encoded
+	}
+
 	// MARK: - XYZ and LAB
 
-//	// http://www.easyrgb.com/en/math.php
-//	// https://web.archive.org/web/20120502065620/http://cookbooks.adobe.com/post_Useful_color_equations__RGB_to_LAB_converter-14227.html
+	//	// http://www.easyrgb.com/en/math.php
+	//	// https://web.archive.org/web/20120502065620/http://cookbooks.adobe.com/post_Useful_color_equations__RGB_to_LAB_converter-14227.html
 
 	static func RGB2XYZ(_ value: PAL.Color.RGB) -> PAL.Color.XYZ {
 		//sR, sG and sB (Standard RGB) input range = 0 ÷ 255

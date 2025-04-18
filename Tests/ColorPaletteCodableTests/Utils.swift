@@ -41,6 +41,57 @@ func loadResourceData(named name: String) throws -> Data {
 	return try Data(contentsOf: dataURL)
 }
 
+// MARK: - Color equality checker
+
+func AreAllColorsEqual(_ a: [PAL.Color], _ b: [PAL.Color], precision: UInt = 5) -> Bool {
+	guard a.count == b.count else {
+		Swift.print("mismatched color count")
+		return false
+	}
+
+	var success: Bool = true
+
+	zip(a, b).enumerated().forEach { item in
+		if AreColorsEqual(item.element.0, b: item.element.1, precision: precision) == false {
+			Swift.print("mismatched color at `\(item.offset)`")
+			success = false
+		}
+	}
+	return success
+}
+
+func AreColorsEqual(_ a: PAL.Color, b: PAL.Color, precision: UInt = 5) -> Bool {
+
+	guard a.name == b.name else {
+		Swift.print("mismatched color name `\(a.name)` -> `\(b.name)`")
+		return false
+	}
+
+	guard a.colorSpace == b.colorSpace else {
+		Swift.print("mismatched colorspace `\(a.colorSpace)` -> `\(b.colorSpace)`")
+		return false
+	}
+
+	guard a.colorComponents.count == b.colorComponents.count else {
+		Swift.print("mismatched color components `\(a.colorComponents.count)` -> `\(b.colorComponents.count)`")
+		return false
+	}
+
+	var success = true
+
+	zip(a.colorComponents, b.colorComponents).enumerated().forEach { item in
+		if item.element.0.isEqual(to: item.element.1, precision: precision) == false {
+			success = false
+			Swift.print("mismatched color component \(item.offset): `\(item.element.0)` -> `\(item.element.1)`")
+		}
+	}
+
+	return success
+}
+
+
+// MARK: - Output folder writer
+
 class TestFilesContainer {
 
 	// Note:  DateFormatter is thread safe

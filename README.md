@@ -46,6 +46,7 @@ Supports the following :-
 * Basic XML
 * Android `colors.xml` resource file format
 * CLF Lab colors file (`.clf`) ***(read only)***
+* Simple Palette format (`.color-palette`)
 
 ## Supported gradient formats
 
@@ -117,6 +118,7 @@ Some features :-
 |`PAL.Coder.RGB`                    | RGB text files (.rgb)                       |
 |`PAL.Coder.RIFF`                   | Microsoft RIFF palette (.pal)               |
 |`PAL.Coder.ScribusXMLPaletteCoder` | Scribus XML palette (.xml)                  | 
+|`PAL.Coder.SimplePaletteCoder`     | Simple Palette (.color-palette) v0.1        |
 |`PAL.Coder.SketchPalette`          | Sketch Palette (.sketchpalette)             |
 |`PAL.Coder.SVG`                    | SVG image file (.svg)                       |
 |`PAL.Coder.VGA24BitPaletteCoder`   | 24-bit VGA palette (.pal)                   |
@@ -207,6 +209,7 @@ let paletteData = palette.export(format: .ase)
 | `PAL.Coder.RGB/A`                  | Text                   | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.RIFF`                   | Binary                 | ✅       | ❌       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
 | `PAL.Coder.ScribusXMLPaletteCoder` | XML                    | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB/CMYK only          | ❌               |
+| `PAL.Coder.SimplePaletteCoder`     | JSON                   | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.SketchPalette`          | XML                    | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.SVG`                    | SVG text               | ❌       | ✅       | ❌              | ✅                | ✅               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.ProcreateSwatchesCoder` | Binary                 | ✅       | ✅       | ❌              | ✅                | ✅               | ❌                     | ❌                     | ✅               |
@@ -401,6 +404,13 @@ The CorelDraw/Adobe Illustrator `.xml` file format is (somewhat) defined [here](
 
 - [https://tannerhelland.com/2012/09/18/convert-temperature-rgb-algorithm-code.html](https://tannerhelland.com/2012/09/18/convert-temperature-rgb-algorithm-code.html)
 - [https://andi-siess.de/rgb-to-color-temperature/](https://andi-siess.de/rgb-to-color-temperature/)
+
+### Specification for the Simple Color Palette format
+
+[Sindre Sorhus](https://sindresorhus.com)
+
+- [https://github.com/simple-color-palette/spec](https://github.com/simple-color-palette/spec)
+- [https://sindresorhus.com/simple-color-palette](https://sindresorhus.com/simple-color-palette)
 
 ## License
 

@@ -54,6 +54,7 @@ public extension PAL {
 		case clf                // LAB colors
 		case swatches           // Procreate swatches
 		case autodeskColorBook  // Autodesk Color Book (unencrypted only) (.acb)
+		case simplePalette      // Simple Palette format
 
 		// This needs to go last, so it doesn't override the other PAL types
 		case vga24bit      // 24-bit RGB VGA (3 bytes RRGGBB)
@@ -99,6 +100,7 @@ public extension PAL.PaletteFormat {
 		case .clf                : return PAL.Coder.CLF()
 		case .swatches           : return PAL.Coder.ProcreateSwatchesCoder()
 		case .autodeskColorBook  : return PAL.Coder.AutodeskColorBook()
+		case .simplePalette      : return PAL.Coder.SimplePaletteCoder()
 		}
 	}
 }

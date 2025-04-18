@@ -31,6 +31,7 @@
 				<string>public.dagronf.colorpalette.palette.clf</string>
 				<string>public.dagronf.colorpalette.palette.procreate.swatches</string>
 				<string>public.dagronf.colorpalette.palette.autodesk.colorbook</string>
+				<string>com.sindresorhus.simple-color-palette</string>
 			</array>
 			<key>QLThumbnailMinimumDimension</key>
 			<integer>0</integer>
