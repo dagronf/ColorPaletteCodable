@@ -141,6 +141,11 @@ fileprivate class SwatchBookerDecoder: NSObject, XMLParserDelegate {
 	var colorUsage: String?
 	var colorComponents = [Double]()
 
+	// Map the swatchbooker material id to a PAL.Color UUID
+	var colorMaterialMap: [String: UUID] = [:]
+
+	var colorMaterialOrdering: [String] = []
+
 	func parse(xmlData: Data) throws -> PAL.Palette {
 		let parser = XMLParser(data: xmlData)
 		parser.delegate = self
@@ -151,6 +156,30 @@ fileprivate class SwatchBookerDecoder: NSObject, XMLParserDelegate {
 		guard palette.totalColorCount > 0 else {
 			throw PAL.CommonError.tooFewColors
 		}
+
+		// Re-order the colors to match the swatch meterial map
+
+		var ordered: [PAL.Color] = []
+		var copy = self.palette.colors
+
+		self.colorMaterialOrdering.forEach { materialID in
+			if let uuid = self.colorMaterialMap[materialID],
+				let index = copy.firstIndex(where: { $0.id == uuid })
+			{
+				let c = copy.remove(at: index)
+				ordered.append(c)
+			}
+		}
+
+		// If, for some reason, the swatch material map has omitted some colors then just
+		// tack them on to the end so we don't lose them
+		if copy.count > 0 {
+			ordered.append(contentsOf: copy)
+		}
+
+		// Replace the colors with the ordered ones
+		self.palette.colors = ordered
+
 		return palette
 	}
 
@@ -172,6 +201,13 @@ fileprivate class SwatchBookerDecoder: NSObject, XMLParserDelegate {
 		{
 			self.colorMode = colorMode
 			self.colorComponents = []
+		}
+		else if elementName == "swatch",
+			nodeStack.matches("SwatchBook.book")
+		{
+			if let o = attributeDict["material"] {
+				colorMaterialOrdering.append(o.trimmingCharacters(in: .whitespacesAndNewlines))
+			}
 		}
 
 		self.nodeStack.push(elementName, attributes: attributeDict)
@@ -215,43 +251,40 @@ fileprivate class SwatchBookerDecoder: NSObject, XMLParserDelegate {
 			// We should have a formed color by now
 			let name = self.colorTitle ?? self.colorID ?? ""
 
+			var color: PAL.Color?
+
 			if colorMode == "RGB" && self.colorComponents.count == 3 {
-				if let t = try? PAL.Color(colorSpace: .RGB, colorComponents: self.colorComponents, name: name) {
-					self.palette.colors.append(t)
-				}
+				color = try? PAL.Color(colorSpace: .RGB, colorComponents: self.colorComponents, name: name)
 			}
 			else if colorMode == "Lab" && self.colorComponents.count == 3 {
-				if let t = try? PAL.Color(colorSpace: .LAB, colorComponents: self.colorComponents, name: name) {
-					self.palette.colors.append(t)
-				}
+				color = try? PAL.Color(colorSpace: .LAB, colorComponents: self.colorComponents, name: name)
 			}
 			else if colorMode == "GRAY" && self.colorComponents.count == 1 {
-				if let t = try? PAL.Color(colorSpace: .Gray, colorComponents: self.colorComponents, name: name) {
-					self.palette.colors.append(t)
-				}
+				color = try? PAL.Color(colorSpace: .Gray, colorComponents: self.colorComponents, name: name)
 			}
 			else if colorMode == "CMYK" && self.colorComponents.count == 4 {
-				if let t = try? PAL.Color(colorSpace: .CMYK, colorComponents: self.colorComponents, name: name) {
-					self.palette.colors.append(t)
-				}
+				color = try? PAL.Color(colorSpace: .CMYK, colorComponents: self.colorComponents, name: name)
 			}
 			else if colorMode == "HSV" && self.colorComponents.count == 3 {
-				let c = PAL.Color(
+				color = PAL.Color(
 					hf: self.colorComponents[0],
 					sf: self.colorComponents[1],
 					bf: self.colorComponents[2],
 					name: name
 				)
-				self.palette.colors.append(c)
 			}
 			else if colorMode == "HSL" && self.colorComponents.count == 3 {
-				let c = PAL.Color(
+				color = PAL.Color(
 					hf: self.colorComponents[0],
 					sf: self.colorComponents[1],
 					lf: self.colorComponents[2],
 					name: name
 				)
-				self.palette.colors.append(c)
+			}
+
+			if let color {
+				self.palette.colors.append(color)
+				self.colorMaterialMap[self.colorID!] = color.id
 			}
 		}
 	}
