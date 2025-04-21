@@ -21,8 +21,9 @@ import Foundation
 
 public extension PAL.Palette {
 	/// All coders
-	static let AvailableCoders: [PAL_PaletteCoder] =
+	static var AvailableCoders: [PAL_PaletteCoder] {
 		PAL.PaletteFormat.allCases.map { $0.coder }
+	}
 
 	/// All text-based coders
 	static let TextBasedCoders: [PAL_PaletteCoder] = [

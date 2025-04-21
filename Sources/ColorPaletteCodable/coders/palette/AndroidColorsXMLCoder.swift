@@ -51,7 +51,7 @@ import FoundationXML
 #endif
 
 public extension PAL.Coder {
-	class AndroidColorsXML: NSObject, PAL_PaletteCoder {
+	struct AndroidColorsXML: PAL_PaletteCoder {
 		public let format: PAL.PaletteFormat = .androidXML
 		public let name = "Android Colors XML"
 		public let fileExtension = ["xml"]
@@ -62,16 +62,10 @@ public extension PAL.Coder {
 		///   - includeAlphaDuringExport: If true, includes alpha values during export
 		public init(includeAlphaDuringExport: Bool = true) {
 			self.includeAlphaDuringExport = includeAlphaDuringExport
-			super.init()
 		}
 
 		/// Export alpha when exporting?
 		public var includeAlphaDuringExport: Bool
-
-		private var palette = PAL.Palette()
-		private var currentElement = ""
-		private var currentName: String?
-		private var isInsideResourcesBlock: Bool = false
 	}
 }
 
@@ -80,64 +74,7 @@ extension PAL.Coder.AndroidColorsXML {
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
 	public func decode(from inputStream: InputStream) throws -> PAL.Palette {
-		self.palette = PAL.Palette(format: self.format)
-
-		self.currentElement = ""
-		self.currentName = nil
-
-		let parser = XMLParser(stream: inputStream)
-		parser.delegate = self
-
-		if parser.parse() == false {
-			throw PAL.CommonError.invalidFormat
-		}
-
-		if palette.colors.count == 0 {
-			throw PAL.CommonError.invalidFormat
-		}
-
-		return palette
-	}
-}
-
-extension PAL.Coder.AndroidColorsXML: XMLParserDelegate {
-	public func parser(
-		_ parser: XMLParser,
-		didStartElement elementName: String,
-		namespaceURI: String?,
-		qualifiedName qName: String?,
-		attributes attributeDict: [String : String] = [:]
-	) {
-		if elementName == "resources" {
-			self.isInsideResourcesBlock = true
-		}
-		else {
-			self.currentElement = elementName
-			if elementName == "color" {
-				self.currentName = attributeDict["name"]?.xmlDecoded()
-			}
-		}
-	}
-
-	public func parser(
-		_ parser: XMLParser,
-		didEndElement elementName: String,
-		namespaceURI: String?,
-		qualifiedName qName: String?
-	) {
-		if elementName == "resources" {
-			self.isInsideResourcesBlock = false
-		}
-	}
-
-	public func parser(_ parser: XMLParser, foundCharacters string: String) {
-		if self.isInsideResourcesBlock, self.currentElement == "color" {
-			let colorString = string.trimmingCharacters(in: .whitespacesAndNewlines)
-			let colorName = self.currentName ?? "color_\(self.palette.colors.count)"
-			if let color = try? PAL.Color(rgbHexString: colorString, format: .argb, name: colorName) {
-				self.palette.colors.append(color)
-			}
-		}
+		try AndroidColorsXMLDecoder().parse(from: inputStream)
 	}
 }
 
@@ -187,3 +124,58 @@ public extension UTType {
 	static let androidXML = UTType(PAL.Coder.AndroidColorsXML.utTypeString)!
 }
 #endif
+
+// MARK: - Internal
+
+fileprivate class AndroidColorsXMLDecoder: NSObject, XMLParserDelegate {
+
+	private var palette = PAL.Palette()
+	private var currentElement = ""
+	private var currentName: String?
+	private var isInsideResourcesBlock: Bool = false
+
+	func parse(from inputStream: InputStream) throws -> PAL.Palette {
+		self.palette = PAL.Palette(format: .androidXML)
+
+		let parser = XMLParser(stream: inputStream)
+		parser.delegate = self
+
+		if parser.parse() == false {
+			throw PAL.CommonError.invalidFormat
+		}
+
+		if palette.colors.count == 0 {
+			throw PAL.CommonError.invalidFormat
+		}
+
+		return palette
+	}
+
+	func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
+		if elementName == "resources" {
+			self.isInsideResourcesBlock = true
+		}
+		else {
+			self.currentElement = elementName
+			if elementName == "color" {
+				self.currentName = attributeDict["name"]?.xmlDecoded()
+			}
+		}
+	}
+
+	func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+		if elementName == "resources" {
+			self.isInsideResourcesBlock = false
+		}
+	}
+
+	func parser(_ parser: XMLParser, foundCharacters string: String) {
+		if self.isInsideResourcesBlock, self.currentElement == "color" {
+			let colorString = string.trimmingCharacters(in: .whitespacesAndNewlines)
+			let colorName = self.currentName ?? "color_\(self.palette.colors.count)"
+			if let color = try? PAL.Color(rgbHexString: colorString, format: .argb, name: colorName) {
+				self.palette.colors.append(color)
+			}
+		}
+	}
+}

@@ -38,72 +38,26 @@ import FoundationXML
 #endif
 
 public extension PAL.Coder {
-	class BasicXML: NSObject, PAL_PaletteCoder {
+	struct BasicXML: PAL_PaletteCoder {
 		public let format: PAL.PaletteFormat = .basicXML
 		public let name = "Basic XML Palette"
 		public let fileExtension = ["xml"]
 		public static var utTypeString: String = "public.dagronf.colorpalette.palette.basicxml"   // conforms to `public.xml`
-
-		var palette = PAL.Palette()
 	}
 }
+
+// MARK: - Decode
 
 extension PAL.Coder.BasicXML {
 	/// Create a palette from the contents of the input stream
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
 	public func decode(from inputStream: InputStream) throws -> PAL.Palette {
-		self.palette = PAL.Palette(format: self.format)
-
-		let parser = XMLParser(stream: inputStream)
-		parser.delegate = self
-
-		if parser.parse() == false {
-			throw PAL.CommonError.invalidFormat
-		}
-
-		if palette.colors.count == 0 {
-			throw PAL.CommonError.invalidFormat
-		}
-
-		return palette
+		try BasicXMLDecoder().parse(from: inputStream)
 	}
 }
 
-extension PAL.Coder.BasicXML: XMLParserDelegate {
-
-	public func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
-		if elementName == "palette" {
-			self.palette.name = attributeDict["name"]?.xmlDecoded() ?? ""
-		}
-		else if elementName == "color" {
-			let name = attributeDict["name"]?.xmlDecoded() ?? ""
-			if let rgbHexString = attributeDict["hex"],
-				let color = try? PAL.Color.RGB(rgbHexString, format: .rgba)
-			{
-				let c = PAL.Color(color: color, name: name)
-				self.palette.colors.append(c)
-			}
-			else if
-				let rs = attributeDict["r"], let r = UInt8(rs),
-				let gs = attributeDict["g"], let g = UInt8(gs),
-				let bs = attributeDict["b"], let b = UInt8(bs)
-			{
-				let a: UInt8 = {
-					if let aas = attributeDict["a"],
-						let a = UInt8(aas)
-					{
-						return a
-					}
-					return 255
-				}()
-
-				let cc = PAL.Color(r255: r, g255: g, b255: b, a255: a, name: name)
-				self.palette.colors.append(cc)
-			}
-		}
-	}
-}
+// MARK: - Encode
 
 extension PAL.Coder.BasicXML {
 	public func encode(_ palette: PAL.Palette) throws -> Data {
@@ -148,3 +102,58 @@ public extension UTType {
 	static let basicXML = UTType(PAL.Coder.BasicXML.utTypeString)!
 }
 #endif
+
+// MARK: - Internal
+
+fileprivate class BasicXMLDecoder: NSObject, XMLParserDelegate {
+	var palette = PAL.Palette(format: .basicXML)
+
+	func parse(from inputStream: InputStream) throws -> PAL.Palette {
+		self.palette = PAL.Palette(format: .androidXML)
+
+		let parser = XMLParser(stream: inputStream)
+		parser.delegate = self
+
+		if parser.parse() == false {
+			throw PAL.CommonError.invalidFormat
+		}
+
+		if palette.totalColorCount == 0 {
+			throw PAL.CommonError.invalidFormat
+		}
+
+		return palette
+	}
+
+	public func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
+		if elementName == "palette" {
+			self.palette.name = attributeDict["name"]?.xmlDecoded() ?? ""
+		}
+		else if elementName == "color" {
+			let name = attributeDict["name"]?.xmlDecoded() ?? ""
+			if let rgbHexString = attributeDict["hex"],
+				let color = try? PAL.Color.RGB(rgbHexString, format: .rgba)
+			{
+				let c = PAL.Color(color: color, name: name)
+				self.palette.colors.append(c)
+			}
+			else if
+				let rs = attributeDict["r"], let r = UInt8(rs),
+				let gs = attributeDict["g"], let g = UInt8(gs),
+				let bs = attributeDict["b"], let b = UInt8(bs)
+			{
+				let a: UInt8 = {
+					if let aas = attributeDict["a"],
+						let a = UInt8(aas)
+					{
+						return a
+					}
+					return 255
+				}()
+
+				let cc = PAL.Color(r255: r, g255: g, b255: b, a255: a, name: name)
+				self.palette.colors.append(cc)
+			}
+		}
+	}
+}

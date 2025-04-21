@@ -47,6 +47,7 @@ Supports the following :-
 * Android `colors.xml` resource file format
 * CLF Lab colors file (`.clf`) ***(read only)***
 * Simple Palette format (`.color-palette`)
+* SwatchBooker format (`.sbz`) ***(read only) (Apple platforms only)***
 
 ## Supported gradient formats
 
@@ -121,6 +122,7 @@ Some features :-
 |`PAL.Coder.SimplePaletteCoder`     | Simple Palette (.color-palette) v0.1        |
 |`PAL.Coder.SketchPalette`          | Sketch Palette (.sketchpalette)             |
 |`PAL.Coder.SVG`                    | SVG image file (.svg)                       |
+|`PAL.Coder.SwatchbookerCoder       | Swatchbooker Palette (.sbz)                 |
 |`PAL.Coder.VGA24BitPaletteCoder`   | 24-bit VGA palette (.pal)                   |
 |`PAL.Coder.VGA18BitPaletteCoder`   | 18-bit VGA palette (.pal)                   |
 
@@ -212,6 +214,7 @@ let paletteData = palette.export(format: .ase)
 | `PAL.Coder.SimplePaletteCoder`     | JSON                   | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.SketchPalette`          | XML                    | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.SVG`                    | SVG text               | ❌       | ✅       | ❌              | ✅                | ✅               | ❌                     | RGB only               | ✅               |
+| `PAL.Coder.SwatchbookerCoder`      | Binary                 | ✅       | ❌       | ✅              | ✅                | ❌               | ✅                     | ✅                     | ❌               |
 | `PAL.Coder.ProcreateSwatchesCoder` | Binary                 | ✅       | ✅       | ❌              | ✅                | ✅               | ❌                     | ❌                     | ✅               |
 | `PAL.Coder.VGA24BitPaletteCoder`   | Binary                 | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
 | `PAL.Coder.VGA18BitPaletteCoder`   | Binary                 | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ❌               |

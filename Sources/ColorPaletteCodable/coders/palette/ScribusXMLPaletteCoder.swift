@@ -28,22 +28,11 @@ public extension PAL.Coder {
 	/// XML palette file for CorelDraw/Adobe Illustrator(?)
 	///
 	/// https://community.coreldraw.com/sdk/w/articles/177/creating-color-palettes
-	class ScribusXMLPaletteCoder: NSObject, PAL_PaletteCoder {
+	struct ScribusXMLPaletteCoder: PAL_PaletteCoder {
 		public let format: PAL.PaletteFormat = .scribusXML
 		public let name = "Scribus XML Palette"
 		public let fileExtension = ["xml"]
 		public static let utTypeString = "public.dagronf.colorpalette.palette.scribus.xml"   // conforms to `public.xml`
-
-		public override init() {
-			super.init()
-		}
-
-		var palette = PAL.Palette()
-		var group = PAL.Group()
-		var isInColorsSection = false
-
-		var isInColorspaceSection = false
-		private var colorspaces: [Colorspace] = []
 	}
 }
 
@@ -52,57 +41,7 @@ extension PAL.Coder.ScribusXMLPaletteCoder {
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
 	public func decode(from inputStream: InputStream) throws -> PAL.Palette {
-
-		self.palette = PAL.Palette(format: self.format)
-
-		let parser = XMLParser(stream: inputStream)
-		parser.delegate = self
-
-		if parser.parse() == false {
-			throw PAL.CommonError.invalidFormat
-		}
-
-		if palette.colors.count == 0 {
-			throw PAL.CommonError.invalidFormat
-		}
-
-		return palette
-	}
-}
-
-extension PAL.Coder.ScribusXMLPaletteCoder: XMLParserDelegate {
-
-	private class Colorspace {
-		init(name: String) { self.name = name }
-		let name: String
-		var colors: [PAL.Color] = []
-	}
-
-	public func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
-		let en = elementName.lowercased()
-
-		var lowercasedAtts: [String: String] = [:]
-		attributeDict.forEach { lowercasedAtts[$0.key.lowercased()] = $0.value }
-
-		if en == "scribuscolors" {
-			self.palette.name = lowercasedAtts["Name"]?.xmlDecoded() ?? ""
-		}
-		else if en == "color" {
-			let name = lowercasedAtts["name"]?.xmlDecoded() ?? ""
-			if let rgbHexFormat = lowercasedAtts["rgb"] {
-				if let color = try? PAL.Color(rgbHexString: rgbHexFormat, format: .rgb, name: name) {
-					self.palette.colors.append(color)
-				}
-			}
-			else if let cmykHexFormat = lowercasedAtts["cmyk"] {
-				if let color = try? PAL.Color(cmykHexString: cmykHexFormat, name: name) {
-					self.palette.colors.append(color)
-				}
-			}
-			else {
-				ColorPaletteLogger.log(.error, "ScribusXMLPaletteCoder: Unsupported color type, ignoring")
-			}
-		}
+		return try ScribusXMLPaletteDecoder().decode(from: inputStream)
 	}
 }
 
@@ -153,3 +92,63 @@ public extension UTType {
 	static let scribusPaletteXML = UTType(PAL.Coder.ScribusXMLPaletteCoder.utTypeString)!
 }
 #endif
+
+
+// MARK: - Internal
+
+fileprivate class ScribusXMLPaletteDecoder: NSObject, XMLParserDelegate {
+	var palette = PAL.Palette()
+	var group = PAL.Group()
+	var isInColorsSection = false
+
+	var isInColorspaceSection = false
+	private var colorspaces: [Colorspace] = []
+	private class Colorspace {
+		init(name: String) { self.name = name }
+		let name: String
+		var colors: [PAL.Color] = []
+	}
+
+	func decode(from inputStream: InputStream) throws -> PAL.Palette {
+		self.palette = PAL.Palette(format: .scribusXML)
+
+		let parser = XMLParser(stream: inputStream)
+		parser.delegate = self
+
+		if parser.parse() == false {
+			throw PAL.CommonError.invalidFormat
+		}
+
+		if palette.colors.count == 0 {
+			throw PAL.CommonError.invalidFormat
+		}
+		return self.palette
+	}
+
+	func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
+		let en = elementName.lowercased()
+
+		var lowercasedAtts: [String: String] = [:]
+		attributeDict.forEach { lowercasedAtts[$0.key.lowercased()] = $0.value }
+
+		if en == "scribuscolors" {
+			self.palette.name = lowercasedAtts["Name"]?.xmlDecoded() ?? ""
+		}
+		else if en == "color" {
+			let name = lowercasedAtts["name"]?.xmlDecoded() ?? ""
+			if let rgbHexFormat = lowercasedAtts["rgb"] {
+				if let color = try? PAL.Color(rgbHexString: rgbHexFormat, format: .rgb, name: name) {
+					self.palette.colors.append(color)
+				}
+			}
+			else if let cmykHexFormat = lowercasedAtts["cmyk"] {
+				if let color = try? PAL.Color(cmykHexString: cmykHexFormat, name: name) {
+					self.palette.colors.append(color)
+				}
+			}
+			else {
+				ColorPaletteLogger.log(.error, "ScribusXMLPaletteCoder: Unsupported color type, ignoring")
+			}
+		}
+	}
+}

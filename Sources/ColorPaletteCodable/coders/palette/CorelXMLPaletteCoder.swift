@@ -28,32 +28,116 @@ public extension PAL.Coder {
 	/// XML palette file for CorelDraw/Adobe Illustrator(?)
 	///
 	/// https://community.coreldraw.com/sdk/w/articles/177/creating-color-palettes
-	class CorelXMLPalette: NSObject, PAL_PaletteCoder {
+	struct CorelXMLPalette: PAL_PaletteCoder {
 		public let format: PAL.PaletteFormat = .corelDraw
 		public let name = "CorelDraw XML Palette"
 		public let fileExtension = ["xml"]
 		public static let utTypeString = "public.dagronf.colorpalette.palette.coreldraw.xml"   // conforms to `public.xml`
-
-		public override init() {
-			super.init()
-		}
-
-		var palette = PAL.Palette()
-		var group = PAL.Group()
-		var isInColorsSection = false
-
-		var isInColorspaceSection = false
-		private var colorspaces: [Colorspace] = []
 	}
 }
+
+// MARK: - Decode
 
 extension PAL.Coder.CorelXMLPalette {
 	/// Create a palette from the contents of the input stream
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
 	public func decode(from inputStream: InputStream) throws -> PAL.Palette {
+		try CorelXMLPaletteDecoder().parse(from: inputStream)
+	}
+}
 
-		self.palette = PAL.Palette(format: self.format)
+// MARK: - Encode
+
+extension PAL.Coder.CorelXMLPalette {
+	public func encode(_ palette: PAL.Palette) throws -> Data {
+
+		var xml = "<?xml version=\"1.0\"?>\n"
+		xml += "<palette guid=\"\(UUID().uuidString)\""
+		if palette.name.count > 0 {
+			xml += " name=\"\(palette.name.xmlEscaped())\""
+		}
+		xml += ">"
+		xml += "<colors>"
+
+		if palette.colors.count > 0 {
+			xml += try pageData(name: "", colors: palette.colors)
+		}
+		
+		try palette.groups.forEach { group in
+			let page = try self.pageData(name: group.name, colors: group.colors)
+			xml += page
+		}
+
+		xml += "</colors>"
+		xml += "</palette>"
+
+		guard let data = xml.data(using: .utf8) else {
+			throw PAL.CommonError.unsupportedPaletteType
+		}
+		return data
+	}
+
+	func pageData(name: String, colors: [PAL.Color]) throws -> String {
+		var result = "<page>"
+		try colors.forEach { color in
+
+			result += "<color"
+
+			if color.name.isEmpty == false {
+				result += " name=\"\(color.name.xmlEscaped())\""
+			}
+
+			// Needs an explicit type for supporting older swift versions
+			let colorspaceInfo: (String, [Double]) = try {
+				switch color.colorSpace {
+				case .CMYK: return ("CMYK", color.colorComponents)
+				case .RGB: return ("RGB", color.colorComponents)
+				case .Gray: return ("GRAY", color.colorComponents)
+				case .LAB:
+					// Map from CGColorSpace values to XML specification
+					if color.colorComponents.count < 3 { throw PAL.CommonError.invalidColorComponentCountForModelType }
+					return ("LAB", [
+						color.colorComponents[0] / 100.0,            // 0…100 -> 0.0…1.0
+						(color.colorComponents[1] + 128.0) / 256.0,  // -128…128 -> 0.0…1.0
+						(color.colorComponents[2] + 128.0) / 256.0   // -128…128 -> 0.0…1.0
+					])
+				}
+			}()
+
+			result += " cs=\"\(colorspaceInfo.0)\""
+			let tints = colorspaceInfo.1.map({ _XMLD($0) }).joined(separator: ",")
+			if tints.isEmpty == false {
+				result += " tints=\"\(tints)\""
+			}
+			result += "/>"
+		}
+		result += "</page>"
+		return result
+	}
+}
+
+// MARK: - UTType identifiers
+
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+public extension UTType {
+	static let corelPaletteXML = UTType(PAL.Coder.CorelXMLPalette.utTypeString)!
+}
+#endif
+
+// MARK: - Internal
+
+fileprivate class CorelXMLPaletteDecoder: NSObject, XMLParserDelegate {
+	var palette = PAL.Palette(format: .corelDraw)
+	var group = PAL.Group()
+	var isInColorsSection = false
+	var isInColorspaceSection = false
+	private var colorspaces: [Colorspace] = []
+
+	func parse(from inputStream: InputStream) throws -> PAL.Palette {
+		self.palette = PAL.Palette(format: .androidXML)
 
 		let parser = XMLParser(stream: inputStream)
 		parser.delegate = self
@@ -62,15 +146,12 @@ extension PAL.Coder.CorelXMLPalette {
 			throw PAL.CommonError.invalidFormat
 		}
 
-		if palette.groups.count == 0 {
+		if palette.totalColorCount == 0 {
 			throw PAL.CommonError.invalidFormat
 		}
 
 		return palette
 	}
-}
-
-extension PAL.Coder.CorelXMLPalette: XMLParserDelegate {
 
 	private class Colorspace {
 		init(name: String) { self.name = name }
@@ -78,7 +159,7 @@ extension PAL.Coder.CorelXMLPalette: XMLParserDelegate {
 		var colors: [PAL.Color] = []
 	}
 
-	public func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
+	func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
 		if elementName == "palette" {
 			self.palette.name = attributeDict["name"]?.xmlDecoded() ?? ""
 		}
@@ -160,7 +241,7 @@ extension PAL.Coder.CorelXMLPalette: XMLParserDelegate {
 		}
 	}
 
-	public func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+	func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
 		if elementName == "page" {
 			self.palette.groups.append(self.group)
 			self.group = PAL.Group()
@@ -173,81 +254,3 @@ extension PAL.Coder.CorelXMLPalette: XMLParserDelegate {
 		}
 	}
 }
-
-extension PAL.Coder.CorelXMLPalette {
-	public func encode(_ palette: PAL.Palette) throws -> Data {
-
-		var xml = "<?xml version=\"1.0\"?>\n"
-		xml += "<palette guid=\"\(UUID().uuidString)\""
-		if palette.name.count > 0 {
-			xml += " name=\"\(palette.name.xmlEscaped())\""
-		}
-		xml += ">"
-		xml += "<colors>"
-
-		if palette.colors.count > 0 {
-			xml += try pageData(name: "", colors: palette.colors)
-		}
-		
-		try palette.groups.forEach { group in
-			let page = try self.pageData(name: group.name, colors: group.colors)
-			xml += page
-		}
-
-		xml += "</colors>"
-		xml += "</palette>"
-
-		guard let data = xml.data(using: .utf8) else {
-			throw PAL.CommonError.unsupportedPaletteType
-		}
-		return data
-	}
-
-	func pageData(name: String, colors: [PAL.Color]) throws -> String {
-		var result = "<page>"
-		try colors.forEach { color in
-
-			result += "<color"
-
-			if color.name.isEmpty == false {
-				result += " name=\"\(color.name.xmlEscaped())\""
-			}
-
-			// Needs an explicit type for supporting older swift versions
-			let colorspaceInfo: (String, [Double]) = try {
-				switch color.colorSpace {
-				case .CMYK: return ("CMYK", color.colorComponents)
-				case .RGB: return ("RGB", color.colorComponents)
-				case .Gray: return ("GRAY", color.colorComponents)
-				case .LAB:
-					// Map from CGColorSpace values to XML specification
-					if color.colorComponents.count < 3 { throw PAL.CommonError.invalidColorComponentCountForModelType }
-					return ("LAB", [
-						color.colorComponents[0] / 100.0,            // 0…100 -> 0.0…1.0
-						(color.colorComponents[1] + 128.0) / 256.0,  // -128…128 -> 0.0…1.0
-						(color.colorComponents[2] + 128.0) / 256.0   // -128…128 -> 0.0…1.0
-					])
-				}
-			}()
-
-			result += " cs=\"\(colorspaceInfo.0)\""
-			let tints = colorspaceInfo.1.map({ _XMLD($0) }).joined(separator: ",")
-			if tints.isEmpty == false {
-				result += " tints=\"\(tints)\""
-			}
-			result += "/>"
-		}
-		result += "</page>"
-		return result
-	}
-}
-
-// MARK: - UTType identifiers
-
-#if canImport(UniformTypeIdentifiers)
-import UniformTypeIdentifiers
-@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
-public extension UTType {
-	static let corelPaletteXML = UTType(PAL.Coder.CorelXMLPalette.utTypeString)!
-}
-#endif

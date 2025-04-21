@@ -39,16 +39,11 @@ import FoundationXML
 #endif
 
 public extension PAL.Coder {
-	class OpenOfficePaletteCoder: NSObject, PAL_PaletteCoder {
+	struct OpenOfficePaletteCoder: PAL_PaletteCoder {
 		public let format: PAL.PaletteFormat = .openOffice
 		public let name = "OpenOffice Palette"
 		public let fileExtension = ["soc"]
 		public static let utTypeString = "public.dagronf.colorpalette.palette.openoffice"   // conforms to `public.xml`
-		public override init() {
-			super.init()
-		}
-
-		var palette = PAL.Palette()
 	}
 }
 
@@ -59,37 +54,7 @@ public extension PAL.Coder.OpenOfficePaletteCoder {
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
-
-		self.palette = PAL.Palette(format: self.format)
-
-		let parser = XMLParser(stream: inputStream)
-		parser.delegate = self
-
-		if parser.parse() == false {
-			throw PAL.CommonError.invalidFormat
-		}
-
-		return palette
-	}
-}
-
-extension PAL.Coder.OpenOfficePaletteCoder: XMLParserDelegate {
-	public func parser(
-		_ parser: XMLParser,
-		didStartElement elementName: String,
-		namespaceURI: String?,
-		qualifiedName qName: String?,
-		attributes attributeDict: [String : String] = [:]
-	) {
-		if elementName == "draw:color" {
-			let name: String = attributeDict["draw:name"] ?? ""
-			if
-				let colorString: String = attributeDict["draw:color"],
-				let color = try? PAL.Color(rgbHexString: colorString, format: .argb, name: name.xmlDecoded())
-			{
-				self.palette.colors.append(color)
-			}
-		}
+		try OpenOfficePaletteDecoder().parse(from: inputStream)
 	}
 }
 
@@ -136,3 +101,42 @@ public extension UTType {
 	static let openOfficePalette = UTType(PAL.Coder.OpenOfficePaletteCoder.utTypeString)!
 }
 #endif
+
+// MARK: - Internal
+
+fileprivate class OpenOfficePaletteDecoder: NSObject, XMLParserDelegate {
+	var palette = PAL.Palette(format: .openOffice)
+
+	func parse(from inputStream: InputStream) throws -> PAL.Palette {
+		let parser = XMLParser(stream: inputStream)
+		parser.delegate = self
+
+		if parser.parse() == false {
+			throw PAL.CommonError.invalidFormat
+		}
+
+		if palette.totalColorCount == 0 {
+			throw PAL.CommonError.invalidFormat
+		}
+
+		return palette
+	}
+
+	func parser(
+		_ parser: XMLParser,
+		didStartElement elementName: String,
+		namespaceURI: String?,
+		qualifiedName qName: String?,
+		attributes attributeDict: [String : String] = [:]
+	) {
+		if elementName == "draw:color" {
+			let name: String = attributeDict["draw:name"] ?? ""
+			if
+				let colorString: String = attributeDict["draw:color"],
+				let color = try? PAL.Color(rgbHexString: colorString, format: .argb, name: name.xmlDecoded())
+			{
+				self.palette.colors.append(color)
+			}
+		}
+	}
+}

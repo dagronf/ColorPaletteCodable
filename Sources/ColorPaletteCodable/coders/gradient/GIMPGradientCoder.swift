@@ -19,6 +19,10 @@
 
 import Foundation
 
+// Format here:
+// * https://developer.gimp.org/core/standards/ggr/
+// * https://web.archive.org/web/20250110090649/https://developer.gimp.org/core/standards/ggr/
+
 public extension PAL.Gradients.Coder {
 	/// GIMP gradient encoder/decoder
 	///

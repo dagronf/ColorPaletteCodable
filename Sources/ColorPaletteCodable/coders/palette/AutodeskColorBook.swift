@@ -36,25 +36,11 @@ import FoundationXML
 #endif
 
 public extension PAL.Coder {
-	class AutodeskColorBook: NSObject, PAL_PaletteCoder {
+	struct AutodeskColorBook: PAL_PaletteCoder {
 		public let format: PAL.PaletteFormat = .autodeskColorBook
 		public let name = "Autodesk Color Book"
 		public let fileExtension = ["acb"]
 		public static let utTypeString = "public.dagronf.colorpalette.palette.autodesk.colorbook"   // conforms to `public.xml`
-		public override init() {
-			super.init()
-		}
-
-		private var palette = PAL.Palette()
-
-		private var currentGroup: PAL.Group?
-
-		private var colorName: String?
-		private var r: UInt8?  // 0 ... 255
-		private var g: UInt8?  // 0 ... 255
-		private var b: UInt8?  // 0 ... 255
-
-		private var xmlStack: [String] = []
 	}
 }
 
@@ -65,113 +51,7 @@ public extension PAL.Coder.AutodeskColorBook {
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
-
-		self.palette = PAL.Palette(format: self.format)
-
-		self.currentGroup = nil
-		self.colorName = nil
-		self.r = nil
-		self.g = nil
-		self.b = nil
-
-		self.xmlStack = []
-
-		let parser = XMLParser(stream: inputStream)
-		parser.delegate = self
-
-		if parser.parse() == false {
-			throw PAL.CommonError.invalidFormat
-		}
-
-		if palette.totalColorCount == 0 {
-			// Assume if no colors loaded then the format was incorrect
-			throw PAL.CommonError.invalidFormat
-		}
-
-		return palette
-	}
-}
-
-extension PAL.Coder.AutodeskColorBook: XMLParserDelegate {
-	public func parser(
-		_ parser: XMLParser,
-		didStartElement elementName: String,
-		namespaceURI: String?,
-		qualifiedName qName: String?,
-		attributes attributeDict: [String : String] = [:]
-	) {
-		if elementName == "colorPage" {
-			if xmlStack.last != "colorBook" {
-				parser.abortParsing()
-			}
-			self.currentGroup = PAL.Group()
-		}
-		else if elementName == "colorEntry" || elementName == "pageColor" {
-			if xmlStack.last != "colorPage" {
-				parser.abortParsing()
-			}
-		}
-		else if elementName == "colorName" {
-			if xmlStack.last != "colorEntry" {
-				parser.abortParsing()
-			}
-		}
-		else if elementName == "red" || elementName == "green" || elementName == "blue" {
-			if xmlStack.last != "RGB8" {
-				parser.abortParsing()
-			}
-		}
-		xmlStack.append(elementName)
-	}
-
-	public func parser(_ parser: XMLParser, foundCharacters string: String) {
-		if xmlStack.last == "bookName" {
-			self.palette.name = string.trim()
-		}
-		else if xmlStack.last == "colorName" {
-			self.colorName = string.trim()
-		}
-		else if xmlStack.last == "red" {
-			let redComponent = UInt8(string.trim())?.clamped(to: 0 ... 255)
-			self.r = redComponent
-		}
-		else if xmlStack.last == "green" {
-			let greenComponent = UInt8(string.trim())?.clamped(to: 0 ... 255)
-			self.g = greenComponent
-		}
-		else if xmlStack.last == "blue" {
-			let blueComponent = UInt8(string.trim())?.clamped(to: 0 ... 255)
-			self.b = blueComponent
-		}
-	}
-
-	public func parser(
-		_ parser: XMLParser,
-		didEndElement elementName: String,
-		namespaceURI: String?,
-		qualifiedName qName: String?
-	) {
-		if elementName == "colorEntry" { // || elementName == "pageColor" {
-			if let r, let g, let b {
-				var c = PAL.Color(r255: r, g255: g, b255: b)
-				if let colorName {
-					c.name = colorName
-				}
-				self.currentGroup?.colors.append(c)
-
-				self.r = nil
-				self.g = nil
-				self.b = nil
-				self.colorName = nil
-			}
-		}
-		else if elementName == "colorPage", var grp = self.currentGroup {
-			// The color pages aren't named - just give them a default one
-			grp.name = "Color Page \(self.palette.groups.count + 1)"
-			self.palette.groups.append(grp)
-			self.currentGroup = nil
-		}
-		self.xmlStack = xmlStack.dropLast()
+		try AutodeskColorBookDecoder().parse(from: inputStream)
 	}
 }
 
@@ -233,12 +113,6 @@ public extension PAL.Coder.AutodeskColorBook {
 	}
 
 	func encodeColor(_ color: PAL.Color) throws -> String {
-//			 <colorName>Resene A B Sea B47-087-258</colorName>
-//			 <RGB8>
-//				  <red>4</red>
-//				  <green>115</green>
-//				  <blue>172</blue>
-//			 </RGB8>
 		let rgb = try color.rgb()
 		var xml  = "         <RGB8>\n"
 		    xml += "            <red>\(rgb.r255)</red>\n"
@@ -259,3 +133,120 @@ public extension UTType {
 	static let autodeskColorBook = UTType(PAL.Coder.AutodeskColorBook.utTypeString)!
 }
 #endif
+
+
+// MARK: - Internal
+
+fileprivate class AutodeskColorBookDecoder: NSObject, XMLParserDelegate {
+	private var palette = PAL.Palette(format: .autodeskColorBook)
+
+	private var currentGroup: PAL.Group?
+
+	private var colorName: String?
+	private var r: UInt8?  // 0 ... 255
+	private var g: UInt8?  // 0 ... 255
+	private var b: UInt8?  // 0 ... 255
+
+	private var xmlStack: [String] = []
+
+	func parse(from inputStream: InputStream) throws -> PAL.Palette {
+
+		let parser = XMLParser(stream: inputStream)
+		parser.delegate = self
+
+		if parser.parse() == false {
+			throw PAL.CommonError.invalidFormat
+		}
+
+		if palette.totalColorCount == 0 {
+			throw PAL.CommonError.invalidFormat
+		}
+		return palette
+	}
+
+	func parser(
+		_ parser: XMLParser,
+		didStartElement elementName: String,
+		namespaceURI: String?,
+		qualifiedName qName: String?,
+		attributes attributeDict: [String : String] = [:]
+	) {
+		let elementName = elementName.trimmingCharacters(in: .whitespacesAndNewlines)
+
+		if elementName == "colorPage" {
+			if xmlStack.last != "colorBook" {
+				parser.abortParsing()
+			}
+			self.currentGroup = PAL.Group()
+		}
+		else if elementName == "colorEntry" || elementName == "pageColor" {
+			if xmlStack.last != "colorPage" {
+				parser.abortParsing()
+			}
+		}
+		else if elementName == "colorName" {
+			if xmlStack.last != "colorEntry" {
+				parser.abortParsing()
+			}
+		}
+		else if elementName == "red" || elementName == "green" || elementName == "blue" {
+			if xmlStack.last != "RGB8" {
+				parser.abortParsing()
+			}
+		}
+		xmlStack.append(elementName)
+	}
+
+	func parser(_ parser: XMLParser, foundCharacters string: String) {
+		let string = string.trimmingCharacters(in: .whitespacesAndNewlines)
+		if string.count == 0 { return }
+		if xmlStack.last == "bookName" {
+			self.palette.name = string
+		}
+		else if xmlStack.last == "colorName" {
+			self.colorName = string
+		}
+		else if xmlStack.last == "red" {
+			let redComponent = UInt8(string)?.clamped(to: 0 ... 255)
+			self.r = redComponent
+		}
+		else if xmlStack.last == "green" {
+			let greenComponent = UInt8(string)?.clamped(to: 0 ... 255)
+			self.g = greenComponent
+		}
+		else if xmlStack.last == "blue" {
+			let blueComponent = UInt8(string)?.clamped(to: 0 ... 255)
+			self.b = blueComponent
+		}
+	}
+
+	func parser(
+		_ parser: XMLParser,
+		didEndElement elementName: String,
+		namespaceURI: String?,
+		qualifiedName qName: String?
+	) {
+		if elementName == "colorEntry" { // || elementName == "pageColor" {
+			if let r, let g, let b {
+				var c = PAL.Color(r255: r, g255: g, b255: b)
+				if let colorName {
+					c.name = colorName
+				}
+				self.currentGroup?.colors.append(c)
+
+				self.r = nil
+				self.g = nil
+				self.b = nil
+				self.colorName = nil
+			}
+		}
+		else if elementName == "colorPage", var grp = self.currentGroup {
+			// The color pages aren't named - just give them a default one
+			grp.name = "Color Page \(self.palette.groups.count + 1)"
+			self.palette.groups.append(grp)
+			self.currentGroup = nil
+		}
+		self.xmlStack = xmlStack.dropLast()
+	}
+}
+
