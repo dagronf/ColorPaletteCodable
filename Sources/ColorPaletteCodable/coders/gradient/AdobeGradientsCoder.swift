@@ -41,8 +41,11 @@ public extension PAL.Gradients.Coder {
 }
 
 public extension PAL.Gradients.Coder.AdobeGradientsCoder {
+	/// Encode a GRD v3 gradient
+	/// - Parameter gradients: The gradients to write
+	/// - Returns: encoded data
 	func encode(_ gradients: PAL.Gradients) throws -> Data {
-		throw PAL.CommonError.notImplemented
+		try GRD().writeV3(gradients)
 	}
 }
 
@@ -105,7 +108,7 @@ public extension PAL.Gradients.Coder.AdobeGradientsCoder {
 					}
 					color = try PAL.Color(
 						colorSpace: .Gray,
-						colorComponents: co.components.map { Double($0 / 100.0) },
+						colorComponents: [co.components[0]], //.map { Double($0 / 100.0) },
 						alpha: 1
 					)
 				}
@@ -133,7 +136,7 @@ public extension PAL.Gradients.Coder.AdobeGradientsCoder {
 			let trs = gradient.transparencyStops.map { stop in
 				PAL.Gradient.TransparencyStop(
 					position: Double(stop.location) / 4096.0,  // 0 ... 4096
-					value: stop.value / 100.0,
+					value: stop.value,                         // 0 ... 1.0
 					midpoint: Double(stop.midpoint) / 100.0    // 0 ... 100
 				)
 			}
@@ -148,7 +151,7 @@ public extension PAL.Gradients.Coder.AdobeGradientsCoder {
 }
 
 
-///////////
+// MARK: - Gradient reading support
 
 private class GRD {
 
@@ -172,7 +175,7 @@ private class GRD {
 	}
 
 	struct TransparencyStop {
-		let value: Double
+		let value: Double          // 0.0 ... 1.0
 		let location: UInt32       // 0 ..< 4096
 		let midpoint: UInt32       // 0 ... 100
 	}
@@ -237,7 +240,7 @@ private class GRD {
 		if type.1 == "CstS" {
 			if innerObjcValue.2 != 5 {
 				// There should be five components
-				ColorPaletteLogger.log(.error, "GRDCoder: Expected five components, got %@", innerObjcValue.2)
+				ColorPaletteLogger.log(.error, "GRDCoder: Expected five components, got %d", innerObjcValue.2)
 				throw GRDError.unsupportedFormat
 			}
 			return try parseCustomGradient(reader, gradientName: parseNm)
@@ -422,7 +425,7 @@ private class GRD {
 
 		let location = try parseLctn(reader)
 		let midpoint = try parseMdpn(reader)
-		return TransparencyStop(value: value, location: location, midpoint: midpoint)
+		return TransparencyStop(value: value / 100.0, location: location, midpoint: midpoint)
 	}
 
 	func parseUnitFloat(_ reader: BytesReader) throws -> Double {
@@ -649,7 +652,9 @@ extension GRD {
 				case 2: return "cmyk"
 				case 7: return "lab"
 				case 8: return "gray"
-				default: throw PAL.GradientError.unsupportedColorFormat
+				default:
+					ColorPaletteLogger.log(.error, "GRDCoder: Unsupported v3 color model (%d)", colorModel)
+					throw PAL.GradientError.unsupportedColorFormat
 				}
 			}()
 
@@ -675,7 +680,7 @@ extension GRD {
 				case 1: return ColorStop.ColorType.foreground
 				case 2: return ColorStop.ColorType.background
 				default:
-					ColorPaletteLogger.log(.error, "GRDCoder: Unsupported v3 color type (%@)", colorType)
+					ColorPaletteLogger.log(.error, "GRDCoder: Unsupported v3 color type (%d)", colorType)
 					throw GRDError.invalidFormat
 				}
 			}()
@@ -691,15 +696,122 @@ extension GRD {
 			let midPoint: UInt32 = try reader.readUInt32(.big)    // percent
 			let opacity: Int16 = try reader.readInt16(.big)       // 0 ... 255
 			let stop = TransparencyStop(
-				value: Double(opacity),
+				value: Double(opacity) / 255.0,
 				location: UInt32(stopOffset),
 				midpoint: UInt32(midPoint)
 			)
 			tstops.append(stop)
 		}
+
+		// Unused bytes?
+		_ = try reader.readBytes(count: 6)
+
 		return Gradient(name: title, smoothness: 0, colorStops: stops, transparencyStops: tstops)
 	}
 }
+
+// MARK: - Gradient writing support
+
+
+
+extension GRD {
+	func writeV3(_ gradients: PAL.Gradients) throws -> Data {
+		// Write a v3 gradient. Because it's easier
+		let writer = try BytesWriter()
+
+		// BOM
+		try writer.writeStringASCII("8BGR")
+		// Version
+		try writer.writeUInt16(3, .big)
+
+		// Number of gradients
+		try writer.writeUInt16(UInt16(gradients.gradients.count), .big)
+
+		try gradients.gradients.forEach { gradient in
+
+			// Adobe gradients use transparency maps to represent transparency
+			let gradient = try gradient.normalized().gradientTransparencyAsTransparencyMap()
+
+			do { // Write the name
+				let name: Data = {
+					let text = gradient.name?.prefix(256)
+					return text?.data(using: .ascii) ?? Data()
+				}()
+
+				try writer.writeUInt8(UInt8(name.count))
+				try writer.writeData(name)
+			}
+
+			try writer.writeUInt16(UInt16(gradient.stops.count), .big)
+
+			try gradient.stops.forEach { stop in
+				// location
+				try writer.writeUInt32(UInt32(stop.position * 4096), .big)
+				// midpoint (percentage value)
+				try writer.writeUInt32(50, .big)
+
+				let c0: UInt16
+				let c1: UInt16
+				let c2: UInt16
+				let c3: UInt16
+				switch stop.color.colorSpace {
+				case .CMYK:
+					try writer.writeUInt16(2, .big)
+					c0 = UInt16(stop.color.colorComponents[0] * 65535.0)
+					c1 = UInt16(stop.color.colorComponents[1] * 65535.0)
+					c2 = UInt16(stop.color.colorComponents[2] * 65535.0)
+					c3 = UInt16(stop.color.colorComponents[3] * 65535.0)
+				case .RGB:
+					try writer.writeUInt16(0, .big)
+					c0 = UInt16(stop.color.colorComponents[0] * 65535.0)
+					c1 = UInt16(stop.color.colorComponents[1] * 65535.0)
+					c2 = UInt16(stop.color.colorComponents[2] * 65535.0)
+					c3 = UInt16(0)
+				case .LAB:
+					try writer.writeUInt16(7, .big)
+					c0 = UInt16(stop.color.colorComponents[0] * 65535.0)
+					c1 = UInt16(stop.color.colorComponents[1] * 65535.0)
+					c2 = UInt16(stop.color.colorComponents[2] * 65535.0)
+					c3 = UInt16(0)
+				case .Gray:
+					try writer.writeUInt16(8, .big)
+					c0 = UInt16(stop.color.colorComponents[0] * 65535.0)
+					c1 = UInt16(0)
+					c2 = UInt16(0)
+					c3 = UInt16(0)
+				}
+
+				try writer.writeUInt16(c0, .big)
+				try writer.writeUInt16(c1, .big)
+				try writer.writeUInt16(c2, .big)
+				try writer.writeUInt16(c3, .big)
+
+				// stop type (we're always a user stop)
+				try writer.writeUInt16(0, .big)
+			}
+
+			// transparency stops
+			let tstopCount = gradient.transparencyStops?.count ?? 0
+			try writer.writeUInt16(UInt16(tstopCount), .big)
+			try gradient.transparencyStops?.forEach { tstop in
+				// Stop offset
+				try writer.writeUInt32(UInt32(tstop.position * 4096.0), .big)
+				// Midpoint (%)
+				try writer.writeUInt32(50, .big)
+				// Opacity (0 ... 255)
+				try writer.writeUInt16(UInt16(tstop.value * 255.0), .big)
+			}
+
+			// 6 empty bytes
+			try writer.writeBytes([0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
+		}
+		writer.complete()
+		return try writer.data()
+	}
+}
+
+
+// MARK: - UTType
 
 #if canImport(UniformTypeIdentifiers)
 import UniformTypeIdentifiers

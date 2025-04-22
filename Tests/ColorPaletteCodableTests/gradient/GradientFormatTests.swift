@@ -226,6 +226,25 @@ class GradientFormatTests: XCTestCase {
 		let merged = try g1.mergeTransparencyStops()
 		XCTAssertNil(merged.transparencyStops)
 		XCTAssertEqual(10, merged.colors.count)
+
+		// Write to a v3 grd file
+		let c = PAL.Gradients.Coder.AdobeGradientsCoder()
+		let data = try c.encode(gradients)
+		try data.write(to: URL(fileURLWithPath: "/tmp/output.grd"))
+
+		let ccc = try c.decode(from: data)
+		XCTAssertEqual(10, ccc.gradients.count)
+
+		do {
+			let gradients = try loadResourceGradient(named: "temperature.pspgradient")
+			let c = PAL.Gradients.Coder.AdobeGradientsCoder()
+			let data = try c.encode(gradients)
+			try data.write(to: URL(fileURLWithPath: "/tmp/temp.grd"))
+		}
+
+
+		
+
 	}
 
 	func testsvggradientexport() throws {

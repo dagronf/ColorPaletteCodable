@@ -88,6 +88,9 @@ class GradientDocument: NSDocument {
 		else if typeName == PAL.Gradients.Coder.DCG.utTypeString {
 			return try PAL.Gradients.Coder.DCG().encode(g)
 		}
+		else if typeName == PAL.Gradients.Coder.AdobeGradientsCoder.utTypeString {
+			return try PAL.Gradients.Coder.AdobeGradientsCoder().encode(g)
+		}
 
 		throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
 	}

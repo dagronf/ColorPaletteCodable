@@ -429,6 +429,44 @@ public extension PAL.Gradient {
 		self.stops = gr.stops
 	}
 
+	/// Copy this gradient and map color transparency values into a transparency map
+	/// - Returns: A new gradient containing a transparency map
+	func gradientTransparencyAsTransparencyMap() throws -> PAL.Gradient {
+		// Gradient already has a transparency map
+		guard self.transparencyStops == nil else {
+			return self
+		}
+
+		// Normalize the gradient (0.0 ... 1.0)
+		var g = try self.normalized()
+
+		var nStops: [PAL.Gradient.Stop] = []
+		var tStops: [PAL.Gradient.TransparencyStop] = []
+
+		// Map alpha values for each color into transparency stops
+
+		g.stops.forEach { stop in
+			if stop.color.alpha.isEqual(to: 0.0, precision: 3) {
+				// Completely transparent
+				tStops.append(TransparencyStop(position: stop.position, value: 0, midpoint: 0.5))
+			}
+			else if stop.color.alpha.isEqual(to: 1.0, precision: 3) {
+				// Completely opaque.
+				tStops.append(TransparencyStop(position: stop.position, value: 1, midpoint: 0.5))
+				nStops.append(stop)
+			}
+			else {
+				// Both a transparency AND a stop
+				nStops.append(stop)
+				tStops.append(TransparencyStop(position: stop.position, value: stop.color.alpha, midpoint: 0.5))
+			}
+		}
+
+		g.stops = nStops
+		g.transparencyStops = tStops
+		return g
+	}
+
 	/// Returns a new gradient by scaling the stop positions to 0 -> 1 and sorting the resulting gradient
 	///
 	/// * If the min position and max position are the same (ie. no normalization can be performed), throws `PAL.GradientError.minMaxValuesEqual`

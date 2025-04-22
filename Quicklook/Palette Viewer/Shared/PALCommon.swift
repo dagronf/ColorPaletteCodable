@@ -40,7 +40,8 @@ public let ExportableGradientTypes: [String] = [
 	PAL.Gradients.Coder.GIMPGradientCoder.utTypeString,
 	PAL.Gradients.Coder.SVG.utTypeString,
 	PAL.Gradients.Coder.GNUPlotGradientCoder.utTypeString,
-	PAL.Gradients.Coder.ColorPaletteTablesCoder.utTypeString, 
+	PAL.Gradients.Coder.ColorPaletteTablesCoder.utTypeString,
+	PAL.Gradients.Coder.AdobeGradientsCoder.utTypeString,
 ]
 
 public let ExportableGradientUTTypes: [UTType] = {
