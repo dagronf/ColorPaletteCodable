@@ -124,6 +124,16 @@ let _display: PAL.Palette = {
 				],
 				name: "two is the second one"
 			),
+			PAL.Group(
+				colors: [
+					grayf(0.00),
+					grayf(0.25),
+					grayf(0.50),
+					grayf(0.75),
+					grayf(1.00),
+				],
+				name: "grays"
+			),
 		],
 		name: "These are my colors, and they are mosly nice."
 	)
@@ -139,7 +149,7 @@ struct PaletteView_Previews: PreviewProvider {
 			PaletteView(title: "title3", paletteModel: colorSpace)
 				.preferredColorScheme(.light)
 		}
-		.frame(height: 250)
+		.frame(height: 400)
 	}
 }
 

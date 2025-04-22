@@ -7,7 +7,7 @@ let packageDeps: [Package.Dependency] = {
 		.package(url: "https://github.com/dagronf/DSFRegex", from: "3.4.0"),
 		.package(url: "https://github.com/dagronf/SwiftImageReadWrite", from: "1.7.1"),
 		.package(url: "https://github.com/dagronf/TinyCSV", from: "1.0.0"),
-		.package(url: "https://github.com/dagronf/BytesParser", from: "3.1.1"),
+		.package(url: "https://github.com/dagronf/BytesParser", from: "3.2.1"),
 	]
 
 	// Unfortunately, ZipFoundation has a bug in Linux for the latest Swift versions which stops it from

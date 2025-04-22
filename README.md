@@ -24,6 +24,7 @@ Supports the following :-
 * Adobe Photoshop Color Swatch (`.aco`)
 * Adobe Color Table (`.act`)
 * Adobe Color Book (`.acb`) ***(read only)***
+* Affinity Designer palette format (`.afpalette`) ***(read only)***
 * Autodesk Color Book (`.acb`)
 * NSColorList (`.clr`) ***(macOS only)***
 * RGB text files (`.rgb`)
@@ -94,6 +95,7 @@ Some features :-
 |`PAL.Coder.ACB`                    | Adobe Color Book (.acb)                     |
 |`PAL.Coder.ACO`                    | Adobe Photoshop Color Swatch (.aco)         |
 |`PAL.Coder.ACT`                    | Adobe Color Table (.act)                    |
+|`PAL.Coder.AFPaletteCoder`         | Affinity Designer Palette (.afpalette)      |
 |`PAL.Coder.AndroidColorsXML`       | Android `color.xml` resources (.xml)        |
 |`PAL.Coder.ASE`                    | Adobe Swatch Exchange (.ase)                |
 |`PAL.Coder.AutodeskColorBook`      | Autodesk Color Book (.acb)                  |
@@ -189,7 +191,8 @@ let paletteData = palette.export(format: .ase)
 |:-----------------------------------|:-----------------------|:---------|:---------|:-----------------|:------------------|:-----------------|:----------------------|:-------------------------|:----------------|
 | `PAL.Coder.ACB`                    | Binary                 | ✅       | ❌       | ✅              | ❌                | ❌               | ❌                     | ✅                     | ❌               |
 | `PAL.Coder.ACO`                    | Binary                 | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | ✅                     | ❌               |
-| `PAL.Coder.ACT`                    | Binary                 | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | Decode only     |
+| `PAL.Coder.ACT`                    | Binary                 | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | Decode only      |
+| `PAL.Coder.AFPaletteCoder`         | Binary                 | ✅       | ❌       | ✅              | ✅                | ❌               | ❌                     | ✅                     | ❌               |
 | `PAL.Coder.AndroidColorsXML`       | XML                    | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.ASE`                    | Binary                 | ✅       | ✅       | ✅              | ❌                | ✅               | ✅                     | ✅                     | ❌               |
 | `PAL.Coder.AutodeskColorBook`      | XML                    | ✅       | ✅       | ✅              | ✅                | ✅               | ❌                     | RGB only               | ❌               |
@@ -418,6 +421,17 @@ so during import are converted to the standard sRGB color space.
 - [https://github.com/simple-color-palette/spec](https://github.com/simple-color-palette/spec)
 - [https://sindresorhus.com/simple-color-palette](https://sindresorhus.com/simple-color-palette)
 
+### Specification for the Affinity Designer Palette format
+
+Reverse engineered. Insiration from [https://github.com/Balakov/GrdToAfpalette](https://github.com/Balakov/GrdToAfpalette)
+which only deals with loading gradients.
+
+This coder is somewhat hacky. For the sample files I've used it seems to work!
+
+## Disclaimer
+
+I am not affiliated with any of the brands mentioned within this package. All trademarks and brand names are the property of their respective owners.
+
 ## License
 
 ```
@@ -516,4 +530,32 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
+
+### AFPalette parsing
+
+Inspiration from [GrdToAfpalette](https://github.com/Balakov/GrdToAfpalette)
+
+```
+MIT License
+
+Copyright (c) 2023 Mike Stimpson
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 ```

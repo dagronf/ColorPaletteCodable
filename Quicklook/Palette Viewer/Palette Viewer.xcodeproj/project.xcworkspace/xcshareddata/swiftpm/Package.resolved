@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/dagronf/BytesParser",
       "state" : {
-        "revision" : "5ef40872ed2c51cb17430e55f7f906331cf4491a",
-        "version" : "3.1.1"
+        "revision" : "a091513c4059d336c8cbf0b9485fcba63bcba83a",
+        "version" : "3.2.1"
       }
     },
     {

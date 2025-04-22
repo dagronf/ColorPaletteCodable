@@ -56,6 +56,7 @@ public extension PAL {
 		case autodeskColorBook  // Autodesk Color Book (unencrypted only) (.acb)
 		case simplePalette      // Simple Palette format
 		case swatchbooker       // Swatchbooker .sbz file
+		case afpalette          // Affinity Designer .afpalette file
 
 		// This needs to go last, so it doesn't override the other PAL types
 		case vga24bit      // 24-bit RGB VGA (3 bytes RRGGBB)
@@ -103,6 +104,7 @@ public extension PAL.PaletteFormat {
 		case .autodeskColorBook  : return PAL.Coder.AutodeskColorBook()
 		case .simplePalette      : return PAL.Coder.SimplePaletteCoder()
 		case .swatchbooker       : return PAL.Coder.SwatchbookerCoder()
+		case .afpalette          : return PAL.Coder.AFPaletteCoder()
 		}
 	}
 }

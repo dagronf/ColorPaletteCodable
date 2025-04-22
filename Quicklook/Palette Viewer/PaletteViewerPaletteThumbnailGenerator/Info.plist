@@ -33,6 +33,7 @@
 				<string>public.dagronf.colorpalette.palette.autodesk.colorbook</string>
 				<string>com.sindresorhus.simple-color-palette</string>
 				<string>public.dagronf.colorpalette.palette.swatchbooker</string>
+				<string>public.dagronf.colorpalette.palette.afpalette</string>
 			</array>
 			<key>QLThumbnailMinimumDimension</key>
 			<integer>0</integer>
