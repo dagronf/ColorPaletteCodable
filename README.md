@@ -261,15 +261,15 @@ let gradients2 = try coder.decode()
 ### Available Coders
 
 |                            |                                                   |          |          |          |                  |
-|:---------------------------|:--------------------------------------------------|:---------|:---------|:---------|:-----------------|
-| Type                       | Description                                       | Format   | Decode?  | Encode?  | Supports Alpha ? |
+|:---------------------------|:--------------------------------------------------|:---------|:---------:|:---------:|:-----------------:|
+| Type                       | Description                                       | Format   | Decode?   | Encode?   | Supports Alpha ?  |
 | `PAL.Gradients.Coder.CPT`  | CPT gradient file (.cpt)                          | text     | ✅        | ✅        | ❌                |
-| `PAL.Gradients.Coder.DCG`  | Built-in format (.grd)                            | binary   | ✅        | ✅        | ✅                |
+| `PAL.Gradients.Coder.DCG`  | Built-in format (.dcg)                            | binary   | ✅        | ✅        | ✅                |
 | `PAL.Gradients.Coder.GGR`  | GIMP gradient file (.ggr)                         | text     | ✅        | ✅        | ✅                |
 | `PAL.Gradients.Coder.GPF`  | GNUPlot color palette file (.gpf)                 | text     | ✅        | ✅        | ✅                |
-| `PAL.Gradients.Coder.GRD`  | Basic Adobe Photoshop gradient file (.grd)        | binary   | ✅        | ❌        | ❌                |
+| `PAL.Gradients.Coder.GRD`  | Basic Adobe Photoshop gradient file (.grd)        | binary   | ✅        | ✅ <br/>v3 only | ✅                |
 | `PAL.Gradients.Coder.JSON` | Built-in JSON format (.jsongradient)              | json     | ✅        | ✅        | ✅                |
-| `PAL.Gradients.Coder.PSP`  | Basic Paint Shop Pro gradient file (.pspgradient) | text     | ✅        | ❌        | ❌                |
+| `PAL.Gradients.Coder.PSP`  | Basic Paint Shop Pro gradient file (.pspgradient) | text     | ✅        | ✅        | ✅                |
 | `PAL.Gradients.Coder.SVG`  | SVG file (.svg)                                   | text     | ❌        | ✅        | ✅                |
 
 * `.gpf` only supports rgb
@@ -277,7 +277,7 @@ let gradients2 = try coder.decode()
 * `.ggr` support doesn't allow for segment coloring functions other than rgb (throws an error)
 * `.grd` support is _very_ basic at this point. There's no formal document for it, and I built this using very 
 vague documents [1](http://www.selapa.net/swatches/gradients/fileformats.php), [2]()
-  * doesn't (currently) support encode
+  * only supprts encoding in version 3 format (no v5).
   * Only user colors are supported in the gradients (ie. book colors aren't supported)
   * Noise gradients aren't supported
   * only rgb, cmyk, hsb, gray colors are supported

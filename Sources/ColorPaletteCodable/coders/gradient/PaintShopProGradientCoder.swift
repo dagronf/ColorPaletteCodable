@@ -34,8 +34,12 @@ public extension PAL.Gradients.Coder {
 }
 
 public extension PAL.Gradients.Coder.PaintShopProGradientCoder {
+	/// Encode the gradient using pspgradient format
+	/// - Parameter gradients: The gradients to encode
+	/// - Returns: encoded data
 	func encode(_ gradients: PAL.Gradients) throws -> Data {
-		throw PAL.CommonError.notImplemented
+		// Same as Adobe GRD v3
+		try PAL.Gradients.Coder.AdobeGradientsCoder().encode(gradients)
 	}
 }
 
@@ -46,6 +50,7 @@ public extension PAL.Gradients.Coder.PaintShopProGradientCoder {
 	///
 	/// Note that the psppalette scheme appears to be equal to v3 of the grd format
 	func decode(from inputStream: InputStream) throws -> PAL.Gradients {
+		// Same as Adobe GRD v3
 		var g = try PAL.Gradients.Coder.AdobeGradientsCoder().decode(from: inputStream)
 		g.format = self.format
 		return g
