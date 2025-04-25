@@ -62,3 +62,33 @@ public extension PAL.Color.LAB {
 		NaiveConversions.LAB2RGB(self)
 	}
 }
+
+public extension PAL.Color {
+	/// Get the Lab values for this color
+	/// - Returns: A Lab representation
+	func lab() throws -> PAL.Color.LAB {
+		if self.colorSpace == .LAB {
+			return PAL.Color.LAB(
+				l100: self.colorComponents[0],
+				a128: self.colorComponents[1],
+				b128: self.colorComponents[2],
+				af: self.alpha
+			)
+		}
+
+		// Convert the color to RGB first, then through to Lab
+		return NaiveConversions.RGB2LAB(try self.rgb())
+	}
+
+	/// Create a color from a PAL.Color.LAB color value
+	/// - Parameters:
+	///   - color: The LAB represention of the color
+	///   - name: The color name
+	init(color: PAL.Color.LAB, name: String = "", colorType: PAL.ColorType = .global) throws {
+		self.colorSpace = .LAB
+		self.colorComponents = [color.lf, color.af, color.bf]
+		self.name = name
+		self.alpha = 1.0
+		self.colorType = colorType
+	}
+}
