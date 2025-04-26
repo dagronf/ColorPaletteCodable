@@ -36,6 +36,7 @@
 				<string>com.sindresorhus.simple-color-palette</string>
 				<string>public.dagronf.colorpalette.palette.swatchbooker</string>
 				<string>public.dagronf.colorpalette.palette.afpalette</string>
+				<string>public.dagronf.colorpalette.palette.xara.palette</string>
 			</array>
 			<key>QLSupportsSearchableItems</key>
 			<false/>

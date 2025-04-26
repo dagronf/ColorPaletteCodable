@@ -49,6 +49,7 @@ Supports the following :-
 * CLF Lab colors file (`.clf`) ***(read only)***
 * Simple Palette format (`.color-palette`)
 * SwatchBooker format (`.sbz`) ***(read only) (Apple platforms only)***
+* Xara Designer Palette format (`.jcw`)
 
 ## Supported gradient formats
 
@@ -127,6 +128,7 @@ Some features :-
 |`PAL.Coder.SwatchbookerCoder       | Swatchbooker Palette (.sbz)                 |
 |`PAL.Coder.VGA24BitPaletteCoder`   | 24-bit VGA palette (.pal)                   |
 |`PAL.Coder.VGA18BitPaletteCoder`   | 18-bit VGA palette (.pal)                   |
+|`PAL.Coder.JCW`                    | Xara Designer palette (.jcw)                |
 
 Each coder defines `.encode` and `.decode`. Not all coders support both encode and decode.
 
@@ -221,6 +223,7 @@ let paletteData = palette.export(format: .ase)
 | `PAL.Coder.ProcreateSwatchesCoder` | Binary                 | ✅       | ✅       | ❌              | ✅                | ✅               | ❌                     | ❌                     | ✅               |
 | `PAL.Coder.VGA24BitPaletteCoder`   | Binary                 | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
 | `PAL.Coder.VGA18BitPaletteCoder`   | Binary                 | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
+| `PAL.Coder.JCW`                    | Binary                 | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | ✅                     | ❌               |
 
 *(A ColorType represents the type of color (global/spot/normal))*
 

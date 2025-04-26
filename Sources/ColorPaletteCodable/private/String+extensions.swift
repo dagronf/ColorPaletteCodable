@@ -54,4 +54,12 @@ extension String {
 			.replacingOccurrences(of: "&quot;", with: "\"")
 			.replacingOccurrences(of: "&apos;", with: "'")
 	}
+
+	/// Strip trailing null (\0) characters from a string
+	func stripTrailingNulls() -> String {
+		if let i = self.firstIndex(of: "\0") {
+			return String(self.prefix(upTo: i))
+		}
+		return self
+	}
 }

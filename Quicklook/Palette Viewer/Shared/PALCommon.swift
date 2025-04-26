@@ -27,6 +27,7 @@ public let ExportablePaletteTypes: [String] = [
 	PAL.Coder.ProcreateSwatchesCoder.utTypeString,
 	PAL.Coder.AutodeskColorBook.utTypeString,
 	PAL.Coder.SimplePaletteCoder.utTypeString,
+	PAL.Coder.JCW.utTypeString
 ]
 
 public let ExportablePaletteUTTypes: [UTType] = {

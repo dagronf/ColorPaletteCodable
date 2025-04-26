@@ -126,6 +126,7 @@ public extension PAL.Coder.DCP {
 			}
 		}
 
+		file.complete()
 		return try file.data()
 	}
 }
