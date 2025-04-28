@@ -44,7 +44,6 @@ import CoreTransferable
 @available(macOS 13, iOS 16, tvOS 16, watchOS 9, *)
 extension PAL.Color: Transferable {
 	public static var transferRepresentation: some TransferRepresentation {
-
 		// Our custom PAL.Color transfer type (basically a JSON encoded PAL.Color object)
 		DataRepresentation(contentType: .palColor) { color in
 			try JSONEncoder().encode(color)
@@ -54,15 +53,11 @@ extension PAL.Color: Transferable {
 
 		#if os(macOS)
 		// Also add an NSColor representation if we're on macOS
-		DataRepresentation(contentType: .systemColor) { color in
+		DataRepresentation(exportedContentType: .systemColor) { color in
 			guard let c = color.nsColor else { throw PAL.CommonError.cannotCreateColor }
 			let n = NSKeyedArchiver(requiringSecureCoding: true)
 			n.encodeRootObject(c)
 			return n.encodedData
-		} importing: { data in
-			let n = NSKeyedUnarchiver()
-			guard let color = n.decodeObject() as? NSColor else { throw PAL.CommonError.cannotCreateColor }
-			return try PAL.Color(color: color)
 		}
 		#endif
 	}
