@@ -93,11 +93,17 @@ public extension PAL.Coder.JCW {
 			let c2 = try parser.readUInt16(.little).clamped(to: 0 ... 10000)
 			let c3 = try parser.readUInt16(.little).clamped(to: 0 ... 10000)
 
-			let name = try parser.readStringSingleByteEncoding(
-				.isoLatin1,
-				length: Int(nameLength),
-				lengthIncludesTerminator: false
-			).stripTrailingNulls()
+			// Read the bytes for the name
+			let data = try parser.readData(count: Int(nameLength))
+
+			// And try to convert!
+			#if canImport(Darwin)
+			// Expected isoLatin1 as the encoding
+			let name = String(data: data, encoding: .isoLatin1) ?? "c\(index)"
+			#else
+			// On Linux it cannot parse the data as isoLatin1, but it can read as ascii. Go figure.
+			let name = String(data: data, encoding: .ascii) ?? "c\(index)"
+			#endif
 
 			if ct.s == .rgb {
 				let c = rgbf(Double(c0) / 10000, Double(c1) / 10000, Double(c2) / 10000, name: name, colorType: ct.t)
