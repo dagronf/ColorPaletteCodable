@@ -66,13 +66,13 @@ public extension PAL {
 	}
 
 	/// Palette color groups
-	enum ColorGrouping: Equatable {
+	enum ColorGrouping: Equatable, Hashable {
 		/// The global color group
 		case global
 		/// A color group. The index represents the index of the group within the palette's groups (zero based)
 		case group(Int)
 
-		/// Create a color grouping from a raw index, with 0 representing the global colors and 1... representing
+		/// Create a color grouping from a raw group index, with 0 representing the global colors and 1... representing
 		/// the group color indexes.
 		/// - Parameter rawGroupIndex: The raw group index representing the group to access
 		///
@@ -90,6 +90,15 @@ public extension PAL {
 			}
 			else {
 				self = .group(rawGroupIndex - 1)
+			}
+		}
+
+		/// Returns the raw group index for the grouping, with 0 representing global colors
+		/// and 1... representing the color group indexes
+		public var rawGroupIndex: Int {
+			switch self {
+			case .global: return 0
+			case .group(let index): return index + 1
 			}
 		}
 	}
@@ -362,7 +371,7 @@ public extension PAL.Palette {
 
 public extension PAL.Palette {
 	/// An index for a color within the palette
-	struct ColorIndex: Equatable {
+	struct ColorIndex: Equatable, Hashable {
 		/// The group for the color.
 		public let group: PAL.ColorGrouping
 		/// The color index within the selected group
