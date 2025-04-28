@@ -66,11 +66,32 @@ public extension PAL {
 	}
 
 	/// Palette color groups
-	enum ColorGrouping {
-		/// Colors at the global level within the palette
+	enum ColorGrouping: Equatable {
+		/// The global color group
 		case global
-		/// Colors within a palette group
+		/// A color group. The index represents the index of the group within the palette's groups (zero based)
 		case group(Int)
+
+		/// Create a color grouping from a raw index, with 0 representing the global colors and 1... representing
+		/// the group color indexes.
+		/// - Parameter rawGroupIndex: The raw group index representing the group to access
+		///
+		/// ```swift
+		/// /// Access the global group
+		/// PAL.ColorGrouping(rawGroupIndex: 0) // PAL.ColorGrouping.global
+		/// /// Access the first group
+		/// PAL.ColorGrouping(rawGroupIndex: 1) // PAL.ColorGrouping.group(0)
+		/// /// Access the second group
+		/// PAL.ColorGrouping(rawGroupIndex: 2) // PAL.ColorGrouping.group(1)
+		/// ```
+		public init(rawGroupIndex: Int) {
+			if rawGroupIndex == 0 {
+				self = .global
+			}
+			else {
+				self = .group(rawGroupIndex - 1)
+			}
+		}
 	}
 }
 
@@ -342,40 +363,40 @@ public extension PAL.Palette {
 public extension PAL.Palette {
 	/// An index for a color within the palette
 	struct ColorIndex: Equatable {
-		/// The group index for the color, or nil for global colors
-		public let groupIndex: Int?
+		/// The group for the color.
+		public let group: PAL.ColorGrouping
 		/// The color index within the selected group
 		public let colorIndex: Int
 		/// Create
 		/// - Parameters:
-		///   - groupIndex: The group index for the color, or nil for global colors
+		///   - groupIndex: The group for the color
 		///   - colorIndex: The color index within the selected group
-		public init(groupIndex: Int? = nil, colorIndex: Int) {
-			self.groupIndex = groupIndex
+		public init(group: PAL.ColorGrouping = .global, colorIndex: Int) {
+			self.group = group
 			self.colorIndex = colorIndex
 		}
 	}
 
 	/// Retrieve a color from the palette
 	/// - Parameters:
-	///   - groupIndex: For palettes containing groups, the group index containing the color, or nil for global colors
+	///   - group: The group
 	///   - colorIndex: The color index within the group
 	/// - Returns: The color at the specified index
-	func color(groupIndex: Int? = nil, colorIndex: Int) throws -> PAL.Color {
-		if let groupIndex {
+	func color(group: PAL.ColorGrouping = .global, colorIndex: Int) throws -> PAL.Color {
+		switch group {
+		case .global:
+			guard colorIndex >= 0, colorIndex < self.colors.count else {
+				throw PAL.CommonError.indexOutOfRange
+			}
+			return self.colors[colorIndex]
+		case .group(let groupIndex):
 			guard
-				groupIndex < self.groups.count,
-				colorIndex < self.groups[groupIndex].colors.count
+				groupIndex >= 0, groupIndex < self.groups.count,
+				colorIndex >= 0, colorIndex < self.groups[groupIndex].colors.count
 			else {
 				throw PAL.CommonError.indexOutOfRange
 			}
 			return self.groups[groupIndex].colors[colorIndex]
-		}
-		else {
-			guard colorIndex < self.colors.count else {
-				throw PAL.CommonError.indexOutOfRange
-			}
-			return self.colors[colorIndex]
 		}
 	}
 
@@ -384,29 +405,29 @@ public extension PAL.Palette {
 	///   - index: The palette index for the color to update
 	/// - Returns: The color at the specified index
 	@inlinable func color(index: PAL.Palette.ColorIndex) throws -> PAL.Color {
-		try self.color(groupIndex: index.groupIndex, colorIndex: index.colorIndex)
+		try self.color(group: index.group, colorIndex: index.colorIndex)
 	}
 
 	/// Update a color
 	/// - Parameters:
-	///   - groupIndex: The group index containing the color index, or nil for global colors
+	///   - groupIndex: The group containing the color
 	///   - colorIndex: The color index within the group
 	///   - color: The color
-	mutating func updateColor(groupIndex: Int? = nil, colorIndex: Int, color: PAL.Color) throws {
-		if let groupIndex {
+	mutating func updateColor(group: PAL.ColorGrouping = .global, colorIndex: Int, color: PAL.Color) throws {
+		switch group {
+		case .global:
+			guard colorIndex >= 0, colorIndex < self.colors.count else {
+				throw PAL.CommonError.indexOutOfRange
+			}
+			self.colors[colorIndex].setColor(color)
+		case .group(let groupIndex):
 			guard
-				groupIndex < self.groups.count,
-				colorIndex < self.groups[groupIndex].colors.count
+				groupIndex >= 0, groupIndex < self.groups.count,
+				colorIndex >= 0, colorIndex < self.groups[groupIndex].colors.count
 			else {
 				throw PAL.CommonError.indexOutOfRange
 			}
 			self.groups[groupIndex].colors[colorIndex].setColor(color)
-		}
-		else {
-			guard colorIndex < self.colors.count else {
-				throw PAL.CommonError.indexOutOfRange
-			}
-			self.colors[colorIndex].setColor(color)
 		}
 	}
 
@@ -415,6 +436,6 @@ public extension PAL.Palette {
 	///   - index: The palette index for the color to update
 	///   - color: The color
 	@inlinable mutating func updateColor(index: PAL.Palette.ColorIndex, color: PAL.Color) throws {
-		try self.updateColor(groupIndex: index.groupIndex, colorIndex: index.colorIndex, color: color)
+		try self.updateColor(group: index.group, colorIndex: index.colorIndex, color: color)
 	}
 }

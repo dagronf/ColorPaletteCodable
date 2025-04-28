@@ -48,6 +48,7 @@ public extension PAL.Color {
 		self.name = color.name
 		self.colorSpace = color.colorSpace
 		self.colorComponents = color.colorComponents
+		self.colorType = color.colorType
 		self.alpha = color.alpha
 	}
 }

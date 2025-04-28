@@ -481,16 +481,27 @@ final class CommonTests: XCTestCase {
 		XCTAssertEqual(try c1.hexString(.abgr, hashmark: false, uppercase: true), "DDCCBBAA")
 	}
 
+	func testColorGroupingRawIndexTests() throws {
+		XCTAssertEqual(PAL.ColorGrouping(rawGroupIndex: 0), PAL.ColorGrouping.global)
+		XCTAssertEqual(PAL.ColorGrouping(rawGroupIndex: 1), PAL.ColorGrouping.group(0))
+		XCTAssertEqual(PAL.ColorGrouping(rawGroupIndex: 2), PAL.ColorGrouping.group(1))
+	}
 
 	func testModifyPalette() throws {
 		var palette = try loadResourcePalette(named: "24 colour palettes.ase")
 
-		try palette.updateColor(groupIndex: 1, colorIndex: 1, color: rgb255(255, 0, 0))
-		try palette.updateColor(groupIndex: 1, colorIndex: 2, color: rgb255(255, 0, 0))
-		try palette.updateColor(groupIndex: 1, colorIndex: 3, color: rgb255(255, 0, 0))
+		// No global colors
+		XCTAssertThrowsError(try palette.color(colorIndex: 0))
+		// Only 5 colors in the first group
+		XCTAssertThrowsError(try palette.color(group: .group(0), colorIndex: 5))
+		// Only 5 colors in the first group
+		XCTAssertNoThrow(try palette.color(group: .group(0), colorIndex: 4))
+
+		try palette.updateColor(group: .group(1), colorIndex: 1, color: rgb255(255, 0, 0))
+		try palette.updateColor(group: .group(1), colorIndex: 2, color: rgb255(255, 0, 0))
+		try palette.updateColor(group: .group(1), colorIndex: 3, color: rgb255(255, 0, 0))
 
 		let d = try palette.export(format: .ase)
 		try d.write(to: URL(fileURLWithPath: "/tmp/modified.ase"))
 	}
-
 }
