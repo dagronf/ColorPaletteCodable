@@ -19,22 +19,14 @@
 
 // PAL.Color Support for CoreTransferable and the `Transferable` protocol
 
-#if canImport(UniformTypeIdentifiers)
+#if canImport(SwiftUI) && canImport(UniformTypeIdentifiers)
 
+import CoreTransferable
 import Foundation
+import SwiftUI
 import UniformTypeIdentifiers
 
-@available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
-public extension UTType {
-	/// The UTType for a JSON encoded `PAL.Color` value
-	static let palColor = UTType(exportedAs: "public.dagronf.colorpalette.color", conformingTo: UTType.json)
-	static let systemColor = UTType("com.apple.cocoa.pasteboard.color")!
-}
-
-#if canImport(SwiftUI)
-import SwiftUI
-import CoreTransferable
-
+/// A transferrable representation for `PAL.Color`
 @available(macOS 13, iOS 16, tvOS 16, watchOS 9, *)
 extension PAL.Color: Transferable {
 
@@ -48,5 +40,22 @@ extension PAL.Color: Transferable {
 	}
 }
 
-#endif
+/// A transferrable representation for `PAL.Gradient`
+@available(macOS 13, iOS 16, tvOS 16, watchOS 9, *)
+extension PAL.Gradient: Transferable {
+	/// The transferrable representation for this type (JSON encoded PAL.Gradient)
+	public static var transferRepresentation: some TransferRepresentation {
+		CodableRepresentation(contentType: .palGradient)
+	}
+}
+
+/// A transferrable representation for `PAL.Gradients`
+@available(macOS 13, iOS 16, tvOS 16, watchOS 9, *)
+extension PAL.Gradients: Transferable {
+	/// The transferrable representation for this type (JSON encoded PAL.Gradients)
+	public static var transferRepresentation: some TransferRepresentation {
+		CodableRepresentation(contentType: .palGradients)
+	}
+}
+
 #endif

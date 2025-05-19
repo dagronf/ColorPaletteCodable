@@ -273,13 +273,24 @@ public extension PAL.Color {
 	}
 }
 
+/// A formatter for generating an alpha value for css export
+///
+/// Note that CSS always expects a '.' as the decimal separator
+private let alphaFormatter__ = NumberFormatter {
+	$0.minimumFractionDigits = 1
+	$0.maximumFractionDigits = 4
+	$0.decimalSeparator = "."
+}
+
 extension PAL.Color {
 	/// Return a CSS rgba definition for this color
+	/// - Parameter includeAlpha: If true includes an alpha value
 	/// - Returns: A string containing the CSS representation
 	public func css(includeAlpha: Bool = true) throws -> String {
 		let rgba = try self.rgb()
 		if includeAlpha {
-			return "rgba(\(rgba.r255), \(rgba.g255), \(rgba.b255), \(rgba.af))"
+			let atext = alphaFormatter__.string(for: rgba.af) ?? "1.0"
+			return "rgba(\(rgba.r255), \(rgba.g255), \(rgba.b255), \(atext))"
 		}
 		else {
 			return "rgb(\(rgba.r255), \(rgba.g255), \(rgba.b255))"

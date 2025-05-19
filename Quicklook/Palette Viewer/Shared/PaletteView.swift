@@ -24,46 +24,56 @@ struct PaletteView: View {
 	let title: String?
 	@ObservedObject var paletteModel: PaletteModel
 
-	var needsSeparator: Bool {
-		if let title = title, title.count > 0 || paletteModel.palette?.format != nil {
-			return true
-		}
-		return false
+	private var paletteName: String {
+		let n = self.paletteModel.palette?.name ?? ""
+		return n.count > 0 ? n : "<untitled>"
+	}
+	private var paletteFormat: String {
+		let n = self.paletteModel.palette?.format?.coder.name ?? ""
+		return n.count > 0 ? n : "<unknown format>"
 	}
 
 	var body: some View {
 		VStack(alignment: .leading, spacing: 0) {
-			if let title = title, title.count > 0 {
-				Text("􀦳 \(title)")
-					.font(.title2).fontWeight(.heavy)
-					.truncationMode(.tail)
-					.frame(maxWidth: .infinity, alignment: .leading)
-					.padding(4)
-					.background(Rectangle().fill(.background))
-			}
-			if let type = paletteModel.palette?.format {
-				Text("􀆫 \(type.coder.name)")
-					.font(.title2).fontWeight(.heavy)
-					.truncationMode(.tail)
-					.frame(maxWidth: .infinity, alignment: .leading)
-					.padding(4)
-					.background(Rectangle().fill(.background))
-			}
-			if self.needsSeparator {
-				Divider()
-			}
-			ScrollView(.vertical) {
-				if let p = paletteModel.palette {
-					if p.colors.count > 0 {
-						GroupingView(name: "Global colors", colors: p.colors)
-					}
-					ForEach(p.groups) { group in
-						GroupingView(name: group.name, colors: group.colors)
-					}
+			Grid(verticalSpacing: 6) {
+				GridRow {
+					Text("Name:")
+						.font(.headline)
+						.gridColumnAlignment(.trailing)
+					Text(paletteName)
+						.truncationMode(.tail)
+						.frame(maxWidth: .infinity, alignment: .leading)
+						.gridColumnAlignment(.leading)
+				}
+				GridRow {
+					Text("Format:")
+						.font(.headline)
+					Text(paletteFormat)
+						.truncationMode(.tail)
+						.frame(maxWidth: .infinity, alignment: .leading)
 				}
 			}
+			.padding(8)
+
+			Divider()
+
+			ScrollView(.vertical) {
+				Group {
+					if let p = paletteModel.palette {
+						if p.colors.count > 0 {
+							GroupingView(name: "Global colors", colors: p.colors)
+						}
+						ForEach(p.groups) { group in
+							GroupingView(name: group.name, colors: group.colors)
+						}
+					}
+				}
+				.padding(4)
+			}
+			.frame(maxHeight: .infinity)
+			.background(Rectangle().fill(.background))
 		}
-		.frame(minWidth: 200, minHeight: 200)
+		.frame(minWidth: 100, minHeight: 200, maxHeight: .infinity)
 	}
 }
 
@@ -71,23 +81,9 @@ struct GroupingView: View {
 	let name: String
 	let colors: [PAL.Color]
 	var body: some View {
-		VStack(alignment: .leading, spacing: 0) {
-			HStack(spacing: 4) {
-				Text("􀐠")
-					.font(.title3)
-					.fontWeight(.semibold)
-				Text("\(name) (\(colors.count))")
-					.font(.title3)
-					.fontWeight(.semibold)
-					.truncationMode(.tail)
-					.frame(maxWidth: .infinity, alignment: .leading)
-			}
-			.padding(4)
-
+		GroupBox("\(name) (\(colors.count))") {
 			ColorGroup(color: colors)
-
-			Divider()
-				.padding(EdgeInsets(top: 4, leading: 8, bottom: -4, trailing: 8))
+				.padding(-4)
 		}
 	}
 }

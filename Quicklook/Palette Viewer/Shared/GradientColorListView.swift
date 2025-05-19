@@ -18,12 +18,13 @@ struct GradientColorListView: View {
 			TableColumn("") { stop in
 				GradientColorSwatch(color: stop.color)
 					.frame(width: 26, height: 26)
-					.onDrag {
-						guard let c = stop.color.nsColor else {
-							return NSItemProvider()
-						}
-						return NSItemProvider(item: c, typeIdentifier: UTType.nsColor.identifier)
-					}
+					.draggable(stop.color)
+//					.onDrag {
+//						guard let c = stop.color.nsColor else {
+//							return NSItemProvider()
+//						}
+//						return NSItemProvider(item: c, typeIdentifier: UTType.systemColor.identifier)
+//					}
 			}
 			.width(30)
 			.alignment(.center)

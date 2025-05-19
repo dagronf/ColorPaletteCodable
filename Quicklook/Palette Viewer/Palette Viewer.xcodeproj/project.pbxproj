@@ -43,12 +43,10 @@
 		236DC939283B71D60097B4DE /* ColorPaletteCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 236DC938283B71D60097B4DE /* ColorPaletteCodable */; };
 		237EF04528398ABD000D6F42 /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237EF04428398ABD000D6F42 /* PaletteView.swift */; };
 		237EF04628398ABD000D6F42 /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237EF04428398ABD000D6F42 /* PaletteView.swift */; };
-		237EF0872839B324000D6F42 /* UTType+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E0D28332AEB003846A4 /* UTType+extensions.swift */; };
 		23A03DF828332AA2003846A4 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A03DF728332AA2003846A4 /* Quartz.framework */; };
 		23A03DFB28332AA2003846A4 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03DFA28332AA2003846A4 /* PreviewViewController.swift */; };
 		23A03DFD28332AA2003846A4 /* ASEPreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03DFC28332AA2003846A4 /* ASEPreviewProvider.swift */; };
 		23A03E0028332AA2003846A4 /* PreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A03DFE28332AA2003846A4 /* PreviewViewController.xib */; };
-		23A03E0E28332AEB003846A4 /* UTType+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A03E0D28332AEB003846A4 /* UTType+extensions.swift */; };
 		23A0FFE0290B520800E29FAE /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 23A0FFDF290B520800E29FAE /* Defaults */; };
 		23A0FFE3290B61A700E29FAE /* GradientDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A0FFE1290B61A700E29FAE /* GradientDocument.swift */; };
 		23A0FFE4290B61A700E29FAE /* GradientDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A0FFE2290B61A700E29FAE /* GradientDocument.xib */; };
@@ -165,6 +163,7 @@
 		2339F52B2BCE48EE000C74F6 /* MacTextEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MacTextEditorView.swift; sourceTree = "<group>"; };
 		2339F52E2BCE490F000C74F6 /* LineNumberRulerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineNumberRulerView.swift; sourceTree = "<group>"; };
 		2339F5302BCF3F33000C74F6 /* InputStream+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InputStream+extensions.swift"; sourceTree = "<group>"; };
+		234369B22DDAD4A800179233 /* CSSParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSSParsingTests.swift; sourceTree = "<group>"; };
 		2344F2432A5CDA4500E04CE1 /* CodePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePopupView.swift; sourceTree = "<group>"; };
 		234D89732C20F182003D403B /* NumberFormatter+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+extensions.swift"; sourceTree = "<group>"; };
 		23524E5B2A79BA5F00F3FAEF /* GradientEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientEditor.swift; sourceTree = "<group>"; };
@@ -182,7 +181,6 @@
 		23A03DFF28332AA2003846A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreviewViewController.xib; sourceTree = "<group>"; };
 		23A03E0128332AA2003846A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23A03E0228332AA2003846A4 /* ASEQuickLookPlugin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ASEQuickLookPlugin.entitlements; sourceTree = "<group>"; };
-		23A03E0D28332AEB003846A4 /* UTType+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UTType+extensions.swift"; sourceTree = "<group>"; };
 		23A0FFE1290B61A700E29FAE /* GradientDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientDocument.swift; sourceTree = "<group>"; };
 		23A0FFE2290B61A700E29FAE /* GradientDocument.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GradientDocument.xib; sourceTree = "<group>"; };
 		23A0FFE6290B692000E29FAE /* GradientViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientViewController.swift; sourceTree = "<group>"; };
@@ -303,6 +301,7 @@
 				23C29F452A8F020700CAC733 /* PaletteViewerPaletteThumbnailGenerator */,
 				23A03DF628332AA2003846A4 /* Frameworks */,
 				23A03DE028332A83003846A4 /* Products */,
+				234369B22DDAD4A800179233 /* CSSParsingTests.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -390,7 +389,6 @@
 			isa = PBXGroup;
 			children = (
 				23F8D78A2A9410C00013EBF7 /* PALCommon.swift */,
-				23A03E0D28332AEB003846A4 /* UTType+extensions.swift */,
 				234D89732C20F182003D403B /* NumberFormatter+extensions.swift */,
 				237EF04428398ABD000D6F42 /* PaletteView.swift */,
 				2304D0A22A57AEEF006CCAA9 /* GradientsView.swift */,
@@ -638,7 +636,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23A03E0E28332AEB003846A4 /* UTType+extensions.swift in Sources */,
 				237EF04528398ABD000D6F42 /* PaletteView.swift in Sources */,
 				234D89762C20F182003D403B /* NumberFormatter+extensions.swift in Sources */,
 				23F8D78B2A9410C00013EBF7 /* PALCommon.swift in Sources */,
@@ -651,7 +648,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				237EF0872839B324000D6F42 /* UTType+extensions.swift in Sources */,
 				23524E5C2A79BA5F00F3FAEF /* GradientEditor.swift in Sources */,
 				23B20C142835D551005BD670 /* ViewController.swift in Sources */,
 				236719C22A5A566900147812 /* GradientTransparencyView.swift in Sources */,

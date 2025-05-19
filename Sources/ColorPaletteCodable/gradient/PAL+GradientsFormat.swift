@@ -25,6 +25,7 @@ public extension PAL {
 		case json
 		case dcg
 		case gimp
+		case css
 		case adobeGRD
 		case paintShopPro
 		case colorPaletteTables
@@ -40,9 +41,10 @@ public extension PAL.GradientsFormat {
 	var coder: PAL_GradientsCoder {
 		switch self {
 		case .json: return PAL.Gradients.Coder.JSON()
-		case .dcg:  return PAL.Gradients.Coder.DCG()
-		case .gimp:  return PAL.Gradients.Coder.GIMPGradientCoder()
-		case .adobeGRD:  return PAL.Gradients.Coder.AdobeGradientsCoder()
+		case .dcg: return PAL.Gradients.Coder.DCG()
+		case .gimp: return PAL.Gradients.Coder.GIMPGradientCoder()
+		case .css: return PAL.Gradients.Coder.CSSGradientCoder()
+		case .adobeGRD: return PAL.Gradients.Coder.AdobeGradientsCoder()
 		case .paintShopPro: return PAL.Gradients.Coder.PaintShopProGradientCoder()
 		case .svg: return PAL.Gradients.Coder.SVG()
 		case .colorPaletteTables: return PAL.Gradients.Coder.ColorPaletteTablesCoder()
