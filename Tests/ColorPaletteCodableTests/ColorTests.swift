@@ -36,4 +36,41 @@ final class ColorTests: XCTestCase {
 			XCTAssertEqual(c_rgb.b255, rgb.b255)
 		}
 	}
+
+	func testRGBIntegerConversion() throws {
+
+		func CheckConversion(_ color: PAL.Color.RGB, _ format: PAL.ColorByteFormat, _ expected: UInt32) {
+			// Convert color to a uint32 - check against expected
+			XCTAssertEqual(color.uint32Value(format), expected)
+			// Convert expected value to RGBA
+			XCTAssertEqual(color, PAL.Color.RGB(value: expected, format: format))
+		}
+
+		func CheckConversion(_ color: PAL.Color.RGB, _ format: PAL.ColorByteFormat, _ expected: Int32) {
+			// Convert color to a uint32 - check against expected
+			XCTAssertEqual(color.int32Value(format), expected)
+			// Convert expected value to RGBA
+			XCTAssertEqual(color, PAL.Color.RGB(value: expected, format: format))
+		}
+
+		// These hardcoded values come from https://colorizer.org
+
+		CheckConversion(PAL.Color.RGB(r255: 255, g255: 255, b255: 255), .rgba, UInt32(4294967295))
+		CheckConversion(PAL.Color.RGB(r255: 255, g255: 255, b255: 255), .rgba, Int32(-1))
+
+		CheckConversion(PAL.Color.RGB(r255: 255, g255: 0, b255: 255), .rgba, UInt32(4278255615))
+		CheckConversion(PAL.Color.RGB(r255: 255, g255: 0, b255: 255), .rgba, Int32(-16711681))
+
+		CheckConversion(PAL.Color.RGB(r255: 255, g255: 255, b255: 255), .rgb, UInt32(16777215))
+		CheckConversion(PAL.Color.RGB(r255: 255, g255: 255, b255: 255), .rgb, Int32(16777215))
+
+		CheckConversion(PAL.Color.RGB(r255: 255, g255: 0, b255: 255), .bgr, UInt32(16711935))
+		CheckConversion(PAL.Color.RGB(r255: 255, g255: 0, b255: 255), .bgr, Int32(16711935))
+
+		CheckConversion(PAL.Color.RGB(r255: 89, g255: 145, b255: 106), .argb, UInt32(4284060010))
+		CheckConversion(PAL.Color.RGB(r255: 89, g255: 145, b255: 106), .argb, Int32(-10907286))
+
+		CheckConversion(PAL.Color.RGB(r255: 89, g255: 145, b255: 106), .bgra, UInt32(1787910655))
+		CheckConversion(PAL.Color.RGB(r255: 89, g255: 145, b255: 106), .bgra, Int32(1787910655))
+	}
 }

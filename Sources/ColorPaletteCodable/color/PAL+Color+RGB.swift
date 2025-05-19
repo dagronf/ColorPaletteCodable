@@ -326,6 +326,7 @@ public extension PAL.Color {
 	}
 }
 
+// MARK: - 32-bit Integer Conversion
 
 public extension PAL.Color {
 	/// Create a UInt32 representation of this color
@@ -334,5 +335,88 @@ public extension PAL.Color {
 	func asUInt32(format: PAL.ColorByteFormat) throws -> UInt32 {
 		let rgba = try self.rgb()
 		return convertToUInt32(r255: rgba.r255, g255: rgba.g255, b255: rgba.b255, a255: rgba.a255, colorByteFormat: format)
+	}
+}
+
+public extension PAL.Color.RGB {
+	/// Get the 32-bit UInt32 representation of this RGB(A) value
+	/// - Parameter format: The rgb format
+	/// - Returns: A UInt32 representation of the image
+	func uint32Value(_ format: PAL.ColorByteFormat) -> UInt32 {
+		let value: UInt32
+		switch format {
+		case .abgr:
+			value = UInt32(self.a255) << 24 | UInt32(self.b255) << 16 | UInt32(self.g255) << 8 | UInt32(self.r255)
+		case .argb:
+			value = UInt32(self.a255) << 24 | UInt32(self.r255) << 16 | UInt32(self.g255) << 8 | UInt32(self.b255)
+		case .bgra:
+			value = UInt32(self.b255) << 24 | UInt32(self.g255) << 16 | UInt32(self.r255) << 8 | UInt32(self.a255)
+		case .bgr:
+			value = UInt32(0) << 24 | UInt32(self.b255) << 16 | UInt32(self.g255) << 8 | UInt32(self.r255)
+		case .rgba:
+			value = UInt32(self.r255) << 24 | UInt32(self.g255) << 16 | UInt32(self.b255) << 8 | UInt32(self.a255)
+		case .rgb:
+			value = UInt32(0) << 24 | UInt32(self.r255) << 16 | UInt32(self.g255) << 8 | UInt32(self.b255)
+		}
+		return value
+	}
+
+	/// Get the 32-bit Int32 representation of this RGB(A) value
+	/// - Parameter format: The rgb format
+	/// - Returns: A UInt32 representation of the image
+	@inlinable func int32Value(_ format: PAL.ColorByteFormat) -> Int32 {
+		Int32(bitPattern: self.uint32Value(format))  // map to int32
+	}
+
+	/// Create an RGB value from a raw UInt32 value
+	/// - Parameters:
+	///   - value: The unsigned integer value
+	///   - format: The rgb format
+	init(value: UInt32, format: PAL.ColorByteFormat) {
+		let r: UInt8
+		let g: UInt8
+		let b: UInt8
+		let a: UInt8
+		switch format {
+		case .rgb:
+			r = UInt8((value >> 16) & 0xFF)
+			g = UInt8((value >> 8) & 0xFF)
+			b = UInt8(value & 0xFF)
+			a = 255
+		case .bgr:
+			b = UInt8((value >> 16) & 0xFF)
+			g = UInt8((value >> 8) & 0xFF)
+			r = UInt8(value & 0xFF)
+			a = 255
+		case .argb:
+			a = UInt8((value >> 24) & 0xFF)
+			r = UInt8((value >> 16) & 0xFF)
+			g = UInt8((value >> 8) & 0xFF)
+			b = UInt8(value & 0xFF)
+		case .rgba:
+			r = UInt8((value >> 24) & 0xFF)
+			g = UInt8((value >> 16) & 0xFF)
+			b = UInt8((value >> 8) & 0xFF)
+			a = UInt8(value & 0xFF)
+		case .abgr:
+			a = UInt8((value >> 24) & 0xFF)
+			b = UInt8((value >> 16) & 0xFF)
+			g = UInt8((value >> 8) & 0xFF)
+			r = UInt8(value & 0xFF)
+		case .bgra:
+			b = UInt8((value >> 24) & 0xFF)
+			g = UInt8((value >> 16) & 0xFF)
+			r = UInt8((value >> 8) & 0xFF)
+			a = UInt8(value & 0xFF)
+		}
+		self.init(r255: r, g255: g, b255: b, a255: a)
+	}
+
+	/// Create an RGB value from a raw Int32 value
+	/// - Parameters:
+	///   - value: The integer value
+	///   - format: The rgb format
+	@inlinable init(value: Int32, format: PAL.ColorByteFormat) {
+		self.init(value: UInt32(bitPattern: value), format: format)
 	}
 }
