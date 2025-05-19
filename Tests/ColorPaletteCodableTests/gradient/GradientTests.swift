@@ -400,9 +400,10 @@ class GradientTests: XCTestCase {
 	}
 #endif
 
-	let hueGradient = try! gradientTestsFolder.subfolder(with: "hue-gradient-tests")
-
 	func testHueGradient() throws {
+
+		let hueGradient = try! gradientTestsFolder.subfolder(with: "hue-gradient-tests")
+
 		do {
 			let g1 = PAL.Gradient(hueRange: 0.0 ... 1.0, stopCount: 11)
 			let gs1 = PAL.Gradients(gradient: g1)
@@ -430,4 +431,36 @@ class GradientTests: XCTestCase {
 			try hueGradient.write(ps1, to: "hue-gradient-orange2green-8.ggr")
 		}
 	}
+
+	#if canImport(CoreGraphics)
+	func testGradientDirections() throws {
+		let gradientDirection = try! gradientTestsFolder.subfolder(with: "gradient-direction-tests")
+
+		let g1 = PAL.Gradient(colors: [.red, .white, .blue])
+
+		let i1 = try g1.cgImage(dimension: 60, unitStartPoint: CGPoint(x: 0, y: 0), unitEndPoint: CGPoint(x: 1, y: 0))
+		let d1 = try i1.representation.png()
+		try gradientDirection.write(d1, to: "leading-trailing.png")
+
+		let i2 = try g1.cgImage(dimension: 60, unitStartPoint: CGPoint(x: 1, y: 0), unitEndPoint: CGPoint(x: 0, y: 0))
+		let d2 = try i2.representation.png()
+		try gradientDirection.write(d2, to: "trailing-leading.png")
+
+		let i3 = try g1.cgImage(dimension: 60, unitStartPoint: CGPoint(x: 0, y: 1), unitEndPoint: CGPoint(x: 0, y: 0))
+		let d3 = try i3.representation.png()
+		try gradientDirection.write(d3, to: "top-bottom.png")
+
+		let i4 = try g1.cgImage(dimension: 60, unitStartPoint: CGPoint(x: 0, y: 0), unitEndPoint: CGPoint(x: 0, y: 1))
+		let d4 = try i4.representation.png()
+		try gradientDirection.write(d4, to: "bottom-top.png")
+
+		let i5 = try g1.cgImage(dimension: 60, unitStartPoint: CGPoint(x: 0, y: 0), unitEndPoint: CGPoint(x: 1, y: 1))
+		let d5 = try i5.representation.png()
+		try gradientDirection.write(d5, to: "bottom-leading-top-trailing.png")
+
+		let i6 = try g1.cgImage(dimension: 60, unitStartPoint: CGPoint(x: 0, y: 1), unitEndPoint: CGPoint(x: 1, y: 0))
+		let d6 = try i6.representation.png()
+		try gradientDirection.write(d6, to: "top-leading-bottom-trailing.png")
+	}
+	#endif
 }

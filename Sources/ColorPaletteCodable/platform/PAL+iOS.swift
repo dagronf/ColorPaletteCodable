@@ -97,4 +97,30 @@ public extension PAL.Palette {
 	}
 }
 
+extension UIImage {
+	/// Create a `UIImage` by drawing into an image context
+	/// - Parameters:
+	///   - size: The size of the image
+	///   - opaque: Is the context transparent?
+	///   - drawBlock: The drawing routine
+	/// - Returns: An image containing the results of the drawing block, or nil if the image cannot be
+	static func createUsingImageContext(
+		_ size: CGSize,
+		opaque: Bool = false,
+		drawBlock: (CGContext) throws -> Void
+	) -> UIImage? {
+		UIGraphicsBeginImageContextWithOptions(size, opaque, 1)
+		defer { UIGraphicsEndImageContext() }
+
+		guard
+			let ctx = UIGraphicsGetCurrentContext(),
+			let _ = try? drawBlock(ctx),
+			let image = UIGraphicsGetImageFromCurrentImageContext()
+		else {
+			return nil
+		}
+		return image
+	}
+}
+
 #endif

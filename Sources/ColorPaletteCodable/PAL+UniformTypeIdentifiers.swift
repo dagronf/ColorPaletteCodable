@@ -17,41 +17,24 @@
 //  OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
-
-public extension PAL.Gradients.Coder {
-	/// Simple JSON encoder/decoder
-	struct JSON: PAL_GradientsCoder {
-		/// The gradients format
-		public static var format: PAL.GradientsFormat { .json }
-		/// The coder's file format
-		public static let fileExtension = "jsoncolorgradient"
-		/// The uniform type string for the gradient type
-		public static let utTypeString = "public.dagronf.colorpalette.gradients.json"
-
-		/// Create
-		public init() {}
-
-		/// Attempt to decode a gradient using the
-		/// - Parameter inputStream: The input stream containing the data
-		/// - Returns: a gradient
-		public func decode(from inputStream: InputStream) throws -> PAL.Gradients {
-			try JSONDecoder().decode(PAL.Gradients.self, from: inputStream.readAllData())
-		}
-
-		/// Encode the gradient using the default JSON format
-		/// - Parameter gradients: The gradients to encode
-		/// - Returns: encoded data
-		public func encode(_ gradients: PAL.Gradients) throws -> Data {
-			try JSONEncoder().encode(gradients)
-		}
-	}
-}
+// Transferrable UTI types for the core object types
 
 #if canImport(UniformTypeIdentifiers)
+
+import Foundation
 import UniformTypeIdentifiers
+
 @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
 public extension UTType {
-	static let jsoncolorgradient = UTType(PAL.Gradients.Coder.JSON.utTypeString)!
+	/// A `PAL.Color` object
+	static let palColor = UTType(exportedAs: "public.dagronf.colorpalette.color", conformingTo: UTType.json)
+	/// A `PAL.Gradient` object
+	static let palGradient = UTType(exportedAs: "public.dagronf.colorpalette.gradient.json", conformingTo: UTType.json)
+	/// A `PAL.Gradients` object
+	static let palGradients = UTType(exportedAs: "public.dagronf.colorpalette.gradients.json", conformingTo: UTType.json)
+
+	/// System color type
+	static let systemColor = UTType("com.apple.cocoa.pasteboard.color")!
 }
+
 #endif

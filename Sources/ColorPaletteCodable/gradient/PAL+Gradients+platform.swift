@@ -65,9 +65,22 @@ import AppKit
 
 public extension PAL.Gradient {
 	/// Returns an image representation of the gradient.
-	/// - Parameter size: The image size
+	/// - Parameters:
+	///   - size: The resulting image size
+	///   - unitStartPoint: The start point for the gradient (unit points)
+	///   - unitEndPoint: The end point for the gradient (unit points)
 	/// - Returns: A new image
-	func image(size: CGSize) throws -> NSImage {
+	func image(
+		size: CGSize,
+		unitStartPoint: CGPoint = .zero,
+		unitEndPoint: CGPoint = CGPoint(x: 1.0, y: 0.0)
+	) throws -> NSImage {
+
+		assert(unitStartPoint.x >= 0 && unitStartPoint.x <= 1.0)
+		assert(unitEndPoint.x >= 0 && unitEndPoint.x <= 1.0)
+		assert(unitStartPoint.y >= 0 && unitStartPoint.y <= 1.0)
+		assert(unitEndPoint.y >= 0 && unitEndPoint.y <= 1.0)
+
 		guard let gradient = self.cgGradient() else {
 			throw PAL.CommonError.cannotGenerateGradient
 		}
@@ -93,8 +106,8 @@ public extension PAL.Gradient {
 
 			ctx.drawLinearGradient(
 				gradient,
-				start: CGPoint(x: 0, y: 0),
-				end: CGPoint(x: rect.width, y: 0),
+				start: CGPoint(x: unitStartPoint.x * rect.width, y: unitStartPoint.y * rect.height),
+				end: CGPoint(x: unitEndPoint.x * rect.width, y: unitEndPoint.y * rect.height),
 				options: [.drawsAfterEndLocation, .drawsBeforeStartLocation]
 			)
 			return true
@@ -103,12 +116,39 @@ public extension PAL.Gradient {
 	}
 
 	/// Returns an image representation of the gradient.
-	@inlinable func cgImage(size: CGSize) throws -> CGImage {
-		let image = try self.image(size: size)
+	/// - Parameters:
+	///   - size: The resulting image size
+	///   - unitStartPoint: The start point for the gradient (unit points)
+	///   - unitEndPoint: The end point for the gradient (unit points)
+	/// - Returns: A new image
+	@inlinable func cgImage(
+		size: CGSize,
+		unitStartPoint: CGPoint = .zero,
+		unitEndPoint: CGPoint = CGPoint(x: 1.0, y: 0.0)
+	) throws -> CGImage {
+		let image = try self.image(size: size, unitStartPoint: unitStartPoint, unitEndPoint: unitEndPoint)
 		guard let cgi = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
 			throw PAL.CommonError.cannotGenerateGradient
 		}
 		return cgi
+	}
+
+	/// Returns an image representation of the gradient.
+	/// - Parameters:
+	///   - dimension: The resulting image dimension
+	///   - unitStartPoint: The start point for the gradient (unit points)
+	///   - unitEndPoint: The end point for the gradient (unit points)
+	/// - Returns: A new image
+	@inlinable func cgImage(
+		dimension: CGFloat,
+		unitStartPoint: CGPoint = .zero,
+		unitEndPoint: CGPoint = CGPoint(x: 1.0, y: 0.0)
+	) throws -> CGImage {
+		try self.cgImage(
+			size: CGSize(width: dimension, height: dimension),
+			unitStartPoint: unitStartPoint,
+			unitEndPoint: unitEndPoint
+		)
 	}
 }
 
@@ -118,32 +158,50 @@ import UIKit
 
 public extension PAL.Gradient {
 	/// Returns an image representation of the gradient.
-	func image(size: CGSize) throws -> UIImage {
+	/// - Parameters:
+	///   - size: The resulting image size
+	///   - unitStartPoint: The start point for the gradient (unit points)
+	///   - unitEndPoint: The end point for the gradient (unit points)
+	/// - Returns: A new image
+	func image(
+		size: CGSize,
+		unitStartPoint: CGPoint = .zero,
+		unitEndPoint: CGPoint = CGPoint(x: 1.0, y: 0.0)
+	) throws -> UIImage {
+
+		assert(unitStartPoint.x >= 0 && unitStartPoint.x <= 1.0)
+		assert(unitEndPoint.x >= 0 && unitEndPoint.x <= 1.0)
+		assert(unitStartPoint.y >= 0 && unitStartPoint.y <= 1.0)
+		assert(unitEndPoint.y >= 0 && unitEndPoint.y <= 1.0)
+
 		guard let gradient = self.cgGradient() else {
 			throw PAL.CommonError.cannotGenerateGradient
 		}
 
 		let rect = CGRect(origin: .zero, size: size)
 
-		UIGraphicsBeginImageContextWithOptions(size, false, 0)
-		let ctx = UIGraphicsGetCurrentContext()!
+		let image = UIImage.createUsingImageContext(size) { ctx in
+			/// Flip so that we match (0, 0) in the bottom left, (1, 1) in the top right
+			ctx.translateBy(x: 0, y: size.height / 2)
+			ctx.scaleBy(x: 1.0, y: -1.0)
+			ctx.translateBy(x: 0, y: -size.height / 2)
 
-		// If there are transparency stops for this gradient, map them as an image mask to the context
-		if let _ = self.transparencyStops {
-			let tgrad = try self.createTransparencyGradient(.clear)
-			if let maskImage = try tgrad.image(size: size).cgImage {
-				ctx.clip(to: CGRect(origin: .zero, size: size), mask: maskImage)
+			// If there are transparency stops for this gradient, map them as an image mask to the context
+			if let _ = self.transparencyStops {
+				let tgrad = try self.createTransparencyGradient(.clear)
+				if let maskImage = try tgrad.image(size: size).cgImage {
+					ctx.clip(to: CGRect(origin: .zero, size: size), mask: maskImage)
+				}
 			}
-		}
 
-		ctx.drawLinearGradient(
-			gradient,
-			start: CGPoint(x: 0, y: 0),
-			end: CGPoint(x: rect.width, y: 0),
-			options: [.drawsAfterEndLocation, .drawsBeforeStartLocation]
-		)
-		let image = UIGraphicsGetImageFromCurrentImageContext()
-		UIGraphicsEndImageContext()
+			// Draw the gradient
+			ctx.drawLinearGradient(
+				gradient,
+				start: CGPoint(x: unitStartPoint.x * rect.width, y: unitStartPoint.y * rect.height),
+				end: CGPoint(x: unitEndPoint.x * rect.width, y: unitEndPoint.y * rect.height),
+				options: [.drawsAfterEndLocation, .drawsBeforeStartLocation]
+			)
+		}
 
 		guard let cgi = image else {
 			throw PAL.CommonError.cannotGenerateGradient
@@ -153,11 +211,38 @@ public extension PAL.Gradient {
 	}
 
 	/// Returns an image representation of the gradient.
-	@inlinable func cgImage(size: CGSize) throws -> CGImage {
-		guard let cgi = try self.image(size: size).cgImage else {
+	/// - Parameters:
+	///   - size: The resulting image size
+	///   - unitStartPoint: The start point for the gradient (unit points)
+	///   - unitEndPoint: The end point for the gradient (unit points)
+	/// - Returns: A new image
+	@inlinable func cgImage(
+		size: CGSize,
+		unitStartPoint: CGPoint = .zero,
+		unitEndPoint: CGPoint = CGPoint(x: 1.0, y: 0.0)
+	) throws -> CGImage {
+		guard let cgi = try self.image(size: size, unitStartPoint: unitStartPoint, unitEndPoint: unitEndPoint).cgImage else {
 			throw PAL.CommonError.cannotGenerateGradient
 		}
 		return cgi
+	}
+
+	/// Returns an image representation of the gradient.
+	/// - Parameters:
+	///   - dimension: The resulting image dimension
+	///   - unitStartPoint: The start point for the gradient (unit points)
+	///   - unitEndPoint: The end point for the gradient (unit points)
+	/// - Returns: A new image
+	@inlinable func cgImage(
+		dimension: CGFloat,
+		unitStartPoint: CGPoint = .zero,
+		unitEndPoint: CGPoint = CGPoint(x: 1.0, y: 0.0)
+	) throws -> CGImage {
+		try self.cgImage(
+			size: CGSize(width: dimension, height: dimension),
+			unitStartPoint: unitStartPoint,
+			unitEndPoint: unitEndPoint
+		)
 	}
 }
 

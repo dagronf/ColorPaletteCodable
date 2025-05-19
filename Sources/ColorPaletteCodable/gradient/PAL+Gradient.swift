@@ -34,6 +34,8 @@ public extension PAL {
 		case invalidStringData
 		/// The gradient doesn't contain enough stops to create a gradient
 		case notEnoughStops
+		/// An operation was attempted that required unit range positions
+		case expectedUnitRange
 		/// An unexpected error occurred
 		case internalError
 	}
@@ -166,6 +168,12 @@ public extension PAL {
 			}
 			self.init(colors: colors, name: name)
 		}
+	}
+}
+
+extension PAL.Gradient: Hashable {
+	public func hash(into hasher: inout Hasher) {
+		hasher.combine(self.id)
 	}
 }
 
@@ -427,6 +435,73 @@ public extension PAL.Gradient {
 	@inlinable mutating func normalize() throws {
 		let gr = try self.normalized()
 		self.stops = gr.stops
+	}
+
+	/// Create a new gradient by the end points of a unit gradient to the gradient edges if required
+	func extendingUnitStopsToEdges() throws -> PAL.Gradient {
+
+		var stops = self.stops
+
+		// Check we have enough stops to operate on
+		guard stops.count > 1 else {
+			// Not enough stops to operate on
+			return self
+		}
+
+		// Check that the gradient stops are all contained within the unit bounds
+		guard stops.filter({ (0.0 ... 1.0).contains($0.position) == false }).count == 0 else {
+			// There are some stops in the gradient that are OUTSIDE the 0.0 ... 1.0 range -- we need to
+			// manually change these because we don't know the bounds
+			throw PAL.GradientError.expectedUnitRange
+		}
+
+		// Sort by lowest position -> highest position
+		stops.sort { a, b in
+			a.position < b.position
+		}
+
+		// If the first stop ISN'T at zero, then make a copy of it but with the position at 0.0
+		if	let first = stops.first, first.position > 0.001 {
+			let updated = PAL.Gradient.Stop(position: 0.0, color: first.color)
+			stops.insert(updated, at: 0)
+		}
+
+		// If the last stop ISN'T at 1.0, add a copy of the last stop with its position at 1.0
+		if let last = stops.last, last.position < 0.999 {
+			let updated = PAL.Gradient.Stop(position: 1.0, color: last.color)
+			stops.append(updated)
+		}
+
+		var transparencyStops: [PAL.Gradient.TransparencyStop]? = nil
+
+		if var ts = self.transparencyStops, ts.count > 1 {
+			guard ts.filter({ (0.0 ... 1.0).contains($0.position) == false }).count == 0 else {
+				// There are some stops in the gradient that are OUTSIDE the 0.0 ... 1.0 range -- we need to
+				// manually change these because we don't know the bounds
+				throw PAL.GradientError.expectedUnitRange
+			}
+
+			// Sort by lowest position -> highest position
+			ts.sort { a, b in
+				a.position < b.position
+			}
+
+			// If the first stop ISN'T at zero, then make a copy of it but with the position at 0.0
+			if let first = ts.first, first.position > 0.001 {
+				let updated = PAL.Gradient.TransparencyStop(position: 0.0, value: first.value, midpoint: 0.5)
+				ts.insert(updated, at: 0)
+			}
+
+			// If the last stop ISN'T at 1.0, add a copy of the last stop with its position at 1.0
+			if let last = ts.last, last.position < 0.999 {
+				let updated = PAL.Gradient.TransparencyStop(position: 1.0, value: last.value, midpoint: 0.5)
+				ts.append(updated)
+			}
+
+			transparencyStops = ts
+		}
+
+		return PAL.Gradient(stops: stops, transparencyStops: transparencyStops, name: self.name)
 	}
 
 	/// Copy this gradient and map color transparency values into a transparency map
