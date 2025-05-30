@@ -50,6 +50,7 @@ Supports the following :-
 * Simple Palette format (`.color-palette`)
 * SwatchBooker format (`.sbz`) ***(read only) (Apple platforms only)***
 * Xara Designer Palette format (`.jcw`)
+* SK1 Color Palette (`.skp`) ***Very basic support***  
 
 ## Supported gradient formats
 
@@ -124,6 +125,7 @@ Some features :-
 |`PAL.Coder.ScribusXMLPaletteCoder` | Scribus XML palette (.xml)                  | 
 |`PAL.Coder.SimplePaletteCoder`     | Simple Palette (.color-palette) v0.1        |
 |`PAL.Coder.SketchPalette`          | Sketch Palette (.sketchpalette)             |
+|`PAL.Coder.SKP`                    | SK1 Color Palette (.skp)                    |
 |`PAL.Coder.SVG`                    | SVG image file (.svg)                       |
 |`PAL.Coder.SwatchbookerCoder       | Swatchbooker Palette (.sbz)                 |
 |`PAL.Coder.VGA24BitPaletteCoder`   | 24-bit VGA palette (.pal)                   |
@@ -218,6 +220,7 @@ let paletteData = palette.export(format: .ase)
 | `PAL.Coder.ScribusXMLPaletteCoder` | XML                    | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB/CMYK only          | ❌               |
 | `PAL.Coder.SimplePaletteCoder`     | JSON                   | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.SketchPalette`          | XML                    | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ✅               |
+| `PAL.Coder.SKP`                    | Text                   | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.SVG`                    | SVG text               | ❌       | ✅       | ❌              | ✅                | ✅               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.SwatchbookerCoder`      | Binary                 | ✅       | ❌       | ✅              | ✅                | ❌               | ✅                     | ✅                     | ❌               |
 | `PAL.Coder.ProcreateSwatchesCoder` | Binary                 | ✅       | ✅       | ❌              | ✅                | ✅               | ❌                     | ❌                     | ✅               |
@@ -430,6 +433,12 @@ Reverse engineered. Insiration from [https://github.com/Balakov/GrdToAfpalette](
 which only deals with loading gradients.
 
 This coder is somewhat hacky. For the sample files I've used it seems to work!
+
+### SK1 palette support
+
+SK1 (SKP) palettes appears to be chunks of Python code.  The coder for it is very simple - it basically regexes on 
+the `color(['RGB'` line to pull out r,g,b,a and name components. There is no check whether the file is valid, as 
+this would require a complete python compilation.
 
 ## Disclaimer
 

@@ -35,6 +35,7 @@
 				<string>public.dagronf.colorpalette.palette.swatchbooker</string>
 				<string>public.dagronf.colorpalette.palette.afpalette</string>
 				<string>public.dagronf.colorpalette.palette.xara.palette</string>
+				<string>public.dagronf.colorpalette.palette.sk1</string>
 			</array>
 			<key>QLThumbnailMinimumDimension</key>
 			<integer>0</integer>

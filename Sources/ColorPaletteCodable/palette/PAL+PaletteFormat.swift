@@ -48,6 +48,7 @@ public extension PAL {
 		case rgb                // RGB encoded text files (.rgb, .txt)
 		case riff               // Microsoft RIFF palette (.pal))
 		case sketch             // Sketch palette file (.sketchpalette)
+		case skp                // SKP Palette
 		case svg                // Scalable Vector Grapihcs palette (.svg)
 		case swift              // (export only) Swift source file (.swift)
 		case corelDrawV3        // Corel Draw V3 file (.pal)
@@ -96,6 +97,7 @@ public extension PAL.PaletteFormat {
 		case .riff               : return PAL.Coder.RIFF()
 		case .sketch             : return PAL.Coder.SketchPalette()
 		case .svg                : return PAL.Coder.SVG()
+		case .skp                : return PAL.Coder.SKP()
 		case .swift              : return PAL.Coder.SwiftCoder()
 		case .corelDrawV3        : return PAL.Coder.CorelDraw3PaletteCoder()
 		case .vga24bit           : return PAL.Coder.VGA24BitPaletteCoder()
