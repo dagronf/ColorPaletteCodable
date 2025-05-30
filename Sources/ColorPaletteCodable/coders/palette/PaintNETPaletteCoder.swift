@@ -69,6 +69,7 @@ public extension PAL.Coder.PaintNET {
 
 		for line in content.lines {
 			let line = line.trimmingCharacters(in: .whitespaces)
+			if line.isEmpty { continue }
 			if line[line.startIndex] == ";" {
 				// Assume a comment. Skip the line
 				continue
