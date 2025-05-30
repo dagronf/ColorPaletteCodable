@@ -164,7 +164,7 @@ private func __parseLinearGradients(_ text: String) -> PAL.Gradients {
 		//let endPosition = parser.currentIndex
 
 		// Each component is a function argument for linear-gradient
-		var stops: [GStop] = []
+		var stops: [__GradientStop] = []
 		for component in components {
 			let c = component.trim()
 
@@ -183,57 +183,61 @@ private func __parseLinearGradients(_ text: String) -> PAL.Gradients {
 			}
 		}
 
-		if stops.isNotEmpty {
-			// Map the colors to a gradient
-			if stops.filter({ $0.stop != nil }).count == 0 {
-				// Special case. All elements of the stops are missing positioning information - therefore
-				// spread them evenly out over the entirety of the gradient (ie. 0.0 ... 1.0)
-				let gradient = PAL.Gradient(colors: stops.map { $0.color })
-				gradients.gradients.append(gradient)
+		// If we found no stops, move on to the next
+		if stops.isEmpty {
+			continue
+		}
+
+		// Map the colors to a gradient
+		if stops.countWhere({ $0.position != nil }) == 0 {
+			// Special case. All elements of the stops are missing positioning information - therefore
+			// spread them evenly out over the entirety of the gradient (ie. 0.0 ... 1.0)
+			let gradient = PAL.Gradient(colors: stops.map { $0.color })
+			gradients.gradients.append(gradient)
+		}
+		else if stops.countWhere({ $0.position == nil }) == 0 {
+			// All stops have a position
+			let allStops = stops.compactMap { PAL.Gradient.Stop(position: $0.position ?? 0.0, color: $0.color) }
+			if let g = try? PAL.Gradient(stops: allStops).extendingUnitStopsToEdges() {
+				gradients.gradients.append(g)
 			}
-			else if stops.filter({ $0.stop == nil }).count == 0 {
-				// All stops have a position
-				let allStops = stops.compactMap { PAL.Gradient.Stop(position: $0.stop ?? 0.0, color: $0.color) }
-				if let g = try? PAL.Gradient(stops: allStops).extendingUnitStopsToEdges() {
-					gradients.gradients.append(g)
-				}
+		}
+		else if stops.first?.position == nil && stops.last?.position == nil {
+			// First stop and last stop are both missing info -- therefore they are 0 and 1
+			stops.first?.position = 0
+			stops.last?.position = 1
+			let allStops = stops.compactMap { PAL.Gradient.Stop(position: $0.position ?? 0.0, color: $0.color) }
+			let gradient = PAL.Gradient(stops: allStops)
+			if let g = try? gradient.normalized() {
+				gradients.gradients.append(g)
 			}
-			else if stops.first?.stop == nil && stops.last?.stop == nil {
-				// First stop and last stop are both missing info -- therefore they are 0 and 1
-				stops.first?.stop = 0
-				stops.last?.stop = 1
-				let allStops = stops.compactMap { PAL.Gradient.Stop(position: $0.stop ?? 0.0, color: $0.color) }
-				let gradient = PAL.Gradient(stops: allStops)
-				if let g = try? gradient.normalized() {
-					gradients.gradients.append(g)
-				}
-			}
-			else {
-				// A mix of specified and non-specified.  Deal with this later
-			}
+		}
+		else {
+			// A mix of specified and non-specified.  Deal with this later
 		}
 	}
 
 	return gradients
 }
 
-
 // MARK: - Parsing
 
-private class GStop {
+/// Gradient stop from the CSS
+private class __GradientStop {
 	let color: PAL.Color
-	var stop: Double?
-	init(color: PAL.Color, stop: Double?) {
+	var position: Double?
+
+	init(color: PAL.Color, position: Double?) {
 		self.color = color
-		self.stop = stop
+		self.position = position
 	}
 }
 
 // MARK: Color name definition
 
-private let colorNamePattern = try! DSFRegex(#"\b(\w*)\b(?:\s*([\d\.]+)%)?"#)
-private func parseCSSColorName(_ component: String) -> GStop? {
-	let searchResult = colorNamePattern.matches(for: component)
+private let __colorNamePattern = try! DSFRegex(#"\b(\w*)\b(?:\s*([\d\.]+)%)?"#)
+private func parseCSSColorName(_ component: String) -> __GradientStop? {
+	let searchResult = __colorNamePattern.matches(for: component)
 	guard let match = searchResult.matches.first else { return nil }
 	let colorName = component[match.captures[0]]
 	let p1str = component[match.captures[1]]
@@ -251,14 +255,14 @@ private func parseCSSColorName(_ component: String) -> GStop? {
 		position = nil
 	}
 
-	return GStop(color: color, stop: position)
+	return __GradientStop(color: color, position: position)
 }
 
 // MARK: Parse Hex definition
 
-private let hexPattern = try! DSFRegex(#"#([0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{4}|[0-9a-fA-F]{3})(?:\s*([\d\.]+)%)?"#)
-private func parseCSSHex(_ component: String) -> GStop? {
-	let searchResult = hexPattern.matches(for: component)
+private let __hexPattern = try! DSFRegex(#"#([0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{4}|[0-9a-fA-F]{3})(?:\s*([\d\.]+)%)?"#)
+private func parseCSSHex(_ component: String) -> __GradientStop? {
+	let searchResult = __hexPattern.matches(for: component)
 	guard searchResult.matches.count == 1 else { return nil }
 	let match = searchResult.matches[0]
 	if match.captures.count == 0 { return nil }
@@ -277,14 +281,14 @@ private func parseCSSHex(_ component: String) -> GStop? {
 		position = nil
 	}
 
-	return GStop(color: color, stop: position)
+	return __GradientStop(color: color, position: position)
 }
 
 // MARK: Parse RGB[A] definition
 
-private let rgbaPattern = try! DSFRegex(#"rgba?\(\s*(\b\d{1,3}\b)\s*,\s*(\b\d{1,3}\b)\s*,\s*(\b\d{1,3}\b)(?:\s*,\s*(\d*\.?\d+))?\)\s*(?:([\d\.]+)%?)?"#)
-private func parseCSSRGBA(_ component: String) -> GStop? {
-	let searchResult = rgbaPattern.matches(for: component)
+private let __rgbaPattern = try! DSFRegex(#"rgba?\(\s*(\b\d{1,3}\b)\s*,\s*(\b\d{1,3}\b)\s*,\s*(\b\d{1,3}\b)(?:\s*,\s*(\d*\.?\d+))?\)\s*(?:([\d\.]+)%?)?"#)
+private func parseCSSRGBA(_ component: String) -> __GradientStop? {
+	let searchResult = __rgbaPattern.matches(for: component)
 	guard searchResult.matches.count == 1 else { return nil }
 	let match = searchResult.matches[0]
 
@@ -330,15 +334,15 @@ private func parseCSSRGBA(_ component: String) -> GStop? {
 		position = nil
 	}
 
-	return GStop(color: color, stop: position)
+	return __GradientStop(color: color, position: position)
 }
 
 
 // MARK: HSL
 
-let hslPattern = try! DSFRegex(#"hsla?\(\s*(\b[\d\.]+\b)\s*,\s*(\b[\d\.]+\b)%\s*,\s*(\b[\d\.]+\b)%\s*(?:\s*,\s*(\d*\.?\d+))?\)\s*(?:([\d\.]+)%?)?"#)
-private func parseCSSHSLA(_ component: String) -> GStop? {
-	let searchResult = hslPattern.matches(for: component)
+private let __hslPattern = try! DSFRegex(#"hsla?\(\s*(\b[\d\.]+\b)\s*,\s*(\b[\d\.]+\b)%\s*,\s*(\b[\d\.]+\b)%\s*(?:\s*,\s*(\d*\.?\d+))?\)\s*(?:([\d\.]+)%?)?"#)
+private func parseCSSHSLA(_ component: String) -> __GradientStop? {
+	let searchResult = __hslPattern.matches(for: component)
 	guard searchResult.matches.count == 1 else { return nil }
 	let match = searchResult.matches[0]
 
@@ -387,5 +391,5 @@ private func parseCSSHSLA(_ component: String) -> GStop? {
 		position = nil
 	}
 
-	return GStop(color: color, stop: position)
+	return __GradientStop(color: color, position: position)
 }

@@ -22,4 +22,15 @@ import Foundation
 extension Collection {
 	/// Returns true if the collection is NOT empty
 	@inlinable @inline(__always) var isNotEmpty: Bool { self.isEmpty == false }
+
+	/// Count how many items in the collection satisfy the condition
+	/// - Parameter condition: The condition block
+	/// - Returns: The number of blocks that satify the condition
+	///
+	/// A Swift 5 compatible version of `count(where: {})` in Swift 6
+	@inlinable public func countWhere(_ condition: (Element) throws -> Bool) rethrows -> Int {
+		try self.reduce(0) { partialResult, element in
+			partialResult + (try condition(element) ? 1 : 0)
+		}
+	}
 }
