@@ -343,22 +343,20 @@ public extension PAL.Color.RGB {
 	/// - Parameter format: The rgb format
 	/// - Returns: A UInt32 representation of the image
 	func uint32Value(_ format: PAL.ColorByteFormat) -> UInt32 {
-		let value: UInt32
 		switch format {
 		case .abgr:
-			value = UInt32(self.a255) << 24 | UInt32(self.b255) << 16 | UInt32(self.g255) << 8 | UInt32(self.r255)
+			return .fromBytes(self.a255, self.b255, self.g255, self.r255)
 		case .argb:
-			value = UInt32(self.a255) << 24 | UInt32(self.r255) << 16 | UInt32(self.g255) << 8 | UInt32(self.b255)
+			return .fromBytes(self.a255, self.r255, self.g255, self.b255)
 		case .bgra:
-			value = UInt32(self.b255) << 24 | UInt32(self.g255) << 16 | UInt32(self.r255) << 8 | UInt32(self.a255)
+			return .fromBytes(self.b255, self.g255, self.r255, self.a255)
 		case .bgr:
-			value = UInt32(0) << 24 | UInt32(self.b255) << 16 | UInt32(self.g255) << 8 | UInt32(self.r255)
+			return .fromBytes(0, self.b255, self.g255, self.r255)
 		case .rgba:
-			value = UInt32(self.r255) << 24 | UInt32(self.g255) << 16 | UInt32(self.b255) << 8 | UInt32(self.a255)
+			return .fromBytes(self.r255, self.g255, self.b255, self.a255)
 		case .rgb:
-			value = UInt32(0) << 24 | UInt32(self.r255) << 16 | UInt32(self.g255) << 8 | UInt32(self.b255)
+			return .fromBytes(0, self.r255, self.g255, self.b255)
 		}
-		return value
 	}
 
 	/// Get the 32-bit Int32 representation of this RGB(A) value
@@ -373,41 +371,28 @@ public extension PAL.Color.RGB {
 	///   - value: The unsigned integer value
 	///   - format: The rgb format
 	init(value: UInt32, format: PAL.ColorByteFormat) {
+
+		// value byte components
+		let c = value.byteComponents()
+
 		let r: UInt8
 		let g: UInt8
 		let b: UInt8
 		let a: UInt8
+
 		switch format {
 		case .rgb:
-			r = UInt8((value >> 16) & 0xFF)
-			g = UInt8((value >> 8) & 0xFF)
-			b = UInt8(value & 0xFF)
-			a = 255
+			r = c.1; g = c.2; b = c.3; a = 255
 		case .bgr:
-			b = UInt8((value >> 16) & 0xFF)
-			g = UInt8((value >> 8) & 0xFF)
-			r = UInt8(value & 0xFF)
-			a = 255
+			b = c.1; g = c.2; r = c.3; a = 255
 		case .argb:
-			a = UInt8((value >> 24) & 0xFF)
-			r = UInt8((value >> 16) & 0xFF)
-			g = UInt8((value >> 8) & 0xFF)
-			b = UInt8(value & 0xFF)
+			a = c.0; r = c.1; g = c.2; b = c.3
 		case .rgba:
-			r = UInt8((value >> 24) & 0xFF)
-			g = UInt8((value >> 16) & 0xFF)
-			b = UInt8((value >> 8) & 0xFF)
-			a = UInt8(value & 0xFF)
+			r = c.0; g = c.1; b = c.2; a = c.3
 		case .abgr:
-			a = UInt8((value >> 24) & 0xFF)
-			b = UInt8((value >> 16) & 0xFF)
-			g = UInt8((value >> 8) & 0xFF)
-			r = UInt8(value & 0xFF)
+			a = c.0; b = c.1; g = c.2; r = c.3
 		case .bgra:
-			b = UInt8((value >> 24) & 0xFF)
-			g = UInt8((value >> 16) & 0xFF)
-			r = UInt8((value >> 8) & 0xFF)
-			a = UInt8(value & 0xFF)
+			b = c.0; g = c.1; r = c.2; a = c.3
 		}
 		self.init(r255: r, g255: g, b255: b, a255: a)
 	}
