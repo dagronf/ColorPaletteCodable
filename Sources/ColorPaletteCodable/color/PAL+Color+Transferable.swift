@@ -30,13 +30,18 @@ import UniformTypeIdentifiers
 @available(macOS 13, iOS 16, tvOS 16, watchOS 9, *)
 extension PAL.Color: Transferable {
 
-	private var swcolor: SwiftUI.Color { self.SwiftUIColor ?? .black }
+	/// When transferring to an app that doesn't support our own type, use the built-in color type
+	private var __transferColor: SwiftUI.Color {
+		get {
+			self.SwiftUIColor ?? .black
+		}
+	}
 
 	public static var transferRepresentation: some TransferRepresentation {
-		// Add the basic transfer representation for a SwiftUI.Color
-		ProxyRepresentation(exporting: \.swcolor)
 		// Add PAL.Color as a codable type
 		CodableRepresentation(contentType: .palColor)
+		// Add the basic transfer representation for a SwiftUI.Color
+		ProxyRepresentation(exporting: \.__transferColor)
 	}
 }
 
@@ -45,6 +50,7 @@ extension PAL.Color: Transferable {
 extension PAL.Gradient: Transferable {
 	/// The transferrable representation for this type (JSON encoded PAL.Gradient)
 	public static var transferRepresentation: some TransferRepresentation {
+		/// We only know about our own gradient type
 		CodableRepresentation(contentType: .palGradient)
 	}
 }
@@ -54,6 +60,7 @@ extension PAL.Gradient: Transferable {
 extension PAL.Gradients: Transferable {
 	/// The transferrable representation for this type (JSON encoded PAL.Gradients)
 	public static var transferRepresentation: some TransferRepresentation {
+		/// We only know about our own gradients type
 		CodableRepresentation(contentType: .palGradients)
 	}
 }
