@@ -185,13 +185,13 @@ private func __parseLinearGradients(_ text: String) -> PAL.Gradients {
 
 		if stops.isNotEmpty {
 			// Map the colors to a gradient
-			if stops.count(where: { $0.stop != nil }) == 0 {
+			if stops.filter({ $0.stop != nil }).count == 0 {
 				// Special case. All elements of the stops are missing positioning information - therefore
 				// spread them evenly out over the entirety of the gradient (ie. 0.0 ... 1.0)
 				let gradient = PAL.Gradient(colors: stops.map { $0.color })
 				gradients.gradients.append(gradient)
 			}
-			else if stops.count(where: { $0.stop == nil }) == 0 {
+			else if stops.filter({ $0.stop == nil }).count == 0 {
 				// All stops have a position
 				let allStops = stops.compactMap { PAL.Gradient.Stop(position: $0.stop ?? 0.0, color: $0.color) }
 				if let g = try? PAL.Gradient(stops: allStops).extendingUnitStopsToEdges() {
