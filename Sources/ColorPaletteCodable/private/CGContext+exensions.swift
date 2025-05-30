@@ -17,8 +17,6 @@
 //  OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-// CoreGraphics extensions
-
 #if canImport(CoreGraphics)
 
 import CoreGraphics
@@ -29,22 +27,6 @@ extension CGContext {
 		self.saveGState()
 		defer { self.restoreGState() }
 		return try block(self)
-	}
-}
-
-extension CGColor {
-	/// Returns the RGBA components for this color
-	///
-	/// Throws an error if the color cannot be represented in the sRGB colorspace
-	func rgb() throws -> PAL.Color.RGB {
-		guard
-			let c1 = self.converted(to: PAL.ColorSpace.RGB.cgColorSpace, intent: .defaultIntent, options: nil),
-			let c1c = c1.components?.map({ Double($0) }),
-			c1c.count == 4
-		else {
-			throw PAL.CommonError.cannotConvertColorSpace
-		}
-		return PAL.Color.RGB(rf: c1c[0], gf: c1c[1], bf: c1c[2], af: c1c[3])
 	}
 }
 
