@@ -31,6 +31,7 @@ public extension PAL.Palette {
 	///   * [https://www.w3schools.com/%5Ccolors/colors_x11.asp](https://www.w3schools.com/%5Ccolors/colors_x11.asp)
 	static let X11ColorPalette = PAL.Palette(
 		colors: [
+			rgb255(0, 0, 0, 0,    name: "transparent"),  // Special case
 			rgb255(255, 250, 250, name: "snow"),
 			rgb255(248, 248, 255, name: "ghost white"),
 			rgb255(248, 248, 255, name: "GhostWhite"),

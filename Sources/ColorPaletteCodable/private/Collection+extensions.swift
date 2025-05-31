@@ -25,7 +25,7 @@ extension Collection {
 
 	/// Count how many items in the collection satisfy the condition
 	/// - Parameter condition: The condition block
-	/// - Returns: The number of blocks that satify the condition
+	/// - Returns: The number of elements that satify the condition
 	///
 	/// A Swift 5 compatible version of `count(where: {})` in Swift 6
 	@inlinable public func countWhere(_ condition: (Element) throws -> Bool) rethrows -> Int {
