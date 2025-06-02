@@ -161,7 +161,7 @@ private func __parseLinearGradients(_ text: String) -> PAL.Gradients {
 			components.append(content)
 
 			if parser.isAtEnd {
-				stillChecking == false
+				stillChecking = false
 				complete = true
 			}
 		}
@@ -171,7 +171,7 @@ private func __parseLinearGradients(_ text: String) -> PAL.Gradients {
 		// Each component is a function argument for linear-gradient
 		var stops: [__GradientStop] = []
 		for component in components {
-			let c = component.trim().lowercased()
+			let c = component.trim()
 
 			// First, lets see if its an rgb[a] definition
 			if let gstop = parseCSSRGBA(c) {
@@ -253,156 +253,206 @@ private class __GradientStop {
 
 // MARK: Color name definition
 
-private let __colorNamePattern = try! DSFRegex(#"\b(\w*)\b\s*([\d\.\w%]+)?"#)
+private let __colorNamePattern = try! DSFRegex(#"\b(\w+)\b(?:\s*([\d\.]+)(deg|%)?)?"#)
 private func parseCSSColorName(_ component: String) -> __GradientStop? {
 	let searchResult = __colorNamePattern.matches(for: component)
-	guard let match = searchResult.matches.first else { return nil }
+	guard
+		let match = searchResult.matches.first,
+		match.captures.count == 3
+	else {
+		return nil
+	}
+
+	// Capture 1  -> Standard X11 color name
+	// Capture 2  -> Position Value (optional)
+	// Capture 3  -> Position Type (optional)
+
 	let colorName = component[match.captures[0]]
-	let positionString = component[match.captures[1]]
+	let positionValue = component[match.captures[1]]
+	let positionType = component[match.captures[2]]
+
+	let position = parsePosition(positionValue, positionType)
 
 	// Should be a standard X11 color name
 	guard let color = PAL.Palette.X11ColorPalette.color(named: String(colorName)) else {
 		return nil
 	}
 
-	let position = parsePositionElement(positionString)
 	return __GradientStop(color: color, position: position)
 }
 
 // MARK: Parse Hex definition
 
-private let __hexPattern = try! DSFRegex(#"#([0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{4}|[0-9a-fA-F]{3})\s*([\d\.\w%]+)?"#)
+private let __hexPattern = try! DSFRegex(#"#([0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{4}|[0-9a-fA-F]{3})(?:\s*([\d\.]+)(deg|%)?)?"#)
 private func parseCSSHex(_ component: String) -> __GradientStop? {
 	let searchResult = __hexPattern.matches(for: component)
-	guard searchResult.matches.count == 1 else { return nil }
-	let match = searchResult.matches[0]
-	if match.captures.count == 0 { return nil }
+
+	guard
+		let match = searchResult.matches.first,
+		match.captures.count == 3
+	else {
+		return nil
+	}
+
+	// Capture 1  -> Hex component
+	// Capture 2  -> Position Value (optional)
+	// Capture 3  -> Position Type (optional)
+
 	let hexValue = component[match.captures[0]]
-	let positionString = component[match.captures[1]]
+	let positionValue = component[match.captures[1]]
+	let positionType = component[match.captures[2]]
 
 	guard let color = try? PAL.Color(rgbHexString: String(hexValue), format: .rgba) else {
 		return nil
 	}
 
-	let position = parsePositionElement(positionString)
+	let position = parsePosition(positionValue, positionType)
+
 	return __GradientStop(color: color, position: position)
 }
 
 // MARK: Parse RGB[A] definition
 
-private let __rgbaPattern = try! DSFRegex(#"rgba?\(\s*(\b\d{1,3}\b)\s*,\s*(\b\d{1,3}\b)\s*,\s*(\b\d{1,3}\b)(?:\s*,\s*(\d*\.?\d+))?\)\s*([\d\.\w%]+)?"#)
+private let __rgbaPattern = try! DSFRegex(#"(?i)rgba?\(\s*([\d\.]*)(%)?[\s,]+(\b[\d\.]+\b)(%)?[\s,]+(\b[\d\.]+\b)(%)?(?:[\s,]+([\d\.]*)(deg|%)?)?\)(?:\s*([\d\.]+)(deg|%)?)?"#)
 private func parseCSSRGBA(_ component: String) -> __GradientStop? {
 	let searchResult = __rgbaPattern.matches(for: component)
-	guard searchResult.matches.count == 1 else { return nil }
-	let match = searchResult.matches[0]
-
-	let rstr = component[match.captures[0]]		// r component
-	let gstr = component[match.captures[1]]		// g component
-	let bstr = component[match.captures[2]]		// b component
-	let astr = component[match.captures[3]]		// a percent
-	let positionString = component[match.captures[4]]		// first percentage
 
 	guard
-		let r = UInt8(rstr),
-		let g = UInt8(gstr),
-		let b = UInt8(bstr)
+		let match = searchResult.matches.first,
+		match.captures.count == 10
 	else {
 		return nil
 	}
 
-	let a: Double? = Double(astr)
+	// Capture 1  -> red value
+	// Capture 2  -> red type (eg. % (0 ... 100) or nil (0 ... 255)
+	// Capture 3  -> green value
+	// Capture 4  -> green type (eg. % (0 ... 100) or nil (0 ... 255)
+	// Capture 5  -> blue value
+	// Capture 6  -> blue type (eg. % (0 ... 100) or nil (0 ... 255)
+	// Capture 7  -> Alpha value. [Optional]
+	// Capture 8  -> Alpha type eg. % (0 ... 100) or nil (0.0 ... 1.0) [Optional]
+	// Capture 9  -> Position value [Optional]
+	// Capture 10 -> Position type (deg, %, float) [Optional]
 
-	let alpha: Double
-	if astr.count > 0 {
-		guard let a = a else {
-			// User specified an alpha, but we couldn't convert it
-			return nil
-		}
-		if (0.0 ... 1.0).contains(a) == false {
-			// User specified an alpha, but we couldn't convert it
-			return nil
-		}
-		alpha = a
-	}
+	let rValue = component[match.captures[0]]
+	let rType  = component[match.captures[1]]
+	let gValue = component[match.captures[2]]
+	let gType  = component[match.captures[3]]
+	let bValue = component[match.captures[4]]
+	let bType  = component[match.captures[5]]
+
+	let alpValue = component[match.captures[6]]
+	let alpType  = component[match.captures[7]]
+
+	let posValue = component[match.captures[8]]
+	let posType  = component[match.captures[9]]
+
+	guard
+		let r = parseRGBValue(rValue, rType),
+		let g = parseRGBValue(gValue, gType),
+		let b = parseRGBValue(bValue, bType)
 	else {
-		alpha = 1.0
+		return nil
 	}
 
-	let color = PAL.Color(r255: r, g255: g, b255: b, a255: _f2p(alpha))
+	let alpha = parseAlpha(alpValue, alpType)
+	let position = parsePosition(posValue, posType)
+	let color = PAL.Color(rf: r, gf: g, bf: b, af: alpha)
 
-	// We need to convert the metric for the position into a 0 ... 1 range
-	let position = parsePositionElement(positionString)
-	return __GradientStop(color: color, position: position?.clamped(to: 0 ... 1))
+	return __GradientStop(color: color, position: position?.unitClamped)
 }
 
 // MARK: HSL
 
-private let __hslPattern = try! DSFRegex(#"hsla?\(\s*(\b[\d\.]+\b)\s*,\s*(\b[\d\.]+\b)%\s*,\s*(\b[\d\.]+\b)%\s*(?:\s*,\s*(\d*\.?\d+))?\)\s*([\d\.\w%]+)?"#)
+private let __hslPattern = try! DSFRegex(#"(?i)hsla?\(\s*([\d\.]*)(deg)?[\s,]+(\b[\d\.]+\b)%?[\s,]+(\b[\d\.]+\b)%?(?:[\s,]+([\d\.]*)(deg|%)?)?\)(?:\s(\b[\d\.]+\b)(%)?)?"#)
 private func parseCSSHSLA(_ component: String) -> __GradientStop? {
 	let searchResult = __hslPattern.matches(for: component)
-	guard searchResult.matches.count == 1 else { return nil }
-	let match = searchResult.matches[0]
-
-	let rstr = component[match.captures[0]]				// h component (0 ... 360)
-	let gstr = component[match.captures[1]]				// s component (0 ... 100)
-	let bstr = component[match.captures[2]]				// l component (0 ... 100)
-	let astr = component[match.captures[3]]				// a percent
-	let positionString = component[match.captures[4]]  // The position (could be %, degrees, float)
 
 	guard
-		let h = Int(rstr),
-		(0 ... 360).contains(h),
-		let s = Int(gstr),
-		(0 ... 100).contains(s),
-		let l = Int(bstr),
-		(0 ... 100).contains(l)
+		let match = searchResult.matches.first,
+		match.captures.count == 8
 	else {
 		return nil
 	}
 
-	let a: Double? = Double(astr)
+	// Capture 1 -> Hue value (angle)
+	// Capture 2 -> Hue type (eg. degrees or not specified) [Optional]
+	// Capture 3 -> Saturation value (always percent)
+	// Capture 4 -> Lightness value (always percent)
+	// Capture 5 -> Alpha value. [Optional]
+	// Capture 6 -> Alpha type (percent or float) [Optional]
+	// Capture 7 -> Position value [Optional]
+	// Capture 8 -> Position type (deg, %, float) [Optional]
 
-	let alpha: Double
-	if astr.count > 0 {
-		guard let a = a else {
-			// User specified an alpha, but we couldn't convert it
-			return nil
-		}
-		if (0.0 ... 1.0).contains(a) == false {
-			// User specified an alpha, but we couldn't convert it
-			return nil
-		}
-		alpha = a
-	}
+	let hueValue = component[match.captures[0]]   // h component (0 ... 360)
+	let hueType  = component[match.captures[1]]   // h metric (eg. deg or nil - always a degrees value tho)
+	let satValue = component[match.captures[2]]   // s component (0 ... 100)
+	let litValue = component[match.captures[3]]   // l component (0 ... 100)
+
+	let alpValue = component[match.captures[4]]   // alpha value
+	let alpType  = component[match.captures[5]]   // alpha type
+
+	let posValue = component[match.captures[6]]   // The position value
+	let posType  = component[match.captures[7]]   // The position type (could be %, degrees, float or nil)
+
+	guard
+		let h = Double(hueValue),
+		let s = Double(satValue),
+		let l = Double(litValue)
 	else {
-		alpha = 1.0
+		return nil
 	}
 
-	let color = PAL.Color(h360: Double(h), s100: Double(s), l100: Double(l), af: alpha)
+	let alpha = parseAlpha(alpValue, alpType)
 
-	let position = parsePositionElement(positionString)
+	let position = parsePosition(posValue, posType)
+	let color = PAL.Color(h360: h, s100: s, l100: l, af: alpha)
 	return __GradientStop(color: color, position: position)
 }
 
+// MARK: - Parsing helpers
 
-private func parsePositionElement(_ positionString: Substring) -> Double? {
+/// Always returns a value 0 ... 1 or nil
+private func parseRGBValue(_ value: Substring, _ type: Substring) -> Double? {
+	guard let value = Double(value) else { return nil }
+	switch type.lowercased() {
+	case "%": return value / 100.0		// A percentage value
+	case "deg": return value / 360.0		// A degrees value (for conic-style gradients)
+	default: return value / 255.0			// A simple 0 ... 255 value
+	}
+}
+
+/// Always returns a value 0 ... 1 or nil
+private func parsePosition(_ value: Substring, _ type: Substring) -> Double? {
+	if value.isEmpty { return nil }
+	let type = type.lowercased()
 	var position: Double?
-	if let range = positionString.range(of: "deg"),
-		let value = Double(positionString.prefix(upTo: range.lowerBound))
-	{
-		// An angle
-		position = value / 360.0
-	}
-	else if let range = positionString.range(of: "%"),
-			  let value = Double(positionString.prefix(upTo: range.lowerBound))
-	{
-		// A percentage
-		position = value / 100.0
-	}
-	else if let value = Double(positionString)
-	{
-		// Just a simple fraction?
-		position = value
+	if let value = Double(value) {
+		switch type {
+		case "deg": position = value / 360.0		// degrees
+		case "%": position = value / 100.0			// percentage
+		default:
+			// Assume a float value
+			position = value								// fraction?
+		}
 	}
 	return position
+}
+
+/// Always returns a value 0 ... 1 or nil
+private func parseAlpha(_ value: Substring, _ type: Substring) -> Double {
+	var alpha: Double = 1.0
+	if value.isNotEmpty {
+		let type = type.lowercased()
+		if let alpValue = Double(value) {
+			switch type {
+			case "%": alpha = alpValue / 100
+			default:
+				// Assume float (?)
+				alpha = alpValue
+			}
+		}
+	}
+	return alpha
 }
