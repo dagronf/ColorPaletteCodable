@@ -22,11 +22,16 @@
 import Foundation
 
 #if !canImport(Darwin)
+
 struct SIMD3<T: BinaryFloatingPoint> {
-	let v: [T]
+	@usableFromInline let v: [T]
 	@inlinable init(_ v0: T, _ v1: T, _ v2: T) {
 		self.v = [v0, v1, v2]
 	}
+
+	@inlinable var x: T { v[0] }
+	@inlinable var y: T { v[1] }
+	@inlinable var z: T { v[2] }
 
 	@inlinable subscript(_ index: Int) -> T {
 		assert(index >= 0 && index < 3)
@@ -39,6 +44,10 @@ struct SIMD3<T: BinaryFloatingPoint> {
 			v[1].clamped(to: lowerBound.v[1] ... upperBound.v[1]),
 			v[2].clamped(to: lowerBound.v[2] ... upperBound.v[2])
 		)
+	}
+	
+	@inlinable var unitClamped: SIMD3<T> {
+		self.clamped(lowerBound: .init(0, 0, 0), upperBound: .init(1, 1, 1))
 	}
 
 	/// Linear interpolate between two SIMD3 instances

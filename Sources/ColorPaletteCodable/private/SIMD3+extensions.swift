@@ -19,62 +19,59 @@
 
 import Foundation
 
-/// A simple vector containing 3 elements
-struct Vec3<T: BinaryFloatingPoint> {
-	let x: T
-	let y: T
-	let z: T
+#if canImport(Darwin)
 
-	/// Create a vector object
-	init(_ x: T, _ y: T, _ z: T) {
-		self.x = x
-		self.y = y
-		self.z = z
-	}
-
+extension SIMD3 where Scalar: BinaryFloatingPoint {
 	/// Return a vector whose values are clamped between 0 and 1
 	@inlinable var unitClamped: Self {
-		Vec3(x.unitClamped, y.unitClamped, z.unitClamped)
+		self.clamped(lowerBound: SIMD3(0.0, 0.0, 0.0), upperBound: SIMD3(1.0, 1.0, 1.0))
 	}
 }
 
-/// Linear interpolate between two vec3 instances
+#endif
+
+/// Linear interpolate between two SIMD instances
 /// - Parameters:
 ///   - v0: First vector
 ///   - v1: Second vector
 ///   - t: The fractional distance between the two values
 /// - Returns: Interpolated value
-func lerp<T: FloatingPoint>(_ v0: Vec3<T>, _ v1: Vec3<T>, t: T) -> Vec3<T> {
-	Vec3<T>(
-		v0.x + (t * (v1.x - v0.x)),
-		v0.y + (t * (v1.y - v0.y)),
-		v0.z + (t * (v1.z - v0.z))
-	)
+func lerp<T: FloatingPoint>(_ v0: SIMD3<T>, _ v1: SIMD3<T>, t: T) -> SIMD3<T> {
+	v0 + (t * (v1 - v0))
 }
 
-// MARK: - Conveniences
+// MARK: - PAL.Color Conveniences
 
 internal extension PAL.Color {
-	/// Create an RGB color from the content of a Vec3
+	/// Create an RGB color from the content of a SIMD3
 	/// - Parameters:
 	///   - sRGB: The components values
 	///   - name: The color name
-	init(sRGB: Vec3<Double>, name: String = "") {
+	init(sRGB: SIMD3<Double>, name: String = "") {
 		self.init(rf: sRGB.x, gf: sRGB.y, bf: sRGB.z, name: name)
 	}
 
-	/// Return an Vec3 representation of this color. Throws an error if the color is not RGB colorspace
+	/// Return an SIMD3 representation of this color. Throws an error if the color is not RGB colorspace
 	/// - Returns: SIMD3 representation
-	func rgbValuesVec3() throws -> Vec3<Double> {
+	func rgbValuesSIMD3() throws -> SIMD3<Double> {
 		let rgb = try self.rgb()
-		return Vec3<Double>(rgb.rf, rgb.gf, rgb.bf)
+		return SIMD3(rgb.rf, rgb.gf, rgb.bf)
 	}
 }
 
+// MARK: - PAL.Color.RGB Conveniences
+
 internal extension PAL.Color.RGB {
+	/// Create an RGB color from the content of a SIMD3
+	/// - Parameters:
+	///   - sRGB: The components values
+	init(sRGB: SIMD3<Double>) {
+		self.init(rf: sRGB.x, gf: sRGB.y, bf: sRGB.z)
+	}
+
 	/// Create an RGB color from a vector of values
 	/// - Parameter value: rgb values
-	init(_ value: Vec3<Double>) {
+	init(_ value: SIMD3<Double>) {
 		self.rf = value.x
 		self.gf = value.y
 		self.bf = value.z
@@ -82,5 +79,5 @@ internal extension PAL.Color.RGB {
 	}
 
 	/// A simple representation of the RGB values
-	var vec3: Vec3<Double> { Vec3<Double>(self.rf, self.gf, self.bf) }
+	var simd3: SIMD3<Double> { SIMD3<Double>(self.rf, self.gf, self.bf) }
 }

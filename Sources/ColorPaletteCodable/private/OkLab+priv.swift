@@ -31,7 +31,7 @@ extension OkLab {
 	///   - c2: Second color
 	///   - t: The fractional distance between the two colors
 	/// - Returns: Interpolated color
-	static func mix(_ c1: Vec3<Double>, _ c2: Vec3<Double>, t: Double) -> Vec3<Double> {
+	static func mix(_ c1: SIMD3<Double>, _ c2: SIMD3<Double>, t: Double) -> SIMD3<Double> {
 		let omix = lerp(sRGB_to_OkLab(c1.unitClamped), sRGB_to_OkLab(c2.unitClamped), t: t.unitClamped)
 		return OkLab_to_sRGB(omix).unitClamped
 	}
@@ -44,8 +44,8 @@ extension OkLab {
 	///   - steps: The number of palette entries to create (including start and end colors)
 	/// - Returns: A palette
 	internal static func palette(
-		_ c1: Vec3<Double>,
-		_ c2: Vec3<Double>,
+		_ c1: SIMD3<Double>,
+		_ c2: SIMD3<Double>,
 		steps: Int,
 		name: String = ""
 	) -> PAL.Palette {
@@ -59,49 +59,49 @@ extension OkLab {
 
 // MARK: - Private implementations
 
-private let _cubed = Vec3<Double>(3, 3, 3)
+private let _cubed = SIMD3<Double>(3, 3, 3)
 
-internal func sRGB_to_OkLab(_ c: Vec3<Double>) -> Vec3<Double> {
+internal func sRGB_to_OkLab(_ c: SIMD3<Double>) -> SIMD3<Double> {
 	Linear_sRGB_to_OkLab_Ref(sRGB_to_Linear(c))
 }
 
-internal func OkLab_to_sRGB(_ c: Vec3<Double>) -> Vec3<Double> {
+internal func OkLab_to_sRGB(_ c: SIMD3<Double>) -> SIMD3<Double> {
 	linear_to_sRGB(OkLab_to_Linear_sRGB_Ref(c))
 }
 
-private func sRGB_Oklab_mix(_ c1: Vec3<Double>, _ c2: Vec3<Double>, t: Double) -> Vec3<Double> {
+private func sRGB_Oklab_mix(_ c1: SIMD3<Double>, _ c2: SIMD3<Double>, t: Double) -> SIMD3<Double> {
 	let o1 = sRGB_to_OkLab(c1)
 	let o2 = sRGB_to_OkLab(c2)
 	let m = lerp(o1, o2, t: t)
 	return OkLab_to_sRGB(m)
 }
 
-private func Linear_sRGB_to_OkLab_Ref(_ c: Vec3<Double>) -> Vec3<Double> {
-	let lms = Vec3<Double>(
+private func Linear_sRGB_to_OkLab_Ref(_ c: SIMD3<Double>) -> SIMD3<Double> {
+	let lms = SIMD3<Double>(
 		0.4122214708 * c.x + 0.5363325363 * c.y + 0.0514459929 * c.z,
 		0.2119034982 * c.x + 0.6806995451 * c.y + 0.1073969566 * c.z,
 		0.0883024619 * c.x + 0.2817188376 * c.y + 0.6299787005 * c.z
 	)
 
-	let lms_ = Vec3<Double>(cbrt(lms.x), cbrt(lms.y), cbrt(lms.z))
+	let lms_ = SIMD3<Double>(cbrt(lms.x), cbrt(lms.y), cbrt(lms.z))
 
-	return Vec3<Double>(
+	return SIMD3<Double>(
 		0.2104542553 * lms_.x + 0.7936177850 * lms_.y - 0.0040720468 * lms_.z,
 		1.9779984951 * lms_.x - 2.4285922050 * lms_.y + 0.4505937099 * lms_.z,
 		0.0259040371 * lms_.x + 0.7827717662 * lms_.y - 0.8086757660 * lms_.z
 	)
 }
 
-private func OkLab_to_Linear_sRGB_Ref(_ c: Vec3<Double>) -> Vec3<Double> {
-	let lms_ = Vec3<Double>(
+private func OkLab_to_Linear_sRGB_Ref(_ c: SIMD3<Double>) -> SIMD3<Double> {
+	let lms_ = SIMD3<Double>(
 		 c.x + 0.3963377774 * c.y + 0.2158037573 * c.z,
 		 c.x - 0.1055613458 * c.y - 0.0638541728 * c.z,
 		 c.x - 0.0894841775 * c.y - 1.2914855480 * c.z
 	 )
 
-	let lms = Vec3<Double>(pow(lms_.x, 3), pow(lms_.y, 3), pow(lms_.z, 3))
+	let lms = SIMD3<Double>(pow(lms_.x, 3), pow(lms_.y, 3), pow(lms_.z, 3))
 
-	return Vec3<Double>(
+	return SIMD3<Double>(
 		+4.0767416621 * lms.x - 3.3077115913 * lms.y + 0.2309699292 * lms.z,
 		-1.2684380046 * lms.x + 2.6097574011 * lms.y - 0.3413193965 * lms.z,
 		-0.0041960863 * lms.x - 0.7034186147 * lms.y + 1.7076147010 * lms.z
@@ -117,8 +117,8 @@ private func sRGB_to_Linear(_ value: Double) -> Double {
 	}
 }
 
-private func sRGB_to_Linear(_ value: Vec3<Double>) -> Vec3<Double> {
-	Vec3<Double>(sRGB_to_Linear(value.x), sRGB_to_Linear(value.y), sRGB_to_Linear(value.z))
+private func sRGB_to_Linear(_ value: SIMD3<Double>) -> SIMD3<Double> {
+	SIMD3<Double>(sRGB_to_Linear(value.x), sRGB_to_Linear(value.y), sRGB_to_Linear(value.z))
 }
 
 private func linear_to_sRGB(_ value: Double) -> Double {
@@ -130,6 +130,6 @@ private func linear_to_sRGB(_ value: Double) -> Double {
 	}
 }
 
-private func linear_to_sRGB(_ v: Vec3<Double>) -> Vec3<Double> {
-	Vec3<Double>(linear_to_sRGB(v.x), linear_to_sRGB(v.y), linear_to_sRGB(v.z))
+private func linear_to_sRGB(_ v: SIMD3<Double>) -> SIMD3<Double> {
+	SIMD3<Double>(linear_to_sRGB(v.x), linear_to_sRGB(v.y), linear_to_sRGB(v.z))
 }
