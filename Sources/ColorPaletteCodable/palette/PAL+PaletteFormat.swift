@@ -60,6 +60,7 @@ public extension PAL {
 		case afpalette          // Affinity Designer .afpalette file
 		case xara               // Xara palette file (.jcw)
 		case koffice            // KOffice palette file (.colors)
+		case hpl                // Homesite Palette file (.hpl)
 
 		// This needs to go last, so it doesn't override the other PAL types
 		case vga24bit      // 24-bit RGB VGA (3 bytes RRGGBB)
@@ -111,6 +112,7 @@ public extension PAL.PaletteFormat {
 		case .afpalette          : return PAL.Coder.AFPaletteCoder()
 		case .xara               : return PAL.Coder.JCW()
 		case .koffice            : return PAL.Coder.KOffice()
+		case .hpl                : return PAL.Coder.HPL()
 		}
 	}
 }

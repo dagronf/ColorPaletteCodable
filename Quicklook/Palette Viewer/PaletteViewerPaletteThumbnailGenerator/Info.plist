@@ -37,6 +37,7 @@
 				<string>public.dagronf.colorpalette.palette.xara.palette</string>
 				<string>public.dagronf.colorpalette.palette.sk1</string>
 				<string>public.dagronf.colorpalette.palette.koffice</string>
+				<string>public.dagronf.colorpalette.palette.homesite</string>
 			</array>
 			<key>QLThumbnailMinimumDimension</key>
 			<integer>0</integer>

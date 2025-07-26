@@ -1,6 +1,5 @@
 @testable import ColorPaletteCodable
 import XCTest
-
 import Foundation
 
 class KOfficePaletteTests: XCTestCase {
@@ -36,3 +35,5 @@ class KOfficePaletteTests: XCTestCase {
 		XCTAssertEqual(loaded.colors[13].colorComponents[2], 0.1, accuracy: 0.01)
 	}
 }
+
+

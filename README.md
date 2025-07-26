@@ -52,6 +52,7 @@ Supports the following :-
 * Xara Designer Palette format (`.jcw`)
 * SK1 Color Palette (`.skp`) ***Very basic support***  
 * KOffice Color Palette  (`.colors`)
+* Homesite Palette  (`.hpl`)
 
 ## Supported gradient formats
 
@@ -114,6 +115,7 @@ Some features :-
 |`PAL.Coder.DCP`                    | Built-in binary palette format (.dcp)       |
 |`PAL.Coder.GIMP`                   | GIMP palette files (.gpl)                   |
 |`PAL.Coder.HEX`                    | Hex Color Palette (`.hex`)                  |
+|`PAL.Coder.HPL`                    | Homesite Palette (`.hpl`)                   |
 |`PAL.Coder.Image`                  | Image files (.png, .jpg, .gif)              |
 |`PAL.Coder.JSON`                   | JSON encoded palette (.jsoncolorpalette)    |
 |`PAL.Coder.OpenOfficePaletteCoder` | OpenOffice Palette (.soc)                   |
@@ -212,6 +214,7 @@ let paletteData = palette.export(format: .ase)
 | `PAL.Coder.DCP`                    | Binary                 | ✅       | ✅       | ✅              | ✅                | ✅               | ✅                     | ✅                     | ✅               |
 | `PAL.Coder.GIMP`                   | Text                   | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB only               | ❌               |
 | `PAL.Coder.HEX`                    | Text                   | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ✅               |
+| `PAL.Coder.HPL`                    | Text                   | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
 | `PAL.Coder.Image`                  | Binary                 | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | ❌                     | ✅               |
 | `PAL.Coder.JSON`                   | JSON Text              | ✅       | ✅       | ✅              | ✅                | ✅               | ✅                     | ✅                     | ✅               |
 | `PAL.Coder.KOffice`                | Text                   | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
