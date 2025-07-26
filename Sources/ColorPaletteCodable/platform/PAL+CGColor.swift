@@ -27,10 +27,10 @@ import CoreGraphics
 public extension CGColor {
 	/// Create a CGColor from a hex formatted string
 	/// - Parameters:
-	///   - hexString: The hex string
+	///   - rgbHexString: The hex string
 	///   - format: The expected color ordering
-	static func fromHexString(_ hexString: String, format: PAL.ColorByteFormat) throws -> CGColor {
-		let rgb = try PAL.Color.RGB(hexString, format: format)
+	static func fromHexString(_ rgbHexString: String, format: PAL.ColorByteFormat) throws -> CGColor {
+		let rgb = try PAL.Color.RGB(rgbHexString: rgbHexString, format: format)
 		if #available(macOS 10.15, *) {
 			return CGColor(srgbRed: CGFloat(rgb.rf), green: CGFloat(rgb.gf), blue: CGFloat(rgb.bf), alpha: CGFloat(rgb.af))
 		} else {

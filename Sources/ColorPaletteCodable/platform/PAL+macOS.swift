@@ -28,8 +28,8 @@ public extension NSColor {
 	/// - Parameters:
 	///   - hexString: The hex string
 	///   - format: The expected color ordering
-	convenience init(hexString: String, format: PAL.ColorByteFormat) throws {
-		let rgb = try PAL.Color.RGB(hexString, format: format)
+	convenience init(rgbHexString: String, format: PAL.ColorByteFormat) throws {
+		let rgb = try PAL.Color.RGB(rgbHexString: rgbHexString, format: format)
 		self.init(srgbRed: CGFloat(rgb.rf), green: CGFloat(rgb.gf), blue: CGFloat(rgb.bf), alpha: CGFloat(rgb.af))
 	}
 

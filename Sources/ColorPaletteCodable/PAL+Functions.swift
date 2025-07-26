@@ -370,6 +370,19 @@ public extension PAL.Color {
 	@inlinable func contrastingTextColor() throws -> PAL.Color {
 		try self.luminance() > 0.179 ? .black : .white
 	}
+
+	/// Increase the contrast of a color
+	/// - Parameters:
+	///   - factor: The contrast factor (e.g., 1.2 makes it more contrasted, 0.8 makes it less). Must be >= 0.
+	/// - Returns: A new color with modified contrast.
+	func contrasting(factor: Double) throws -> PAL.Color {
+		let factor = (factor <= 0) ? 1.0 : factor
+		let rgb = try self.rgb()
+
+		let rgbc = (((SIMD3(rgb.rf, rgb.gf, rgb.bf) - 0.5) * factor) + 0.5)
+		let rgbn = rgbc.clamped(lowerBound: SIMD3(0, 0, 0), upperBound: SIMD3(1, 1, 1))
+		return PAL.Color(rf: rgbn[0], gf: rgbn[1], bf: rgbn[2], af: self.alpha, colorType: self.colorType)
+	}
 }
 
 // MARK: - Adjust brightness

@@ -34,8 +34,8 @@ extension Color {
 	/// - [#]FFFFFFFF : RGBA color (RRGGBBAA)
 	///
 	/// Returns clear color if the hex string is invalid
-	init(hex: String, format: PAL.ColorByteFormat = .rgba) {
-		guard let c = extractHexRGBA(hexString: hex, format: format) else {
+	init(rgbHexString: String, format: PAL.ColorByteFormat = .rgba) {
+		guard let c = extractHexRGBA(rgbHexString: rgbHexString, format: format) else {
 			self = .clear
 			return
 		}
@@ -51,7 +51,7 @@ extension Color {
 	/// - [#]FFFFFF   : RGB color
 	/// - [#]FFFFFFFF : RGBA color (RRGGBBAA)
 	init(rgbaHexString: String) {
-		self.init(hex: rgbaHexString, format: .argb)
+		self.init(rgbHexString: rgbaHexString, format: .argb)
 	}
 }
 

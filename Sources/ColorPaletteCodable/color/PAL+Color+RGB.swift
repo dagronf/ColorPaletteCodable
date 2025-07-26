@@ -70,7 +70,7 @@ public func rgb255(
 /// - Returns: A color representing the hex string
 public func rgb(
 	_ rgbHexString: String,
-	format: PAL.ColorByteFormat,
+	format: PAL.ColorByteFormat = .rgba,
 	name: String = "",
 	colorType: PAL.ColorType = .normal
 ) throws -> PAL.Color {
@@ -111,7 +111,7 @@ public extension PAL.Color {
 		/// Create and RGB[A] color from a hex formatted color string
 		///  - Parameters:
 		///   - hexString: The rgba hex string
-		///   - format: The expected rgba format
+		///   - format: The expected rgba format (eg. `.rgb`, `.rgba`, `.bgr` etc). Defaults to `.rgba`
 		///
 		/// Supported hex formats :-
 		/// - [#]FFF      : RGB color  (RGB)
@@ -120,9 +120,9 @@ public extension PAL.Color {
 		/// - [#]FFFFFFFF : RGBA color (RRGGBBAA)
 		///
 		/// Returns black color if the hex string is invalid
-		public init(_ hexString: String, format: PAL.ColorByteFormat) throws {
-			guard let c = extractHexRGBA(hexString: hexString, format: format) else {
-				throw PAL.CommonError.invalidRGBHexString(hexString)
+		public init(rgbHexString: String, format: PAL.ColorByteFormat = .rgba) throws {
+			guard let c = extractHexRGBA(rgbHexString: rgbHexString, format: format) else {
+				throw PAL.CommonError.invalidRGBHexString(rgbHexString)
 			}
 			self = c
 		}
@@ -262,7 +262,7 @@ public extension PAL.Color {
 	/// - [#]AABBCC   : RGB color
 	/// - [#]AABBCCDD : RGBA color (RRGGBBAA)
 	init(rgbHexString: String, format: PAL.ColorByteFormat, name: String = "", colorType: PAL.ColorType = .normal) throws {
-		let color = try PAL.Color.RGB(rgbHexString, format: format)
+		let color = try PAL.Color.RGB(rgbHexString: rgbHexString, format: format)
 		try self.init(
 			colorSpace: .RGB,
 			colorComponents: [color.rf, color.gf, color.bf],

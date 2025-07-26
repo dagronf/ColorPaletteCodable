@@ -236,4 +236,12 @@ final class ColorFunctionTests: XCTestCase {
 		let u2 = try c1.asUInt32(format: .argb)
 		XCTAssertEqual(u1, u2)
 	}
+
+	func testColorContrast() throws {
+		let c1 = PAL.Color.blue
+		let c11 = try c1.contrasting(factor: 1.2)
+		XCTAssertEqual(c1, c11)
+		let c111 = try c1.contrasting(factor: 0.8)
+		XCTAssertEqual(c111, PAL.Color(rf: 0.1, gf: 0.1, bf: 0.9))
+	}
 }

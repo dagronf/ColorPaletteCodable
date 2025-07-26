@@ -386,7 +386,7 @@ private func parseCSSHSLA(_ component: String) -> __GradientStop? {
 	// Capture 8 -> Position type (deg, %, float) [Optional]
 
 	let hueValue = component[match.captures[0]]   // h component (0 ... 360)
-	let hueType  = component[match.captures[1]]   // h metric (eg. deg or nil - always a degrees value tho)
+	//let hueType  = component[match.captures[1]]   // h metric (eg. deg or nil - always a degrees value tho)
 	let satValue = component[match.captures[2]]   // s component (0 ... 100)
 	let litValue = component[match.captures[3]]   // l component (0 ... 100)
 

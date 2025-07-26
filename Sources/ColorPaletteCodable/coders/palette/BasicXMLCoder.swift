@@ -132,7 +132,7 @@ fileprivate class BasicXMLDecoder: NSObject, XMLParserDelegate {
 		else if elementName == "color" {
 			let name = attributeDict["name"]?.xmlDecoded() ?? ""
 			if let rgbHexString = attributeDict["hex"],
-				let color = try? PAL.Color.RGB(rgbHexString, format: .rgba)
+				let color = try? PAL.Color.RGB(rgbHexString: rgbHexString, format: .rgba)
 			{
 				let c = PAL.Color(color: color, name: name)
 				self.palette.colors.append(c)
