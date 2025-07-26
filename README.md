@@ -51,6 +51,7 @@ Supports the following :-
 * SwatchBooker format (`.sbz`) ***(read only) (Apple platforms only)***
 * Xara Designer Palette format (`.jcw`)
 * SK1 Color Palette (`.skp`) ***Very basic support***  
+* KOffice Color Palette  (`.colors`)
 
 ## Supported gradient formats
 
@@ -131,6 +132,7 @@ Some features :-
 |`PAL.Coder.VGA24BitPaletteCoder`   | 24-bit VGA palette (.pal)                   |
 |`PAL.Coder.VGA18BitPaletteCoder`   | 18-bit VGA palette (.pal)                   |
 |`PAL.Coder.JCW`                    | Xara Designer palette (.jcw)                |
+|`PAL.Coder.KOfffic`                | KOffice Color palette (.colors)             |
 
 Each coder defines `.encode` and `.decode`. Not all coders support both encode and decode.
 
@@ -212,6 +214,7 @@ let paletteData = palette.export(format: .ase)
 | `PAL.Coder.HEX`                    | Text                   | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.Image`                  | Binary                 | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | ❌                     | ✅               |
 | `PAL.Coder.JSON`                   | JSON Text              | ✅       | ✅       | ✅              | ✅                | ✅               | ✅                     | ✅                     | ✅               |
+| `PAL.Coder.KOffice`                | Text                   | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
 | `PAL.Coder.OpenOfficePalette`      | XML                    | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | ❌                     | ❌               |
 | `PAL.Coder.PaintNET`               | Text                   | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.PaintShopPro`           | Text                   | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
