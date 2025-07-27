@@ -23,7 +23,8 @@ import BytesParser
 public extension PAL.Coder {
 	/// An object representing an ACB (Adobe Color Book)
 	///
-	/// Based on the discussion [here](https://magnetiq.ca/pages/acb-spec/)
+	/// Based on the discussion [here](https://ates.dev/pages/acb-spec/)
+	/// [archive](https://web.archive.org/web/20250727001358/https://ates.dev/pages/acb-spec/)
 	///
 	/// [Coffeescript implementation](https://github.com/jacobbubu/acb/blob/master/decoder.coffee)
 	struct ACB: PAL_PaletteCoder {
@@ -156,7 +157,9 @@ public extension PAL.Coder.ACB {
 			result.colors.append(color)
 		}
 
-		let _ /* spotIdentifier */ = try parser.readStringASCII(length: 8)
+		// Appears to have been added for later versions. It may or may not be there.
+		// Given we're ignoring it, just ignore it!
+		let _ /* spotIdentifier */ = try? parser.readStringASCII(length: 8)
 
 		return result
 	}

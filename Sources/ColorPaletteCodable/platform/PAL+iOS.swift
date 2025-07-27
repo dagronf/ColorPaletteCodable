@@ -25,12 +25,12 @@ import Foundation
 import UIKit
 
 public extension UIColor {
-	/// Create a UIColor from a hex formatted string
+	/// Create a UIColor from an rgb hex formatted string
 	/// - Parameters:
-	///   - hexString: The hex string
+	///   - hexString: The rgb hex string
 	///   - format: The expected color ordering
 	convenience init(hexString: String, format: PAL.ColorByteFormat) throws {
-		let rgb = try PAL.Color.RGB(hexString, format: format)
+		let rgb = try PAL.Color.RGB(rgbHexString: hexString, format: format)
 		self.init(red: CGFloat(rgb.rf), green: CGFloat(rgb.gf), blue: CGFloat(rgb.bf), alpha: CGFloat(rgb.af))
 	}
 
