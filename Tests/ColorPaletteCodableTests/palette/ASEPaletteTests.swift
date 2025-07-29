@@ -258,6 +258,22 @@ final class ASEPaletteTests: XCTestCase {
 		XCTAssertEqual(3, asePalette.colors.count)
 	}
 
+	func testASEWithNoFinalGroupEnd() throws {
+		let asePalette = try loadResourcePalette(named: "argyle-socks.ase")
+		// No global colors
+		XCTAssertEqual(0, asePalette.colors.count)
+		// A single color group
+		XCTAssertEqual(1, asePalette.groups.count)
+
+		let group = asePalette.groups[0]
+		XCTAssertEqual("argyle socks", group.name)
+		XCTAssertEqual(5, group.colors.count)
+		XCTAssertEqual(
+			try group.hexRGBA(hashmark: true),
+			["#aebb69ff", "#292111ff", "#f7f4d1ff", "#adecffff", "#274406ff"]
+		)
+	}
+
 #if canImport(CoreGraphics)
 	func testASEColorDarkColorsBug() throws {
 		let asePalette = try loadResourcePalette(named: "3M Scotchlite Serie 580_680.ase")

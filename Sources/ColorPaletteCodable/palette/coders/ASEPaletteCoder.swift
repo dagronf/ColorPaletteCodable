@@ -145,7 +145,7 @@ extension PAL.Coder.ASE {
 
 		if let currentGroup {
 			// Appears to be some cases where there's no 'group end' block, make sure that
-			// we add the las group to the palette if it exists
+			// we add the last group to the palette if we haven't already added it.
 			result.groups.append(currentGroup)
 		}
 
