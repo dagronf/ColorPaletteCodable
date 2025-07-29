@@ -53,6 +53,7 @@ Supports the following :-
 * SK1 Color Palette (`.skp`) ***Very basic support***  
 * KOffice Color Palette  (`.colors`)
 * Homesite Palette  (`.hpl`)
+* Skencil Palette  (`.spl`)
 
 ## Supported gradient formats
 
@@ -129,6 +130,7 @@ Some features :-
 |`PAL.Coder.SimplePaletteCoder`     | Simple Palette (.color-palette) v0.1        |
 |`PAL.Coder.SketchPalette`          | Sketch Palette (.sketchpalette)             |
 |`PAL.Coder.SKP`                    | SK1 Color Palette (.skp)                    |
+|`PAL.Coder.Skencil`                | Skencil Color Palette (.spl)                |
 |`PAL.Coder.SVG`                    | SVG image file (.svg)                       |
 |`PAL.Coder.SwatchbookerCoder       | Swatchbooker Palette (.sbz)                 |
 |`PAL.Coder.VGA24BitPaletteCoder`   | 24-bit VGA palette (.pal)                   |
@@ -225,6 +227,7 @@ let paletteData = palette.export(format: .ase)
 | `PAL.Coder.RIFF`                   | Binary                 | ✅       | ❌       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
 | `PAL.Coder.ScribusXMLPaletteCoder` | XML                    | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB/CMYK only          | ❌               |
 | `PAL.Coder.SimplePaletteCoder`     | JSON                   | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB only               | ✅               |
+| `PAL.Coder.SkencilPalette`         | Text                   | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
 | `PAL.Coder.SketchPalette`          | XML                    | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.SKP`                    | Text                   | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.SVG`                    | SVG text               | ❌       | ✅       | ❌              | ✅                | ✅               | ❌                     | RGB only               | ✅               |
