@@ -142,6 +142,13 @@ extension PAL.Coder.ASE {
 				throw PAL.CommonError.unknownBlockType
 			}
 		}
+
+		if let currentGroup {
+			// Appears to be some cases where there's no 'group end' block, make sure that
+			// we add the las group to the palette if it exists
+			result.groups.append(currentGroup)
+		}
+
 		return result
 	}
 	
