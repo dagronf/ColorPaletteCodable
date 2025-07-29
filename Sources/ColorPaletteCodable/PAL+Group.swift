@@ -45,6 +45,36 @@ extension PAL.Group: Hashable {
 	public func hash(into hasher: inout Hasher) { hasher.combine(self.id) }
 }
 
+// MARK: - Methods
+
+public extension PAL.Group {
+	/// Generate an array of RGB-encoded hex strings for each color in the group
+	/// - Parameters:
+	///   - hashmark: If true, includes a hashmark at the beginning
+	///   - uppercase: If true, uses uppercase characters
+	/// - Returns: An array of hex RGBA strings
+	@inlinable
+	func hexRGB(hashmark: Bool, uppercase: Bool = false) throws -> [String] {
+		try self.colors.map {
+			try $0.hexRGB(hashmark: hashmark, uppercase: uppercase)
+		}
+	}
+
+	/// Generate an array of RGBA-encoded hex strings for each color in the group
+	/// - Parameters:
+	///   - hashmark: If true, includes a hashmark at the beginning
+	///   - uppercase: If true, uses uppercase characters
+	/// - Returns: An array of hex RGBA strings
+	@inlinable
+	func hexRGBA(hashmark: Bool, uppercase: Bool = false) throws -> [String] {
+		try self.colors.map {
+			try $0.hexRGBA(hashmark: hashmark, uppercase: uppercase)
+		}
+	}
+}
+
+// MARK: - Coding
+
 extension PAL.Group {
 	enum CodingKeys: String, CodingKey {
 		case name
