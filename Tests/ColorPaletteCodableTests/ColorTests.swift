@@ -73,4 +73,33 @@ final class ColorTests: XCTestCase {
 		CheckConversion(PAL.Color.RGB(r255: 89, g255: 145, b255: 106), .bgra, UInt32(1787910655))
 		CheckConversion(PAL.Color.RGB(r255: 89, g255: 145, b255: 106), .bgra, Int32(1787910655))
 	}
+
+	func testBasicRGB_YCbCrConversion() throws {
+
+		// Example: https://colorizer.org
+
+		let mapping: [(PAL.Color.RGB, PAL.Color.YCbCr)] = [
+			// pure black
+			(PAL.Color.RGB(r255: 0, g255: 0, b255: 0), PAL.Color.YCbCr(y: 0, cb: 128, cr: 128)),
+			// pure white
+			(PAL.Color.RGB(r255: 255, g255: 255, b255: 255), PAL.Color.YCbCr(y: 255, cb: 128, cr: 128)),
+			// pure mid gray
+			(PAL.Color.RGB(r255: 128, g255: 128, b255: 128), PAL.Color.YCbCr(y: 128, cb: 128, cr: 128)),
+			// pure red
+			(PAL.Color.RGB(r255: 255, g255: 0, b255: 0), PAL.Color.YCbCr(y: 76, cb: 85, cr: 255)),
+			// orange
+			(PAL.Color.RGB(r255: 255, g255: 165, b255: 0), PAL.Color.YCbCr(y: 173, cb: 30, cr: 186)),
+			// green
+			(PAL.Color.RGB(r255: 0, g255: 255, b255: 0), PAL.Color.YCbCr(y: 150, cb: 44, cr: 21)),
+			// blue
+			(PAL.Color.RGB(r255: 0, g255: 0, b255: 255), PAL.Color.YCbCr(y: 29, cb: 255, cr: 107)),
+		]
+
+		mapping.forEach { rgb, ycbcr in
+			// rgb -> Y'CbCr
+			XCTAssertEqual(rgb.YCbCr().precision(0), ycbcr)
+			// Y'CbCr -> rgb
+			XCTAssertEqual(ycbcr.rgb(), rgb)
+		}
+	}
 }

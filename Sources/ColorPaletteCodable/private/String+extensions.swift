@@ -36,6 +36,8 @@ extension String {
 	/// Trim the whitespace from a string
 	@inlinable func trim() -> String { self.trimmingCharacters(in: .whitespaces) }
 
+	/// Return the string.  If the string is empty (ie. returns no characters) returns the default string
+	@inlinable @inline(__always) func ifEmptyDefault(_ isEmpty: String) -> String { self.isEmpty ? isEmpty : self }
 
 	/// Simple XML encoding for a string
 	func xmlEscaped() -> String {

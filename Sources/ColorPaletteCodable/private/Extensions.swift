@@ -32,106 +32,15 @@ extension Sequence where Element: Equatable {
 	}
 }
 
-internal extension Data {
-	// Parse a big-endian value from a block of data
-	func parseBigEndian<T: FixedWidthInteger>(type: T.Type) -> T? {
-		let typeSize = MemoryLayout<T>.size
-		guard self.count >= typeSize else { return nil }
-		return self.prefix(typeSize).reduce(0) { $0 << 8 | T($1) }
-	}
-
-	// Parse a little-endian value from a block of data
-	func parseLittleEndian<T: FixedWidthInteger>(type: T.Type) -> T? {
-		let typeSize = MemoryLayout<T>.size
-		guard self.count >= typeSize else { return nil }
-		return self.prefix(typeSize).reversed().reduce(0) { $0 << 8 | T($1) }
-	}
-}
-
 extension ExpressibleByIntegerLiteral where Self: Comparable {
+	/// Clamp a value to an arbitrary range
 	@inlinable func clamped(to range: ClosedRange<Self>) -> Self {
 		min(range.upperBound, max(range.lowerBound, self))
 	}
+
+	/// Clamp a value to the range 0 ... 1
 	@inlinable func unitClamped() -> Self {
-		min(1, max(0, self))
-	}
-}
-
-extension String {
-	func ifEmptyDefault(_ isEmpty: String) -> String {
-		self.isEmpty ? isEmpty : self
-	}
-}
-
-@inlinable func unwrapping<T, R>(_ item: T?, _ block: (T) -> R?) -> R? {
-	guard let item = item else { return nil }
-	return block(item)
-}
-
-@inlinable func unwrapping<T, U, R>(_ item1: T?, _ item2: U?, _ block: (T, U) -> R?) -> R? {
-	guard let item1 = item1, let item2 = item2 else { return nil }
-	return block(item1, item2)
-}
-
-extension Optional {
-	@inlinable func unwrapping<R>(_ block: (Wrapped) -> R?) -> R? {
-		guard let u = self else { return nil }
-		return block(u)
-	}
-}
-
-func withTemporaryFile<ReturnType>(_ fileExtension: String? = nil, _ block: (URL) throws -> ReturnType) throws -> ReturnType {
-	// unique name
-	var tempFilename = ProcessInfo.processInfo.globallyUniqueString
-
-	// extension
-	if let fileExtension = fileExtension {
-		tempFilename += "." + fileExtension
-	}
-
-	// create the temporary file url
-	let tempURL = try FileManager.default.url(
-		for: .itemReplacementDirectory,
-		in: .userDomainMask,
-		appropriateFor: URL(fileURLWithPath: NSTemporaryDirectory()),
-		create: true
-	)
-	.appendingPathComponent(tempFilename)
-	return try block(tempURL)
-}
-
-func withDataWrittenToTemporaryFile<T>(_ data: Data, fileExtension: String? = nil, _ block: (URL) throws -> T?) throws -> T? {
-	return try withTemporaryFile(fileExtension, { tempURL in
-		#if os(Linux) || os(Windows)
-		try data.write(to: tempURL)
-		#else
-		try data.write(to: tempURL, options: .atomicWrite)
-		#endif
-		defer { try? FileManager.default.removeItem(at: tempURL) }
-		return try block(tempURL)
-	})
-}
-
-extension Data {
-	/// Attempt to determine the string encoding contained within the data. Returns nil if encoding cannot be inferred
-	var stringEncoding: String.Encoding? {
-#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
-		var nsString: NSString?
-		guard
-			case let rawValue = NSString.stringEncoding(
-				for: self,
-				encodingOptions: nil,
-				convertedString: &nsString,
-				usedLossyConversion: nil
-			),
-			rawValue != 0
-		else {
-			return nil
-		}
-		return .init(rawValue: rawValue)
-#else
-		return nil
-#endif
+		self.clamped(to: 0 ... 1)
 	}
 }
 
@@ -153,5 +62,25 @@ extension BinaryFloatingPoint {
 	/// - Returns: True if mostly equal, false otherwise
 	@inlinable func isEqual(to value: Self, accuracy: Self) -> Bool {
 		abs(self - value) < accuracy
+	}
+}
+
+extension Double {
+	/// Round this value to a specific number of decimal places (eg. 3.149 -> 3.15)
+	/// - Parameters:
+	///   - precision: The expected number of decimal places
+	///   - rule: The rounding rule to use
+	/// - Returns: A new value
+	func roundToPrecision(_ precision: UInt, rule: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Double {
+		let factor = pow(10.0, Double(precision))
+		return (self * factor).rounded(rule) / factor
+	}
+
+	/// Truncate this value to a specific precision (eg. 3.149 -> 3.14)
+	/// - Parameter precision: The number of decimal places to keep
+	/// - Returns: A new truncated double value
+	func truncate(_ precision: UInt) -> Double {
+		let factor = pow(10.0, Double(precision))
+		return Double(Int(self * factor)) / factor
 	}
 }

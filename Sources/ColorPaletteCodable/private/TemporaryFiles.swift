@@ -19,27 +19,34 @@
 
 import Foundation
 
-/// Linear interpret between two values
-/// - Parameters:
-///   - v0: First value
-///   - v1: Second value
-///   - t: The fractional distance between the two values
-/// - Returns: Interpolated value
-@inlinable func lerp<T: FloatingPoint>(_ v0: T, _ v1: T, t: T) -> T {
-	return v0 + (t * (v1 - v0))
+func withTemporaryFile<ReturnType>(_ fileExtension: String? = nil, _ block: (URL) throws -> ReturnType) throws -> ReturnType {
+	// unique name
+	var tempFilename = ProcessInfo.processInfo.globallyUniqueString
+
+	// extension
+	if let fileExtension = fileExtension {
+		tempFilename += "." + fileExtension
+	}
+
+	// create the temporary file url
+	let tempURL = try FileManager.default.url(
+		for: .itemReplacementDirectory,
+		in: .userDomainMask,
+		appropriateFor: URL(fileURLWithPath: NSTemporaryDirectory()),
+		create: true
+	)
+	.appendingPathComponent(tempFilename)
+	return try block(tempURL)
 }
 
-/// Convert a palettized 0 ... 255 value to a 0 ... 1 double value
-@inlinable func _p2f<T: BinaryFloatingPoint>(_ value: UInt8) -> T {
-	return T(value) / 255.0
-}
-
-/// Convert a Double unit value to a palettized 0 ... 255 value
-@inlinable func _f2p<T: BinaryFloatingPoint>(_ value: T) -> UInt8 {
-	return UInt8((value * 255).rounded(.toNearestOrAwayFromZero).clamped(to: 0 ... 255))
-}
-
-extension UInt8 {
-	/// Return a unit value for this UInt8 value (0 ... 255) -> (0.0 ... 1.0)
-	@inlinable @inline(__always) var unitValue: Double { _p2f(self) }
+func withDataWrittenToTemporaryFile<T>(_ data: Data, fileExtension: String? = nil, _ block: (URL) throws -> T?) throws -> T? {
+	return try withTemporaryFile(fileExtension, { tempURL in
+#if os(Linux) || os(Windows)
+		try data.write(to: tempURL)
+#else
+		try data.write(to: tempURL, options: .atomicWrite)
+#endif
+		defer { try? FileManager.default.removeItem(at: tempURL) }
+		return try block(tempURL)
+	})
 }

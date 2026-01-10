@@ -19,27 +19,29 @@
 
 import Foundation
 
-/// Linear interpret between two values
+/// Perform a block if an optional is able to be unwrapped
 /// - Parameters:
-///   - v0: First value
-///   - v1: Second value
-///   - t: The fractional distance between the two values
-/// - Returns: Interpolated value
-@inlinable func lerp<T: FloatingPoint>(_ v0: T, _ v1: T, t: T) -> T {
-	return v0 + (t * (v1 - v0))
+///   - item: The optional item
+///   - block: The block to call, passing the unwrapped value
+/// - Returns: The wrapped value
+@inlinable func unwrapping<T, R>(_ item: T?, _ block: (T) -> R?) -> R? {
+	guard let item = item else { return nil }
+	return block(item)
 }
 
-/// Convert a palettized 0 ... 255 value to a 0 ... 1 double value
-@inlinable func _p2f<T: BinaryFloatingPoint>(_ value: UInt8) -> T {
-	return T(value) / 255.0
+@inlinable func unwrapping<T, U, R>(_ item1: T?, _ item2: U?, _ block: (T, U) -> R?) -> R? {
+	guard let item1 = item1, let item2 = item2 else { return nil }
+	return block(item1, item2)
 }
 
-/// Convert a Double unit value to a palettized 0 ... 255 value
-@inlinable func _f2p<T: BinaryFloatingPoint>(_ value: T) -> UInt8 {
-	return UInt8((value * 255).rounded(.toNearestOrAwayFromZero).clamped(to: 0 ... 255))
-}
+extension Optional {
+	@inlinable func unwrapping<R>(_ block: (Wrapped) -> R?) -> R? {
+		if let value = self { return block(value) }
+		return nil
+	}
 
-extension UInt8 {
-	/// Return a unit value for this UInt8 value (0 ... 255) -> (0.0 ... 1.0)
-	@inlinable @inline(__always) var unitValue: Double { _p2f(self) }
+	/// Is the wrapped value nil?
+	@inlinable @inline(__always) func isEmpty() -> Bool { self == nil }
+	/// Is the wrapped value not nil?
+	@inlinable @inline(__always) func isNotEmpty() -> Bool { self != nil }
 }

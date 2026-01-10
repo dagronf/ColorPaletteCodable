@@ -102,8 +102,8 @@ public extension PAL.Color {
 	///   - colorType: The type of color
 	init(white255: UInt8, alpha255: UInt8 = 255, name: String = "", colorType: PAL.ColorType = .global) {
 		self.init(
-			white: Double(white255) / 255.0,
-			alpha: Double(alpha255) / 255.0,
+			white: white255.unitValue,
+			alpha: alpha255.unitValue,
 			name: name,
 			colorType: colorType
 		)

@@ -19,27 +19,27 @@
 
 import Foundation
 
-/// Linear interpret between two values
-/// - Parameters:
-///   - v0: First value
-///   - v1: Second value
-///   - t: The fractional distance between the two values
-/// - Returns: Interpolated value
-@inlinable func lerp<T: FloatingPoint>(_ v0: T, _ v1: T, t: T) -> T {
-	return v0 + (t * (v1 - v0))
-}
+// MARK: Data
 
-/// Convert a palettized 0 ... 255 value to a 0 ... 1 double value
-@inlinable func _p2f<T: BinaryFloatingPoint>(_ value: UInt8) -> T {
-	return T(value) / 255.0
-}
-
-/// Convert a Double unit value to a palettized 0 ... 255 value
-@inlinable func _f2p<T: BinaryFloatingPoint>(_ value: T) -> UInt8 {
-	return UInt8((value * 255).rounded(.toNearestOrAwayFromZero).clamped(to: 0 ... 255))
-}
-
-extension UInt8 {
-	/// Return a unit value for this UInt8 value (0 ... 255) -> (0.0 ... 1.0)
-	@inlinable @inline(__always) var unitValue: Double { _p2f(self) }
+extension Data {
+	/// Attempt to determine the string encoding contained within the data. Returns nil if encoding cannot be inferred
+	var stringEncoding: String.Encoding? {
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
+		var nsString: NSString?
+		guard
+			case let rawValue = NSString.stringEncoding(
+				for: self,
+				encodingOptions: nil,
+				convertedString: &nsString,
+				usedLossyConversion: nil
+			),
+			rawValue != 0
+		else {
+			return nil
+		}
+		return .init(rawValue: rawValue)
+#else
+		return nil
+#endif
+	}
 }

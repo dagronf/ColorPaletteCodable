@@ -102,10 +102,10 @@ public extension PAL.Color {
 		///   - b255: Blue component
 		///   - a255: Alpha component
 		public init(r255: UInt8, g255: UInt8, b255: UInt8, a255: UInt8 = 255) {
-			self.rf = (Double(r255) / 255).unitClamped
-			self.gf = (Double(g255) / 255).unitClamped
-			self.bf = (Double(b255) / 255).unitClamped
-			self.af = (Double(a255) / 255).unitClamped
+			self.rf = (Double(r255) / 255.0).unitClamped
+			self.gf = (Double(g255) / 255.0).unitClamped
+			self.bf = (Double(b255) / 255.0).unitClamped
+			self.af = (Double(a255) / 255.0).unitClamped
 		}
 
 		/// Create and RGB[A] color from a hex formatted color string
@@ -228,10 +228,10 @@ public extension PAL.Color {
 		name: String = "",
 		colorType: PAL.ColorType = .global
 	) {
-		let rf = (Double(r255) / 255.0).unitClamped
-		let gf = (Double(g255) / 255.0).unitClamped
-		let bf = (Double(b255) / 255.0).unitClamped
-		let af = (Double(a255) / 255.0).unitClamped
+		let rf: Double = r255.unitValue
+		let gf: Double = g255.unitValue
+		let bf: Double = b255.unitValue
+		let af: Double = a255.unitValue
 
 		self.name = name
 		self.colorSpace = .RGB
