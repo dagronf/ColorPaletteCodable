@@ -44,17 +44,7 @@ class PreviewViewController: NSViewController, QLPreviewingController {
 	)
 	
 	override func loadView() {
-		super.loadView()
-		let containerView = self.view
-		
-		let nsView = NSHostingView(rootView: hostedView)
-		
-		containerView.addSubview(nsView)
-		nsView.translatesAutoresizingMaskIntoConstraints = false
-		nsView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
-		nsView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
-		nsView.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
-		nsView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+		self.view = NSHostingView(rootView: self.hostedView)
 	}
 	
 	/*

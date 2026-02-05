@@ -13,7 +13,8 @@ class ProcreateSwatchesTests: XCTestCase {
 		("Ascend.swatches", 24),
 		("mypalette.swatches", 2),
 		("Pantone_2019.swatches", 30),
-		("Retro_&_Vintage.swatches", 30)
+		("Retro_&_Vintage.swatches", 30),
+		("Cathode.swatches", 30),
 	]
 
 	func testBasic() throws {

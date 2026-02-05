@@ -171,7 +171,7 @@ private struct _SwatchPalette: Codable {
 		let origin: Int?
 		let colorModel: Int?
 		let colorProfile: String?
-		let version: String?
+		let version: Double?
 		let components: [Double]?
 
 		init(name: String? = nil, hue: Double, saturation: Double, brightness: Double, alpha: Double = 1.0) {
@@ -200,7 +200,18 @@ private struct _SwatchPalette: Codable {
 			self.origin = try container.decodeIfPresent(Int.self, forKey: _SwatchPalette.Swatch.CodingKeys.origin)
 			self.colorModel = try container.decodeIfPresent(Int.self, forKey: _SwatchPalette.Swatch.CodingKeys.colorModel)
 			self.colorProfile = try container.decodeIfPresent(String.self, forKey: _SwatchPalette.Swatch.CodingKeys.colorProfile)
-			self.version = try container.decodeIfPresent(String.self, forKey: _SwatchPalette.Swatch.CodingKeys.version)
+
+			if let v = try? container.decodeIfPresent(Double.self, forKey: _SwatchPalette.Swatch.CodingKeys.version) {
+				self.version = v
+			}
+			else if let v = try container.decodeIfPresent(String.self, forKey: _SwatchPalette.Swatch.CodingKeys.version) {
+				// Some files store the version as a String.  Attempt to handle
+				self.version = Double(v) ?? 5.0
+			}
+			else {
+				// Assume default?
+				self.version = 5.0
+			}
 			self.components = try container.decodeIfPresent([Double].self, forKey: _SwatchPalette.Swatch.CodingKeys.components)
 		}
 	}

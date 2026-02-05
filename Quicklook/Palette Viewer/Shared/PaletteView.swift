@@ -81,10 +81,15 @@ struct GroupingView: View {
 	let name: String
 	let colors: [PAL.Color]
 	var body: some View {
-		GroupBox("\(name) (\(colors.count))") {
+		VStack(alignment: .leading) {
+			Text("\(name) (\(colors.count))")
+				.font(.headline)
 			ColorGroup(color: colors)
-				.padding(-4)
 		}
+//		GroupBox("\(name) (\(colors.count))") {
+//			ColorGroup(color: colors)
+//				.padding(-4)
+//		}
 	}
 }
 
