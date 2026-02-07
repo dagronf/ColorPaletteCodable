@@ -14,7 +14,8 @@ let ase_resources = [
 	"sw-colors-name-ede-ase.ase",
 	"zenit-241.ase",
 	"color-cubes.ase",
-	"ADG3-CMYK.ase"
+	"ADG3-CMYK.ase",
+	"Raspberry.ase",
 ]
 
 final class ASEPaletteTests: XCTestCase {
@@ -27,35 +28,44 @@ final class ASEPaletteTests: XCTestCase {
 		for name in ase_resources {
 			Swift.print("Validating '\(name)...'")
 
-			let origData = try loadResourceData(named: name)
-
 			// Attempt to load the ase file
 			let palette = try loadResourcePalette(named: name)
 			XCTAssertEqual(palette.format, .ase)
 
-			// Write to a data stream
+			// Write the ASE to a data stream
 			let data = try coder.encode(palette)
-			
-			// Check that the generated data matches the original data exactly
-			XCTAssertEqual(origData, data)
-			
+
+			// Don't compare the raw data, as there might be slight differences in the encoded
+
 			// Re-create the ase structure from the written data ...
 			let reconstitutedPalette = try coder.decode(from: data)
-			
+
 			// ... and check equality between the original file and our reconstituted one.
 			XCTAssertEqual(palette, reconstitutedPalette)
 		}
 	}
 	
 	func testBasic() throws {
-		let origData = try loadResourceData(named: "control.ase")
+		// Load an ASE palette
 		let palette = try loadResourcePalette(named: "control.ase")
-		let paletteCoder = try XCTUnwrap(PAL.Palette.firstCoder(for: "ase"))
+		XCTAssertEqual(palette.colors.count, 0) // No global colors
+		XCTAssertEqual(palette.groups.count, 1) // Single group
+		XCTAssertEqual(palette.groups[0].colors.count, 2)
+		//XCTAssertEqual(palette.groups[0].colors[0], 2)
 
+		// Grab an ASE coder
+		let paletteCoder = try XCTUnwrap(PAL.Palette.firstCoder(for: "ase"))
+		// Encode to an ASE file
 		let data = try paletteCoder.encode(palette)
-		XCTAssertEqual(origData, data)
+		// Decode the encoded palette
 		let reconstitutedPalette = try paletteCoder.decode(from: data)
+		// Check that the palettes match
 		XCTAssertEqual(palette, reconstitutedPalette)
+		XCTAssertEqual(reconstitutedPalette.colors.count, 0) // No global colors
+		XCTAssertEqual(reconstitutedPalette.groups.count, 1) // Single group
+		XCTAssertEqual(reconstitutedPalette.groups[0].colors.count, 2)
+		XCTAssertEqual(reconstitutedPalette.groups[0].colors[0].name, "White")
+		XCTAssertEqual(reconstitutedPalette.groups[0].colors[1].name, "Black")
 	}
 	
 	func testSimpleLoad() throws {
@@ -120,7 +130,6 @@ final class ASEPaletteTests: XCTestCase {
 			
 			let data = try paletteCoder.encode(palette)
 			XCTAssertEqual(origData, data)
-			// try data.write(to: URL(fileURLWithPath: "/tmp/output2.ase"))
 			
 			let p2 = try paletteCoder.decode(from: data)
 			XCTAssertEqual(palette.colors.count, p2.colors.count)

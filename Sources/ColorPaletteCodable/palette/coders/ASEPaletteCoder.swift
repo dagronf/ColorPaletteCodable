@@ -167,12 +167,18 @@ extension PAL.Coder.ASE {
 	private func readColor(_ reader: BytesReader, currentGroup: inout PAL.Group?, palette: inout PAL.Palette) throws {
 		// Read in the name
 		let stringLen: UInt16 = try reader.readUInt16(.big)
-		let name = try reader.readStringUTF16NullTerminated(.big)
-		guard stringLen == name.count + 1 else {
-			ColorPaletteLogger.log(.error, "Invalid color name")
-			throw PAL.CommonError.invalidString
+		let colorName: String
+		if stringLen > 0 {
+			colorName = try reader.readStringUTF16NullTerminated(.big)
+			guard stringLen == colorName.count + 1 else {
+				ColorPaletteLogger.log(.error, "Invalid color name")
+				throw PAL.CommonError.invalidString
+			}
 		}
-		
+		else {
+			colorName = ""
+		}
+
 		let mode = try reader.readStringASCII(length: 4)
 		guard let colorModel = ASEColorModel(rawValue: mode) else {
 			ColorPaletteLogger.log(.error, "Invalid .ase color model %@", mode)
@@ -215,7 +221,7 @@ extension PAL.Coder.ASE {
 		let color = try PAL.Color(
 			colorSpace: colorspace,
 			colorComponents: colors.map { Double($0) },
-			name: name,
+			name: colorName,
 			colorType: colorType.asColorType()
 		)
 		if let _ = currentGroup {
