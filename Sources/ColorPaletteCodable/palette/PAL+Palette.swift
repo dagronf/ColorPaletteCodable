@@ -448,3 +448,16 @@ public extension PAL.Palette {
 		try self.updateColor(group: index.group, colorIndex: index.colorIndex, color: color)
 	}
 }
+
+// MARK: - Add color helpers
+
+public extension PAL.Palette {
+	/// Add a color to the palette's global colors
+	/// - Parameter color: The color
+	/// - Returns: The index for the created color and the color
+	@discardableResult
+	mutating func add(_ color: PAL.Color) -> (PAL.Palette.ColorIndex, PAL.Color) {
+		self.colors.append(color)
+		return (PAL.Palette.ColorIndex(colorIndex: self.colors.count - 1), color)
+	}
+}

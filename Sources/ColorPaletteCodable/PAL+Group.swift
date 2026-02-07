@@ -99,3 +99,75 @@ extension PAL.Group {
 			lhs.colors == rhs.colors
 	}
 }
+
+// MARK: - Add color helpers
+
+public extension PAL.Group {
+	/// Add a color to this group
+	/// - Parameter color: The color
+	/// - Returns: The index for the created color and the color
+	@discardableResult
+	mutating func add(_ color: PAL.Color) -> (Int, PAL.Color) {
+		self.colors.append(color)
+		return (self.colors.count - 1, color)
+	}
+
+	/// Add an rgb color to this group
+	/// - Parameters:
+	///   - rf: red component (0.0 ... 1.0)
+	///   - gf: green component (0.0 ... 1.0)
+	///   - bf: blue component (0.0 ... 1.0)
+	///   - af: alpha component (0.0 ... 1.0)
+	///   - name: The color name
+	///   - colorType: The type of color
+	/// - Returns: The index for the created color within the color group colors for this palette and the color
+	@discardableResult @inlinable
+	mutating func add(
+		rf: Double,
+		gf: Double,
+		bf: Double,
+		af: Double = 1.0,
+		name: String = "",
+		colorType: PAL.ColorType = .normal
+	) -> (Int, PAL.Color) {
+		self.add(PAL.Color(rf: rf, gf: gf, bf: bf, af: af, name: name, colorType: colorType))
+	}
+
+	/// Add an rgb color to the global colors for the palette
+	/// - Parameters:
+	///   - r255: red component (0 ... 255)
+	///   - g255: green component (0 ... 255)
+	///   - b255: blue component (0 ... 255)
+	///   - a255: alpha component (0 ... 255)
+	///   - name: The color name
+	///   - colorType: The type of color
+	/// - Returns: The index for the created color within the color group colors for this palette and the color
+	@discardableResult @inlinable
+	mutating func add(
+		r255: UInt8,
+		g255: UInt8,
+		b255: UInt8,
+		a255: UInt8 = 255,
+		name: String = "",
+		colorType: PAL.ColorType = .normal
+	) -> (Int, PAL.Color) {
+		self.add(PAL.Color(r255: r255, g255: g255, b255: b255, a255: a255, name: name, colorType: colorType))
+	}
+
+	/// Create an RGB(A) color object from a hex string
+	/// - Parameters:
+	///   - name: The color name
+	///   - hexString: The hex color representation
+	///   - format: The expected hex color format
+	///   - colorType: The color type
+	/// - Returns: The index for the created color within the color group colors for this palette and the color
+	@discardableResult @inlinable
+	mutating func add(
+		hex: String,
+		format: PAL.ColorByteFormat = .rgb,
+		name: String = "",
+		colorType: PAL.ColorType = .normal
+	) throws -> (Int, PAL.Color) {
+		self.add(try PAL.Color(rgbHexString: hex, format: format, name: name, colorType: colorType))
+	}
+}
