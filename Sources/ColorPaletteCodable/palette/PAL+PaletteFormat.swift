@@ -23,6 +23,7 @@ public extension PAL {
 	/// Supported palette formats
 	enum PaletteFormat: CaseIterable {
 		case acb                // Adobe Color Book
+		case acbl               // Adobe Color Book (legacy)
 		case aco                // Adobe Photoshop Swatch
 		case act                // Adobe Color Tables
 		case androidXML         // Android XML Palette file
@@ -74,6 +75,7 @@ public extension PAL.PaletteFormat {
 	var coder: PAL_PaletteCoder {
 		switch self {
 		case .acb                : return PAL.Coder.ACB()
+		case .acbl               : return PAL.Coder.ACBL()
 		case .aco                : return PAL.Coder.ACO()
 		case .act                : return PAL.Coder.ACT()
 		case .androidXML         : return PAL.Coder.AndroidColorsXML()

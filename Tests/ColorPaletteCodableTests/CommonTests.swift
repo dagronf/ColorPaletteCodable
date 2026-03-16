@@ -12,15 +12,15 @@ final class CommonTests: XCTestCase {
 
 		let created = palette.add(rf: 0.2, gf: 0.4, bf: 0.5, af: 0.25)
 		XCTAssertEqual(palette.colors.count, 1)
-		XCTAssertEqual(created, palette.colors[0])
+		XCTAssertEqual(created.1, palette.colors[0])
 
 		let created2 = palette.add(rf: 1.0, gf: 0.2, bf: 0.88, af: 0.44)
 		XCTAssertEqual(palette.colors.count, 2)
-		XCTAssertEqual(created2, palette.colors[1])
+		XCTAssertEqual(created2.1, palette.colors[1])
 
 		let created3 = try palette.add(hex: "#123456")
 		XCTAssertEqual(palette.colors.count, 3)
-		XCTAssertEqual(created3, palette.colors[2])
+		XCTAssertEqual(created3.1, palette.colors[2])
 	}
 
 	func testSimpleColorspaceConversion() throws {

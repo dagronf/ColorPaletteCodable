@@ -24,6 +24,7 @@ Supports the following :-
 * Adobe Photoshop Color Swatch (`.aco`)
 * Adobe Color Table (`.act`)
 * Adobe Color Book (`.acb`) ***(read only)***
+* Adobe Color Book Legacy (`.acbl`) ***(read only)***
 * Affinity Designer palette format (`.afpalette`) ***(read only)***
 * Autodesk Color Book (`.acb`)
 * NSColorList (`.clr`) ***(macOS only)***
@@ -98,6 +99,7 @@ Some features :-
 | Type                              | Description                                 |
 |:----------------------------------|:--------------------------------------------|
 |`PAL.Coder.ACB`                    | Adobe Color Book (.acb)                     |
+|`PAL.Coder.ACBL`                   | Adobe Color Book Legacy (.acbl)             |
 |`PAL.Coder.ACO`                    | Adobe Photoshop Color Swatch (.aco)         |
 |`PAL.Coder.ACT`                    | Adobe Color Table (.act)                    |
 |`PAL.Coder.AFPaletteCoder`         | Affinity Designer Palette (.afpalette)      |
@@ -200,6 +202,7 @@ let paletteData = palette.export(format: .ase)
 | Type                               | File Type              | Decode?  | Encode?  | Named<br>Colors? | Named<br>palette? | Color<br>Groups? | ColorType<br>Support? | Supports<br>Colorspaces? | Supports Alpha? |
 |:-----------------------------------|:-----------------------|:---------|:---------|:-----------------|:------------------|:-----------------|:----------------------|:-------------------------|:----------------|
 | `PAL.Coder.ACB`                    | Binary                 | ✅       | ❌       | ✅              | ❌                | ❌               | ❌                     | ✅                     | ❌               |
+| `PAL.Coder.ACBL`                   | XML                    | ✅       | ❌       | ✅              | ❌                | ❌               | ❌                     | ✅                     | ❌               |
 | `PAL.Coder.ACO`                    | Binary                 | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | ✅                     | ❌               |
 | `PAL.Coder.ACT`                    | Binary                 | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | Decode only      |
 | `PAL.Coder.AFPaletteCoder`         | Binary                 | ✅       | ❌       | ✅              | ✅                | ❌               | ❌                     | ✅                     | ❌               |

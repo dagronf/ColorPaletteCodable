@@ -9,6 +9,7 @@
 			<key>QLSupportedContentTypes</key>
 			<array>
 				<string>com.adobe.acb</string>
+				<string>com.adobe.acbl</string>
 				<string>com.adobe.act</string>
 				<string>com.adobe.aco</string>
 				<string>com.adobe.ase</string>
