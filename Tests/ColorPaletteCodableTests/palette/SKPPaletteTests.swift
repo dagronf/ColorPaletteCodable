@@ -38,4 +38,23 @@ class SKPPaletteTests: XCTestCase {
 		XCTAssertNotNil(str.range(of: "color(['RGB', [1.0, 0.0, 0.0], 1.0, 'red'])"))
 		XCTAssertNotNil(str.range(of: "set_name('Sample')"))
 	}
+
+	func testBasicSKPXML() throws {
+		let data = try loadResourceData(named: "colours.skp")
+		let palette = try PAL.Coder.SKP().decode(from: data)
+		XCTAssertEqual(palette.name, "colours")
+		XCTAssertEqual(palette.colors.count, 11)
+
+		XCTAssertEqual(palette.colors[0].colorSpace, .CMYK)
+		XCTAssertEqual(palette.colors[0].name, "Yellow")
+		XCTAssertEqual(palette.colors[0].colorComponents, [0.0, 0.01, 1.0, 0.0])
+
+		XCTAssertEqual(palette.colors[6].colorSpace, .CMYK)
+		XCTAssertEqual(palette.colors[6].name, "Rhodamine Red")
+		XCTAssertEqual(palette.colors[6].colorComponents, [0.03, 0.89, 0.0, 0.0])
+
+		XCTAssertEqual(palette.colors[10].colorSpace, .CMYK)
+		XCTAssertEqual(palette.colors[10].name, "8321")
+		XCTAssertEqual(palette.colors[10].colorComponents, [0.2, 0.0, 0.3, 0.25])
+	}
 }

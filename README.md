@@ -232,7 +232,7 @@ let paletteData = palette.export(format: .ase)
 | `PAL.Coder.SimplePaletteCoder`     | JSON                   | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.SkencilPalette`         | Text                   | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
 | `PAL.Coder.SketchPalette`          | XML                    | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ✅               |
-| `PAL.Coder.SKP`                    | Text                   | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB only               | ✅               |
+| `PAL.Coder.SKP`                    | Text/XML               | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.SVG`                    | SVG text               | ❌       | ✅       | ❌              | ✅                | ✅               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.SwatchbookerCoder`      | Binary                 | ✅       | ❌       | ✅              | ✅                | ❌               | ✅                     | ✅                     | ❌               |
 | `PAL.Coder.ProcreateSwatchesCoder` | Binary                 | ✅       | ✅       | ❌              | ✅                | ✅               | ❌                     | ❌                     | ✅               |

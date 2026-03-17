@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<palette>
+	<description type="CMYK" name="colours"/>
+	<color c="0.0" m="0.01" y="1.0" k="0.0" name="Yellow"/>
+	<color c="0.0" m="0.04" y="1.0" k="0.0" name="Yellow 012"/>
+	<color c="0.0" m="0.53" y="1.0" k="0.0" name="Orange 021"/>
+	<color c="0.0" m="0.75" y="0.9" k="0.0" name="Warm Red"/>
+	<color c="0.0" m="0.9" y="0.86" k="0.0" name="Red 032"/>
+	<color c="0.0" m="1.0" y="0.15" k="0.04" name="Rubine Red"/>
+	<color c="0.03" m="0.89" y="0.0" k="0.0" name="Rhodamine Red"/>
+	<color c="0.1" m="0.15" y="0.05" k="0.2" name="8100"/>
+	<color c="0.25" m="0.0" y="0.0" k="0.25" name="8201"/>
+	<color c="0.35" m="0.0" y="0.2" k="0.25" name="8281"/>
+	<color c="0.2" m="0.0" y="0.3" k="0.25" name="8321"/>
+</palette>

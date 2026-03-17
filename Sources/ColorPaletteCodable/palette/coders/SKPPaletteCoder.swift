@@ -20,6 +20,11 @@
 import DSFRegex
 import Foundation
 
+#if canImport(FoundationXML)
+// For non-apple platforms it seems that the XML parser has been shifted into its own module
+import FoundationXML
+#endif
+
 public extension PAL.Coder {
 	/// A coder for SK1 color palettes
 	///
@@ -45,8 +50,18 @@ public extension PAL.Coder.SKP {
 	/// - Parameter inputStream: The input stream containing the encoded palette
 	/// - Returns: A palette
 	func decode(from inputStream: InputStream) throws -> PAL.Palette {
+
+		let rawFileData = inputStream.readAllData()
+
+		do {
+			// Try to decode the XML version first, if not, then just fall back to the default text version
+			return try SKPXML().parse(from: rawFileData)
+		}
+		catch {
+		}
+
 		// Load text from the input stream
-		guard let decoded = String.decode(from: inputStream) else {
+		guard let decoded = String.decode(from: rawFileData) else {
 			throw PAL.CommonError.unableToLoadFile
 		}
 
@@ -102,6 +117,50 @@ public extension PAL.Coder.SKP {
 			throw PAL.CommonError.invalidFormat
 		}
 		return palette
+	}
+}
+
+private class SKPXML: NSObject, XMLParserDelegate {
+	var palette = PAL.Palette(format: .skp)
+	func parse(from rawFileData: Data) throws -> PAL.Palette {
+		self.palette = PAL.Palette(format: .skp)
+		let parser = XMLParser(data: rawFileData)
+		parser.delegate = self
+		if parser.parse() == false {
+			throw PAL.CommonError.invalidFormat
+		}
+
+		if palette.colors.count == 0 {
+			throw PAL.CommonError.invalidFormat
+		}
+		return palette
+	}
+
+	func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
+		if elementName == "color" {
+			let c = Double(attributeDict["c"] ?? "")
+			let m = Double(attributeDict["m"] ?? "")
+			let y = Double(attributeDict["y"] ?? "")
+			let k = Double(attributeDict["k"] ?? "")
+			let r = Double(attributeDict["r"] ?? "")
+			let g = Double(attributeDict["g"] ?? "")
+			let b = Double(attributeDict["b"] ?? "")
+			let name = attributeDict["name"] ?? ""
+
+			if let c, let m, let y, let k {
+				let color = PAL.Color(cf: c, mf: m, yf: y, kf: k, name: name)
+				self.palette.add(color)
+			}
+			else if let r, let g, let b {
+				let color = PAL.Color(rf: r, gf: g, bf: b, name: name)
+				self.palette.add(color)
+			}
+		}
+		else if elementName == "description" {
+			if let paletteName = attributeDict["name"] {
+				self.palette.name = paletteName
+			}
+		}
 	}
 }
 
