@@ -103,7 +103,7 @@ public extension PAL.Gradients.Coder.GIMPGradientCoder {
 
 		for index in (3 ..< 3 + stopCount) {
 			let stop = lines[index].components(separatedBy: " ")
-			guard stop.count == 13 else { continue }
+			guard stop.count >= 13 else { continue }
 
 			guard
 				let startPoint = Double(stop[0]),

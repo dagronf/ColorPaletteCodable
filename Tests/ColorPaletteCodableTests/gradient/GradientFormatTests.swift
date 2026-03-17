@@ -241,10 +241,6 @@ class GradientFormatTests: XCTestCase {
 			let data = try c.encode(gradients)
 			try data.write(to: URL(fileURLWithPath: "/tmp/temp.grd"))
 		}
-
-
-		
-
 	}
 
 	func testsvggradientexport() throws {
@@ -305,5 +301,15 @@ class GradientFormatTests: XCTestCase {
 			XCTAssertEqual(compareData, grad1)
 			#endif
 		}
+	}
+
+	func testGGRFileWithAdditionalUnusedColumns() throws {
+		let gradient = try loadResourceGradient(named: "Blues.ggr")
+		XCTAssertEqual(gradient.count, 1)
+		let g1 = gradient.gradients[0]
+
+		XCTAssertEqual(g1.name, "Blues")
+		XCTAssertEqual(g1.stops.count, 9)
+		XCTAssertEqual(g1.hasTransparency, false)
 	}
 }
