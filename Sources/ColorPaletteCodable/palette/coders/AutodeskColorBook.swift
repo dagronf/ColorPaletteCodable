@@ -155,6 +155,7 @@ fileprivate class AutodeskColorBookDecoder: NSObject, XMLParserDelegate {
 		parser.delegate = self
 
 		if parser.parse() == false {
+			ColorPaletteLogger.log(.error, "PAL.Coder.AutodeskColorBook: Invalid palette file - error %@", parser.parserError?.localizedDescription ?? "")
 			throw PAL.CommonError.invalidFormat
 		}
 

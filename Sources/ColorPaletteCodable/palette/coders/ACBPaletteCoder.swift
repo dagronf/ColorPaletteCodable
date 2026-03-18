@@ -60,13 +60,13 @@ public extension PAL.Coder.ACB {
 
 		let bom = try parser.readStringASCII(length: 4)
 		if bom != "8BCB" {
-			ColorPaletteLogger.log(.error, "ACBCoder: Invalid palette file")
+			ColorPaletteLogger.log(.error, "PAL.Coder.ACB: Invalid palette file")
 			throw PAL.CommonError.invalidBOM
 		}
 
 		let version: UInt16 = try parser.readUInt16(.big)
 		if version != 1 {
-			ColorPaletteLogger.log(.info, "ACB: Found untested version %d... decoder may not work", version)
+			ColorPaletteLogger.log(.info, "PAL.Coder.ACB: Found untested version %d... decoder may not work", version)
 		}
 
 		let _ /*identifier*/: UInt16 = try parser.readUInt16(.big)
@@ -84,7 +84,7 @@ public extension PAL.Coder.ACB {
 		let _ /*description*/ = try parser.readAdobePascalStyleString()
 
 		let colorCount: UInt16 = try parser.readUInt16(.big)
-		ColorPaletteLogger.log(.info, "ACBCoder: Expecting %d colors", colorCount)
+		ColorPaletteLogger.log(.info, "PAL.Coder.ACB: Expecting %d colors", colorCount)
 
 		let _ /*pageSize*/: UInt16 = try parser.readUInt16(.big)
 		let _ /*pageSelectorOffset*/ : UInt16 = try parser.readUInt16(.big)
@@ -106,7 +106,7 @@ public extension PAL.Coder.ACB {
 			colorspace = .Gray
 			componentCount = 1
 		default:
-			ColorPaletteLogger.log(.error, "ACBCoder: Colorspace %d not supported", colorSpace)
+			ColorPaletteLogger.log(.error, "PAL.Coder.ACB: Colorspace %d not supported", colorSpace)
 			throw PAL.CommonError.unsupportedColorSpace
 		}
 
@@ -170,7 +170,7 @@ public extension PAL.Coder.ACB {
 	///
 	/// Currently not supported for Adobe Color Book
 	func encode(_ palette: PAL.Palette) throws -> Data {
-		ColorPaletteLogger.log(.error, "ACBCoder: encode() not implemented")
+		ColorPaletteLogger.log(.error, "PAL.Coder.ACB: encode() not implemented")
 		throw PAL.CommonError.notImplemented
 	}
 }
