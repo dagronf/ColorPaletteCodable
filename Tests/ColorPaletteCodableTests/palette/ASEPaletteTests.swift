@@ -16,6 +16,7 @@ let ase_resources = [
 	"color-cubes.ase",
 	"ADG3-CMYK.ase",
 	"Raspberry.ase",
+	"BenjaminMoore_AmericasColors_en-us.ase",  // Has open group commands without a close group
 ]
 
 final class ASEPaletteTests: XCTestCase {
@@ -281,6 +282,12 @@ final class ASEPaletteTests: XCTestCase {
 			try group.hexRGBA(hashmark: true),
 			["#aebb69ff", "#292111ff", "#f7f4d1ff", "#adecffff", "#274406ff"]
 		)
+	}
+
+	func testASEWithOpeningGroupsWithoutAMatchingGroupClose() throws {
+		// This file has group open commands with group close pairing.
+		let palette = try loadResourcePalette(named: "BenjaminMoore_AmericasColors_en-us.ase")
+		XCTAssertEqual(42, palette.colors.count)
 	}
 
 #if canImport(CoreGraphics)

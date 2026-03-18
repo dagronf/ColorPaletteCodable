@@ -93,7 +93,7 @@ extension PAL.Coder.ASE {
 		// Load and validate the header
 		let header = try reader.readData(count: 4)
 		if header != ASE_HEADER_DATA {
-			ColorPaletteLogger.log(.error, "Invalid .ase header")
+			ColorPaletteLogger.log(.error, "PAL.Coder.ASE: Invalid .ase header")
 			throw PAL.CommonError.invalidASEHeader
 		}
 		
@@ -103,7 +103,7 @@ extension PAL.Coder.ASE {
 		if version0 != 1 || version1 != 0 {
 			// Unknown version?
 			//throw PAL.CommonError.invalidVersion
-			ColorPaletteLogger.log(.error, "ASECoder: Untested ASE version %d.%d - attempting load...", version0, version1)
+			ColorPaletteLogger.log(.error, "PAL.Coder.ASE: Untested ASE version %d.%d - attempting load...", version0, version1)
 		}
 		
 		// Read the number of blocks contained within the ase file
@@ -117,29 +117,41 @@ extension PAL.Coder.ASE {
 			// The type of block
 			let type: UInt16 = try reader.readUInt16(.big)
 
-			// currently not validating the block lengths
-			let _: UInt32 = try reader.readUInt32(.big)
+			// The length of the block
+			let blockLength: UInt32 = try reader.readUInt32(.big)
 
 			switch type {
 			case ASE_GROUP_START:
-				guard currentGroup == nil else {
-					ColorPaletteLogger.log(.error, "Attempting to open group with a group already open")
-					throw PAL.CommonError.groupAlreadyOpen
+				if let c = currentGroup {
+					ColorPaletteLogger.log(.error, "PAL.Coder.ASE: Opening a new group with a group already open - using existing group")
+					// Close the group and create a newie one
+					try self.readEndGroupBlock(inputStream, currentGroup: c, palette: &result)
 				}
-				currentGroup = try self.readStartGroupBlock(reader)
+
+				// In some files when the block length is zero it _appears_ that the group bytes don't exist at all
+				// within the file. If so, just use the group that's already open
+				if blockLength > 0 {
+					currentGroup = try self.readStartGroupBlock(reader)
+				}
+
 			case ASE_GROUP_END:
 				guard let c = currentGroup else {
-					ColorPaletteLogger.log(.error, "Attempting to close group without an open group")
+					ColorPaletteLogger.log(.error, "PAL.Coder.ASE: Attempting to close group without an open group")
 					throw PAL.CommonError.groupNotOpen
 				}
 				try self.readEndGroupBlock(inputStream, currentGroup: c, palette: &result)
 				currentGroup = nil
+
 			case ASE_BLOCK_COLOR:
 				// Pass group in by reference so we can add to it
 				try self.readColor(reader, currentGroup: &currentGroup, palette: &result)
+				
 			default:
-				ColorPaletteLogger.log(.error, "Unknown ase block type")
+				ColorPaletteLogger.log(.error, "PAL.Coder.ASE: Unknown ase block type")
 				throw PAL.CommonError.unknownBlockType
+
+				// Attempt to skip the block
+				//_ = try reader.readBytes(count: Int(blockLength))
 			}
 		}
 
@@ -171,7 +183,7 @@ extension PAL.Coder.ASE {
 		if stringLen > 0 {
 			colorName = try reader.readStringUTF16NullTerminated(.big)
 			guard stringLen == colorName.count + 1 else {
-				ColorPaletteLogger.log(.error, "Invalid color name")
+				ColorPaletteLogger.log(.error, "PAL.Coder.ASE: Invalid color name")
 				throw PAL.CommonError.invalidString
 			}
 		}
@@ -181,7 +193,7 @@ extension PAL.Coder.ASE {
 
 		let mode = try reader.readStringASCII(length: 4)
 		guard let colorModel = ASEColorModel(rawValue: mode) else {
-			ColorPaletteLogger.log(.error, "Invalid .ase color model %@", mode)
+			ColorPaletteLogger.log(.error, "PAL.Coder.ASE: Invalid .ase color model %@", mode)
 			throw PAL.CommonError.unknownColorMode(mode)
 		}
 		
@@ -214,7 +226,7 @@ extension PAL.Coder.ASE {
 		
 		let colorTypeValue: UInt16 = try reader.readUInt16(.big)
 		guard let colorType = ASEColorType(rawValue: Int(colorTypeValue)) else {
-			ColorPaletteLogger.log(.error, "Invalid color type %@", colorTypeValue)
+			ColorPaletteLogger.log(.error, "PAL.Coder.ASE: Invalid color type %@", colorTypeValue)
 			throw PAL.CommonError.unknownColorType(Int(colorTypeValue))
 		}
 		
