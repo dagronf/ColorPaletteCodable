@@ -21,6 +21,7 @@ public let ExportablePaletteTypes: [String] = [
 	PAL.Coder.SketchPalette.utTypeString,
 	PAL.Coder.ACO.utTypeString,
 	PAL.Coder.RGBA.utTypeString,
+	PAL.Coder.RGB255.utTypeString,
 	PAL.Coder.SVG.utTypeString,
 	PAL.Coder.OpenOfficePaletteCoder.utTypeString,
 	PAL.Coder.DCP.utTypeString,

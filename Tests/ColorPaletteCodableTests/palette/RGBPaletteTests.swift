@@ -68,3 +68,23 @@ class RGBPaletteTests: XCTestCase {
 		XCTAssertThrowsError(try PAL.Coder.RGBA().decode(from: rgbaURL))
 	}
 }
+
+class RGB255PaletteTests: XCTestCase {
+
+	func testBasicRGB255import() throws {
+
+		let text = """
+         200 100 128
+         0 255 128	color name
+         
+         """
+
+		let data = try XCTUnwrap(text.data(using: .utf16))
+		let p1 = try PAL.Coder.RGB255().decode(from: data)
+		let colors = p1.allColors()
+		XCTAssertEqual(colors.count, 2)
+
+		XCTAssertEqual(colors[0], PAL.Color(r255: 200, g255: 100, b255: 128))
+		XCTAssertEqual(colors[1], PAL.Color(r255: 0, g255: 255, b255: 128, name: "color name"))
+	}
+}

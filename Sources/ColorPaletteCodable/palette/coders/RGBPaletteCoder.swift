@@ -32,7 +32,7 @@ public extension PAL.Coder {
 	struct RGB: PAL_PaletteCoder {
 		public let format: PAL.PaletteFormat = .rgb
 		public let name = "RGB text"
-		public let fileExtension = ["rgb", "txt"]
+		public let fileExtension = ["rgb", "rgb255", "txt"]
 		public static let utTypeString = "public.dagronf.colorpalette.palette.rgb"   // conforms to `public.text`
 
 		public init() {}
@@ -65,15 +65,31 @@ public extension PAL.Coder.RGB {
 				// Skip over empty lines
 				return
 			}
-			
-			let searchResult = Self.regex.matches(for: l)
-			// Loop over each of the matches found, and print them out
-			try searchResult.forEach { match in
-				let hex = l[match.captures[0]]
-				let name = l[match.captures[1]]
-				
-				let color = try PAL.Color(rgbHexString: String(hex), format: .rgb, name: String(name))
+
+			// Try the decimal version first
+			let searchResult255 = PAL.Coder.RGB255.regexDecimal.matches(for: l)
+			if	let match = searchResult255.matches.first,
+				[3, 4].contains(match.captures.count),    // 3 or 4 if there's a name
+				let red   = UInt8(l[match.captures[0]]),
+				let green = UInt8(l[match.captures[1]]),
+				let blue  = UInt8(l[match.captures[2]])
+			{
+				let name = l[match.captures[3]].trimmingCharacters(in: .whitespacesAndNewlines)
+				let color = PAL.Color(r255: red, g255: green, b255: blue, name: name)
 				palette.colors.append(color)
+			}
+			else {
+				// If not, try the hex version next
+				let searchResult = Self.regex.matches(for: l)
+				if
+					let match = searchResult.matches.first,
+					[1, 2].contains(match.captures.count)   // 1 or 2 if there's a name
+				{
+					let hex = l[match.captures[0]]
+					let name = l[match.captures[1]]
+					let color = try PAL.Color(rgbHexString: String(hex), format: .rgb, name: String(name))
+					palette.colors.append(color)
+				}
 			}
 		}
 		if palette.allColors().count == 0 {

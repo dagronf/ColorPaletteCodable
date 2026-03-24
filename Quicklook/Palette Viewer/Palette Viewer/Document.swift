@@ -76,6 +76,9 @@ class Document: NSDocument {
 		else if typeName == "RGBA Text File" {
 			return try PAL.Coder.RGBA().encode(pal)
 		}
+		else if typeName == PAL.Coder.RGB255.utTypeString {
+			return try PAL.Coder.RGB255().encode(pal)
+		}
 
 		throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
 	}
