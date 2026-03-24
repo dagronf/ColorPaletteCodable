@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  Palette Viewer
 //
-//  Copyright © 2025 Darren Ford. All rights reserved.
+//  Copyright © 2026 Darren Ford. All rights reserved.
 //
 //  MIT License
 //

@@ -30,6 +30,7 @@ Supports the following :-
 * NSColorList (`.clr`) ***(macOS only)***
 * RGB text files (`.rgb`)
 * RGBA text files (`.rgba`)
+* RGB text files with 0 .. 255 component values (`.rgb255`)
 * GIMP palette files (`.gpl`)
 * OpenOffice/LibreOffice palette files (`.soc`)
 * Paint Shop Pro files (`.pal`, `.psppalette`)
@@ -127,6 +128,7 @@ Some features :-
 |`PAL.Coder.ProcreateSwatchesCoder` | Procreate Swatches (.swatches)              |
 |`PAL.Coder.RGBA`                   | RGB(A) text files (.rgba)                   |
 |`PAL.Coder.RGB`                    | RGB text files (.rgb)                       |
+|`PAL.Coder.RGB255`                 | RGB text files [0 ... 255] (.rgb255)        |
 |`PAL.Coder.RIFF`                   | Microsoft RIFF palette (.pal)               |
 |`PAL.Coder.ScribusXMLPaletteCoder` | Scribus XML palette (.xml)                  | 
 |`PAL.Coder.SimplePaletteCoder`     | Simple Palette (.color-palette) v0.1        |
@@ -226,7 +228,7 @@ let paletteData = palette.export(format: .ase)
 | `PAL.Coder.OpenOfficePalette`      | XML                    | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | ❌                     | ❌               |
 | `PAL.Coder.PaintNET`               | Text                   | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.PaintShopPro`           | Text                   | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
-| `PAL.Coder.RGB/A`                  | Text                   | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | RGB only               | ✅               |
+| `PAL.Coder.RGB/A/255`              | Text                   | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.RIFF`                   | Binary                 | ✅       | ❌       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
 | `PAL.Coder.ScribusXMLPaletteCoder` | XML                    | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB/CMYK only          | ❌               |
 | `PAL.Coder.SimplePaletteCoder`     | JSON                   | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB only               | ✅               |
@@ -461,7 +463,7 @@ I am not affiliated with any of the brands mentioned within this package. All tr
 ```
 MIT License
 
-Copyright (c) 2025 Darren Ford
+Copyright (c) 2026 Darren Ford
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
