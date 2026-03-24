@@ -79,7 +79,7 @@ class RGB255PaletteTests: XCTestCase {
          
          """
 
-		let data = try XCTUnwrap(text.data(using: .utf16))
+		let data = try XCTUnwrap(text.data(using: .utf8))
 		let p1 = try PAL.Coder.RGB255().decode(from: data)
 		let colors = p1.allColors()
 		XCTAssertEqual(colors.count, 2)
