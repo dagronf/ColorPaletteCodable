@@ -56,6 +56,7 @@ Supports the following :-
 * KOffice Color Palette  (`.colors`)
 * Homesite Palette  (`.hpl`)
 * Skencil Palette  (`.spl`)
+* Clip Studio Paint Palette  (`.cls`)
 
 ## Supported gradient formats
 
@@ -111,6 +112,7 @@ Some features :-
 |`PAL.Coder.BasicXML`               | Basic XML structure (.xml)                  |
 |`PAL.Coder.CLF`                    | CLF Lab Colors file (.clf)                  |
 |`PAL.Coder.CLR`                    | NSColorList (.clr) *(macOS only)*           |
+|`PAL.Coder.ClipStudioPaint`        | Clip Studio Paint palette (.cls)            |
 |`PAL.Coder.CorelDrawV3`            | Corel Draw V3 Palette (.pal)                |
 |`PAL.Coder.CorelPainter`           | CorelPainter Swatch (.txt)                  |
 |`PAL.Coder.CorelXMLPalette`        | CorelDraw/Adobe Illustrator Palette (.xml)  |
@@ -140,7 +142,7 @@ Some features :-
 |`PAL.Coder.VGA24BitPaletteCoder`   | 24-bit VGA palette (.pal)                   |
 |`PAL.Coder.VGA18BitPaletteCoder`   | 18-bit VGA palette (.pal)                   |
 |`PAL.Coder.JCW`                    | Xara Designer palette (.jcw)                |
-|`PAL.Coder.KOfffic`                | KOffice Color palette (.colors)             |
+|`PAL.Coder.KOffice`                | KOffice Color palette (.colors)             |
 
 Each coder defines `.encode` and `.decode`. Not all coders support both encode and decode.
 
@@ -214,6 +216,7 @@ let paletteData = palette.export(format: .ase)
 | `PAL.Coder.BasicXML`               | XML                    | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.CLF`                    | Text                   | ✅       | ❌       | ✅              | ❌                | ❌               | ❌                     | LAB only               | ❌               |
 | `PAL.Coder.CLR`                    | Binary<br>(macOS only) | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | ✅                     | ✅               |
+| `PAL.Coder.ClipStudioPaint`        | Binary                 | ✅       | ❌       | ❌              | ✅                | ❌               | ❌                     | RGB only               | ❌               |
 | `PAL.Coder.CorelDrawV3`            | Text                   | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | CMYK only              | ❌               |
 | `PAL.Coder.CorelPainter`           | Text                   | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
 | `PAL.Coder.CPL`                    | Binary                 | ✅       | ❌       | ✅              | ✅                | ❌               | ✅                     | ✅                     | ❌               |
@@ -566,6 +569,34 @@ Inspiration from [GrdToAfpalette](https://github.com/Balakov/GrdToAfpalette)
 MIT License
 
 Copyright (c) 2023 Mike Stimpson
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+### Clip Studio Paint parsing
+
+Inspiration from [CLSEncoderDecoder](https://github.com/Equbuxu/CLSEncoderDecoder)
+
+```
+MIT License
+
+Copyright (c) 2022 Egor Mozgovoy
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

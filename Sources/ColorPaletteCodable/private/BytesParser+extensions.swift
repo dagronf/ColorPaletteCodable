@@ -40,6 +40,30 @@ extension BytesReader {
 		}
 		throw PAL.CommonError.invalidString
 	}
+
+	func readPascalStyleAsciiString(_ byteOrder: BytesParser.Endianness) throws -> String {
+		// First two bytes should be a utf16 character count
+		let length = try self.readUInt16(byteOrder)
+		guard length > 0 else { return "" }
+
+		let stringData = try self.readData(count: Int(length))
+		guard let str = String(data: stringData, encoding: .ascii) else {
+			throw PAL.CommonError.invalidString
+		}
+		return str
+	}
+
+	func readPascalStyleUtf8String(_ byteOrder: BytesParser.Endianness) throws -> String {
+		// First two bytes should be a utf16 character count
+		let length = try self.readUInt16(byteOrder)
+		guard length > 0 else { return "" }
+
+		let stringData = try self.readData(count: Int(length))
+		guard let str = String(data: stringData, encoding: .utf8) else {
+			throw PAL.CommonError.invalidString
+		}
+		return str
+	}
 }
 
 extension BytesWriter {

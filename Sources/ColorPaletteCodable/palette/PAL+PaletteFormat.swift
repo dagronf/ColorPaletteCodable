@@ -30,6 +30,7 @@ public extension PAL {
 		case ase                // Adobe Swatch Exchange
 		case basicXML           // Basic XML palette format
 		case clr                // macOS NSColorList
+		case clipStudioPaint    // Clip Studio Paint
 		case corelPainter       // Corel Painter Swatches
 		case corelDraw          // CorelDraw XML
 		case scribusXML         // Scribus XML swatches
@@ -82,6 +83,7 @@ public extension PAL.PaletteFormat {
 		case .ase                : return PAL.Coder.ASE()
 		case .basicXML           : return PAL.Coder.BasicXML()
 		case .clr                : return PAL.Coder.CLR()
+		case .clipStudioPaint    : return PAL.Coder.ClipStudioPaint()
 		case .corelPainter       : return PAL.Coder.CorelPainter()
 		case .corelDraw          : return PAL.Coder.CorelXMLPalette()
 		case .scribusXML         : return PAL.Coder.ScribusXMLPaletteCoder()
