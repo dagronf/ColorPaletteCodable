@@ -183,6 +183,6 @@ private func rgb2ycbcr(rf: Double, gf: Double, bf: Double) -> (y: Double, cb: Do
 	return (
 		y.clamped(to: 0 ... 255),
 		cb.clamped(to: 0 ... 255),
-		cr.clamped(to: 0 ... 255),
+		cr.clamped(to: 0 ... 255)
 	)
 }
