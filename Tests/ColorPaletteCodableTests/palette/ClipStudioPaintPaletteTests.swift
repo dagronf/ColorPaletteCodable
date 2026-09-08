@@ -1,6 +1,8 @@
 @testable import ColorPaletteCodable
 import XCTest
 
+// Testing - https://stepswitcher.neocities.org/clsview
+
 final class ClipStudioPaintPaletteTests: XCTestCase {
 
 // Test file broken, incorrent format?
@@ -32,9 +34,29 @@ final class ClipStudioPaintPaletteTests: XCTestCase {
 	}
 
 	func testStandardEnglishLoad() throws {
-		let swatches1 = try loadResourcePalette(named: "MixColorSet-en.cls")
-		XCTAssertEqual(swatches1.format, .clipStudioPaint)
-		XCTAssertEqual("MixColorSet", swatches1.name)
-		XCTAssertEqual(13, swatches1.totalColorCount)
+		let palette = try loadResourcePalette(named: "MixColorSet-en.cls")
+		XCTAssertEqual(palette.format, .clipStudioPaint)
+		XCTAssertEqual("MixColorSet", palette.name)
+		XCTAssertEqual(13, palette.totalColorCount)
+
+		// RGB colors gathered from https://stepswitcher.neocities.org/clsview
+
+		let elements: [String] = [
+			"#FF283CFF",
+			"#FF9C35FF",
+			"#FFF752FF",
+			"#55E74EFF",
+			"#006172FF",
+			"#2A74FFFF",
+			"#23D8FFFF",
+			"#8C34FFFF",
+			"#FF78AAFF",
+			"#835117FF",
+			"#FFCCC2FF"
+		]
+
+		try elements.enumerated().forEach {
+			XCTAssertEqual($0.element, try palette.colors[$0.offset].hexRGBA(hashmark: true, uppercase: true))
+		}
 	}
 }
