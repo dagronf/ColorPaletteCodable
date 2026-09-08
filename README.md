@@ -3,7 +3,7 @@
 A color palette reader/editor/writer package for iOS, macOS, macCatalyst, tvOS, watchOS and Linux.
 
 ![tag](https://img.shields.io/github/v/tag/dagronf/ColorPaletteCodable)
-![Swift](https://img.shields.io/badge/Swift-5.4-orange.svg)
+![Swift](https://img.shields.io/badge/Swift-5.6-orange.svg)
 [![License MIT](https://img.shields.io/badge/license-MIT-magenta.svg)](https://github.com/dagronf/ColorPaletteCodable/blob/master/LICENSE) 
 ![SPM](https://img.shields.io/badge/spm-compatible-maroon.svg)
 ![Build](https://img.shields.io/github/actions/workflow/status/dagronf/ColorPaletteCodable/swift.yml)
@@ -56,7 +56,7 @@ Supports the following :-
 * KOffice Color Palette  (`.colors`)
 * Homesite Palette  (`.hpl`)
 * Skencil Palette  (`.spl`)
-* Clip Studio Paint Palette  (`.cls`)
+* Clip Studio Paint Palette  (`.cls`) ***(read only)***
 
 ## Supported gradient formats
 
