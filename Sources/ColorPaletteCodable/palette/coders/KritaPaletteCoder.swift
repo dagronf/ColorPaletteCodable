@@ -61,7 +61,7 @@ public extension PAL.Coder.KritaPaletteCoder {
 			result = try decoder.decode(from: InputStream(data: data))
 		}
 
-		guard let result, result.totalColorCount > 0 else {
+		guard let result else {
 			throw PAL.CommonError.invalidFormat
 		}
 
@@ -121,10 +121,6 @@ fileprivate class KritaXMLPaletteDecoder: NSObject, XMLParserDelegate {
 		parser.delegate = self
 
 		if parser.parse() == false {
-			throw PAL.CommonError.invalidFormat
-		}
-
-		if palette.totalColorCount == 0 {
 			throw PAL.CommonError.invalidFormat
 		}
 		return self.palette

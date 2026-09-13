@@ -57,23 +57,31 @@ struct PaletteView: View {
 
 			Divider()
 
-			ScrollView(.vertical) {
-				Group {
-					if let p = paletteModel.palette {
-						if p.colors.count > 0 {
-							GroupingView(name: "Global colors", colors: p.colors)
-						}
-						ForEach(p.groups) { group in
-							GroupingView(name: group.name, colors: group.colors)
+			if let x = paletteModel.palette, x.totalColorCount == 0 {
+				Text("Palette contains no colors")
+					.font(.headline)
+					.padding()
+					.frame(maxWidth: .infinity, maxHeight: .infinity)
+			}
+			else {
+				ScrollView(.vertical) {
+					Group {
+						if let p = paletteModel.palette {
+							if p.colors.count > 0 {
+								GroupingView(name: "Global colors", colors: p.colors)
+							}
+							ForEach(p.groups) { group in
+								GroupingView(name: group.name, colors: group.colors)
+							}
 						}
 					}
+					.padding(4)
 				}
-				.padding(4)
+				.frame(maxHeight: .infinity)
+				.background(Rectangle().fill(.background))
+				.frame(minWidth: 100, minHeight: 200, maxHeight: .infinity)
 			}
-			.frame(maxHeight: .infinity)
-			.background(Rectangle().fill(.background))
 		}
-		.frame(minWidth: 100, minHeight: 200, maxHeight: .infinity)
 	}
 }
 
@@ -142,6 +150,8 @@ let _display: PAL.Palette = {
 
 private var colorSpace = PaletteModel(_display)
 
+private var empty = PaletteModel(PAL.Palette())
+
 struct PaletteView_Previews: PreviewProvider {
 	static var previews: some View {
 		Group {
@@ -149,6 +159,7 @@ struct PaletteView_Previews: PreviewProvider {
 				.preferredColorScheme(.dark)
 			PaletteView(title: "title3", paletteModel: colorSpace)
 				.preferredColorScheme(.light)
+			PaletteView(title: "title3", paletteModel: empty)
 		}
 		.frame(height: 400)
 	}
