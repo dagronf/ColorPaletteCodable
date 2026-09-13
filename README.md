@@ -57,6 +57,7 @@ Supports the following :-
 * Homesite Palette  (`.hpl`)
 * Skencil Palette  (`.spl`)
 * Clip Studio Paint Palette  (`.cls`) ***(read only)***
+* Krita Palette  (`.kpl`) ***(read only)***
 
 ## Supported gradient formats
 
@@ -123,7 +124,10 @@ Some features :-
 |`PAL.Coder.HEX`                    | Hex Color Palette (`.hex`)                  |
 |`PAL.Coder.HPL`                    | Homesite Palette (`.hpl`)                   |
 |`PAL.Coder.Image`                  | Image files (.png, .jpg, .gif)              |
+|`PAL.Coder.JCW`                    | Xara Designer palette (.jcw)                |
 |`PAL.Coder.JSON`                   | JSON encoded palette (.jsoncolorpalette)    |
+|`PAL.Coder.KOffice`                | KOffice Color palette (.colors)             |
+|`PAL.Coder.Krita`                  | Krita Color palette (.kpl)                  |
 |`PAL.Coder.OpenOfficePaletteCoder` | OpenOffice Palette (.soc)                   |
 |`PAL.Coder.PaintNET`               | Paint.NET Palette (.txt)                    |
 |`PAL.Coder.PaintShopPro`           | Paint Shop Pro palette (.pal;.psppalette)   |
@@ -141,8 +145,6 @@ Some features :-
 |`PAL.Coder.SwatchbookerCoder       | Swatchbooker Palette (.sbz)                 |
 |`PAL.Coder.VGA24BitPaletteCoder`   | 24-bit VGA palette (.pal)                   |
 |`PAL.Coder.VGA18BitPaletteCoder`   | 18-bit VGA palette (.pal)                   |
-|`PAL.Coder.JCW`                    | Xara Designer palette (.jcw)                |
-|`PAL.Coder.KOffice`                | KOffice Color palette (.colors)             |
 
 Each coder defines `.encode` and `.decode`. Not all coders support both encode and decode.
 
@@ -227,6 +229,7 @@ let paletteData = palette.export(format: .ase)
 | `PAL.Coder.HPL`                    | Text                   | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
 | `PAL.Coder.Image`                  | Binary                 | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | ❌                     | ✅               |
 | `PAL.Coder.JSON`                   | JSON Text              | ✅       | ✅       | ✅              | ✅                | ✅               | ✅                     | ✅                     | ✅               |
+| `PAL.Coder.Krita`                  | Binary                 | ✅       | ❌       | ❌              | ✅                | ❌               | ❌                     | RGB/CMYK/Gray only     | ❌               |
 | `PAL.Coder.KOffice`                | Text                   | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
 | `PAL.Coder.OpenOfficePalette`      | XML                    | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | ❌                     | ❌               |
 | `PAL.Coder.PaintNET`               | Text                   | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ✅               |

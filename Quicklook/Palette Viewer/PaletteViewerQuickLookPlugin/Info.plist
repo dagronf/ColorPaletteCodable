@@ -43,6 +43,7 @@
 				<string>public.dagronf.colorpalette.palette.homesite</string>
 				<string>public.dagronf.colorpalette.palette.skencil</string>
 				<string>public.dagronf.colorpalette.palette.clipstudiopaint</string>
+				<string>public.dagronf.colorpalette.palette.krita</string>
 			</array>
 			<key>QLSupportsSearchableItems</key>
 			<false/>

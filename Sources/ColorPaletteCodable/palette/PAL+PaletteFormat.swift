@@ -64,6 +64,7 @@ public extension PAL {
 		case koffice            // KOffice palette file (.colors)
 		case hpl                // Homesite Palette file (.hpl)
 		case skencil            // Skencil Palette file (.spl)
+		case krita              // Krita Palette file (.kpl)
 
 		// This needs to go last, so it doesn't override the other PAL types
 		case vga24bit      // 24-bit RGB VGA (3 bytes RRGGBB)
@@ -119,6 +120,7 @@ public extension PAL.PaletteFormat {
 		case .koffice            : return PAL.Coder.KOffice()
 		case .hpl                : return PAL.Coder.HPL()
 		case .skencil            : return PAL.Coder.Skencil()
+		case .krita              : return PAL.Coder.KritaPaletteCoder()
 		}
 	}
 }
