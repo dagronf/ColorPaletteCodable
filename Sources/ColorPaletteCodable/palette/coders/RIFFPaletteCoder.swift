@@ -29,7 +29,8 @@ public extension PAL.Coder {
 		public let fileExtension = ["pal"]
 		public static let utTypeString = "public.dagronf.colorpalette.palette.microsoft.riff"   // conforms to `public.data`
 
-		public init() {}
+		/// Create a RIFF encoder/decoder
+		public init() { }
 	}
 }
 
@@ -50,7 +51,7 @@ extension PAL.Coder.RIFF {
 			throw PAL.CommonError.invalidFormat
 		}
 
-		// Some form of header?
+		// Document size - we don't really care about this
 		let _: Int32 = try parser.readInt32(.big)
 
 		let riffType: Int32 = try parser.readInt32(.big)
@@ -60,7 +61,7 @@ extension PAL.Coder.RIFF {
 
 		// We are going to ignore the fact that a RIFF file can contain multiple chunks
 		let dataHeader: Int32 = try parser.readInt32(.big)
-		let _: Int32 = try parser.readInt32(.little)        // checkSize
+		let _: Int32 = try parser.readInt32(.little)        // chunk size
 		guard dataHeader == 0x64617461 else {
 			// Not palette data - just read all the data in the chunk
 			//_ = try readData(inputStream, size: Int((chunkSize % 2 != 0) ? chunkSize + 1 : chunkSize))
@@ -74,7 +75,7 @@ extension PAL.Coder.RIFF {
 			let r = UInt8(rgb[0])
 			let g = UInt8(rgb[1])
 			let b = UInt8(rgb[2])
-			let color = PAL.Color(r255: r, g255: g, b255: b, a255: 255)
+			let color = PAL.Color(r255: r, g255: g, b255: b)
 			result.colors.append(color)
 		}
 
@@ -85,9 +86,63 @@ extension PAL.Coder.RIFF {
 extension PAL.Coder.RIFF {
 	/// Encode the palette
 	/// - Parameter palette: The palette to encode
-	/// - Returns: The encoded representation  of the palette
+	/// - Returns: The encoded representation of the palette
+	///
+	/// See: https://web.archive.org/web/20260704080410/https://www.cyotek.com/blog/writing-microsoft-riff-palette-pal-files-with-csharp
 	public func encode(_ palette: PAL.Palette) throws -> Data {
-		throw PAL.CommonError.unsupportedPaletteType
+
+		// We can only have a maximum of 256 colors in a RIFF palette
+		let flatColors = palette.allColors().prefix(256)
+		let count = flatColors.count
+		let chunkSize = 4 + (count * 4)
+
+		let writer = try BytesWriter()
+
+		// Header
+		try writer.writeStringASCII("RIFF")
+
+		// 4 bytes for RIFF
+		// 4 bytes for document size
+		// 4 bytes for PAL
+		// 4 bytes for data
+		// 4 bytes for chunk size
+		// 2 bytes for the version
+		// 2 bytes for the count
+		// (4*n) for the colors
+		let length = 4 + 4 + 4 + 4 + 4 + 2 + 2 + count * 4
+
+		// Document size
+		try writer.writeInt32(Int32(length - 8), .little)
+
+		// Header
+		try writer.writeStringASCII("PAL ")
+
+		// data chunk header
+		try writer.writeStringASCII("data")
+
+		// data chunk size
+		try writer.writeInt32(Int32(chunkSize), .little)
+
+		// log palette
+		try writer.writeByte(0)
+
+		// version
+		try writer.writeByte(3)
+
+		// number of colors
+		try writer.writeInt16(Int16(count), .little)
+
+		// Write all the colors
+		try flatColors.forEach { color in
+			let c = try color.rgb()
+			try writer.writeBytes(c.r255, c.g255, c.b255, 0)
+		}
+
+		// Finished writing
+		writer.complete()
+
+		// Return the result
+		return try writer.data()
 	}
 }
 

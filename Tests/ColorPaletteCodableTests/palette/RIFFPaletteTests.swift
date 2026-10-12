@@ -15,4 +15,37 @@ final class RIFFSwatchesTests: XCTestCase {
 		let palette = try loadResourcePalette(named: "sample.pal", using: PAL.Coder.RIFF())
 		XCTAssertEqual(256, palette.colors.count)
 	}
+
+	func testBasicReadWriteCheck() throws {
+		let palette = try loadResourcePalette(named: "sample.pal", using: PAL.Coder.RIFF())
+		XCTAssertEqual(palette.format, PAL.Coder.RIFF().format)
+		XCTAssertEqual(256, palette.colors.count)
+
+		// export to riff
+		let exported = try palette.export(format: .riff)
+		// import the exported
+		let imported = try PAL.Palette(exported, usingCoder: PAL.Coder.RIFF())
+
+		// Check that things match
+		XCTAssertEqual(imported.format, PAL.Coder.RIFF().format)
+		XCTAssertEqual(256, imported.colors.count)
+
+		XCTAssertEqual(palette, imported)
+	}
+
+	func testReadOtherFormatWriteRiffCheckSame() throws {
+		let palette = try loadResourcePalette(named: "16pal_v20.act")
+		XCTAssertEqual(palette.colors.count, 16)
+
+		// export to riff
+		let exported = try palette.export(format: .riff)
+		// import the exported
+		let imported = try PAL.Palette(exported, usingCoder: PAL.Coder.RIFF())
+
+		// Check that things match
+		XCTAssertEqual(imported.format, PAL.Coder.RIFF().format)
+		XCTAssertEqual(imported.colors.count, 16)
+
+		XCTAssertEqual(palette, imported)
+	}
 }

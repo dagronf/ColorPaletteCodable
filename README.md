@@ -35,7 +35,7 @@ Supports the following :-
 * OpenOffice/LibreOffice palette files (`.soc`)
 * Paint Shop Pro files (`.pal`, `.psppalette`)
 * Image palette files (`.png`, `.jpg`, `.gif`) (unique colors in the first row of the image)
-* Microsoft RIFF palette files (`.pal`) ***(read only)***
+* Microsoft RIFF palette files (`.pal`)
 * SketchPalette files (`.sketchpalette`)
 * CorelDraw/Adobe Illustrator xml palette (`.xml`)
 * ProCreate Swatches file (`.swatches`) ***(Apple platforms only)***
@@ -235,7 +235,7 @@ let paletteData = palette.export(format: .ase)
 | `PAL.Coder.PaintNET`               | Text                   | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.PaintShopPro`           | Text                   | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
 | `PAL.Coder.RGB/A/255`              | Text                   | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | RGB only               | ✅               |
-| `PAL.Coder.RIFF`                   | Binary                 | ✅       | ❌       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
+| `PAL.Coder.RIFF`                   | Binary                 | ✅       | ✅       | ❌              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
 | `PAL.Coder.ScribusXMLPaletteCoder` | XML                    | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB/CMYK only          | ❌               |
 | `PAL.Coder.SimplePaletteCoder`     | JSON                   | ✅       | ✅       | ✅              | ✅                | ❌               | ❌                     | RGB only               | ✅               |
 | `PAL.Coder.SkencilPalette`         | Text                   | ✅       | ✅       | ✅              | ❌                | ❌               | ❌                     | RGB only               | ❌               |
