@@ -21,6 +21,11 @@ import Foundation
 
 // https://docs.krita.org/en/untranslatable_pages/kpl_defintion.html#the-krita-palette-format-kpl
 
+#if canImport(FoundationXML)
+// For non-apple platforms it seems that the XML parser has been shifted into its own module
+import FoundationXML
+#endif
+
 #if canImport(Darwin)
 import ZIPFoundation
 #endif
