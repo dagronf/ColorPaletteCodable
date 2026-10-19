@@ -1,3 +1,7 @@
+#if canImport(Darwin)
+
+// ZipFoundation fails to compile on linux, so lets ignore it for the moment
+
 @testable import ColorPaletteCodable
 import XCTest
 
@@ -19,3 +23,5 @@ final class KritaPaletteTests: XCTestCase {
 		XCTAssertEqual(palette.groups.count, 0)
 	}
 }
+
+#endif
